@@ -23,7 +23,7 @@ export default class SettingEmail extends Component {
                   <img
                     src={es_img1}
                     alt="es_img1"
-                    className="responsive"
+                    className="profile-img"
                     id="vl_img1"
                   />
                 </MDBCol>
@@ -59,7 +59,7 @@ export default class SettingEmail extends Component {
               </div>
             </MDBCol>
           </MDBRow>
-          <MDBRow className="profile_container">
+          <MDBRow className="profile_container mt-4">
             <MDBCol className="es_table_font1" md="4">
               Notification Email
             </MDBCol>
@@ -70,7 +70,7 @@ export default class SettingEmail extends Component {
               Action
             </MDBCol>
           </MDBRow>
-          <MDBRow className="profile_container">
+          <MDBRow className="profile_container mt-3">
             <MDBCol className="es_table_font1" md="4">
               Profile Complrtion Email
             </MDBCol>
@@ -92,7 +92,7 @@ export default class SettingEmail extends Component {
             </MDBCol>
           </MDBRow>
 
-          <MDBRow className="profile_container">
+          <MDBRow className="profile_container mt-3">
             <MDBCol className="es_table_font1" md="4">
               Profile Complrtion Email
             </MDBCol>
@@ -114,7 +114,7 @@ export default class SettingEmail extends Component {
             </MDBCol>
           </MDBRow>
 
-          <MDBRow className="profile_container">
+          <MDBRow className="profile_container mt-3">
             <MDBCol className="es_table_font1" md="4">
               Profile Complrtion Email
             </MDBCol>
@@ -136,7 +136,7 @@ export default class SettingEmail extends Component {
             </MDBCol>
           </MDBRow>
 
-          <MDBRow className="profile_container">
+          <MDBRow className="profile_container mt-3">
             <MDBCol className="es_table_font1" md="4">
               Profile Complrtion Email
             </MDBCol>
@@ -158,7 +158,7 @@ export default class SettingEmail extends Component {
             </MDBCol>
           </MDBRow>
 
-          <MDBRow className="profile_container">
+          <MDBRow className="profile_container mt-3">
             <MDBCol className="es_table_font1" md="4">
               Profile Complrtion Email
             </MDBCol>
@@ -180,7 +180,7 @@ export default class SettingEmail extends Component {
             </MDBCol>
           </MDBRow>
 
-          <MDBRow className="profile_container">
+          <MDBRow className="profile_container mt-3">
             <MDBCol className="es_table_font1" md="4">
               Profile Complrtion Email
             </MDBCol>

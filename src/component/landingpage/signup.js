@@ -206,29 +206,21 @@ export default class Signup extends Component {
       //         sign up
       //       </button>
       <div className="modal fade" id="myModalSignup" role="dialog">
-        <div className="modal-dialog " id='signup_width'>
+        <div className="modal-dialog modal-lg">
           <form
             className="needs-validation"
             onSubmit={this.submitHandler}
             noValidate
           >
             <div className="modal-content ">
-              <div className="modal-header modal_header">
-                <MDBRow>
-                  <MDBCol className="modal-title  " md="11">
-                    <div className="modal_header_heading">Sign up</div>
-                  </MDBCol>
-                  <MDBCol md="1">
-                    <button
-                      type="button"
-                      className=" modal_header_icon"
-                      data-dismiss="modal"
-                    >
-                      &times;
-                    </button>
-                  </MDBCol>
-                </MDBRow>
-              </div>
+
+            <div className="modal-header modal_header">
+        
+        <h4 className="modal-title modal_header_heading">Sign up</h4>
+        <button type="button" className="modal_header_icon" data-dismiss="modal">&times;</button>
+      </div>
+
+              
 
               <div className="modal-body modal_body">
                 <div className='signup_box'>
