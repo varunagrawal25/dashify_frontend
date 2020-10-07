@@ -70,7 +70,7 @@ class Navber extends Component {
                   <Link to="#portfolio">Features</Link>
                 </li>
                 <li>
-                  <Link to="#contact">Pricing</Link>
+                  <Link to="/pricing">Pricing</Link>
                 </li>
                 <li>
                   <Link to="#contact">Support</Link>

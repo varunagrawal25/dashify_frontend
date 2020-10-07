@@ -18,6 +18,18 @@ export const get_all_user = () => {
   return Axios.get(`${API}/account/get-all-user`);
 };
 
+export const get_login_user_info = () => {
+  return Axios.get(`${API}/account/get-login-user-info`);
+};
+
+export const update_user_info = (data, DjangoConfig) => {
+  return Axios.get(`${API}/account/update-user-info`, data, DjangoConfig);
+};
+
+export const update_user_image = (data, DjangoConfig) => {
+  return Axios.get(`${API}/account/update-user-info`, data, DjangoConfig);
+};
+
 export const reset_password = data => {
   return Axios.post(`${API}/account/reset-password`, data);
 };

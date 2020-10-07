@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
+import { get_login_user_info,update_user_info,update_user_image } from "./apis/user";
 import user_img from "./assets/user_img.png";
 import insta from "./assets/instagram.png";
 import fb from "./assets/fb.png";
@@ -8,11 +9,96 @@ import snap from "./assets/snap.png";
 import paypal from "./assets/paypal.png";
 import mastercard from "./assets/mastercard.png";
 import map from "./assets/map_user.png";
-import Map from './Map'
+import edit from "./assets/edit.png";
 
+const DjangoConfig = {
+  headers: {
+    Authorization: "Token " + localStorage.getItem("UserToken")
+  }
+};
 
 export default class User_profile extends Component {
+  state = {
+    user_info:"",
+    edit_details: false,
+    edit_image:false,
+    first_name:"",
+    last_name:"",
+    Company_name:"",
+    address:"",
+    Phone:"",
+    website:"",
+    loading: false
+  }
+
+  componentDidMount = () => {
+    get_login_user_info().then(res => {
+      console.log("user info",res.data)
+      if(res.data && res.data.user_info){
+        this.setState({user_info:res.data.user_info})
+      }
+
+    }).catch(err => {
+      console.log("user info err",err)
+    })
+  }
+
+  changeHandler = event => {
+    console.log("states", this.state);
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
+  submitUserDetails = event => {
+    event.preventDefault();
+    this.setState({ loading: true });
+
+    var {
+    user_info,
+    first_name,
+    last_name,
+    Company_name,
+    address,
+    Phone,
+    website
+    } = this.state;
+
+    const data = {
+      username: user_info.user ? user_info.user.username : "",
+      first_name,
+    last_name,
+    Company_name,
+    address,
+    Phone,
+    website
+    };
+
+    update_user_info(data, DjangoConfig)
+      .then(async response => {
+
+        get_login_user_info().then(res => {
+          console.log("user info",res.data)
+          if(res.data && res.data.user_info){
+            this.setState({user_info:res.data.user_info,loading: false})
+          }
+    
+        }).catch(err => {
+          this.setState({ loading: false });
+        })
+
+      })
+      .catch(res => {
+        this.setState({ loading: false });
+      });
+
+  }
+
   render() {
+    const {user_info,edit_details,edit_image,first_name,
+    last_name,
+    Company_name,
+    address,
+    Phone,
+    website,loading} = this.state
     return (
       <div>
         <MDBContainer>
@@ -21,10 +107,46 @@ export default class User_profile extends Component {
           </div>
           <MDBRow className="user_container">
             <MDBCol md="3">
-              <img src={user_img} alt="user"  id='user_img'/>
+              <img src={user_info && user_info.user_image ?  user_info.user_image : user_img} alt="user"  id='user_img'/>
+              {/* <div className="get-image">
+              <img  src={edit} alt="edit" style={{height:"20px", width:"20px"}}/>
+              <input type="file" />
+              </div> */}
             </MDBCol>
             <MDBCol md="6">
-              <div className="user1">Abdur Rahim Smarroi</div>
+
+              {edit_details ? <div>
+    <div className="user1"> <input type="text" name="first_name" value={first_name} onChange={this.changeHandler} />
+    <input type="text" name="last_name" value={last_name} onChange={this.changeHandler} />
+    </div>
+              <MDBRow>
+              <form
+              className="needs-validation"
+              onSubmit={this.submitUserDetails}
+              noValidate
+            >
+                <MDBCol md="4">
+                  <div className="user2">Company name</div>
+                  <div className="user2">Address</div>
+                  <div className="user2">Phone</div>
+                  <div className="user2">Website</div>
+                </MDBCol>
+                <MDBCol md="8">
+                  <div className="user3"><input type="text" name="Company_name" value={Company_name} onChange={this.changeHandler} /></div>
+                  <div className="user3">
+                  <input type="text" name="address" value={address} onChange={this.changeHandler} />
+                  </div>
+                  <div className="user3"><input type="text" name="Phone" value={Phone} onChange={this.changeHandler} /></div>
+                  <div className="user3"><input type="text" name="website" value={website} onChange={this.changeHandler} /></div>
+                  <button type="submit">Submit</button>
+                  <button onClick={()=> this.setState({edit_details: false})} > Cancel</button>
+                </MDBCol>
+                </form>
+              </MDBRow>
+              </div> : 
+              
+              <div>
+    <div className="user1">{user_info.first_name} {user_info.last_name}</div>
               <MDBRow>
                 <MDBCol md="4">
                   <div className="user2">Company name</div>
@@ -33,18 +155,19 @@ export default class User_profile extends Component {
                   <div className="user2">Website</div>
                 </MDBCol>
                 <MDBCol md="8">
-                  <div className="user3">New Company name</div>
+                  <div className="user3">{user_info.Company_name}</div>
                   <div className="user3">
-                    Satmasjid Road, Mohammadpur, Dhaka 1207
+                  {user_info.address}
                   </div>
-                  <div className="user3">+008 09 76 654 56 56</div>
-                  <div className="user3">BrothersLaw.com</div>
+                  <div className="user3">{user_info.Phone}</div>
+                  <div className="user3">{user_info.website}</div>
+                  <img  src={edit} alt="edit" onClick={()=> this.setState({edit_details: true})} style={{height:"20px", width:"20px"}}/>
                 </MDBCol>
               </MDBRow>
+              </div> }
             </MDBCol>
             <MDBCol md="3">
-              {/* <img src={map} alt="user" id="user_map" /> */}
-              <Map  />
+              <img src={map} alt="user" id="user_map" />
             </MDBCol>
           </MDBRow>
 

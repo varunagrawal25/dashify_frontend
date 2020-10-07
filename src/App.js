@@ -13,6 +13,7 @@ import Blog from "./component/landingpage/Blog";
 import Career from "./component/landingpage/career";
 import ContactUs from "./component/landingpage/contactus";
 import Support from "./component/landingpage/support";
+import Pricing from "./component/landingpage/pricing";
 import How_we_work from "./component/landingpage/How_we_work";
 import Login from "./component/landingpage/login";
 import LoginAndActivateAccount from "./component/landingpage/login-activateAccount";
@@ -32,7 +33,6 @@ import PageNotFound from "./component/page-not-found";
 
 import EmailConfirmation from "./component/landingpage/email-confirmation";
 import PasswordReset from "./component/landingpage/password-reset";
-import Pricing from "./component/landingpage/Pricing";
 
 class App extends Component {
   render() {
@@ -47,8 +47,8 @@ class App extends Component {
             <Route exact path="/career" component={Career} />
             <Route exact path="/contactus" component={ContactUs} />
             <Route exact path="/support" component={Support} />
-            <Route exact path="/how-we-work" component={How_we_work} />
             <Route exact path="/pricing" component={Pricing} />
+            <Route exact path="/how-we-work" component={How_we_work} />
             <Route
               exact
               path="/review-management"
