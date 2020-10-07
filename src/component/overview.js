@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import fb from "./assets/fb.png";
 import { Doughnut, Bar } from "react-chartjs-2";
+import ApexCharts from "apexcharts";
+import DonutChart from 'react-donut-chart';
 import add from "./assets/tw.png";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import Axios from "axios";
@@ -17,6 +19,10 @@ const Yelpconfig = {
     "Access-Control-Allow-Origin": "http://localhost"
   }
 };
+
+
+
+
 
 let total_listings = 14;
 
@@ -1068,6 +1074,133 @@ export default class Overview extends Component {
       });
   };
 
+  dataDoughnut = (total_listings,all_connections) =>{
+    return [
+      {value:(total_listings - all_connections.length),label:"Opted out"},
+      {value:all_connections.length,label:"Live Listing"},
+      {value:0,label:"Processing"},
+      {value:0,label:"Unavailable"}
+    ];
+  } 
+
+  dataBar = (date, phone,direction,website) => {
+    return  {
+      labels: date,
+      datasets: [
+        {
+          label: "phone call",
+          data: phone,
+          backgroundColor: "#8760D0",
+          barThickness: 10
+        },
+        {
+          label: "get direction",
+          data: direction,
+          backgroundColor: "#528AF7",
+          barThickness: 10
+        },
+        {
+          label: "website visited",
+          data: website,
+          backgroundColor: "#58C8F9",
+          barThickness: 10
+        }
+      ]
+    };
+  }
+
+  barChartOptions = (phone,direction,website) => {
+    console.log("phone max value",Math.max(...phone))
+    // let a1 = Math.max(...phone)
+    // let a2 = Math.max(...direction)
+    // let a3 = Math.max(...website)
+    // let max_value = Math.max(a1.a2,a3)
+    return {
+    responsive: true,
+    maintainAspectRatio: false,
+  
+    legend: {
+      position: "bottom",
+      align:'start'
+    },
+  
+    scales: {
+      xAxes: [
+        {
+          barPercentage: 1,
+         
+          gridLines: {
+            display: false,
+            color: "rgba(0, 0, 0, 0.1)"
+          }
+        }
+      ],
+      yAxes: [
+        {
+         
+          gridLines: {
+            display: true,
+            color: "rgba(0, 0, 0, 0.1)"
+          },
+          ticks: {
+            beginAtZero: true,
+            stepSize: 25,
+            max: 125
+          }
+        }
+      ]
+    }
+  }
+}
+
+  getBarChart = (date, phone,direction,website) => {
+    var options = {
+      chart: {
+        height: 380,
+        type: "line",
+     
+      },
+      colors: ["#8760D0", "#528AF7", "#58C8F9"
+                  ],
+      series: [
+        {
+          name: "Phone Cell",
+          type: "column",
+          data: phone
+        },
+     {
+          name: "Get Derection",
+          type: "column",
+          data: direction
+        },
+     
+        {
+          name: "Website visited",
+          type: "column",
+          data: website
+        }
+      ],
+      stroke: {
+        width: [0, 2],
+        curve: 'smooth'
+      },
+      
+      title: {
+        text: "Average Google customer Actions"
+      },
+       labels: date,
+      
+     
+     };
+     
+     var chart = new ApexCharts(document.querySelector("#chart"), options);
+     
+     return chart.render();
+    // return ApexCharts.render(document.querySelector("#chart"), options);
+  }
+
+  
+
   change_states = (states, range) => e => {
     console.log("e.target.name", states, range);
     this.setState({ show_states: states, range_name: range });
@@ -1164,7 +1297,7 @@ export default class Overview extends Component {
       view_notification_type3
     } = this.state;
 
-    console.log(this.state);
+    console.log("this.state",this.state);
     var date = [],
       phone = [],
       website = [],
@@ -1172,10 +1305,10 @@ export default class Overview extends Component {
 
     if (this.state.metric.length > 0) {
       this.state.metric[0].dimensionalValues.map(d => {
-        date.push(d.timeDimension.timeRange.startTime);
+        date.push(d.timeDimension.timeRange.startTime.slice(0,10).split("-").reverse().join("-"));
       });
     }
-    console.log(date);
+    
     if (this.state.metric.length > 0) {
       this.state.metric.map(da => {
         if (da.metric == "VIEWS_MAPS") {
@@ -1196,94 +1329,9 @@ export default class Overview extends Component {
       });
     }
 
-    let dataBar = {
-      labels: date,
-      datasets: [
-        {
-          label: "phone call",
-          data: phone,
-          backgroundColor: "blue",
-          barThickness: 10
-        },
-        {
-          label: "get direction",
-          data: direction,
-          backgroundColor: "rgba(255, 134,159,0.4)",
-          barThickness: 10
-        },
-        {
-          label: "website visited",
-          data: website,
-          backgroundColor: "rgba(255, 134,159,0.4)",
-          barThickness: 10
-        }
-      ]
-    };
+    
 
-    let barChartOptions = {
-      responsive: true,
-      maintainAspectRatio: false,
-
-      legend: {
-        position: "bottom"
-      },
-
-      scales: {
-        xAxes: [
-          {
-            barPercentage: 1,
-           
-            gridLines: {
-              display: false,
-              color: "rgba(0, 0, 0, 0.1)"
-            }
-          }
-        ],
-        yAxes: [
-          {
-           
-            gridLines: {
-              display: true,
-              color: "rgba(0, 0, 0, 0.1)"
-            },
-            ticks: {
-              beginAtZero: true,
-              stepSize: 25,
-              max: 125
-            }
-          }
-        ]
-      }
-    };
-
-    let dataDoughnut = {
-      labels: ["Opted out", "Live Listing", "Processing", "Unavailable"],
-      datasets: [
-        {
-          data: [
-            total_listings - all_connections.length,
-            all_connections.length,
-            0,
-            0
-          ],
-          backgroundColor: [
-            "#F7464A",
-            "#46BFBD",
-            "#FDB45C",
-            "#949FB1"
-            // "#4D5360"
-          ],
-          hoverBackgroundColor: [
-            "#FF5A5E",
-            "#5AD3D1",
-            "#FFC870",
-            "#A8B3C5"
-            // "#616774"
-          ]
-        }
-      ],
-      text: "30%"
-    };
+    
 
     // let fb_show_count_unseen1;
     // let fb_show_count_unseen2;
@@ -1652,7 +1700,7 @@ export default class Overview extends Component {
 
     total_social_overview[0] = <div class=" col-md-6 ">
     <div class="card social-10 ">
-      <div className="fb-socails"><img src={fb} /></div>
+      <div className="fb-socails"><img src={require("../images/facebook.png")} alt="" /></div>
       
 
       <div className="row card_jump">
@@ -1780,13 +1828,12 @@ total_social_overview[3] = <div class=" col-md-6 ">
         Reviews
       </a>
     </div>
-    <div className="col-sm-4 social-11">
+    {/* <div className="col-sm-4 social-11">
       <h6>-</h6>
-      {/* <p>+10,03% </p> */}
       <a class="link-social" role="button">
         New Reviews
       </a>
-    </div>
+    </div> */}
   </div>
 </div>
 </div>
@@ -1795,11 +1842,10 @@ total_social_overview[3] = <div class=" col-md-6 ">
       all_connections.map(data => (
         <li>
           {data.name == "Facebook"
-            ? (total_social_overview = [
-                ...total_social_overview,
+            ? (total_social_overview[0] = 
                 <div class=" col-md-6 ">
                   <div class="card social-10 ">
-                    <div className="fb-socails"><img src={fb} /></div>
+                    <div className="fb-socails"><img src={require("../images/facebook.png")} alt="" /></div>
                     
 
                     <div className="row card_jump">
@@ -1827,12 +1873,11 @@ total_social_overview[3] = <div class=" col-md-6 ">
                     </div>
                   </div>
                 </div>
-              ])
+            )
             : ""}
 
           {data.name == "Google"
-            ? (total_social_overview = [
-                ...total_social_overview,
+            ? (total_social_overview[1] =
                 <div class=" col-md-6 ">
                   <div class="card social-10 ">
                   <div className="fb-socails">
@@ -1864,12 +1909,11 @@ total_social_overview[3] = <div class=" col-md-6 ">
                     </div>
                   </div>
                 </div>
-              ])
+              )
             : ""}
 
           {data.name == "Linkedin"
-            ? (total_social_overview = [
-                ...total_social_overview,
+            ? (total_social_overview[2] = 
                 <div class=" col-md-6 ">
                   <div class="card social-10 ">
                   <div className="fb-socails">
@@ -1916,12 +1960,11 @@ total_social_overview[3] = <div class=" col-md-6 ">
                     </div>
                   </div>
                 </div>
-              ])
+              )
             : ""}
 
           {data.name == "Yelp"
-            ? (total_social_overview = [
-                ...total_social_overview,
+            ? (total_social_overview[3] = 
                 <div class=" col-md-6 ">
                   <div class="card social-10 ">
                   <div className="fb-socails">
@@ -1942,17 +1985,16 @@ total_social_overview[3] = <div class=" col-md-6 ">
                           Reviews
                         </a>
                       </div>
-                      <div className="col-sm-4 social-11">
+                      {/* <div className="col-sm-4 social-11">
                         <h6>{yelp_new_reviews}</h6>
-                        {/* <p>+10,03% </p> */}
                         <a class="link-social" role="button">
                           New Reviews
                         </a>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
-              ])
+              )
             : ""}
         </li>
       ));
@@ -2253,8 +2295,8 @@ total_social_overview[3] = <div class=" col-md-6 ">
                         }
                       >
                         {view_notification_type1 == false
-                          ? "View all"
-                          : "View some"}
+                          ? "View All"
+                          : "View Less"}
                       </a>
                       <ArrowRightIcon />
                     </div>
@@ -2281,7 +2323,7 @@ total_social_overview[3] = <div class=" col-md-6 ">
                         <div className="col-md-3  recent-hour">
                           <h6>2 hours ago</h6>
                         </div> */}
-
+                        
                           {total_notifications.length != 0 ? (
                             <div className="notifc">
                               {view_notification_type1 == false ? (
@@ -2576,8 +2618,8 @@ total_social_overview[3] = <div class=" col-md-6 ">
                           }
                         >
                           {view_notification_type2 == false
-                            ? "View all"
-                            : "View some"}
+                            ? "View All"
+                            : "View Less"}
                         </a>
                         <ArrowRightIcon />
                       </div>
@@ -2587,17 +2629,28 @@ total_social_overview[3] = <div class=" col-md-6 ">
               </div>
 
               <div class="row chart_10">
-                <div class="col-md-4">
+                <div class="col-md-4 pt-2">
                   <div className="recent-9">
                     <h3>Listing Status</h3>
                   </div>
                   <div class="card4">
-                    <Doughnut
-                      data={dataDoughnut}
-                      options={{ responsive: true, maintainAspectRatio: false }}
-                      height={500}
-                      width={700}
-                    />
+<DonutChart
+legend={
+false
+}
+height={250}
+width={250}
+outerRadius={.95}
+innerRadius={0.5}
+formatValues={(values, total) => `${(values / total * 100).toFixed(2)}%`}
+colors={["#8264C6","#634A9B","#EB05B8","#3380cc"]}
+strokeColor={'	false'}
+
+
+    data={this.dataDoughnut(total_listings,all_connections)} />
+
+
+
                   </div>
                 </div>
                 <div class="col-md-8">
@@ -2676,7 +2729,8 @@ total_social_overview[3] = <div class=" col-md-6 ">
                             />
                           </div>
                         ) : (
-                          <Bar data={dataBar} options={barChartOptions} />
+                          <Bar data={this.dataBar(date, phone,direction,website)} options={this.barChartOptions(phone,direction,website)} />
+                          // this.getBarChart(date, phone,direction,website)
                         )
                       ) : (
                         <h4>No analytics of this Google account</h4>
