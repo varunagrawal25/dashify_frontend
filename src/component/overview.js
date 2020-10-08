@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import fb from "./assets/fb.png";
 import { Doughnut, Bar } from "react-chartjs-2";
 import ApexCharts from "apexcharts";
-import DonutChart from 'react-donut-chart';
+import DonutChart from "react-donut-chart";
 import add from "./assets/tw.png";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import Axios from "axios";
@@ -19,10 +19,6 @@ const Yelpconfig = {
     "Access-Control-Allow-Origin": "http://localhost"
   }
 };
-
-
-
-
 
 let total_listings = 14;
 
@@ -1074,17 +1070,17 @@ export default class Overview extends Component {
       });
   };
 
-  dataDoughnut = (total_listings,all_connections) =>{
+  dataDoughnut = (total_listings, all_connections) => {
     return [
-      {value:(total_listings - all_connections.length),label:"Opted out"},
-      {value:all_connections.length,label:"Live Listing"},
-      {value:0,label:"Processing"},
-      {value:0,label:"Unavailable"}
+      { value: total_listings - all_connections.length, label: "Opted out" },
+      { value: all_connections.length, label: "Live Listing" },
+      { value: 0, label: "Processing" },
+      { value: 0, label: "Unavailable" }
     ];
-  } 
+  };
 
-  dataBar = (date, phone,direction,website) => {
-    return  {
+  dataBar = (date, phone, direction, website) => {
+    return {
       labels: date,
       datasets: [
         {
@@ -1107,99 +1103,96 @@ export default class Overview extends Component {
         }
       ]
     };
-  }
+  };
 
-  barChartOptions = (phone,direction,website) => {
-    console.log("phone max value",Math.max(...phone))
-    // let a1 = Math.max(...phone)
-    // let a2 = Math.max(...direction)
-    // let a3 = Math.max(...website)
-    // let max_value = Math.max(a1.a2,a3)
+  barChartOptions = (phone, direction, website) => {
+    let a1 = Math.max(...phone);
+    let a2 = Math.max(...direction);
+    let a3 = Math.max(...website);
+    let max_value = Math.max(a1, a2, a3);
+    console.log("max value", max_value);
+
     return {
-    responsive: true,
-    maintainAspectRatio: false,
-  
-    legend: {
-      position: "bottom",
-      align:'start'
-    },
-  
-    scales: {
-      xAxes: [
-        {
-          barPercentage: 1,
-         
-          gridLines: {
-            display: false,
-            color: "rgba(0, 0, 0, 0.1)"
-          }
-        }
-      ],
-      yAxes: [
-        {
-         
-          gridLines: {
-            display: true,
-            color: "rgba(0, 0, 0, 0.1)"
-          },
-          ticks: {
-            beginAtZero: true,
-            stepSize: 25,
-            max: 125
-          }
-        }
-      ]
-    }
-  }
-}
+      responsive: true,
+      maintainAspectRatio: false,
 
-  getBarChart = (date, phone,direction,website) => {
-    var options = {
-      chart: {
-        height: 380,
-        type: "line",
-     
+      legend: {
+        position: "bottom",
+        align: "start"
       },
-      colors: ["#8760D0", "#528AF7", "#58C8F9"
-                  ],
-      series: [
-        {
-          name: "Phone Cell",
-          type: "column",
-          data: phone
-        },
-     {
-          name: "Get Derection",
-          type: "column",
-          data: direction
-        },
-     
-        {
-          name: "Website visited",
-          type: "column",
-          data: website
-        }
-      ],
-      stroke: {
-        width: [0, 2],
-        curve: 'smooth'
-      },
-      
-      title: {
-        text: "Average Google customer Actions"
-      },
-       labels: date,
-      
-     
-     };
-     
-     var chart = new ApexCharts(document.querySelector("#chart"), options);
-     
-     return chart.render();
-    // return ApexCharts.render(document.querySelector("#chart"), options);
-  }
 
-  
+      scales: {
+        xAxes: [
+          {
+            barPercentage: 1,
+
+            gridLines: {
+              display: false,
+              color: "rgba(0, 0, 0, 0.1)"
+            }
+          }
+        ],
+        yAxes: [
+          {
+            gridLines: {
+              display: true,
+              color: "rgba(0, 0, 0, 0.1)"
+            },
+            ticks: {
+              beginAtZero: true,
+              stepSize: 25,
+              max: max_value
+            }
+          }
+        ]
+      }
+    };
+  };
+
+  // getBarChart = (date, phone,direction,website) => {
+  //   var options = {
+  //     chart: {
+  //       height: 380,
+  //       type: "line",
+
+  //     },
+  //     colors: ["#8760D0", "#528AF7", "#58C8F9"
+  //                 ],
+  //     series: [
+  //       {
+  //         name: "Phone Cell",
+  //         type: "column",
+  //         data: phone
+  //       },
+  //    {
+  //         name: "Get Derection",
+  //         type: "column",
+  //         data: direction
+  //       },
+
+  //       {
+  //         name: "Website visited",
+  //         type: "column",
+  //         data: website
+  //       }
+  //     ],
+  //     stroke: {
+  //       width: [0, 2],
+  //       curve: 'smooth'
+  //     },
+
+  //     title: {
+  //       text: "Average Google customer Actions"
+  //     },
+  //      labels: date,
+
+  //    };
+
+  //    var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+  //    return chart.render();
+  //   // return ApexCharts.render(document.querySelector("#chart"), options);
+  // }
 
   change_states = (states, range) => e => {
     console.log("e.target.name", states, range);
@@ -1297,7 +1290,7 @@ export default class Overview extends Component {
       view_notification_type3
     } = this.state;
 
-    console.log("this.state",this.state);
+    console.log("this.state", this.state);
     var date = [],
       phone = [],
       website = [],
@@ -1305,33 +1298,35 @@ export default class Overview extends Component {
 
     if (this.state.metric.length > 0) {
       this.state.metric[0].dimensionalValues.map(d => {
-        date.push(d.timeDimension.timeRange.startTime.slice(0,10).split("-").reverse().join("-"));
+        date.push(
+          d.timeDimension.timeRange.startTime
+            .slice(0, 10)
+            .split("-")
+            .reverse()
+            .join("-")
+        );
       });
     }
-    
+
     if (this.state.metric.length > 0) {
       this.state.metric.map(da => {
         if (da.metric == "VIEWS_MAPS") {
           da.dimensionalValues.map(m => {
-            direction.push(m.value);
+            direction.push(parseInt(m.value));
           });
         }
         if (da.metric == "ACTIONS_WEBSITE") {
           da.dimensionalValues.map(m => {
-            website.push(m.value);
+            website.push(parseInt(m.value));
           });
         }
         if (da.metric == "ACTIONS_PHONE") {
           da.dimensionalValues.map(m => {
-            phone.push(m.value);
+            phone.push(parseInt(m.value));
           });
         }
       });
     }
-
-    
-
-    
 
     // let fb_show_count_unseen1;
     // let fb_show_count_unseen2;
@@ -1698,101 +1693,104 @@ export default class Overview extends Component {
 
     let total_social_overview = [];
 
-    total_social_overview[0] = <div class=" col-md-6 ">
-    <div class="card social-10 ">
-      <div className="fb-socails"><img src={require("../images/facebook.png")} alt="" /></div>
-      
+    total_social_overview[0] = (
+      <div class=" col-md-6 ">
+        <div class="card social-10 ">
+          <div className="fb-socails">
+            <img src={require("../images/facebook.png")} alt="" />
+          </div>
 
-      <div className="row card_jump">
-        <div className="col-sm-4 social-11">
-          <h6>-</h6>
-          {/* <p>+10,03% </p>  */}
-          <a class="link-social" role="button">
-            Views
-          </a>
-        </div>
-        <div className="col-sm-4 social-11">
-          <h6>-</h6>
-          {/* <p>+10,03% </p>  */}
-          <a class="link-social" role="button">
-            Direction
-          </a>
-        </div>
-        <div className="col-sm-4 social-11">
-          <h6>-</h6>
-         {/* <p>+10,03% </p>  */}
-          <a class="link-social" role="button">
-            Calls
-          </a>
+          <div className="row card_jump">
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p>  */}
+              <a class="link-social" role="button">
+                Views
+              </a>
+            </div>
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p>  */}
+              <a class="link-social" role="button">
+                Direction
+              </a>
+            </div>
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p>  */}
+              <a class="link-social" role="button">
+                Calls
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+    );
 
-total_social_overview[1] = <div class=" col-md-6 ">
-<div class="card social-10 ">
-<div className="fb-socails">
-  <img src={require("../images/google.png")} alt="" />
-  </div>
+    total_social_overview[1] = (
+      <div class=" col-md-6 ">
+        <div class="card social-10 ">
+          <div className="fb-socails">
+            <img src={require("../images/google.png")} alt="" />
+          </div>
 
-  <div className="row card_jump">
-    <div className="col-sm-4 social-11">
-      <h6>-</h6>
-       {/* <p>+10,03% </p>  */}
-      <a class="link-social" role="button">
-        Views
-      </a>
-    </div>
-    <div className="col-sm-4 social-11">
-      <h6>-</h6>
-      {/* <p>+10,03% </p> */}
-      <a class="link-social" role="button">
-        Calls
-      </a>
-    </div>
-    <div className="col-sm-4 social-11">
-      <h6>-</h6>
-      {/* <p>+10,03% </p> */}
-      <a class="link-social" role="button">
-        Direction
-      </a>
-    </div>
-  </div>
-</div>
-</div>
+          <div className="row card_jump">
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p>  */}
+              <a class="link-social" role="button">
+                Views
+              </a>
+            </div>
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p> */}
+              <a class="link-social" role="button">
+                Calls
+              </a>
+            </div>
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p> */}
+              <a class="link-social" role="button">
+                Direction
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
 
-total_social_overview[2] = <div class=" col-md-6 ">
-<div class="card social-10 ">
-<div className="fb-socails">
-  <img
-    src={require("../images/linkedin.png")}
-    alt="Linkedin"
-  />
-  </div>
+    total_social_overview[2] = (
+      <div class=" col-md-6 ">
+        <div class="card social-10 ">
+          <div className="fb-socails">
+            <img src={require("../images/linkedin.png")} alt="Linkedin" />
+          </div>
 
-  <div className="row card_jump">
-    <div className="col-sm-4 social-11">
-      <h6>-</h6>
-       {/* <p>+10,03% </p>  */}
-      <a class="link-social" role="button">
-        Likes
-      </a>
-    </div>
-    <div className="col-sm-4 social-11">
-      <h6>-</h6>
-      {/* <p>+10,03% </p> */}
-      <a class="link-social" role="button">
-        Followers
-      </a>
-    </div>
-    <div className="col-sm-4 social-11">
-      <h6>-</h6>
-      {/* <p>+10,03% </p> */}
-      <a class="link-social" role="button">
-        Impressions
-      </a>
-    </div>
-    {/* <div className="liks">
+          <div className="row card_jump">
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p>  */}
+              <a class="link-social" role="button">
+                Likes
+              </a>
+            </div>
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p> */}
+              <a class="link-social" role="button">
+                Followers
+              </a>
+            </div>
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p> */}
+              <a class="link-social" role="button">
+                Impressions
+              </a>
+            </div>
+            {/* <div className="liks">
   <span>Comments</span>
   <h4>{linkedin_comments}</h4>
 </div>
@@ -1804,49 +1802,53 @@ total_social_overview[2] = <div class=" col-md-6 ">
   <span>Clicks</span>
   <h4>{linkedin_clicks}</h4>
 </div> */}
-  </div>
-</div>
-</div>
+          </div>
+        </div>
+      </div>
+    );
 
-total_social_overview[3] = <div class=" col-md-6 ">
-<div class="card social-10 ">
-<div className="fb-socails">
-  <img src={require("../images/yelp.png")} alt="Yelp" />
-</div>
-  <div className="row card_jump">
-    <div className="col-sm-4 social-11">
-      <h6>-</h6>
-      {/* <p>+10,03% </p> */}
-      <a class="link-social" role="button">
-        Rating
-      </a>
-    </div>
-    <div className="col-sm-4 social-11">
-      <h6>-</h6>
-      {/* <p>+10,03% </p> */}
-      <a class="link-social" role="button">
-        Reviews
-      </a>
-    </div>
-    {/* <div className="col-sm-4 social-11">
+    total_social_overview[3] = (
+      <div class=" col-md-6 ">
+        <div class="card social-10 ">
+          <div className="fb-socails">
+            <img src={require("../images/yelp.png")} alt="Yelp" />
+          </div>
+          <div className="row card_jump">
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p> */}
+              <a class="link-social" role="button">
+                Rating
+              </a>
+            </div>
+            <div className="col-sm-4 social-11">
+              <h6>-</h6>
+              {/* <p>+10,03% </p> */}
+              <a class="link-social" role="button">
+                Reviews
+              </a>
+            </div>
+            {/* <div className="col-sm-4 social-11">
       <h6>-</h6>
       <a class="link-social" role="button">
         New Reviews
       </a>
     </div> */}
-  </div>
-</div>
-</div>
+          </div>
+        </div>
+      </div>
+    );
 
     {
       all_connections.map(data => (
         <li>
           {data.name == "Facebook"
-            ? (total_social_overview[0] = 
+            ? (total_social_overview[0] = (
                 <div class=" col-md-6 ">
                   <div class="card social-10 ">
-                    <div className="fb-socails"><img src={require("../images/facebook.png")} alt="" /></div>
-                    
+                    <div className="fb-socails">
+                      <img src={require("../images/facebook.png")} alt="" />
+                    </div>
 
                     <div className="row card_jump">
                       <div className="col-sm-4 social-11">
@@ -1865,7 +1867,7 @@ total_social_overview[3] = <div class=" col-md-6 ">
                       </div>
                       <div className="col-sm-4 social-11">
                         <h6>{fcalls}</h6>
-                       {/* <p>+10,03% </p>  */}
+                        {/* <p>+10,03% </p>  */}
                         <a class="link-social" role="button">
                           Calls
                         </a>
@@ -1873,21 +1875,21 @@ total_social_overview[3] = <div class=" col-md-6 ">
                     </div>
                   </div>
                 </div>
-            )
+              ))
             : ""}
 
           {data.name == "Google"
-            ? (total_social_overview[1] =
+            ? (total_social_overview[1] = (
                 <div class=" col-md-6 ">
                   <div class="card social-10 ">
-                  <div className="fb-socails">
-                    <img src={require("../images/google.png")} alt="" />
+                    <div className="fb-socails">
+                      <img src={require("../images/google.png")} alt="" />
                     </div>
 
                     <div className="row card_jump">
                       <div className="col-sm-4 social-11">
                         <h6>{google_views}</h6>
-                         {/* <p>+10,03% </p>  */}
+                        {/* <p>+10,03% </p>  */}
                         <a class="link-social" role="button">
                           Views
                         </a>
@@ -1909,24 +1911,24 @@ total_social_overview[3] = <div class=" col-md-6 ">
                     </div>
                   </div>
                 </div>
-              )
+              ))
             : ""}
 
           {data.name == "Linkedin"
-            ? (total_social_overview[2] = 
+            ? (total_social_overview[2] = (
                 <div class=" col-md-6 ">
                   <div class="card social-10 ">
-                  <div className="fb-socails">
-                    <img
-                      src={require("../images/linkedin.png")}
-                      alt="Linkedin"
-                    />
+                    <div className="fb-socails">
+                      <img
+                        src={require("../images/linkedin.png")}
+                        alt="Linkedin"
+                      />
                     </div>
 
                     <div className="row card_jump">
                       <div className="col-sm-4 social-11">
                         <h6>{linkedin_likes}</h6>
-                         {/* <p>+10,03% </p>  */}
+                        {/* <p>+10,03% </p>  */}
                         <a class="link-social" role="button">
                           Likes
                         </a>
@@ -1960,16 +1962,16 @@ total_social_overview[3] = <div class=" col-md-6 ">
                     </div>
                   </div>
                 </div>
-              )
+              ))
             : ""}
 
           {data.name == "Yelp"
-            ? (total_social_overview[3] = 
+            ? (total_social_overview[3] = (
                 <div class=" col-md-6 ">
                   <div class="card social-10 ">
-                  <div className="fb-socails">
-                    <img src={require("../images/yelp.png")} alt="Yelp" />
-</div>
+                    <div className="fb-socails">
+                      <img src={require("../images/yelp.png")} alt="Yelp" />
+                    </div>
                     <div className="row card_jump">
                       <div className="col-sm-4 social-11">
                         <h6>{yelpDetails.rating}</h6>
@@ -1994,7 +1996,7 @@ total_social_overview[3] = <div class=" col-md-6 ">
                     </div>
                   </div>
                 </div>
-              )
+              ))
             : ""}
         </li>
       ));
@@ -2323,7 +2325,7 @@ total_social_overview[3] = <div class=" col-md-6 ">
                         <div className="col-md-3  recent-hour">
                           <h6>2 hours ago</h6>
                         </div> */}
-                        
+
                           {total_notifications.length != 0 ? (
                             <div className="notifc">
                               {view_notification_type1 == false ? (
@@ -2428,11 +2430,7 @@ total_social_overview[3] = <div class=" col-md-6 ">
                   <div className="recent-card">
                     <ul className="outped">
                       <li>
-                      <img
-                      src={require("../images/j.png")}
-                      alt="Zomato"
-                      
-                    />
+                        <img src={require("../images/j.png")} alt="Zomato" />
                         <div className="socialdiv">
                           <h3>{total_listings}</h3>
                           <span>All Listing</span>
@@ -2440,11 +2438,7 @@ total_social_overview[3] = <div class=" col-md-6 ">
                       </li>
 
                       <li>
-                      <img
-                      src={require("../images/k.png")}
-                      alt="Zomato"
-                      
-                    />
+                        <img src={require("../images/k.png")} alt="Zomato" />
                         <div className="socialdiv">
                           <h3>
                             {" "}
@@ -2454,11 +2448,7 @@ total_social_overview[3] = <div class=" col-md-6 ">
                         </div>
                       </li>
                       <li>
-                      <img
-                      src={require("../images/l.png")}
-                      alt="Zomato"
-                      
-                    />
+                        <img src={require("../images/l.png")} alt="Zomato" />
                         <div className="socialdiv">
                           <h3>-</h3>
                           <span>Processing</span>
@@ -2466,22 +2456,14 @@ total_social_overview[3] = <div class=" col-md-6 ">
                       </li>
 
                       <li>
-                      <img
-                      src={require("../images/m.png")}
-                      alt="Zomato"
-                      
-                    />
+                        <img src={require("../images/m.png")} alt="Zomato" />
                         <div className="socialdiv">
                           <h3>-</h3>
                           <span>Unavailable</span>
                         </div>
                       </li>
                       <li>
-                      <img
-                      src={require("../images/n.png")}
-                      alt="Zomato"
-                      
-                    />
+                        <img src={require("../images/n.png")} alt="Zomato" />
                         <div className="socialdiv">
                           <h3>
                             {all_connections
@@ -2585,26 +2567,24 @@ total_social_overview[3] = <div class=" col-md-6 ">
                         total_listing_images.length > 5 ? (
                           <div className="sou">
                             <ul>
-                            {total_listing_images[0]}
-                            {total_listing_images[1]}
-                            {total_listing_images[2]}
-                            {total_listing_images[3]}
-                            {total_listing_images[4]}
+                              {total_listing_images[0]}
+                              {total_listing_images[1]}
+                              {total_listing_images[2]}
+                              {total_listing_images[3]}
+                              {total_listing_images[4]}
                             </ul>
                           </div>
                         ) : (
                           <div className="sou">
-                            <ul>
-                          {total_listing_images}</ul>
+                            <ul>{total_listing_images}</ul>
                           </div>
                         )
                       ) : (
                         <div className="sou">
-                            <ul>
-                        {total_listing_images}</ul>
+                          <ul>{total_listing_images}</ul>
                         </div>
                       )}
-                      
+
                       <div className="viewall-div">
                         <a
                           onClick={() =>
@@ -2634,23 +2614,19 @@ total_social_overview[3] = <div class=" col-md-6 ">
                     <h3>Listing Status</h3>
                   </div>
                   <div class="card4">
-<DonutChart
-legend={
-false
-}
-height={250}
-width={250}
-outerRadius={.95}
-innerRadius={0.5}
-formatValues={(values, total) => `${(values / total * 100).toFixed(2)}%`}
-colors={["#8264C6","#634A9B","#EB05B8","#3380cc"]}
-strokeColor={'	false'}
-
-
-    data={this.dataDoughnut(total_listings,all_connections)} />
-
-
-
+                    <DonutChart
+                      legend={false}
+                      height={250}
+                      width={250}
+                      outerRadius={0.95}
+                      innerRadius={0.5}
+                      formatValues={(values, total) =>
+                        `${((values / total) * 100).toFixed(2)}%`
+                      }
+                      colors={["#8264C6", "#634A9B", "#EB05B8", "#3380cc"]}
+                      strokeColor={"	false"}
+                      data={this.dataDoughnut(total_listings, all_connections)}
+                    />
                   </div>
                 </div>
                 <div class="col-md-8">
@@ -2664,9 +2640,7 @@ strokeColor={'	false'}
                           className="dropdown-toggle"
                           data-toggle="dropdown"
                         >
-                          
                           {this.state.range_name}
-                          
                         </a>
                         <div className="dropdown-menu">
                           <ul>
@@ -2729,7 +2703,14 @@ strokeColor={'	false'}
                             />
                           </div>
                         ) : (
-                          <Bar data={this.dataBar(date, phone,direction,website)} options={this.barChartOptions(phone,direction,website)} />
+                          <Bar
+                            data={this.dataBar(date, phone, direction, website)}
+                            options={this.barChartOptions(
+                              phone,
+                              direction,
+                              website
+                            )}
+                          />
                           // this.getBarChart(date, phone,direction,website)
                         )
                       ) : (

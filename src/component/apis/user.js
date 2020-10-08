@@ -1,6 +1,7 @@
 // import { API } from "../../config";
 import Axios from "axios";
 const API = "https://cors-anywhere.herokuapp.com/http://18.216.54.114:8000/api";
+// const API = "https://cors-anywhere.herokuapp.com/https://dashify.biz/api";
 
 export const login = user_login_data => {
   return Axios.post(`${API}/account/login`, user_login_data);
