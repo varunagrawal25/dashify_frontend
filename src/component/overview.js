@@ -142,9 +142,11 @@ export default class Overview extends Component {
     var date =
       today.getFullYear() +
       "-" +
-      (today.getMonth() + 1) +
+      (today.getMonth() + 1 < 10
+        ? "0" + (today.getMonth() + 1)
+        : today.getMonth() + 1) +
       "-" +
-      today.getDate();
+      (today.getDate() < 10 ? "0" + today.getDate() : today.getDate());
 
     var time =
       today.getHours() +
@@ -1074,8 +1076,8 @@ export default class Overview extends Component {
     return [
       { value: total_listings - all_connections.length, label: "Opted out" },
       { value: all_connections.length, label: "Live Listing" },
-      { value: 0, label: "Processing" },
-      { value: 0, label: "Unavailable" }
+      { value: 2, label: "Processing" },
+      { value: 3, label: "Unavailable" }
     ];
   };
 
@@ -1106,11 +1108,14 @@ export default class Overview extends Component {
   };
 
   barChartOptions = (phone, direction, website) => {
-    let a1 = Math.max(...phone);
-    let a2 = Math.max(...direction);
-    let a3 = Math.max(...website);
+    let a1 = phone.filter(Boolean);
+    let a2 = direction.filter(Boolean);
+    let a3 = website.filter(Boolean);
+
+    a1 = a1.length == 0 ? 0 : Math.max(...a1);
+    a2 = a2.length == 0 ? 0 : Math.max(...a2);
+    a3 = a3.length == 0 ? 0 : Math.max(...a3);
     let max_value = Math.max(a1, a2, a3);
-    console.log("max value", max_value);
 
     return {
       responsive: true,
@@ -1194,9 +1199,9 @@ export default class Overview extends Component {
   //   // return ApexCharts.render(document.querySelector("#chart"), options);
   // }
 
-  change_states = (states, range) => e => {
+  change_states = (states, range) => async e => {
     console.log("e.target.name", states, range);
-    this.setState({ show_states: states, range_name: range });
+    await this.setState({ show_states: states, range_name: range });
     this.business_report_insight();
   };
 
@@ -1287,7 +1292,9 @@ export default class Overview extends Component {
 
       view_notification_type1,
       view_notification_type2,
-      view_notification_type3
+      view_notification_type3,
+
+      range_name
     } = this.state;
 
     console.log("this.state", this.state);
@@ -1297,33 +1304,54 @@ export default class Overview extends Component {
       direction = [];
 
     if (this.state.metric.length > 0) {
-      this.state.metric[0].dimensionalValues.map(d => {
-        date.push(
-          d.timeDimension.timeRange.startTime
-            .slice(0, 10)
-            .split("-")
-            .reverse()
-            .join("-")
-        );
-      });
-    }
+      let variance = 7;
+      if (range_name == "Last week") {
+        variance = 1;
+      } else if (range_name == "Last month") {
+        variance = 7;
+      } else if (range_name == "Last 3 months") {
+        variance = 7;
+      } else if (range_name == "Last 6 months") {
+        variance = 30;
+      } else if (range_name == "Last year") {
+        variance = 30;
+      }
 
-    if (this.state.metric.length > 0) {
-      this.state.metric.map(da => {
+      this.state.metric.map((da, i) => {
         if (da.metric == "VIEWS_MAPS") {
-          da.dimensionalValues.map(m => {
-            direction.push(parseInt(m.value));
+          da.dimensionalValues.map((m, i2) => {
+            if (i2 == 0 || (i2 + 1) % variance == 0) {
+              direction.push(parseInt(m.value));
+            }
           });
         }
+
         if (da.metric == "ACTIONS_WEBSITE") {
-          da.dimensionalValues.map(m => {
-            website.push(parseInt(m.value));
+          da.dimensionalValues.map((m, i2) => {
+            if (i2 == 0 || (i2 + 1) % variance == 0) {
+              website.push(parseInt(m.value));
+            }
           });
         }
+
         if (da.metric == "ACTIONS_PHONE") {
-          da.dimensionalValues.map(m => {
-            phone.push(parseInt(m.value));
+          da.dimensionalValues.map((m, i2) => {
+            if (i2 == 0 || (i2 + 1) % variance == 0) {
+              phone.push(parseInt(m.value));
+            }
           });
+        }
+      });
+
+      this.state.metric[0].dimensionalValues.map((d, i) => {
+        if (i == 0 || (i + 1) % variance == 0) {
+          date.push(
+            d.timeDimension.timeRange.startTime
+              .slice(0, 10)
+              .split("-")
+              .reverse()
+              .join("-")
+          );
         }
       });
     }
@@ -2621,7 +2649,7 @@ export default class Overview extends Component {
                       outerRadius={0.95}
                       innerRadius={0.5}
                       formatValues={(values, total) =>
-                        `${((values / total) * 100).toFixed(2)}%`
+                        `${parseInt((values / total) * 100)}%`
                       }
                       colors={["#8264C6", "#634A9B", "#EB05B8", "#3380cc"]}
                       strokeColor={"	false"}
@@ -2640,7 +2668,7 @@ export default class Overview extends Component {
                           className="dropdown-toggle"
                           data-toggle="dropdown"
                         >
-                          {this.state.range_name}
+                          {range_name}
                         </a>
                         <div className="dropdown-menu">
                           <ul>
