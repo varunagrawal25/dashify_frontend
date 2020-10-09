@@ -10,14 +10,15 @@ import { all_connection_of_one_location } from "./apis/social_platforms";
 import Spinner from "./common/Spinner";
 import Loader2 from "react-loader-spinner";
 import Rating from "react-rating";
+import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
 
 const Yelpconfig = {
   headers: {
     Authorization:
       "bearer _1cVnrrkqmG_dwNUdtorVxarkzItJM7AWM700rkRxM7aPdDfxJECcdaN00ADjSkrStF1pX4sdGCspYeSjU7VGkpjWYoMsC2_filBf5d5J5GMRTgXws_W6qusNMhYX3Yx",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost"
-  }
+    "Access-Control-Allow-Origin": "http://localhost",
+  },
 };
 
 let total_listings = 14;
@@ -25,19 +26,19 @@ let total_listings = 14;
 const DnbConfig = {
   headers: {
     "x-dnb-user": "P200000D5647887A34E4067B86A78E31",
-    "x-dnb-pwd": "digimonk@123"
-  }
+    "x-dnb-pwd": "digimonk@123",
+  },
 };
 
 const Zomatoconfig = {
   headers: {
     "user-key": "0850988704eeed5da2f4d38fdfc582c1",
-    Accept: "application/json"
-  }
+    Accept: "application/json",
+  },
 };
 
 const DjangoConfig = {
-  headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
+  headers: { Authorization: "Token " + localStorage.getItem("UserToken") },
 };
 
 export default class Overview extends Component {
@@ -135,7 +136,7 @@ export default class Overview extends Component {
     zillowReviews: [],
     view_notification_type1: false,
     view_notification_type2: false,
-    view_notification_type3: false
+    view_notification_type3: false,
   };
   componentDidMount() {
     var today = new Date();
@@ -228,7 +229,7 @@ export default class Overview extends Component {
       last_3_month: last_3_month,
       last_6_month: last_6_month,
       last_year: last_year,
-      show_states: last_week
+      show_states: last_week,
     });
 
     var yelpUrl,
@@ -250,7 +251,7 @@ export default class Overview extends Component {
       googleToken;
 
     const data = {
-      location_id: this.props.match.params.locationId
+      location_id: this.props.match.params.locationId,
     };
 
     // Axios.post(
@@ -259,9 +260,9 @@ export default class Overview extends Component {
     //   DjangoConfig
     // )
     all_connection_of_one_location(data, DjangoConfig)
-      .then(response => {
+      .then((response) => {
         console.log("all connections", response);
-        response.data.data.map(l => {
+        response.data.data.map((l) => {
           if (l.Social_Platform.Platform == "Facebook") {
             fbtoken = l.Social_Platform.Token;
             fbPageId = l.Social_Platform.Other_info;
@@ -270,7 +271,7 @@ export default class Overview extends Component {
             googleToken = l.Social_Platform.Token;
             this.setState({
               google_token: googleToken,
-              locationIdGoogle: l.Social_Platform.Other_info
+              locationIdGoogle: l.Social_Platform.Other_info,
             });
           }
           if (l.Social_Platform.Platform == "Yelp") {
@@ -331,7 +332,7 @@ export default class Overview extends Component {
         });
 
         const GoogleConfig = {
-          headers: { Authorization: "Bearer " + googleToken }
+          headers: { Authorization: "Bearer " + googleToken },
         };
 
         // for instagram
@@ -347,14 +348,14 @@ export default class Overview extends Component {
         if (fbtoken) {
           Axios.get(
             "https://graph.facebook.com/me/accounts/?access_token=" + fbtoken
-          ).then(res => {
+          ).then((res) => {
             console.log("facebook data1", res.data);
             this.setState({
               fbAccounts: res.data.data,
               all_connections: [
                 ...this.state.all_connections,
-                { name: "Facebook" }
-              ]
+                { name: "Facebook" },
+              ],
             });
             var fbPageAccessToken;
             for (let i = 0; i < res.data.data.length; i++) {
@@ -367,7 +368,7 @@ export default class Overview extends Component {
                 fbPageId +
                 "/insights/page_engaged_users,page_impressions,page_views_total,page_call_phone_clicks_logged_in_unique,page_get_directions_clicks_logged_in_unique,page_website_clicks_logged_in_unique?period=month&access_token=" +
                 fbPageAccessToken
-            ).then(resp => {
+            ).then((resp) => {
               console.log("facebook data2", resp.data);
               this.setState({
                 fViews:
@@ -393,7 +394,7 @@ export default class Overview extends Component {
                 fimpressions:
                   resp.data.data[1] && resp.data.data[1].values[0]
                     ? resp.data.data[1].values[0].value
-                    : "-"
+                    : "-",
               });
             });
             Axios.get(
@@ -401,7 +402,7 @@ export default class Overview extends Component {
                 fbPageId +
                 "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
                 fbPageAccessToken
-            ).then(res => {
+            ).then((res) => {
               console.log("fb reviews", res.data);
               this.setState({ fbReviews: res.data.data ? res.data.data : [] });
             });
@@ -410,7 +411,7 @@ export default class Overview extends Component {
                 fbPageId +
                 "?fields=new_like_count,talking_about_count,unread_message_count,unread_notif_count,unseen_message_count&access_token=" +
                 fbPageAccessToken
-            ).then(resp => {
+            ).then((resp) => {
               console.log("facebook notifications", resp.data);
               this.setState({ fb_notification: resp.data });
             });
@@ -422,16 +423,16 @@ export default class Overview extends Component {
           Axios.get(
             "https://mybusiness.googleapis.com/v4/accounts/",
             GoogleConfig
-          ).then(res => {
+          ).then((res) => {
             console.log("google account", res.data);
             localStorage.setItem("accountId", res.data.accounts[0].name);
             this.setState({
               loader: false,
               all_connections: [
                 ...this.state.all_connections,
-                { name: "Google" }
+                { name: "Google" },
               ],
-              isGoogleLoggedIn: true
+              isGoogleLoggedIn: true,
             });
             this.business_report_insight();
 
@@ -455,9 +456,9 @@ export default class Overview extends Component {
                 metricRequests: [{ metric: "ALL" }],
                 timeRange: {
                   startTime: "2019-10-12T01:01:23.045123456Z",
-                  endTime: "2020-05-10T23:59:59.045123456Z"
-                }
-              }
+                  endTime: "2020-05-10T23:59:59.045123456Z",
+                },
+              },
             };
             Axios.post(
               "https://mybusiness.googleapis.com/v4/" +
@@ -465,7 +466,7 @@ export default class Overview extends Component {
                 "/locations:reportInsights",
               google_data,
               GoogleConfig
-            ).then(respo => {
+            ).then((respo) => {
               console.log("google location insight", respo.data);
 
               if (respo.data.locationMetrics) {
@@ -483,7 +484,7 @@ export default class Overview extends Component {
                   google_searched,
                   google_clicks,
                   google_phone,
-                  google_direction
+                  google_direction,
                 });
               }
             });
@@ -493,7 +494,7 @@ export default class Overview extends Component {
                 this.state.locationIdGoogle +
                 "/reviews",
               GoogleConfig
-            ).then(respo => {
+            ).then((respo) => {
               console.log("google reviews", respo.data);
               this.setState({ googleReviews: respo.data.reviews });
             });
@@ -503,7 +504,7 @@ export default class Overview extends Component {
 
         // here
         if (hereUrl) {
-          Axios.get(hereUrl).then(res => {
+          Axios.get(hereUrl).then((res) => {
             console.log("Here data", res.data);
             this.setState({ hereDetails: res.data });
 
@@ -521,15 +522,15 @@ export default class Overview extends Component {
                 hereReviews: hereReviews,
                 all_connections: [
                   ...this.state.all_connections,
-                  { name: "Here" }
-                ]
+                  { name: "Here" },
+                ],
               });
             } else {
               this.setState({
                 all_connections: [
                   ...this.state.all_connections,
-                  { name: "Here" }
-                ]
+                  { name: "Here" },
+                ],
               });
             }
           });
@@ -538,7 +539,7 @@ export default class Overview extends Component {
         //for instagram
         if (instaUrl) {
           Axios.get("https://www.instagram.com/" + instaUrl + "/?__a=1").then(
-            res => {
+            (res) => {
               console.log("instagram data in json", res.data);
               console.log(
                 "instagram data in json",
@@ -555,15 +556,15 @@ export default class Overview extends Component {
                 instaDetails,
                 instaFollowers,
                 instaFollowing,
-                instaPosts
+                instaPosts,
               });
             }
           );
           this.setState({
             all_connections: [
               ...this.state.all_connections,
-              { name: "Instagram" }
-            ]
+              { name: "Instagram" },
+            ],
           });
         }
 
@@ -574,7 +575,7 @@ export default class Overview extends Component {
               yelpUrl.slice(25) +
               "/reviews",
             Yelpconfig
-          ).then(resp => {
+          ).then((resp) => {
             console.log("yelp reviews", resp.data.reviews);
 
             let yelp_new_reviews = 0;
@@ -596,14 +597,14 @@ export default class Overview extends Component {
               "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
                 yelpUrl.slice(25),
               Yelpconfig
-            ).then(resp => {
+            ).then((resp) => {
               console.log("hii");
               console.log("yelp details", resp.data);
               this.setState({ yelpDetails: resp.data });
             });
           });
           this.setState({
-            all_connections: [...this.state.all_connections, { name: "Yelp" }]
+            all_connections: [...this.state.all_connections, { name: "Yelp" }],
           });
         }
 
@@ -613,29 +614,32 @@ export default class Overview extends Component {
             "https://www.zillow.com/webservice/ProReviews.htm?zws-id=X1-ZWz170sf100mbv_7lwvq&email=" +
               zillowUrl +
               "&count=10&output=json"
-          ).then(resp => {
+          ).then((resp) => {
             console.log("zillow data", resp.data);
             this.setState({
               zillowReviews: resp.data.response.results.proReviews.review,
-              zillowDetails: resp.data.response.results.proInfo
+              zillowDetails: resp.data.response.results.proInfo,
             });
           });
           this.setState({
-            all_connections: [...this.state.all_connections, { name: "Zillow" }]
+            all_connections: [
+              ...this.state.all_connections,
+              { name: "Zillow" },
+            ],
           });
         }
 
         if (avvoUrl && avvoToken) {
           const AvvoConfig = {
             headers: {
-              Authorization: "Bearer " + avvoToken
-            }
+              Authorization: "Bearer " + avvoToken,
+            },
           };
           Axios.get(
             "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/lawyers.json?id[]=" +
               avvoUrl,
             AvvoConfig
-          ).then(res => {
+          ).then((res) => {
             console.log("avvo lawyer data in json", res.data);
             let avvoRating = parseFloat(
               res.data.lawyers[0].client_review_score
@@ -644,10 +648,13 @@ export default class Overview extends Component {
             this.setState({
               avvoDetails: res.data,
               avvoRating,
-              avvoReviews
+              avvoReviews,
             });
             this.setState({
-              all_connections: [...this.state.all_connections, { name: "Avvo" }]
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Avvo" },
+              ],
             });
           });
         }
@@ -657,7 +664,7 @@ export default class Overview extends Component {
             "https://developers.zomato.com/api/v2.1/restaurant?res_id=" +
               zomatoUrl,
             Zomatoconfig
-          ).then(res => {
+          ).then((res) => {
             console.log("zomato data", res.data);
 
             let zomatoRating = res.data.user_rating.aggregate_rating
@@ -667,13 +674,13 @@ export default class Overview extends Component {
             this.setState({
               zomatoDetails: res.data,
               zomatoRating,
-              zomatoReviews
+              zomatoReviews,
             });
             this.setState({
               all_connections: [
                 ...this.state.all_connections,
-                { name: "Zomato" }
-              ]
+                { name: "Zomato" },
+              ],
             });
           });
         }
@@ -683,7 +690,7 @@ export default class Overview extends Component {
             Axios.get(
               "https://api.tomtom.com/search/2/poiDetails.json?key=IRUplE1TqUPstrlMA2N51xASusnsDsEd&id=" +
                 tomtomUrl
-            ).then(res => {
+            ).then((res) => {
               console.log("tomtom data", res.data);
 
               let tomtomRating = res.data.result.rating
@@ -712,13 +719,16 @@ export default class Overview extends Component {
                 tomtomDetails: res.data,
                 tomtomRating,
                 tomtomReviews,
-                tomtomNewReviews
+                tomtomNewReviews,
               });
             });
           }
 
           this.setState({
-            all_connections: [...this.state.all_connections, { name: "Tomtom" }]
+            all_connections: [
+              ...this.state.all_connections,
+              { name: "Tomtom" },
+            ],
           });
         }
 
@@ -728,21 +738,21 @@ export default class Overview extends Component {
             "https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v2/venues/" +
               fourUrl +
               "?client_id=44RU2431YG02H4E00RQTLKEUKIKINQSFO2JBHII2WHH32PXZ&client_secret=FWV2WOL40MQ5M1YZ5E2TKUWIQ4WYZ1QUJXOQ24VGRSXFA3IY&v=20180323"
-          ).then(res => {
+          ).then((res) => {
             console.log("foursquare data", res.data);
             this.setState({
               foursquareReviews: res.data.response.venue.tips.groups[0]
                 ? res.data.response.venue.tips.groups[0].items
                 : [],
               foursquareDetails: res.data.response.venue,
-              foursquareReviewlength: res.data.response.venue.tips.count
+              foursquareReviewlength: res.data.response.venue.tips.count,
             });
           });
           this.setState({
             all_connections: [
               ...this.state.all_connections,
-              { name: "Foursquare" }
-            ]
+              { name: "Foursquare" },
+            ],
           });
         }
 
@@ -750,13 +760,13 @@ export default class Overview extends Component {
         if (linkedinUrl && linkedinId) {
           const LinkedinConfig = {
             headers: {
-              Authorization: "Bearer " + linkedinUrl
-            }
+              Authorization: "Bearer " + linkedinUrl,
+            },
           };
           Axios.get(
             `https://cors-anywhere.herokuapp.com/https://api.linkedin.com/v2/organizationalEntityShareStatistics?q=organizationalEntity&organizationalEntity=${linkedinId}`,
             LinkedinConfig
-          ).then(res => {
+          ).then((res) => {
             // console.log("linkedin data", res.data);
             if (
               res.data &&
@@ -769,24 +779,24 @@ export default class Overview extends Component {
                 linkedin_likes: lin_data.likeCount,
                 linkedin_impressions: lin_data.impressionCount,
                 linkedin_comments: lin_data.commentCount,
-                linkedin_share: lin_data.shareCount
+                linkedin_share: lin_data.shareCount,
               });
             }
             this.setState({
               all_connections: [
                 ...this.state.all_connections,
-                { name: "Linkedin" }
-              ]
+                { name: "Linkedin" },
+              ],
             });
           });
           Axios.get(
             `https://cors-anywhere.herokuapp.com/https://api.linkedin.com/v2/networkSizes/${linkedinId}?edgeType=CompanyFollowedByMember`,
             LinkedinConfig
-          ).then(res => {
+          ).then((res) => {
             // console.log("linkedin data", res.data);
             if (res.data && res.data.firstDegreeSize) {
               this.setState({
-                linkedin_followers: res.data.firstDegreeSize
+                linkedin_followers: res.data.firstDegreeSize,
               });
             }
           });
@@ -812,7 +822,7 @@ export default class Overview extends Component {
             ApplicationTransactionID: "1234",
             ServiceTransactionID: "5678",
             //    TransactionTimestamp: "2001-12-17T09:30:47Z"
-            TransactionTimestamp: date
+            TransactionTimestamp: date,
           };
 
           Axios.post(
@@ -820,11 +830,13 @@ export default class Overview extends Component {
             data,
             DnbConfig
           )
-            .then(resp => {
+            .then((resp) => {
               console.log("DNB authentication", resp.data);
               // this.setState({ token: resp.data.AuthenticationDetail.Token });
               const DnbAuthorization = {
-                headers: { Authorization: resp.data.AuthenticationDetail.Token }
+                headers: {
+                  Authorization: resp.data.AuthenticationDetail.Token,
+                },
               };
 
               Axios.get(
@@ -832,7 +844,7 @@ export default class Overview extends Component {
                   dnbUrl +
                   "/products/RTNG_TRND",
                 DnbAuthorization
-              ).then(res => {
+              ).then((res) => {
                 console.log("DNB data1", res.data);
                 this.setState({
                   dnbStandardRating:
@@ -844,7 +856,7 @@ export default class Overview extends Component {
                       .Product.Organization.Assessment.HistoryRatingText.$,
                   dnbFinancialConditionText:
                     res.data.OrderProductResponse.OrderProductResponseDetail
-                      .Product.Organization.Assessment.FinancialConditionText.$
+                      .Product.Organization.Assessment.FinancialConditionText.$,
                 });
               });
 
@@ -853,13 +865,13 @@ export default class Overview extends Component {
                   dnbUrl +
                   "/products/SER",
                 DnbAuthorization
-              ).then(res => {
+              ).then((res) => {
                 console.log("DNB data2", res.data);
                 this.setState({
                   dnbRiskScore:
                     res.data.OrderProductResponse.OrderProductResponseDetail
                       .Product.Organization.Assessment
-                      .SupplierEvaluationRiskScore[0].RiskScore
+                      .SupplierEvaluationRiskScore[0].RiskScore,
                 });
               });
 
@@ -868,22 +880,22 @@ export default class Overview extends Component {
                   dnbUrl +
                   "/products/VIAB_RAT",
                 DnbAuthorization
-              ).then(res => {
+              ).then((res) => {
                 console.log("DNB data3", res.data);
                 this.setState({
                   dnbRiskLevelDescription:
                     res.data.OrderProductResponse.OrderProductResponseDetail
                       .Product.Organization.Assessment.DNBViabilityRating
-                      .ViabilityScore.RiskLevelDescription.$
+                      .ViabilityScore.RiskLevelDescription.$,
                 });
               });
             })
-            .catch(resp => {
+            .catch((resp) => {
               console.log("DNB authentication error", resp.data);
             });
 
           this.setState({
-            all_connections: [...this.state.all_connections, { name: "Dnb" }]
+            all_connections: [...this.state.all_connections, { name: "Dnb" }],
           });
         }
 
@@ -893,7 +905,7 @@ export default class Overview extends Component {
             "https://itunes.apple.com/in/rss/customerreviews/id=" +
               appleUrl +
               "/sortBy=mostRecent/json"
-          ).then(res => {
+          ).then((res) => {
             console.log("apple reviews", res.data.feed.entry);
 
             let appleRating = 0;
@@ -907,11 +919,11 @@ export default class Overview extends Component {
             );
             this.setState({
               appleRating,
-              appleReviews: res.data.feed.entry
+              appleReviews: res.data.feed.entry,
             });
           });
           this.setState({
-            all_connections: [...this.state.all_connections, { name: "Apple" }]
+            all_connections: [...this.state.all_connections, { name: "Apple" }],
           });
         }
 
@@ -920,7 +932,7 @@ export default class Overview extends Component {
             "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
               citysearchUrl +
               "&publisher=test"
-          ).then(res => {
+          ).then((res) => {
             console.log("citysearchUrl response", res);
 
             var XMLParser = require("react-xml-parser");
@@ -958,24 +970,24 @@ export default class Overview extends Component {
             this.setState({
               citysearchNewReviews,
               citysearchRating,
-              citysearchReviews: xml.getElementsByTagName("review")
+              citysearchReviews: xml.getElementsByTagName("review"),
             });
           });
 
           this.setState({
             all_connections: [
               ...this.state.all_connections,
-              { name: "Citysearch" }
-            ]
+              { name: "Citysearch" },
+            ],
           });
         }
 
         this.setState({ loader: false });
       })
-      .catch(res => {
+      .catch((res) => {
         console.log("error in overview", res);
         this.setState({
-          loader: false
+          loader: false,
         });
       });
   }
@@ -983,7 +995,7 @@ export default class Overview extends Component {
   business_report_insight = () => {
     this.setState({ loading: true });
     const GoogleConfig = {
-      headers: { Authorization: "Bearer " + this.state.google_token }
+      headers: { Authorization: "Bearer " + this.state.google_token },
     };
     // Axios.get(
     //   `https://mybusiness.googleapis.com/v4/${localStorage.getItem("accountId")}/locations`,
@@ -1000,23 +1012,23 @@ export default class Overview extends Component {
         metricRequests: [
           {
             metric: "VIEWS_MAPS",
-            options: "AGGREGATED_DAILY"
+            options: "AGGREGATED_DAILY",
           },
           {
             metric: "ACTIONS_WEBSITE",
-            options: "AGGREGATED_DAILY"
+            options: "AGGREGATED_DAILY",
           },
           {
             metric: "ACTIONS_PHONE",
-            options: "AGGREGATED_DAILY"
-          }
+            options: "AGGREGATED_DAILY",
+          },
         ],
 
         timeRange: {
           startTime: this.state.show_states + "T01:01:23.045123456Z",
-          endTime: this.state.today_date + "T23:59:59.045123456Z"
-        }
-      }
+          endTime: this.state.today_date + "T23:59:59.045123456Z",
+        },
+      },
     };
     Axios.post(
       `https://mybusiness.googleapis.com/v4/${localStorage.getItem(
@@ -1025,19 +1037,19 @@ export default class Overview extends Component {
       reportInsights,
       GoogleConfig
     )
-      .then(res => {
+      .then((res) => {
         console.log("google report insight", res.data);
         if (res.data.locationMetrics[0]) {
           this.setState({
             metric: res.data.locationMetrics[0].metricValues,
-            loading: false
+            loading: false,
           });
         }
       })
-      .catch(res => {
+      .catch((res) => {
         console.log("error in overview");
         this.setState({
-          loading: false
+          loading: false,
         });
       });
     // });
@@ -1047,11 +1059,11 @@ export default class Overview extends Component {
     let { google_reply_to_id, google_reply, google_token } = this.state;
 
     const GoogleConfig = {
-      headers: { Authorization: "Bearer " + google_token }
+      headers: { Authorization: "Bearer " + google_token },
     };
 
     const data = {
-      comment: google_reply
+      comment: google_reply,
     };
 
     Axios.put(
@@ -1063,11 +1075,11 @@ export default class Overview extends Component {
       data,
       GoogleConfig
     )
-      .then(respo => {
+      .then((respo) => {
         console.log("google reply response", respo.data);
         this.setState({ is_google_reply: false });
       })
-      .catch(respo => {
+      .catch((respo) => {
         console.log("google reply response", respo.data);
       });
   };
@@ -1077,7 +1089,7 @@ export default class Overview extends Component {
       { value: total_listings - all_connections.length, label: "Opted out" },
       { value: all_connections.length, label: "Live Listing" },
       { value: 2, label: "Processing" },
-      { value: 3, label: "Unavailable" }
+      { value: 3, label: "Unavailable" },
     ];
   };
 
@@ -1089,21 +1101,21 @@ export default class Overview extends Component {
           label: "phone call",
           data: phone,
           backgroundColor: "#8760D0",
-          barThickness: 10
+          barThickness: 10,
         },
         {
           label: "get direction",
           data: direction,
           backgroundColor: "#528AF7",
-          barThickness: 10
+          barThickness: 10,
         },
         {
           label: "website visited",
           data: website,
           backgroundColor: "#58C8F9",
-          barThickness: 10
-        }
-      ]
+          barThickness: 10,
+        },
+      ],
     };
   };
 
@@ -1123,7 +1135,7 @@ export default class Overview extends Component {
 
       legend: {
         position: "bottom",
-        align: "start"
+        align: "start",
       },
 
       scales: {
@@ -1133,24 +1145,24 @@ export default class Overview extends Component {
 
             gridLines: {
               display: false,
-              color: "rgba(0, 0, 0, 0.1)"
-            }
-          }
+              color: "rgba(0, 0, 0, 0.1)",
+            },
+          },
         ],
         yAxes: [
           {
             gridLines: {
               display: true,
-              color: "rgba(0, 0, 0, 0.1)"
+              color: "rgba(0, 0, 0, 0.1)",
             },
             ticks: {
               beginAtZero: true,
               stepSize: 25,
-              max: max_value
-            }
-          }
-        ]
-      }
+              max: max_value,
+            },
+          },
+        ],
+      },
     };
   };
 
@@ -1199,13 +1211,13 @@ export default class Overview extends Component {
   //   // return ApexCharts.render(document.querySelector("#chart"), options);
   // }
 
-  change_states = (states, range) => async e => {
+  change_states = (states, range) => async (e) => {
     console.log("e.target.name", states, range);
     await this.setState({ show_states: states, range_name: range });
     this.business_report_insight();
   };
 
-  changeHandler = event => {
+  changeHandler = (event) => {
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -1294,7 +1306,7 @@ export default class Overview extends Component {
       view_notification_type2,
       view_notification_type3,
 
-      range_name
+      range_name,
     } = this.state;
 
     console.log("this.state", this.state);
@@ -1365,7 +1377,44 @@ export default class Overview extends Component {
       total_notifications = [
         ...total_notifications,
         <div>
-          <div className="col-md-7">
+          <MDBRow>
+            <MDBCol md="8">
+              <div className="recent-title">
+                <img
+                  src={require("../images/facebook.png")}
+                  alt="facebook"
+                  height="40"
+                  width="40"
+                />
+                Message
+              </div>
+            </MDBCol>
+            <MDBCol md="4" style={{ marginTop: "5px" }}>
+              <MDBRow>
+                <MDBCol md="6" style={{ padding: "0px" }}>
+                  <a
+                    href={
+                      "https://www.facebook.com/" +
+                      fb_notification.id +
+                      "/inbox"
+                    }
+                    className="btn btn-primary "
+                  >
+                    See message
+                  </a>
+                </MDBCol>
+              </MDBRow>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol>
+              <p className="recent-text">
+                You have {fb_notification.unseen_message_count} unread messages
+                on your facebook page
+              </p>
+            </MDBCol>
+          </MDBRow>
+          {/* <div className="col-md-7">
             <h5 className="recent-title">
               <img
                 src={require("../images/facebook.png")}
@@ -1389,8 +1438,8 @@ export default class Overview extends Component {
             >
               <h6>See message</h6>
             </a>
-          </div>
-        </div>
+          </div> */}
+        </div>,
       ];
     }
 
@@ -1398,7 +1447,41 @@ export default class Overview extends Component {
       total_notifications = [
         ...total_notifications,
         <div>
-          <div className="col-md-7">
+          <MDBRow>
+            <MDBCol md="8">
+              <div className="recent-title">
+                <img
+                  src={require("../images/facebook.png")}
+                  alt="facebook"
+                  height="40"
+                  width="40"
+                />
+                Notification
+              </div>
+            </MDBCol>
+            <MDBCol md="4" style={{ marginTop: "5px" }}>
+              <MDBRow>
+                <MDBCol md="6" style={{ padding: "0px" }}>
+                  <a
+                    href={"https://www.facebook.com/" + fb_notification.id}
+                    className="btn btn-primary "
+                  >
+                    Go to page
+                  </a>
+                </MDBCol>
+              </MDBRow>
+            </MDBCol>
+          </MDBRow>
+          <MDBRow>
+            <MDBCol>
+              <p className="recent-text">
+                You have {fb_notification.unread_notif_count} unread
+                notifications on your facebook page
+              </p>
+            </MDBCol>
+          </MDBRow>
+
+          {/* <div className="col-md-7">
             <h5 className="recent-title">
               <img
                 src={require("../images/facebook.png")}
@@ -1422,8 +1505,8 @@ export default class Overview extends Component {
             >
               <h6>Go to page</h6>
             </a>
-          </div>
-        </div>
+          </div> */}
+        </div>,
       ];
     }
 
@@ -1432,7 +1515,47 @@ export default class Overview extends Component {
         total_notifications = [
           ...total_notifications,
           <div>
-            <div className="col-md-7">
+            <MDBRow>
+              <MDBCol md="8">
+                <div className="recent-title">
+                  <img
+                    src={require("../images/facebook.png")}
+                    alt="facebook"
+                    height="40"
+                    width="40"
+                  />
+                  Someone give a {fbReviews[i].recommendation_type} review
+                </div>
+              </MDBCol>
+              <MDBCol md="4" style={{ marginTop: "5px" }}>
+                <MDBRow>
+                  <MDBCol md="6" style={{ padding: "0px" }}>
+                    <a
+                      href={
+                        "https://www.facebook.com/" +
+                        fb_notification.id +
+                        "/reviews"
+                      }
+                      className="btn btn-primary "
+                    >
+                      Comment
+                    </a>
+                  </MDBCol>
+                </MDBRow>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+              <MDBCol>
+                <p className="recent-text">
+                  {fbReviews[i].review_text
+                    ? fbReviews[i].review_text.length > 160
+                      ? fbReviews[i].review_text.slice(0, 160) + "..."
+                      : fbReviews[i].review_text
+                    : ""}
+                </p>
+              </MDBCol>
+            </MDBRow>
+            {/* <div className="col-md-7">
               <h5 className="recent-title">
                 <img
                   src={require("../images/facebook.png")}
@@ -1461,8 +1584,8 @@ export default class Overview extends Component {
               >
                 <h6>Comment</h6>
               </a>
-            </div>
-          </div>
+            </div> */}
+          </div>,
         ];
       } else {
         break;
@@ -1479,86 +1602,66 @@ export default class Overview extends Component {
           total_notifications = [
             ...total_notifications,
             <div>
-              <div className="col-md-7">
-                <h5 className="recent-title">
-                  <img
-                    src={require("../images/google.png")}
-                    alt="google"
-                    height="65"
-                    width="65"
-                  />
-                  <br />
-                  {googleReviews[i].reviewer.displayName}
-                  <br />
-                  <ul>
-                    {googleReviews[i].starRating == "FIVE"
-                      ? [1, 2, 3, 4, 5].map(res => (
-                          <li>
-                            <span className="glyphicon glyphicon-star"></span>
-                          </li>
-                        ))
-                      : googleReviews[i].starRating == "FOUR"
-                      ? [1, 2, 3, 4].map(res => (
-                          <li>
-                            <span className="glyphicon glyphicon-star"></span>
-                          </li>
-                        ))
-                      : googleReviews[i].starRating == "THREE"
-                      ? [1, 2, 3].map(res => (
-                          <li>
-                            <span className="glyphicon glyphicon-star"></span>
-                          </li>
-                        ))
-                      : googleReviews[i].starRating == "TWO"
-                      ? [1, 2].map(res => (
-                          <li>
-                            <span className="glyphicon glyphicon-star"></span>
-                          </li>
-                        ))
-                      : googleReviews[i].starRating == "ONE"
-                      ? [1].map(res => (
-                          <li>
-                            <span className="glyphicon glyphicon-star"></span>
-                          </li>
-                        ))
-                      : ""}
-                  </ul>
-                </h5>
-                <p className="recent-text">
-                  {googleReviews[i].comment
-                    ? googleReviews[i].comment.length > 160
-                      ? googleReviews[i].comment.slice(0, 160) + "..."
-                      : googleReviews[i].comment
-                    : ""}
-                </p>
-              </div>
+              <MDBRow>
+                <MDBCol md="8">
+                  <div className="recent-title">
+                    <img
+                      src={require("../images/google.png")}
+                      alt="google"
+                      height="40"
+                      width="40"
+                    />
+                    {googleReviews[i].reviewer.displayName}
+                  </div>
+                </MDBCol>
+                <MDBCol md="4" style={{ marginTop: "5px" }}>
+                  <MDBRow>
+                    <MDBCol md="6" style={{ padding: "0px" }}>
+                      <MDBBtn
+                        onClick={() =>
+                          this.setState({
+                            is_google_reply:
+                              is_google_reply == true ? false : true,
+                            google_reply_to_id: googleReviews[i].reviewId,
+                          })
+                        }
+                        className="btn btn-primary "
+                      >
+                        Comment
+                      </MDBBtn>
+                    </MDBCol>
 
-              <div className="col-md-2 ">
-                <a
-                  onClick={() =>
-                    this.setState({
-                      is_google_reply: is_google_reply == true ? false : true,
-                      google_reply_to_id: googleReviews[i].reviewId
-                    })
-                  }
-                  className="btn btn-primary "
-                >
-                  <h6>Comment</h6>
-                </a>
-              </div>
-              <div className="col-md-3  recent-hour">
-                <h6>
-                  {parseInt(today_time.slice(0, 2)) -
-                    parseInt(googleReviews[i].createTime.slice(11, 13)) ==
-                  0
-                    ? parseInt(today_time.slice(3, 5)) -
-                      parseInt(googleReviews[i].createTime.slice(14, 16)) +
-                      "minutes ago"
-                    : parseInt(today_time.slice(0, 2)) -
-                      parseInt(googleReviews[i].createTime.slice(11, 13)) +
-                      "hours ago"}
-                </h6>
-              </div>
+                    <MDBCol md="6" style={{ padding: "0px" }}>
+                      <div className="recent-hour">
+                        {parseInt(today_time.slice(0, 2)) -
+                          parseInt(googleReviews[i].createTime.slice(11, 13)) ==
+                        0
+                          ? parseInt(today_time.slice(3, 5)) -
+                            parseInt(
+                              googleReviews[i].createTime.slice(14, 16)
+                            ) +
+                            "minutes ago"
+                          : parseInt(today_time.slice(0, 2)) -
+                            parseInt(
+                              googleReviews[i].createTime.slice(11, 13)
+                            ) +
+                            "hours ago"}
+                      </div>
+                    </MDBCol>
+                  </MDBRow>
+                </MDBCol>
+              </MDBRow>
+              <MDBRow>
+                <MDBCol>
+                  <p className="recent-text">
+                    {googleReviews[i].comment
+                      ? googleReviews[i].comment.length > 160
+                        ? googleReviews[i].comment.slice(0, 160) + "..."
+                        : googleReviews[i].comment
+                      : ""}
+                  </p>
+                </MDBCol>
+              </MDBRow>
               {is_google_reply == true &&
               google_reply_to_id == googleReviews[i].reviewId ? (
                 <div className="notification-box">
@@ -1582,7 +1685,7 @@ export default class Overview extends Component {
               ) : (
                 ""
               )}
-            </div>
+            </div>,
           ];
         } else {
           break;
@@ -1597,7 +1700,55 @@ export default class Overview extends Component {
         total_notifications = [
           ...total_notifications,
           <div>
-            <div className="col-md-7">
+            <MDBRow>
+              <MDBCol md="8">
+                <div className="recent-title">
+                  <img
+                    src={require("../images/yelp.png")}
+                    alt="yelp"
+                    height="40"
+                    width="40"
+                  />
+                  {yelpReviews[i].user.name} leaves
+                  {yelpReviews[i].rating} star review
+                </div>
+              </MDBCol>
+              <MDBCol md="4" style={{ marginTop: "5px" }}>
+                <MDBRow>
+                  <MDBCol md="6" style={{ padding: "0px" }}>
+                    <a href={yelpReviews[i].url} className="btn btn-primary ">
+                      Comment
+                    </a>
+                  </MDBCol>
+
+                  <MDBCol md="6" style={{ padding: "0px" }}>
+                    <div className="recent-hour">
+                      {parseInt(today_time.slice(0, 2)) -
+                        parseInt(yelpReviews[i].time_created.slice(11, 13)) ==
+                      0
+                        ? parseInt(today_time.slice(3, 5)) -
+                          parseInt(yelpReviews[i].time_created.slice(14, 16)) +
+                          "minutes ago"
+                        : parseInt(today_time.slice(0, 2)) -
+                          parseInt(yelpReviews[i].time_created.slice(11, 13)) +
+                          "hours ago"}
+                    </div>
+                  </MDBCol>
+                </MDBRow>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+              <MDBCol>
+                <p className="recent-text">
+                  {yelpReviews[i].text
+                    ? yelpReviews[i].text.length > 160
+                      ? yelpReviews[i].text.slice(0, 160) + "..."
+                      : yelpReviews[i].text
+                    : ""}
+                </p>
+              </MDBCol>
+            </MDBRow>
+            {/* <div className="col-md-7">
               <h5 className="recent-title">
                 <img
                   src={require("../images/yelp.png")}
@@ -1605,19 +1756,8 @@ export default class Overview extends Component {
                   height="65"
                   width="65"
                 />
-                <br />
-                {yelpReviews[i].user.name}
-                <br />
-                <fieldset className="rating star">
-                  <Rating
-                    style={{ color: "#f7c508" }}
-                    emptySymbol={["fa fa-star-o fa-2x high"]}
-                    fullSymbol={["fa fa-star fa-2x high"]}
-                    fractions={3}
-                    initialRating={yelpReviews[i].rating}
-                    readonly={true}
-                  />
-                </fieldset>
+                 {yelpReviews[i].user.name} leaves
+                 {yelpReviews[i].rating} star review
               </h5>
               <p className="recent-text">
                 {yelpReviews[i].text
@@ -1645,8 +1785,8 @@ export default class Overview extends Component {
                     parseInt(yelpReviews[i].time_created.slice(11, 13)) +
                     "hours ago"}
               </h6>
-            </div>
-          </div>
+            </div> */}
+          </div>,
         ];
       } else {
         break;
@@ -1656,11 +1796,78 @@ export default class Overview extends Component {
     // let citysearch_show_review_notification = [];
 
     for (let i = 0; i < citysearchReviews.length; i++) {
-      if (citysearchReviews[i].children[6].value.slice(0, 10) == "2006-04-01") {
+      if (citysearchReviews[i].children[6].value.slice(0, 10) == today_date) {
         total_notifications = [
           ...total_notifications,
           <div>
-            <div className="col-md-7">
+            <MDBRow>
+              <MDBCol md="8">
+                <div className="recent-title">
+                  <img
+                    src={require("../images/citysearch.jpg")}
+                    alt="citysearch"
+                    height="40"
+                    width="40"
+                  />
+                  {citysearchReviews[i].children[7].value} leaves
+                  {citysearchReviews[i].children[5].value} star review
+                </div>
+              </MDBCol>
+              <MDBCol md="4" style={{ marginTop: "5px" }}>
+                <MDBRow>
+                  <MDBCol md="6" style={{ padding: "0px" }}>
+                    <a
+                      href={citysearchReviews[i].children[21].value}
+                      className="btn btn-primary "
+                    >
+                      Comment
+                    </a>
+                  </MDBCol>
+
+                  <MDBCol md="6" style={{ padding: "0px" }}>
+                    <div className="recent-hour">
+                      {parseInt(
+                        today_time.slice(0, 2) -
+                          parseInt(
+                            citysearchReviews[i].children[6].value.slice(11, 13)
+                          )
+                      ) == 0
+                        ? parseInt(
+                            today_time.slice(3, 5) -
+                              parseInt(
+                                citysearchReviews[i].children[6].value.slice(
+                                  14,
+                                  16
+                                )
+                              )
+                          ) + "minutes ago"
+                        : parseInt(
+                            today_time.slice(0, 2) -
+                              parseInt(
+                                citysearchReviews[i].children[6].value.slice(
+                                  11,
+                                  13
+                                )
+                              )
+                          ) + "hours ago"}
+                    </div>
+                  </MDBCol>
+                </MDBRow>
+              </MDBCol>
+            </MDBRow>
+            <MDBRow>
+              <MDBCol>
+                <p className="recent-text">
+                  {citysearchReviews[i].children[2].value
+                    ? citysearchReviews[i].children[2].value.length > 160
+                      ? citysearchReviews[i].children[2].value.slice(0, 160) +
+                        "..."
+                      : citysearchReviews[i].children[2].value
+                    : ""}
+                </p>
+              </MDBCol>
+            </MDBRow>
+            {/* <div className="col-md-7">
               <h5 className="recent-title">
                 <img
                   src={require("../images/citysearch.jpg")}
@@ -1711,8 +1918,8 @@ export default class Overview extends Component {
                         )
                     ) + "hours ago"}
               </h6>
-            </div>
-          </div>
+            </div> */}
+          </div>,
         ];
       } else {
         break;
@@ -1868,7 +2075,7 @@ export default class Overview extends Component {
     );
 
     {
-      all_connections.map(data => (
+      all_connections.map((data) => (
         <li>
           {data.name == "Facebook"
             ? (total_social_overview[0] = (
@@ -2033,7 +2240,7 @@ export default class Overview extends Component {
     let total_listing_images = [];
 
     {
-      all_connections.map(data => (
+      all_connections.map((data) => (
         <li>
           {data.name == "Google"
             ? (total_listing_images = [
@@ -2047,7 +2254,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2065,7 +2272,7 @@ export default class Overview extends Component {
                       />
                     </div>
                   </a>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2076,7 +2283,7 @@ export default class Overview extends Component {
                   <div className="google-mapd">
                     <img src={require("../images/yelp.png")} alt="yelp" />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2090,7 +2297,7 @@ export default class Overview extends Component {
                       alt="facebook"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2106,7 +2313,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2122,7 +2329,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2138,7 +2345,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2154,7 +2361,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2170,7 +2377,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2186,7 +2393,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2202,7 +2409,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2218,7 +2425,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2234,7 +2441,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
 
@@ -2250,7 +2457,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>
+                </li>,
               ])
             : ""}
         </li>
@@ -2317,10 +2524,10 @@ export default class Overview extends Component {
                         onClick={() =>
                           view_notification_type1 == true
                             ? this.setState({
-                                view_notification_type1: false
+                                view_notification_type1: false,
                               })
                             : this.setState({
-                                view_notification_type1: true
+                                view_notification_type1: true,
                               })
                         }
                       >
@@ -2332,52 +2539,27 @@ export default class Overview extends Component {
                     </div>
                   </div>
                   <div className="card7">
-                    <div className="">
-                      <div className="special_tit">
-                        <div className="row">
-                          {/* <div className="col-md-7">
-                          <h5 className="recent-title">
-                            Special title treatment
-                          </h5>
-                          <p className="recent-text">
-                            With supporting text below as a natural lead-in to
-                            additional content.
-                          </p>
-                        </div>
-
-                        <div className="col-md-2 ">
-                          <a href="#" className="btn btn-primary ">
-                            <h6>Comment</h6>
-                          </a>
-                        </div>
-                        <div className="col-md-3  recent-hour">
-                          <h6>2 hours ago</h6>
-                        </div> */}
-
-                          {total_notifications.length != 0 ? (
-                            <div className="notifc">
-                              {view_notification_type1 == false ? (
-                                total_notifications.length > 3 ? (
-                                  <div>
-                                    {total_notifications[0]}
-                                    {total_notifications[1]}
-                                    {total_notifications[2]}
-                                  </div>
-                                ) : (
-                                  total_notifications
-                                )
-                              ) : (
-                                total_notifications
-                              )}
+                    {total_notifications.length != 0 ? (
+                      <div className="notifc">
+                        {view_notification_type1 == false ? (
+                          total_notifications.length > 3 ? (
+                            <div>
+                              {total_notifications[0]}
+                              {total_notifications[1]}
+                              {total_notifications[2]}
                             </div>
                           ) : (
-                            <div className="col-md-12">
-                              <h3>No new notification</h3>
-                            </div>
-                          )}
-                        </div>
+                            total_notifications
+                          )
+                        ) : (
+                          total_notifications
+                        )}
                       </div>
-                    </div>
+                    ) : (
+                      <div className="col-md-12">
+                        <h3>No new notification</h3>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -2618,10 +2800,10 @@ export default class Overview extends Component {
                           onClick={() =>
                             view_notification_type2 == true
                               ? this.setState({
-                                  view_notification_type2: false
+                                  view_notification_type2: false,
                                 })
                               : this.setState({
-                                  view_notification_type2: true
+                                  view_notification_type2: true,
                                 })
                           }
                         >

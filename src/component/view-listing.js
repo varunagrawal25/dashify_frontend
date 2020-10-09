@@ -7,12 +7,12 @@ import Axios from "axios";
 import {
   all_connection_of_one_location,
   add_social_account,
-  remove_social_account
+  remove_social_account,
 } from "./apis/social_platforms";
 import {
   location_by_id,
   business_categories,
-  business_states
+  business_states,
 } from "./apis/location";
 // import qs from "querystring";
 import qs from "qs";
@@ -25,16 +25,16 @@ import ReactPDF, {
   View,
   Document,
   StyleSheet,
-  PDFDownloadLink
+  PDFDownloadLink,
 } from "@react-pdf/renderer";
 import { LinkedIn } from "react-linkedin-login-oauth2";
 
 const DjangoConfig = {
-  headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
+  headers: { Authorization: "Token " + localStorage.getItem("UserToken") },
 };
 
 const LinkedinConfig = {
-  headers: { "Content-Type": "application/x-www-form-urlencoded" }
+  headers: { "Content-Type": "application/x-www-form-urlencoded" },
 };
 
 const Yelpconfig = {
@@ -42,8 +42,8 @@ const Yelpconfig = {
     Authorization:
       "bearer _1cVnrrkqmG_dwNUdtorVxarkzItJM7AWM700rkRxM7aPdDfxJECcdaN00ADjSkrStF1pX4sdGCspYeSjU7VGkpjWYoMsC2_filBf5d5J5GMRTgXws_W6qusNMhYX3Yx",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost"
-  }
+    "Access-Control-Allow-Origin": "http://localhost",
+  },
 };
 
 let total_listings = 14;
@@ -52,7 +52,7 @@ let total_listings = 14;
 
 Font.register({
   family: "Oswald",
-  src: "https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf"
+  src: "https://fonts.gstatic.com/s/oswald/v13/Y_TKV6o8WovbUd3m_X9aAA.ttf",
 });
 
 const styles = StyleSheet.create({
@@ -60,49 +60,49 @@ const styles = StyleSheet.create({
     paddingTop: 35,
     paddingBottom: 65,
     paddingHorizontal: 35,
-    backgroundColor: "#E4E4E4"
+    backgroundColor: "#E4E4E4",
   },
   title: {
     fontSize: 24,
     textAlign: "center",
-    fontFamily: "Oswald"
+    fontFamily: "Oswald",
   },
   author: {
     fontSize: 12,
     textAlign: "center",
-    marginBottom: 40
+    marginBottom: 40,
   },
   subtitle: {
     fontSize: 18,
     margin: 12,
-    fontFamily: "Oswald"
+    fontFamily: "Oswald",
   },
   text: {
     margin: 12,
     fontSize: 14,
     textAlign: "justify",
-    fontFamily: "Times-Roman"
+    fontFamily: "Times-Roman",
   },
   image: {
     marginVertical: 30,
     // marginHorizontal: 100,
     textAlign: "center",
     width: 125,
-    height: 125
+    height: 125,
   },
   image2: {
     marginVertical: 20,
     // marginHorizontal: 100,
     textAlign: "center",
     width: 80,
-    height: 80
+    height: 80,
   },
   emphasis: {
     margin: 12,
     fontSize: 24,
     color: "#F22300",
-    fontFamily: "Oswald"
-  }
+    fontFamily: "Oswald",
+  },
 });
 
 // Create Document Component
@@ -166,14 +166,14 @@ export default class ViewListing extends Component {
     // linkedin_errorMessage: "",
     googleLocationDetail: "",
     googleReviewsPresent: false,
-    yelpDetails:"",
-    citysearchDetails:""
+    yelpDetails: "",
+    citysearchDetails: "",
   };
 
   async componentDidMount() {
     if (this.props.match.params.locationId != "null") {
       const data = {
-        location_id: this.props.match.params.locationId
+        location_id: this.props.match.params.locationId,
       };
       var googleToken,
         linkedinToken,
@@ -200,12 +200,12 @@ export default class ViewListing extends Component {
       //   DjangoConfig
       // )
       all_connection_of_one_location(data, DjangoConfig)
-        .then(resp => {
+        .then((resp) => {
           console.log("get all connections", resp);
           this.setState({ allListings: resp.data.data });
 
           if (this.state.allListings) {
-            this.state.allListings.map(l => {
+            this.state.allListings.map((l) => {
               if (l.Social_Platform.Platform == "Facebook") {
                 fbtoken = l.Social_Platform.Token;
                 fbPageId = l.Social_Platform.Other_info;
@@ -220,7 +220,7 @@ export default class ViewListing extends Component {
               if (l.Social_Platform.Platform == "Linkedin") {
                 linkedinToken = l.Social_Platform.Token;
                 linkedinData = l;
-                linkedin_page_id = l.Social_Platform.Other_info
+                linkedin_page_id = l.Social_Platform.Other_info;
               }
 
               if (l.Social_Platform.Platform == "Foursquare") {
@@ -235,15 +235,15 @@ export default class ViewListing extends Component {
                       username: l.Social_Platform.Username,
                       status: true,
                       link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                      date: l.Social_Platform.Update_Date.split("T")[0],
+                    },
                   ],
                   foursquareId: l.id,
                   foursquareName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Foursquare" }
-                  ]
+                    { name: "Foursquare" },
+                  ],
                 });
               }
 
@@ -259,15 +259,15 @@ export default class ViewListing extends Component {
                       username: l.Social_Platform.Username,
                       status: true,
                       // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                      date: l.Social_Platform.Update_Date.split("T")[0],
+                    },
                   ],
                   dnbId: l.id,
                   dnbName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Dnb" }
-                  ]
+                    { name: "Dnb" },
+                  ],
                 });
               }
 
@@ -286,15 +286,15 @@ export default class ViewListing extends Component {
                         "https://www.instagram.com/" +
                         l.Social_Platform.Other_info.split(",")[0].slice(7) +
                         "/",
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                      date: l.Social_Platform.Update_Date.split("T")[0],
+                    },
                   ],
                   instaId: l.id,
                   instaName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Instagram" }
-                  ]
+                    { name: "Instagram" },
+                  ],
                 });
               }
 
@@ -310,15 +310,15 @@ export default class ViewListing extends Component {
                       username: l.Social_Platform.Username,
                       status: true,
                       link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                      date: l.Social_Platform.Update_Date.split("T")[0],
+                    },
                   ],
                   yelpId: l.id,
                   yelpName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Yelp" }
-                  ]
+                    { name: "Yelp" },
+                  ],
                 });
                 Axios.get(
                   "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
@@ -326,7 +326,7 @@ export default class ViewListing extends Component {
                       .slice(7)
                       .slice(25),
                   Yelpconfig
-                ).then(resp => {
+                ).then((resp) => {
                   console.log("yelpDetails", resp.data);
                   this.setState({ yelpDetails: resp.data });
                 });
@@ -344,15 +344,15 @@ export default class ViewListing extends Component {
                       username: l.Social_Platform.Username,
                       status: true,
                       link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                      date: l.Social_Platform.Update_Date.split("T")[0],
+                    },
                   ],
                   appleId: l.id,
                   appleName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Apple" }
-                  ]
+                    { name: "Apple" },
+                  ],
                 });
               }
 
@@ -368,26 +368,26 @@ export default class ViewListing extends Component {
                       username: l.Social_Platform.Username,
                       status: true,
                       link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                      date: l.Social_Platform.Update_Date.split("T")[0],
+                    },
                   ],
                   citysearchId: l.id,
                   citysearchName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Citysearch" }
-                  ]
+                    { name: "Citysearch" },
+                  ],
                 });
                 let citysearchId = l.Social_Platform.Other_info.split(",")[0]
-                .slice(7)
-                .split("/")[4];
+                  .slice(7)
+                  .split("/")[4];
                 Axios.get(
-                  `https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/places/v2/detail?id=${citysearchId}&id_type=cs&client_ip=123.4.56.78&publisher=test&format=json`)
-                  .then(res => {
-                    // console.log("citysearchDetails",res.data.locations[0])
-                    if(res.data.locations)
-                    this.setState({citysearchDetails:res.data.locations[0]})
-                  })
+                  `https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/places/v2/detail?id=${citysearchId}&id_type=cs&client_ip=123.4.56.78&publisher=test&format=json`
+                ).then((res) => {
+                  // console.log("citysearchDetails",res.data.locations[0])
+                  if (res.data.locations)
+                    this.setState({ citysearchDetails: res.data.locations[0] });
+                });
               }
 
               if (l.Social_Platform.Platform == "Zillow") {
@@ -402,15 +402,15 @@ export default class ViewListing extends Component {
                       username: l.Social_Platform.Username,
                       status: true,
                       // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                      date: l.Social_Platform.Update_Date.split("T")[0],
+                    },
                   ],
                   zillowId: l.id,
                   zillowName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Zillow" }
-                  ]
+                    { name: "Zillow" },
+                  ],
                 });
               }
 
@@ -424,17 +424,17 @@ export default class ViewListing extends Component {
                       listing: "Tomtom",
                       image: require("../images/tomtom.png"),
                       username: l.Social_Platform.Username,
-                      status: true
+                      status: true,
                       // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
                       // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                    },
                   ],
                   tomtomId: l.id,
                   tomtomName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Tomtom" }
-                  ]
+                    { name: "Tomtom" },
+                  ],
                 });
               }
 
@@ -448,17 +448,17 @@ export default class ViewListing extends Component {
                       listing: "Zomato",
                       image: require("../images/zomato.png"),
                       username: l.Social_Platform.Username,
-                      status: true
+                      status: true,
                       // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
                       // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                    },
                   ],
                   zomatoId: l.id,
                   zomatoName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Zomato" }
-                  ]
+                    { name: "Zomato" },
+                  ],
                 });
               }
 
@@ -472,17 +472,17 @@ export default class ViewListing extends Component {
                       listing: "Avvo",
                       image: require("../images/avvo.png"),
                       username: l.Social_Platform.Username,
-                      status: true
+                      status: true,
                       // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
                       // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                    },
                   ],
                   avvoId: l.id,
                   avvoName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Avvo" }
-                  ]
+                    { name: "Avvo" },
+                  ],
                 });
               }
 
@@ -496,23 +496,23 @@ export default class ViewListing extends Component {
                       listing: "Here",
                       image: require("../images/here.png"),
                       username: l.Social_Platform.Username,
-                      status: true
+                      status: true,
                       // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
                       // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
+                    },
                   ],
                   hereId: l.id,
                   hereName: l.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Here" }
-                  ]
+                    { name: "Here" },
+                  ],
                 });
               }
             });
 
             const GoogleConfig = {
-              headers: { Authorization: "Bearer " + googleToken }
+              headers: { Authorization: "Bearer " + googleToken },
             };
 
             // for facebook
@@ -520,7 +520,7 @@ export default class ViewListing extends Component {
               Axios.get(
                 "https://graph.facebook.com/me/accounts/?access_token=" +
                   fbtoken
-              ).then(res => {
+              ).then((res) => {
                 var fbPageAccessToken;
                 for (let i = 0; i < res.data.data.length; i++) {
                   if (res.data.data[i].id == fbPageId) {
@@ -532,7 +532,7 @@ export default class ViewListing extends Component {
                     fbPageId +
                     "/insights/page_engaged_users,page_impressions,page_views_total,page_call_phone_clicks_logged_in_unique,page_get_directions_clicks_logged_in_unique,page_website_clicks_logged_in_unique?period=month&access_token=" +
                     fbPageAccessToken
-                ).then(resp => {
+                ).then((resp) => {
                   console.log("fbid", fbData.id);
                   this.setState({
                     fbIsLoggedIn: true,
@@ -544,15 +544,15 @@ export default class ViewListing extends Component {
                         username: fbData.Social_Platform.Username,
                         status: true,
                         link: "https://www.facebook.com/" + fbPageId,
-                        date: fbData.Social_Platform.Update_Date.split("T")[0]
-                      }
+                        date: fbData.Social_Platform.Update_Date.split("T")[0],
+                      },
                     ],
                     fbId: fbData.id,
                     fbName: fbData.Social_Platform.Username,
                     all_connections: [
                       ...this.state.all_connections,
-                      { name: "Facebook" }
-                    ]
+                      { name: "Facebook" },
+                    ],
                   });
                 });
               });
@@ -563,14 +563,14 @@ export default class ViewListing extends Component {
               Axios.get(
                 "https://mybusiness.googleapis.com/v4/accounts/",
                 GoogleConfig
-              ).then(res => {
+              ).then((res) => {
                 console.log("google data", res.data);
                 console.log("google data", googleData);
 
                 Axios.get(
                   `https://mybusiness.googleapis.com/v4/${googleData.Social_Platform.Other_info}`,
                   GoogleConfig
-                ).then(res => {
+                ).then((res) => {
                   this.setState({ googleLocationDetail: res.data });
                   console.log("googleLocationDetail", res.data);
                 });
@@ -583,27 +583,29 @@ export default class ViewListing extends Component {
                       image: require("../images/google.png"),
                       username: googleData.Social_Platform.Username,
                       status: true,
-                      date: googleData.Social_Platform.Update_Date.split("T")[0]
-                    }
+                      date: googleData.Social_Platform.Update_Date.split(
+                        "T"
+                      )[0],
+                    },
                   ],
                   googleId: googleData.id,
                   googleName: googleData.Social_Platform.Username,
                   all_connections: [
                     ...this.state.all_connections,
-                    { name: "Google" }
-                  ]
+                    { name: "Google" },
+                  ],
                 });
                 Axios.get(
                   `https://mybusiness.googleapis.com/v4/${googleData.Social_Platform.Other_info}/reviews`,
                   GoogleConfig
-                ).then(res => {
+                ).then((res) => {
                   if (
                     res.data &&
                     res.data.reviews &&
                     res.data.reviews.length != 0
                   ) {
                     this.setState({
-                      googleReviewsPresent: true
+                      googleReviewsPresent: true,
                     });
                   }
                 });
@@ -614,41 +616,43 @@ export default class ViewListing extends Component {
             if (linkedinToken && linkedin_page_id) {
               const LinkedinConfig = {
                 headers: {
-                  Authorization: "Bearer " + linkedinToken
-                }
+                  Authorization: "Bearer " + linkedinToken,
+                },
               };
 
               Axios.get(
-            `https://cors-anywhere.herokuapp.com/https://api.linkedin.com/v2/networkSizes/${linkedin_page_id}?edgeType=CompanyFollowedByMember`,LinkedinConfig
-          ).then(res => {
-            // console.log("linkedin data", res.data);
-            if(res.data && res.data.firstDegreeSize){
-              this.setState({
-                linkedinIsLoggedIn: true,
-                pdf_data: [
-                  ...this.state.pdf_data,
-                  {
-                    listing: "Linkedin",
-                    image: require("../images/linkedin.png"),
-                    username: linkedinData.Social_Platform.Username,
-                    status: true,
-                    date: linkedinData.Social_Platform.Update_Date.split("T")[0]
-                  }
-                ],
-                linkedinId: linkedinData.id,
-                linkedinName: linkedinData.Social_Platform.Username,
-                all_connections: [
-                  ...this.state.all_connections,
-                  { name: "Linkedin" }
-                ]
+                `https://cors-anywhere.herokuapp.com/https://api.linkedin.com/v2/networkSizes/${linkedin_page_id}?edgeType=CompanyFollowedByMember`,
+                LinkedinConfig
+              ).then((res) => {
+                // console.log("linkedin data", res.data);
+                if (res.data && res.data.firstDegreeSize) {
+                  this.setState({
+                    linkedinIsLoggedIn: true,
+                    pdf_data: [
+                      ...this.state.pdf_data,
+                      {
+                        listing: "Linkedin",
+                        image: require("../images/linkedin.png"),
+                        username: linkedinData.Social_Platform.Username,
+                        status: true,
+                        date: linkedinData.Social_Platform.Update_Date.split(
+                          "T"
+                        )[0],
+                      },
+                    ],
+                    linkedinId: linkedinData.id,
+                    linkedinName: linkedinData.Social_Platform.Username,
+                    all_connections: [
+                      ...this.state.all_connections,
+                      { name: "Linkedin" },
+                    ],
+                  });
+                }
               });
-            }
-          })
-
             }
           }
         })
-        .catch(resp => {
+        .catch((resp) => {
           console.log(resp);
         });
 
@@ -658,13 +662,13 @@ export default class ViewListing extends Component {
       //   DjangoConfig
       // )
       location_by_id(data, DjangoConfig)
-        .then(resp => {
+        .then((resp) => {
           this.setState({ state: "Loading....", category: "Loading...." });
           // Axios.get(
           //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/states",
           //   DjangoConfig
           // )
-          business_states(DjangoConfig).then(resp1 => {
+          business_states(DjangoConfig).then((resp1) => {
             resp1.data.status.map((s, i) =>
               s.id == resp.data.location.State
                 ? this.setState({ state: s.State_name })
@@ -676,7 +680,7 @@ export default class ViewListing extends Component {
           //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/business-categoryes",
           //   DjangoConfig
           // )
-          business_categories(DjangoConfig).then(resp1 => {
+          business_categories(DjangoConfig).then((resp1) => {
             resp1.data.BusinessCategory.map((b, i) =>
               b.id == resp.data.location.Business_category
                 ? this.setState({ category: b.Category_Name })
@@ -701,10 +705,10 @@ export default class ViewListing extends Component {
             cover: resp.data.location.Business_Cover_Image,
             otherImage: resp.data.location.Df_location_image,
 
-            loader: false
+            loader: false,
           });
         })
-        .catch(res => {
+        .catch((res) => {
           console.log("error in view listing", res);
           this.setState({ loader: false });
         });
@@ -713,18 +717,18 @@ export default class ViewListing extends Component {
     }
   }
 
-  componentClicked = e => {
+  componentClicked = (e) => {
     console.log("clicked");
     // e.preventDefault();
   };
 
-  responseFacebook = async response => {
+  responseFacebook = async (response) => {
     console.log("facebook response", response);
 
     const fb_data = {
       location_id: this.props.match.params.locationId,
       Username: response.name,
-      Email: response.email
+      Email: response.email,
     };
 
     // Axios.get("https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=187396122554776&client_secret=bad0dbb6029a3530ca46048415abe95e&fb_exchange_token="+response.accessToken).then(async res => {
@@ -743,16 +747,16 @@ export default class ViewListing extends Component {
     await localStorage.setItem("fb_data", JSON.stringify(fb_data));
 
     this.props.history.push({
-      pathname: `/connectedaccounts/view-listing`
+      pathname: `/connectedaccounts/view-listing`,
     });
   };
 
-  responseErrorGoogle = response => {
-    console.log("facebook error",response);
+  responseErrorGoogle = (response) => {
+    console.log("facebook error", response);
     alert("try again");
   };
 
-  responseGoogle = async response => {
+  responseGoogle = async (response) => {
     console.log("google response", response, response.code);
 
     let state = {
@@ -760,13 +764,13 @@ export default class ViewListing extends Component {
       Username: response.profileObj.name,
       Email: response.profileObj.email,
       location_id: this.props.match.params.locationId,
-      redirect_to: "/view-listing"
+      redirect_to: "/view-listing",
     };
 
     this.props.history.push({
       pathname: `/google-connectedaccounts/${encodeURIComponent(
         JSON.stringify(state)
-      )}`
+      )}`,
     });
 
     //refresh token
@@ -786,8 +790,8 @@ export default class ViewListing extends Component {
     // })
   };
 
-  linkedin_handleSuccess = data => {
-    console.log("linkedin login data",data)
+  linkedin_handleSuccess = (data) => {
+    console.log("linkedin login data", data);
     this.setState({
       linkedin_code: data.code,
       // linkedin_errorMessage: ""
@@ -798,7 +802,7 @@ export default class ViewListing extends Component {
       redirect_uri: "http://localhost:3000/linkedin",
       client_id: "861qygnjkytfwe",
       client_secret: "Q1VjP43psBokYjI0",
-      grant_type: "authorization_code"
+      grant_type: "authorization_code",
     };
 
     Axios({
@@ -807,14 +811,14 @@ export default class ViewListing extends Component {
         "https://cors-anywhere.herokuapp.com/https://www.linkedin.com/oauth/v2/accessToken",
       data: qs.stringify(data1),
       headers: {
-        "content-type": "application/x-www-form-urlencoded;charset=utf-8"
-      }
+        "content-type": "application/x-www-form-urlencoded;charset=utf-8",
+      },
     })
-      .then(resp => {
+      .then((resp) => {
         // console.log("linkedin token response", resp.data);
         this.props.history.push({
-          pathname: `/linkedin-connectedaccounts/${resp.data.access_token}/view-listing/${this.props.match.params.locationId}`
-        })
+          pathname: `/linkedin-connectedaccounts/${resp.data.access_token}/view-listing/${this.props.match.params.locationId}`,
+        });
 
         // const data = {
         //   location_id: this.props.match.params.locationId,
@@ -872,37 +876,37 @@ export default class ViewListing extends Component {
         //     this.setState({ loading: false });
         //   });
       })
-      .catch(resp => {
+      .catch((resp) => {
         console.log(resp);
         this.setState({ loading: false });
       });
   };
 
-  linkedin_handleFailure = error => {
+  linkedin_handleFailure = (error) => {
     this.setState({
       linkedin_code: "",
       // linkedin_errorMessage: error.errorMessage
     });
-    alert("Linkedin : ",error.errorMessage)
+    alert("Linkedin : ", error.errorMessage);
   };
 
-  disconnectAccount = e => {
+  disconnectAccount = (e) => {
     console.log(e.target.name);
     var name = e.target.name;
     const data = { location_connect_social_id: e.target.id };
 
     remove_social_account(data, DjangoConfig)
-      .then(resp => {
+      .then((resp) => {
         console.log(resp);
 
         this.setState({ [name]: false });
       })
-      .catch(resp => {
+      .catch((resp) => {
         console.log(resp);
       });
   };
 
-  googleLocationDetailFunction = googleLocationDetail => {
+  googleLocationDetailFunction = (googleLocationDetail) => {
     let googleScore = 1;
     let maxScore = 9;
     let { googleReviewsPresent } = this.state;
@@ -950,7 +954,7 @@ export default class ViewListing extends Component {
             </span>
             <div className="progress-value">
               <div>
-                {~~((googleScore / maxScore) * 100)}%
+                {scorePercentage}%
                 <br />
                 <span>score</span>
               </div>
@@ -986,7 +990,7 @@ export default class ViewListing extends Component {
                 {googleLocationDetail.address ? (
                   <div>
                     {googleLocationDetail.address.addressLines.map(
-                      data => data
+                      (data) => data
                     )}
                     ,{googleLocationDetail.address.locality},
                     {googleLocationDetail.address.administrativeArea},
@@ -1063,7 +1067,6 @@ export default class ViewListing extends Component {
   };
 
   citysearchDetailsFunction = (data) => {
-
     let citysearchScore = 0;
     let maxScore = 9;
 
@@ -1082,124 +1085,150 @@ export default class ViewListing extends Component {
     if (data.contact_info && data.contact_info.display_phone) {
       citysearchScore++;
     }
-    if (
-      data.categories && (data.categories.length!=0)
-    ) {
+    if (data.categories && data.categories.length != 0) {
       citysearchScore++;
     }
-    if (
-      data.business_hours) {
+    if (data.business_hours) {
       citysearchScore++;
     }
-    if (data.review_info && (data.review_info.total_user_reviews!=0)) {
+    if (data.review_info && data.review_info.total_user_reviews != 0) {
       citysearchScore++;
     }
-    if(data.images && (data.images.length !=0)) {
-      citysearchScore++
+    if (data.images && data.images.length != 0) {
+      citysearchScore++;
     }
 
     let scorePercentage = ~~((citysearchScore / maxScore) * 100);
 
+    return (
+      <div className="bing-box">
+        <div className="google-top">
+          <div className="col-md-6">
+            <img
+              src={require("../images/citysearch-big.png")}
+              alt="citysearch"
+            />
+          </div>
 
-
-    return <div className="bing-box">
-    <div className="google-top">
-      <div className="col-md-6">
-      <img src={require("../images/citysearch-big.png")} alt="citysearch" />
-      </div>
-
-      <div className="progress" data-percentage={scorePercentage}>
-        <span className="progress-left">
-          <span className="progress-bar"></span>
-        </span>
-        <span className="progress-right">
-          <span className="progress-bar"></span>
-        </span>
-        <div className="progress-value">
-          <div>
-  {scorePercentage}%
-            <br />
-            <span>score</span>
+          <div className="progress" data-percentage={scorePercentage}>
+            <span className="progress-left">
+              <span className="progress-bar"></span>
+            </span>
+            <span className="progress-right">
+              <span className="progress-bar"></span>
+            </span>
+            <div className="progress-value">
+              <div>
+                {scorePercentage}%
+                <br />
+                <span>score</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <div className="bing-detils">
+          <ul>
+            <li>
+              <span>Link:</span>
+              <div className="bing-detail-text">
+                {data.urls && data.urls.profile_url ? (
+                  <input type="checkbox" id="html2" defaultChecked />
+                ) : (
+                  <input type="checkbox" id="html2" />
+                )}
+                <label htmlFor="html2"></label>
+              </div>
+            </li>
+
+            <li>
+              <span>Name:</span>
+              <div className="bing-detail-text">
+                {data.name ? data.name : "-"}
+              </div>
+            </li>
+            <li>
+              <span>Address:</span>
+              <div className="bing-detail-text">
+                {data.address && data.address.street ? (
+                  <div>
+                    {data.address.street},{data.address.city},
+                    {data.address.state},{data.address.postal_code}
+                  </div>
+                ) : (
+                  "-"
+                )}
+              </div>
+            </li>
+            <li>
+              <span>Phone:</span>
+              <div className="bing-detail-text">
+                {data.contact_info && data.contact_info.display_phone
+                  ? data.contact_info.display_phone
+                  : "-"}
+              </div>
+            </li>
+            <h3>Detailed breakdown</h3>
+            <ul className="breack-bing">
+              <li>
+                <span>Categories</span>
+                <div className="bing-cat">
+                  {data.categories && data.categories.length != 0 ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Website URL Present</span>
+                <div className="bing-cat">
+                  {data.urls && data.urls.website_url ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Hours of operation</span>
+                <div className="bing-cat">
+                  {data.business_hours ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Photos present</span>
+                <div className="bing-cat">
+                  {data.images && data.images.length != 0 ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Reviews</span>
+                <div className="bing-cat">
+                  {data.review_info &&
+                  data.review_info.total_user_reviews != 0 ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+            </ul>
+          </ul>
+        </div>
       </div>
-    </div>
-
-    <div className="bing-detils">
-      <ul>
-        <li>
-          <span>Link:</span>
-          <div className="bing-detail-text">
-            {data.urls && data.urls.profile_url ? <input
-              type="checkbox"
-              id="html2"
-              defaultChecked
-            /> : <input
-            type="checkbox"
-            id="html2"
-          />}
-            <label htmlFor="html2"></label>
-          </div>
-        </li>
-
-        <li>
-          <span>Name:</span>
-          <div className="bing-detail-text">
-            {data.name ? data.name : "-"}
-          </div>
-        </li>
-        <li>
-          <span>Address:</span>
-          <div className="bing-detail-text">
-            {data.address && data.address.street ? <div>{data.address.street},{data.address.city},{data.address.state},{data.address.postal_code}</div>: "-"}
-          </div>
-        </li>
-        <li>
-          <span>Phone:</span>
-          <div className="bing-detail-text">
-            {data.contact_info && data.contact_info.display_phone ? data.contact_info.display_phone : "-"}
-          </div>
-        </li>
-        <h3>Detailed breakdown</h3>
-        <ul className="breack-bing">
-          <li>
-            <span>Categories</span>
-            <div className="bing-cat">
-              {data.categories && (data.categories.length!=0) ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-          <li>
-            <span>Website URL Present</span>
-            <div className="bing-cat">
-              {data.urls && data.urls.website_url ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-          <li>
-            <span>Hours of operation</span>
-            <div className="bing-cat">
-              {data.business_hours ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-          <li>
-            <span>Photos present</span>
-            <div className="bing-cat">
-              {data.images && (data.images.length !=0) ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-          <li>
-            <span>Reviews</span>
-            <div className="bing-cat">
-              {data.review_info && (data.review_info.total_user_reviews!=0) ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-        </ul>
-      </ul>
-    </div>
-  </div>
-  }
+    );
+  };
 
   yelpDetailsFunction = (data) => {
-
     let yelpScore = 0;
     let maxScore = 9;
 
@@ -1215,124 +1244,142 @@ export default class ViewListing extends Component {
     if (data.phone) {
       yelpScore++;
     }
-    if (
-      data.categories && (data.categories.length!=0)
-    ) {
+    if (data.categories && data.categories.length != 0) {
       yelpScore++;
     }
-    if (
-      data.hours &&
-     ( data.hours.length != 0)
-    ) {
+    if (data.hours && data.hours.length != 0) {
       yelpScore++;
     }
-    if (data.review_count!=0) {
+    if (data.review_count != 0) {
       yelpScore++;
     }
-    if(data.image_url) {
-      yelpScore++
+    if (data.image_url) {
+      yelpScore++;
     }
 
     let scorePercentage = ~~((yelpScore / maxScore) * 100);
 
+    return (
+      <div className="bing-box">
+        <div className="google-top">
+          <img src={require("../images/yelp-new.png")} alt="" />
 
-
-    return <div className="bing-box">
-    <div className="google-top">
-      <img src={require("../images/yelp-new.png")} alt="" />
-
-      <div className="progress" data-percentage={scorePercentage}>
-        <span className="progress-left">
-          <span className="progress-bar"></span>
-        </span>
-        <span className="progress-right">
-          <span className="progress-bar"></span>
-        </span>
-        <div className="progress-value">
-          <div>
-  {scorePercentage}%
-            <br />
-            <span>score</span>
+          <div className="progress" data-percentage={scorePercentage}>
+            <span className="progress-left">
+              <span className="progress-bar"></span>
+            </span>
+            <span className="progress-right">
+              <span className="progress-bar"></span>
+            </span>
+            <div className="progress-value">
+              <div>
+                {scorePercentage}%
+                <br />
+                <span>score</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <div className="bing-detils">
+          <ul>
+            <li>
+              <span>Link:</span>
+              <div className="bing-detail-text">
+                {data.url ? (
+                  <input type="checkbox" id="html2" defaultChecked />
+                ) : (
+                  <input type="checkbox" id="html2" />
+                )}
+                <label htmlFor="html2"></label>
+              </div>
+            </li>
+
+            <li>
+              <span>Name:</span>
+              <div className="bing-detail-text">
+                {data.name ? data.name : "-"}
+              </div>
+            </li>
+            <li>
+              <span>Address:</span>
+              <div className="bing-detail-text">
+                {data.location && data.location.address1 ? (
+                  <div>
+                    {data.location.address1},{data.location.city},
+                    {data.location.country}
+                  </div>
+                ) : (
+                  "-"
+                )}
+              </div>
+            </li>
+            <li>
+              <span>Phone:</span>
+              <div className="bing-detail-text">
+                {data.phone ? data.phone : "-"}
+              </div>
+            </li>
+            <h3>Detailed breakdown</h3>
+            <ul className="breack-bing">
+              <li>
+                <span>Categories</span>
+                <div className="bing-cat">
+                  {data.categories && data.categories.length != 0 ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Website URL Present</span>
+                <div className="bing-cat">
+                  {data.url ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Hours of operation</span>
+                <div className="bing-cat">
+                  {data.hours && data.hours.length != 0 ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Photos present</span>
+                <div className="bing-cat">
+                  {data.image_url ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Reviews</span>
+                <div className="bing-cat">
+                  {data.review_count != 0 ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+            </ul>
+          </ul>
+        </div>
       </div>
-    </div>
+    );
+  };
 
-    <div className="bing-detils">
-      <ul>
-        <li>
-          <span>Link:</span>
-          <div className="bing-detail-text">
-            {data.url ? <input
-              type="checkbox"
-              id="html2"
-              defaultChecked
-            /> : <input
-            type="checkbox"
-            id="html2"
-          />}
-            <label htmlFor="html2"></label>
-          </div>
-        </li>
-
-        <li>
-          <span>Name:</span>
-          <div className="bing-detail-text">
-            {data.name ? data.name : "-"}
-          </div>
-        </li>
-        <li>
-          <span>Address:</span>
-          <div className="bing-detail-text">
-            {data.location && data.location.address1 ? <div>{data.location.address1},{data.location.city},{data.location.country}</div>: "-"}
-          </div>
-        </li>
-        <li>
-          <span>Phone:</span>
-          <div className="bing-detail-text">
-            {data.phone ? data.phone : "-"}
-          </div>
-        </li>
-        <h3>Detailed breakdown</h3>
-        <ul className="breack-bing">
-          <li>
-            <span>Categories</span>
-            <div className="bing-cat">
-              {data.categories && (data.categories.length!=0) ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-          <li>
-            <span>Website URL Present</span>
-            <div className="bing-cat">
-              {data.url ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-          <li>
-            <span>Hours of operation</span>
-            <div className="bing-cat">
-              {data.hours &&
-      (data.hours.length != 0) ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-          <li>
-            <span>Photos present</span>
-            <div className="bing-cat">
-              {data.image_url ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-          <li>
-            <span>Reviews</span>
-            <div className="bing-cat">
-              {data.review_count!=0 ? <a className="bing-yes">Yes</a> : <a className="bing-no">No</a>}
-            </div>
-          </li>
-        </ul>
-      </ul>
-    </div>
-  </div>
-  }
-
-  Quixote = pdf_data => (
+  Quixote = (pdf_data) => (
     <Document>
       {console.log("pdf data", pdf_data)}
       <Page style={styles.body} wrap>
@@ -1368,12 +1415,7 @@ export default class ViewListing extends Component {
               </ReactPDF.Link>
               <Text style={styles.text}>
                 UPDATE DATE :{" "}
-                {data.date
-                  ? data.date
-                      .split("-")
-                      .reverse()
-                      .join("-")
-                  : "-"}
+                {data.date ? data.date.split("-").reverse().join("-") : "-"}
               </Text>
             </View>
           ) : (
@@ -1391,11 +1433,18 @@ export default class ViewListing extends Component {
   render() {
     console.log(this.state);
 
-    let { all_connections, pdf_data, googleLocationDetail,citysearchDetails,yelpDetails } = this.state;
+    let {
+      all_connections,
+      pdf_data,
+      googleLocationDetail,
+      citysearchDetails,
+      yelpDetails,
+    } = this.state;
 
-    const { linkedin_code,
+    const {
+      linkedin_code,
       //  linkedin_errorMessage
-       } = this.state;
+    } = this.state;
     let googleScore = 0;
     let maxScore = 9;
 
@@ -1428,7 +1477,7 @@ export default class ViewListing extends Component {
                             this.props.history.push({
                               pathname: `/locations/${localStorage.getItem(
                                 "locationId"
-                              )}/view-location`
+                              )}/view-location`,
                             })
                           }
                           className="pay_last_btn"
@@ -1487,7 +1536,7 @@ export default class ViewListing extends Component {
                           <i className="zmdi zmdi-play-circle-outline"></i>
                         </div>
                         <div className="dolce-textbox">
-                        <h4>{total_listings}</h4>
+                          <h4>{total_listings}</h4>
                           <strong>Total Listing</strong>
                           <p>Keyword that have moved up in the rank</p>
                         </div>
@@ -1561,65 +1610,77 @@ export default class ViewListing extends Component {
                     </div>
                     {/*citysearch start*/}
                     <div className="col-md-4">
-                      {citysearchDetails ? this.citysearchDetailsFunction(citysearchDetails) : 
-                      <div className="bing-box">
-                      <div className="google-top">
-                        <div className="col-md-6">
-                        <img src={require("../images/citysearch-big.png")} alt="citysearch" />
-                        </div>
+                      {citysearchDetails ? (
+                        this.citysearchDetailsFunction(citysearchDetails)
+                      ) : (
+                        <div className="bing-box">
+                          <div className="google-top">
+                            <div className="col-md-6">
+                              <img
+                                src={require("../images/citysearch-big.png")}
+                                alt="citysearch"
+                              />
+                            </div>
 
-                        <div className="progress" data-percentage="0">
-                          <span className="progress-left">
-                            <span className="progress-bar"></span>
-                          </span>
-                          <span className="progress-right">
-                            <span className="progress-bar"></span>
-                          </span>
-                          <div className="progress-value">
-                            <div>
-                              0%
-                              <br />
-                              <span>score</span>
+                            <div className="progress" data-percentage="0">
+                              <span className="progress-left">
+                                <span className="progress-bar"></span>
+                              </span>
+                              <span className="progress-right">
+                                <span className="progress-bar"></span>
+                              </span>
+                              <div className="progress-value">
+                                <div>
+                                  0%
+                                  <br />
+                                  <span>score</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
 
-                      <div className="bing-detils">
+                          <div className="bing-detils">
                             <span>Connect citysearch</span>
                           </div>
-                    </div>}
+                        </div>
+                      )}
                     </div>
                     {/*citysearch end*/}
 
                     {/*yelp start*/}
                     <div className="col-md-4">
-                      {yelpDetails ? this.yelpDetailsFunction(yelpDetails) : 
-                      <div className="bing-box">
-                      <div className="google-top">
-                        <img src={require("../images/yelp-new.png")} alt="yelp" />
+                      {yelpDetails ? (
+                        this.yelpDetailsFunction(yelpDetails)
+                      ) : (
+                        <div className="bing-box">
+                          <div className="google-top">
+                            <img
+                              src={require("../images/yelp-new.png")}
+                              alt="yelp"
+                            />
 
-                        <div className="progress" data-percentage="0">
-                          <span className="progress-left">
-                            <span className="progress-bar"></span>
-                          </span>
-                          <span className="progress-right">
-                            <span className="progress-bar"></span>
-                          </span>
-                          <div className="progress-value">
-                            <div>
-                              0%
-                              <br />
-                              <span>score</span>
+                            <div className="progress" data-percentage="0">
+                              <span className="progress-left">
+                                <span className="progress-bar"></span>
+                              </span>
+                              <span className="progress-right">
+                                <span className="progress-bar"></span>
+                              </span>
+                              <div className="progress-value">
+                                <div>
+                                  0%
+                                  <br />
+                                  <span>score</span>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
 
-                      <div className="bing-detils">
+                          <div className="bing-detils">
                             <span>Connect yelp</span>
                           </div>
-                    </div>}
+                        </div>
+                      )}
                     </div>
                     {/*yelp end*/}
                   </div>
@@ -1707,7 +1768,6 @@ export default class ViewListing extends Component {
                             ) : (
                               ""
                             )}
-                            
                           </div>
                         </div>
                       </div>
@@ -1781,7 +1841,9 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <FacebookLogin
+                            // for server
                             appId="3550574924973433"
+                            // for localhost
                             // appId="187396122554776"
                             // appId="3044182972316291"
                             autoLoad={false}
@@ -2099,7 +2161,7 @@ export default class ViewListing extends Component {
                               //for localhost
                               clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
                               //for server
-                               //clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
+                              //clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
                               buttonText="Login"
                               scope="https://www.googleapis.com/auth/business.manage"
                               onSuccess={this.responseGoogle}

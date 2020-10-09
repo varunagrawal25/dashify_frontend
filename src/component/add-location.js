@@ -4,13 +4,13 @@ import {
   add_location,
   business_categories,
   business_counrty,
-  business_states
+  business_states,
 } from "./apis/location";
 import { Redirect } from "react-router-dom";
 import Loader from "react-loader-spinner";
 
 const DjangoConfig = {
-  headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
+  headers: { Authorization: "Token " + localStorage.getItem("UserToken") },
 };
 export default class AddLocation extends Component {
   constructor(props) {
@@ -130,10 +130,10 @@ export default class AddLocation extends Component {
       paymentMethod_error: "",
 
       error: "",
-      loading: false
+      loading: false,
     };
   }
-  submitHandler = async event => {
+  submitHandler = async (event) => {
     event.preventDefault();
 
     await this.Other_images();
@@ -202,70 +202,70 @@ export default class AddLocation extends Component {
       Business_Cover_Image: this.state.BusinessCoverImage,
       other_image: this.state.otherImage,
       open_houre: {
-        "0": {
+        0: {
           Day: "Monday",
           Type: "Regular",
           Open_status: this.state.monday,
           start_time_1: this.state.mondayStart1,
           end_time_1: this.state.mondayEnd1,
           start_time_2: this.state.mondayStart2,
-          end_time_2: this.state.mondayEnd2
+          end_time_2: this.state.mondayEnd2,
         },
-        "1": {
+        1: {
           Day: "Tuesday",
           Type: "Regular",
           Open_status: this.state.tuesday,
           start_time_1: this.state.tuesdayStart1,
           end_time_1: this.state.tuesdayEnd1,
           start_time_2: this.state.tuesdayStart2,
-          end_time_2: this.state.tuesdayEnd2
+          end_time_2: this.state.tuesdayEnd2,
         },
-        "2": {
+        2: {
           Day: "Wednesday",
           Type: "Regular",
           Open_status: this.state.wednesday,
           start_time_1: this.state.wednesdayStart1,
           end_time_1: this.state.wednesdayEnd1,
           start_time_2: this.state.wednesdayStart2,
-          end_time_2: this.state.wednesdayEnd2
+          end_time_2: this.state.wednesdayEnd2,
         },
-        "3": {
+        3: {
           Day: "Thursday",
           Type: "Regular",
           Open_status: this.state.thursday,
           start_time_1: this.state.thursdayStart1,
           end_time_1: this.state.thursdayEnd1,
           start_time_2: this.state.thursdayStart2,
-          end_time_2: this.state.thursdayEnd2
+          end_time_2: this.state.thursdayEnd2,
         },
-        "4": {
+        4: {
           Day: "Friday",
           Type: "Regular",
           Open_status: this.state.friday,
           start_time_1: this.state.fridayStart1,
           end_time_1: this.state.fridayEnd1,
           start_time_2: this.state.fridayStart2,
-          end_time_2: this.state.fridayEnd2
+          end_time_2: this.state.fridayEnd2,
         },
-        "5": {
+        5: {
           Day: "Saturday",
           Type: "Regular",
           Open_status: this.state.saturday,
           start_time_1: this.state.saturdayStart1,
           end_time_1: this.state.saturdayEnd1,
           start_time_2: this.state.saturdayStart2,
-          end_time_2: this.state.saturdayEnd2
+          end_time_2: this.state.saturdayEnd2,
         },
-        "6": {
+        6: {
           Day: "Sunday",
           Type: "Regular",
           Open_status: this.state.sunday,
           start_time_1: this.state.sundayStart1,
           end_time_1: this.state.sundayEnd1,
           start_time_2: this.state.sundayStart2,
-          end_time_2: this.state.sundayEnd2
-        }
-      }
+          end_time_2: this.state.sundayEnd2,
+        },
+      },
     };
 
     this.setState({ loading: true });
@@ -279,33 +279,33 @@ export default class AddLocation extends Component {
     //   DjangoConfig
     // )
     add_location(data, DjangoConfig)
-      .then(res => {
+      .then((res) => {
         console.log("response", res);
         if (res.data.message == "Location Add successfully") {
           this.setState({
             isSuccess: true,
-            loading: false
+            loading: false,
           });
         } else {
           this.setState({
             error: res,
             isSuccess: false,
-            loading: false
+            loading: false,
           });
         }
       })
-      .catch(res => {
+      .catch((res) => {
         console.log("error in add location");
         this.setState({
           error: res,
           isSuccess: false,
-          loading: false
+          loading: false,
         });
         console.log("error", res);
       });
   };
 
-  errorValue = data => {
+  errorValue = (data) => {
     let {
       locationName_error,
       storeCode_error,
@@ -328,7 +328,7 @@ export default class AddLocation extends Component {
       instagramProfile_error,
       twitterProfile_error,
       facebookProfile_error,
-      paymentMethod_error
+      paymentMethod_error,
     } = this.state;
 
     this.setState({
@@ -353,7 +353,7 @@ export default class AddLocation extends Component {
       instagramProfile_error: "",
       twitterProfile_error: "",
       facebookProfile_error: "",
-      paymentMethod_error: ""
+      paymentMethod_error: "",
     });
 
     if (data.Location_name == "") {
@@ -367,7 +367,7 @@ export default class AddLocation extends Component {
     }
     if (data.Additional_catugory == "") {
       this.setState({
-        additionalCategories_error: "*Additional categories can not be empty"
+        additionalCategories_error: "*Additional categories can not be empty",
       });
     }
     if (data.Address_1 == "") {
@@ -408,58 +408,58 @@ export default class AddLocation extends Component {
     }
     if (data.Year_Of_Incorporation == "") {
       this.setState({
-        yearOfIncorp_error: "*Year of Incorporation can not be empty"
+        yearOfIncorp_error: "*Year of Incorporation can not be empty",
       });
     }
     if (data.Business_Tagline == "") {
       this.setState({
-        businessTagline_error: "*Business Tagline can not be empty"
+        businessTagline_error: "*Business Tagline can not be empty",
       });
     }
     if (data.Instagram_Profile == "") {
       this.setState({
-        instagramProfile_error: "*Instagram Profile can not be empty"
+        instagramProfile_error: "*Instagram Profile can not be empty",
       });
     }
     if (data.Twitter_Profile == "") {
       this.setState({
-        twitterProfile_error: "*Twitter Profile can not be empty"
+        twitterProfile_error: "*Twitter Profile can not be empty",
       });
     }
     if (data.Facebook_Profile == "") {
       this.setState({
-        facebookProfile_error: "*Facebook Profile can not be empty"
+        facebookProfile_error: "*Facebook Profile can not be empty",
       });
     }
     if (data.payment_method == "") {
       this.setState({
-        paymentMethod_error: "*Payment method can not be empty"
+        paymentMethod_error: "*Payment method can not be empty",
       });
     }
   };
 
-  onUploadLogo = event => {
+  onUploadLogo = (event) => {
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = e => {
+    reader.onload = (e) => {
       this.setState({ BusinessLogo: e.target.result });
     };
   };
-  onUploadCover = event => {
+  onUploadCover = (event) => {
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = e => {
+    reader.onload = (e) => {
       this.setState({ BusinessCoverImage: e.target.result });
     };
   };
 
-  onUploadOther = name => event => {
+  onUploadOther = (name) => (event) => {
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = e => {
+    reader.onload = (e) => {
       this.setState({ [name]: e.target.result });
     };
   };
@@ -468,16 +468,16 @@ export default class AddLocation extends Component {
     let otherImage = {
       0: this.state.other_image0,
       1: this.state.other_image1,
-      2: this.state.other_image2
+      2: this.state.other_image2,
     };
     await this.setState({ otherImage: otherImage });
   };
 
-  changeHandler = event => {
+  changeHandler = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  checkBoxHandler = event => {
+  checkBoxHandler = (event) => {
     if (event.target.checked) {
       this.setState({ [event.target.name]: true });
     } else {
@@ -485,7 +485,7 @@ export default class AddLocation extends Component {
     }
   };
 
-  allChanger = event => {
+  allChanger = (event) => {
     if (event.target.checked) {
       this.setState({
         applyAll: true,
@@ -524,7 +524,7 @@ export default class AddLocation extends Component {
         sundayStart1: this.state.mondayStart1,
         sundayEnd1: this.state.mondayEnd1,
         sundayStart2: this.state.mondayStart2,
-        sundayEnd2: this.state.mondayEnd2
+        sundayEnd2: this.state.mondayEnd2,
       });
     } else {
       this.setState({
@@ -564,7 +564,7 @@ export default class AddLocation extends Component {
         sundayStart1: "",
         sundayEnd1: "",
         sundayStart2: "",
-        sundayEnd2: ""
+        sundayEnd2: "",
       });
     }
   };
@@ -576,13 +576,13 @@ export default class AddLocation extends Component {
     //   DjangoConfig
     // )
     business_categories(DjangoConfig)
-      .then(res => {
+      .then((res) => {
         this.setState({
           businessCategories: res.data.BusinessCategory,
-          loadBusinessCategories: false
+          loadBusinessCategories: false,
         });
       })
-      .catch(res => {
+      .catch((res) => {
         console.log("error in loading business categories");
       });
   };
@@ -594,13 +594,13 @@ export default class AddLocation extends Component {
     //   DjangoConfig
     // )
     business_counrty(DjangoConfig)
-      .then(res => {
+      .then((res) => {
         this.setState({
           countryCategories: res.data.counrty,
-          loadCountryCategories: false
+          loadCountryCategories: false,
         });
       })
-      .catch(res => {
+      .catch((res) => {
         console.log("error in loading country categories");
       });
   };
@@ -612,13 +612,13 @@ export default class AddLocation extends Component {
     //   DjangoConfig
     // )
     business_states(DjangoConfig)
-      .then(res => {
+      .then((res) => {
         this.setState({
           stateCategories: res.data.status,
-          loadStateCategories: false
+          loadStateCategories: false,
         });
       })
-      .catch(res => {
+      .catch((res) => {
         console.log("error in loading state categories");
       });
   };
@@ -661,7 +661,7 @@ export default class AddLocation extends Component {
       instagramProfile_error,
       twitterProfile_error,
       facebookProfile_error,
-      paymentMethod_error
+      paymentMethod_error,
     } = this.state;
 
     return (
@@ -989,7 +989,7 @@ export default class AddLocation extends Component {
                               <input
                                 name="website"
                                 onChange={this.changeHandler}
-                                type="text"
+                                type="url"
                                 className="form-control"
                                 placeholder="Enter your website"
                               />
