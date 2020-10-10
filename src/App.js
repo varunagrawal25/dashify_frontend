@@ -43,6 +43,11 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route
+              exact
+              path="/:param1/:param2"
+              render={props => <Home {...props} />}
+            />
             <Route exact path="/blog" component={Blog} />
             <Route exact path="/career" component={Career} />
             <Route exact path="/contactus" component={ContactUs} />
@@ -56,10 +61,10 @@ class App extends Component {
             />
             {/* <Route exact path="/Login" component={Login} /> */}
 
-            <Route
+            {/* <Route
               path="/Login/:param1/:param2"
               render={props => <LoginAndActivateAccount {...props} />}
-            />
+            /> */}
             <Route
               exact
               path="/password-reset/:param1/:param2"

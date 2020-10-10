@@ -510,8 +510,29 @@ import React, { Component } from "react";
 import Slider from "react-slick";
 import Footer from "./footer";
 import Navbar from "./navbar";
+import { account_activate } from "../apis/user";
 
 export default class Home extends Component {
+  componentDidMount = () => {
+    console.log("this.props", this.props.match.params.param2);
+
+    if (this.props.match.params.param1 && this.props.match.params.param2) {
+      var { param1, param2 } = this.props.match.params;
+
+      const data = {
+        pera_1: param1,
+        pera_2: param2
+      };
+
+      account_activate(data)
+        .then(res => {
+          console.log("account activation", res);
+          alert(res.data.messgae);
+        })
+        .catch(res => console.log("not active"));
+    }
+  };
+
   render() {
     var settings = {
       dots: false,
@@ -567,6 +588,7 @@ export default class Home extends Component {
             <div className="row">
               <div className="col-md-6">
                 <h2>One Place, All Business</h2>
+
                 <p>
                   {" "}
                   Having everything in one place means organization, simplifying

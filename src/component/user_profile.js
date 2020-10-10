@@ -3,8 +3,10 @@ import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import {
   get_login_user_info,
   update_user_info,
-  update_user_image,
+  update_user_image
 } from "./apis/user";
+import { all_location } from "./apis/location";
+import Loader from "react-loader-spinner";
 import user_img_def from "./assets/user_img.png";
 import insta from "./assets/instagram.png";
 import fb from "./assets/fb.png";
@@ -15,17 +17,17 @@ import mastercard from "./assets/mastercard.png";
 import map from "./assets/map_user.png";
 import edit from "./assets/edit.png";
 import Map from "./Map";
+
 const DjangoConfig = {
   headers: {
-    Authorization: "Token " + localStorage.getItem("UserToken"),
-  },
+    Authorization: "Token " + localStorage.getItem("UserToken")
+  }
 };
 
 export default class User_profile extends Component {
   state = {
     user_info: {},
     edit_details: false,
-    edit_image: false,
     first_name: "",
     last_name: "",
     Company_name: "",
@@ -33,32 +35,44 @@ export default class User_profile extends Component {
     Phone: "",
     website: "",
     user_image: "",
-    loading: false,
+    loading_info: true,
+    loading_image: true
   };
 
   componentDidMount = () => {
-    console.log("112", localStorage.getItem("UserId"));
-    let data2 = { user_id: localStorage.getItem("UserId") };
-    get_login_user_info(data2)
-      .then((res) => {
-        console.log("user info", res);
+    let data = { user_id: localStorage.getItem("UserId") };
+    get_login_user_info(data, DjangoConfig)
+      .then(res => {
+        console.log("user info", res.data);
         if (res.data && res.data.user_info) {
-          this.setState({ user_info: res.data.user_info });
-
-          console.log("varun12", this.state.user_info);
+          this.setState({
+            user_info: res.data.user_info,
+            first_name: res.data.user_info.first_name,
+            last_name: res.data.user_info.last_name,
+            Company_name: res.data.user_info.Company_name,
+            address: res.data.user_info.address,
+            Phone: res.data.user_info.Phone,
+            website: res.data.user_info.website,
+            user_image: "",
+            loading_info: false,
+            loading_image: false
+          });
+        } else {
+          this.setState({ loading_info: false, loading_image: false });
         }
       })
-      .catch((err) => {
+      .catch(err => {
         console.log("user info err", err);
+        this.setState({ loading_info: false, loading_image: false });
       });
   };
 
-  changeHandler = (event) => {
+  changeHandler = event => {
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  submitUserDetails = (event) => {
+  submitUserDetails = event => {
     console.log("this.state", this.state);
     event.preventDefault();
     this.setState({ loading: true });
@@ -70,7 +84,7 @@ export default class User_profile extends Component {
       Company_name,
       address,
       Phone,
-      website,
+      website
     } = this.state;
 
     const data = {
@@ -80,59 +94,74 @@ export default class User_profile extends Component {
       Company_name,
       address,
       Phone,
-      website,
+      website
     };
 
     update_user_info(data, DjangoConfig)
-      .then((response) => {
+      .then(response => {
         let data2 = { user_id: localStorage.getItem("UserId") };
-        get_login_user_info(data2)
-          .then((res) => {
+        this.setState({ loading_info: true });
+        get_login_user_info(data2, DjangoConfig)
+          .then(res => {
             console.log("user info", res.data);
             if (res.data && res.data.user_info) {
-              this.setState({ user_info: res.data.user_info, loading: false });
+              this.setState({
+                user_info: res.data.user_info,
+                edit_details: false,
+                loading_info: false
+              });
+            } else {
+              this.setState({ edit_details: false, loading_info: false });
+              alert("try again");
             }
           })
-          .catch((err) => {
-            this.setState({ loading: false });
+          .catch(err => {
+            this.setState({ edit_details: false, loading_info: false });
+            alert("try again");
           });
       })
-      .catch((res) => {
-        this.setState({ loading: false });
+      .catch(res => {
+        this.setState({ edit_details: false, loading_info: false });
+        alert("try again");
       });
   };
 
-  onUploadUserImage = (event) => {
+  onUploadUserImage = event => {
     event.preventDefault();
     let { user_info } = this.state;
-    this.setState({ loading: true });
+    this.setState({ loading_image: true });
     let user_img = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(user_img[0]);
-    reader.onload = (e) => {
+    reader.onload = e => {
       const data = {
-        username: user_info.user.username,
-        user_image: e.target.result,
+        username: user_info.user ? user_info.user.username : "",
+        user_image: e.target.result
       };
       update_user_image(data, DjangoConfig)
-        .then((response) => {
+        .then(response => {
           let data2 = { user_id: localStorage.getItem("UserId") };
-          get_login_user_info(data2)
-            .then((res) => {
+          get_login_user_info(data2, DjangoConfig)
+            .then(res => {
               console.log("user info image", res.data);
               if (res.data && res.data.user_image) {
                 this.setState({
                   user_image: res.data.user_image,
-                  loading: false,
+                  loading_image: false
                 });
+              } else {
+                this.setState({ loading_image: false });
+                alert("try again");
               }
             })
-            .catch((err) => {
-              this.setState({ loading: false });
+            .catch(err => {
+              this.setState({ loading_image: false });
+              alert("try again");
             });
         })
-        .catch((res) => {
-          this.setState({ loading: false });
+        .catch(res => {
+          this.setState({ loading_image: false });
+          alert("try again");
         });
     };
   };
@@ -141,7 +170,6 @@ export default class User_profile extends Component {
     const {
       user_info,
       edit_details,
-      edit_image,
       first_name,
       last_name,
       Company_name,
@@ -149,7 +177,8 @@ export default class User_profile extends Component {
       Phone,
       website,
       user_image,
-      loading,
+      loading_info,
+      loading_image
     } = this.state;
     return (
       <div>
@@ -159,33 +188,50 @@ export default class User_profile extends Component {
           </div>
           <MDBRow className="user_container">
             <MDBCol md="3">
-              <img
-                src={
-                  user_info && user_info.user_image
-                    ? user_info.user_image
-                    : user_img_def
-                }
-                alt="user"
-                id="user_img"
-              />
-              <div className="get-image">
-                <img
-                  src={edit}
-                  alt=""
-                  style={{ height: "20px", width: "20px" }}
-                />
-                <input
-                  type="file"
-                  onChange={
-                    user_info && user_info.username
-                      ? this.onUploadUserImage
-                      : user_img_def
-                  }
-                />
-              </div>
+              {loading_image ? (
+                <div style={{ textAlign: "center" }}>
+                  <Loader
+                    type="Oval"
+                    color="#00BFFF"
+                    height={30}
+                    width={30}
+                    // timeout={3000} //3 secs
+                  />
+                </div>
+              ) : (
+                <div>
+                  <img
+                    src={
+                      user_info && user_info.user_image
+                        ? user_info.user_image
+                        : user_img_def
+                    }
+                    alt="user"
+                    id="user_img"
+                  />
+                  <div className="get-image">
+                    <img
+                      src={edit}
+                      alt=""
+                      style={{ height: "20px", width: "20px" }}
+                    />
+                    <input type="file" onChange={this.onUploadUserImage} />
+                  </div>
+                </div>
+              )}
             </MDBCol>
             <MDBCol md="6">
-              {edit_details ? (
+              {loading_info ? (
+                <div style={{ textAlign: "center" }}>
+                  <Loader
+                    type="Oval"
+                    color="#00BFFF"
+                    height={30}
+                    width={30}
+                    // timeout={3000} //3 secs
+                  />
+                </div>
+              ) : edit_details ? (
                 <div>
                   <div className="user1">
                     {" "}
@@ -194,12 +240,14 @@ export default class User_profile extends Component {
                       name="first_name"
                       value={first_name}
                       onChange={this.changeHandler}
+                      placeholder="First name"
                     />
                     <input
                       type="text"
                       name="last_name"
                       value={last_name}
                       onChange={this.changeHandler}
+                      placeholder="Last name"
                     />
                   </div>
                   <MDBRow>

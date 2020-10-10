@@ -160,11 +160,16 @@ export default class Login extends Component {
         <div className="modal-dialog " id="login_width">
           <form onSubmit={this.submitHandler} noValidate>
             <div className="modal-content ">
-            <div className="modal-header modal_header">
-        
-        <h4 className="modal-title modal_header_heading">Log in</h4>
-        <button type="button" className="modal_header_icon" data-dismiss="modal">&times;</button>
-      </div>
+              <div className="modal-header modal_header">
+                <h4 className="modal-title modal_header_heading">Log in</h4>
+                <button
+                  type="button"
+                  className="modal_header_icon"
+                  data-dismiss="modal"
+                >
+                  &times;
+                </button>
+              </div>
 
               <div className="modal-body modal_body">
                 <div style={{ padding: "0px 10%" }}>
