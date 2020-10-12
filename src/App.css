@@ -1018,10 +1018,16 @@ img {
   margin-top: 10px;
 }
 
-.icon-text h2 {
-  margin: 0;
-  padding: 0;
+.icon-text {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
   font-size: 30px;
+  line-height: 35px;
+  text-align: center;
+  margin: 0px 13px;
+  color: #000000;
+
   opacity: 0.6;
 }
 
@@ -2380,7 +2386,7 @@ table.analytics-whice.dataTable td:last-child {
   border-bottom: 0px;
 }
 .whitechart {
-  padding: 15px;
+  padding: 0px -15px;
   border-radius: 10px;
   background: #fff;
 }
@@ -5183,13 +5189,12 @@ ul.socailicon {
   align-items: center;
   text-align: center;
   margin-top: 25px;
-  width: 142px;
-  height: 137px;
+  margin-right: -20px;
+  width: 110px;
+  height: 110px;
   background: #ffffff;
   border-radius: 10px;
-  box-shadow: 0px 5px 15px rgba(130, 100, 198, 0.1);
   justify-content: center;
-  float: left;
 }
 
 .coverocn {
@@ -6340,11 +6345,19 @@ tbody.cons td:first-child {
   text-align: center;
 }
 
-h2.analytics_btnx {
-  padding-left: 15px;
-  padding-right: 15px;
+.analytics_btnx {
+  padding: 15px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #4f4f4f;
 }
 
+.ra_drop {
+  margin-left: -20px;
+}
 .white-shadow {
   background: #fff;
   box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
@@ -6554,15 +6567,10 @@ ul.shared-business li img {
 .dolce-profile-user ul li {
   list-style: none;
   display: inline-block;
-  width: 127px;
-  margin-right: 10px;
-}
-.dolce-profile-user ul li img {
-  width: 100%;
-}
-
-.dolce-profile-user ul li:last-child {
-  margin-right: 0px;
+  width: 115px;
+  height: 115px;
+  margin: 9px;
+  border-radius: 10px;
 }
 
 .dolce-profile-user ul li img {
@@ -10620,9 +10628,9 @@ img {
 }
 
 .vl_img {
-  margin-right: -32px;
-  width: 116.47px;
-  height: 113.45px;
+  width: 100px;
+  height: 100px;
+  margin: 10px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 10px;
 }
@@ -12326,7 +12334,7 @@ ul.main-listfive li {
   opacity: 0.6;
 }
 .ranking_analytics_img {
-  margin: 0px 40px;
+  margin: 0px 30px;
   margin-top: -35px;
   margin-bottom: -50px;
 }

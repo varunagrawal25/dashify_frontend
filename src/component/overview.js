@@ -1605,13 +1605,18 @@ export default class Overview extends Component {
               <MDBRow>
                 <MDBCol md="8">
                   <div className="recent-title">
-                    <img
-                      src={require("../images/google.png")}
-                      alt="google"
-                      height="40"
-                      width="40"
-                    />
-                    {googleReviews[i].reviewer.displayName}
+                    <span>
+                      <img
+                        src={require("../images/google.png")}
+                        alt="google"
+                        height="40"
+                        width="40"
+                        marginRight="10px"
+                      />
+                    </span>
+                    <span style={{}}>
+                      {googleReviews[i].reviewer.displayName}
+                    </span>
                   </div>
                 </MDBCol>
                 <MDBCol md="4" style={{ marginTop: "5px" }}>

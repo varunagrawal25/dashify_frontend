@@ -1513,15 +1513,9 @@ export default class ViewListing extends Component {
                         <ul>
                           {this.state.otherImage.map((img, i) => (
                             <li>
-                              <img src={img.Image} height="125" width="125" />
+                              <img src={img.Image} height="115" width="115" />
                             </li>
                           ))}
-                          {/* <li>
-                            <img
-                              src={require("../images/dolce-1.png")}
-                              alt=""
-                            />
-                          </li> */}
                         </ul>
 
                         <h3>BUSSINES DISCRIPTION</h3>

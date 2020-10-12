@@ -5,7 +5,7 @@ import { all_connection_of_one_location } from "./apis/social_platforms";
 import {
   location_by_id,
   business_categories,
-  business_states
+  business_states,
 } from "./apis/location";
 
 import {
@@ -14,7 +14,7 @@ import {
   all_faq_by_location_id,
   delete_faq,
   all_faq,
-  add_faq
+  add_faq,
 } from "./apis/voice";
 import GoogleLogin from "react-google-login";
 import Spinner from "./common/Spinner";
@@ -33,7 +33,7 @@ import vl_img11 from "./assets/vl_img11.png";
 import attachment from "./assets/attachment.png";
 
 const DjangoConfig = {
-  headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
+  headers: { Authorization: "Token " + localStorage.getItem("UserToken") },
 };
 
 class NewFaq extends Component {
@@ -41,11 +41,11 @@ class NewFaq extends Component {
     super(props);
     this.state = {
       que: "",
-      ans: ""
+      ans: "",
     };
   }
 
-  handler = event => {
+  handler = (event) => {
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -103,11 +103,11 @@ class UpdateFaq extends Component {
     super(props);
     this.state = {
       que: "",
-      ans: ""
+      ans: "",
     };
   }
 
-  handler = event => {
+  handler = (event) => {
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -115,7 +115,7 @@ class UpdateFaq extends Component {
   componentDidMount() {
     console.log("update");
     var data = {
-      faq_id: this.props.faqid
+      faq_id: this.props.faqid,
     };
 
     // Axios.post(
@@ -123,11 +123,11 @@ class UpdateFaq extends Component {
     //   data,
     //   DjangoConfig
     // )
-    faqs_by_id(data, DjangoConfig).then(resp => {
+    faqs_by_id(data, DjangoConfig).then((resp) => {
       console.log(resp);
       this.setState({
         que: resp.data.all_faqs.question,
-        ans: resp.data.all_faqs.answer
+        ans: resp.data.all_faqs.answer,
       });
     });
 
@@ -222,10 +222,10 @@ export default class VoiceListing extends Component {
     appleOptimized: false,
 
     que_error: "",
-    ans_error: ""
+    ans_error: "",
   };
 
-  updateFaq = (que, ans, id) => event => {
+  updateFaq = (que, ans, id) => (event) => {
     event.preventDefault();
     console.log("update but");
 
@@ -235,7 +235,7 @@ export default class VoiceListing extends Component {
       Location_id: this.props.match.params.locationId,
       question: que,
       answer: ans,
-      faq_id: id
+      faq_id: id,
     };
     console.log(data);
     console.log(this.state.allFaq);
@@ -263,13 +263,13 @@ export default class VoiceListing extends Component {
       //   data,
       //   DjangoConfig
       // )
-      edit_faq(data, DjangoConfig).then(resp => {
+      edit_faq(data, DjangoConfig).then((resp) => {
         console.log(resp);
         // Axios.get(
         //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/voice-faq/get-all-faqs",
         //   DjangoConfig
         // )
-        all_faq(DjangoConfig).then(resp => {
+        all_faq(DjangoConfig).then((resp) => {
           console.log(resp);
           this.setState({ allFaq: resp.data.all_faqs, update: false });
         });
@@ -277,19 +277,19 @@ export default class VoiceListing extends Component {
     }
   };
 
-  editFaq = id => {
+  editFaq = (id) => {
     console.log("edit");
 
     this.setState({ faqid: id, update: true });
   };
 
-  deleteFaq = nameid => {
+  deleteFaq = (nameid) => {
     alert("You are going to delete this FAQ");
 
     console.log(" delete");
 
     var data = {
-      faq_id: nameid
+      faq_id: nameid,
     };
 
     // Axios.post(
@@ -297,52 +297,52 @@ export default class VoiceListing extends Component {
     //   data,
     //   DjangoConfig
     // )
-    delete_faq(data, DjangoConfig).then(resp => {
+    delete_faq(data, DjangoConfig).then((resp) => {
       console.log(resp);
       // Axios.get(
       //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/voice-faq/get-all-faqs",
       //   DjangoConfig
       // )
-      all_faq(DjangoConfig).then(resp => {
+      all_faq(DjangoConfig).then((resp) => {
         console.log(resp);
         this.setState({ allFaq: resp.data.all_faqs });
       });
     });
   };
 
-  submitFaq = (que, ans) => event => {
+  submitFaq = (que, ans) => (event) => {
     event.preventDefault();
 
     this.setState({ new: false });
     var data = {
       Location: this.props.match.params.locationId,
       question: que,
-      answer: ans
+      answer: ans,
     };
-    add_faq(data, DjangoConfig).then(resp => {
-      all_faq(DjangoConfig).then(resp => {
+    add_faq(data, DjangoConfig).then((resp) => {
+      all_faq(DjangoConfig).then((resp) => {
         console.log(resp);
         this.setState({ allFaq: resp.data.all_faqs });
       });
     });
   };
 
-  submitCancel = e => {
+  submitCancel = (e) => {
     this.setState({ new: false });
   };
-  updateCancel = e => {
+  updateCancel = (e) => {
     this.setState({ update: false });
   };
 
-  addFaq = e => {
+  addFaq = (e) => {
     this.setState({ new: true });
     console.log("add");
   };
-  installWedget = e => {
+  installWedget = (e) => {
     var dynadiv = "";
     var dynaJs = "";
     if (this.state.allFaq.length > 0) {
-      this.state.allFaq.map(r => {
+      this.state.allFaq.map((r) => {
         dynadiv +=
           "<div class='faq'> <div class='faq-question'> <span class='faq-question-label'>Q.</span> <span class='faq-value'>" +
           r.question +
@@ -365,20 +365,20 @@ export default class VoiceListing extends Component {
         javac:
           '<script type="application/ld+json">{"@context":"http://schema.org","@type":"FAQPage","mainEntity":[' +
           dynaJs +
-          "]]}</script>"
+          "]]}</script>",
       });
     }
   };
 
   componentDidMount() {
     const data = {
-      location_id: this.props.match.params.locationId
+      location_id: this.props.match.params.locationId,
     };
 
-    location_by_id(data, DjangoConfig).then(resp => {
+    location_by_id(data, DjangoConfig).then((resp) => {
       console.log("hi");
       this.setState({ state: "Loading....", category: "Loading...." });
-      business_states(DjangoConfig).then(resp1 => {
+      business_states(DjangoConfig).then((resp1) => {
         resp1.data.status.map((s, i) =>
           s.id == resp.data.location.State
             ? this.setState({ state: s.State_name })
@@ -386,7 +386,7 @@ export default class VoiceListing extends Component {
         );
       });
 
-      business_categories(DjangoConfig).then(resp1 => {
+      business_categories(DjangoConfig).then((resp1) => {
         resp1.data.BusinessCategory.map((b, i) =>
           b.id == resp.data.location.Business_category
             ? this.setState({ category: b.Category_Name })
@@ -411,15 +411,15 @@ export default class VoiceListing extends Component {
         cover: resp.data.location.Business_Cover_Image,
         otherImage: resp.data.location.Df_location_image,
 
-        loader: false
+        loader: false,
       });
     });
 
     var datal = {
-      location_id: this.props.match.params.locationId
+      location_id: this.props.match.params.locationId,
     };
 
-    all_faq_by_location_id(datal, DjangoConfig).then(resp => {
+    all_faq_by_location_id(datal, DjangoConfig).then((resp) => {
       console.log("all faq", resp);
       this.setState({ allFaq: resp.data.all_faqs });
     });
@@ -429,20 +429,20 @@ export default class VoiceListing extends Component {
         Authorization:
           "bearer _1cVnrrkqmG_dwNUdtorVxarkzItJM7AWM700rkRxM7aPdDfxJECcdaN00ADjSkrStF1pX4sdGCspYeSjU7VGkpjWYoMsC2_filBf5d5J5GMRTgXws_W6qusNMhYX3Yx",
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost"
-      }
+        "Access-Control-Allow-Origin": "http://localhost",
+      },
     };
 
     all_connection_of_one_location(data, DjangoConfig)
-      .then(resp => {
+      .then((resp) => {
         console.log("get all connections", resp);
         this.setState({ allListings: resp.data.data });
 
         if (this.state.allListings) {
-          this.state.allListings.map(l => {
+          this.state.allListings.map((l) => {
             if (l.Social_Platform.Platform == "Google") {
               const GoogleConfig = {
-                headers: { Authorization: "Bearer " + l.Social_Platform.Token }
+                headers: { Authorization: "Bearer " + l.Social_Platform.Token },
               };
 
               let locationIdGoogle = l.Social_Platform.Other_info;
@@ -450,7 +450,7 @@ export default class VoiceListing extends Component {
               Axios.get(
                 "https://mybusiness.googleapis.com/v4/" + locationIdGoogle,
                 GoogleConfig
-              ).then(res => {
+              ).then((res) => {
                 console.log("google location details", res.data);
                 this.setState({ googleLoggedIn: true });
 
@@ -472,7 +472,7 @@ export default class VoiceListing extends Component {
                     res.data.address.administrativeArea
                   ) {
                     this.setState({
-                      googleOptimized: true
+                      googleOptimized: true,
                     });
                   }
                 }
@@ -488,7 +488,7 @@ export default class VoiceListing extends Component {
                 "https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v2/venues/" +
                   fourUrl +
                   "?client_id=44RU2431YG02H4E00RQTLKEUKIKINQSFO2JBHII2WHH32PXZ&client_secret=FWV2WOL40MQ5M1YZ5E2TKUWIQ4WYZ1QUJXOQ24VGRSXFA3IY&v=20180323"
-              ).then(res => {
+              ).then((res) => {
                 console.log("foursquare data", res.data.response.venue);
                 var fouro = res.data.response.venue;
                 if (
@@ -505,13 +505,13 @@ export default class VoiceListing extends Component {
                     fouro.hours.dayData.length > 0
                   ) {
                     this.setState({
-                      fourBixby: true
+                      fourBixby: true,
                     });
                   }
                 }
               });
               this.setState({
-                foursquareIsLoggedIn: true
+                foursquareIsLoggedIn: true,
               });
             }
 
@@ -523,7 +523,7 @@ export default class VoiceListing extends Component {
                 "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
                   yelpUrl.slice(25),
                 Yelpconfig
-              ).then(resp => {
+              ).then((resp) => {
                 console.log("hii");
                 console.log("yelpDetails", resp.data);
 
@@ -541,13 +541,13 @@ export default class VoiceListing extends Component {
                     resp.data.hours[0].open.length > 0
                   ) {
                     this.setState({
-                      yelpAlexa: true
+                      yelpAlexa: true,
                     });
                   }
                 }
               });
               this.setState({
-                yelpIsLoggedIn: true
+                yelpIsLoggedIn: true,
               });
             }
 
@@ -562,41 +562,41 @@ export default class VoiceListing extends Component {
                 "https://itunes.apple.com/in/rss/customerreviews/id=" +
                   appleUrl +
                   "/sortBy=mostRecent/json"
-              ).then(res => {
+              ).then((res) => {
                 console.log("apple data in json", res.data);
               });
               this.setState({
-                appleIsLoggedIn: true
+                appleIsLoggedIn: true,
               });
             }
           });
         }
         this.setState({ loader: false });
       })
-      .catch(res => {
+      .catch((res) => {
         console.log("error in voice listing", res);
         this.setState({ loader: false });
       });
   }
 
-  htmlcopy = e => {
+  htmlcopy = (e) => {
     e.preventDefault();
     document.querySelector("#htmlcode").select();
     document.execCommand("copy");
   };
 
-  javacopy = e => {
+  javacopy = (e) => {
     e.preventDefault();
     document.querySelector("#javascriptcode").select();
     document.execCommand("copy");
   };
 
-  responseErrorGoogle = response => {
+  responseErrorGoogle = (response) => {
     console.log(response);
     alert("try again");
   };
 
-  responseGoogle = async response => {
+  responseGoogle = async (response) => {
     console.log("google response", response);
 
     let state = {
@@ -604,12 +604,12 @@ export default class VoiceListing extends Component {
       Username: response.profileObj.name,
       Email: response.profileObj.email,
       location_id: this.props.match.params.locationId,
-      redirect_to: "/voice-listing"
+      redirect_to: "/voice-listing",
     };
     this.props.history.push({
       pathname: `/google-connectedaccounts/${encodeURIComponent(
         JSON.stringify(state)
-      )}`
+      )}`,
     });
   };
 
@@ -621,20 +621,20 @@ export default class VoiceListing extends Component {
     }
 
     if (this.state.allFaq.map) {
-      var AllFaq = this.state.allFaq.map(r => {
+      var AllFaq = this.state.allFaq.map((r) => {
         var nameid = r.id;
 
         return (
           <div>
             <MDBRow>
-              <MDBCol className="col-sm-7 col-md-offset-1">
+              <MDBCol md="7" className="offset-md-1">
                 <div className="vl_c3_subhead"> {r.question}</div>
                 <div className="vl_contant">{r.answer}</div>
               </MDBCol>
               {/* <MDBCol className=" col-md-2 col-md-offset-2">
               <MDBBtn onClick={() => this.deleteFaq(nameid)} className="vl_btn_c3_edit">Delete</MDBBtn>
             </MDBCol> */}
-              <MDBCol className=" col-md-2 col-md-offset-2">
+              <MDBCol md="2" className="offset-md-2">
                 <MDBBtn
                   onClick={() => this.editFaq(nameid)}
                   className="vl_btn_c3_edit"
@@ -700,7 +700,13 @@ export default class VoiceListing extends Component {
                     BUSINESS DESCRIPTION
                   </div>
                   <div className="vl_contant">{this.state.about}</div>
-                  <MDBRow>{otherIma}</MDBRow>
+                  <MDBRow>
+                    {this.state.otherImage
+                      ? this.state.otherImage.map((img, i) => (
+                          <img src={img.Image} className="vl_img" />
+                        ))
+                      : ""}
+                  </MDBRow>
                 </MDBCol>
               </MDBRow>
             </MDBContainer>
@@ -734,12 +740,15 @@ export default class VoiceListing extends Component {
                             clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
                             //for server
                             // clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
-                            buttonText="Optimize"
+                            // buttonText="Optimize"
                             scope="https://www.googleapis.com/auth/business.manage"
                             onSuccess={this.responseGoogle}
                             onFailure={this.responseErrorGoogle}
                             cookiePolicy={"single_host_origin"}
-                          />
+                            className="vl_google_btn"
+                          >
+                            login
+                          </GoogleLogin>
                         )}
                       </div>
                     </li>
@@ -968,7 +977,7 @@ export default class VoiceListing extends Component {
                     cancel={this.updateCancel}
                     error={{
                       ans_error: this.state.ans_error,
-                      que_error: this.state.que_error
+                      que_error: this.state.que_error,
                     }}
                   />
                 ) : (

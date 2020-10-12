@@ -7,10 +7,11 @@ import {
   edit_location_operations_hours_by_id,
   edit_location_payment_by_id,
   update_images_by_location_id,
-  add_other_images_by_location_id
+  add_other_images_by_location_id,
 } from "./apis/location";
 import Spinner from "./common/Spinner";
 import Loader from "react-loader-spinner";
+import { MDBCol, MDBRow } from "mdbreact";
 
 // const GoogleConfig={
 //     headers:{'Authorization':'Bearer '+localStorage.getItem("googleToken")},
@@ -18,7 +19,7 @@ import Loader from "react-loader-spinner";
 //   }
 
 const DjangoConfig = {
-  headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
+  headers: { Authorization: "Token " + localStorage.getItem("UserToken") },
 };
 
 export default class LocationManager extends Component {
@@ -47,7 +48,7 @@ export default class LocationManager extends Component {
     loader: true,
 
     detailEdit: false,
-    detailEdit2:false,
+    detailEdit2: false,
     paymentEdit: false,
     hourEdit: false,
 
@@ -120,7 +121,7 @@ export default class LocationManager extends Component {
     logoLoading: false,
     coverImageLoading: false,
 
-    businessCategories: []
+    businessCategories: [],
   };
 
   componentDidMount = async () => {
@@ -131,21 +132,21 @@ export default class LocationManager extends Component {
   loading_location_details = () => {
     var locationId = this.props.match.params.locationId;
     const data = {
-      location_id: locationId
+      location_id: locationId,
     };
     // Axios.post(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
     //   data,
     //   DjangoConfig
     // )
-    location_by_id(data, DjangoConfig).then(resp => {
-      console.log("location_by_id",resp.data);
+    location_by_id(data, DjangoConfig).then((resp) => {
+      console.log("location_by_id", resp.data);
       this.setState({
         location: resp.data.location,
         name: resp.data.location.Location_name,
         storeCode: resp.data.location.Store_Code,
         category: "Loading.....",
-        category_id:"",
+        category_id: "",
         address: resp.data.location.Address_1,
         website: resp.data.location.Website,
         phone: resp.data.location.Phone_no,
@@ -165,13 +166,13 @@ export default class LocationManager extends Component {
         payment: resp.data.location.Df_location_payments,
         LocationDetails: resp.data.location,
         otherImages: resp.data.location.Df_location_image,
-        loader: false
+        loader: false,
       });
       // Axios.get(
       //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/business-categoryes",
       //   DjangoConfig
       // )
-      business_categories(DjangoConfig).then(resp1 => {
+      business_categories(DjangoConfig).then((resp1) => {
         resp1.data.BusinessCategory.map((b, i) =>
           b.id == resp.data.location.Business_category
             ? this.setState({ category: b.Category_Name })
@@ -181,32 +182,35 @@ export default class LocationManager extends Component {
     });
   };
 
-  editDetailsButton = event => {
+  editDetailsButton = (event) => {
     console.log("bu");
-    this.setState({ detailEdit: (this.state.detailEdit == false ? true : false) });
+    this.setState({
+      detailEdit: this.state.detailEdit == false ? true : false,
+    });
   };
 
-  editDetailsButton2 = event => {
+  editDetailsButton2 = (event) => {
     console.log("bu");
-    this.setState({ detailEdit2: (this.state.detailEdit2 == false ? true : false) });
+    this.setState({
+      detailEdit2: this.state.detailEdit2 == false ? true : false,
+    });
   };
 
-  editPaymentButton = event => {
+  editPaymentButton = (event) => {
     console.log("pa");
     this.setState({ paymentEdit: true });
   };
 
-  editHourButton = event => {
-
-    this.setState({ hourEdit: (this.state.hourEdit == false ? true : false) });
+  editHourButton = (event) => {
+    this.setState({ hourEdit: this.state.hourEdit == false ? true : false });
   };
 
-  updateDetailsButton = name => event => {
+  updateDetailsButton = (name) => (event) => {
     event.preventDefault();
     var locationId = this.props.match.params.locationId;
-    let data = {}
+    let data = {};
 
-    if(name == "details1"){
+    if (name == "details1") {
       data = {
         Location_id: locationId,
         Business_Owner_Name: this.state.ownerName,
@@ -216,38 +220,41 @@ export default class LocationManager extends Component {
         About_Business: this.state.about,
         Facebook_Profile: this.state.facebookProfile,
         Instagram_Profile: this.state.instagramProfile,
-        Twitter_Profile: this.state.twitterProfile
+        Twitter_Profile: this.state.twitterProfile,
       };
       this.setState({ businessDetailsLoading: true });
-      
-    } else if (name == "details2"){
-      let {storeCode ,category_id ,address, website, phone} = this.state;
+    } else if (name == "details2") {
+      let { storeCode, category_id, address, website, phone } = this.state;
       data = {
-      Location_id: locationId,
-      Store_Code:storeCode,
-      Address_1:address,
-      Phone_no:phone,
-      Website:website,
-      Business_category:category_id
-    }
-    this.setState({ businessDetailsLoading2: true });
+        Location_id: locationId,
+        Store_Code: storeCode,
+        Address_1: address,
+        Phone_no: phone,
+        Website: website,
+        Business_category: category_id,
+      };
+      this.setState({ businessDetailsLoading2: true });
     }
 
     edit_location_by_id(data, DjangoConfig)
-      .then(resp => {
-        console.log("update user details",resp);
+      .then((resp) => {
+        console.log("update user details", resp);
 
-        this.setState({ detailEdit: false, businessDetailsLoading: false,businessDetailsLoading2: false });
+        this.setState({
+          detailEdit: false,
+          businessDetailsLoading: false,
+          businessDetailsLoading2: false,
+        });
       })
-      .catch(resp => {
-        console.log("update user details err",resp);
-        this.setState({ businessDetailsLoading: false,businessDetailsLoading2: false });
-        alert("try again")
+      .catch((resp) => {
+        console.log("update user details err", resp);
+        this.setState({
+          businessDetailsLoading: false,
+          businessDetailsLoading2: false,
+        });
+        alert("try again");
       });
-    
   };
-
-
 
   // updateDetailsButton2 = event => {
   //   event.preventDefault();
@@ -278,7 +285,7 @@ export default class LocationManager extends Component {
   //     });
   // };
 
-  updatePaymentButton = event => {
+  updatePaymentButton = (event) => {
     event.preventDefault();
     console.log("pa");
     var locationId = this.props.match.params.locationId;
@@ -309,10 +316,10 @@ export default class LocationManager extends Component {
 
     const data = {
       Location_id: locationId,
-      payment_method: payment
+      payment_method: payment,
     };
     const data2 = {
-      Location_id: locationId
+      Location_id: locationId,
     };
     console.log(data);
 
@@ -324,11 +331,11 @@ export default class LocationManager extends Component {
     //   DjangoConfig
     // )
     edit_location_payment_by_id(data, DjangoConfig)
-      .then(resp => {
+      .then((resp) => {
         console.log(resp);
         this.setState({ paymentEdit: false });
         const data1 = {
-          location_id: locationId
+          location_id: locationId,
         };
         // Axios.post(
         //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
@@ -336,25 +343,25 @@ export default class LocationManager extends Component {
         //   DjangoConfig
         // )
         location_by_id(data1, DjangoConfig)
-          .then(resp1 => {
+          .then((resp1) => {
             this.setState({
               payment: resp1.data.location.Df_location_payments,
-              paymentLoading: false
+              paymentLoading: false,
             });
           })
-          .catch(resp1 => {
+          .catch((resp1) => {
             console.log(resp1);
             this.setState({
-              paymentLoading: false
+              paymentLoading: false,
             });
           });
       })
-      .catch(resp => {
+      .catch((resp) => {
         console.log(resp);
       });
   };
 
-  updateHourButton = event => {
+  updateHourButton = (event) => {
     event.preventDefault();
     console.log("hr");
 
@@ -373,7 +380,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.mondayStart1,
           end_time_1: this.state.mondayEnd1,
           start_time_2: this.state.mondayStart2,
-          end_time_2: this.state.mondayEnd2
+          end_time_2: this.state.mondayEnd2,
         },
         1: {
           date: "",
@@ -383,7 +390,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.tuesdayStart1,
           end_time_1: this.state.tuesdayEnd1,
           start_time_2: this.state.tuesdayStart2,
-          end_time_2: this.state.tuesdayEnd2
+          end_time_2: this.state.tuesdayEnd2,
         },
         2: {
           date: "",
@@ -393,7 +400,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.wednesdayStart1,
           end_time_1: this.state.wednesdayEnd1,
           start_time_2: this.state.wednesdayStart2,
-          end_time_2: this.state.wednesdayEnd2
+          end_time_2: this.state.wednesdayEnd2,
         },
         3: {
           date: "",
@@ -403,7 +410,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.thursdayStart1,
           end_time_1: this.state.thursdayEnd1,
           start_time_2: this.state.thursdayStart2,
-          end_time_2: this.state.thursdayEnd2
+          end_time_2: this.state.thursdayEnd2,
         },
         4: {
           date: "",
@@ -413,7 +420,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.fridayStart1,
           end_time_1: this.state.fridayEnd1,
           start_time_2: this.state.fridayStart2,
-          end_time_2: this.state.fridayEnd2
+          end_time_2: this.state.fridayEnd2,
         },
         5: {
           date: "",
@@ -423,7 +430,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.saturdayStart1,
           end_time_1: this.state.saturdayEnd1,
           start_time_2: this.state.saturdayStart2,
-          end_time_2: this.state.saturdayEnd2
+          end_time_2: this.state.saturdayEnd2,
         },
         6: {
           date: "",
@@ -433,9 +440,9 @@ export default class LocationManager extends Component {
           start_time_1: this.state.sundayStart1,
           end_time_1: this.state.sundayEnd1,
           start_time_2: this.state.sundayStart2,
-          end_time_2: this.state.sundayEnd2
-        }
-      }
+          end_time_2: this.state.sundayEnd2,
+        },
+      },
     };
 
     // Axios.post(
@@ -444,13 +451,13 @@ export default class LocationManager extends Component {
     //   DjangoConfig
     // )
     edit_location_operations_hours_by_id(data, DjangoConfig)
-      .then(resp => {
+      .then((resp) => {
         console.log(resp);
         this.setState({ hourEdit: false });
         // window.location.reload(false);
 
         const data1 = {
-          location_id: locationId
+          location_id: locationId,
         };
         // Axios.post(
         //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
@@ -458,28 +465,28 @@ export default class LocationManager extends Component {
         //   DjangoConfig
         // )
         location_by_id(data1, DjangoConfig)
-          .then(resp1 => {
+          .then((resp1) => {
             this.setState({
               hours: resp1.data.location.Df_location_poen_hour,
-              operatingHoursLoading: false
+              operatingHoursLoading: false,
             });
           })
-          .catch(resp1 => {
+          .catch((resp1) => {
             console.log(resp1);
             this.setState({
-              operatingHoursLoading: false
+              operatingHoursLoading: false,
             });
           });
       })
-      .catch(resp => {
+      .catch((resp) => {
         console.log(resp);
         this.setState({
-          operatingHoursLoading: false
+          operatingHoursLoading: false,
         });
       });
   };
 
-  editSpecialHourButton = event => {
+  editSpecialHourButton = (event) => {
     console.log("hr");
     this.setState({ add_special_hour: true });
   };
@@ -488,7 +495,7 @@ export default class LocationManager extends Component {
   // console.log("open hours",this.state.LocationDetails.Df_location_poen_hour)
   // }
 
-  addSpecialHourButton = async event => {
+  addSpecialHourButton = async (event) => {
     event.preventDefault();
 
     // this.setState(prevState => ({
@@ -502,7 +509,7 @@ export default class LocationManager extends Component {
     console.log("monday", this.state.monday_day_s, i);
 
     if (this.state.monday_day_s) {
-      await this.setState(prevState => ({
+      await this.setState((prevState) => ({
         special_hour_data: {
           ...prevState.special_hour_data,
           [i]: {
@@ -513,9 +520,9 @@ export default class LocationManager extends Component {
             start_time_1: this.state.mondayStart1_s,
             end_time_1: this.state.mondayEnd1_s,
             start_time_2: this.state.mondayStart2_s,
-            end_time_2: this.state.mondayEnd2_s
-          }
-        }
+            end_time_2: this.state.mondayEnd2_s,
+          },
+        },
       }));
       i++;
     }
@@ -535,42 +542,42 @@ export default class LocationManager extends Component {
 
     const data = {
       Location_id: locationId,
-      open_houre: this.state.special_hour_data
+      open_houre: this.state.special_hour_data,
     };
 
     this.setState({ specialTimeLoading: true });
 
     edit_location_operations_hours_by_id(data, DjangoConfig)
-      .then(resp => {
+      .then((resp) => {
         console.log(resp);
         this.setState({ add_special_hour: false });
 
         const data1 = {
-          location_id: locationId
+          location_id: locationId,
         };
-        
+
         location_by_id(data1, DjangoConfig)
-          .then(resp1 => {
+          .then((resp1) => {
             this.setState({
               hours: resp1.data.location.Df_location_poen_hour,
-              specialTimeLoading: false
+              specialTimeLoading: false,
             });
           })
-          .catch(resp1 => {
+          .catch((resp1) => {
             console.log(resp1);
             this.setState({ specialTimeLoading: false });
           });
       })
-      .catch(resp => {
+      .catch((resp) => {
         console.log(resp);
       });
   };
 
-  changeHandler = event => {
+  changeHandler = (event) => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  checkBoxHandler = event => {
+  checkBoxHandler = (event) => {
     console.log(event.target.checked);
     if (event.target.checked) {
       this.setState({ [event.target.name]: true });
@@ -579,7 +586,7 @@ export default class LocationManager extends Component {
     }
   };
 
-  onUploadLogo = name => event => {
+  onUploadLogo = (name) => (event) => {
     if (name == "Business_Logo") {
       this.setState({ logoLoading: true });
     }
@@ -589,7 +596,7 @@ export default class LocationManager extends Component {
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = e => {
+    reader.onload = (e) => {
       //   console.log(e.target.result);
       //   this.setState({ BusinessLogoUpdate: e.target.result });
 
@@ -597,7 +604,7 @@ export default class LocationManager extends Component {
 
       const data = {
         location_id: locationId,
-        [name]: e.target.result
+        [name]: e.target.result,
       };
 
       // Axios.post(
@@ -606,9 +613,9 @@ export default class LocationManager extends Component {
       //   DjangoConfig
       // )
       update_images_by_location_id(data, DjangoConfig)
-        .then(resp => {
+        .then((resp) => {
           const data1 = {
-            location_id: locationId
+            location_id: locationId,
           };
           // Axios.post(
           //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
@@ -616,30 +623,30 @@ export default class LocationManager extends Component {
           //   DjangoConfig
           // )
           location_by_id(data1, DjangoConfig)
-            .then(resp1 => {
+            .then((resp1) => {
               this.setState({
                 LocationDetails: resp1.data.location,
                 logoLoading: false,
-                coverImageLoading: false
+                coverImageLoading: false,
               });
             })
-            .catch(resp1 => {
+            .catch((resp1) => {
               console.log(resp1);
               this.setState({ logoLoading: false, coverImageLoading: false });
             });
         })
-        .catch(resp => {
+        .catch((resp) => {
           console.log(resp);
           this.setState({ logoLoading: false, coverImageLoading: false });
         });
     };
   };
 
-  onUploadOtherImage = event => {
+  onUploadOtherImage = (event) => {
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = e => {
+    reader.onload = (e) => {
       //   console.log(e.target.result);
       //   this.setState({ BusinessLogoUpdate: e.target.result });
 
@@ -647,7 +654,7 @@ export default class LocationManager extends Component {
 
       const data = {
         location_id: locationId,
-        other_image: { 0: e.target.result }
+        other_image: { 0: e.target.result },
       };
 
       this.setState({ otherImagesLoading: true });
@@ -658,9 +665,9 @@ export default class LocationManager extends Component {
       //   DjangoConfig
       // )
       add_other_images_by_location_id(data, DjangoConfig)
-        .then(resp => {
+        .then((resp) => {
           const data1 = {
-            location_id: locationId
+            location_id: locationId,
           };
           // Axios.post(
           //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
@@ -668,18 +675,18 @@ export default class LocationManager extends Component {
           //   DjangoConfig
           // )
           location_by_id(data1, DjangoConfig)
-            .then(resp1 => {
+            .then((resp1) => {
               this.setState({
                 otherImages: resp1.data.location.Df_location_image,
-                otherImagesLoading: false
+                otherImagesLoading: false,
               });
             })
-            .catch(resp1 => {
+            .catch((resp1) => {
               console.log(resp1);
               this.setState({ otherImagesLoading: false });
             });
         })
-        .catch(resp => {
+        .catch((resp) => {
           console.log(resp);
           this.setState({ otherImagesLoading: false });
         });
@@ -690,12 +697,12 @@ export default class LocationManager extends Component {
     this.setState({ loadBusinessCategories: true });
 
     business_categories(DjangoConfig)
-      .then(res => {
+      .then((res) => {
         this.setState({
           businessCategories: res.data.BusinessCategory,
         });
       })
-      .catch(res => {
+      .catch((res) => {
         console.log("error in loading business categories");
       });
   };
@@ -708,7 +715,7 @@ export default class LocationManager extends Component {
     var RegularHours1;
     RegularHours1 = (
       <div className="promotional-box">
-        {this.state.hours.map(h =>
+        {this.state.hours.map((h) =>
           h.Type == "Regular" ? (
             <div className="daybox" key={h.id}>
               <div className="daytype">{h.Day}</div>
@@ -744,15 +751,12 @@ export default class LocationManager extends Component {
     var RegularHours2;
     RegularHours2 = (
       <div className="promotional-box">
-        {this.state.hours.map(h =>
+        {this.state.hours.map((h) =>
           h.Day == "Special" ? (
             <div className="daybox" key={h.id}>
               {/* <div className="daytype">{h.Day}</div> */}
               <div className="daytype">
-                {h.date
-                  .split("-")
-                  .reverse()
-                  .join("-")}
+                {h.date.split("-").reverse().join("-")}
               </div>
 
               {h.Open_status == "SPLIT" ? (
@@ -785,7 +789,7 @@ export default class LocationManager extends Component {
 
     var paymentAccepted;
 
-    paymentAccepted = this.state.payment.map(p => (
+    paymentAccepted = this.state.payment.map((p) => (
       <li key={p.id}>
         {p.Payment_Method == "Visa" ? (
           <img src={require("../images/visa.jpg")} alt="visa" />
@@ -815,7 +819,7 @@ export default class LocationManager extends Component {
       </li>
     ));
 
-    let { LocationDetails,businessCategories } = this.state;
+    let { LocationDetails, businessCategories } = this.state;
     // let a = this.state.LocationDetails.Df_location_image.map(
     //   (img, i) => img.Image
     // );
@@ -838,386 +842,462 @@ export default class LocationManager extends Component {
               <div className="">
                 <div className="row">
                   <div className="col-md-4">
-
-                  {this.state.businessDetailsLoading2 ? (
-                  <div style={{ textAlign: "center" }}>
-                    <Loader
-                      type="Oval"
-                      color="#00BFFF"
-                      height={30}
-                      width={30}
-                      // timeout={3000} //3 secs
-                    />
-                  </div>
-                ) : this.state.detailEdit2 ? 
-                
-
-
-
-
-                    <div className="row addlocationboxs">
-                    <form onSubmit={this.updateDetailsButton("details2")}>
-                      <div className="form-group">
-                        <label>Store Code</label>
-                        <input
-                          name="storeCode"
-                          onChange={this.changeHandler}
-                          type="text"
-                          className="form-control"
-                          value={this.state.storeCode}
+                    {this.state.businessDetailsLoading2 ? (
+                      <div style={{ textAlign: "center" }}>
+                        <Loader
+                          type="Oval"
+                          color="#00BFFF"
+                          height={30}
+                          width={30}
+                          // timeout={3000} //3 secs
                         />
                       </div>
-                      <div className="form-group">
-                        <label>Category</label>
-                        <select
-                                    name="category_id"
-                                    onChange={this.changeHandler}
-                                    className="form-control"
-                                    required
-                                  >
-                                    <option value="0" disabled="">
-                                      Select A Business Category
-                                    </option>
-                                    {businessCategories.map((b, i) => (
-                                      <option
-                                        key={`business-${i}`}
-                                        value={b.id}
-                                      >
-                                        {b.Category_Name}
-                                      </option>
-                                    ))}
-                                  </select>
+                    ) : this.state.detailEdit2 ? (
+                      <div className="row addlocationboxs">
+                        <form onSubmit={this.updateDetailsButton("details2")}>
+                          <div className="form-group">
+                            <label>Store Code</label>
+                            <input
+                              name="storeCode"
+                              onChange={this.changeHandler}
+                              type="text"
+                              className="form-control"
+                              value={this.state.storeCode}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Category</label>
+                            <select
+                              name="category_id"
+                              onChange={this.changeHandler}
+                              className="form-control"
+                              required
+                            >
+                              <option value="0" disabled="">
+                                Select A Business Category
+                              </option>
+                              {businessCategories.map((b, i) => (
+                                <option key={`business-${i}`} value={b.id}>
+                                  {b.Category_Name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+
+                          <div className="form-group">
+                            <label>Address</label>
+                            <input
+                              name="address"
+                              onChange={this.changeHandler}
+                              className="form-control"
+                              value={this.state.address}
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label>Phone</label>
+                            <input
+                              name="phone"
+                              onChange={this.changeHandler}
+                              type="tel"
+                              className="form-control"
+                              value={this.state.phone}
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label>Website</label>
+                            <input
+                              name="website"
+                              type="url"
+                              onChange={this.changeHandler}
+                              className="form-control businessh"
+                              value={this.state.website}
+                            />
+                          </div>
+
+                          <div className="business-cover text-center">
+                            <button
+                              type="submit"
+                              className="last_btn"
+                              // onClick={this.updateDetailsButton2}
+                            >
+                              Update
+                            </button>
+                            <button
+                              className="last_btn"
+                              onClick={this.editDetailsButton2}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </form>
                       </div>
+                    ) : (
+                      <div className="white-shadow">
+                        <div className="logo-business">
+                          <h2 className="analytics_btnx">
+                            {this.state.name}
+                            <button
+                              className="last_btn"
+                              onClick={this.editDetailsButton2}
+                            >
+                              Edit
+                            </button>
+                          </h2>
+                          {this.state.logoLoading ? (
+                            <div style={{ textAlign: "center" }}>
+                              <Loader
+                                type="Oval"
+                                color="#00BFFF"
+                                height={30}
+                                width={30}
+                                // timeout={3000} //3 secs
+                              />
+                            </div>
+                          ) : LocationDetails.Business_Logo ? (
+                            <div className="uploadphoto pt-15">
+                              <img
+                                src={LocationDetails.Business_Logo}
+                                alt="Logo"
+                              />
+                              <br />
+                              <div>
+                                <i className="zmdi zmdi-plus"></i>
+                                Update
+                                <input
+                                  type="file"
+                                  name="Business_Logo"
+                                  onChange={this.onUploadLogo("Business_Logo")}
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="uploadphoto pt-15">
+                              <div>
+                                <i className="zmdi zmdi-cloud-upload"></i>
+                                <h3>Upload logo</h3>
+                                <input
+                                  type="file"
+                                  name="Business_Logo"
+                                  onChange={this.onUploadLogo("Business_Logo")}
+                                />
+                              </div>
+                            </div>
+                          )}
 
-                      <div className="form-group">
-                        <label>Address</label>
-                        <input
-                          name="address"
-                          onChange={this.changeHandler}
-                          className="form-control"
-                          value={this.state.address}
-                        />
+                          <div className="detailbox">
+                            <MDBRow>
+                              <MDBCol>
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Store Code :
+                                    </div>
+                                  </MDBCol>
+
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {this.state.storeCode}
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Category :
+                                    </div>
+                                  </MDBCol>
+
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {this.state.category}
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Address :
+                                    </div>
+                                  </MDBCol>
+
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {
+                                        (this.state.city,
+                                        this.state.state,
+                                        this.state.postalCode)
+                                      }
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Phone :
+                                    </div>
+                                  </MDBCol>
+
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {this.state.phone}
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Website :
+                                    </div>
+                                  </MDBCol>
+
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {this.state.website}
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
+                              </MDBCol>
+                            </MDBRow>
+                          </div>
+                        </div>
                       </div>
-
-                      <div className="form-group">
-                        <label>Phone</label>
-                        <input
-                          name="phone"
-                          onChange={this.changeHandler}
-                          type="tel"
-                          className="form-control"
-                          value={this.state.phone}
-                        />
-                      </div>
-
-                      <div className="form-group">
-                        <label>
-                          Website
-                        </label>
-                        <input
-                          name="website"
-                          type="url"
-                          onChange={this.changeHandler}
-                          className="form-control businessh"
-                          value={this.state.website}
-                        />
-                      </div>
-                      
-
-                      <div className="business-cover text-center">
-                        <button
-                          type="submit"
-                          className="last_btn"
-                          // onClick={this.updateDetailsButton2}
-                        >
-                          Update
-                        </button>
-                        <button
-                          className="last_btn"
-                          onClick={this.editDetailsButton2}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                  
-                  
-
-
-                  
-                  : <div className="white-shadow">
-                <div className="logo-business">
-                  <h2 className="analytics_btnx">
-                    {this.state.name}
-                    <button className="last_btn" onClick={this.editDetailsButton2}>Edit</button>
-                  </h2>
-                  {this.state.logoLoading ? (
-                    <div style={{ textAlign: "center" }}>
-                      <Loader
-                        type="Oval"
-                        color="#00BFFF"
-                        height={30}
-                        width={30}
-                        // timeout={3000} //3 secs
-                      />
-                    </div>
-                  ) : LocationDetails.Business_Logo ? (
-                    <div className="uploadphoto pt-15">
-                      <img
-                        src={LocationDetails.Business_Logo}
-                        alt="Logo"
-                      />
-                      <br />
-                  <div>
-                      <i className="zmdi zmdi-plus"></i>
-                      Update
-                      <input
-                        type="file"
-                        name="Business_Logo"
-                        onChange={this.onUploadLogo(
-                          "Business_Logo"
-                        )}
-                      />
-                    </div>
-                    </div>
-                  ) : (
-                    <div className="uploadphoto pt-15">
-                      <div>
-                        <i className="zmdi zmdi-cloud-upload"></i>
-                        <h3>Upload logo</h3>
-                        <input
-                          type="file"
-                          name="Business_Logo"
-                          onChange={this.onUploadLogo("Business_Logo")}
-                        />
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="detailbox">
-                    <div className="uploadauthor">
-                      <div className="author_namebox">Store Code :</div>
-                      <div className="storetext">
-                        {this.state.storeCode}
-                      </div>
-                    </div>
-
-                    <div className="uploadauthor">
-                      <div className="author_namebox">Category :</div>
-                      <div className="storetext">
-                        {this.state.category}
-                      </div>
-                    </div>
-
-                    <div className="uploadauthor">
-                      <div className="author_namebox">Address :</div>
-                      <div className="storetext">
-                        {" "}
-                        {this.state.city}, {this.state.state}{" "}
-                        {this.state.postalCode}
-                      </div>
-                    </div>
-                    <div className="uploadauthor">
-                      <div className="author_namebox">Phone :</div>
-                      <div className="storetext">{this.state.phone}</div>
-                    </div>
-
-                    <div className="uploadauthor">
-                      <div className="author_namebox">Website :</div>
-                      <div className="storetext">
-                        {this.state.website}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> }
-
-                    
+                    )}
                   </div>
 
                   <div className="col-md-4">
-
-                  {this.state.businessDetailsLoading ? (
-                  <div style={{ textAlign: "center" }}>
-                    <Loader
-                      type="Oval"
-                      color="#00BFFF"
-                      height={30}
-                      width={30}
-                      // timeout={3000} //3 secs
-                    />
-                  </div>
-                ) : this.state.detailEdit ? 
-                    <div className="row addlocationboxs">
-                    <form onSubmit={this.updateDetailsButton("details1")}>
-                      <div className="form-group">
-                        <label>Business Owner Name</label>
-                        <input
-                          name="ownerName"
-                          onChange={this.changeHandler}
-                          type="text"
-                          className="form-control"
-                          id="ownerName"
-                          placeholder="Enter Business Owner Name"
-                          value={this.state.ownerName}
-                        ></input>
-                      </div>
-                      <div className="form-group">
-                        <label>Owner Email</label>
-                        <input
-                          name="ownerEmail"
-                          onChange={this.changeHandler}
-                          type="email"
-                          className="form-control"
-                          id="ownerEmail"
-                          placeholder="Enter Owner Email"
-                          value={this.state.ownerEmail}
-                        ></input>
-                      </div>
-
-                      <div className="form-group">
-                        <label>Business Tagline</label>
-                        <input
-                          name="businessTagline"
-                          onChange={this.changeHandler}
-                          className="form-control"
-                          id="businessTagline"
-                          placeholder="Enter Business Tagline"
-                          value={this.state.businessTagline}
-                        ></input>
-                      </div>
-
-                      <div className="form-group">
-                        <label>Year of Incorporation</label>
-                        <input
-                          name="yearOfIncorp"
-                          onChange={this.changeHandler}
-                          type="text"
-                          className="form-control"
-                          id="yearOfIncorp"
-                          placeholder="Enter Year of Incorporation"
-                          value={this.state.yearOfIncorp}
-                        ></input>
-                      </div>
-
-                      <div className="form-group">
-                        <label>
-                          About The Business <span>*</span>
-                        </label>
-                        <textarea
-                          name="about"
-                          onChange={this.changeHandler}
-                          className="form-control businessh"
-                          value={this.state.about}
-                        ></textarea>
-                      </div>
-                      <div className="form-group">
-                        <label>Facebook Profile</label>
-                        <input
-                          name="facebookProfile"
-                          onChange={this.changeHandler}
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter Facbook Profile"
-                          value={this.state.facebookProfile}
+                    {this.state.businessDetailsLoading ? (
+                      <div style={{ textAlign: "center" }}>
+                        <Loader
+                          type="Oval"
+                          color="#00BFFF"
+                          height={30}
+                          width={30}
+                          // timeout={3000} //3 secs
                         />
                       </div>
+                    ) : this.state.detailEdit ? (
+                      <div className="row addlocationboxs">
+                        <form onSubmit={this.updateDetailsButton("details1")}>
+                          <div className="form-group">
+                            <label>Business Owner Name</label>
+                            <input
+                              name="ownerName"
+                              onChange={this.changeHandler}
+                              type="text"
+                              className="form-control"
+                              id="ownerName"
+                              placeholder="Enter Business Owner Name"
+                              value={this.state.ownerName}
+                            ></input>
+                          </div>
+                          <div className="form-group">
+                            <label>Owner Email</label>
+                            <input
+                              name="ownerEmail"
+                              onChange={this.changeHandler}
+                              type="email"
+                              className="form-control"
+                              id="ownerEmail"
+                              placeholder="Enter Owner Email"
+                              value={this.state.ownerEmail}
+                            ></input>
+                          </div>
 
-                      <div className="form-group">
-                        <label>Instagram Profile</label>
-                        <input
-                          name="instagramProfile"
-                          onChange={this.changeHandler}
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter Instagram Profile"
-                          value={this.state.instagramProfile}
-                        />
+                          <div className="form-group">
+                            <label>Business Tagline</label>
+                            <input
+                              name="businessTagline"
+                              onChange={this.changeHandler}
+                              className="form-control"
+                              id="businessTagline"
+                              placeholder="Enter Business Tagline"
+                              value={this.state.businessTagline}
+                            ></input>
+                          </div>
+
+                          <div className="form-group">
+                            <label>Year of Incorporation</label>
+                            <input
+                              name="yearOfIncorp"
+                              onChange={this.changeHandler}
+                              type="text"
+                              className="form-control"
+                              id="yearOfIncorp"
+                              placeholder="Enter Year of Incorporation"
+                              value={this.state.yearOfIncorp}
+                            ></input>
+                          </div>
+
+                          <div className="form-group">
+                            <label>
+                              About The Business <span>*</span>
+                            </label>
+                            <textarea
+                              name="about"
+                              onChange={this.changeHandler}
+                              className="form-control businessh"
+                              value={this.state.about}
+                            ></textarea>
+                          </div>
+                          <div className="form-group">
+                            <label>Facebook Profile</label>
+                            <input
+                              name="facebookProfile"
+                              onChange={this.changeHandler}
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Facbook Profile"
+                              value={this.state.facebookProfile}
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label>Instagram Profile</label>
+                            <input
+                              name="instagramProfile"
+                              onChange={this.changeHandler}
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Instagram Profile"
+                              value={this.state.instagramProfile}
+                            />
+                          </div>
+
+                          <div className="form-group">
+                            <label>Twitter Profile</label>
+                            <input
+                              name="twitterProfile"
+                              onChange={this.changeHandler}
+                              type="text"
+                              className="form-control"
+                              placeholder="Enter Twitter Profile"
+                              value={this.state.twitterProfile}
+                            />
+                          </div>
+
+                          <div className="business-cover text-center">
+                            <button
+                              type="submit"
+                              className="last_btn"
+                              // onClick={this.updateDetailsButton}
+                            >
+                              Update
+                            </button>
+                            <button
+                              className="last_btn"
+                              onClick={this.editDetailsButton}
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                        </form>
                       </div>
+                    ) : (
+                      <div className="upload_text white-shadow">
+                        <h2 className="analytics_btnx">
+                          {this.state.name}
+                          <button
+                            className="last_btn"
+                            onClick={this.editDetailsButton}
+                          >
+                            Edit
+                          </button>
+                        </h2>
+                        <div className="pt-15">
+                          <h3>About the business</h3>
+                          <p>{this.state.about}</p>
+                          <div className="detailbox">
+                            {/* <div className="uploadauthor">
+                            <div className="author_namebox">Owner name :</div>
+                            <div className="storetext">
+                              {this.state.ownerName}
+                            </div>
+                          </div> */}
 
-                      <div className="form-group">
-                        <label>Twitter Profile</label>
-                        <input
-                          name="twitterProfile"
-                          onChange={this.changeHandler}
-                          type="text"
-                          className="form-control"
-                          placeholder="Enter Twitter Profile"
-                          value={this.state.twitterProfile}
-                        />
-                      </div>
+                            <MDBRow>
+                              <MDBCol>
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Owner name :
+                                    </div>
+                                  </MDBCol>
 
-                      <div className="business-cover text-center">
-                        <button
-                          type="submit"
-                          className="last_btn"
-                          // onClick={this.updateDetailsButton}
-                        >
-                          Update
-                        </button>
-                        <button
-                          className="last_btn"
-                          onClick={this.editDetailsButton}
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                   : <div className="upload_text white-shadow">
-                    <h2 className="analytics_btnx">
-                      {this.state.name}
-                      <button className="last_btn" onClick={this.editDetailsButton}>Edit</button>
-                    </h2>
-                    <div className="pt-15">
-                      <h3>About the business</h3>
-                      <p>{this.state.about}</p>
-                      <div className="detailbox">
-                        <div className="uploadauthor">
-                          <div className="author_namebox">
-                            Bussiness owner name :
-                          </div>
-                          <div className="storetext">
-                            {this.state.ownerName}
-                          </div>
-                        </div>
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {this.state.ownerName}
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
 
-                        <div className="uploadauthor">
-                          <div className="author_namebox">Owner email :</div>
-                          <div className="storetext">
-                            {this.state.ownerEmail}
-                          </div>
-                        </div>
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Owner email :
+                                    </div>
+                                  </MDBCol>
 
-                        <div className="uploadauthor">
-                          <div className="author_namebox">
-                            Bussiness tagline :
-                          </div>
-                          <div className="storetext">
-                            {" "}
-                            {this.state.city}, {this.state.businessTagline}{" "}
-                            {this.state.postalCode}
-                          </div>
-                        </div>
-                        <div className="uploadauthor">
-                          <div className="author_namebox">
-                            Year of incorporation :
-                          </div>
-                          <div className="storetext">
-                            {this.state.yearOfIncorp}
-                          </div>
-                        </div>
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {this.state.ownerEmail}
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
 
-                        <div className="uploadauthor">
-                          <div className="author_namebox">Website :</div>
-                          <div className="storetext">
-                            {this.state.website}
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Bussiness tagline :
+                                    </div>
+                                  </MDBCol>
+
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {/* {this.state.city}, */}
+                                      {this.state.businessTagline}
+                                      {/* {this.state.postalCode} */}
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Year of incorporation :
+                                    </div>
+                                  </MDBCol>
+
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {this.state.yearOfIncorp}
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
+
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="6">
+                                    <div className="author_namebox">
+                                      Website :
+                                    </div>
+                                  </MDBCol>
+
+                                  <MDBCol md="6">
+                                    <div className="storetext">
+                                      {this.state.website}
+                                    </div>
+                                  </MDBCol>
+                                </MDBRow>
+                              </MDBCol>
+                            </MDBRow>
                           </div>
-                        </div>
-                      </div>
-                      <ul className="socialicon-new">
-                        {/* <li>
+                          <ul className="socialicon-new">
+                            {/* <li>
                           <a href="#">
                             <img
                               src={require("../images/icon-1.png")}
@@ -1225,37 +1305,34 @@ export default class LocationManager extends Component {
                             />
                           </a>
                         </li> */}
-                        <li>
-                          <a href={this.state.facebookProfile}>
-                            <img
-                              src={require("../images/icon-2.png")}
-                              alt="Facebook"
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a href={this.state.instagramProfile}>
-                            <img
-                              src={require("../images/icon-3.png")}
-                              alt="Instagram"
-                            />
-                          </a>
-                        </li>
-                        <li>
-                          <a href={this.state.twitterProfile}>
-                            <img
-                              src={require("../images/icon-4.png")}
-                              alt="Twitter"
-                            />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>}
-
-
-
-                    
+                            <li>
+                              <a href={this.state.facebookProfile}>
+                                <img
+                                  src={require("../images/icon-2.png")}
+                                  alt="Facebook"
+                                />
+                              </a>
+                            </li>
+                            <li>
+                              <a href={this.state.instagramProfile}>
+                                <img
+                                  src={require("../images/icon-3.png")}
+                                  alt="Instagram"
+                                />
+                              </a>
+                            </li>
+                            <li>
+                              <a href={this.state.twitterProfile}>
+                                <img
+                                  src={require("../images/icon-4.png")}
+                                  alt="Twitter"
+                                />
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="col-md-4">
@@ -1861,11 +1938,11 @@ export default class LocationManager extends Component {
                             Update
                           </button>
                           <button
-                              className="last_btn"
-                              onClick={this.editHourButton}
-                            >
-                              Cancel
-                            </button>
+                            className="last_btn"
+                            onClick={this.editHourButton}
+                          >
+                            Cancel
+                          </button>
                         </div>
                       </div>
                     ) : (
@@ -1994,8 +2071,6 @@ export default class LocationManager extends Component {
                               >
                                 Update
                               </button>
-                              
-                              
                             </div>
                           </div>
                         ) : (
@@ -2470,7 +2545,7 @@ export default class LocationManager extends Component {
                             alt="Cover image"
                           />
                           <br />
-                        <div>
+                          <div>
                             <i className="zmdi zmdi-plus"></i>
                             Update
                             <input
