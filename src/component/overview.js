@@ -804,7 +804,7 @@ export default class Overview extends Component {
 
         // For Dnb
         if (dnbUrl) {
-          var today = new Date();
+          // var today = new Date();
           var date =
             today.getFullYear() +
             "-" +

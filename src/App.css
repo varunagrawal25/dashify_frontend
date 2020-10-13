@@ -1159,6 +1159,7 @@ img {
   border-radius: 5px;
   line-height: 19px;
   border: none;
+  width: 100%;
 }
 
 .connect_btn:hover {
@@ -10305,6 +10306,15 @@ ul.dropdown-menu.loginboxds li a:hover {
   color: #ffffff;
 }
 
+.close_icon {
+  width: 31px;
+  height: 27px;
+  background: none;
+  color: #ffffff;
+  padding-right: 15px;
+  border: none;
+}
+
 .modal_body_heading {
   font-family: Roboto;
   font-style: normal;
@@ -10667,6 +10677,11 @@ ul.dropdown-menu.loginboxds li a:hover {
   margin-left: 5px;
 }
 
+#vl_hr {
+  width: 100%;
+  color: #535353;
+  opacity: 0.6;
+}
 .vl_img {
   width: 100px;
   height: 100px;
@@ -10728,15 +10743,14 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-family: Roboto;
   font-style: normal;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 25px;
   color: #000000;
   text-align: end;
 }
 
-#vl_btn_optimize {
-  width: 83px;
-  height: 19px;
+.vl_btn_optimize {
+  padding: 5px 25px;
   border: 1px solid #eb0558;
   box-sizing: border-box;
   filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05));
@@ -10747,7 +10761,8 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-size: 8px;
   line-height: 9px;
   color: #eb0558;
-  margin-left: 13px;
+  /* margin-left: 13px; */
+  float: right;
 }
 
 .attachment {
@@ -10785,7 +10800,63 @@ ul.dropdown-menu.loginboxds li a:hover {
   border-color: #8264c6;
   margin-left: 20px;
 }
+.vl_modal_head {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 35px;
+  color: #fff;
+  padding-left: 15px;
+}
 
+.vl_modal_subhead {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 35px;
+  color: #000000;
+  opacity: 0.6;
+  margin: 10px 0px;
+}
+.vl_modal_contant0 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  color: #535353;
+  opacity: 0.6;
+  margin-top: 10px;
+  margin-left: 30px;
+}
+
+.vl_modal_contant {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 22px;
+  color: #535353;
+  opacity: 0.6;
+  margin: 10px 0px;
+}
+
+.vl_modal_btn {
+  padding: 10px 30px;
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
+  box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
+  border-radius: 5px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  color: #f2f2f2;
+  margin: 10px 0px;
+  border: none;
+}
 .vl_btn_c3_edit {
   width: 83.18px;
   height: 30.45px;
@@ -11332,9 +11403,32 @@ ul.dropdown-menu.loginboxds li a:hover {
   color: #4f4f4f;
   line-height: normal;
   margin: 0px 10px;
-  padding: 2px 5px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  border-color: #4f4f4f;
+  border-width: 0.5px;
 }
 
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  color: #4f4f4f;
+  line-height: normal;
+}
+/* input:focus {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  color: #4f4f4f;
+  line-height: normal;
+  border: none;
+  border-radius: 8px;
+  border-color: #4f4f4f;
+} */
 .user_blank {
   height: 36px;
 }

@@ -665,7 +665,7 @@ export default class VoiceListing extends Component {
                         // alt="vl_img1"
                         src={
                           this.state.logo
-                            ? this.state.logo
+                            ? "https://dashify.biz" + this.state.logo
                             : require("../images/Logo2.png")
                         }
                         className="responsive"
@@ -724,7 +724,7 @@ export default class VoiceListing extends Component {
                       </div>
                       <div className="text-iconbox">
                         <div className="vl_card_head">Google Assistant</div>
-                        {/* <MDBBtn id="vl_btn_optimize">Optimize</MDBBtn> */}
+                        {/* <MDBBtn className="vl_btn_optimize">Optimize</MDBBtn> */}
                         {this.state.googleLoggedIn ? (
                           this.state.googleOptimized ? (
                             <a className="progressb">
@@ -745,10 +745,10 @@ export default class VoiceListing extends Component {
                             onSuccess={this.responseGoogle}
                             onFailure={this.responseErrorGoogle}
                             cookiePolicy={"single_host_origin"}
-                            className="vl_google_btn"
-                          >
-                            login
-                          </GoogleLogin>
+                            className="vl_btn_optimize"
+                            buttonText="Optimize"
+                            icon={false}
+                          />
                         )}
                       </div>
                     </li>
@@ -777,7 +777,7 @@ export default class VoiceListing extends Component {
                             <p style={{ color: "red" }}>can't optimise</p>
                           )
                         ) : (
-                          <MDBBtn id="vl_btn_optimize" href="/yelplogin">
+                          <MDBBtn className="vl_btn_optimize" href="/yelplogin">
                             Optimize
                           </MDBBtn>
                         )}
@@ -808,7 +808,10 @@ export default class VoiceListing extends Component {
                             <p style={{ color: "red" }}>can't optimise</p>
                           )
                         ) : (
-                          <MDBBtn id="vl_btn_optimize" href="/applelogin">
+                          <MDBBtn
+                            className="vl_btn_optimize"
+                            href="/applelogin"
+                          >
                             Optimize
                           </MDBBtn>
                         )}
@@ -825,7 +828,7 @@ export default class VoiceListing extends Component {
                       </div>
                       <div className="text-iconbox">
                         <div className="vl_card_head">Microsoft Cortana</div>
-                        <MDBBtn id="vl_btn_optimize">Optimize</MDBBtn>
+                        <MDBBtn className="vl_btn_optimize">Optimize</MDBBtn>
                       </div>
                     </li>
 
@@ -853,7 +856,10 @@ export default class VoiceListing extends Component {
                             <p style={{ color: "red" }}>can't optimize</p>
                           )
                         ) : (
-                          <MDBBtn id="vl_btn_optimize" href="/foursquarelogin">
+                          <MDBBtn
+                            className="vl_btn_optimize"
+                            href="/foursquarelogin"
+                          >
                             Optimize
                           </MDBBtn>
                         )}
@@ -887,73 +893,95 @@ export default class VoiceListing extends Component {
                   </MDBBtn>
                 </MDBCol>
               </MDBRow>
+
               <div id="myModal" className="modal fade" role="dialog">
                 <div className="modal-dialog">
                   <div className="modal-content">
                     <form className="needs-validation" noValidate>
-                      <div className="modal-header">
-                        <button
-                          type="button"
-                          className="close"
-                          data-dismiss="modal"
-                        >
-                          <i className="zmdi zmdi-close"></i>
-                        </button>
-                        <h4
-                          className="modal-title"
-                          style={{ textAlign: "center" }}
+                      <div className="modal-header modal_header">
+                        <span
+                          className="vl_modal_head"
+                          style={{ width: "75%" }}
                         >
                           Add FAQs to your website
-                        </h4>
-                        <p>
-                          Follow the steps below to optimize your website for
-                          voice search
-                        </p>
+                        </span>
+                        <span>
+                          <button
+                            type="button"
+                            className="close_icon"
+                            data-dismiss="modal"
+                          >
+                            &times;
+                          </button>
+                        </span>
+                        {/* <MDBRow style={{ background: "green" }}>
+                          <MDBCol
+                            md="10"
+                            className="vl_modal_head"
+                            style={{ background: "red" }}
+                          >
+                            Add FAQs to your website
+                          </MDBCol>
+                          <MDBCol md="2" style={{ background: "yellow" }}>
+                            <button
+                              type="button"
+                              className="close_icon"
+                              data-dismiss="modal"
+                            >
+                              &times;
+                            </button>
+                          </MDBCol>
+                        </MDBRow> */}
                       </div>
-                      <div className="modal-body" style={{ paddingTop: "0px" }}>
-                        <div className="form-group enterpost">
-                          <p>Step 01 </p>
-                          <br />
-                          <div>
-                            Copy the generated html below and paste it into any
-                            section of any page on your website. Feel free to
-                            modify the CSS if you wish to.
+                      <div className="vl_modal_contant0">
+                        Follow the steps below to optimize your website for
+                        voice search.
+                      </div>
+                      <div style={{ padding: "0px 6%" }}>
+                        <div className="modal-body">
+                          <div className="form-group enterpost">
+                            <div className="vl_modal_subhead">Step 01 </div>
+                            <div className="vl_modal_contant">
+                              Copy the generated html below and paste it into
+                              any section of any page on your website. Feel free
+                              to modify the CSS if you wish to.
+                            </div>
+                            <textarea
+                              className="codearea"
+                              name="htmlcode"
+                              id="htmlcode"
+                              value={this.state.htmlc}
+                              readOnly
+                              className="vl_modal_contant"
+                            />
+                            <button
+                              onClick={this.htmlcopy}
+                              className="vl_modal_btn"
+                            >
+                              Copy Code
+                            </button>
+                            <hr id="vl_hr" />
+                            <div className="vl_modal_subhead">Step 02 </div>
+                            <div className="vl_modal_contant">
+                              Copy the Javascript snippet below and paste it
+                              into the head tag of your website.
+                            </div>
+                            <textarea
+                              className="codearea"
+                              name="javascriptcode"
+                              id="javascriptcode"
+                              value={this.state.javac}
+                              readOnly
+                              className="vl_modal_contant"
+                            />
+
+                            <button
+                              onClick={this.javacopy}
+                              className="vl_modal_btn"
+                            >
+                              Copy Code
+                            </button>
                           </div>
-                          <br />
-                          <textarea
-                            className="codearea"
-                            name="htmlcode"
-                            id="htmlcode"
-                            value={this.state.htmlc}
-                            readOnly
-                          ></textarea>
-                          <br />
-
-                          <button onClick={this.htmlcopy}>Copy Code</button>
-
-                          <br />
-                          <br />
-                          <br />
-
-                          <p>Step 02 </p>
-                          <br />
-                          <div>
-                            Copy the Javascript snippet below and paste it into
-                            the head tag of your website.
-                          </div>
-                          <br />
-                          <textarea
-                            className="codearea"
-                            name="javascriptcode"
-                            id="javascriptcode"
-                            value={this.state.javac}
-                            readOnly
-                          ></textarea>
-                          <br />
-
-                          <button onClick={this.javacopy}>Copy Code</button>
-                          <br />
-                          <br />
                         </div>
                       </div>
                     </form>
