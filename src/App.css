@@ -5186,9 +5186,7 @@ ul.socailicon {
   align-items: center;
   text-align: center;
   margin-top: 25px;
-  margin-right: -20px;
-  width: 110px;
-  height: 110px;
+  width: 100%;
   background: #ffffff;
   border-radius: 10px;
   justify-content: center;
@@ -5203,8 +5201,10 @@ ul.socailicon {
   position: relative;
 }
 
+
+
 .coverocn i {
-  font-size: 65px;
+  font-size: 45px;
   color: #00b1ff;
 }
 
@@ -5212,7 +5212,7 @@ ul.socailicon {
   margin: 25px 0px 0px 0px;
   color: #00b1ff;
   font-weight: 500;
-  font-size: 24px;
+  font-size: 18px;
 }
 .coverocn input[type="file"] {
   position: absolute;
@@ -10031,8 +10031,8 @@ input.searcdd {
   padding-left: 3%;
   padding-top: 1%;
 }
-.imgaligng img {
-  padding: 3px 0 0 0;
+.imgaligng {
+  margin: 13px 0 0 0;
 }
 
 .left_nav {
@@ -12803,4 +12803,44 @@ span.active-b:before {
 }
 table.table.peopel-table td {
   vertical-align: middle;
+}
+
+.searchtrans {
+  background: #fff;
+  padding: 34px 0px 0px 0px;
+  border-radius: 40px 40px 10px 10px;
+  width: 100%;
+  margin: auto;
+  position: relative;
+  border: 1px solid rgb(0 0 0 / 6%);
+  top: -36px;
+}
+.searchtrans select {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  appearance: none;
+}
+.searchtrans ul {
+  margin: 0px;
+  padding: 0px;
+}
+
+.searchtrans ul li {
+  list-style: none;
+  display: block;
+  padding: 5px 15px 5px 36px;
+  border-bottom: 1px solid rgb(204 204 204 / 27%);
+  font-size: 15px;
+  color: #656464;
+}
+
+.searchtrans ul li:last-child {
+  border-bottom: 0;
+}
+
+
+.md-form input.form-control.searcdd {
+  z-index: 1;
+  position: relative;
 }
