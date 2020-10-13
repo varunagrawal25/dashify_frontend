@@ -140,7 +140,7 @@ class EmailConfirmation extends React.Component {
           <div className="signin-footer-copyright-link-2">
             <container fluid className="sign-date">
               &copy; {new Date().getFullYear()}
-              <a href="#"> Deshify, All Rights Reserved</a>
+              <a href="#"> Dashify, All Rights Reserved</a>
             </container>
           </div>
         </div>

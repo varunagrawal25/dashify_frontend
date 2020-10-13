@@ -5,21 +5,29 @@ import Logo from "./img/Logo.png";
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-import Axios from "axios";
-import { login, account_activate, logout } from "../apis/user";
+import {
+  login,
+  account_activate,
+  send_varification_link,
+  logout
+} from "../apis/user";
+// import sendVerificationLink from "./activate_account";
 
 export default class Login extends Component {
   state = {
-    Email: "",
     Password: "",
     isSuccessLogin: false,
     isAlreadyLoginRememberme: false,
     RememberMe: false,
-    Email_error: "",
     Password_error: "",
     wrong: "",
     isPasswordShown: false,
-    loading: false
+    loading: false,
+
+    Email: "",
+    Email_error: "",
+    email_sent: "",
+    loading_activate: false
   };
 
   componentDidMount = async () => {
@@ -61,7 +69,7 @@ export default class Login extends Component {
     //   });
   };
 
-  submitHandler = event => {
+  loginHandler = event => {
     event.preventDefault();
     // event.target.className += ' was-validated';
 
@@ -120,14 +128,49 @@ export default class Login extends Component {
           if (err.response.status == 403) {
             window.location.assign("/dashboard");
           } else if (err.response.status == 400) {
-            this.setState({
-              wrong:
-                "Username and pasword is incorrect & may be your account is not activate",
-              loading: false
-            });
+            if (err.response.data && err.response.data.non_field_errors) {
+              this.setState({
+                wrong: err.response.data.non_field_errors[0],
+                loading: false
+              });
+            } else {
+              this.setState({
+                wrong: "Server error",
+                loading: false
+              });
+            }
           } else {
             this.setState({ wrong: "Server error", loading: false });
           }
+        });
+    }
+  };
+
+  activateHandler = event => {
+    event.preventDefault();
+
+    this.setState({ Email_error: "", email_sent: "" });
+
+    var cal = false;
+    if (this.state.Email == "") {
+      this.setState({
+        Email_error: "Enter Email"
+      });
+    } else {
+      const data = {
+        email_id: this.state.Email
+      };
+
+      this.setState({ loading_activate: true });
+
+      send_varification_link(data)
+        .then(res => {
+          console.log(res);
+          this.setState({ loading_activate: false, email_sent: 1 });
+        })
+        .catch(res => {
+          console.log("not send");
+          this.setState({ loading_activate: false, email_sent: 0 });
         });
     }
   };
@@ -156,12 +199,128 @@ export default class Login extends Component {
     return (
       // <div>
       //   <div className="container">
-      <div className="modal fade" id="myModalSignin" role="dialog">
-        <div className="modal-dialog " id="login_width">
-          <form onSubmit={this.submitHandler} noValidate>
+      <div>
+        <div className="modal fade" id="myModalSignin" role="dialog">
+          <div className="modal-dialog " id="login_width">
+            <form onSubmit={this.loginHandler} noValidate>
+              <div className="modal-content ">
+                <div className="modal-header modal_header">
+                  <h4 className="modal-title modal_header_heading">Log in</h4>
+                  <button
+                    type="button"
+                    className="modal_header_icon"
+                    data-dismiss="modal"
+                  >
+                    &times;
+                  </button>
+                </div>
+
+                <div className="modal-body modal_body">
+                  <div style={{ padding: "0px 10%" }}>
+                    {this.state.loading ? (
+                      <Loader
+                        type="Oval"
+                        color="#00BFFF"
+                        height={25}
+                        width={25}
+                        // timeout={3000} //3 secs
+                      />
+                    ) : (
+                      <div style={{ color: "red" }}>
+                        {this.state.wrong == "User is not activate." ? (
+                          <div>
+                            Your account is not activate, Activate your account
+                            by{" "}
+                            <a
+                              data-toggle="modal"
+                              data-target="#activate_acount"
+                              style={{ color: "green" }}
+                            >
+                              clicking here
+                            </a>{" "}
+                          </div>
+                        ) : (
+                          this.state.wrong
+                        )}
+                      </div>
+                    )}
+                    <MDBRow>
+                      <MDBCol>
+                        <div className="modal_body_subheading">Email</div>
+
+                        <div>
+                          <input
+                            value={this.state.Email}
+                            name="Email"
+                            onChange={this.changeHandler}
+                            type="text"
+                            className="modal_inputbox modal_inputbox_new"
+                            required
+                          />
+                          <div style={{ color: "red" }}>
+                            {this.state.Email_error}
+                          </div>
+                        </div>
+                      </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow>
+                      <MDBCol>
+                        <div className="modal_body_subheading">Password</div>
+                        <div>
+                          <input
+                            value={this.state.Password}
+                            name="Password"
+                            onChange={this.changeHandler}
+                            type={isPasswordShown ? "text" : "Password"}
+                            className="modal_inputbox modal_inputbox_new"
+                            required
+                          />
+                          <div style={{ color: "red" }}>
+                            {this.state.Password_error}
+                          </div>
+                        </div>
+                      </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow>
+                      <MDBCol md="2" className="modal_checkbox">
+                        <Checkbox
+                          onClick={() =>
+                            this.setState({
+                              RememberMe: !this.state.RememberMe
+                            })
+                          }
+                        />
+                      </MDBCol>
+                      <MDBCol md="10" className="modal_body_contant1">
+                        Remember me
+                      </MDBCol>
+                    </MDBRow>
+
+                    <div>
+                      <button type="submit" className="login_btn">
+                        Log in
+                      </button>
+                      <div className="for-color">
+                        <Link to="Forgot">Forgot Password ? </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {/* activate account */}
+        <div className="modal fade" id="activate_acount" role="dialog">
+          <form onSubmit={this.activateHandler} noValidate>
             <div className="modal-content ">
               <div className="modal-header modal_header">
-                <h4 className="modal-title modal_header_heading">Log in</h4>
+                <h4 className="modal-title modal_header_heading">
+                  Activate account
+                </h4>
                 <button
                   type="button"
                   className="modal_header_icon"
@@ -173,7 +332,7 @@ export default class Login extends Component {
 
               <div className="modal-body modal_body">
                 <div style={{ padding: "0px 10%" }}>
-                  {this.state.loading ? (
+                  {this.state.loading_activate ? (
                     <Loader
                       type="Oval"
                       color="#00BFFF"
@@ -181,8 +340,15 @@ export default class Login extends Component {
                       width={25}
                       // timeout={3000} //3 secs
                     />
+                  ) : this.state.email_sent == 0 ? (
+                    <div style={{ color: "red" }}>someting went wrong</div>
+                  ) : this.state.email_sent == 1 ? (
+                    <div style={{ color: "green" }}>
+                      Email verification link has been sent to your inbox
+                      successfully
+                    </div>
                   ) : (
-                    <div style={{ color: "red" }}>{this.state.wrong}</div>
+                    ""
                   )}
                   <MDBRow>
                     <MDBCol>
@@ -204,47 +370,10 @@ export default class Login extends Component {
                     </MDBCol>
                   </MDBRow>
 
-                  <MDBRow>
-                    <MDBCol>
-                      <div className="modal_body_subheading">Password</div>
-                      <div>
-                        <input
-                          value={this.state.Password}
-                          name="Password"
-                          onChange={this.changeHandler}
-                          type={isPasswordShown ? "text" : "Password"}
-                          className="modal_inputbox modal_inputbox_new"
-                          required
-                        />
-                        <div style={{ color: "red" }}>
-                          {this.state.Password_error}
-                        </div>
-                      </div>
-                    </MDBCol>
-                  </MDBRow>
-
-                  <MDBRow>
-                    <MDBCol md="2" className="modal_checkbox">
-                      <Checkbox
-                        onClick={() =>
-                          this.setState({
-                            RememberMe: !this.state.RememberMe
-                          })
-                        }
-                      />
-                    </MDBCol>
-                    <MDBCol md="10" className="modal_body_contant1">
-                      Remember me
-                    </MDBCol>
-                  </MDBRow>
-
                   <div>
                     <button type="submit" className="login_btn">
-                      Log in
+                      Send email
                     </button>
-                    <div className="for-color">
-                      <Link to="Forgot">Forgot Password ? </Link>
-                    </div>
                   </div>
                 </div>
               </div>
@@ -252,7 +381,7 @@ export default class Login extends Component {
           </form>
         </div>
       </div>
-      //   </div>
+      // </div>
       // </div>
     );
   }

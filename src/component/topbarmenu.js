@@ -525,7 +525,7 @@ export default class Topbarmenu extends Component {
                         this.state.search[0] == "" ? (
                           ""
                         ) : (
-                          <div>
+                          <div className="searchtrans">
                             <select
                               name="language"
                               onChange={this.change}
@@ -533,9 +533,9 @@ export default class Topbarmenu extends Component {
                               required
                               className="form-control"
                             >
-                              <option value="0" disabled="">
+                              {/* <option value="0" disabled="" >
                                 Select location
-                              </option>
+                              </option> */}
                               {filtered_posts.length != 0
                                 ? filtered_posts.map((f, i) => (
                                     <option
@@ -567,25 +567,24 @@ export default class Topbarmenu extends Component {
 
                 <div className="col-md-3">
                   <div className="row ">
-                    <div
-                      className="col-md-5 namedash rightdah"
-                      data-toggle="dropdown"
-                    >
+                    <div className="col-md-5 namedash rightdah">
                       <h3> {localStorage.getItem("UserName")} </h3>
                     </div>
-                    <div className="col-md-2 " data-toggle="dropdown">
+                    <div className="col-md-2 ">
                       <div className="row imgaligng">
                         <img src={require("./assets/Ellipse 1.png")} alt="" />
                       </div>
                     </div>
 
-                    <ul className="dropdown-menu">
+                    <ul className="dropdown-menu loginboxds">
                       <li>
                         <a href="#">Profile Settings</a>
                       </li>
                       <li>
                         <Link to="/">
-                          <button onClick={this.logout}>Log Out</button>
+                          <button class="pay_last_btn1" onClick={this.logout}>
+                            Log Out
+                          </button>
                         </Link>
                       </li>
                     </ul>
@@ -669,7 +668,7 @@ export default class Topbarmenu extends Component {
                         </li>
                       </ul>
                     </div>
-                    <div className="col-md-2 rightdah">
+                    <div className="col-md-2 rightdah" data-toggle="dropdown">
                       <MoreVertIcon />
                     </div>
                   </div>

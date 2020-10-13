@@ -16,7 +16,6 @@ import Support from "./component/landingpage/support";
 import Pricing from "./component/landingpage/pricing";
 import How_we_work from "./component/landingpage/How_we_work";
 import Login from "./component/landingpage/login";
-import LoginAndActivateAccount from "./component/landingpage/login-activateAccount";
 import Signup from "./component/landingpage/signup";
 import Forgot from "./component/landingpage/forgot.js";
 import FourSquareLogin from "./component/foursquarelogin";
@@ -31,7 +30,7 @@ import AvvoLogin from "./component/avvologin";
 import { LinkedInPopUp } from "react-linkedin-login-oauth2";
 import PageNotFound from "./component/page-not-found";
 
-import EmailConfirmation from "./component/landingpage/email-confirmation";
+// import EmailConfirmation from "./component/landingpage/email-confirmation";
 import PasswordReset from "./component/landingpage/password-reset";
 
 class App extends Component {
@@ -61,10 +60,6 @@ class App extends Component {
             />
             {/* <Route exact path="/Login" component={Login} /> */}
 
-            {/* <Route
-              path="/Login/:param1/:param2"
-              render={props => <LoginAndActivateAccount {...props} />}
-            /> */}
             <Route
               exact
               path="/password-reset/:param1/:param2"
@@ -72,11 +67,11 @@ class App extends Component {
             />
 
             <Route exact path="/Signup" component={Signup} />
-            <Route
+            {/* <Route
               exact
               path="/email-confirmation/:username"
               component={EmailConfirmation}
-            />
+            /> */}
             <Route exact path="/forgot" component={Forgot} />
             <Route exact path="/instagramlogin" component={InstagramLogin} />
             <Route exact path="/yelplogin" component={YelpLogin} />

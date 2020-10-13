@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
+import Cropper from "react-easy-crop";
 import {
   get_login_user_info,
   update_user_info,
-  update_user_image
+  update_user_image,
 } from "./apis/user";
 import { all_location } from "./apis/location";
 import Loader from "react-loader-spinner";
@@ -20,8 +21,8 @@ import Map from "./Map";
 
 const DjangoConfig = {
   headers: {
-    Authorization: "Token " + localStorage.getItem("UserToken")
-  }
+    Authorization: "Token " + localStorage.getItem("UserToken"),
+  },
 };
 
 export default class User_profile extends Component {
@@ -36,13 +37,17 @@ export default class User_profile extends Component {
     website: "",
     user_image: "",
     loading_info: true,
-    loading_image: true
+    loading_image: true,
+    image: "",
+    crop: { x: 0, y: 0 },
+    zoom: 1,
+    aspect: 4 / 3,
   };
 
   componentDidMount = () => {
     let data = { user_id: localStorage.getItem("UserId") };
     get_login_user_info(data, DjangoConfig)
-      .then(res => {
+      .then((res) => {
         console.log("user info", res.data);
         if (res.data && res.data.user_info) {
           this.setState({
@@ -55,24 +60,24 @@ export default class User_profile extends Component {
             website: res.data.user_info.website,
             user_image: "",
             loading_info: false,
-            loading_image: false
+            loading_image: false,
           });
         } else {
           this.setState({ loading_info: false, loading_image: false });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("user info err", err);
         this.setState({ loading_info: false, loading_image: false });
       });
   };
 
-  changeHandler = event => {
+  changeHandler = (event) => {
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  submitUserDetails = event => {
+  submitUserDetails = (event) => {
     console.log("this.state", this.state);
     event.preventDefault();
     this.setState({ loading: true });
@@ -84,7 +89,7 @@ export default class User_profile extends Component {
       Company_name,
       address,
       Phone,
-      website
+      website,
     } = this.state;
 
     const data = {
@@ -94,76 +99,96 @@ export default class User_profile extends Component {
       Company_name,
       address,
       Phone,
-      website
+      website,
     };
 
     update_user_info(data, DjangoConfig)
-      .then(response => {
+      .then((response) => {
         let data2 = { user_id: localStorage.getItem("UserId") };
         this.setState({ loading_info: true });
         get_login_user_info(data2, DjangoConfig)
-          .then(res => {
+          .then((res) => {
             console.log("user info", res.data);
             if (res.data && res.data.user_info) {
               this.setState({
                 user_info: res.data.user_info,
                 edit_details: false,
-                loading_info: false
+                loading_info: false,
               });
             } else {
               this.setState({ edit_details: false, loading_info: false });
               alert("try again");
             }
           })
-          .catch(err => {
+          .catch((err) => {
             this.setState({ edit_details: false, loading_info: false });
             alert("try again");
           });
       })
-      .catch(res => {
+      .catch((res) => {
         this.setState({ edit_details: false, loading_info: false });
         alert("try again");
       });
   };
 
-  onUploadUserImage = event => {
+  onUploadUserImage = (event) => {
     event.preventDefault();
     let { user_info } = this.state;
     this.setState({ loading_image: true });
     let user_img = event.target.files;
+
     let reader = new FileReader();
     reader.readAsDataURL(user_img[0]);
-    reader.onload = e => {
+    reader.onload = (e) => {
+      this.setState({
+        image: e.target.result,
+      });
       const data = {
         username: user_info.user ? user_info.user.username : "",
-        user_image: e.target.result
+        user_image: this.state.image,
       };
+
+      console.log("username", data.username);
+      console.log("username1", data.user_image);
+      //image cropper
+
       update_user_image(data, DjangoConfig)
-        .then(response => {
+        .then((response) => {
           let data2 = { user_id: localStorage.getItem("UserId") };
           get_login_user_info(data2, DjangoConfig)
-            .then(res => {
+            .then((res) => {
               console.log("user info image", res.data);
-              if (res.data && res.data.user_image) {
+              if (res.data && res.data.user_info.user_image) {
                 this.setState({
-                  user_image: res.data.user_image,
-                  loading_image: false
+                  user_image: res.data.user_info.user_image,
+                  loading_image: false,
                 });
               } else {
                 this.setState({ loading_image: false });
                 alert("try again");
               }
             })
-            .catch(err => {
+            .catch((err) => {
               this.setState({ loading_image: false });
               alert("try again");
             });
         })
-        .catch(res => {
+        .catch((res) => {
           this.setState({ loading_image: false });
           alert("try again");
         });
     };
+  };
+  onCropChange = (crop) => {
+    this.setState({ crop });
+  };
+
+  onCropComplete = (croppedArea, croppedAreaPixels) => {
+    console.log(croppedArea, croppedAreaPixels);
+  };
+
+  onZoomChange = (zoom) => {
+    this.setState({ zoom });
   };
 
   render() {
@@ -178,7 +203,7 @@ export default class User_profile extends Component {
       website,
       user_image,
       loading_info,
-      loading_image
+      loading_image,
     } = this.state;
     return (
       <div>
@@ -200,6 +225,18 @@ export default class User_profile extends Component {
                 </div>
               ) : (
                 <div>
+                  <Cropper
+                    image={this.state.image}
+                    crop={this.state.crop}
+                    zoom={this.state.zoom}
+                    aspect={this.state.aspect}
+                    onCropChange={this.onCropChange}
+                    onCropComplete={this.onCropComplete}
+                    onZoomChange={this.onZoomChange}
+                  />
+                  <MDBBtn className="user_btn" onClick={this.onCropComplete}>
+                    Ok
+                  </MDBBtn>
                   <img
                     src={
                       user_info && user_info.user_image
@@ -241,6 +278,7 @@ export default class User_profile extends Component {
                       value={first_name}
                       onChange={this.changeHandler}
                       placeholder="First name"
+                      className="user_edit_input"
                     />
                     <input
                       type="text"
@@ -248,6 +286,7 @@ export default class User_profile extends Component {
                       value={last_name}
                       onChange={this.changeHandler}
                       placeholder="Last name"
+                      className="user_edit_input"
                     />
                   </div>
                   <MDBRow>
@@ -269,6 +308,8 @@ export default class User_profile extends Component {
                             name="Company_name"
                             value={Company_name}
                             onChange={this.changeHandler}
+                            className="user_edit_input"
+                            placeholder="Edit company name"
                           />
                         </div>
                         <div className="user3">
@@ -277,6 +318,8 @@ export default class User_profile extends Component {
                             name="address"
                             value={address}
                             onChange={this.changeHandler}
+                            className="user_edit_input"
+                            placeholder="Edit address"
                           />
                         </div>
                         <div className="user3">
@@ -285,6 +328,8 @@ export default class User_profile extends Component {
                             name="Phone"
                             value={Phone}
                             onChange={this.changeHandler}
+                            className="user_edit_input"
+                            placeholder="Edit phone no."
                           />
                         </div>
                         <div className="user3">
@@ -293,10 +338,15 @@ export default class User_profile extends Component {
                             name="website"
                             value={website}
                             onChange={this.changeHandler}
+                            className="user_edit_input"
+                            placeholder="Edit website"
                           />
                         </div>
-                        <button type="submit">Submit</button>
+                        <button type="submit" className="user_btn">
+                          Submit
+                        </button>
                         <button
+                          className="user_btn"
                           onClick={() => this.setState({ edit_details: false })}
                         >
                           {" "}
@@ -319,18 +369,37 @@ export default class User_profile extends Component {
                       <div className="user2">Website</div>
                     </MDBCol>
                     <MDBCol md="8">
-                      <div className="user3">{user_info.Company_name}</div>
-                      <div className="user3">{user_info.address}</div>
-                      <div className="user3">{user_info.Phone}</div>
-                      <div className="user3">{user_info.website}</div>
-                      <img
-                        src={edit}
-                        alt="edit"
-                        onClick={() => this.setState({ edit_details: true })}
-                        style={{ height: "20px", width: "20px" }}
-                      />
+                      {user_info.Company_name ? (
+                        <div className="user3">{user_info.Company_name}</div>
+                      ) : (
+                        <div className="user_blank"></div>
+                      )}
+
+                      {user_info.address ? (
+                        <div className="user3">{user_info.address}</div>
+                      ) : (
+                        <div className="user_blank"></div>
+                      )}
+                      {user_info.Phone ? (
+                        <div className="user3">{user_info.Phone}</div>
+                      ) : (
+                        <div className="user_blank"></div>
+                      )}
+                      {user_info.website ? (
+                        <div className="user3">{user_info.website}</div>
+                      ) : (
+                        <div className="user_blank"></div>
+                      )}
                     </MDBCol>
                   </MDBRow>
+                  <div className="get-image">
+                    <img
+                      src={edit}
+                      alt="edit"
+                      onClick={() => this.setState({ edit_details: true })}
+                      style={{ height: "20px", width: "20px" }}
+                    />
+                  </div>
                 </div>
               )}
             </MDBCol>

@@ -1845,6 +1845,8 @@ export default class ViewListing extends Component {
                             // fields="name,email,picture,pages_read_engagement,pages_read_user_content,Page Public Metadata Access"
                             onClick={this.componentClicked}
                             callback={this.responseFacebook}
+                            textButton="Connect a account"
+                            cssClass="connect_btn"
                           />
                         )}
                       </div>
@@ -1909,6 +1911,8 @@ export default class ViewListing extends Component {
                               scope="r_liteprofile r_emailaddress w_member_social r_organization_social w_organization_social rw_organization_admin rw_ads r_ads_reporting"
                               redirectUri="http://localhost:3000/linkedin"
                               redirectPath="/linkedin"
+                              className="connect_btn"
+                              children="Connect a account"
                             ></LinkedIn>
                             {/* <a className="connect_btn">Connect a account</a> */}
                             {/* {!linkedin_code && <div>No code</div>}
@@ -2156,11 +2160,13 @@ export default class ViewListing extends Component {
                               clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
                               //for server
                               //clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
-                              buttonText="Login"
+                              buttonText="Connect a account"
+                              class="connect_btn"
                               scope="https://www.googleapis.com/auth/business.manage"
                               onSuccess={this.responseGoogle}
                               onFailure={this.responseErrorGoogle}
                               cookiePolicy={"single_host_origin"}
+                              icon={false}
 
                               //for refresh token
                               // accessType="offline"
