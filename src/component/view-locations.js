@@ -7,11 +7,14 @@ import {
   edit_location_operations_hours_by_id,
   edit_location_payment_by_id,
   update_images_by_location_id,
-  add_other_images_by_location_id
+  add_other_images_by_location_id,
+  delete_other_images_by_location_id
 } from "./apis/location";
 import Spinner from "./common/Spinner";
 import Loader from "react-loader-spinner";
 import { MDBCol, MDBRow } from "mdbreact";
+import edit_icon from "./assets/edit.png";
+import delete_icon from "./assets/delete_icon.png";
 
 // const GoogleConfig={
 //     headers:{'Authorization':'Bearer '+localStorage.getItem("googleToken")},
@@ -423,15 +426,11 @@ export default class LocationManager extends Component {
       i++;
     }
     if (p_maestro) {
-      payment["" + i] = "Mestro";
+      payment["" + i] = "Maestro";
       i++;
     }
     if (p_paypal) {
       payment["" + i] = "Paypal";
-      i++;
-    }
-    if (p_discover) {
-      payment["" + i] = "Discover";
       i++;
     }
     if (p_samsung) {
@@ -461,7 +460,9 @@ export default class LocationManager extends Component {
     edit_location_payment_by_id(data, DjangoConfig)
       .then(resp => {
         console.log(resp);
-        this.setState({ paymentEdit: false,p_amex: false,
+        this.setState({
+          paymentEdit: false,
+          p_amex: false,
           p_android: false,
           p_apple: false,
           p_cash: false,
@@ -476,7 +477,8 @@ export default class LocationManager extends Component {
           p_discover: false,
           p_samsung: false,
           p_traveler: false,
-          p_visa: false });
+          p_visa: false
+        });
         const data1 = {
           location_id: locationId
         };
@@ -583,11 +585,6 @@ export default class LocationManager extends Component {
       }
     };
 
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/edit-Location-operations-hours-by-id",
-    //   data,
-    //   DjangoConfig
-    // )
     edit_location_operations_hours_by_id(data, DjangoConfig)
       .then(resp => {
         console.log(resp);
@@ -597,11 +594,7 @@ export default class LocationManager extends Component {
         const data1 = {
           location_id: locationId
         };
-        // Axios.post(
-        //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
-        //   data1,
-        //   DjangoConfig
-        // )
+
         location_by_id(data1, DjangoConfig)
           .then(resp1 => {
             this.setState({
@@ -740,21 +733,12 @@ export default class LocationManager extends Component {
         [name]: e.target.result
       };
 
-      // Axios.post(
-      //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/update-images-files-by-location-id",
-      //   data,
-      //   DjangoConfig
-      // )
       update_images_by_location_id(data, DjangoConfig)
         .then(resp => {
           const data1 = {
             location_id: locationId
           };
-          // Axios.post(
-          //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
-          //   data1,
-          //   DjangoConfig
-          // )
+
           location_by_id(data1, DjangoConfig)
             .then(resp1 => {
               this.setState({
@@ -765,11 +749,13 @@ export default class LocationManager extends Component {
             })
             .catch(resp1 => {
               console.log(resp1);
+              alert("uploading image failed");
               this.setState({ logoLoading: false, coverImageLoading: false });
             });
         })
         .catch(resp => {
           console.log(resp);
+          alert("uploading image failed");
           this.setState({ logoLoading: false, coverImageLoading: false });
         });
     };
@@ -792,21 +778,11 @@ export default class LocationManager extends Component {
 
       this.setState({ otherImagesLoading: true });
 
-      // Axios.post(
-      //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/add-other-images-files-by-location-id",
-      //   data,
-      //   DjangoConfig
-      // )
       add_other_images_by_location_id(data, DjangoConfig)
         .then(resp => {
           const data1 = {
             location_id: locationId
           };
-          // Axios.post(
-          //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
-          //   data1,
-          //   DjangoConfig
-          // )
           location_by_id(data1, DjangoConfig)
             .then(resp1 => {
               this.setState({
@@ -816,14 +792,48 @@ export default class LocationManager extends Component {
             })
             .catch(resp1 => {
               console.log(resp1);
+              alert("uploading image failed");
               this.setState({ otherImagesLoading: false });
             });
         })
         .catch(resp => {
           console.log(resp);
+          alert("uploading image failed");
           this.setState({ otherImagesLoading: false });
         });
     };
+  };
+
+  delete_other_image = image_id => {
+    var locationId = this.props.match.params.locationId;
+    const data = {
+      image_id: image_id
+    };
+    console.log("image_id", image_id);
+    this.setState({ otherImagesLoading: true });
+    delete_other_images_by_location_id(data, DjangoConfig)
+      .then(res => {
+        const data1 = {
+          location_id: locationId
+        };
+        location_by_id(data1, DjangoConfig)
+          .then(resp1 => {
+            this.setState({
+              otherImages: resp1.data.location.Df_location_image,
+              otherImagesLoading: false
+            });
+          })
+          .catch(resp1 => {
+            console.log(resp1);
+            alert("deleting image failed");
+            this.setState({ otherImagesLoading: false });
+          });
+      })
+      .catch(res => {
+        alert("deleting image failed");
+        this.setState({ otherImagesLoading: false });
+        console.log(res);
+      });
   };
 
   _loadBusinessCategories = () => {
@@ -1118,7 +1128,8 @@ export default class LocationManager extends Component {
                               <input
                                 name="phone_edit"
                                 onChange={this.changeHandler}
-                                type="tel"
+                                // type="tel"
+                                type="number"
                                 className="form-control"
                                 value={this.state.phone_edit}
                               />
@@ -1282,6 +1293,7 @@ export default class LocationManager extends Component {
                                 className="form-control"
                                 placeholder="Enter Business Owner Name"
                                 value={this.state.ownerName_edit}
+                                required
                               ></input>
                             </div>
                             <div className="form-group">
@@ -1483,38 +1495,43 @@ export default class LocationManager extends Component {
                               </MDBRow>
                             </div>
                             <ul className="socialicon-new">
-                              {/* <li>
-                          <a href="#">
-                            <img
-                              src={require("../images/icon-1.png")}
-                              alt=""
-                            />
-                          </a>
-                        </li> */}
-                              <li>
-                                <a href={this.state.facebookProfile}>
-                                  <img
-                                    src={require("../images/icon-2.png")}
-                                    alt="Facebook"
-                                  />
-                                </a>
-                              </li>
-                              <li>
-                                <a href={this.state.instagramProfile}>
-                                  <img
-                                    src={require("../images/icon-3.png")}
-                                    alt="Instagram"
-                                  />
-                                </a>
-                              </li>
-                              <li>
-                                <a href={this.state.twitterProfile}>
-                                  <img
-                                    src={require("../images/icon-4.png")}
-                                    alt="Twitter"
-                                  />
-                                </a>
-                              </li>
+                              {this.state.facebookProfile ? (
+                                <li>
+                                  <a href={this.state.facebookProfile}>
+                                    <img
+                                      src={require("../images/icon-2.png")}
+                                      alt="Facebook"
+                                    />
+                                  </a>
+                                </li>
+                              ) : (
+                                ""
+                              )}
+
+                              {this.state.instagramProfile ? (
+                                <li>
+                                  <a href={this.state.instagramProfile}>
+                                    <img
+                                      src={require("../images/icon-3.png")}
+                                      alt="Instagram"
+                                    />
+                                  </a>
+                                </li>
+                              ) : (
+                                ""
+                              )}
+                              {this.state.twitterProfile ? (
+                                <li>
+                                  <a href={this.state.twitterProfile}>
+                                    <img
+                                      src={require("../images/icon-4.png")}
+                                      alt="Twitter"
+                                    />
+                                  </a>
+                                </li>
+                              ) : (
+                                ""
+                              )}
                             </ul>
                           </div>
                         </div>
@@ -2534,11 +2551,14 @@ export default class LocationManager extends Component {
                           <div className="coverimgupload">
                             <img
                               src={
-                                "https://dashify.biz" +
-                                LocationDetails.Business_Cover_Image
+                                "https://dashify.biz/media/12132/locations/banner/2020/10/14/14_10_2020.jpeg"
                               }
                               alt="Cover image"
                             />
+                            {console.log(
+                              "LocationDetails.Business_Cover_Image",
+                              LocationDetails.Business_Cover_Image
+                            )}
                             <br />
                             <div>
                               <i className="zmdi zmdi-plus"></i>
@@ -2612,13 +2632,26 @@ export default class LocationManager extends Component {
                                           }
                                           alt="Starred Business covers image"
                                         />
+
+                                        <div className="get-image">
+                                          <img
+                                            src={delete_icon}
+                                            alt=""
+                                            style={{
+                                              height: "20px",
+                                              width: "20px"
+                                            }}
+                                            onClick={() =>
+                                              this.delete_other_image(n.id)
+                                            }
+                                          />
+                                        </div>
                                       </div>
                                     </span>
                                   </li>
                                 ))}
                               </div>
                             )}
-                            
                           </ul>
                         </div>
                       </div>

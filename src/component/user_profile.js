@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
-import Cropper from "react-easy-crop";
 import {
   get_login_user_info,
   update_user_info,
@@ -19,6 +18,9 @@ import map from "./assets/map_user.png";
 import edit from "./assets/edit.png";
 import Map from "./Map";
 
+import ReactCrop from "react-image-crop";
+import "react-image-crop/dist/ReactCrop.css";
+
 const DjangoConfig = {
   headers: {
     Authorization: "Token " + localStorage.getItem("UserToken")
@@ -36,12 +38,17 @@ export default class User_profile extends Component {
     Phone: "",
     website: "",
     user_image: "",
+    show_crop_function: false,
     loading_info: true,
     loading_image: true,
-    image: "",
-    crop: { x: 0, y: 0 },
-    zoom: 1,
-    aspect: 4 / 3
+
+    // cropper
+    src: null,
+    crop: {
+      unit: "%",
+      width: 30,
+      aspect: 1 / 1
+    }
   };
 
   componentDidMount = () => {
@@ -131,65 +138,167 @@ export default class User_profile extends Component {
       });
   };
 
-  onUploadUserImage = event => {
-    event.preventDefault();
+  uploadUserImage = image => {
     let { user_info } = this.state;
+
+    console.log("image", image);
+
+    let user_img = image;
+
     this.setState({ loading_image: true });
-    let user_img = event.target.files;
-
-    let reader = new FileReader();
-    reader.readAsDataURL(user_img[0]);
-    reader.onload = e => {
-      this.setState({
-        image: e.target.result
-      });
-      const data = {
-        username: user_info.user ? user_info.user.username : "",
-        user_image: this.state.image
-      };
-
-      console.log("username", data.username);
-      console.log("username1", data.user_image);
-      //image cropper
-
-      update_user_image(data, DjangoConfig)
-        .then(response => {
-          let data2 = { user_id: localStorage.getItem("UserId") };
-          get_login_user_info(data2, DjangoConfig)
-            .then(res => {
-              console.log("user info image", res.data);
-              if (res.data && res.data.user_info.user_image) {
-                this.setState({
-                  user_image: res.data.user_info.user_image,
-                  loading_image: false
-                });
-              } else {
-                this.setState({ loading_image: false });
-                alert("try again");
-              }
-            })
-            .catch(err => {
-              this.setState({ loading_image: false });
-              alert("try again");
-            });
-        })
-        .catch(res => {
-          this.setState({ loading_image: false });
-          alert("try again");
-        });
+    const data = {
+      username: user_info.user ? user_info.user.username : "",
+      user_image: image
     };
+
+    update_user_image(data, DjangoConfig)
+      .then(response => {
+        let data2 = { user_id: localStorage.getItem("UserId") };
+        get_login_user_info(data2, DjangoConfig)
+          .then(res => {
+            console.log("user info image", res.data);
+            if (res.data && res.data.user_info.user_image) {
+              this.setState({
+                user_image: res.data.user_info.user_image,
+                loading_image: false,
+                show_crop_function: false
+              });
+            } else {
+              this.setState({
+                loading_image: false,
+                show_crop_function: false
+              });
+              alert("try again");
+            }
+          })
+          .catch(err => {
+            this.setState({ loading_image: false, show_crop_function: false });
+            alert("try again");
+          });
+      })
+      .catch(res => {
+        this.setState({ loading_image: false, show_crop_function: false });
+        alert("try again");
+      });
   };
-  onCropChange = crop => {
+
+  show_crop_function = () => {
+    this.setState({
+      show_crop_function: true
+    });
+  };
+
+  cropFunction = () => {
+    console.log("clicked crop function");
+    const { crop, croppedImageUrl, src, image } = this.state;
+    let data = (
+      <div className="App">
+        <div>
+          <input type="file" accept="image/*" onChange={this.onSelectFile} />
+        </div>
+        {src && (
+          <ReactCrop
+            src={src}
+            crop={crop}
+            ruleOfThirds
+            onImageLoaded={this.onImageLoaded}
+            onComplete={this.onCropComplete}
+            onChange={this.onCropChange}
+          />
+        )}
+        {croppedImageUrl && (
+          <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
+        )}
+        <button onClick={() => this.uploadUserImage(croppedImageUrl)}>
+          crop
+        </button>
+      </div>
+    );
+    return data;
+  };
+
+  // cropper functions
+  onSelectFile = e => {
+    if (e.target.files && e.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () =>
+        this.setState({ src: reader.result })
+      );
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  };
+
+  // If you setState the crop in here you should return false.
+  onImageLoaded = image => {
+    this.imageRef = image;
+  };
+
+  onCropComplete = crop => {
+    console.log("onCropComplete");
+    this.makeClientCrop(crop);
+    // this.uploadUserImage;
+  };
+
+  onCropChange = (crop, percentCrop) => {
+    // You could also use percentCrop:
+    // this.setState({ crop: percentCrop });
     this.setState({ crop });
   };
 
-  onCropComplete = (croppedArea, croppedAreaPixels) => {
-    console.log(croppedArea, croppedAreaPixels);
-  };
+  async makeClientCrop(crop) {
+    console.log("makeClientCrop");
+    if (this.imageRef && crop.width && crop.height) {
+      const croppedImageUrl = await this.getCroppedImg(
+        this.imageRef,
+        crop,
+        "newFile.jpeg"
+      );
+      console.log(croppedImageUrl);
 
-  onZoomChange = zoom => {
-    this.setState({ zoom });
-  };
+      this.setState({ croppedImageUrl });
+    }
+  }
+
+  getCroppedImg(image, crop, fileName) {
+    console.log("getCroppedImg");
+    const canvas = document.createElement("canvas");
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext("2d");
+
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+    console.log("ctx", ctx);
+    // As Base64 string
+    const base64Image = canvas.toDataURL("image/jpeg");
+    return base64Image;
+    // return new Promise((resolve, reject) => {
+    //   canvas.toBlob(blob => {
+    //     if (!blob) {
+    //       //reject(new Error('Canvas is empty'));
+    //       console.error("Canvas is empty");
+    //       return;
+    //     }
+    //     console.log("blob", blob);
+    //     blob.name = fileName;
+    //     window.URL.revokeObjectURL(this.fileUrl);
+    //     this.fileUrl = window.URL.createObjectURL(blob);
+    //     console.error("this.fileUrl", this.fileUrl);
+    //     resolve(this.fileUrl);
+    //   }, "image/jpeg");
+    // });
+  }
 
   render() {
     const {
@@ -223,24 +332,14 @@ export default class User_profile extends Component {
                     // timeout={3000} //3 secs
                   />
                 </div>
+              ) : this.state.show_crop_function ? (
+                this.cropFunction()
               ) : (
                 <div>
-                  <Cropper
-                    image={this.state.image}
-                    crop={this.state.crop}
-                    zoom={this.state.zoom}
-                    aspect={this.state.aspect}
-                    onCropChange={this.onCropChange}
-                    onCropComplete={this.onCropComplete}
-                    onZoomChange={this.onZoomChange}
-                  />
-                  <MDBBtn className="user_btn" onClick={this.onCropComplete}>
-                    Ok
-                  </MDBBtn>
                   <img
                     src={
                       user_info && user_info.user_image
-                        ? user_info.user_image
+                        ? "https://dashify.biz" + user_info.user_image
                         : user_img_def
                     }
                     alt="user"
@@ -251,8 +350,9 @@ export default class User_profile extends Component {
                       src={edit}
                       alt=""
                       style={{ height: "20px", width: "20px" }}
+                      onClick={this.show_crop_function}
                     />
-                    <input type="file" onChange={this.onUploadUserImage} />
+                    {/* <input type="file" onChange={this.show_crop_function} /> */}
                   </div>
                 </div>
               )}
