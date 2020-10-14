@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Flaticon.css";
 import "./App.css";
-
+import 'reactjs-popup/dist/index.css';
 import MainApp from "./component/main";
 
 import InstagramLogin from "./component/instagramlogin";

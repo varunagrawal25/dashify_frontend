@@ -3786,9 +3786,6 @@ input.form-control {
   justify-content: space-between;
 }
 
-.for-color {
-  color: #557fe9;
-}
 .footer-banner {
   background-color: #f4f6fa;
   border-top: 1px solid #6c757db0;
@@ -3930,9 +3927,6 @@ input.form-control {
   justify-content: space-between;
 }
 
-.for-color {
-  color: #557fe9;
-}
 .footer-banner {
   background-color: #f4f6fa;
   border-top: 1px solid #6c757db0;
@@ -9246,6 +9240,7 @@ img {
 }
 
 .anacard {
+  padding: 8px;
   background: #ffffff;
   border-radius: 10px;
 }
@@ -10148,6 +10143,41 @@ ul.dropdown-menu.loginboxds li a:hover {
 
 /* varun css */
 
+.profile_ana_contant1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 16px;
+  color: #000000;
+}
+.message_normal {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 18px;
+  color: #000;
+}
+
+.warning {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 18px;
+  color: red;
+}
+
+.fine {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 18px;
+  color: green;
+}
+
 /*support */
 
 #support_heading1 {
@@ -10356,15 +10386,33 @@ ul.dropdown-menu.loginboxds li a:hover {
   margin: 25px 0px;
 }
 
+.modal_body_contant01 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 24px;
+  color: #666666;
+  margin-top: 5px;
+}
+.for-color {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 24px;
+  margin-top: 3px;
+  color: #557fe9;
+}
 .modal_body_contant1 {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 24px;
   color: #666666;
   margin-left: -20px;
-  margin-top: 5px;
+  margin-top: 10px;
 }
 
 .modal_body_subheading {
@@ -12684,15 +12732,9 @@ ul.outped li span {
   margin-top: 0px !important;
 }
 
-.anacard {
-  display: table;
-  width: 100%;
-  padding: 8px;
-}
-
 .profile-new-img {
-  float: left;
-  width: 50px;
+  border-radius: 50%;
+  width: 100%;
 }
 
 .conentyour.ana-10 {
