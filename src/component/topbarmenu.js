@@ -13,7 +13,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const DjangoConfig = {
-  headers: { Authorization: "Token " + localStorage.getItem("UserToken") },
+  headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
 
 const Yelpconfig = {
@@ -21,8 +21,8 @@ const Yelpconfig = {
     Authorization:
       "bearer _1cVnrrkqmG_dwNUdtorVxarkzItJM7AWM700rkRxM7aPdDfxJECcdaN00ADjSkrStF1pX4sdGCspYeSjU7VGkpjWYoMsC2_filBf5d5J5GMRTgXws_W6qusNMhYX3Yx",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost",
-  },
+    "Access-Control-Allow-Origin": "http://localhost"
+  }
 };
 
 let location_id = localStorage.getItem("locationId");
@@ -41,7 +41,7 @@ export default class Topbarmenu extends Component {
       citysearchReviews: [],
       yelpReviews: [],
       view_notification_type1: false,
-      search: [],
+      search: []
     };
     this.change = this.change.bind(this);
   }
@@ -73,11 +73,11 @@ export default class Topbarmenu extends Component {
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/account/logout"
     // )
     logout()
-      .then((res) => {
+      .then(res => {
         console.log("sucess");
         console.log(res);
       })
-      .catch((res) => {
+      .catch(res => {
         console.log("error in Logout");
       });
   };
@@ -86,10 +86,10 @@ export default class Topbarmenu extends Component {
     console.log("tool");
 
     const DjangoConfig1 = {
-      headers: { Authorization: "Token " + localStorage.getItem("UserToken") },
+      headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
     };
     const data = {
-      user_id: localStorage.getItem("UserId"),
+      user_id: localStorage.getItem("UserId")
     };
     // Axios.post(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-locations",
@@ -97,13 +97,13 @@ export default class Topbarmenu extends Component {
     //   DjangoConfig1
     // )
     all_location(data, DjangoConfig1)
-      .then((res) => {
+      .then(res => {
         console.log(res);
         console.log(res.data.all_location);
 
         this.setState({ AllLocations: res.data.all_location });
       })
-      .catch((res) => {
+      .catch(res => {
         console.log("error in LocationManager");
       });
 
@@ -112,7 +112,7 @@ export default class Topbarmenu extends Component {
     var yelpUrl, citysearchUrl, fbtoken, fbPageId, googleToken;
 
     const data2 = {
-      location_id,
+      location_id
     };
 
     // Axios.post(
@@ -120,8 +120,8 @@ export default class Topbarmenu extends Component {
     //   data2,
     //   DjangoConfig
     // )
-    all_connection_of_one_location(data2, DjangoConfig).then((response) => {
-      response.data.data.map((l) => {
+    all_connection_of_one_location(data2, DjangoConfig).then(response => {
+      response.data.data.map(l => {
         if (l.Social_Platform.Platform == "Facebook") {
           fbtoken = l.Social_Platform.Token;
           fbPageId = l.Social_Platform.Other_info;
@@ -141,14 +141,14 @@ export default class Topbarmenu extends Component {
       });
 
       const GoogleConfig = {
-        headers: { Authorization: "Bearer " + googleToken },
+        headers: { Authorization: "Bearer " + googleToken }
       };
 
       // for facebook
       if (fbtoken) {
         Axios.get(
           "https://graph.facebook.com/me/accounts/?access_token=" + fbtoken
-        ).then((res) => {
+        ).then(res => {
           var fbPageAccessToken;
           for (let i = 0; i < res.data.data.length; i++) {
             if (res.data.data[i].id == fbPageId) {
@@ -160,7 +160,7 @@ export default class Topbarmenu extends Component {
               fbPageId +
               "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
               fbPageAccessToken
-          ).then((res) => {
+          ).then(res => {
             this.setState({ fbReviews: res.data.data });
           });
           Axios.get(
@@ -168,7 +168,7 @@ export default class Topbarmenu extends Component {
               fbPageId +
               "?fields=new_like_count,talking_about_count,unread_message_count,unread_notif_count,unseen_message_count&access_token=" +
               fbPageAccessToken
-          ).then((resp) => {
+          ).then(resp => {
             this.setState({ fb_notification: resp.data });
           });
         });
@@ -179,7 +179,7 @@ export default class Topbarmenu extends Component {
         Axios.get(
           "https://mybusiness.googleapis.com/v4/accounts/",
           GoogleConfig
-        ).then((res) => {
+        ).then(res => {
           localStorage.setItem("accountId", res.data.accounts[0].name);
 
           Axios.get(
@@ -187,7 +187,7 @@ export default class Topbarmenu extends Component {
               localStorage.getItem("accountId") +
               "/locations",
             GoogleConfig
-          ).then((resp) => {
+          ).then(resp => {
             localStorage.setItem(
               "locationIdGoogle",
               resp.data.locations[0].name
@@ -198,7 +198,7 @@ export default class Topbarmenu extends Component {
                 localStorage.getItem("locationIdGoogle") +
                 "/reviews",
               GoogleConfig
-            ).then((respo) => {
+            ).then(respo => {
               this.setState({ googleReviews: respo.data.reviews });
             });
           });
@@ -212,7 +212,7 @@ export default class Topbarmenu extends Component {
             yelpUrl.slice(25) +
             "/reviews",
           Yelpconfig
-        ).then((resp) => {
+        ).then(resp => {
           this.setState({ yelpReviews: resp.data.reviews });
         });
       }
@@ -224,11 +224,11 @@ export default class Topbarmenu extends Component {
           "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
             citysearchUrl +
             "&publisher=test"
-        ).then((res) => {
+        ).then(res => {
           var XMLParser = require("react-xml-parser");
           var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
           this.setState({
-            citysearchReviews: xml.getElementsByTagName("review"),
+            citysearchReviews: xml.getElementsByTagName("review")
           });
         });
       }
@@ -253,7 +253,7 @@ export default class Topbarmenu extends Component {
       googleReviews,
       citysearchReviews,
       yelpReviews,
-      view_notification_type1,
+      view_notification_type1
     } = this.state;
 
     // var options = [];
@@ -269,7 +269,7 @@ export default class Topbarmenu extends Component {
     let courses = [];
 
     if (this.state.AllLocations.length != 0) {
-      this.state.AllLocations.map((data) => {
+      this.state.AllLocations.map(data => {
         courses = [...courses, data.Location_name];
         // if (location_id == data.id.toString()) {
         //   localStorage.setItem("locationName", data.Location_name);
@@ -280,10 +280,10 @@ export default class Topbarmenu extends Component {
     let options;
     if (this.state.search.length) {
       const searchPattern = new RegExp(
-        this.state.search.map((term) => `(?=.*${term})`).join(""),
+        this.state.search.map(term => `(?=.*${term})`).join(""),
         "i"
       );
-      options = courses.filter((option) => option.match(searchPattern));
+      options = courses.filter(option => option.match(searchPattern));
     } else {
       options = courses;
     }
@@ -326,7 +326,7 @@ export default class Topbarmenu extends Component {
             You have {fb_notification.unseen_message_count} unread messages on
             your facebook page
           </p>
-        </a>,
+        </a>
       ];
     }
 
@@ -344,7 +344,7 @@ export default class Topbarmenu extends Component {
             You have {fb_notification.unread_notif_count} unread notifications
             on your facebook page
           </p>
-        </a>,
+        </a>
       ];
     }
 
@@ -375,7 +375,7 @@ export default class Topbarmenu extends Component {
                   : ""}
               </small>
             </p>
-          </a>,
+          </a>
         ];
       } else {
         break;
@@ -413,7 +413,7 @@ export default class Topbarmenu extends Component {
                       "hours ago"}
                 </small>
               </p>
-            </a>,
+            </a>
           ];
         } else {
           break;
@@ -451,7 +451,7 @@ export default class Topbarmenu extends Component {
                     "hours ago"}
               </small>
             </p>
-          </a>,
+          </a>
         ];
       } else {
         break;
@@ -500,7 +500,7 @@ export default class Topbarmenu extends Component {
                     ) + "hours ago"}{" "}
               </small>
             </p>
-          </a>,
+          </a>
         ];
       } else {
         break;
@@ -527,7 +527,7 @@ export default class Topbarmenu extends Component {
                         <input
                           type="text"
                           name=""
-                          onChange={(e) =>
+                          onChange={e =>
                             this.setState({ search: e.target.value.split(" ") })
                           }
                           className="form-control searcdd "
@@ -562,14 +562,14 @@ export default class Topbarmenu extends Component {
                         )}
                       </div>
                     </div>
-                    {/* <div className="col-md-6">
-                      <Link
+                    <div className="col-md-6">
+                      <a
                         className="add-location last_btn"
-                        to="/add-location"
+                        href="/dashboard#/add-location"
                       >
                         <i className="zmdi zmdi-plus"></i> Add Location
-                      </Link>
-                    </div> */}
+                      </a>
+                    </div>
                   </div>
                 </div>
 
@@ -646,10 +646,10 @@ export default class Topbarmenu extends Component {
                               onClick={() =>
                                 view_notification_type1 == true
                                   ? this.setState({
-                                      view_notification_type1: false,
+                                      view_notification_type1: false
                                     })
                                   : this.setState({
-                                      view_notification_type1: true,
+                                      view_notification_type1: true
                                     })
                               }
                               className="dropdown-item text-center text-primary notify-item notify-all"

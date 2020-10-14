@@ -26,6 +26,7 @@ import ReactPDF, {
 import fb1 from "./assets/fb.png";
 import fb2 from "./assets/fb1.png";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import { MDBCol, MDBRow } from "mdbreact";
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -844,101 +845,109 @@ export default class ProfileAnalytics extends Component {
               <h3>Profile Analytics</h3>
             </div>
 
-
-
-
-            <div className="">
-              <div className="row ">
-                {this.state.fbIsLoggedIn ? (
+            <MDBRow>
+              
+              <MDBCol md='4' style={{padding:'0px 20px'}}>
+              {this.state.fbIsLoggedIn ? (
                   ""
                 ) : (
-                  <div className="col-md-4">
-                    <div className="anacard">
-                    
-                      <div className="profile-new-img">
+                      <MDBRow className="anacard">
+                    <MDBCol md='2' style={{backgroundColor:'red'}}>
+                    <div className="profile-new-img">
                       <img 
                   src={require("../images/profilefacebook.png")}
                   alt="facebook"
                  
                 />
                       </div>
-                      <div className="conentyour ana-10 ">
-                        <h5>
+                    </MDBCol>
+
+                    <MDBCol md='6' className="profile_ana_contant1">
                           Connect your Facebook profile to get profile analytics
                           for your Facebook listing
-                        </h5>
-                      </div>
-                      {/* <div className="col-md-4 button_connect ">
-                        <a href="#" className="btn btn-analy  ">
-                          <h6>Connect</h6>
-                        </a>
-                      </div> */}
-                      <div className="google_btnb google-btnbv">
-                        <FacebookLogin
+                    </MDBCol>
+                    <MDBCol md='4'>
+                    <FacebookLogin
                           appId="187396122554776"
                           // appId="3044182972316291"
                           autoLoad={false}
                           fields="name,email,picture"
                           onClick={this.componentClicked}
                           callback={this.responseFacebook}
+                          textButton="Connect"
+                            cssClass="connect_btn"
                         />
-                      </div>
-                   
-                    </div>
-                  </div>
+                    </MDBCol>
+                  </MDBRow>
                 )}
-                {this.state.googleIsLoggedIn ? (
+              </MDBCol>
+
+              <MDBCol md='4' style={{padding:'0px 20px'}}>
+              {this.state.fbIsLoggedIn ? (
                   ""
                 ) : (
-                  <div className="col-md-4 ">
-                    <div className="anacard ">
-                   
+                      <MDBRow className="anacard">
+                    <MDBCol md='2' style={{backgroundColor:'red'}}>
                     <div className="profile-new-img">
-                      <img
+                    <img
                   src={require("../images/profiletwitter.png")}
-                  alt="facebook"
-                 
-                />
+                  alt="twitter"/>
                       </div>
-                      <div className="conentyour  ana-10">
-                        <h5>
-                          Connect your Google account to get profile analytics
-                          for your google listing
-                        </h5>
-                      </div>
-                      {/* <div className="col-md-4 button_connect">
-                      <a href="#" className="btn btn-analy  ">
-                        <h6>Connect</h6>
-                      </a>
-                    </div> */}
-                    {/* twitteer */}
-                    {/* <img
-                  src={require("../images/profiletwitter.png")}
-                  alt="facebook"
-                  height="65"
-                  width="65"
-                /> */}
+                    </MDBCol>
 
-                      <div className="button_connect btn-newb">
-                        <GoogleLogin
-                          //for localhost
-                          clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
-                          //for server
-                          // clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
-                          buttonText="Login"
-                          scope="https://www.googleapis.com/auth/business.manage"
-                          onSuccess={this.responseGoogle}
-                          onFailure={this.responseErrorGoogle}
-                          cookiePolicy={"single_host_origin"}
+                    <MDBCol md='6' className="profile_ana_contant1">
+                          Connect your Twitter profile to get profile analytics
+                          for your Facebook listing
+                    </MDBCol>
+                    <MDBCol md='4'>
+                    <FacebookLogin
+                          appId="187396122554776"
+                          // appId="3044182972316291"
+                          autoLoad={false}
+                          fields="name,email,picture"
+                          onClick={this.componentClicked}
+                          callback={this.responseFacebook}
+                          textButton="Connect"
+                            cssClass="connect_btn"
                         />
-                      </div>
-                   
-                    </div>
-                  </div>
+                    </MDBCol>
+                  </MDBRow>
                 )}
-              </div>
-            </div>
+              </MDBCol>
+              <MDBCol md='4' style={{padding:'0px 20px'}}>
+              {this.state.fbIsLoggedIn ? (
+                  ""
+                ) : (
+                      <MDBRow className="anacard">
+                    <MDBCol md='2' style={{backgroundColor:'red'}}>
+                    <div className="profile-new-img">
+                    <img
+                  src={require("../images/profiletwitter.png")}
+                  alt="twitter"/>
+                      </div>
+                    </MDBCol>
 
+                    <MDBCol md='6' className="profile_ana_contant1">
+                          Connect your Twitter profile to get profile analytics
+                          for your Facebook listing
+                    </MDBCol>
+                    <MDBCol md='4'>
+                    <FacebookLogin
+                          appId="187396122554776"
+                          // appId="3044182972316291"
+                          autoLoad={false}
+                          fields="name,email,picture"
+                          onClick={this.componentClicked}
+                          callback={this.responseFacebook}
+                          textButton="Connect"
+                            cssClass="connect_btn"
+                        />
+                    </MDBCol>
+                  </MDBRow>
+                )}
+              </MDBCol>
+            </MDBRow>
+            
             <div className="container analytic-11 ">
               <div className="">
                 {this.state.loading ? (

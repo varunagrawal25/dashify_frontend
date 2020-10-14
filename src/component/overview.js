@@ -501,7 +501,7 @@ export default class Overview extends Component {
             // });
           });
         }
-
+        var today = new Date();
         // here
         if (hereUrl) {
           Axios.get(hereUrl).then((res) => {
