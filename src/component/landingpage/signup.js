@@ -31,6 +31,7 @@ export default class Signup extends Component {
     error: "",
 
     email_sent: "",
+    show_signup_button: true,
     loading_activate: false,
     loading: false,
     any_error: false
@@ -80,6 +81,7 @@ export default class Signup extends Component {
           console.log("resp", resp);
           if (resp.data.response == "Account create successfuly") {
             this.activateHandler();
+            this.setState({ show_signup_button: false });
           } else {
             this.setState({
               error: resp,
@@ -454,11 +456,15 @@ export default class Signup extends Component {
                       ""
                     )}
                   </div>
-                  <div>
-                    <button type="submit" className="signup_btn">
-                      Sign up
-                    </button>
-                  </div>
+                  {this.state.show_signup_button ? (
+                    <div>
+                      <button type="submit" className="signup_btn">
+                        Sign up
+                      </button>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>

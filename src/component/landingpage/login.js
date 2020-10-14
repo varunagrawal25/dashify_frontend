@@ -361,7 +361,7 @@ export default class Login extends Component {
                           onChange={this.changeHandler}
                           type="text"
                           className="modal_inputbox modal_inputbox_new"
-                          required
+                          readOnly
                         />
                         <div style={{ color: "red" }}>
                           {this.state.Email_error}

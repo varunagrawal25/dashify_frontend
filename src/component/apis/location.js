@@ -64,3 +64,11 @@ export const add_other_images_by_location_id = (data, DjangoConfig) => {
     DjangoConfig
   );
 };
+
+export const delete_other_images_by_location_id = (data, DjangoConfig) => {
+  return Axios.post(
+    `${API}/locations/remove-other-images-files-by-location-id-image-id`,
+    data,
+    DjangoConfig
+  );
+};
