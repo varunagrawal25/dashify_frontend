@@ -486,19 +486,7 @@ isSignup:false,
                       ""
                     )}
                   </div>
-<<<<<<< HEAD
                 
-=======
-                  {this.state.show_signup_button ? (
-                    <div>
-                      <button type="submit" className="signup_btn">
-                        Sign up
-                      </button>
-                    </div>
-                  ) : (
-                    ""
-                  )}
->>>>>>> vithlesh
                 </div>
               </div>
             </div>
