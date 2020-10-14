@@ -9,6 +9,10 @@ import rec from "./assets/rectangle.png";
 import rec2 from "./assets/rectangle309.png";
 import rec3 from "./assets/rectangle312.png";
 import rec4 from "./assets/rectangle320.png";
+import CancelIcon from '@material-ui/icons/Cancel';
+import AttachmentIcon from '@material-ui/icons/Attachment';
+import AddOutlinedIcon from '@material-ui/icons/AddOutlined';
+
 
 const DjangoConfig = {
   headers: {
@@ -1304,17 +1308,27 @@ export default class PromotionalPost extends Component {
               onSubmit={this.submitHandler}
               noValidate
             >
-              <div className="col-md-11 add_post">
-                <h5>Additional Promotional Posts</h5>
+             
+                <div className='row'>
+                <div className='col-md-10 '>
+                <h6 className='prstdo'>Additional Promotional Posts</h6>
+                </div>
+                <div className='col-md-2 mt-2'>
+                <CancelIcon style={{ color: 'grey' }}/>
+                </div>
+               
+
+                </div>
+                <div className="col-md-12 add_post">
+                
                 <div className="row">
                   <div className="col-md-6">
                     <p>Write your post</p>
                     <div className="col-md-11">
                       <div className="row rec_img">
                         <img src={rec4} alt="rec" />
-                        <img src={rec4} alt="rec" />
-                        <img src={rec4} alt="rec" />
-                        <img src={rec4} alt="rec" />
+                        
+                        <AddOutlinedIcon  style={{ color: '#5d80e2', fontSize:"50" }} />
                       </div>
                     </div>
                   </div>
@@ -1343,7 +1357,10 @@ export default class PromotionalPost extends Component {
                         </div>
                       </div> */}
                       <div className="col-md-10 ">
-                        <p>Attach a document</p>
+                        <div className='row mt-2'>
+                      <AttachmentIcon />
+                       <p className='mb-1'>Attach a document</p>
+                       </div>
                       </div>
                     </div>
                   </div>
@@ -1371,16 +1388,17 @@ export default class PromotionalPost extends Component {
                         <p>Add a CTA</p>
                       </label>
                       {CTA ? (
-                        <div>
-                          <ul>
+                        <div className='promo1s'>
+                          <ul className='pramo'>
                             <li>
                               <input
                                 name="actionType"
                                 type="checkbox"
                                 onChange={this.changeHandler}
                                 value="BOOK"
+                                
                               />
-                              BOOK
+                              <span className='valpromo'>Book</span>
                             </li>
                             <li>
                               <input
@@ -1389,7 +1407,7 @@ export default class PromotionalPost extends Component {
                                 type="checkbox"
                                 onChange={this.changeHandler}
                               />
-                              ORDER
+                               <span className='valpromo'>Order</span>
                             </li>
                             <li>
                               <input
@@ -1398,7 +1416,7 @@ export default class PromotionalPost extends Component {
                                 type="checkbox"
                                 onChange={this.changeHandler}
                               />
-                              SHOP
+                             <span className='valpromo'>Shop</span>
                             </li>
                             <li>
                               <input
@@ -1407,7 +1425,7 @@ export default class PromotionalPost extends Component {
                                 type="checkbox"
                                 onChange={this.changeHandler}
                               />
-                              LEARN MORE
+                             <span className='valpromo'>Learn More</span>
                             </li>
                             <li>
                               <input
@@ -1416,7 +1434,7 @@ export default class PromotionalPost extends Component {
                                 type="checkbox"
                                 onChange={this.changeHandler}
                               />
-                              SIGN UP
+                              <span className='valpromo'>Sign Up</span>
                             </li>
                             <li>
                               <input
@@ -1425,14 +1443,15 @@ export default class PromotionalPost extends Component {
                                 type="checkbox"
                                 onChange={this.changeHandler}
                               />
-                              CALL
+                            <span className='valpromo'>Call</span>
                             </li>
                           </ul>
-                          url:
+                          Url:
                           <input
                             type="url"
                             name="url"
                             onChange={this.changeHandler}
+                            className='form-control'
                           />
                         </div>
                       ) : (
@@ -1503,7 +1522,8 @@ export default class PromotionalPost extends Component {
                       )}
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  
+                  <div className="col-md-6 mt-3">
                     <div class="form-check">
                       <input
                         class="form-check-input"
@@ -1516,7 +1536,7 @@ export default class PromotionalPost extends Component {
                         <p>Make this post a promotional post</p>
                       </label>
                       {post_promotional ? (
-                        <div>
+                        <div className='preso'>
                           Coupon code:
                           <input
                             type="text"
@@ -1544,7 +1564,7 @@ export default class PromotionalPost extends Component {
                       )}
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-6 mt-3">
                     <div class="form-check">
                       <input
                         class="form-check-input"
@@ -1557,6 +1577,7 @@ export default class PromotionalPost extends Component {
                       </label>
                     </div>
                   </div>
+                  
                 </div>
                 <div className="row aja_tu">
                   <div className="col-md-6">
@@ -1727,7 +1748,7 @@ export default class PromotionalPost extends Component {
                                       CALL
                                     </li>
                                   </ul>
-                                  url:
+                                  Url:
                                   <input
                                     type="url"
                                     name="url"

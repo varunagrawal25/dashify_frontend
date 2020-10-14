@@ -10,6 +10,7 @@ import ViewLocations from "./location-manager";
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -45,21 +46,22 @@ export default class Topbarmenu extends Component {
     this.change = this.change.bind(this);
   }
 
-  change = e => {
-    console.log("event target value", e.target.value);
+  change = (id ,name)=> e => {
+    
+    // console.log("event target value", e.target.value);
     console.log(this.state);
 
     // this.setState({ changev: true, locationid: e });
 
-    this.setState({ changev: true, locationid: e.target.value });
+    // this.setState({ changev: true, locationid: e.target.value });
 
-    localStorage.setItem("locationId", JSON.parse(e.target.value).id);
-    localStorage.setItem("locationName", JSON.parse(e.target.value).name);
+    localStorage.setItem("locationId", id);
+    localStorage.setItem("locationName", name);
 
     // console.log(window.location.href);
 
     window.location.assign(
-      "dashboard#/locations/" + JSON.parse(e.target.value).id + "/overview"
+      "dashboard#/locations/" + id + "/overview"
     );
     window.location.reload(false);
   };
@@ -231,6 +233,17 @@ export default class Topbarmenu extends Component {
         });
       }
     });
+  }
+
+  onKeyDown(e) {
+    var input = "";
+    if (e.keyCode === 8) {
+      // backspace/delete has been hit
+      input = e.target.value.substr(0, e.target.value.length-1);
+    }
+    else {
+      input = e.target.value + String.fromCharCode(e.keyCode);
+    }
   }
 
   render() {
@@ -520,36 +533,31 @@ export default class Topbarmenu extends Component {
                           className="form-control searcdd "
                           placeholder={loc_name ? loc_name : "Search"}
                           aria-label="Search"
+                          
                         />
                         {this.state.search.length == 0 ||
                         this.state.search[0] == "" ? (
                           ""
                         ) : (
                           <div className="searchtrans">
-                            <select
-                              name="language"
-                              onChange={this.change}
+                            <ul name="language"
                               id="language"
-                              required
-                              className="form-control"
-                            >
-                              {/* <option value="0" disabled="" >
-                                Select location
-                              </option> */}
+                              required  >
+                             
                               {filtered_posts.length != 0
                                 ? filtered_posts.map((f, i) => (
-                                    <option
+                                    <li
+                                    onKeyDown={this.onKeyDown}
                                       key={`location-${i}`}
-                                      value={JSON.stringify({
-                                        id: f.id.toString(),
-                                        name: f.Location_name
-                                      })}
+                                      onClick={this.change(f.id.toString(),f.Location_name)}
                                     >
                                       {f.Location_name}
-                                    </option>
+                                    </li>
                                   ))
                                 : "No Result"}
-                            </select>
+                              
+                            </ul>
+                            
                           </div>
                         )}
                       </div>
@@ -572,7 +580,7 @@ export default class Topbarmenu extends Component {
                     </div>
                     <div className="col-md-2 ">
                       <div className="row imgaligng">
-                        <img src={require("./assets/Ellipse 1.png")} alt="" />
+                      <AccountCircleIcon fontSize="large"/>
                       </div>
                     </div>
 
