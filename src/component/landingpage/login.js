@@ -125,9 +125,9 @@ export default class Login extends Component {
         .catch(err => {
           console.log("login error", err.response);
           console.log("login error", err.message);
-          if (err.response.status == 403) {
+          if (err.response && err.response.status == 403) {
             window.location.assign("/dashboard");
-          } else if (err.response.status == 400) {
+          } else if (err.response && err.response.status == 400) {
             if (err.response.data && err.response.data.non_field_errors) {
               this.setState({
                 wrong: err.response.data.non_field_errors[0],
