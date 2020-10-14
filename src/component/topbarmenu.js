@@ -46,8 +46,8 @@ export default class Topbarmenu extends Component {
     this.change = this.change.bind(this);
   }
 
-  change = (id ,name)=> {
-
+  change = (id ,name)=> e => {
+    
     // console.log("event target value", e.target.value);
     console.log(this.state);
 
@@ -233,6 +233,17 @@ export default class Topbarmenu extends Component {
         });
       }
     });
+  }
+
+  onKeyDown(e) {
+    var input = "";
+    if (e.keyCode === 8) {
+      // backspace/delete has been hit
+      input = e.target.value.substr(0, e.target.value.length-1);
+    }
+    else {
+      input = e.target.value + String.fromCharCode(e.keyCode);
+    }
   }
 
   render() {
@@ -522,6 +533,7 @@ export default class Topbarmenu extends Component {
                           className="form-control searcdd "
                           placeholder={loc_name ? loc_name : "Search"}
                           aria-label="Search"
+                          
                         />
                         {this.state.search.length == 0 ||
                         this.state.search[0] == "" ? (
@@ -530,11 +542,12 @@ export default class Topbarmenu extends Component {
                           <div className="searchtrans">
                             <ul name="language"
                               id="language"
-                              required>
+                              required  >
                              
                               {filtered_posts.length != 0
                                 ? filtered_posts.map((f, i) => (
                                     <li
+                                    onKeyDown={this.onKeyDown}
                                       key={`location-${i}`}
                                       onClick={this.change(f.id.toString(),f.Location_name)}
                                     >

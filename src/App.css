@@ -5907,8 +5907,9 @@ a.add-location.last_btn {
   margin-right: 15px;
 }
 textarea.form-control.businessh {
-  height: 150px;
+  height: 87px;
   resize: none;
+  border-radius: 10px!important;
 }
 
 .colors {
@@ -9837,7 +9838,7 @@ input.searcdd {
   box-sizing: border-box;
   border-radius: 5px;
   margin-top: 4px;
-  background-size: 24px;
+  background-size: 20px;
   background-position: 7px 6px;
 }
 /* promotional post ends */
@@ -9867,13 +9868,13 @@ input.searcdd {
   padding-top: 20px;
 }
 .rec_img img {
-  width: 20%;
+  width: 25%;
   margin: 2px;
 }
 
 .attach_doc p {
   font-size: 13px;
-  padding-top: 6px;
+  padding-top: 3px;
 }
 .content_here {
   background: #f7f9fc;
@@ -12752,6 +12753,9 @@ ul.outped li span {
   color: #f2f2f2;
   width: 214px;
 }
+.btn-postds a:hover{
+  text-decoration: none;
+}
 button.custom_btn2 {
   border: 0px;
 }
@@ -12919,7 +12923,15 @@ table.table.peopel-table td {
   margin: 0px;
   padding: 0px;
 }
+.searchtrans ul li:hover {
+  background: #f7f7f7;
+  cursor: pointer;
+}
 
+.dropdown a:hover{
+  text-decoration: none;
+
+}
 .searchtrans ul li {
   list-style: none;
   display: block;
@@ -12927,6 +12939,35 @@ table.table.peopel-table td {
   border-bottom: 1px solid rgb(204 204 204 / 27%);
   font-size: 15px;
   color: #656464;
+}
+input.form-control{
+height: 35px;
+}
+span.valpromo{
+padding: 0 7px;
+}
+.prstdo{
+margin: 14px;
+font-weight: 600;
+margin-top: 13px;
+margin-left: 15px;
+}
+.preso{
+  padding: 20px 0;
+}
+.prasmo{
+  width: 100%;
+  border: 1px solid grey;
+  border-radius: 10px;
+}
+
+.promo1s{
+  float: left;
+  margin: 5px 0px;
+}
+.pramo{
+  list-style: none;
+  padding: 0;
 }
 
 .searchtrans ul li:last-child {

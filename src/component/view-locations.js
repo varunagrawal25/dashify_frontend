@@ -7,7 +7,7 @@ import {
   edit_location_operations_hours_by_id,
   edit_location_payment_by_id,
   update_images_by_location_id,
-  add_other_images_by_location_id,
+  add_other_images_by_location_id
 } from "./apis/location";
 import Spinner from "./common/Spinner";
 import Loader from "react-loader-spinner";
@@ -19,7 +19,7 @@ import { MDBCol, MDBRow } from "mdbreact";
 //   }
 
 const DjangoConfig = {
-  headers: { Authorization: "Token " + localStorage.getItem("UserToken") },
+  headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
 
 export default class LocationManager extends Component {
@@ -109,7 +109,7 @@ export default class LocationManager extends Component {
     special_hour_data: {},
 
     LocationDetails: "",
-    otherImageLength: [0, 1, 2, 3, 4, 5, 6, 7],
+    // otherImageLength: [0, 1, 2, 3, 4, 5, 6, 7],
     otherImage: "",
     otherImages: [],
     specialTimeLoading: false,
@@ -121,7 +121,7 @@ export default class LocationManager extends Component {
     logoLoading: false,
     coverImageLoading: false,
 
-    businessCategories: [],
+    businessCategories: []
   };
 
   componentDidMount = async () => {
@@ -132,14 +132,14 @@ export default class LocationManager extends Component {
   loading_location_details = () => {
     var locationId = this.props.match.params.locationId;
     const data = {
-      location_id: locationId,
+      location_id: locationId
     };
     // Axios.post(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
     //   data,
     //   DjangoConfig
     // )
-    location_by_id(data, DjangoConfig).then((resp) => {
+    location_by_id(data, DjangoConfig).then(resp => {
       console.log("location_by_id", resp.data);
       this.setState({
         location: resp.data.location,
@@ -166,13 +166,10 @@ export default class LocationManager extends Component {
         payment: resp.data.location.Df_location_payments,
         LocationDetails: resp.data.location,
         otherImages: resp.data.location.Df_location_image,
-        loader: false,
+        loader: false
       });
-      // Axios.get(
-      //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/business-categoryes",
-      //   DjangoConfig
-      // )
-      business_categories(DjangoConfig).then((resp1) => {
+
+      business_categories(DjangoConfig).then(resp1 => {
         resp1.data.BusinessCategory.map((b, i) =>
           b.id == resp.data.location.Business_category
             ? this.setState({ category: b.Category_Name })
@@ -182,30 +179,30 @@ export default class LocationManager extends Component {
     });
   };
 
-  editDetailsButton = (event) => {
+  editDetailsButton = event => {
     console.log("bu");
     this.setState({
-      detailEdit: this.state.detailEdit == false ? true : false,
+      detailEdit: this.state.detailEdit == false ? true : false
     });
   };
 
-  editDetailsButton2 = (event) => {
+  editDetailsButton2 = event => {
     console.log("bu");
     this.setState({
-      detailEdit2: this.state.detailEdit2 == false ? true : false,
+      detailEdit2: this.state.detailEdit2 == false ? true : false
     });
   };
 
-  editPaymentButton = (event) => {
+  editPaymentButton = event => {
     console.log("pa");
-    this.setState({ paymentEdit: true });
+    this.setState({ paymentEdit: !this.state.paymentEdit });
   };
 
-  editHourButton = (event) => {
+  editHourButton = event => {
     this.setState({ hourEdit: this.state.hourEdit == false ? true : false });
   };
 
-  updateDetailsButton = (name) => (event) => {
+  updateDetailsButton = name => event => {
     event.preventDefault();
     var locationId = this.props.match.params.locationId;
     let data = {};
@@ -220,7 +217,7 @@ export default class LocationManager extends Component {
         About_Business: this.state.about,
         Facebook_Profile: this.state.facebookProfile,
         Instagram_Profile: this.state.instagramProfile,
-        Twitter_Profile: this.state.twitterProfile,
+        Twitter_Profile: this.state.twitterProfile
       };
       this.setState({ businessDetailsLoading: true });
     } else if (name == "details2") {
@@ -231,26 +228,26 @@ export default class LocationManager extends Component {
         Address_1: address,
         Phone_no: phone,
         Website: website,
-        Business_category: category_id,
+        Business_category: category_id
       };
       this.setState({ businessDetailsLoading2: true });
     }
 
     edit_location_by_id(data, DjangoConfig)
-      .then((resp) => {
+      .then(resp => {
         console.log("update user details", resp);
 
         this.setState({
           detailEdit: false,
           businessDetailsLoading: false,
-          businessDetailsLoading2: false,
+          businessDetailsLoading2: false
         });
       })
-      .catch((resp) => {
+      .catch(resp => {
         console.log("update user details err", resp);
         this.setState({
           businessDetailsLoading: false,
-          businessDetailsLoading2: false,
+          businessDetailsLoading2: false
         });
         alert("try again");
       });
@@ -285,7 +282,7 @@ export default class LocationManager extends Component {
   //     });
   // };
 
-  updatePaymentButton = (event) => {
+  updatePaymentButton = event => {
     event.preventDefault();
     console.log("pa");
     var locationId = this.props.match.params.locationId;
@@ -316,10 +313,10 @@ export default class LocationManager extends Component {
 
     const data = {
       Location_id: locationId,
-      payment_method: payment,
+      payment_method: payment
     };
     const data2 = {
-      Location_id: locationId,
+      Location_id: locationId
     };
     console.log(data);
 
@@ -331,11 +328,11 @@ export default class LocationManager extends Component {
     //   DjangoConfig
     // )
     edit_location_payment_by_id(data, DjangoConfig)
-      .then((resp) => {
+      .then(resp => {
         console.log(resp);
         this.setState({ paymentEdit: false });
         const data1 = {
-          location_id: locationId,
+          location_id: locationId
         };
         // Axios.post(
         //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
@@ -343,25 +340,25 @@ export default class LocationManager extends Component {
         //   DjangoConfig
         // )
         location_by_id(data1, DjangoConfig)
-          .then((resp1) => {
+          .then(resp1 => {
             this.setState({
               payment: resp1.data.location.Df_location_payments,
-              paymentLoading: false,
+              paymentLoading: false
             });
           })
-          .catch((resp1) => {
+          .catch(resp1 => {
             console.log(resp1);
             this.setState({
-              paymentLoading: false,
+              paymentLoading: false
             });
           });
       })
-      .catch((resp) => {
+      .catch(resp => {
         console.log(resp);
       });
   };
 
-  updateHourButton = (event) => {
+  updateHourButton = event => {
     event.preventDefault();
     console.log("hr");
 
@@ -380,7 +377,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.mondayStart1,
           end_time_1: this.state.mondayEnd1,
           start_time_2: this.state.mondayStart2,
-          end_time_2: this.state.mondayEnd2,
+          end_time_2: this.state.mondayEnd2
         },
         1: {
           date: "",
@@ -390,7 +387,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.tuesdayStart1,
           end_time_1: this.state.tuesdayEnd1,
           start_time_2: this.state.tuesdayStart2,
-          end_time_2: this.state.tuesdayEnd2,
+          end_time_2: this.state.tuesdayEnd2
         },
         2: {
           date: "",
@@ -400,7 +397,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.wednesdayStart1,
           end_time_1: this.state.wednesdayEnd1,
           start_time_2: this.state.wednesdayStart2,
-          end_time_2: this.state.wednesdayEnd2,
+          end_time_2: this.state.wednesdayEnd2
         },
         3: {
           date: "",
@@ -410,7 +407,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.thursdayStart1,
           end_time_1: this.state.thursdayEnd1,
           start_time_2: this.state.thursdayStart2,
-          end_time_2: this.state.thursdayEnd2,
+          end_time_2: this.state.thursdayEnd2
         },
         4: {
           date: "",
@@ -420,7 +417,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.fridayStart1,
           end_time_1: this.state.fridayEnd1,
           start_time_2: this.state.fridayStart2,
-          end_time_2: this.state.fridayEnd2,
+          end_time_2: this.state.fridayEnd2
         },
         5: {
           date: "",
@@ -430,7 +427,7 @@ export default class LocationManager extends Component {
           start_time_1: this.state.saturdayStart1,
           end_time_1: this.state.saturdayEnd1,
           start_time_2: this.state.saturdayStart2,
-          end_time_2: this.state.saturdayEnd2,
+          end_time_2: this.state.saturdayEnd2
         },
         6: {
           date: "",
@@ -440,9 +437,9 @@ export default class LocationManager extends Component {
           start_time_1: this.state.sundayStart1,
           end_time_1: this.state.sundayEnd1,
           start_time_2: this.state.sundayStart2,
-          end_time_2: this.state.sundayEnd2,
-        },
-      },
+          end_time_2: this.state.sundayEnd2
+        }
+      }
     };
 
     // Axios.post(
@@ -451,13 +448,13 @@ export default class LocationManager extends Component {
     //   DjangoConfig
     // )
     edit_location_operations_hours_by_id(data, DjangoConfig)
-      .then((resp) => {
+      .then(resp => {
         console.log(resp);
         this.setState({ hourEdit: false });
         // window.location.reload(false);
 
         const data1 = {
-          location_id: locationId,
+          location_id: locationId
         };
         // Axios.post(
         //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
@@ -465,28 +462,28 @@ export default class LocationManager extends Component {
         //   DjangoConfig
         // )
         location_by_id(data1, DjangoConfig)
-          .then((resp1) => {
+          .then(resp1 => {
             this.setState({
               hours: resp1.data.location.Df_location_poen_hour,
-              operatingHoursLoading: false,
+              operatingHoursLoading: false
             });
           })
-          .catch((resp1) => {
+          .catch(resp1 => {
             console.log(resp1);
             this.setState({
-              operatingHoursLoading: false,
+              operatingHoursLoading: false
             });
           });
       })
-      .catch((resp) => {
+      .catch(resp => {
         console.log(resp);
         this.setState({
-          operatingHoursLoading: false,
+          operatingHoursLoading: false
         });
       });
   };
 
-  editSpecialHourButton = (event) => {
+  editSpecialHourButton = event => {
     console.log("hr");
     this.setState({ add_special_hour: true });
   };
@@ -495,7 +492,7 @@ export default class LocationManager extends Component {
   // console.log("open hours",this.state.LocationDetails.Df_location_poen_hour)
   // }
 
-  addSpecialHourButton = async (event) => {
+  addSpecialHourButton = async event => {
     event.preventDefault();
 
     // this.setState(prevState => ({
@@ -509,7 +506,7 @@ export default class LocationManager extends Component {
     console.log("monday", this.state.monday_day_s, i);
 
     if (this.state.monday_day_s) {
-      await this.setState((prevState) => ({
+      await this.setState(prevState => ({
         special_hour_data: {
           ...prevState.special_hour_data,
           [i]: {
@@ -520,9 +517,9 @@ export default class LocationManager extends Component {
             start_time_1: this.state.mondayStart1_s,
             end_time_1: this.state.mondayEnd1_s,
             start_time_2: this.state.mondayStart2_s,
-            end_time_2: this.state.mondayEnd2_s,
-          },
-        },
+            end_time_2: this.state.mondayEnd2_s
+          }
+        }
       }));
       i++;
     }
@@ -542,42 +539,42 @@ export default class LocationManager extends Component {
 
     const data = {
       Location_id: locationId,
-      open_houre: this.state.special_hour_data,
+      open_houre: this.state.special_hour_data
     };
 
     this.setState({ specialTimeLoading: true });
 
     edit_location_operations_hours_by_id(data, DjangoConfig)
-      .then((resp) => {
+      .then(resp => {
         console.log(resp);
         this.setState({ add_special_hour: false });
 
         const data1 = {
-          location_id: locationId,
+          location_id: locationId
         };
 
         location_by_id(data1, DjangoConfig)
-          .then((resp1) => {
+          .then(resp1 => {
             this.setState({
               hours: resp1.data.location.Df_location_poen_hour,
-              specialTimeLoading: false,
+              specialTimeLoading: false
             });
           })
-          .catch((resp1) => {
+          .catch(resp1 => {
             console.log(resp1);
             this.setState({ specialTimeLoading: false });
           });
       })
-      .catch((resp) => {
+      .catch(resp => {
         console.log(resp);
       });
   };
 
-  changeHandler = (event) => {
+  changeHandler = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  checkBoxHandler = (event) => {
+  checkBoxHandler = event => {
     console.log(event.target.checked);
     if (event.target.checked) {
       this.setState({ [event.target.name]: true });
@@ -586,7 +583,7 @@ export default class LocationManager extends Component {
     }
   };
 
-  onUploadLogo = (name) => (event) => {
+  onUploadLogo = name => event => {
     if (name == "Business_Logo") {
       this.setState({ logoLoading: true });
     }
@@ -596,7 +593,7 @@ export default class LocationManager extends Component {
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = (e) => {
+    reader.onload = e => {
       //   console.log(e.target.result);
       //   this.setState({ BusinessLogoUpdate: e.target.result });
 
@@ -604,7 +601,7 @@ export default class LocationManager extends Component {
 
       const data = {
         location_id: locationId,
-        [name]: e.target.result,
+        [name]: e.target.result
       };
 
       // Axios.post(
@@ -613,9 +610,9 @@ export default class LocationManager extends Component {
       //   DjangoConfig
       // )
       update_images_by_location_id(data, DjangoConfig)
-        .then((resp) => {
+        .then(resp => {
           const data1 = {
-            location_id: locationId,
+            location_id: locationId
           };
           // Axios.post(
           //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
@@ -623,30 +620,30 @@ export default class LocationManager extends Component {
           //   DjangoConfig
           // )
           location_by_id(data1, DjangoConfig)
-            .then((resp1) => {
+            .then(resp1 => {
               this.setState({
                 LocationDetails: resp1.data.location,
                 logoLoading: false,
-                coverImageLoading: false,
+                coverImageLoading: false
               });
             })
-            .catch((resp1) => {
+            .catch(resp1 => {
               console.log(resp1);
               this.setState({ logoLoading: false, coverImageLoading: false });
             });
         })
-        .catch((resp) => {
+        .catch(resp => {
           console.log(resp);
           this.setState({ logoLoading: false, coverImageLoading: false });
         });
     };
   };
 
-  onUploadOtherImage = (event) => {
+  onUploadOtherImage = event => {
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
-    reader.onload = (e) => {
+    reader.onload = e => {
       //   console.log(e.target.result);
       //   this.setState({ BusinessLogoUpdate: e.target.result });
 
@@ -654,7 +651,7 @@ export default class LocationManager extends Component {
 
       const data = {
         location_id: locationId,
-        other_image: { 0: e.target.result },
+        other_image: { 0: e.target.result }
       };
 
       this.setState({ otherImagesLoading: true });
@@ -665,9 +662,9 @@ export default class LocationManager extends Component {
       //   DjangoConfig
       // )
       add_other_images_by_location_id(data, DjangoConfig)
-        .then((resp) => {
+        .then(resp => {
           const data1 = {
-            location_id: locationId,
+            location_id: locationId
           };
           // Axios.post(
           //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
@@ -675,18 +672,18 @@ export default class LocationManager extends Component {
           //   DjangoConfig
           // )
           location_by_id(data1, DjangoConfig)
-            .then((resp1) => {
+            .then(resp1 => {
               this.setState({
                 otherImages: resp1.data.location.Df_location_image,
-                otherImagesLoading: false,
+                otherImagesLoading: false
               });
             })
-            .catch((resp1) => {
+            .catch(resp1 => {
               console.log(resp1);
               this.setState({ otherImagesLoading: false });
             });
         })
-        .catch((resp) => {
+        .catch(resp => {
           console.log(resp);
           this.setState({ otherImagesLoading: false });
         });
@@ -697,12 +694,12 @@ export default class LocationManager extends Component {
     this.setState({ loadBusinessCategories: true });
 
     business_categories(DjangoConfig)
-      .then((res) => {
+      .then(res => {
         this.setState({
-          businessCategories: res.data.BusinessCategory,
+          businessCategories: res.data.BusinessCategory
         });
       })
-      .catch((res) => {
+      .catch(res => {
         console.log("error in loading business categories");
       });
   };
@@ -715,7 +712,7 @@ export default class LocationManager extends Component {
     var RegularHours1;
     RegularHours1 = (
       <div className="promotional-box">
-        {this.state.hours.map((h) =>
+        {this.state.hours.map(h =>
           h.Type == "Regular" ? (
             <div className="daybox" key={h.id}>
               <div className="daytype">{h.Day}</div>
@@ -751,12 +748,15 @@ export default class LocationManager extends Component {
     var RegularHours2;
     RegularHours2 = (
       <div className="promotional-box">
-        {this.state.hours.map((h) =>
+        {this.state.hours.map(h =>
           h.Day == "Special" ? (
             <div className="daybox" key={h.id}>
               {/* <div className="daytype">{h.Day}</div> */}
               <div className="daytype">
-                {h.date.split("-").reverse().join("-")}
+                {h.date
+                  .split("-")
+                  .reverse()
+                  .join("-")}
               </div>
 
               {h.Open_status == "SPLIT" ? (
@@ -789,30 +789,80 @@ export default class LocationManager extends Component {
 
     var paymentAccepted;
 
-    paymentAccepted = this.state.payment.map((p) => (
+    paymentAccepted = this.state.payment.map(p => (
       <li key={p.id}>
         {p.Payment_Method == "Visa" ? (
-          <img src={require("../images/visa.jpg")} alt="visa" />
+          <img src={require("../images/visa.jpg")} alt="Visa" />
         ) : (
           ""
         )}
         {p.Payment_Method == "Maestro" ? (
-          <img src={require("../images/master-1.jpg")} alt="master" />
+          <img src={require("../images/master-1.jpg")} alt="Maestro" />
         ) : (
           ""
         )}
-        {p.Payment_Method == "DiscoverNetwork" ? (
-          <img src={require("../images/descover.jpg")} alt="discover" />
+        {p.Payment_Method == "Amex" ? (
+          <img src={require("../images/descover.jpg")} alt="Amex" />
         ) : (
           ""
         )}
-        {p.Payment_Method == "Cirrus" ? (
-          <img src={require("../images/cirrus.jpg")} alt="cirrus" />
+        {p.Payment_Method == "Cash" ? (
+          <img src={require("../images/cirrus.jpg")} alt="Cash" />
         ) : (
           ""
         )}
-        {p.Payment_Method == "AmericanExpress" ? (
-          <img src={require("../images/am.jpg")} alt="amex" />
+        {p.Payment_Method == "Check" ? (
+          <img src={require("../images/am.jpg")} alt="Check" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Crypto" ? (
+          <img src={require("../images/visa.jpg")} alt="Crypto" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Diners" ? (
+          <img src={require("../images/master-1.jpg")} alt="Diners" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Discover" ? (
+          <img src={require("../images/descover.jpg")} alt="Discover" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Apple" ? (
+          <img src={require("../images/cirrus.jpg")} alt="Apple" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Samsung" ? (
+          <img src={require("../images/am.jpg")} alt="Samsung" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Paypal" ? (
+          <img src={require("../images/master-1.jpg")} alt="Paypal" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Android" ? (
+          <img src={require("../images/descover.jpg")} alt="Android" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Invoices" ? (
+          <img src={require("../images/cirrus.jpg")} alt="Invoices" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Traveler" ? (
+          <img src={require("../images/am.jpg")} alt="Traveler's Check" />
+        ) : (
+          ""
+        )}
+        {p.Payment_Method == "Financing" ? (
+          <img src={require("../images/am.jpg")} alt="Financing" />
         ) : (
           ""
         )}
@@ -823,6 +873,8 @@ export default class LocationManager extends Component {
     // let a = this.state.LocationDetails.Df_location_image.map(
     //   (img, i) => img.Image
     // );
+
+    console.log("this.state.otherImages", this.state.otherImages);
 
     return (
       <div>
@@ -958,7 +1010,7 @@ export default class LocationManager extends Component {
                           ) : LocationDetails.Business_Logo ? (
                             <div className="uploadphoto pt-15">
                               <img
-                                src={LocationDetails.Business_Logo}
+                                src={"https://dashify.biz" +LocationDetails.Business_Logo}
                                 alt="Logo"
                               />
                               <br />
@@ -2407,7 +2459,7 @@ export default class LocationManager extends Component {
                       className="pay_last_btn"
                       onClick={this.editPaymentButton}
                     >
-                      Edit
+                      {this.state.paymentEdit ? "Cancel" : "Edit"}
                     </button>{" "}
                   </h2>
                 </div>
@@ -2449,7 +2501,7 @@ export default class LocationManager extends Component {
                             />{" "}
                             <img
                               src={require("../images/master-1.jpg")}
-                              alt="visa"
+                              alt="maestro"
                             />
                           </li>
                           <li>
@@ -2461,7 +2513,7 @@ export default class LocationManager extends Component {
                             />{" "}
                             <img
                               src={require("../images/descover.jpg")}
-                              alt="visa"
+                              alt="discover"
                             />
                           </li>
                           <li>
@@ -2473,7 +2525,7 @@ export default class LocationManager extends Component {
                             />{" "}
                             <img
                               src={require("../images/cirrus.jpg")}
-                              alt="visa"
+                              alt="cirrus"
                             />
                           </li>
                           <li>
@@ -2483,12 +2535,10 @@ export default class LocationManager extends Component {
                               value="true"
                               type="checkbox"
                             />{" "}
-                            <img src={require("../images/am.jpg")} alt="visa" />
-                          </li>
-                          <li className="plushbtnbox">
-                            <a className="add_btnnew">
-                              <i className="zmdi zmdi-plus"></i>
-                            </a>
+                            <img
+                              src={require("../images/am.jpg")}
+                              alt="americanExpress"
+                            />
                           </li>
                         </ul>
                       </div>
@@ -2506,17 +2556,7 @@ export default class LocationManager extends Component {
                   </div>
                 ) : (
                   <div className="paymentbox">
-                    <ul>
-                      {paymentAccepted}
-                      <li className="plushbtnbox">
-                        <a
-                          className="add_btnnew"
-                          onClick={this.editPaymentButton}
-                        >
-                          <i className="zmdi zmdi-plus"></i>
-                        </a>
-                      </li>
-                    </ul>
+                    <ul>{paymentAccepted}</ul>
                   </div>
                 )}
               </div>
@@ -2541,7 +2581,7 @@ export default class LocationManager extends Component {
                       ) : LocationDetails.Business_Cover_Image ? (
                         <div className="coverimgupload">
                           <img
-                            src={LocationDetails.Business_Cover_Image}
+                            src={"https://dashify.biz" +LocationDetails.Business_Cover_Image}
                             alt="Cover image"
                           />
                           <br />
@@ -2592,34 +2632,37 @@ export default class LocationManager extends Component {
                               />
                             </div>
                           ) : (
-                            this.state.otherImageLength.map((n, i) =>
-                              this.state.otherImages[i] != undefined ? (
+                            <div>
+                              <li>
+                                <div className="plush_new">
+                                  <span>
+                                    <i className="zmdi zmdi-plus"></i>
+                                    Attatch a image
+                                    <input
+                                      type="file"
+                                      name="otherImage"
+                                      onChange={this.onUploadOtherImage}
+                                    />
+                                  </span>
+                                </div>
+                              </li>
+                              {this.state.otherImages.map((n, i) => (
                                 <li>
                                   <span>
                                     <div className="coverimgupload">
                                       <img
-                                        src={this.state.otherImages[i].Image}
+                                        src={
+                                          "https://dashify.biz" +
+                                          this.state.otherImages[i].Image
+                                        }
                                         alt="Starred Business covers image"
                                       />
                                     </div>
                                   </span>
                                 </li>
-                              ) : (
-                                <li>
-                                  <div className="plush_new">
-                                    <span>
-                                      <i className="zmdi zmdi-plus"></i>
-                                      Attatch a image
-                                      <input
-                                        type="file"
-                                        name="otherImage"
-                                        onChange={this.onUploadOtherImage}
-                                      />
-                                    </span>
-                                  </div>
-                                </li>
-                              )
-                            )
+                              ))}
+                              
+                            </div>
                           )}
                         </ul>
                       </div>
