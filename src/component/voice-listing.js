@@ -52,8 +52,55 @@ class NewFaq extends Component {
 
   render() {
     return (
-      <div className="conntend">
-        <div className="row d-flex ">
+      <div className="contendn">
+        <MDBContainer>
+        <MDBRow>
+          <MDBCol md='8'  >
+<MDBRow className='vl_gap1'>
+  <MDBCol md='3' className="vl_input_head">
+  Question :
+  </MDBCol>
+  <MDBCol md='9' >
+  <input
+                  type="text"
+                  className="vl_input"
+                  name="que"
+                  onChange={this.handler}
+                />
+  </MDBCol>
+</MDBRow>
+<MDBRow className='vl_gap1'>
+  <MDBCol md='3' className="vl_input_head ">
+  Answer :
+  </MDBCol>
+  <MDBCol md='9' >
+  <textarea
+                  type="text"
+                  name="ans"
+                  className="vl_input"
+                  onChange={this.handler}
+                />
+  </MDBCol>
+</MDBRow>
+          </MDBCol>
+         
+          <MDBCol md="4" className='vl_gap2' >
+          <button type="submit" className="user_btn" onClick={this.props.submit(this.state.que, this.state.ans)}>
+                          Submit
+                        </button>
+                        <button
+                          className="user_btn"
+                          onClick={this.props.cancel}
+                        >
+                          {" "}
+                          Cancel
+                        </button>
+          
+          </MDBCol>
+        </MDBRow>
+        </MDBContainer>
+        <hr className="voice_hr" />
+        {/* <div className="row d-flex ">
           <div className="col-md-8">
             <div className="faq-title">
               <h4>
@@ -92,7 +139,7 @@ class NewFaq extends Component {
               Cancel
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }
@@ -137,7 +184,62 @@ class UpdateFaq extends Component {
   render() {
     return (
       <div className="conntend">
-        <div className="row d-flex ">
+        <MDBContainer>
+        <MDBRow>
+          <MDBCol md='8'  >
+<MDBRow className='vl_gap1'>
+  <MDBCol md='3' className="vl_input_head">
+  Question :
+  </MDBCol>
+  <MDBCol md='9' >
+  <input
+                  type="text"
+                  className="vl_input"
+                  name="que"
+                  value={this.state.que}
+                  onChange={this.handler}
+                />
+              <div style={{ color: "red" }}>{this.props.error.que_error}</div>
+  </MDBCol>
+</MDBRow>
+<MDBRow className='vl_gap1'>
+  <MDBCol md='3' className="vl_input_head ">
+  Answer :
+  </MDBCol>
+  <MDBCol md='9' >
+  <textarea
+                  type="text"
+                  name="ans"
+                  className="vl_input"
+                  value={this.state.ans}
+                  onChange={this.handler}
+                />
+              <div style={{ color: "red" }}>{this.props.error.ans_error}</div>
+  </MDBCol>
+</MDBRow>
+          </MDBCol>
+         
+          <MDBCol md="4" className='vl_gap2' >
+          <button className="user_btn" onClick={this.props.update(
+                this.state.que,
+                this.state.ans,
+                this.props.faqid
+              )}>
+                          Update
+                        </button>
+                        <button
+                          className="user_btn"
+                          onClick={this.props.cancel}
+                        >
+                          {" "}
+                          Cancel
+                        </button>
+          
+          </MDBCol>
+        </MDBRow>
+        </MDBContainer>
+        <hr className="voice_hr" />
+        {/* <div className="row d-flex ">
           <div className="col-md-8">
             <div className="faq-title">
               <h4>
@@ -184,7 +286,7 @@ class UpdateFaq extends Component {
               cancel
             </button>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

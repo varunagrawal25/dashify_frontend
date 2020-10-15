@@ -48,7 +48,7 @@ export default class LocationManager extends Component {
     twitterProfile: "",
     facebookProfile: "",
     payment: [],
-    loader: true,
+    loader: false,
 
     //edit details
 
@@ -1052,7 +1052,7 @@ export default class LocationManager extends Component {
                           />
                         </div>
                       ) : this.state.detailEdit2 ? (
-                        <div className="row addlocationboxs">
+                        <div className="row addlocationboxs white-shadow">
                           <form onSubmit={this.updateDetailsButton("details2")}>
                             {this.state.logoLoading ? (
                               <div style={{ textAlign: "center" }}>
@@ -1102,7 +1102,107 @@ export default class LocationManager extends Component {
                               </div>
                             )}
 
-                            <div className="form-group">
+<div className="detailbox">
+                              <MDBRow>
+                                <MDBCol>
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                        Store Code :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    <input
+                                name="storeCode_edit"
+                                onChange={this.changeHandler}
+                                type="text"
+                                className="form-control"
+                                value={this.state.storeCode_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                        Address :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    <input
+                                name="address_edit"
+                                onChange={this.changeHandler}
+                                className="form-control"
+                                value={this.state.address_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                        Phone :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    <input
+                                name="phone_edit"
+                                onChange={this.changeHandler}
+                                // type="tel"
+                                type="number"
+                                className="form-control"
+                                value={this.state.phone_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                        Website :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    <input
+                                name="website_edit"
+                                type="url"
+                                onChange={this.changeHandler}
+                                className="form-control businessh"
+                                value={this.state.website_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow style={{marginTop:'20px'}}>
+                                    <MDBCol md='3' className='offset-md-5'  >
+                                    <button
+                                type="submit"
+                                className="last_btn"
+                                style={{marginLeft:'25px'}}
+                                // onClick={this.updateDetailsButton2}
+                              >
+                                Update
+                              </button>
+                              
+                                    </MDBCol>
+                                    <MDBCol md='3'>
+                                    <button
+                                className="last_btn"
+                                onClick={this.editDetailsButton2}
+                                style={{marginLeft:'25px'}}
+                              >
+                                Cancel
+                              </button>
+                                    </MDBCol>
+                                  </MDBRow>
+                                </MDBCol>
+                              </MDBRow>
+                            </div>
+                            {/* <div className="form-group">
                               <label>Store Code</label>
                               <input
                                 name="storeCode_edit"
@@ -1160,7 +1260,7 @@ export default class LocationManager extends Component {
                               >
                                 Cancel
                               </button>
-                            </div>
+                            </div> */}
                           </form>
                         </div>
                       ) : (

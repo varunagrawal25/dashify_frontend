@@ -852,7 +852,7 @@ export default class ProfileAnalytics extends Component {
                   ""
                 ) : (
                       <MDBRow className="anacard">
-                    <MDBCol md='2' style={{backgroundColor:'red'}}>
+                    <MDBCol md='2' >
                     <div className="profile-new-img">
                       <img 
                   src={require("../images/profilefacebook.png")}
@@ -875,7 +875,7 @@ export default class ProfileAnalytics extends Component {
                           onClick={this.componentClicked}
                           callback={this.responseFacebook}
                           textButton="Connect"
-                            cssClass="connect_btn"
+                            cssClass="pa_connect_btn"
                         />
                     </MDBCol>
                   </MDBRow>
@@ -887,11 +887,12 @@ export default class ProfileAnalytics extends Component {
                   ""
                 ) : (
                       <MDBRow className="anacard">
-                    <MDBCol md='2' style={{backgroundColor:'red'}}>
+                    <MDBCol md='2' >
                     <div className="profile-new-img">
                     <img
                   src={require("../images/profiletwitter.png")}
-                  alt="twitter"/>
+                  alt="twitter"
+                  />
                       </div>
                     </MDBCol>
 
@@ -908,7 +909,7 @@ export default class ProfileAnalytics extends Component {
                           onClick={this.componentClicked}
                           callback={this.responseFacebook}
                           textButton="Connect"
-                            cssClass="connect_btn"
+                            cssClass="pa_connect_btn"
                         />
                     </MDBCol>
                   </MDBRow>
@@ -919,16 +920,17 @@ export default class ProfileAnalytics extends Component {
                   ""
                 ) : (
                       <MDBRow className="anacard">
-                    <MDBCol md='2' style={{backgroundColor:'red'}}>
+                    <MDBCol md='2' >
                     <div className="profile-new-img">
                     <img
-                  src={require("../images/profiletwitter.png")}
-                  alt="twitter"/>
+                  src={require("../images/google2.png")}
+                  alt="twitter"
+                  />
                       </div>
                     </MDBCol>
 
                     <MDBCol md='6' className="profile_ana_contant1">
-                          Connect your Twitter profile to get profile analytics
+                          Connect your Google profile to get profile analytics
                           for your Facebook listing
                     </MDBCol>
                     <MDBCol md='4'>
@@ -940,7 +942,7 @@ export default class ProfileAnalytics extends Component {
                           onClick={this.componentClicked}
                           callback={this.responseFacebook}
                           textButton="Connect"
-                            cssClass="connect_btn"
+                            cssClass="pa_connect_btn"
                         />
                     </MDBCol>
                   </MDBRow>
@@ -962,13 +964,38 @@ export default class ProfileAnalytics extends Component {
                   </div>
                 ) : (
                   <div className="row ">
-                    <div className="col-md-4 analytic-14 pb-3">
+                    <div className="col-md-4 Pa_container0 ">
+                      <div className='Pa_container1 '>
                       <div className="row ">
-                        <div className="col-md-6 this_week ">
-                          <a data-toggle="dropdown">
+                        <div className="col-md-5 this_week ">
+                        <select className='review_select_btn'>
+                            <option selected onClick={this.change_states(
+                                  last_week,
+                                  "Last week"
+                                )}>Last week</option>
+                            <option onClick={this.change_states(
+                                  last_month,
+                                  "Last month"
+                                )}>Last month</option>
+
+<option onClick={this.change_states(
+                                  last_3_month,
+                                  "Last 3 month"
+                                )}>Last 3 month</option>
+
+<option onClick={this.change_states(
+                                  last_6_month,
+                                  "Last 6 month"
+                                )}>Last 6 month</option>
+                            <option  onClick={this.change_states(
+                                  last_6_month,
+                                  "Last 6 month"
+                                )}>Last year</option>
+                            </select>
+                          {/* <a data-toggle="dropdown">
                             {this.state.range_name} <ArrowDropDownIcon />
-                          </a>
-                          <div className="dropdown-menu">
+                          </a> */}
+                          {/* <div className="dropdown-menu">
                             <ul>
                               <li
                                 onClick={this.change_states(
@@ -1011,10 +1038,10 @@ export default class ProfileAnalytics extends Component {
                                 Last year
                               </li>
                             </ul>
-                          </div>
+                          </div> */}
                         </div>
 
-                        <div className="col-md-6">
+                        <div className="col-md-7">
                           <PDFDownloadLink
                             document={this.Quixote(pdf_data)}
                             fileName="profile_analytics_report.pdf"
@@ -1022,11 +1049,11 @@ export default class ProfileAnalytics extends Component {
                             {({ blob, url, loading, error }) =>
                               loading ? (
                                 <a className="btn btn-analytic-13">
-                                  <h6>Loading...</h6>
+                                  Loading...
                                 </a>
                               ) : (
                                 <a className="btn btn-analytic-13">
-                                  <h6>Download Report</h6>
+                                  Download Report
                                 </a>
                               )
                             }
@@ -1034,11 +1061,10 @@ export default class ProfileAnalytics extends Component {
                         </div>
                       </div>
                       <div className="row total_top ">
-                        <div className="col-md-3  ">
+                        <div className="col-md-3  pa_icon">
                         <img
                   src={require("../images/a.png")}
                   alt="facebook"
-                 
                 />
                         </div>
                         <div className="col-md-6" style={{ lineHeight: 0 }}>
@@ -1085,7 +1111,7 @@ export default class ProfileAnalytics extends Component {
                         </div>
                       </div>
                       <div className="row total_top">
-                        <div className="col-md-3  ">
+                        <div className="col-md-3 pa_icon ">
                         <img
                   src={require("../images/b.png")}
                   alt="facebook"
@@ -1128,7 +1154,7 @@ export default class ProfileAnalytics extends Component {
                         </div>
                       </div>
                       <div className="row total_top">
-                        <div className="col-md-3  ">
+                        <div className="col-md-3 pa_icon ">
                         <img
                   src={require("../images/c.png")}
                   alt="facebook"
@@ -1173,7 +1199,7 @@ export default class ProfileAnalytics extends Component {
                         </div>
                       </div>
                       <div className="row total_top">
-                        <div className="col-md-3  ">
+                        <div className="col-md-3  pa_icon">
                         <img
                   src={require("../images/d.png")}
                   alt="facebook"
@@ -1223,7 +1249,7 @@ export default class ProfileAnalytics extends Component {
                         </div>
                       </div>
                       <div className="row total_top">
-                        <div className="col-md-3  ">
+                        <div className="col-md-3  pa_icon">
                         <img
                   src={require("../images/eanaly.png")}
                   alt="facebook"
@@ -1305,7 +1331,9 @@ export default class ProfileAnalytics extends Component {
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-7  analytic-14">
+                    </div>
+                    <div className="col-md-8  Pa_container0">
+                      <div className='Pa_container1'>
                       <table class="table table-hover">
                         <thead className="head_font">
                           <tr>
@@ -1393,6 +1421,7 @@ export default class ProfileAnalytics extends Component {
                           </tr> */}
                         </tbody>
                       </table>
+                    </div>
                     </div>
                   </div>
                 )}
