@@ -65,7 +65,7 @@ export default class User_profile extends Component {
             address: res.data.user_info.address,
             Phone: res.data.user_info.Phone,
             website: res.data.user_info.website,
-            user_image: "",
+            user_image: res.data.user_info.user_image,
             loading_info: false,
             loading_image: false
           });
@@ -143,8 +143,6 @@ export default class User_profile extends Component {
 
     console.log("image", image);
 
-    let user_img = image;
-
     this.setState({ loading_image: true });
     const data = {
       username: user_info.user ? user_info.user.username : "",
@@ -156,7 +154,6 @@ export default class User_profile extends Component {
         let data2 = { user_id: localStorage.getItem("UserId") };
         get_login_user_info(data2, DjangoConfig)
           .then(res => {
-            console.log("user info image", res.data);
             if (res.data && res.data.user_info.user_image) {
               this.setState({
                 user_image: res.data.user_info.user_image,
@@ -189,7 +186,6 @@ export default class User_profile extends Component {
   };
 
   cropFunction = () => {
-    console.log("clicked crop function");
     const { crop, croppedImageUrl, src, image } = this.state;
     let data = (
       <div className="App">
@@ -209,6 +205,7 @@ export default class User_profile extends Component {
         {croppedImageUrl && (
           <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
         )}
+        {console.log("croppedImageUrl", croppedImageUrl)}
         <button onClick={() => this.uploadUserImage(croppedImageUrl)}>
           crop
         </button>
@@ -338,8 +335,8 @@ export default class User_profile extends Component {
                 <div>
                   <img
                     src={
-                      user_info && user_info.user_image
-                        ? "https://dashify.biz" + user_info.user_image
+                      user_image
+                        ? "https://dashify.biz" + user_image
                         : user_img_def
                     }
                     alt="user"
