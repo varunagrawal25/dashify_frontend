@@ -4,13 +4,13 @@ import {
   Route,
   Switch,
   HashRouter,
-  NavLink,
+  NavLink
 } from "react-router-dom";
 import CampaignPart2 from "./campaignpart2";
 import ReviewGenerationCampaign from "./review-generation-campaign";
 import ReviewTracking from "./review-tracking";
 import ViewAListing from "./view-listing";
-import VoiceListing from "./voice-listing";
+import VoiceListing from "./voice_listing/voice-listing";
 
 import ReviewAnalytics from "./review-analytics";
 import RankingAnalytics from "./ranking-analytics";
@@ -277,38 +277,38 @@ export default class MainApp extends Component {
                 <Route
                   exact
                   path="/locations/:locationId/overview"
-                  render={(props) => <Overview {...props} />}
+                  render={props => <Overview {...props} />}
                 />
                 <Route
                   exact
                   path="/locations/:locationId/campaignpart2/:campaign_id"
-                  render={(props) => <CampaignPart2 {...props} />}
+                  render={props => <CampaignPart2 {...props} />}
                 />
                 <Route
                   exact
                   path="/locations/:locationId/review-generation-campaign"
-                  render={(props) => <ReviewGenerationCampaign {...props} />}
+                  render={props => <ReviewGenerationCampaign {...props} />}
                 />
                 <Route
                   exact
                   path="/locations/:locationId/review-tracking"
-                  render={(props) => <ReviewTracking {...props} />}
+                  render={props => <ReviewTracking {...props} />}
                 />
                 <Route exact path="/" component={Overview} />
                 <Route
                   exact
                   path="/locations/:locationId/view-listing"
-                  render={(props) => <ViewListing {...props} />}
+                  render={props => <ViewListing {...props} />}
                 />
                 <Route
                   exact
                   path="/locations/:locationId/voice-listing"
-                  render={(props) => <VoiceListing {...props} />}
+                  render={props => <VoiceListing {...props} />}
                 />
                 <Route
                   exact
                   path="/locations/:locationId/view-location"
-                  render={(props) => <ViewLocations {...props} />}
+                  render={props => <ViewLocations {...props} />}
                 />
                 <Route
                   exact
@@ -319,29 +319,29 @@ export default class MainApp extends Component {
                 <Route
                   exact
                   path="/locations/:locationId/review-analytics"
-                  render={(props) => <ReviewAnalytics {...props} />}
+                  render={props => <ReviewAnalytics {...props} />}
                 />
                 <Route
                   exact
                   path="/locations/:locationId/ranking-analytics"
-                  render={(props) => <RankingAnalytics {...props} />}
+                  render={props => <RankingAnalytics {...props} />}
                 />
                 <Route
                   exact
                   path="/locations/:locationId/profile-analytics"
-                  render={(props) => <ProfileAnalytics {...props} />}
+                  render={props => <ProfileAnalytics {...props} />}
                 />
 
                 <Route
                   exact
                   path="/locations/:locationId/testing-page"
-                  render={(props) => <TestingPage {...props} />}
+                  render={props => <TestingPage {...props} />}
                 />
 
                 <Route
                   exact
                   path="/locations/:locationId/promotional"
-                  render={(props) => <PromotionalPost {...props} />}
+                  render={props => <PromotionalPost {...props} />}
                 />
                 <Route
                   exact
@@ -351,7 +351,7 @@ export default class MainApp extends Component {
                 <Route
                   exact
                   path="/locations/:locationId/review-generation-stats"
-                  render={(props) => <ReviewGenerationStats {...props} />}
+                  render={props => <ReviewGenerationStats {...props} />}
                 />
                 <Route exact path="/add-location" component={AddLocation} />
 
@@ -387,17 +387,17 @@ export default class MainApp extends Component {
                 <Route
                   exact
                   path="/connectedaccounts/:redirect_to"
-                  render={(props) => <ConnectedAccounts {...props} />}
+                  render={props => <ConnectedAccounts {...props} />}
                 />
                 <Route
                   exact
                   path="/google-connectedaccounts/:state"
-                  render={(props) => <GoogleConnectedAccounts {...props} />}
+                  render={props => <GoogleConnectedAccounts {...props} />}
                 />
                 <Route
                   exact
                   path="/linkedin-connectedaccounts/:state/:redirect_to/:locationId"
-                  render={(props) => <LinkedinConnectedAccounts {...props} />}
+                  render={props => <LinkedinConnectedAccounts {...props} />}
                 />
                 <Route
                   exact

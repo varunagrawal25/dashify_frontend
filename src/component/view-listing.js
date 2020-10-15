@@ -752,7 +752,7 @@ export default class ViewListing extends Component {
   };
 
   responseErrorGoogle = (response) => {
-    console.log("facebook error", response);
+    console.log("google error", response);
     alert("try again");
   };
 
@@ -1840,9 +1840,9 @@ export default class ViewListing extends Component {
                         ) : (
                           <FacebookLogin
                             // for server
-                            appId="3550574924973433"
+                            // appId="3550574924973433"
                             // for localhost
-                            // appId="187396122554776"
+                            appId="187396122554776"
                             // appId="3044182972316291"
                             autoLoad={false}
                             fields="name,email,picture"
@@ -2161,9 +2161,9 @@ export default class ViewListing extends Component {
                           <div className="google_btnb">
                             <GoogleLogin
                               //for localhost
-                              clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
+                              // clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
                               //for server
-                              //clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
+                              clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
                               buttonText="Connect a account"
                               class="connect_btn"
                               scope="https://www.googleapis.com/auth/business.manage"
