@@ -45,6 +45,7 @@
     "react-select-search": "^1.2.1",
     "react-slick": "^0.27.11",
     "react-xml-parser": "^1.1.6",
+    "reactjs-popup": "^2.0.4",
     "reactstrap": "^8.5.1",
     "styled-components": "^5.1.1",
     "xml2js": "^0.4.23",

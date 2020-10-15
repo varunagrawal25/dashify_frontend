@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Flaticon.css";
 import "./App.css";
-
+import 'reactjs-popup/dist/index.css';
 import MainApp from "./component/main";
 
 import InstagramLogin from "./component/instagramlogin";
@@ -13,7 +13,7 @@ import Blog from "./component/landingpage/Blog";
 import Career from "./component/landingpage/career";
 import ContactUs from "./component/landingpage/contactus";
 import Support from "./component/landingpage/support";
-import Pricing from "./component/landingpage/Pricing";
+import Pricing from "./component/landingpage/pricing";
 import How_we_work from "./component/landingpage/How_we_work";
 import Login from "./component/landingpage/login";
 import Signup from "./component/landingpage/signup";
@@ -45,7 +45,7 @@ class App extends Component {
             <Route
               exact
               path="/:param1/:param2"
-              render={props => <Home {...props} />}
+              render={(props) => <Home {...props} />}
             />
             <Route exact path="/blog" component={Blog} />
             <Route exact path="/career" component={Career} />
@@ -63,7 +63,7 @@ class App extends Component {
             <Route
               exact
               path="/password-reset/:param1/:param2"
-              render={props => <PasswordReset {...props} />}
+              render={(props) => <PasswordReset {...props} />}
             />
 
             <Route exact path="/Signup" component={Signup} />
@@ -85,7 +85,7 @@ class App extends Component {
             <Route exact path="/zomatologin" component={ZomatoLogin} />
             <Route
               path="/avvologin"
-              render={props => <AvvoLogin {...props} />}
+              render={(props) => <AvvoLogin {...props} />}
             />
 
             <Route exact path="/linkedin" component={LinkedInPopUp} />
