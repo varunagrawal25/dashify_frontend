@@ -155,6 +155,7 @@ export default class User_profile extends Component {
         get_login_user_info(data2, DjangoConfig)
           .then(res => {
             if (res.data && res.data.user_info.user_image) {
+              console.log("getting image", res.data.user_info.user_image);
               this.setState({
                 user_image: res.data.user_info.user_image,
                 loading_image: false,
@@ -203,12 +204,18 @@ export default class User_profile extends Component {
           />
         )}
         {croppedImageUrl && (
-          <img alt="Crop" style={{ maxWidth: "100%" }} src={croppedImageUrl} />
+          <>
+            <img
+              alt="Crop"
+              style={{ maxWidth: "100%" }}
+              src={croppedImageUrl}
+            />
+            <button onClick={() => this.uploadUserImage(croppedImageUrl)}>
+              crop
+            </button>
+          </>
         )}
         {console.log("croppedImageUrl", croppedImageUrl)}
-        <button onClick={() => this.uploadUserImage(croppedImageUrl)}>
-          crop
-        </button>
       </div>
     );
     return data;
@@ -336,7 +343,7 @@ export default class User_profile extends Component {
                   <img
                     src={
                       user_image
-                        ? "https://dashify.biz" + user_image
+                        ? "https://dashify.biz" + this.state.user_image
                         : user_img_def
                     }
                     alt="user"

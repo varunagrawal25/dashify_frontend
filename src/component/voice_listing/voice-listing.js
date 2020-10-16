@@ -68,56 +68,7 @@ export default class VoiceListing extends Component {
     yelpAlexa: false,
     fourBixby: false,
     googleOptimized: false,
-    appleOptimized: false,
-
-    que_error: "",
-    ans_error: ""
-  };
-
-  updateFaq = (que, ans, id) => event => {
-    event.preventDefault();
-    var data = {
-      Location_id: this.props.match.params.locationId,
-      question: que,
-      answer: ans,
-      faq_id: id
-    };
-
-    this.setState({ que_error: "", ans_error: "" });
-
-    let is_que = false,
-      is_ans = false;
-
-    if (que) {
-      is_que = true;
-    } else {
-      this.setState({ que_error: "Question can not be empty" });
-    }
-
-    if (ans) {
-      is_ans = true;
-    } else {
-      this.setState({ ans_error: "Answer can not be empty" });
-    }
-
-    if (is_ans && is_que) {
-      // Axios.post(
-      //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/voice-faq/edit-faq",
-      //   data,
-      //   DjangoConfig
-      // )
-      edit_faq(data, DjangoConfig).then(resp => {
-        console.log(resp);
-        // Axios.get(
-        //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/voice-faq/get-all-faqs",
-        //   DjangoConfig
-        // )
-        all_faq(DjangoConfig).then(resp => {
-          console.log("AllFaq", id, resp.data.all_faqs);
-          this.setState({ allFaq: resp.data.all_faqs, update: false });
-        });
-      });
-    }
+    appleOptimized: false
   };
 
   editFaq = id => {
@@ -156,6 +107,31 @@ export default class VoiceListing extends Component {
   };
   updateCancel = e => {
     this.setState({ update: false });
+  };
+  getNewAllFaq = () => {
+    // all_faq(DjangoConfig)
+    //   .then(resp => {
+    //     console.log("AllFaq", resp.data.all_faqs);
+    //     this.setState({
+    //       allFaq: resp.data.all_faqs
+    //     });
+    //   })
+    //   .catch(err => {
+    //     console.log("err in getallFaq", err);
+    //   });
+
+    var datal = {
+      location_id: this.props.match.params.locationId
+    };
+
+    all_faq_by_location_id(datal, DjangoConfig)
+      .then(resp => {
+        console.log("all faq", resp.data);
+        this.setState({ allFaq: resp.data.all_faqs });
+      })
+      .catch(err => {
+        console.log("err in getallFaq", err);
+      });
   };
 
   addFaq = e => {
@@ -817,6 +793,7 @@ export default class VoiceListing extends Component {
                   <NewFaq
                     locationId={this.props.match.params.locationId}
                     cancel={this.submitCancel}
+                    getNewAllFaq={this.getNewAllFaq}
                   />
                 ) : (
                   ""
@@ -824,14 +801,11 @@ export default class VoiceListing extends Component {
 
                 {this.state.update ? (
                   <UpdateFaq
-                    update={this.updateFaq}
+                    locationId={this.props.match.params.locationId}
                     faqid={this.state.faqid}
                     cancel={this.updateCancel}
                     allfaq={this.state.allFaq}
-                    error={{
-                      ans_error: this.state.ans_error,
-                      que_error: this.state.que_error
-                    }}
+                    getNewAllFaq={this.getNewAllFaq}
                   />
                 ) : (
                   ""

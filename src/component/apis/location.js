@@ -1,6 +1,7 @@
 // import { API } from "../../config";
 import Axios from "axios";
-const API = "https://cors-anywhere.herokuapp.com/http://18.216.54.114:8000/api";
+// const API = "https://cors-anywhere.herokuapp.com/http://18.216.54.114:8000/api";
+const API = "https://dashify.biz/api";
 
 export const add_location = (data, DjangoConfig) => {
   return Axios.post(`${API}/locations/add-location`, data, DjangoConfig);

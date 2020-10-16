@@ -44,18 +44,17 @@ export default class NewFaq extends Component {
   submitFaq = (que, ans) => event => {
     event.preventDefault();
 
-    this.setState({ new: false, loader_new: true, show_err_newfaq: "" });
+    this.setState({ loader_new: true, show_err_newfaq: "" });
     var data = {
       Location: this.props.locationId,
       question: que,
       answer: ans
     };
     add_faq(data, DjangoConfig)
-      .then(resp => {
-        all_faq(DjangoConfig).then(resp => {
-          console.log(resp);
-          this.setState({ allFaq: resp.data.all_faqs, loader_new: false });
-        });
+      .then(async resp => {
+        await this.props.getNewAllFaq();
+        await this.props.cancel();
+        this.setState({ loader_new: false });
       })
       .catch(err => {
         this.setState({
