@@ -13,9 +13,9 @@ export default class RankingAnalytics extends Component {
   render() {
     return (
       <div>
-        <MDBContainer>
+        <MDBContainer id='rankana'>
           <MDBRow>
-            <MDBCol className="setting-10">
+            <MDBCol className="setting-10" >
               <h3> Ranking Analytics</h3>
             </MDBCol>
           </MDBRow>

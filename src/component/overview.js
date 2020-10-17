@@ -1088,8 +1088,8 @@ export default class Overview extends Component {
     return [
       { value: total_listings - all_connections.length, label: "Opted out" },
       { value: all_connections.length, label: "Live Listing" },
-      { value: 2, label: "Processing" },
-      { value: 3, label: "Unavailable" },
+      { value: 0, label: "Processing" },
+      { value: 0, label: "Unavailable" },
     ];
   };
 
@@ -1118,6 +1118,7 @@ export default class Overview extends Component {
       ],
     };
   };
+
 
   barChartOptions = (phone, direction, website) => {
     let a1 = phone.filter(Boolean);
@@ -1383,8 +1384,8 @@ export default class Overview extends Component {
                 <img
                   src={require("../images/facebook.png")}
                   alt="facebook"
-                  height="40"
-                  width="40"
+                  height="25"
+                  width="25"
                 />
                 Message
               </div>
@@ -2094,23 +2095,23 @@ export default class Overview extends Component {
                       <div className="col-sm-4 social-11">
                         <h6>{fViews}</h6>
                         {/* <p>+10,03% </p>  */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Views
-                        </a>
+                        </span>
                       </div>
                       <div className="col-sm-4 social-11">
                         <h6>{fdirection}</h6>
                         {/* <p>+10,03% </p>  */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Direction
-                        </a>
+                        </span>
                       </div>
                       <div className="col-sm-4 social-11">
                         <h6>{fcalls}</h6>
                         {/* <p>+10,03% </p>  */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Calls
-                        </a>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -2130,23 +2131,23 @@ export default class Overview extends Component {
                       <div className="col-sm-4 social-11">
                         <h6>{google_views}</h6>
                         {/* <p>+10,03% </p>  */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Views
-                        </a>
+                        </span>
                       </div>
                       <div className="col-sm-4 social-11">
                         <h6>{google_phone}</h6>
                         {/* <p>+10,03% </p> */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Calls
-                        </a>
+                        </span>
                       </div>
                       <div className="col-sm-4 social-11">
                         <h6>{google_direction}</h6>
                         {/* <p>+10,03% </p> */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Direction
-                        </a>
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -2169,23 +2170,23 @@ export default class Overview extends Component {
                       <div className="col-sm-4 social-11">
                         <h6>{linkedin_likes}</h6>
                         {/* <p>+10,03% </p>  */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Likes
-                        </a>
+                        </span>
                       </div>
                       <div className="col-sm-4 social-11">
                         <h6>{linkedin_followers}</h6>
                         {/* <p>+10,03% </p> */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Followers
-                        </a>
+                        </span>
                       </div>
                       <div className="col-sm-4 social-11">
                         <h6>{linkedin_impressions}</h6>
                         {/* <p>+10,03% </p> */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Impressions
-                        </a>
+                        </span>
                       </div>
                       {/* <div className="liks">
                     <span>Comments</span>
@@ -2216,16 +2217,16 @@ export default class Overview extends Component {
                       <div className="col-sm-4 social-11">
                         <h6>{yelpDetails.rating}</h6>
                         {/* <p>+10,03% </p> */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Rating
-                        </a>
+                        </span>
                       </div>
                       <div className="col-sm-4 social-11">
                         <h6>{yelpReviews.length}</h6>
                         {/* <p>+10,03% </p> */}
-                        <a class="link-social" role="button">
+                        <span class="link-social" role="button">
                           Reviews
-                        </a>
+                        </span>
                       </div>
                       {/* <div className="col-sm-4 social-11">
                         <h6>{yelp_new_reviews}</h6>

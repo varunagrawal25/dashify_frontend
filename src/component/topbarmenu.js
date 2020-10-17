@@ -10,7 +10,9 @@ import ViewLocations from "./location-manager";
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import Loader from "react-loader-spinner";
+import { get_login_user_info } from "./apis/user";
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -31,6 +33,11 @@ export default class Topbarmenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      first_name: "",
+      last_name: "",
+      user_image: "",
+      loading_info: true,
+
       AllLocations: [],
       changev: false,
       locationid: "",
@@ -46,8 +53,7 @@ export default class Topbarmenu extends Component {
     this.change = this.change.bind(this);
   }
 
-  change = (id ,name)=> e => {
-    
+  change = (id, name) => e => {
     // console.log("event target value", e.target.value);
     console.log(this.state);
 
@@ -60,18 +66,13 @@ export default class Topbarmenu extends Component {
 
     // console.log(window.location.href);
 
-    window.location.assign(
-      "dashboard#/locations/" + id + "/overview"
-    );
+    window.location.assign("dashboard#/locations/" + id + "/overview");
     window.location.reload(false);
   };
 
   logout = () => {
     localStorage.clear();
 
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/account/logout"
-    // )
     logout()
       .then(res => {
         console.log("sucess");
@@ -91,11 +92,29 @@ export default class Topbarmenu extends Component {
     const data = {
       user_id: localStorage.getItem("UserId")
     };
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-locations",
-    //   data,
-    //   DjangoConfig1
-    // )
+
+    // for getting user details
+    let data3 = { user_id: localStorage.getItem("UserId") };
+    get_login_user_info(data3, DjangoConfig)
+      .then(res => {
+        console.log("user info", res.data);
+        if (res.data && res.data.user_info) {
+          this.setState({
+            first_name: res.data.user_info.first_name,
+            last_name: res.data.user_info.last_name,
+            user_image: res.data.user_info.user_image,
+            loading_info: false
+          });
+        } else {
+          this.setState({ loading_info: false });
+        }
+      })
+      .catch(err => {
+        console.log("user info err", err);
+        this.setState({ loading_info: false });
+      });
+
+    //for notifications
     all_location(data, DjangoConfig1)
       .then(res => {
         console.log(res);
@@ -115,11 +134,6 @@ export default class Topbarmenu extends Component {
       location_id
     };
 
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
-    //   data2,
-    //   DjangoConfig
-    // )
     all_connection_of_one_location(data2, DjangoConfig).then(response => {
       response.data.data.map(l => {
         if (l.Social_Platform.Platform == "Facebook") {
@@ -239,15 +253,18 @@ export default class Topbarmenu extends Component {
     var input = "";
     if (e.keyCode === 8) {
       // backspace/delete has been hit
-      input = e.target.value.substr(0, e.target.value.length-1);
-    }
-    else {
+      input = e.target.value.substr(0, e.target.value.length - 1);
+    } else {
       input = e.target.value + String.fromCharCode(e.keyCode);
     }
   }
 
   render() {
     let {
+      first_name,
+      last_name,
+      user_image,
+      loading_info,
       fb_notification,
       fbReviews,
       googleReviews,
@@ -533,31 +550,28 @@ export default class Topbarmenu extends Component {
                           className="form-control searcdd "
                           placeholder={loc_name ? loc_name : "Search"}
                           aria-label="Search"
-                          
                         />
                         {this.state.search.length == 0 ||
                         this.state.search[0] == "" ? (
                           ""
                         ) : (
                           <div className="searchtrans">
-                            <ul name="language"
-                              id="language"
-                              required  >
-                             
+                            <ul name="language" id="language" required>
                               {filtered_posts.length != 0
                                 ? filtered_posts.map((f, i) => (
                                     <li
-                                    onKeyDown={this.onKeyDown}
+                                      onKeyDown={this.onKeyDown}
                                       key={`location-${i}`}
-                                      onClick={this.change(f.id.toString(),f.Location_name)}
+                                      onClick={this.change(
+                                        f.id.toString(),
+                                        f.Location_name
+                                      )}
                                     >
                                       {f.Location_name}
                                     </li>
                                   ))
                                 : "No Result"}
-                              
                             </ul>
-                            
                           </div>
                         )}
                       </div>
@@ -575,14 +589,36 @@ export default class Topbarmenu extends Component {
 
                 <div className="col-md-3">
                   <div className="row ">
-                    <div className="col-md-5 namedash rightdah">
-                      <h3> {localStorage.getItem("UserName")} </h3>
-                    </div>
-                    <div className="col-md-2 ">
-                      <div className="row imgaligng">
-                      <AccountCircleIcon fontSize="large"/>
-                      </div>
-                    </div>
+                    {loading_info ? (
+                      <Loader
+                        type="Oval"
+                        color="#00BFFF"
+                        height={25}
+                        width={25}
+                        // timeout={3000} //3 secs
+                      />
+                    ) : (
+                      <>
+                        <div className="col-md-5 namedash rightdah">
+                          <h3>
+                            {" "}
+                            {first_name} {last_name}{" "}
+                          </h3>
+                        </div>
+                        <div className="col-md-2 ">
+                          <div className="row imgaligng">
+                            {user_image ? (
+                              <img
+                                src={"https://dashify.biz" + user_image}
+                                alt="user"
+                              />
+                            ) : (
+                              <AccountCircleIcon fontSize="large" />
+                            )}
+                          </div>
+                        </div>
+                      </>
+                    )}
 
                     <ul className="dropdown-menu loginboxds">
                       <li>
