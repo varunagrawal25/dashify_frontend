@@ -7,6 +7,11 @@ import add from "./assets/tw.png";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
+import {
+  all_social_media_notifications,
+  all_social_media_overview,
+  graph_google_customer_actions
+} from "./apis/social_media";
 import Spinner from "./common/Spinner";
 import Loader2 from "react-loader-spinner";
 import Rating from "react-rating";
@@ -17,8 +22,8 @@ const Yelpconfig = {
     Authorization:
       "bearer _1cVnrrkqmG_dwNUdtorVxarkzItJM7AWM700rkRxM7aPdDfxJECcdaN00ADjSkrStF1pX4sdGCspYeSjU7VGkpjWYoMsC2_filBf5d5J5GMRTgXws_W6qusNMhYX3Yx",
     "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost",
-  },
+    "Access-Control-Allow-Origin": "http://localhost"
+  }
 };
 
 let total_listings = 14;
@@ -26,19 +31,19 @@ let total_listings = 14;
 const DnbConfig = {
   headers: {
     "x-dnb-user": "P200000D5647887A34E4067B86A78E31",
-    "x-dnb-pwd": "digimonk@123",
-  },
+    "x-dnb-pwd": "digimonk@123"
+  }
 };
 
 const Zomatoconfig = {
   headers: {
     "user-key": "0850988704eeed5da2f4d38fdfc582c1",
-    Accept: "application/json",
-  },
+    Accept: "application/json"
+  }
 };
 
 const DjangoConfig = {
-  headers: { Authorization: "Token " + localStorage.getItem("UserToken") },
+  headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
 
 export default class Overview extends Component {
@@ -51,7 +56,6 @@ export default class Overview extends Component {
     locationIdGoogle: "",
 
     show_states: "",
-    range_name: "Last week",
     today_date: "",
     today_time: "",
     last_week: "",
@@ -137,6 +141,14 @@ export default class Overview extends Component {
     view_notification_type1: false,
     view_notification_type2: false,
     view_notification_type3: false,
+
+    notification_data: "",
+    db_social_range: "week",
+    social_range: "Last week",
+    google_range: "Last week",
+    db_google_range: "week",
+    social_overview_data: "",
+    graph_google_customer_data: ""
   };
   componentDidMount() {
     var today = new Date();
@@ -229,7 +241,7 @@ export default class Overview extends Component {
       last_3_month: last_3_month,
       last_6_month: last_6_month,
       last_year: last_year,
-      show_states: last_week,
+      show_states: last_week
     });
 
     var yelpUrl,
@@ -250,744 +262,153 @@ export default class Overview extends Component {
       fbPageId,
       googleToken;
 
-    const data = {
-      location_id: this.props.match.params.locationId,
+    const notification_query_data = {
+      location_id: this.props.match.params.locationId
     };
 
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
-    //   data,
-    //   DjangoConfig
-    // )
+    all_social_media_notifications(notification_query_data)
+      .then(res => {
+        if (res.data) {
+          this.setState({ notification_data: res.data });
+        }
+      })
+      .catch(err => {
+        console.log("err", err);
+      });
+
+    const overview_query_data = {
+      location_id: this.props.match.params.locationId,
+      duration: this.state.db_social_range
+    };
+
+    all_social_media_overview(overview_query_data)
+      .then(res => {
+        if (res.data) {
+          this.setState({ social_overview_data: res.data });
+        }
+      })
+      .catch(err => {
+        console.log("social overview err", err);
+      });
+
+    const graph_google_query_data = {
+      location_id: this.props.match.params.locationId,
+      duration: this.state.db_google_range
+    };
+
+    graph_google_customer_actions(graph_google_query_data)
+      .then(res => {
+        if (res.data) {
+          this.setState({ graph_google_customer_data: res.data });
+        }
+      })
+      .catch(err => {
+        console.log("graph google err", err);
+      });
+
+    const data = {
+      location_id: this.props.match.params.locationId
+    };
+
     all_connection_of_one_location(data, DjangoConfig)
-      .then((response) => {
+      .then(response => {
         console.log("all connections", response);
-        response.data.data.map((l) => {
+        response.data.data.map(l => {
           if (l.Social_Platform.Platform == "Facebook") {
-            fbtoken = l.Social_Platform.Token;
-            fbPageId = l.Social_Platform.Other_info;
-          }
-          if (l.Social_Platform.Platform == "Google") {
-            googleToken = l.Social_Platform.Token;
             this.setState({
-              google_token: googleToken,
-              locationIdGoogle: l.Social_Platform.Other_info,
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Facebook" }
+              ]
             });
-          }
-          if (l.Social_Platform.Platform == "Yelp") {
-            yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
-          }
-
-          if (l.Social_Platform.Platform == "Foursquare") {
-            fourUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[5];
-          }
-
-          if (l.Social_Platform.Platform == "Dnb") {
-            dnbUrl = l.Social_Platform.Other_info;
-          }
-
-          if (l.Social_Platform.Platform == "Apple") {
-            appleUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[6]
-              .slice(2);
-          }
-
-          if (l.Social_Platform.Platform == "Instagram") {
-            console.log(
-              "instagram id",
-              l.Social_Platform.Other_info.split(",")[0].slice(7)
-            );
-            instaUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
-          }
-
-          if (l.Social_Platform.Platform == "Citysearch") {
-            citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[4];
-          }
-          if (l.Social_Platform.Platform == "Here") {
-            hereUrl = l.Social_Platform.Other_info;
-          }
-          if (l.Social_Platform.Platform == "Zillow") {
-            zillowUrl = l.Social_Platform.Other_info;
-          }
-
-          if (l.Social_Platform.Platform == "Avvo") {
-            avvoUrl = l.Social_Platform.Other_info;
-            avvoToken = l.Social_Platform.Token;
-          }
-          if (l.Social_Platform.Platform == "Zomato") {
-            zomatoUrl = l.Social_Platform.Other_info;
-          }
-          if (l.Social_Platform.Platform == "Tomtom") {
-            tomtomUrl = l.Social_Platform.Other_info;
-          }
-          if (l.Social_Platform.Platform == "Linkedin") {
-            linkedinUrl = l.Social_Platform.Token;
-            linkedinId = l.Social_Platform.Other_info;
+          } else if (l.Social_Platform.Platform == "Google") {
+            this.setState({
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Google" }
+              ]
+            });
+          } else if (l.Social_Platform.Platform == "Yelp") {
+            this.setState({
+              all_connections: [...this.state.all_connections, { name: "Yelp" }]
+            });
+          } else if (l.Social_Platform.Platform == "Foursquare") {
+            this.setState({
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Foursquare" }
+              ]
+            });
+          } else if (l.Social_Platform.Platform == "Dnb") {
+            this.setState({
+              all_connections: [...this.state.all_connections, { name: "Dnb" }]
+            });
+          } else if (l.Social_Platform.Platform == "Apple") {
+            this.setState({
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Apple" }
+              ]
+            });
+          } else if (l.Social_Platform.Platform == "Instagram") {
+            this.setState({
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Instagram" }
+              ]
+            });
+          } else if (l.Social_Platform.Platform == "Citysearch") {
+            this.setState({
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Citysearch" }
+              ]
+            });
+          } else if (l.Social_Platform.Platform == "Here") {
+            this.setState({
+              all_connections: [...this.state.all_connections, { name: "Here" }]
+            });
+          } else if (l.Social_Platform.Platform == "Zillow") {
+            this.setState({
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Zillow" }
+              ]
+            });
+          } else if (l.Social_Platform.Platform == "Avvo") {
+            this.setState({
+              all_connections: [...this.state.all_connections, { name: "Avvo" }]
+            });
+          } else if (l.Social_Platform.Platform == "Zomato") {
+            this.setState({
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Zomato" }
+              ]
+            });
+          } else if (l.Social_Platform.Platform == "Tomtom") {
+            this.setState({
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Tomtom" }
+              ]
+            });
+          } else if (l.Social_Platform.Platform == "Linkedin") {
+            this.setState({
+              all_connections: [
+                ...this.state.all_connections,
+                { name: "Linkedin" }
+              ]
+            });
           }
         });
 
-        const GoogleConfig = {
-          headers: { Authorization: "Bearer " + googleToken },
-        };
-
-        // for instagram
-        // if (fbtoken) {
-        //   Axios.get(
-        //     "https://www.instagram.com/oauth/authorize?client_id=708019883077720&redirect_uri=https://digimonk.com/auth/&scope=user_profile,user_media&response_type=code"
-        //   ).then(resp => {
-        //     console.log("instagram data", resp);
-        //   });
-        // }
-
-        // for facebook
-        if (fbtoken) {
-          Axios.get(
-            "https://graph.facebook.com/me/accounts/?access_token=" + fbtoken
-          ).then((res) => {
-            console.log("facebook data1", res.data);
-            this.setState({
-              fbAccounts: res.data.data,
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Facebook" },
-              ],
-            });
-            var fbPageAccessToken;
-            for (let i = 0; i < res.data.data.length; i++) {
-              if (res.data.data[i].id == fbPageId) {
-                fbPageAccessToken = res.data.data[i].access_token;
-              }
-            }
-            Axios.get(
-              "https://graph.facebook.com/" +
-                fbPageId +
-                "/insights/page_engaged_users,page_impressions,page_views_total,page_call_phone_clicks_logged_in_unique,page_get_directions_clicks_logged_in_unique,page_website_clicks_logged_in_unique?period=month&access_token=" +
-                fbPageAccessToken
-            ).then((resp) => {
-              console.log("facebook data2", resp.data);
-              this.setState({
-                fViews:
-                  resp.data.data[2] && resp.data.data[2].values[0]
-                    ? resp.data.data[2].values[0].value
-                    : "-",
-                fWebClicks:
-                  resp.data.data[5] && resp.data.data[5].values[0]
-                    ? resp.data.data[5].values[0].value
-                    : "-",
-                fcalls:
-                  resp.data.data[3] && resp.data.data[3].values[0]
-                    ? resp.data.data[3].values[0].value
-                    : "-",
-                fdirection:
-                  resp.data.data[4] && resp.data.data[4].values[0]
-                    ? resp.data.data[4].values[0].value
-                    : "-",
-                fengaged:
-                  resp.data.data[0] && resp.data.data[0].values[0]
-                    ? resp.data.data[0].values[0].value
-                    : "-",
-                fimpressions:
-                  resp.data.data[1] && resp.data.data[1].values[0]
-                    ? resp.data.data[1].values[0].value
-                    : "-",
-              });
-            });
-            Axios.get(
-              "https://graph.facebook.com/" +
-                fbPageId +
-                "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
-                fbPageAccessToken
-            ).then((res) => {
-              console.log("fb reviews", res.data);
-              this.setState({ fbReviews: res.data.data ? res.data.data : [] });
-            });
-            Axios.get(
-              "https://graph.facebook.com/" +
-                fbPageId +
-                "?fields=new_like_count,talking_about_count,unread_message_count,unread_notif_count,unseen_message_count&access_token=" +
-                fbPageAccessToken
-            ).then((resp) => {
-              console.log("facebook notifications", resp.data);
-              this.setState({ fb_notification: resp.data });
-            });
-          });
-        }
-
-        // Google
-        if (googleToken) {
-          Axios.get(
-            "https://mybusiness.googleapis.com/v4/accounts/",
-            GoogleConfig
-          ).then((res) => {
-            console.log("google account", res.data);
-            localStorage.setItem("accountId", res.data.accounts[0].name);
-            this.setState({
-              loader: false,
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Google" },
-              ],
-              isGoogleLoggedIn: true,
-            });
-            this.business_report_insight();
-
-            // Axios.get(
-            //   "https://mybusiness.googleapis.com/v4/" +
-            //     localStorage.getItem("accountId") +
-            //     "/locations",
-            //   GoogleConfig
-            // ).then(resp => {
-            //   console.log("google location", resp.data);
-
-            //   localStorage.setItem(
-            //     "locationIdGoogle",
-            //     resp.data.locations[0].name
-            //   );
-
-            const google_data = {
-              // locationNames: [localStorage.getItem("locationIdGoogle")],
-              locationNames: [this.state.locationIdGoogle],
-              basicRequest: {
-                metricRequests: [{ metric: "ALL" }],
-                timeRange: {
-                  startTime: "2019-10-12T01:01:23.045123456Z",
-                  endTime: "2020-05-10T23:59:59.045123456Z",
-                },
-              },
-            };
-            Axios.post(
-              "https://mybusiness.googleapis.com/v4/" +
-                localStorage.getItem("accountId") +
-                "/locations:reportInsights",
-              google_data,
-              GoogleConfig
-            ).then((respo) => {
-              console.log("google location insight", respo.data);
-
-              if (respo.data.locationMetrics) {
-                const data = respo.data.locationMetrics[0].metricValues;
-                const google_views = (
-                  parseInt(data[0].totalValue.value) +
-                  parseInt(data[1].totalValue.value)
-                ).toString();
-                const google_searched = data[4].totalValue.value;
-                const google_clicks = data[5].totalValue.value;
-                const google_phone = data[6].totalValue.value;
-                const google_direction = data[7].totalValue.value;
-                this.setState({
-                  google_views,
-                  google_searched,
-                  google_clicks,
-                  google_phone,
-                  google_direction,
-                });
-              }
-            });
-
-            Axios.get(
-              "https://mybusiness.googleapis.com/v4/" +
-                this.state.locationIdGoogle +
-                "/reviews",
-              GoogleConfig
-            ).then((respo) => {
-              console.log("google reviews", respo.data);
-              this.setState({ googleReviews: respo.data.reviews });
-            });
-            // });
-          });
-        }
-        var today = new Date();
-        // here
-        if (hereUrl) {
-          Axios.get(hereUrl).then((res) => {
-            console.log("Here data", res.data);
-            this.setState({ hereDetails: res.data });
-
-            if (res.data.media) {
-              let hereRating =
-                res.data.media.ratings.items.length >= 1
-                  ? res.data.media.ratings.items[0].average
-                  : "-";
-              let hereReviews =
-                res.data.media.ratings.items.length >= 1
-                  ? res.data.media.ratings.items[0].count
-                  : "-";
-              this.setState({
-                hereRating,
-                hereReviews: hereReviews,
-                all_connections: [
-                  ...this.state.all_connections,
-                  { name: "Here" },
-                ],
-              });
-            } else {
-              this.setState({
-                all_connections: [
-                  ...this.state.all_connections,
-                  { name: "Here" },
-                ],
-              });
-            }
-          });
-        }
-
-        //for instagram
-        if (instaUrl) {
-          Axios.get("https://www.instagram.com/" + instaUrl + "/?__a=1").then(
-            (res) => {
-              console.log("instagram data in json", res.data);
-              console.log(
-                "instagram data in json",
-                res.data.graphql.user.edge_owner_to_timeline_media.edges[0].node
-                  .shortcode
-              );
-              const instaDetails = res.data.graphql.user;
-              const instaFollowers =
-                res.data.graphql.user.edge_followed_by.count;
-              const instaFollowing = res.data.graphql.user.edge_follow.count;
-              const instaPosts =
-                res.data.graphql.user.edge_owner_to_timeline_media.count;
-              this.setState({
-                instaDetails,
-                instaFollowers,
-                instaFollowing,
-                instaPosts,
-              });
-            }
-          );
-          this.setState({
-            all_connections: [
-              ...this.state.all_connections,
-              { name: "Instagram" },
-            ],
-          });
-        }
-
-        // for yelp
-        if (yelpUrl) {
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-              yelpUrl.slice(25) +
-              "/reviews",
-            Yelpconfig
-          ).then((resp) => {
-            console.log("yelp reviews", resp.data.reviews);
-
-            let yelp_new_reviews = 0;
-            for (let j = 0; j < resp.data.reviews.length; j++) {
-              let create_time1 = resp.data.reviews[j].time_created;
-              if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
-                if (
-                  parseInt(create_time1.slice(5, 7)) ==
-                  today.getMonth() + 1
-                ) {
-                  if (parseInt(create_time1.slice(8, 10)) == today.getDate()) {
-                    yelp_new_reviews++;
-                  }
-                }
-              }
-            }
-            this.setState({ yelpReviews: resp.data.reviews, yelp_new_reviews });
-            Axios.get(
-              "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-                yelpUrl.slice(25),
-              Yelpconfig
-            ).then((resp) => {
-              console.log("hii");
-              console.log("yelp details", resp.data);
-              this.setState({ yelpDetails: resp.data });
-            });
-          });
-          this.setState({
-            all_connections: [...this.state.all_connections, { name: "Yelp" }],
-          });
-        }
-
-        // for zillow
-        if (zillowUrl) {
-          Axios.get(
-            "https://www.zillow.com/webservice/ProReviews.htm?zws-id=X1-ZWz170sf100mbv_7lwvq&email=" +
-              zillowUrl +
-              "&count=10&output=json"
-          ).then((resp) => {
-            console.log("zillow data", resp.data);
-            this.setState({
-              zillowReviews: resp.data.response.results.proReviews.review,
-              zillowDetails: resp.data.response.results.proInfo,
-            });
-          });
-          this.setState({
-            all_connections: [
-              ...this.state.all_connections,
-              { name: "Zillow" },
-            ],
-          });
-        }
-
-        if (avvoUrl && avvoToken) {
-          const AvvoConfig = {
-            headers: {
-              Authorization: "Bearer " + avvoToken,
-            },
-          };
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/lawyers.json?id[]=" +
-              avvoUrl,
-            AvvoConfig
-          ).then((res) => {
-            console.log("avvo lawyer data in json", res.data);
-            let avvoRating = parseFloat(
-              res.data.lawyers[0].client_review_score
-            );
-            let avvoReviews = parseInt(res.data.lawyers[0].client_review_count);
-            this.setState({
-              avvoDetails: res.data,
-              avvoRating,
-              avvoReviews,
-            });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Avvo" },
-              ],
-            });
-          });
-        }
-
-        if (zomatoUrl) {
-          Axios.get(
-            "https://developers.zomato.com/api/v2.1/restaurant?res_id=" +
-              zomatoUrl,
-            Zomatoconfig
-          ).then((res) => {
-            console.log("zomato data", res.data);
-
-            let zomatoRating = res.data.user_rating.aggregate_rating
-              ? parseFloat(res.data.user_rating.aggregate_rating)
-              : 0;
-            let zomatoReviews = parseInt(res.data.all_reviews_count);
-            this.setState({
-              zomatoDetails: res.data,
-              zomatoRating,
-              zomatoReviews,
-            });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Zomato" },
-              ],
-            });
-          });
-        }
-
-        if (tomtomUrl) {
-          if (tomtomUrl != "-") {
-            Axios.get(
-              "https://api.tomtom.com/search/2/poiDetails.json?key=IRUplE1TqUPstrlMA2N51xASusnsDsEd&id=" +
-                tomtomUrl
-            ).then((res) => {
-              console.log("tomtom data", res.data);
-
-              let tomtomRating = res.data.result.rating
-                ? parseFloat(res.data.result.rating.value) / 2
-                : 0;
-
-              let tomtomReviews = parseInt(res.data.result.rating.totalRatings);
-
-              var tomtomNewReviews = 0;
-              for (let i = 0; i < res.data.result.reviews.length; i++) {
-                let create_time1 = res.data.result.reviews[i];
-                if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
-                  if (
-                    parseInt(create_time1.slice(5, 7)) ==
-                    today.getMonth() + 1
-                  ) {
-                    if (
-                      parseInt(create_time1.slice(8, 10)) == today.getDate()
-                    ) {
-                      tomtomNewReviews++;
-                    }
-                  }
-                }
-              }
-              this.setState({
-                tomtomDetails: res.data,
-                tomtomRating,
-                tomtomReviews,
-                tomtomNewReviews,
-              });
-            });
-          }
-
-          this.setState({
-            all_connections: [
-              ...this.state.all_connections,
-              { name: "Tomtom" },
-            ],
-          });
-        }
-
-        // For foursquare
-        if (fourUrl) {
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v2/venues/" +
-              fourUrl +
-              "?client_id=44RU2431YG02H4E00RQTLKEUKIKINQSFO2JBHII2WHH32PXZ&client_secret=FWV2WOL40MQ5M1YZ5E2TKUWIQ4WYZ1QUJXOQ24VGRSXFA3IY&v=20180323"
-          ).then((res) => {
-            console.log("foursquare data", res.data);
-            this.setState({
-              foursquareReviews: res.data.response.venue.tips.groups[0]
-                ? res.data.response.venue.tips.groups[0].items
-                : [],
-              foursquareDetails: res.data.response.venue,
-              foursquareReviewlength: res.data.response.venue.tips.count,
-            });
-          });
-          this.setState({
-            all_connections: [
-              ...this.state.all_connections,
-              { name: "Foursquare" },
-            ],
-          });
-        }
-
-        // For linkedin
-        if (linkedinUrl && linkedinId) {
-          const LinkedinConfig = {
-            headers: {
-              Authorization: "Bearer " + linkedinUrl,
-            },
-          };
-          Axios.get(
-            `https://cors-anywhere.herokuapp.com/https://api.linkedin.com/v2/organizationalEntityShareStatistics?q=organizationalEntity&organizationalEntity=${linkedinId}`,
-            LinkedinConfig
-          ).then((res) => {
-            // console.log("linkedin data", res.data);
-            if (
-              res.data &&
-              res.data.elements &&
-              res.data.elements[0].totalShareStatistics
-            ) {
-              let lin_data = res.data.elements[0].totalShareStatistics;
-              this.setState({
-                linkedin_clicks: lin_data.clickCount,
-                linkedin_likes: lin_data.likeCount,
-                linkedin_impressions: lin_data.impressionCount,
-                linkedin_comments: lin_data.commentCount,
-                linkedin_share: lin_data.shareCount,
-              });
-            }
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Linkedin" },
-              ],
-            });
-          });
-          Axios.get(
-            `https://cors-anywhere.herokuapp.com/https://api.linkedin.com/v2/networkSizes/${linkedinId}?edgeType=CompanyFollowedByMember`,
-            LinkedinConfig
-          ).then((res) => {
-            // console.log("linkedin data", res.data);
-            if (res.data && res.data.firstDegreeSize) {
-              this.setState({
-                linkedin_followers: res.data.firstDegreeSize,
-              });
-            }
-          });
-        }
-
-        // For Dnb
-        if (dnbUrl) {
-          // var today = new Date();
-          var date =
-            today.getFullYear() +
-            "-" +
-            (today.getMonth() + 1) +
-            "-" +
-            today.getDate() +
-            "T" +
-            today.getHours() +
-            ":" +
-            today.getMinutes() +
-            ":" +
-            today.getSeconds();
-
-          const data = {
-            ApplicationTransactionID: "1234",
-            ServiceTransactionID: "5678",
-            //    TransactionTimestamp: "2001-12-17T09:30:47Z"
-            TransactionTimestamp: date,
-          };
-
-          Axios.post(
-            "https://cors-anywhere.herokuapp.com/https://direct.dnb.com/Authentication/V2.0/",
-            data,
-            DnbConfig
-          )
-            .then((resp) => {
-              console.log("DNB authentication", resp.data);
-              // this.setState({ token: resp.data.AuthenticationDetail.Token });
-              const DnbAuthorization = {
-                headers: {
-                  Authorization: resp.data.AuthenticationDetail.Token,
-                },
-              };
-
-              Axios.get(
-                "https://cors-anywhere.herokuapp.com/https://direct.dnb.com/V5.0/organizations/" +
-                  dnbUrl +
-                  "/products/RTNG_TRND",
-                DnbAuthorization
-              ).then((res) => {
-                console.log("DNB data1", res.data);
-                this.setState({
-                  dnbStandardRating:
-                    res.data.OrderProductResponse.OrderProductResponseDetail
-                      .Product.Organization.Assessment.DNBStandardRating
-                      .DNBStandardRating,
-                  dnbHistoryRatingText:
-                    res.data.OrderProductResponse.OrderProductResponseDetail
-                      .Product.Organization.Assessment.HistoryRatingText.$,
-                  dnbFinancialConditionText:
-                    res.data.OrderProductResponse.OrderProductResponseDetail
-                      .Product.Organization.Assessment.FinancialConditionText.$,
-                });
-              });
-
-              Axios.get(
-                "https://cors-anywhere.herokuapp.com/https://direct.dnb.com/V5.0/organizations/" +
-                  dnbUrl +
-                  "/products/SER",
-                DnbAuthorization
-              ).then((res) => {
-                console.log("DNB data2", res.data);
-                this.setState({
-                  dnbRiskScore:
-                    res.data.OrderProductResponse.OrderProductResponseDetail
-                      .Product.Organization.Assessment
-                      .SupplierEvaluationRiskScore[0].RiskScore,
-                });
-              });
-
-              Axios.get(
-                "https://cors-anywhere.herokuapp.com/https://direct.dnb.com/V5.0/organizations/" +
-                  dnbUrl +
-                  "/products/VIAB_RAT",
-                DnbAuthorization
-              ).then((res) => {
-                console.log("DNB data3", res.data);
-                this.setState({
-                  dnbRiskLevelDescription:
-                    res.data.OrderProductResponse.OrderProductResponseDetail
-                      .Product.Organization.Assessment.DNBViabilityRating
-                      .ViabilityScore.RiskLevelDescription.$,
-                });
-              });
-            })
-            .catch((resp) => {
-              console.log("DNB authentication error", resp.data);
-            });
-
-          this.setState({
-            all_connections: [...this.state.all_connections, { name: "Dnb" }],
-          });
-        }
-
-        // for apple
-        if (appleUrl) {
-          Axios.get(
-            "https://itunes.apple.com/in/rss/customerreviews/id=" +
-              appleUrl +
-              "/sortBy=mostRecent/json"
-          ).then((res) => {
-            console.log("apple reviews", res.data.feed.entry);
-
-            let appleRating = 0;
-            let appleReviews = res.data.feed.entry;
-
-            for (let i = 0; i < appleReviews.length; i++) {
-              appleRating += parseInt(appleReviews[i]["im:rating"].label);
-            }
-            appleRating = parseInt(
-              (appleRating / appleReviews.length).toString().slice(0, 3)
-            );
-            this.setState({
-              appleRating,
-              appleReviews: res.data.feed.entry,
-            });
-          });
-          this.setState({
-            all_connections: [...this.state.all_connections, { name: "Apple" }],
-          });
-        }
-
-        if (citysearchUrl) {
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
-              citysearchUrl +
-              "&publisher=test"
-          ).then((res) => {
-            console.log("citysearchUrl response", res);
-
-            var XMLParser = require("react-xml-parser");
-            var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
-            console.log(xml);
-            console.log(
-              "citysearch review",
-              xml.getElementsByTagName("review")
-            );
-
-            let citysearchReviews = xml.getElementsByTagName("review");
-            var citysearchRating = 0;
-            var citysearchNewReviews = 0;
-            for (let i = 0; i < citysearchReviews.length; i++) {
-              citysearchRating +=
-                parseInt(citysearchReviews[i].children[5].value) / 2;
-
-              let create_time1 = citysearchReviews[i].children[6].value;
-              if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
-                if (
-                  parseInt(create_time1.slice(5, 7)) ==
-                  today.getMonth() + 1
-                ) {
-                  if (parseInt(create_time1.slice(8, 10)) == today.getDate()) {
-                    citysearchNewReviews++;
-                  }
-                }
-              }
-            }
-            citysearchRating = parseInt(
-              (citysearchRating / citysearchReviews.length)
-                .toString()
-                .slice(0, 3)
-            );
-            this.setState({
-              citysearchNewReviews,
-              citysearchRating,
-              citysearchReviews: xml.getElementsByTagName("review"),
-            });
-          });
-
-          this.setState({
-            all_connections: [
-              ...this.state.all_connections,
-              { name: "Citysearch" },
-            ],
-          });
-        }
-
         this.setState({ loader: false });
       })
-      .catch((res) => {
+      .catch(res => {
         console.log("error in overview", res);
         this.setState({
-          loader: false,
+          loader: false
         });
       });
   }
@@ -995,7 +416,7 @@ export default class Overview extends Component {
   business_report_insight = () => {
     this.setState({ loading: true });
     const GoogleConfig = {
-      headers: { Authorization: "Bearer " + this.state.google_token },
+      headers: { Authorization: "Bearer " + this.state.google_token }
     };
     // Axios.get(
     //   `https://mybusiness.googleapis.com/v4/${localStorage.getItem("accountId")}/locations`,
@@ -1012,23 +433,23 @@ export default class Overview extends Component {
         metricRequests: [
           {
             metric: "VIEWS_MAPS",
-            options: "AGGREGATED_DAILY",
+            options: "AGGREGATED_DAILY"
           },
           {
             metric: "ACTIONS_WEBSITE",
-            options: "AGGREGATED_DAILY",
+            options: "AGGREGATED_DAILY"
           },
           {
             metric: "ACTIONS_PHONE",
-            options: "AGGREGATED_DAILY",
-          },
+            options: "AGGREGATED_DAILY"
+          }
         ],
 
         timeRange: {
           startTime: this.state.show_states + "T01:01:23.045123456Z",
-          endTime: this.state.today_date + "T23:59:59.045123456Z",
-        },
-      },
+          endTime: this.state.today_date + "T23:59:59.045123456Z"
+        }
+      }
     };
     Axios.post(
       `https://mybusiness.googleapis.com/v4/${localStorage.getItem(
@@ -1037,19 +458,19 @@ export default class Overview extends Component {
       reportInsights,
       GoogleConfig
     )
-      .then((res) => {
+      .then(res => {
         console.log("google report insight", res.data);
         if (res.data.locationMetrics[0]) {
           this.setState({
             metric: res.data.locationMetrics[0].metricValues,
-            loading: false,
+            loading: false
           });
         }
       })
-      .catch((res) => {
+      .catch(res => {
         console.log("error in overview");
         this.setState({
-          loading: false,
+          loading: false
         });
       });
     // });
@@ -1059,11 +480,11 @@ export default class Overview extends Component {
     let { google_reply_to_id, google_reply, google_token } = this.state;
 
     const GoogleConfig = {
-      headers: { Authorization: "Bearer " + google_token },
+      headers: { Authorization: "Bearer " + google_token }
     };
 
     const data = {
-      comment: google_reply,
+      comment: google_reply
     };
 
     Axios.put(
@@ -1075,11 +496,11 @@ export default class Overview extends Component {
       data,
       GoogleConfig
     )
-      .then((respo) => {
+      .then(respo => {
         console.log("google reply response", respo.data);
         this.setState({ is_google_reply: false });
       })
-      .catch((respo) => {
+      .catch(respo => {
         console.log("google reply response", respo.data);
       });
   };
@@ -1089,7 +510,7 @@ export default class Overview extends Component {
       { value: total_listings - all_connections.length, label: "Opted out" },
       { value: all_connections.length, label: "Live Listing" },
       { value: 0, label: "Processing" },
-      { value: 0, label: "Unavailable" },
+      { value: 0, label: "Unavailable" }
     ];
   };
 
@@ -1101,24 +522,23 @@ export default class Overview extends Component {
           label: "phone call",
           data: phone,
           backgroundColor: "#8760D0",
-          barThickness: 10,
+          barThickness: 10
         },
         {
           label: "get direction",
           data: direction,
           backgroundColor: "#528AF7",
-          barThickness: 10,
+          barThickness: 10
         },
         {
           label: "website visited",
           data: website,
           backgroundColor: "#58C8F9",
-          barThickness: 10,
-        },
-      ],
+          barThickness: 10
+        }
+      ]
     };
   };
-
 
   barChartOptions = (phone, direction, website) => {
     let a1 = phone.filter(Boolean);
@@ -1136,7 +556,7 @@ export default class Overview extends Component {
 
       legend: {
         position: "bottom",
-        align: "start",
+        align: "start"
       },
 
       scales: {
@@ -1146,79 +566,37 @@ export default class Overview extends Component {
 
             gridLines: {
               display: false,
-              color: "rgba(0, 0, 0, 0.1)",
-            },
-          },
+              color: "rgba(0, 0, 0, 0.1)"
+            }
+          }
         ],
         yAxes: [
           {
             gridLines: {
               display: true,
-              color: "rgba(0, 0, 0, 0.1)",
+              color: "rgba(0, 0, 0, 0.1)"
             },
             ticks: {
               beginAtZero: true,
               stepSize: 25,
-              max: max_value,
-            },
-          },
-        ],
-      },
+              max: max_value + 10
+            }
+          }
+        ]
+      }
     };
   };
 
-  // getBarChart = (date, phone,direction,website) => {
-  //   var options = {
-  //     chart: {
-  //       height: 380,
-  //       type: "line",
-
-  //     },
-  //     colors: ["#8760D0", "#528AF7", "#58C8F9"
-  //                 ],
-  //     series: [
-  //       {
-  //         name: "Phone Cell",
-  //         type: "column",
-  //         data: phone
-  //       },
-  //    {
-  //         name: "Get Derection",
-  //         type: "column",
-  //         data: direction
-  //       },
-
-  //       {
-  //         name: "Website visited",
-  //         type: "column",
-  //         data: website
-  //       }
-  //     ],
-  //     stroke: {
-  //       width: [0, 2],
-  //       curve: 'smooth'
-  //     },
-
-  //     title: {
-  //       text: "Average Google customer Actions"
-  //     },
-  //      labels: date,
-
-  //    };
-
-  //    var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-  //    return chart.render();
-  //   // return ApexCharts.render(document.querySelector("#chart"), options);
-  // }
-
-  change_states = (states, range) => async (e) => {
-    console.log("e.target.name", states, range);
-    await this.setState({ show_states: states, range_name: range });
-    this.business_report_insight();
+  change_states = (name, db_range, range) => async e => {
+    if (name == "Google customer Actions") {
+      await this.setState({ db_google_range: db_range, google_range: range });
+      this.business_report_insight();
+    } else if (name == "Social Overview") {
+      await this.setState({ db_social_range: db_range, social_range: range });
+    }
   };
 
-  changeHandler = (event) => {
+  changeHandler = event => {
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
   };
@@ -1307,168 +685,49 @@ export default class Overview extends Component {
       view_notification_type2,
       view_notification_type3,
 
-      range_name,
+      google_range,
+      social_range,
+
+      notification_data,
+      social_overview_data,
+      graph_google_customer_data
     } = this.state;
 
     console.log("this.state", this.state);
-    var date = [],
-      phone = [],
-      website = [],
-      direction = [];
 
-    if (this.state.metric.length > 0) {
-      let variance = 7;
-      if (range_name == "Last week") {
-        variance = 1;
-      } else if (range_name == "Last month") {
-        variance = 7;
-      } else if (range_name == "Last 3 months") {
-        variance = 7;
-      } else if (range_name == "Last 6 months") {
-        variance = 30;
-      } else if (range_name == "Last year") {
-        variance = 30;
-      }
-
-      this.state.metric.map((da, i) => {
-        if (da.metric == "VIEWS_MAPS") {
-          da.dimensionalValues.map((m, i2) => {
-            if (i2 == 0 || (i2 + 1) % variance == 0) {
-              direction.push(parseInt(m.value));
-            }
-          });
-        }
-
-        if (da.metric == "ACTIONS_WEBSITE") {
-          da.dimensionalValues.map((m, i2) => {
-            if (i2 == 0 || (i2 + 1) % variance == 0) {
-              website.push(parseInt(m.value));
-            }
-          });
-        }
-
-        if (da.metric == "ACTIONS_PHONE") {
-          da.dimensionalValues.map((m, i2) => {
-            if (i2 == 0 || (i2 + 1) % variance == 0) {
-              phone.push(parseInt(m.value));
-            }
-          });
-        }
-      });
-
-      this.state.metric[0].dimensionalValues.map((d, i) => {
-        if (i == 0 || (i + 1) % variance == 0) {
-          date.push(
-            d.timeDimension.timeRange.startTime
-              .slice(0, 10)
-              .split("-")
-              .reverse()
-              .join("-")
-          );
-        }
-      });
+    if (graph_google_customer_data) {
+      var date = graph_google_customer_data.date,
+        phone = graph_google_customer_data.phone,
+        website = graph_google_customer_data.website,
+        direction = graph_google_customer_data.direction;
     }
 
-    // let fb_show_count_unseen1;
-    // let fb_show_count_unseen2;
-    // let fb_show_review_notification = [];
-    let total_notifications = [];
-
-    if (fb_notification && fb_notification.unseen_message_count > 0) {
-      total_notifications = [
-        ...total_notifications,
+    let total_notifications =
+      notification_data &&
+      notification_data.Notification.map(data => (
         <div>
           <MDBRow>
             <MDBCol md="8">
               <div className="recent-title">
                 <img
-                  src={require("../images/facebook.png")}
-                  alt="facebook"
-                  height="25"
-                  width="25"
-                />
-                Message
-              </div>
-            </MDBCol>
-            <MDBCol md="4" style={{ marginTop: "5px" }}>
-              <MDBRow>
-                <MDBCol md="6" style={{ padding: "0px" }}>
-                  <a
-                    href={
-                      "https://www.facebook.com/" +
-                      fb_notification.id +
-                      "/inbox"
-                    }
-                    className="btn btn-primary "
-                  >
-                    See message
-                  </a>
-                </MDBCol>
-              </MDBRow>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow>
-            <MDBCol>
-              <p className="recent-text">
-                You have {fb_notification.unseen_message_count} unread messages
-                on your facebook page
-              </p>
-            </MDBCol>
-          </MDBRow>
-          {/* <div className="col-md-7">
-            <h5 className="recent-title">
-              <img
-                src={require("../images/facebook.png")}
-                alt="facebook"
-                height="65"
-                width="65"
-              />
-              <br />
-              Message
-            </h5>
-            <p className="recent-text">
-              You have {fb_notification.unseen_message_count} unread messages on
-              your facebook page
-            </p>
-          </div>
-
-          <div className="col-md-2 ">
-            <a
-              href={"https://www.facebook.com/" + fb_notification.id + "/inbox"}
-              className="btn btn-primary "
-            >
-              <h6>See message</h6>
-            </a>
-          </div> */}
-        </div>,
-      ];
-    }
-
-    if (fb_notification && fb_notification.unread_notif_count > 0) {
-      total_notifications = [
-        ...total_notifications,
-        <div>
-          <MDBRow>
-            <MDBCol md="8">
-              <div className="recent-title">
-                <img
-                  src={require("../images/facebook.png")}
-                  alt="facebook"
+                  src={"https://dashify.biz" + data.media_image}
+                  alt="yelp"
                   height="40"
                   width="40"
                 />
-                Notification
+                {data.head}
               </div>
             </MDBCol>
             <MDBCol md="4" style={{ marginTop: "5px" }}>
               <MDBRow>
                 <MDBCol md="6" style={{ padding: "0px" }}>
-                  <a
-                    href={"https://www.facebook.com/" + fb_notification.id}
-                    className="btn btn-primary "
-                  >
-                    Go to page
+                  <a href={data.link} className="btn btn-primary ">
+                    Comment
                   </a>
+                </MDBCol>
+
+                <MDBCol md="6" style={{ padding: "0px" }}>
+                  <div className="recent-hour">{data.time}</div>
                 </MDBCol>
               </MDBRow>
             </MDBCol>
@@ -1476,777 +735,84 @@ export default class Overview extends Component {
           <MDBRow>
             <MDBCol>
               <p className="recent-text">
-                You have {fb_notification.unread_notif_count} unread
-                notifications on your facebook page
+                {data.description
+                  ? data.description.length > 160
+                    ? data.description.slice(0, 160) + "..."
+                    : data.description
+                  : ""}
               </p>
             </MDBCol>
           </MDBRow>
-
-          {/* <div className="col-md-7">
-            <h5 className="recent-title">
-              <img
-                src={require("../images/facebook.png")}
-                alt="facebook"
-                height="65"
-                width="65"
-              />
-              <br />
-              Notification
-            </h5>
-            <p className="recent-text">
-              You have {fb_notification.unread_notif_count} unread notifications
-              on your facebook page
-            </p>
-          </div>
-
-          <div className="col-md-2 ">
-            <a
-              href={"https://www.facebook.com/" + fb_notification.id}
-              className="btn btn-primary "
-            >
-              <h6>Go to page</h6>
-            </a>
-          </div> */}
-        </div>,
-      ];
-    }
-
-    for (let i = 0; i < fbReviews.length; i++) {
-      if (fbReviews[i].created_time.slice(0, 10) == today_date) {
-        total_notifications = [
-          ...total_notifications,
-          <div>
-            <MDBRow>
-              <MDBCol md="8">
-                <div className="recent-title">
-                  <img
-                    src={require("../images/facebook.png")}
-                    alt="facebook"
-                    height="40"
-                    width="40"
-                  />
-                  Someone give a {fbReviews[i].recommendation_type} review
-                </div>
-              </MDBCol>
-              <MDBCol md="4" style={{ marginTop: "5px" }}>
-                <MDBRow>
-                  <MDBCol md="6" style={{ padding: "0px" }}>
-                    <a
-                      href={
-                        "https://www.facebook.com/" +
-                        fb_notification.id +
-                        "/reviews"
-                      }
-                      className="btn btn-primary "
-                    >
-                      Comment
-                    </a>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol>
-                <p className="recent-text">
-                  {fbReviews[i].review_text
-                    ? fbReviews[i].review_text.length > 160
-                      ? fbReviews[i].review_text.slice(0, 160) + "..."
-                      : fbReviews[i].review_text
-                    : ""}
-                </p>
-              </MDBCol>
-            </MDBRow>
-            {/* <div className="col-md-7">
-              <h5 className="recent-title">
-                <img
-                  src={require("../images/facebook.png")}
-                  alt="facebook"
-                  height="65"
-                  width="65"
-                />
-                <br />
-                Someone give a {fbReviews[i].recommendation_type} review
-              </h5>
-              <p className="recent-text">
-                {fbReviews[i].review_text
-                  ? fbReviews[i].review_text.length > 160
-                    ? fbReviews[i].review_text.slice(0, 160) + "..."
-                    : fbReviews[i].review_text
-                  : ""}
-              </p>
-            </div>
-
-            <div className="col-md-2 ">
-              <a
-                href={
-                  "https://www.facebook.com/" + fb_notification.id + "/reviews"
-                }
-                className="btn btn-primary "
-              >
-                <h6>Comment</h6>
-              </a>
-            </div> */}
-          </div>,
-        ];
-      } else {
-        break;
-      }
-    }
-
-    console.log("this.state", this.state);
-
-    // let google_show_review_notification = [];
-
-    if (googleReviews) {
-      for (let i = 0; i < googleReviews.length; i++) {
-        if (googleReviews[i].createTime.slice(0, 10) == today_date) {
-          total_notifications = [
-            ...total_notifications,
-            <div>
-              <MDBRow>
-                <MDBCol md="8">
-                  <div className="recent-title">
-                    <span>
-                      <img
-                        src={require("../images/google.png")}
-                        alt="google"
-                        height="40"
-                        width="40"
-                        marginRight="10px"
-                      />
-                    </span>
-                    <span style={{}}>
-                      {googleReviews[i].reviewer.displayName}
-                    </span>
-                  </div>
-                </MDBCol>
-                <MDBCol md="4" style={{ marginTop: "5px" }}>
-                  <MDBRow>
-                    <MDBCol md="6" style={{ padding: "0px" }}>
-                      <MDBBtn
-                        onClick={() =>
-                          this.setState({
-                            is_google_reply:
-                              is_google_reply == true ? false : true,
-                            google_reply_to_id: googleReviews[i].reviewId,
-                          })
-                        }
-                        className="btn btn-primary "
-                      >
-                        Comment
-                      </MDBBtn>
-                    </MDBCol>
-
-                    <MDBCol md="6" style={{ padding: "0px" }}>
-                      <div className="recent-hour">
-                        {parseInt(today_time.slice(0, 2)) -
-                          parseInt(googleReviews[i].createTime.slice(11, 13)) ==
-                        0
-                          ? parseInt(today_time.slice(3, 5)) -
-                            parseInt(
-                              googleReviews[i].createTime.slice(14, 16)
-                            ) +
-                            "minutes ago"
-                          : parseInt(today_time.slice(0, 2)) -
-                            parseInt(
-                              googleReviews[i].createTime.slice(11, 13)
-                            ) +
-                            "hours ago"}
-                      </div>
-                    </MDBCol>
-                  </MDBRow>
-                </MDBCol>
-              </MDBRow>
-              <MDBRow>
-                <MDBCol>
-                  <p className="recent-text">
-                    {googleReviews[i].comment
-                      ? googleReviews[i].comment.length > 160
-                        ? googleReviews[i].comment.slice(0, 160) + "..."
-                        : googleReviews[i].comment
-                      : ""}
-                  </p>
-                </MDBCol>
-              </MDBRow>
-              {is_google_reply == true &&
-              google_reply_to_id == googleReviews[i].reviewId ? (
-                <div className="notification-box">
-                  <input
-                    type="text"
-                    placeholder="Enter your reply"
-                    className="form-control"
-                    name="google_reply"
-                    onChange={this.changeHandler}
-                    value={this.state.google_reply}
-                    required
-                  />
-                  <br />
-                  <a
-                    className="notification_btn"
-                    onClick={this.google_reply_submit}
-                  >
-                    Reply
-                  </a>
-                </div>
-              ) : (
-                ""
-              )}
-            </div>,
-          ];
-        } else {
-          break;
-        }
-      }
-    }
-
-    // let yelp_show_review_notification = [];
-
-    for (let i = 0; i < yelpReviews.length; i++) {
-      if (yelpReviews[i].time_created.slice(0, 10) == today_date) {
-        total_notifications = [
-          ...total_notifications,
-          <div>
-            <MDBRow>
-              <MDBCol md="8">
-                <div className="recent-title">
-                  <img
-                    src={require("../images/yelp.png")}
-                    alt="yelp"
-                    height="40"
-                    width="40"
-                  />
-                  {yelpReviews[i].user.name} leaves
-                  {yelpReviews[i].rating} star review
-                </div>
-              </MDBCol>
-              <MDBCol md="4" style={{ marginTop: "5px" }}>
-                <MDBRow>
-                  <MDBCol md="6" style={{ padding: "0px" }}>
-                    <a href={yelpReviews[i].url} className="btn btn-primary ">
-                      Comment
-                    </a>
-                  </MDBCol>
-
-                  <MDBCol md="6" style={{ padding: "0px" }}>
-                    <div className="recent-hour">
-                      {parseInt(today_time.slice(0, 2)) -
-                        parseInt(yelpReviews[i].time_created.slice(11, 13)) ==
-                      0
-                        ? parseInt(today_time.slice(3, 5)) -
-                          parseInt(yelpReviews[i].time_created.slice(14, 16)) +
-                          "minutes ago"
-                        : parseInt(today_time.slice(0, 2)) -
-                          parseInt(yelpReviews[i].time_created.slice(11, 13)) +
-                          "hours ago"}
-                    </div>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol>
-                <p className="recent-text">
-                  {yelpReviews[i].text
-                    ? yelpReviews[i].text.length > 160
-                      ? yelpReviews[i].text.slice(0, 160) + "..."
-                      : yelpReviews[i].text
-                    : ""}
-                </p>
-              </MDBCol>
-            </MDBRow>
-            {/* <div className="col-md-7">
-              <h5 className="recent-title">
-                <img
-                  src={require("../images/yelp.png")}
-                  alt="yelp"
-                  height="65"
-                  width="65"
-                />
-                 {yelpReviews[i].user.name} leaves
-                 {yelpReviews[i].rating} star review
-              </h5>
-              <p className="recent-text">
-                {yelpReviews[i].text
-                  ? yelpReviews[i].text.length > 160
-                    ? yelpReviews[i].text.slice(0, 160) + "..."
-                    : yelpReviews[i].text
-                  : ""}
-              </p>
-            </div>
-
-            <div className="col-md-2 ">
-              <a href={yelpReviews[i].url} className="btn btn-primary ">
-                <h6>Comment</h6>
-              </a>
-            </div>
-            <div className="col-md-3  recent-hour">
-              <h6>
-                {parseInt(today_time.slice(0, 2)) -
-                  parseInt(yelpReviews[i].time_created.slice(11, 13)) ==
-                0
-                  ? parseInt(today_time.slice(3, 5)) -
-                    parseInt(yelpReviews[i].time_created.slice(14, 16)) +
-                    "minutes ago"
-                  : parseInt(today_time.slice(0, 2)) -
-                    parseInt(yelpReviews[i].time_created.slice(11, 13)) +
-                    "hours ago"}
-              </h6>
-            </div> */}
-          </div>,
-        ];
-      } else {
-        break;
-      }
-    }
-
-    // let citysearch_show_review_notification = [];
-
-    for (let i = 0; i < citysearchReviews.length; i++) {
-      if (citysearchReviews[i].children[6].value.slice(0, 10) == today_date) {
-        total_notifications = [
-          ...total_notifications,
-          <div>
-            <MDBRow>
-              <MDBCol md="8">
-                <div className="recent-title">
-                  <img
-                    src={require("../images/citysearch.jpg")}
-                    alt="citysearch"
-                    height="40"
-                    width="40"
-                  />
-                  {citysearchReviews[i].children[7].value} leaves
-                  {citysearchReviews[i].children[5].value} star review
-                </div>
-              </MDBCol>
-              <MDBCol md="4" style={{ marginTop: "5px" }}>
-                <MDBRow>
-                  <MDBCol md="6" style={{ padding: "0px" }}>
-                    <a
-                      href={citysearchReviews[i].children[21].value}
-                      className="btn btn-primary "
-                    >
-                      Comment
-                    </a>
-                  </MDBCol>
-
-                  <MDBCol md="6" style={{ padding: "0px" }}>
-                    <div className="recent-hour">
-                      {parseInt(
-                        today_time.slice(0, 2) -
-                          parseInt(
-                            citysearchReviews[i].children[6].value.slice(11, 13)
-                          )
-                      ) == 0
-                        ? parseInt(
-                            today_time.slice(3, 5) -
-                              parseInt(
-                                citysearchReviews[i].children[6].value.slice(
-                                  14,
-                                  16
-                                )
-                              )
-                          ) + "minutes ago"
-                        : parseInt(
-                            today_time.slice(0, 2) -
-                              parseInt(
-                                citysearchReviews[i].children[6].value.slice(
-                                  11,
-                                  13
-                                )
-                              )
-                          ) + "hours ago"}
-                    </div>
-                  </MDBCol>
-                </MDBRow>
-              </MDBCol>
-            </MDBRow>
-            <MDBRow>
-              <MDBCol>
-                <p className="recent-text">
-                  {citysearchReviews[i].children[2].value
-                    ? citysearchReviews[i].children[2].value.length > 160
-                      ? citysearchReviews[i].children[2].value.slice(0, 160) +
-                        "..."
-                      : citysearchReviews[i].children[2].value
-                    : ""}
-                </p>
-              </MDBCol>
-            </MDBRow>
-            {/* <div className="col-md-7">
-              <h5 className="recent-title">
-                <img
-                  src={require("../images/citysearch.jpg")}
-                  alt="citysearch"
-                  height="65"
-                  width="65"
-                />
-                <br />
-                {citysearchReviews[i].children[7].value} leaves
-                {citysearchReviews[i].children[5].value} star review
-              </h5>
-              <p className="recent-text">
-                {citysearchReviews[i].children[2].value
-                  ? citysearchReviews[i].children[2].value.length > 160
-                    ? citysearchReviews[i].children[2].value.slice(0, 160) +
-                      "..."
-                    : citysearchReviews[i].children[2].value
-                  : ""}
-              </p>
-            </div>
-
-            <div className="col-md-2 ">
-              <a
-                href={citysearchReviews[i].children[21].value}
-                className="btn btn-primary "
-              >
-                <h6>Comment</h6>
-              </a>
-            </div>
-            <div className="col-md-3  recent-hour">
-              <h6>
-                {parseInt(
-                  today_time.slice(0, 2) -
-                    parseInt(
-                      citysearchReviews[i].children[6].value.slice(11, 13)
-                    )
-                ) == 0
-                  ? parseInt(
-                      today_time.slice(3, 5) -
-                        parseInt(
-                          citysearchReviews[i].children[6].value.slice(14, 16)
-                        )
-                    ) + "minutes ago"
-                  : parseInt(
-                      today_time.slice(0, 2) -
-                        parseInt(
-                          citysearchReviews[i].children[6].value.slice(11, 13)
-                        )
-                    ) + "hours ago"}
-              </h6>
-            </div> */}
-          </div>,
-        ];
-      } else {
-        break;
-      }
-    }
+        </div>
+      ));
 
     let total_social_overview = [];
-
-    total_social_overview[0] = (
-      <div class=" col-md-6 ">
-        <div class="card social-10 ">
-          <div className="fb-socails">
-            <img src={require("../images/facebook.png")} alt="" />
-          </div>
-
-          <div className="row card_jump">
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p>  */}
-              <a class="link-social" role="button">
-                Views
-              </a>
-            </div>
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p>  */}
-              <a class="link-social" role="button">
-                Direction
-              </a>
-            </div>
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p>  */}
-              <a class="link-social" role="button">
-                Calls
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-
-    total_social_overview[1] = (
-      <div class=" col-md-6 ">
-        <div class="card social-10 ">
-          <div className="fb-socails">
-            <img src={require("../images/google.png")} alt="" />
-          </div>
-
-          <div className="row card_jump">
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p>  */}
-              <a class="link-social" role="button">
-                Views
-              </a>
-            </div>
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p> */}
-              <a class="link-social" role="button">
-                Calls
-              </a>
-            </div>
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p> */}
-              <a class="link-social" role="button">
-                Direction
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-
-    total_social_overview[2] = (
-      <div class=" col-md-6 ">
-        <div class="card social-10 ">
-          <div className="fb-socails">
-            <img src={require("../images/linkedin.png")} alt="Linkedin" />
-          </div>
-
-          <div className="row card_jump">
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p>  */}
-              <a class="link-social" role="button">
-                Likes
-              </a>
-            </div>
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p> */}
-              <a class="link-social" role="button">
-                Followers
-              </a>
-            </div>
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p> */}
-              <a class="link-social" role="button">
-                Impressions
-              </a>
-            </div>
-            {/* <div className="liks">
-  <span>Comments</span>
-  <h4>{linkedin_comments}</h4>
-</div>
-<div className="liks">
-  <span>share</span>
-  <h4>{linkedin_share}</h4>
-</div>
-<div className="liks">
-  <span>Clicks</span>
-  <h4>{linkedin_clicks}</h4>
-</div> */}
-          </div>
-        </div>
-      </div>
-    );
-
-    total_social_overview[3] = (
-      <div class=" col-md-6 ">
-        <div class="card social-10 ">
-          <div className="fb-socails">
-            <img src={require("../images/yelp.png")} alt="Yelp" />
-          </div>
-          <div className="row card_jump">
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p> */}
-              <a class="link-social" role="button">
-                Rating
-              </a>
-            </div>
-            <div className="col-sm-4 social-11">
-              <h6>-</h6>
-              {/* <p>+10,03% </p> */}
-              <a class="link-social" role="button">
-                Reviews
-              </a>
-            </div>
-            {/* <div className="col-sm-4 social-11">
-      <h6>-</h6>
-      <a class="link-social" role="button">
-        New Reviews
-      </a>
-    </div> */}
-          </div>
-        </div>
-      </div>
-    );
-
-    {
-      all_connections.map((data) => (
-        <li>
-          {data.name == "Facebook"
-            ? (total_social_overview[0] = (
-                <div class=" col-md-6 ">
-                  <div class="card social-10 ">
-                    <div className="fb-socails">
-                      <img src={require("../images/facebook.png")} alt="" />
-                    </div>
-
-                    <div className="row card_jump">
-                      <div className="col-sm-4 social-11">
-                        <h6>{fViews}</h6>
-                        {/* <p>+10,03% </p>  */}
-                        <span class="link-social" role="button">
-                          Views
-                        </span>
-                      </div>
-                      <div className="col-sm-4 social-11">
-                        <h6>{fdirection}</h6>
-                        {/* <p>+10,03% </p>  */}
-                        <span class="link-social" role="button">
-                          Direction
-                        </span>
-                      </div>
-                      <div className="col-sm-4 social-11">
-                        <h6>{fcalls}</h6>
-                        {/* <p>+10,03% </p>  */}
-                        <span class="link-social" role="button">
-                          Calls
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+    let index = 0;
+    social_overview_data &&
+      social_overview_data.Overview.map((data, i) => {
+        if (i <= 3) {
+          total_social_overview[i] = (
+            <div class=" col-md-6 ">
+              <div class="card social-10 ">
+                <div className="fb-socails">
+                  <img src={data.image} alt="" />
                 </div>
-              ))
-            : ""}
 
-          {data.name == "Google"
-            ? (total_social_overview[1] = (
-                <div class=" col-md-6 ">
-                  <div class="card social-10 ">
-                    <div className="fb-socails">
-                      <img src={require("../images/google.png")} alt="" />
+                <div className="row card_jump">
+                  {data.parameters.map((data2, i2) => (
+                    <div className="col-sm-4 social-11">
+                      <h6>{data.values[i2]}</h6>
+                      {/* <p>+10,03% </p>  */}
+                      <a class="link-social" role="button">
+                        {data2}
+                      </a>
                     </div>
-
-                    <div className="row card_jump">
-                      <div className="col-sm-4 social-11">
-                        <h6>{google_views}</h6>
-                        {/* <p>+10,03% </p>  */}
-                        <span class="link-social" role="button">
-                          Views
-                        </span>
-                      </div>
-                      <div className="col-sm-4 social-11">
-                        <h6>{google_phone}</h6>
-                        {/* <p>+10,03% </p> */}
-                        <span class="link-social" role="button">
-                          Calls
-                        </span>
-                      </div>
-                      <div className="col-sm-4 social-11">
-                        <h6>{google_direction}</h6>
-                        {/* <p>+10,03% </p> */}
-                        <span class="link-social" role="button">
-                          Direction
-                        </span>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
-              ))
-            : ""}
+              </div>
+            </div>
+          );
+        }
+      });
 
-          {data.name == "Linkedin"
-            ? (total_social_overview[2] = (
-                <div class=" col-md-6 ">
-                  <div class="card social-10 ">
-                    <div className="fb-socails">
-                      <img
-                        src={require("../images/linkedin.png")}
-                        alt="Linkedin"
-                      />
-                    </div>
+    // total_social_overview[0] = (
+    //   <div class=" col-md-6 ">
+    //     <div class="card social-10 ">
+    //       <div className="fb-socails">
+    //         <img src={require("../images/facebook.png")} alt="" />
+    //       </div>
 
-                    <div className="row card_jump">
-                      <div className="col-sm-4 social-11">
-                        <h6>{linkedin_likes}</h6>
-                        {/* <p>+10,03% </p>  */}
-                        <span class="link-social" role="button">
-                          Likes
-                        </span>
-                      </div>
-                      <div className="col-sm-4 social-11">
-                        <h6>{linkedin_followers}</h6>
-                        {/* <p>+10,03% </p> */}
-                        <span class="link-social" role="button">
-                          Followers
-                        </span>
-                      </div>
-                      <div className="col-sm-4 social-11">
-                        <h6>{linkedin_impressions}</h6>
-                        {/* <p>+10,03% </p> */}
-                        <span class="link-social" role="button">
-                          Impressions
-                        </span>
-                      </div>
-                      {/* <div className="liks">
-                    <span>Comments</span>
-                    <h4>{linkedin_comments}</h4>
-                  </div>
-                  <div className="liks">
-                    <span>share</span>
-                    <h4>{linkedin_share}</h4>
-                  </div>
-                  <div className="liks">
-                    <span>Clicks</span>
-                    <h4>{linkedin_clicks}</h4>
-                  </div> */}
-                    </div>
-                  </div>
-                </div>
-              ))
-            : ""}
-
-          {data.name == "Yelp"
-            ? (total_social_overview[3] = (
-                <div class=" col-md-6 ">
-                  <div class="card social-10 ">
-                    <div className="fb-socails">
-                      <img src={require("../images/yelp.png")} alt="Yelp" />
-                    </div>
-                    <div className="row card_jump">
-                      <div className="col-sm-4 social-11">
-                        <h6>{yelpDetails.rating}</h6>
-                        {/* <p>+10,03% </p> */}
-                        <span class="link-social" role="button">
-                          Rating
-                        </span>
-                      </div>
-                      <div className="col-sm-4 social-11">
-                        <h6>{yelpReviews.length}</h6>
-                        {/* <p>+10,03% </p> */}
-                        <span class="link-social" role="button">
-                          Reviews
-                        </span>
-                      </div>
-                      {/* <div className="col-sm-4 social-11">
-                        <h6>{yelp_new_reviews}</h6>
-                        <a class="link-social" role="button">
-                          New Reviews
-                        </a>
-                      </div> */}
-                    </div>
-                  </div>
-                </div>
-              ))
-            : ""}
-        </li>
-      ));
-    }
+    //       <div className="row card_jump">
+    //         <div className="col-sm-4 social-11">
+    //           <h6>-</h6>
+    //           {/* <p>+10,03% </p>  */}
+    //           <a class="link-social" role="button">
+    //             Views
+    //           </a>
+    //         </div>
+    //         <div className="col-sm-4 social-11">
+    //           <h6>-</h6>
+    //           {/* <p>+10,03% </p>  */}
+    //           <a class="link-social" role="button">
+    //             Direction
+    //           </a>
+    //         </div>
+    //         <div className="col-sm-4 social-11">
+    //           <h6>-</h6>
+    //           {/* <p>+10,03% </p>  */}
+    //           <a class="link-social" role="button">
+    //             Calls
+    //           </a>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    // );
 
     let total_listing_images = [];
 
     {
-      all_connections.map((data) => (
+      all_connections.map(data => (
         <li>
           {data.name == "Google"
             ? (total_listing_images = [
@@ -2260,7 +826,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2278,7 +844,7 @@ export default class Overview extends Component {
                       />
                     </div>
                   </a>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2289,7 +855,7 @@ export default class Overview extends Component {
                   <div className="google-mapd">
                     <img src={require("../images/yelp.png")} alt="yelp" />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2303,7 +869,7 @@ export default class Overview extends Component {
                       alt="facebook"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2319,7 +885,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2335,7 +901,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2351,7 +917,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2367,7 +933,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2383,7 +949,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2399,7 +965,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2415,7 +981,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2431,7 +997,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2447,7 +1013,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
 
@@ -2463,7 +1029,7 @@ export default class Overview extends Component {
                       width="65"
                     />
                   </div>
-                </li>,
+                </li>
               ])
             : ""}
         </li>
@@ -2530,10 +1096,10 @@ export default class Overview extends Component {
                         onClick={() =>
                           view_notification_type1 == true
                             ? this.setState({
-                                view_notification_type1: false,
+                                view_notification_type1: false
                               })
                             : this.setState({
-                                view_notification_type1: true,
+                                view_notification_type1: true
                               })
                         }
                       >
@@ -2578,21 +1144,57 @@ export default class Overview extends Component {
                           <a
                             href="#"
                             className="dropdown-toggle"
-                            id="dropdownmenu"
                             data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
                           >
-                            This Week
+                            {social_range}
                           </a>
-                          <div
-                            className="dropdown-menu"
-                            aria-labelledby="dropdownmenu"
-                          >
+                          <div className="dropdown-menu">
                             <ul>
-                              <li>Last week</li>
-                              <li>Last week</li>
-                              <li>Last week</li>
+                              <li
+                                onClick={this.change_states(
+                                  "Social Overview",
+                                  "week",
+                                  "Last week"
+                                )}
+                              >
+                                Last week
+                              </li>
+                              <li
+                                onClick={this.change_states(
+                                  "Social Overview",
+                                  "month",
+                                  "Last month"
+                                )}
+                              >
+                                Last month
+                              </li>
+                              <li
+                                onClick={this.change_states(
+                                  "Social Overview",
+                                  "3 months",
+                                  "Last 3 months"
+                                )}
+                              >
+                                Last 3 months
+                              </li>
+                              <li
+                                onClick={this.change_states(
+                                  "Social Overview",
+                                  "6 months",
+                                  "Last 6 months"
+                                )}
+                              >
+                                Last 6 months
+                              </li>
+                              <li
+                                onClick={this.change_states(
+                                  "Social Overview",
+                                  "year",
+                                  "Last year"
+                                )}
+                              >
+                                Last year
+                              </li>
                             </ul>
                           </div>
                         </div>
@@ -2806,10 +1408,10 @@ export default class Overview extends Component {
                           onClick={() =>
                             view_notification_type2 == true
                               ? this.setState({
-                                  view_notification_type2: false,
+                                  view_notification_type2: false
                                 })
                               : this.setState({
-                                  view_notification_type2: true,
+                                  view_notification_type2: true
                                 })
                           }
                         >
@@ -2857,13 +1459,14 @@ export default class Overview extends Component {
                           className="dropdown-toggle"
                           data-toggle="dropdown"
                         >
-                          {range_name}
+                          {google_range}
                         </a>
                         <div className="dropdown-menu">
                           <ul>
                             <li
                               onClick={this.change_states(
-                                last_week,
+                                "Google customer Actions",
+                                "week",
                                 "Last week"
                               )}
                             >
@@ -2871,7 +1474,8 @@ export default class Overview extends Component {
                             </li>
                             <li
                               onClick={this.change_states(
-                                last_month,
+                                "Google customer Actions",
+                                "month",
                                 "Last month"
                               )}
                             >
@@ -2879,7 +1483,8 @@ export default class Overview extends Component {
                             </li>
                             <li
                               onClick={this.change_states(
-                                last_3_month,
+                                "Google customer Actions",
+                                "3 months",
                                 "Last 3 months"
                               )}
                             >
@@ -2887,7 +1492,8 @@ export default class Overview extends Component {
                             </li>
                             <li
                               onClick={this.change_states(
-                                last_6_month,
+                                "Google customer Actions",
+                                "6 months",
                                 "Last 6 months"
                               )}
                             >
@@ -2895,7 +1501,8 @@ export default class Overview extends Component {
                             </li>
                             <li
                               onClick={this.change_states(
-                                last_year,
+                                "Google customer Actions",
+                                "year",
                                 "Last year"
                               )}
                             >
