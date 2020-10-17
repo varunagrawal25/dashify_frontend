@@ -44,6 +44,8 @@
     "react-scripts": "^3.4.1",
     "react-select-search": "^1.2.1",
     "react-slick": "^0.27.11",
+    "react-twitter-auth": "0.0.13",
+    "react-twitter-login": "^1.2.3",
     "react-xml-parser": "^1.1.6",
     "reactjs-popup": "^2.0.4",
     "reactstrap": "^8.5.1",

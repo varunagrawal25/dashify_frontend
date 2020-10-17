@@ -11,6 +11,7 @@ import {
 import styled, { css } from "styled-components";
 import FacebookLogin from "react-facebook-login";
 import GoogleLogin from "react-google-login";
+import TwitterLogin from "react-twitter-auth"
 import Spinner from "./common/Spinner";
 import Loader2 from "react-loader-spinner";
 import ReactPDF, {
@@ -901,16 +902,15 @@ export default class ProfileAnalytics extends Component {
                           for your Facebook listing
                     </MDBCol>
                     <MDBCol md='4'>
-                    <FacebookLogin
-                          appId="187396122554776"
-                          // appId="3044182972316291"
-                          autoLoad={false}
-                          fields="name,email,picture"
-                          onClick={this.componentClicked}
-                          callback={this.responseFacebook}
-                          textButton="Connect"
-                            cssClass="pa_connect_btn"
-                        />
+                    <TwitterLogin
+  loginUrl="http://localhost:4000/api/v1/auth/twitter"
+  onFailure={this.onFailed}
+  onSuccess={this.onSuccess}
+  requestTokenUrl="http://localhost:4000/api/v1/auth/twitter/reverse"
+  text="Connect"
+  showIcon={false}
+  className="pa_connect_btn"
+/>
                     </MDBCol>
                   </MDBRow>
                 )}
@@ -934,16 +934,24 @@ export default class ProfileAnalytics extends Component {
                           for your Facebook listing
                     </MDBCol>
                     <MDBCol md='4'>
-                    <FacebookLogin
-                          appId="187396122554776"
-                          // appId="3044182972316291"
-                          autoLoad={false}
-                          fields="name,email,picture"
-                          onClick={this.componentClicked}
-                          callback={this.responseFacebook}
-                          textButton="Connect"
-                            cssClass="pa_connect_btn"
-                        />
+                    <GoogleLogin
+                              //for localhost
+                              clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
+                              //for server
+                              //clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
+                              buttonText="Connect "
+                              class="connect_btn"
+                              scope="https://www.googleapis.com/auth/business.manage"
+                              onSuccess={this.responseGoogle}
+                              onFailure={this.responseErrorGoogle}
+                              cookiePolicy={"single_host_origin"}
+                              icon={false}
+
+                              //for refresh token
+                              // accessType="offline"
+                              // responseType="code"
+                              // pompt="consent"
+                            />
                     </MDBCol>
                   </MDBRow>
                 )}

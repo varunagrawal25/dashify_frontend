@@ -2180,7 +2180,6 @@ fieldset.rating.star > label:before {
   box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
 }
 .last_btn {
-  background: #5d80e2;
   background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
   box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
   color: #fff;
@@ -6444,35 +6443,38 @@ ul.socialicon-new li {
 }
 
 .plush_new {
-  width: 142px;
-  height: 137px;
+  /* width: 110px;
+  height: 110px; */
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 5px 15px rgba(130, 100, 198, 0.1);
-  float: left;
-  margin-top: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 20px;
+  /* margin: 10px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  color: #4f4f4f; */
 }
 
 .plush_new i {
   width: auto;
 }
 
-.plush_new span i {
+.plush_new i {
   font-size: 80px;
   color: #5d80e2;
   display: block;
+  display: block;
+  text-align: center;
+  cursor: pointer;
 }
 
-.plush_new span {
+/* .plush_new span {
   display: block;
   text-align: center;
   font-size: 16px;
   cursor: pointer;
-}
+} */
 ul.shared-business {
   margin: 30px 0px 0px;
   padding: 0px;
@@ -11514,16 +11516,28 @@ ul.dropdown-menu.loginboxds li a:hover {
   margin: 0px 10px;
   padding: 2px 10px;
   border-radius: 10px;
-  border-color: #4f4f4f;
+  border-color: #5d80e2;
   border-width: 0.5px;
 }
-
+.vl_edit_input {
+  width: 100%;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  color: #4f4f4f;
+  line-height: normal;
+  padding: 2px 8px;
+  border-radius: 5px;
+  border: 0.5px solid #5d80e2;
+  background: transparent;
+}
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
+  font-size: 12px;
   color: #4f4f4f;
   line-height: normal;
 }
