@@ -11,6 +11,7 @@ import {
   send_varification_link,
   logout
 } from "../apis/user";
+import { email_regex } from "../utils/regularexpressions";
 // import sendVerificationLink from "./activate_account";
 export default class Login extends Component {
   state = {
@@ -93,6 +94,8 @@ export default class Login extends Component {
       this.setState({ Email_error: "Enter Email" });
     } else if (this.state.Password == "") {
       this.setState({ Password_error: "Enter Password" });
+    } else if (email_regex(this.state.Email) === false) {
+      this.setState({ Email_error: "Not a valid Email" });
     } else {
       cal = true;
     }
@@ -185,10 +188,10 @@ export default class Login extends Component {
   };
   accActivate = () => {
     this.setState({
-      isLoginPage:false,
-      isActivationPage:true
-    })
-  }
+      isLoginPage: false,
+      isActivationPage: true
+    });
+  };
   render() {
     const { isPasswordShown } = this.state;
 
@@ -222,7 +225,6 @@ export default class Login extends Component {
 
                 <div className="modal-body modal_body">
                   <div style={{ padding: "0px 8%" }}>
-                    
                     <MDBRow>
                       <MDBCol>
                         <div className="modal_body_subheading">Email</div>
@@ -263,32 +265,32 @@ export default class Login extends Component {
                     </MDBRow>
 
                     <MDBRow>
-                      <MDBCol md="6" >
-                        <span className="modal_checkbox"><Checkbox
-                          onClick={() =>
-                            this.setState({
-                              RememberMe: !this.state.RememberMe
-                            })
-                          }
-                        /></span>
+                      <MDBCol md="6">
+                        <span className="modal_checkbox">
+                          <Checkbox
+                            onClick={() =>
+                              this.setState({
+                                RememberMe: !this.state.RememberMe
+                              })
+                            }
+                          />
+                        </span>
                         <span md="5" className="modal_body_contant01">
-                        Remember me
-                      </span>
+                          Remember me
+                        </span>
                       </MDBCol>
-                      
-                      <MDBCol md='6' className="for-color">
+
+                      <MDBCol md="6" className="for-color">
                         <Link to="Forgot">Forgot Password ? </Link>
                       </MDBCol>
                     </MDBRow>
 
                     <MDBRow>
-                      <MDBCol md='6'>
-                      <button type="submit" className="login_btn">
-                        Log in
-                      </button>
+                      <MDBCol md="6">
+                        <button type="submit" className="login_btn">
+                          Log in
+                        </button>
                       </MDBCol>
-
-                      
                     </MDBRow>
 
                     {this.state.loading ? (
@@ -329,7 +331,7 @@ export default class Login extends Component {
 
         {/* activate account */}
         <div className="modal fade" id="activate_acount" role="dialog">
-        <div className="modal-dialog " id="login_width">
+          <div className="modal-dialog " id="login_width">
             <div className="modal-content ">
               <div className="modal-header modal_header">
                 <h4 className="modal-title modal_header_heading">
@@ -344,59 +346,57 @@ export default class Login extends Component {
                 </button>
               </div>
               <form onSubmit={this.activateHandler} noValidate>
-              <div className="modal-body modal_body">
-                <div style={{ padding: "0px 8%" }}>
-                  
-                  <MDBRow>
-                    <MDBCol>
-                      <div className="modal_body_subheading">Email</div>
+                <div className="modal-body modal_body">
+                  <div style={{ padding: "0px 8%" }}>
+                    <MDBRow>
+                      <MDBCol>
+                        <div className="modal_body_subheading">Email</div>
 
-                      <div>
-                        <input
-                          value={this.state.Email}
-                          name="Email"
-                          onChange={this.changeHandler}
-                          type="text"
-                          className="modal_inputbox modal_inputbox_new"
-                          readOnly
-                        />
-                        <div className="warning">
-                          {this.state.Email_error}
+                        <div>
+                          <input
+                            value={this.state.Email}
+                            name="Email"
+                            onChange={this.changeHandler}
+                            type="text"
+                            className="modal_inputbox modal_inputbox_new"
+                            readOnly
+                          />
+                          <div className="warning">
+                            {this.state.Email_error}
+                          </div>
                         </div>
-                      </div>
-                    </MDBCol>
-                  </MDBRow>
+                      </MDBCol>
+                    </MDBRow>
 
-                  <div>
-                    <button type="submit" className="login_btn">
-                      Send email
-                    </button>
-                  </div>
-                  {this.state.loading_activate ? (
-                    <Loader
-                      type="Oval"
-                      color="#00BFFF"
-                      height={25}
-                      width={25}
-                      // timeout={3000} //3 secs
-                    />
-                  ) : this.state.email_sent == 0 ? (
-                    ""
-                  ) : this.state.email_sent == 1 ? (
-                    <div className="fine">
-                      Email verification link has been sent to your inbox
-                      successfully
+                    <div>
+                      <button type="submit" className="login_btn">
+                        Send email
+                      </button>
                     </div>
-                  ) : (
-                    <div className="warning">someting went wrong</div>
-                  )}
+                    {this.state.loading_activate ? (
+                      <Loader
+                        type="Oval"
+                        color="#00BFFF"
+                        height={25}
+                        width={25}
+                        // timeout={3000} //3 secs
+                      />
+                    ) : this.state.email_sent == 0 ? (
+                      ""
+                    ) : this.state.email_sent == 1 ? (
+                      <div className="fine">
+                        Email verification link has been sent to your inbox
+                        successfully
+                      </div>
+                    ) : (
+                      <div className="warning">someting went wrong</div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
             </div>
+          </div>
         </div>
-        </div>
-
       </div>
       // </div>
       // </div>

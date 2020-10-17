@@ -9,6 +9,14 @@ import {
 import { Redirect } from "react-router-dom";
 import Loader from "react-loader-spinner";
 
+//importing regex
+import {
+  email_regex,
+  url_regex,
+  phone_regex,
+  zipcode_regex
+} from "./utils/regularexpressions";
+
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -84,11 +92,25 @@ export default class AddLocation extends Component {
       twitterProfile: "",
       facebookProfile: "",
       paymentMethod: [],
-      visa: false,
-      maestro: false,
-      discover: false,
-      cirrus: false,
-      americanExpress: false,
+
+      //payment methods
+      p_amex: false,
+      p_android: false,
+      p_apple: false,
+      p_cash: false,
+      p_check: false,
+      p_crypto: false,
+      p_diners: false,
+      p_discover: false,
+      p_financing: false,
+      p_invoices: false,
+      p_maestro: false,
+      p_paypal: false,
+      p_discover: false,
+      p_samsung: false,
+      p_traveler: false,
+      p_visa: false,
+
       BusinessLogo: "",
       BusinessCoverImage: "",
       otherImage: "",
@@ -131,35 +153,94 @@ export default class AddLocation extends Component {
 
       error: "",
       show_message: "",
+      applyAllError:"",
       loading: false
     };
   }
   submitHandler = async event => {
     event.preventDefault();
 
+    let {
+      p_amex,
+      p_android,
+      p_apple,
+      p_cash,
+      p_check,
+      p_crypto,
+      p_diners,
+      p_discover,
+      p_financing,
+      p_invoices,
+      p_maestro,
+      p_paypal,
+      p_samsung,
+      p_traveler,
+      p_visa
+    } = this.state;
+
     await this.Other_images();
 
     var payment = {},
       i = 0;
 
-    if (this.state.visa) {
-      payment["" + i] = "Visa";
+    if (p_amex) {
+      payment["" + i] = "Amex";
       i++;
     }
-    if (this.state.cirrus) {
-      payment["" + i] = "Cirrus";
+    if (p_android) {
+      payment["" + i] = "Android";
       i++;
     }
-    if (this.state.maestro) {
+    if (p_apple) {
+      payment["" + i] = "Apple";
+      i++;
+    }
+    if (p_cash) {
+      payment["" + i] = "Cash";
+      i++;
+    }
+    if (p_check) {
+      payment["" + i] = "Check";
+      i++;
+    }
+    if (p_crypto) {
+      payment["" + i] = "Crypto";
+      i++;
+    }
+    if (p_diners) {
+      payment["" + i] = "Diners";
+      i++;
+    }
+    if (p_discover) {
+      payment["" + i] = "Discover";
+      i++;
+    }
+    if (p_financing) {
+      payment["" + i] = "Financing";
+      i++;
+    }
+    if (p_invoices) {
+      payment["" + i] = "Invoices";
+      i++;
+    }
+    if (p_maestro) {
       payment["" + i] = "Maestro";
       i++;
     }
-    if (this.state.discover) {
-      payment["" + i] = "DiscoverNetwork";
+    if (p_paypal) {
+      payment["" + i] = "Paypal";
       i++;
     }
-    if (this.state.americanExpress) {
-      payment["" + i] = "AmericanExpress";
+    if (p_samsung) {
+      payment["" + i] = "Samsung";
+      i++;
+    }
+    if (p_traveler) {
+      payment["" + i] = "Traveler";
+      i++;
+    }
+    if (p_visa) {
+      payment["" + i] = "Visa";
       i++;
     }
     var franchise, donot;
@@ -268,39 +349,45 @@ export default class AddLocation extends Component {
         }
       }
     };
-
-    this.setState({ loading: true, show_message: "" });
-    await this.errorValue(data);
-
     console.log("data", data);
 
-    add_location(data, DjangoConfig)
-      .then(res => {
-        console.log("response", res);
-        if (res.data.message == "Location Add successfully") {
-          this.setState({
-            isSuccess: true,
-            loading: false
-          });
-        } else {
+    let error_present = await this.errorValue(data);
+
+    if (!error_present) {
+      this.setState({ loading: true, show_message: "" });
+      add_location(data, DjangoConfig)
+        .then(async res => {
+          console.log("response", res);
+          if (res.data.message == "Location Add successfully") {
+            localStorage.setItem("locationId", res.data.Location_id.toString());
+            localStorage.setItem("locationName", this.state.locationName);
+            await this.setState({
+              isSuccess: true,
+              loading: false
+            });
+            console.log("Location Add successfull", res.data);
+          } else {
+            this.setState({
+              error: res,
+              isSuccess: false,
+              loading: false,
+              show_message: "Location not added"
+            });
+          }
+        })
+        .catch(res => {
+          console.log("error in add location");
           this.setState({
             error: res,
             isSuccess: false,
             loading: false,
             show_message: "Location not added"
           });
-        }
-      })
-      .catch(res => {
-        console.log("error in add location");
-        this.setState({
-          error: res,
-          isSuccess: false,
-          loading: false,
-          show_message: "Location not added"
+          console.log("error", res);
         });
-        console.log("error", res);
-      });
+    } else {
+      this.setState({ show_message: "Fill above fields" });
+    }
   };
 
   errorValue = data => {
@@ -354,86 +441,176 @@ export default class AddLocation extends Component {
       paymentMethod_error: ""
     });
 
+    let error_present = false;
+
     if (data.Location_name == "") {
       this.setState({ locationName_error: "*Location can not be empty" });
+      error_present = true;
     }
     if (data.Store_Code == "") {
       this.setState({ storeCode_error: "*Store Code can not be empty" });
+      error_present = true;
     }
     if (data.Business_category == "") {
       this.setState({ category_error: "*Please select Business category" });
+      error_present = true;
     }
     if (data.Additional_catugory == "") {
       this.setState({
         additionalCategories_error: "*Additional categories can not be empty"
       });
+      error_present = true;
     }
     if (data.Address_1 == "") {
       this.setState({ address1_error: "*Address can not be empty" });
+      error_present = true;
     }
     if (data.Address_2 == "") {
       this.setState({ address2_error: "*Address 2 can not be empty" });
+      error_present = true;
     }
     if (data.City == "") {
       this.setState({ city_error: "*City can not be empty" });
+      error_present = true;
     }
     if (data.State == "") {
       this.setState({ state_error: "*Please select your state" });
+      error_present = true;
     }
     if (data.Country == "") {
       this.setState({ country_error: "*Please select your country" });
+      error_present = true;
     }
     if (data.Zipcode == "") {
       this.setState({ zipCode_error: "*Zipcode can not be empty" });
+      error_present = true;
+    } else {
+      const result = zipcode_regex(data.Zipcode);
+      if (result === false) {
+        this.setState({
+          zipCode_error: "Not a valid zipcode"
+        });
+        error_present = true;
+      }
     }
     if (data.Website == "") {
       this.setState({ website_error: "*Website can not be empty" });
+      error_present = true;
+    } else {
+      const result = url_regex(data.Website);
+      if (result == null) {
+        this.setState({
+          website_error: "Not a valid website"
+        });
+        error_present = true;
+      }
     }
     if (data.Phone_no == "") {
       this.setState({ phone_error: "*Phone No. can not be empty" });
+      error_present = true;
+    } else {
+      const result = phone_regex(data.Phone_no);
+      if (result === false) {
+        this.setState({
+          phone_error: "Not a valid Phone No."
+        });
+        error_present = true;
+      }
     }
     // if (data.open_houre == "") {
     //   this.setState({ hours_error: "*password can not be empty" });
     // }
     if (data.About_Business == "") {
       this.setState({ about_error: "*Enter about your business" });
+      error_present = true;
     }
     if (data.Business_Owner_Name == "") {
       this.setState({ ownerName_error: "*Owner name can not be empty" });
+      error_present = true;
     }
     if (data.Owner_Email == "") {
       this.setState({ ownerEmail_error: "*Owner email can not be empty" });
+      error_present = true;
+    } else {
+      const result = email_regex(data.Owner_Email);
+      if (result === false) {
+        this.setState({
+          ownerEmail_error: "Not a valid email"
+        });
+        error_present = true;
+      }
     }
     if (data.Year_Of_Incorporation == "") {
       this.setState({
         yearOfIncorp_error: "*Year of Incorporation can not be empty"
       });
+      error_present = true;
+    } else {
+      var currentYear = new Date().getFullYear();
+      var input = parseInt(data.Year_Of_Incorporation);
+      console.log(input, currentYear);
+      if ((input > 0 && input <= currentYear) == false) {
+        this.setState({
+          yearOfIncorp_error: "*Invaild Year of Incorporation"
+        });
+        error_present = true;
+      }
     }
     if (data.Business_Tagline == "") {
       this.setState({
         businessTagline_error: "*Business Tagline can not be empty"
       });
+      error_present = true;
     }
     if (data.Instagram_Profile == "") {
       this.setState({
         instagramProfile_error: "*Instagram Profile can not be empty"
       });
+      error_present = true;
+    } else {
+      const result = url_regex(data.Instagram_Profile);
+      if (result == null) {
+        this.setState({
+          instagramProfile_error: "Not a valid url"
+        });
+        error_present = true;
+      }
     }
     if (data.Twitter_Profile == "") {
       this.setState({
         twitterProfile_error: "*Twitter Profile can not be empty"
       });
+      error_present = true;
+    } else {
+      const result = url_regex(data.Twitter_Profile);
+      if (result == null) {
+        this.setState({
+          twitterProfile_error: "Not a valid url"
+        });
+        error_present = true;
+      }
     }
     if (data.Facebook_Profile == "") {
       this.setState({
         facebookProfile_error: "*Facebook Profile can not be empty"
       });
+      error_present = true;
+    } else {
+      const result = url_regex(data.Facebook_Profile);
+      if (result == null) {
+        this.setState({
+          facebookProfile_error: "Not a valid url"
+        });
+        error_present = true;
+      }
     }
     if (data.payment_method == "") {
       this.setState({
         paymentMethod_error: "*Payment method can not be empty"
       });
+      error_present = true;
     }
+    return error_present;
   };
 
   onUploadLogo = event => {
@@ -484,11 +661,30 @@ export default class AddLocation extends Component {
   };
 
   allChanger = event => {
-    if (event.target.checked) {
+    let {monday,mondayStart1,mondayStart2,mondayEnd1,mondayEnd2} = this.state
+    let isValid  = false;
+    this.setState({applyAllError:""})
+    if(monday == "CLOSED" || monday == "OPEN 24x7"){
+     isValid =  true
+    } else if(monday == "OPEN"){
+      if(mondayStart1 && mondayEnd1){
+        isValid =  true
+      }
+    } else if(monday == "SPLIT"){
+      if(mondayStart1 && mondayStart2 && mondayEnd1 && mondayEnd2){
+        isValid =  true
+      }
+    }
+
+    if(isValid == false){
+      this.setState({applyAllError:"Select  operating hours of Monday first"})
+    }
+
+    if (event.target.checked && isValid) {
       this.setState({
         applyAll: true,
-        tuesday: this.state.monday,
 
+        tuesday: this.state.monday,
         tuesdayStart1: this.state.mondayStart1,
         tuesdayEnd1: this.state.mondayEnd1,
         tuesdayStart2: this.state.mondayStart2,
@@ -660,8 +856,56 @@ export default class AddLocation extends Component {
       twitterProfile_error,
       facebookProfile_error,
       paymentMethod_error,
-      show_message
+      show_message,
+      BusinessLogo,
+      BusinessCoverImage,
+      other_image0,
+      other_image1,
+      other_image2,
+
+      //apply all hours
+      applyAll,
+
+      tuesday,
+      tuesdayStart1,
+      tuesdayEnd1,
+      tuesdayStart2,
+      tuesdayEnd2,
+
+      wednesday,
+      wednesdayStart1,
+      wednesdayEnd1,
+      wednesdayStart2,
+      wednesdayEnd2,
+
+      thursday,
+      thursdayStart1,
+      thursdayEnd1,
+      thursdayStart2,
+      thursdayEnd2,
+
+      friday,
+      fridayStart1,
+      fridayEnd1,
+      fridayStart2,
+      fridayEnd2,
+
+      saturday,
+      saturdayStart1,
+      saturdayEnd1,
+      saturdayStart2,
+      saturdayEnd2,
+
+      sunday,
+      sundayStart1,
+      sundayEnd1,
+      sundayStart2,
+      sundayEnd2,
+
+      applyAllError
     } = this.state;
+
+    console.log("this.state", this.state);
 
     return (
       <div>
@@ -784,11 +1028,16 @@ export default class AddLocation extends Component {
                           <div className="col-md-2">
                             <div className="form-group">
                               <label>Business Logo</label>
-                              <div className="staresd margin-top0">
-                                <div className="imgup">
-                                  <i className="zmdi zmdi-image"></i>
+
+                              {BusinessLogo ? (
+                                <img src={BusinessLogo} alt="Business Logo" />
+                              ) : (
+                                <div className="staresd margin-top0">
+                                  <div className="imgup">
+                                    <i className="zmdi zmdi-image"></i>
+                                  </div>
                                 </div>
-                              </div>
+                              )}
 
                               <div className="upload_btnbox">
                                 <button>Upload your logo</button>
@@ -870,31 +1119,29 @@ export default class AddLocation extends Component {
                                 <option value="1">Australia</option>
                               </select> */}
 
-                              {loadCountryCategories ? (
-                                <h4>Loading.....</h4>
-                              ) : (
-                                <div>
-                                  <select
-                                    name="country"
-                                    onChange={this.changeHandler}
-                                    id="country"
-                                    required
-                                    className="form-control"
-                                  >
-                                    <option value="0" disabled="">
-                                      Select Country
+                              <div>
+                                <select
+                                  name="country"
+                                  onChange={this.changeHandler}
+                                  id="country"
+                                  required
+                                  className="form-control"
+                                >
+                                  <option value="0" disabled="">
+                                    {loadCountryCategories
+                                      ? "Loading....."
+                                      : "Select Country"}
+                                  </option>
+                                  {countryCategories.map((c, i) => (
+                                    <option key={`country-${i}`} value={c.id}>
+                                      {c.Country_Name}
                                     </option>
-                                    {countryCategories.map((c, i) => (
-                                      <option key={`country-${i}`} value={c.id}>
-                                        {c.Country_Name}
-                                      </option>
-                                    ))}
-                                  </select>
-                                  <div style={{ color: "red" }}>
-                                    {country_error}
-                                  </div>
+                                  ))}
+                                </select>
+                                <div style={{ color: "red" }}>
+                                  {country_error}
                                 </div>
-                              )}
+                              </div>
                             </div>
                           </div>
 
@@ -916,36 +1163,34 @@ export default class AddLocation extends Component {
                                 <option value="1">Auckland</option>
                               </select> */}
 
-                              {this.state.country == "" ||
-                              loadStateCategories ? (
-                                <h4>Select Country</h4>
-                              ) : (
-                                <div>
-                                  <select
-                                    name="state"
-                                    onChange={this.changeHandler}
-                                    id="state"
-                                    required
-                                    className="form-control"
-                                  >
-                                    <option value="0" disabled="">
-                                      Select State
-                                    </option>
-                                    {stateCategories.map((s, i) =>
-                                      this.state.country == s.Country_Name ? (
-                                        <option key={`stste-${i}`} value={s.id}>
-                                          {s.State_name}
-                                        </option>
-                                      ) : (
-                                        ""
-                                      )
-                                    )}
-                                  </select>
-                                  <div style={{ color: "red" }}>
-                                    {state_error}
-                                  </div>
+                              <div>
+                                <select
+                                  name="state"
+                                  onChange={this.changeHandler}
+                                  id="state"
+                                  required
+                                  className="form-control"
+                                >
+                                  <option value="0" disabled="">
+                                    {this.state.country == "" ||
+                                    loadStateCategories
+                                      ? "Select Country first"
+                                      : "Select State"}
+                                  </option>
+                                  {stateCategories.map((s, i) =>
+                                    this.state.country == s.Country_Name ? (
+                                      <option key={`stste-${i}`} value={s.id}>
+                                        {s.State_name}
+                                      </option>
+                                    ) : (
+                                      ""
+                                    )
+                                  )}
+                                </select>
+                                <div style={{ color: "red" }}>
+                                  {state_error}
                                 </div>
-                              )}
+                              </div>
                             </div>
                           </div>
 
@@ -955,7 +1200,7 @@ export default class AddLocation extends Component {
                                 Zipcode <span>*</span>
                               </label>
                               <input
-                                type="number"
+                                type="text"
                                 name="zipCode"
                                 onChange={this.changeHandler}
                                 id="state"
@@ -1259,8 +1504,10 @@ export default class AddLocation extends Component {
                                 onChange={this.allChanger}
                               />
                               <label>Apply To All</label>
-
-                              <div className="timebox">
+                              <div style={{ color: "red" }}>
+                                {applyAllError}
+                              </div>
+                                    {applyAll && applyAllError? "":<div><div className="timebox">
                                 <div className="form-day">TUESDAY </div>
                                 <select
                                   name="tuesday"
@@ -1744,71 +1991,196 @@ export default class AddLocation extends Component {
                                     ""
                                   )}
                                 </div>
-                              </div>
+                              </div></div>}
+                                    
+                              
 
                               <div className="mathedbox">
                                 <h4>Payment Methods</h4>
                                 <div className="paymentbox">
                                   <ul>
+                                    
                                     <li>
                                       <input
-                                        name="visa"
+                                        name="p_visa"
                                         type="checkbox"
                                         onChange={this.checkBoxHandler}
                                         value="true"
-                                      />{" "}
+                                      />
                                       <img
-                                        src={require("../images/visa.jpg")}
-                                        alt="visa"
+                                        src={require("../images/p-visa.png")}
+                                        alt="Visa"
                                       />
                                     </li>
 
                                     <li>
                                       <input
-                                        name="maestro"
+                                        name="p_maestro"
                                         onChange={this.checkBoxHandler}
                                         value="true"
                                         type="checkbox"
                                       />{" "}
                                       <img
-                                        src={require("../images/master-1.jpg")}
-                                        alt="visa"
+                                        src={require("../images/p-maestro.png")}
+                                        alt="Maestro"
                                       />
                                     </li>
                                     <li>
                                       <input
-                                        name="discover"
+                                        name="p_amex"
+                                        type="checkbox"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                      />
+                                      <img
+                                        src={require("../images/p-amex.png")}
+                                        alt="Amex"
+                                      />
+                                    </li>
+
+                                    <li>
+                                      <input
+                                        name="p_cash"
                                         onChange={this.checkBoxHandler}
                                         value="true"
                                         type="checkbox"
                                       />{" "}
                                       <img
-                                        src={require("../images/descover.jpg")}
-                                        alt="visa"
+                                        src={require("../images/p-cash.png")}
+                                        alt="Cash"
                                       />
                                     </li>
                                     <li>
                                       <input
-                                        name="cirrus"
+                                        name="p_check"
+                                        type="checkbox"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                      />
+                                      <img
+                                        src={require("../images/p-check.png")}
+                                        alt="Check"
+                                      />
+                                    </li>
+
+                                    <li>
+                                      <input
+                                        name="p_crypto"
                                         onChange={this.checkBoxHandler}
                                         value="true"
                                         type="checkbox"
                                       />{" "}
                                       <img
-                                        src={require("../images/cirrus.jpg")}
-                                        alt="visa"
+                                        src={require("../images/p-crypto.png")}
+                                        alt="Crypto"
                                       />
                                     </li>
                                     <li>
                                       <input
-                                        name="americanExpress"
+                                        name="p_diners"
                                         onChange={this.checkBoxHandler}
                                         value="true"
                                         type="checkbox"
                                       />{" "}
                                       <img
-                                        src={require("../images/am.jpg")}
-                                        alt="visa"
+                                        src={require("../images/p-diners.png")}
+                                        alt="Diners"
+                                      />
+                                    </li>
+                                    <li>
+                                      <input
+                                        name="p_discover"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                        type="checkbox"
+                                      />{" "}
+                                      <img
+                                        src={require("../images/p-discover.png")}
+                                        alt="Discover"
+                                      />
+                                    </li>
+                                    <li>
+                                      <input
+                                        name="p_apple"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                        type="checkbox"
+                                      />{" "}
+                                      <img
+                                        src={require("../images/p-apple.png")}
+                                        alt="Apple"
+                                      />
+                                    </li>
+                                    <li>
+                                      <input
+                                        name="p_samsung"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                        type="checkbox"
+                                      />{" "}
+                                      <img
+                                        src={require("../images/p-samsung.png")}
+                                        alt="Samsung"
+                                      />
+                                    </li>
+                                    <li>
+                                      <input
+                                        name="p_paypal"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                        type="checkbox"
+                                      />{" "}
+                                      <img
+                                        src={require("../images/p-paypal.png")}
+                                        alt="Paypal"
+                                      />
+                                    </li>
+                                    <li>
+                                      <input
+                                        name="p_android"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                        type="checkbox"
+                                      />{" "}
+                                      <img
+                                        src={require("../images/p-android.png")}
+                                        alt="Android"
+                                      />
+                                    </li>
+                                    <li>
+                                      <input
+                                        name="p_invoices"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                        type="checkbox"
+                                      />{" "}
+                                      <img
+                                        src={require("../images/p-invoices.png")}
+                                        alt="Invoices"
+                                      />
+                                    </li>
+                                    <li>
+                                      <input
+                                        name="p_traveler"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                        type="checkbox"
+                                      />{" "}
+                                      <img
+                                        src={require("../images/p-traveler.png")}
+                                        alt="Traveler's Check"
+                                      />
+                                    </li>
+                                    <li>
+                                      <input
+                                        name="p_financing"
+                                        onChange={this.checkBoxHandler}
+                                        value="true"
+                                        type="checkbox"
+                                      />{" "}
+                                      <img
+                                        src={require("../images/p-financing.png")}
+                                        alt="Financing"
                                       />
                                     </li>
                                   </ul>
@@ -1833,14 +2205,21 @@ export default class AddLocation extends Component {
                           <div className="col-md-4">
                             <label>Business Cover Image</label>
                             <div className="coverimgupload">
-                              <div className="coverocn">
-                                <i className="zmdi zmdi-image"></i>
-                                <h4>Attatch a image</h4>
-                                <input
-                                  type="file"
-                                  onChange={this.onUploadCover}
+                              {BusinessCoverImage ? (
+                                <img
+                                  src={BusinessCoverImage}
+                                  alt="Business Cover Image"
                                 />
-                              </div>
+                              ) : (
+                                <div className="coverocn">
+                                  <i className="zmdi zmdi-image"></i>
+                                  <h4>Attatch a image</h4>
+                                  <input
+                                    type="file"
+                                    onChange={this.onUploadCover}
+                                  />
+                                </div>
+                              )}
                             </div>
                           </div>
 
@@ -1848,48 +2227,60 @@ export default class AddLocation extends Component {
                             <label>Starred Business images</label>
                             <div className="row">
                               <div className="col-md-3">
-                                <div className="staresd">
-                                  <div className="imgup">
-                                    <i className="zmdi zmdi-image"></i>
-                                    <input
-                                      type="file"
-                                      onChange={this.onUploadOther(
-                                        "other_image0"
-                                      )}
-                                      name="other_image0"
-                                    />
+                                {other_image0 ? (
+                                  <img src={other_image0} alt="other image" />
+                                ) : (
+                                  <div className="staresd">
+                                    <div className="imgup">
+                                      <i className="zmdi zmdi-image"></i>
+                                      <input
+                                        type="file"
+                                        onChange={this.onUploadOther(
+                                          "other_image0"
+                                        )}
+                                        name="other_image0"
+                                      />
+                                    </div>
                                   </div>
-                                </div>
+                                )}
                               </div>
 
                               <div className="col-md-3">
-                                <div className="staresd">
-                                  <div className="imgup">
-                                    <i className="zmdi zmdi-image"></i>
-                                    <input
-                                      type="file"
-                                      onChange={this.onUploadOther(
-                                        "other_image1"
-                                      )}
-                                      name="other_image1"
-                                    />
+                                {other_image1 ? (
+                                  <img src={other_image1} alt="other image" />
+                                ) : (
+                                  <div className="staresd">
+                                    <div className="imgup">
+                                      <i className="zmdi zmdi-image"></i>
+                                      <input
+                                        type="file"
+                                        onChange={this.onUploadOther(
+                                          "other_image1"
+                                        )}
+                                        name="other_image1"
+                                      />
+                                    </div>
                                   </div>
-                                </div>
+                                )}
                               </div>
 
                               <div className="col-md-3">
-                                <div className="staresd">
-                                  <div className="imgup">
-                                    <i className="zmdi zmdi-image"></i>
-                                    <input
-                                      type="file"
-                                      onChange={this.onUploadOther(
-                                        "other_image2"
-                                      )}
-                                      name="other_image2"
-                                    />
+                                {other_image2 ? (
+                                  <img src={other_image2} alt="other image" />
+                                ) : (
+                                  <div className="staresd">
+                                    <div className="imgup">
+                                      <i className="zmdi zmdi-image"></i>
+                                      <input
+                                        type="file"
+                                        onChange={this.onUploadOther(
+                                          "other_image2"
+                                        )}
+                                        name="other_image2"
+                                      />
+                                    </div>
                                   </div>
-                                </div>
+                                )}
                               </div>
                             </div>
                           </div>

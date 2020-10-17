@@ -6,6 +6,11 @@ import Axios from "axios";
 import { signup, get_all_user, send_varification_link } from "../apis/user";
 import { MDBCol, MDBRow, MDBContainer, MDBBtn } from "mdbreact";
 import { Checkbox } from "@material-ui/core";
+import {
+  email_regex,
+  password_regex,
+  phone_regex
+} from "../utils/regularexpressions";
 
 export default class Signup extends Component {
   state = {
@@ -29,7 +34,7 @@ export default class Signup extends Component {
     isRegister: false,
     terms_condition: false,
     error: "",
-isSignup:false,
+    isSignup: false,
     email_sent: "",
     show_signup_button: true,
     loading_activate: false,
@@ -114,11 +119,11 @@ isSignup:false,
     send_varification_link(data)
       .then(res => {
         this.setState({ loading_activate: false, email_sent: 1 });
-        alert("sent succesfully")
+        alert("sent succesfully");
       })
       .catch(res => {
         this.setState({ loading_activate: false, email_sent: 0 });
-        alert("sent failed")
+        alert("sent failed");
       });
   };
 
@@ -131,7 +136,6 @@ isSignup:false,
       this.is_username_present(event.target.value);
     }
   };
- 
 
   errorValue = data => {
     let {
@@ -170,6 +174,14 @@ isSignup:false,
     if (data.username == "") {
       this.setState({ username_error: "*Enter username" });
       any_error = true;
+    } else {
+      const result = email_regex(data.username);
+      if (result === false) {
+        this.setState({
+          username_error: "Not a valid email"
+        });
+        any_error = true;
+      }
     }
     if (data.Company_name == "") {
       this.setState({ bname_error: "*Enter your Company name" });
@@ -180,12 +192,29 @@ isSignup:false,
       any_error = true;
     }
     if (data.Phone == "") {
-      this.setState({ state_error: "*Enter your Phone No." });
+      this.setState({ phone_error: "*Enter your Phone No." });
       any_error = true;
+    } else {
+      const result = phone_regex(data.username);
+      if (result === false) {
+        this.setState({
+          phone_error: "Not a valid Phone no."
+        });
+        any_error = true;
+      }
     }
     if (data.password == "") {
       this.setState({ password_error: "*password can not be empty" });
       any_error = true;
+    } else {
+      const result = password_regex(data.password);
+      console.log("password result", result);
+      if (result !== true) {
+        this.setState({
+          password_error: result
+        });
+        any_error = true;
+      }
     }
     if (data.password != this.state.confirm_password) {
       this.setState({ confirm_password_error: "*Not matched" });
@@ -209,11 +238,11 @@ isSignup:false,
       this.setState({ username_error: "*Email already registered" });
     }
   };
-  onSignup = () =>{
+  onSignup = () => {
     this.setState({
-      isSignup:!this.state.isSignup
-    })
-  } 
+      isSignup: !this.state.isSignup
+    });
+  };
   render() {
     // if (this.state.isRegister) {
     //   return <Redirect to={"/email-confirmation/" + this.state.username} />;
@@ -267,9 +296,7 @@ isSignup:false,
                           className="modal_inputbox modal_inputbox_new"
                           required
                         />
-                        <div className="warning">
-                          {this.state.fname_error}
-                        </div>
+                        <div className="warning">{this.state.fname_error}</div>
                       </div>
                     </MDBCol>
 
@@ -283,9 +310,7 @@ isSignup:false,
                           className="modal_inputbox modal_inputbox_new"
                           name="bname"
                         />
-                        <div className="warning">
-                          {this.state.bname_error}
-                        </div>
+                        <div className="warning">{this.state.bname_error}</div>
                       </div>
                     </MDBCol>
                   </MDBRow>
@@ -303,9 +328,7 @@ isSignup:false,
                           className="modal_inputbox modal_inputbox_new"
                           required
                         />
-                        <div className="warning">
-                          {this.state.lname_error}
-                        </div>
+                        <div className="warning">{this.state.lname_error}</div>
                       </div>
                     </MDBCol>
 
@@ -357,9 +380,7 @@ isSignup:false,
                           name="phone"
                           required
                         />
-                        <div className="warning">
-                          {this.state.phone_error}
-                        </div>
+                        <div className="warning">{this.state.phone_error}</div>
                       </div>
                     </MDBCol>
                   </MDBRow>
@@ -429,20 +450,26 @@ isSignup:false,
                     </MDBCol>
                   </MDBRow>
                   {/* {this.state.show_signup_button ? ( */}
-                  
-                  {this.state.email_sent == 0 ?(
+
+                  {this.state.email_sent == 0 ? (
                     <div>
-                      <button type="submit" className="signup_btn" onClick={this.onSignup}>
+                      <button
+                        type="submit"
+                        className="signup_btn"
+                        onClick={this.onSignup}
+                      >
                         Sign up
                       </button>
                     </div>
-                  ):(<div>
+                  ) : (
+                    <div>
                       <button type="submit" className="signup_btn" disabled>
                         Sign up
                       </button>
-                    </div>)}
-                    
-                    <div className="signup-text">
+                    </div>
+                  )}
+
+                  <div className="signup-text">
                     {this.state.loading ? (
                       <Loader
                         type="Oval"
@@ -463,17 +490,24 @@ isSignup:false,
                         width={25}
                         // timeout={3000} //3 secs
                       />
-                    ) : !this.state.terms_condition  && this.state.isSignup? (
+                    ) : !this.state.terms_condition && this.state.isSignup ? (
                       <div className="warning">
                         Please accept terms and conditions.
                       </div>
-                    ): this.state.email_sent == 1 ? (
+                    ) : this.state.email_sent == 1 ? (
                       <div>
-                      <div className="fine">
-                        Email verification link has been sent successfully.
+                        <div className="fine">
+                          Email verification link has been sent successfully.
                         </div>
-                        <div className="message_normal">Didn't get link?
-                        <a onClick={() => this.activateHandler()} className="for-color"> Send again</a>
+                        <div className="message_normal">
+                          Didn't get link?
+                          <a
+                            onClick={() => this.activateHandler()}
+                            className="for-color"
+                          >
+                            {" "}
+                            Send again
+                          </a>
                         </div>
                         {/* <button onClick={() => this.activateHandler}>
                           send again
@@ -486,7 +520,6 @@ isSignup:false,
                       ""
                     )}
                   </div>
-                
                 </div>
               </div>
             </div>
