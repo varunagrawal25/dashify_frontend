@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Flaticon.css";
 import "./App.css";
-
+import "reactjs-popup/dist/index.css";
 import MainApp from "./component/main";
 
 import InstagramLogin from "./component/instagramlogin";
@@ -13,7 +13,7 @@ import Blog from "./component/landingpage/Blog";
 import Career from "./component/landingpage/career";
 import ContactUs from "./component/landingpage/contactus";
 import Support from "./component/landingpage/support";
-import Pricing from "./component/landingpage/Pricing";
+import pricing from "./component/landingpage/pricing";
 import How_we_work from "./component/landingpage/How_we_work";
 import Login from "./component/landingpage/login";
 import Signup from "./component/landingpage/signup";
@@ -29,6 +29,7 @@ import ZomatoLogin from "./component/zomatologin";
 import AvvoLogin from "./component/avvologin";
 import { LinkedInPopUp } from "react-linkedin-login-oauth2";
 import PageNotFound from "./component/page-not-found";
+import PrivateRoute from "./auth/PrivateRoute";
 
 // import EmailConfirmation from "./component/landingpage/email-confirmation";
 import PasswordReset from "./component/landingpage/password-reset";
@@ -51,7 +52,7 @@ class App extends Component {
             <Route exact path="/career" component={Career} />
             <Route exact path="/contactus" component={ContactUs} />
             <Route exact path="/support" component={Support} />
-            <Route exact path="/pricing" component={Pricing} />
+            <Route exact path="/pricing" component={pricing} />
             <Route exact path="/how-we-work" component={How_we_work} />
             <Route
               exact
@@ -90,7 +91,7 @@ class App extends Component {
 
             <Route exact path="/linkedin" component={LinkedInPopUp} />
 
-            <Route exact path="/dashboard" component={MainApp} />
+            <PrivateRoute exact path="/dashboard" component={MainApp} />
             <Route path="/" component={PageNotFound} />
           </Switch>
         </BrowserRouter>

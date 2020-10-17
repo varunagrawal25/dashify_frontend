@@ -73,7 +73,7 @@ export default class ViewLocations extends Component {
                 <img
                   src={
                     loc.Business_Logo
-                      ? loc.Business_Logo
+                      ? "https://dashify.biz" + loc.Business_Logo
                       : require("../images/Logo2.png")
                   }
                   height="100"

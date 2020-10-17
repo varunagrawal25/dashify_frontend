@@ -11,8 +11,8 @@ import {
   send_varification_link,
   logout
 } from "../apis/user";
+import { email_regex } from "../utils/regularexpressions";
 // import sendVerificationLink from "./activate_account";
-
 export default class Login extends Component {
   state = {
     Password: "",
@@ -94,6 +94,8 @@ export default class Login extends Component {
       this.setState({ Email_error: "Enter Email" });
     } else if (this.state.Password == "") {
       this.setState({ Password_error: "Enter Password" });
+    } else if (email_regex(this.state.Email) === false) {
+      this.setState({ Email_error: "Not a valid Email" });
     } else {
       cal = true;
     }
@@ -184,6 +186,12 @@ export default class Login extends Component {
     const { isPasswordShown } = this.state;
     this.setState({ isPasswordShown: !isPasswordShown });
   };
+  accActivate = () => {
+    this.setState({
+      isLoginPage: false,
+      isActivationPage: true
+    });
+  };
   render() {
     const { isPasswordShown } = this.state;
 
@@ -216,34 +224,7 @@ export default class Login extends Component {
                 </div>
 
                 <div className="modal-body modal_body">
-                  <div style={{ padding: "0px 10%" }}>
-                    {this.state.loading ? (
-                      <Loader
-                        type="Oval"
-                        color="#00BFFF"
-                        height={25}
-                        width={25}
-                        // timeout={3000} //3 secs
-                      />
-                    ) : (
-                      <div style={{ color: "red" }}>
-                        {this.state.wrong == "User is not activate." ? (
-                          <div>
-                            Your account is not activate, Activate your account
-                            by{" "}
-                            <a
-                              data-toggle="modal"
-                              data-target="#activate_acount"
-                              style={{ color: "green" }}
-                            >
-                              clicking here
-                            </a>{" "}
-                          </div>
-                        ) : (
-                          this.state.wrong
-                        )}
-                      </div>
-                    )}
+                  <div style={{ padding: "0px 8%" }}>
                     <MDBRow>
                       <MDBCol>
                         <div className="modal_body_subheading">Email</div>
@@ -257,7 +238,7 @@ export default class Login extends Component {
                             className="modal_inputbox modal_inputbox_new"
                             required
                           />
-                          <div style={{ color: "red" }}>
+                          <div className="warning">
                             {this.state.Email_error}
                           </div>
                         </div>
@@ -276,7 +257,7 @@ export default class Login extends Component {
                             className="modal_inputbox modal_inputbox_new"
                             required
                           />
-                          <div style={{ color: "red" }}>
+                          <div className="warning">
                             {this.state.Password_error}
                           </div>
                         </div>
@@ -284,28 +265,63 @@ export default class Login extends Component {
                     </MDBRow>
 
                     <MDBRow>
-                      <MDBCol md="2" className="modal_checkbox">
-                        <Checkbox
-                          onClick={() =>
-                            this.setState({
-                              RememberMe: !this.state.RememberMe
-                            })
-                          }
-                        />
+                      <MDBCol md="6">
+                        <span className="modal_checkbox">
+                          <Checkbox
+                            onClick={() =>
+                              this.setState({
+                                RememberMe: !this.state.RememberMe
+                              })
+                            }
+                          />
+                        </span>
+                        <span md="5" className="modal_body_contant01">
+                          Remember me
+                        </span>
                       </MDBCol>
-                      <MDBCol md="10" className="modal_body_contant1">
-                        Remember me
+
+                      <MDBCol md="6" className="for-color">
+                        <Link to="Forgot">Forgot Password ? </Link>
                       </MDBCol>
                     </MDBRow>
 
-                    <div>
-                      <button type="submit" className="login_btn">
-                        Log in
-                      </button>
-                      <div className="for-color">
-                        <Link to="Forgot">Forgot Password ? </Link>
+                    <MDBRow>
+                      <MDBCol md="6">
+                        <button type="submit" className="login_btn">
+                          Log in
+                        </button>
+                      </MDBCol>
+                    </MDBRow>
+
+                    {this.state.loading ? (
+                      <Loader
+                        type="Oval"
+                        color="#00BFFF"
+                        height={25}
+                        width={25}
+                        // timeout={3000} //3 secs
+                      />
+                    ) : (
+                      <div className="warning">
+                        {this.state.wrong == "User is not activate." ? (
+                          <div>
+                            Your account is not activate, Activate your account
+                            by{" "}
+                            <a
+                              data-toggle="modal"
+                              data-target="#activate_acount"
+                              className="for-color"
+                              onClick={this.accActivate}
+                              data-dismiss="modal"
+                            >
+                              clicking here
+                            </a>{" "}
+                          </div>
+                        ) : (
+                          this.state.wrong
+                        )}
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -315,7 +331,7 @@ export default class Login extends Component {
 
         {/* activate account */}
         <div className="modal fade" id="activate_acount" role="dialog">
-          <form onSubmit={this.activateHandler} noValidate>
+          <div className="modal-dialog " id="login_width">
             <div className="modal-content ">
               <div className="modal-header modal_header">
                 <h4 className="modal-title modal_header_heading">
@@ -329,56 +345,57 @@ export default class Login extends Component {
                   &times;
                 </button>
               </div>
+              <form onSubmit={this.activateHandler} noValidate>
+                <div className="modal-body modal_body">
+                  <div style={{ padding: "0px 8%" }}>
+                    <MDBRow>
+                      <MDBCol>
+                        <div className="modal_body_subheading">Email</div>
 
-              <div className="modal-body modal_body">
-                <div style={{ padding: "0px 10%" }}>
-                  {this.state.loading_activate ? (
-                    <Loader
-                      type="Oval"
-                      color="#00BFFF"
-                      height={25}
-                      width={25}
-                      // timeout={3000} //3 secs
-                    />
-                  ) : this.state.email_sent == 0 ? (
-                    <div style={{ color: "red" }}>someting went wrong</div>
-                  ) : this.state.email_sent == 1 ? (
-                    <div style={{ color: "green" }}>
-                      Email verification link has been sent to your inbox
-                      successfully
-                    </div>
-                  ) : (
-                    ""
-                  )}
-                  <MDBRow>
-                    <MDBCol>
-                      <div className="modal_body_subheading">Email</div>
-
-                      <div>
-                        <input
-                          value={this.state.Email}
-                          name="Email"
-                          onChange={this.changeHandler}
-                          type="text"
-                          className="modal_inputbox modal_inputbox_new"
-                          readOnly
-                        />
-                        <div style={{ color: "red" }}>
-                          {this.state.Email_error}
+                        <div>
+                          <input
+                            value={this.state.Email}
+                            name="Email"
+                            onChange={this.changeHandler}
+                            type="text"
+                            className="modal_inputbox modal_inputbox_new"
+                            readOnly
+                          />
+                          <div className="warning">
+                            {this.state.Email_error}
+                          </div>
                         </div>
-                      </div>
-                    </MDBCol>
-                  </MDBRow>
+                      </MDBCol>
+                    </MDBRow>
 
-                  <div>
-                    <button type="submit" className="login_btn">
-                      Send email
-                    </button>
+                    <div>
+                      <button type="submit" className="login_btn">
+                        Send email
+                      </button>
+                    </div>
+                    {this.state.loading_activate ? (
+                      <Loader
+                        type="Oval"
+                        color="#00BFFF"
+                        height={25}
+                        width={25}
+                        // timeout={3000} //3 secs
+                      />
+                    ) : this.state.email_sent == 0 ? (
+                      ""
+                    ) : this.state.email_sent == 1 ? (
+                      <div className="fine">
+                        Email verification link has been sent to your inbox
+                        successfully
+                      </div>
+                    ) : (
+                      <div className="warning">someting went wrong</div>
+                    )}
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
-          </form>
+          </div>
         </div>
       </div>
       // </div>

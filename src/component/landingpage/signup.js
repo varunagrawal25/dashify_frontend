@@ -6,6 +6,11 @@ import Axios from "axios";
 import { signup, get_all_user, send_varification_link } from "../apis/user";
 import { MDBCol, MDBRow, MDBContainer, MDBBtn } from "mdbreact";
 import { Checkbox } from "@material-ui/core";
+import {
+  email_regex,
+  password_regex,
+  phone_regex
+} from "../utils/regularexpressions";
 
 export default class Signup extends Component {
   state = {
@@ -29,7 +34,7 @@ export default class Signup extends Component {
     isRegister: false,
     terms_condition: false,
     error: "",
-
+    isSignup: false,
     email_sent: "",
     show_signup_button: true,
     loading_activate: false,
@@ -114,9 +119,11 @@ export default class Signup extends Component {
     send_varification_link(data)
       .then(res => {
         this.setState({ loading_activate: false, email_sent: 1 });
+        alert("sent succesfully");
       })
       .catch(res => {
         this.setState({ loading_activate: false, email_sent: 0 });
+        alert("sent failed");
       });
   };
 
@@ -167,6 +174,14 @@ export default class Signup extends Component {
     if (data.username == "") {
       this.setState({ username_error: "*Enter username" });
       any_error = true;
+    } else {
+      const result = email_regex(data.username);
+      if (result === false) {
+        this.setState({
+          username_error: "Not a valid email"
+        });
+        any_error = true;
+      }
     }
     if (data.Company_name == "") {
       this.setState({ bname_error: "*Enter your Company name" });
@@ -177,12 +192,29 @@ export default class Signup extends Component {
       any_error = true;
     }
     if (data.Phone == "") {
-      this.setState({ state_error: "*Enter your Phone No." });
+      this.setState({ phone_error: "*Enter your Phone No." });
       any_error = true;
+    } else {
+      const result = phone_regex(data.username);
+      if (result === false) {
+        this.setState({
+          phone_error: "Not a valid Phone no."
+        });
+        any_error = true;
+      }
     }
     if (data.password == "") {
       this.setState({ password_error: "*password can not be empty" });
       any_error = true;
+    } else {
+      const result = password_regex(data.password);
+      console.log("password result", result);
+      if (result !== true) {
+        this.setState({
+          password_error: result
+        });
+        any_error = true;
+      }
     }
     if (data.password != this.state.confirm_password) {
       this.setState({ confirm_password_error: "*Not matched" });
@@ -205,6 +237,11 @@ export default class Signup extends Component {
     if (this.state.all_users.includes(data)) {
       this.setState({ username_error: "*Email already registered" });
     }
+  };
+  onSignup = () => {
+    this.setState({
+      isSignup: !this.state.isSignup
+    });
   };
   render() {
     // if (this.state.isRegister) {
@@ -259,9 +296,7 @@ export default class Signup extends Component {
                           className="modal_inputbox modal_inputbox_new"
                           required
                         />
-                        <div style={{ color: "red" }}>
-                          {this.state.fname_error}
-                        </div>
+                        <div className="warning">{this.state.fname_error}</div>
                       </div>
                     </MDBCol>
 
@@ -275,9 +310,7 @@ export default class Signup extends Component {
                           className="modal_inputbox modal_inputbox_new"
                           name="bname"
                         />
-                        <div style={{ color: "red" }}>
-                          {this.state.bname_error}
-                        </div>
+                        <div className="warning">{this.state.bname_error}</div>
                       </div>
                     </MDBCol>
                   </MDBRow>
@@ -295,9 +328,7 @@ export default class Signup extends Component {
                           className="modal_inputbox modal_inputbox_new"
                           required
                         />
-                        <div style={{ color: "red" }}>
-                          {this.state.lname_error}
-                        </div>
+                        <div className="warning">{this.state.lname_error}</div>
                       </div>
                     </MDBCol>
 
@@ -312,7 +343,7 @@ export default class Signup extends Component {
                           name="country"
                           required
                         />
-                        <div style={{ color: "red" }}>
+                        <div className="warning">
                           {this.state.country_error}
                         </div>
                       </div>
@@ -332,7 +363,7 @@ export default class Signup extends Component {
                           className="modal_inputbox modal_inputbox_new"
                           required
                         />
-                        <div style={{ color: "red" }}>
+                        <div className="warning">
                           {this.state.username_error}
                         </div>
                       </div>
@@ -349,9 +380,7 @@ export default class Signup extends Component {
                           name="phone"
                           required
                         />
-                        <div style={{ color: "red" }}>
-                          {this.state.phone_error}
-                        </div>
+                        <div className="warning">{this.state.phone_error}</div>
                       </div>
                     </MDBCol>
                   </MDBRow>
@@ -369,7 +398,7 @@ export default class Signup extends Component {
                           className="modal_inputbox modal_inputbox_new"
                           required
                         />
-                        <div style={{ color: "red" }}>
+                        <div className="warning">
                           {this.state.password_error}
                         </div>
                       </div>
@@ -388,7 +417,7 @@ export default class Signup extends Component {
                           name="confirm_password"
                           required
                         />
-                        <div style={{ color: "red" }}>
+                        <div className="warning">
                           {this.state.confirm_password_error}
                         </div>
                       </div>
@@ -420,6 +449,26 @@ export default class Signup extends Component {
                       including our <b>Cookie Use</b>
                     </MDBCol>
                   </MDBRow>
+                  {/* {this.state.show_signup_button ? ( */}
+
+                  {this.state.email_sent == 0 ? (
+                    <div>
+                      <button
+                        type="submit"
+                        className="signup_btn"
+                        onClick={this.onSignup}
+                      >
+                        Sign up
+                      </button>
+                    </div>
+                  ) : (
+                    <div>
+                      <button type="submit" className="signup_btn" disabled>
+                        Sign up
+                      </button>
+                    </div>
+                  )}
+
                   <div className="signup-text">
                     {this.state.loading ? (
                       <Loader
@@ -441,30 +490,36 @@ export default class Signup extends Component {
                         width={25}
                         // timeout={3000} //3 secs
                       />
+                    ) : !this.state.terms_condition && this.state.isSignup ? (
+                      <div className="warning">
+                        Please accept terms and conditions.
+                      </div>
                     ) : this.state.email_sent == 1 ? (
-                      <div style={{ color: "green" }}>
-                        Email verification link has been sent to your inbox
-                        successfully
-                        <button onClick={() => this.activateHandler}>
+                      <div>
+                        <div className="fine">
+                          Email verification link has been sent successfully.
+                        </div>
+                        <div className="message_normal">
+                          Didn't get link?
+                          <a
+                            onClick={() => this.activateHandler()}
+                            className="for-color"
+                          >
+                            {" "}
+                            Send again
+                          </a>
+                        </div>
+                        {/* <button onClick={() => this.activateHandler}>
                           send again
-                        </button>
+                        </button> */}
                       </div>
                     ) : (
                       // this.state.email_sent == 0 ? (
-                      //   <div style={{ color: "red" }}>someting went wrong</div>
+                      //   <div className="warning">someting went wrong</div>
                       // ) :
                       ""
                     )}
                   </div>
-                  {this.state.show_signup_button ? (
-                    <div>
-                      <button type="submit" className="signup_btn">
-                        Sign up
-                      </button>
-                    </div>
-                  ) : (
-                    ""
-                  )}
                 </div>
               </div>
             </div>
