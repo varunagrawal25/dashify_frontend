@@ -831,6 +831,7 @@ export default class PromotionalPost extends Component {
                   <div className="col-md-4">
                     <div className="card_left">
                     <div className="row promobottom">
+                      
                       <div
                         data-toggle="dropdown"
                         className="col-md-12 this_week"
@@ -839,6 +840,7 @@ export default class PromotionalPost extends Component {
                         {this.state.range_name}
                         <ArrowDropDownIcon />
                       </div>
+                      
                       <div className="dropdown-menu">
                         <ul>
                           <li
@@ -892,7 +894,7 @@ export default class PromotionalPost extends Component {
                     ) : (
                       <div>
                         <div className="row">
-                          <div className="col-md-2">
+                          <div className="col-md-3 pa_icon">
                           <img
                   src={require("../images/promo1.png")}
                   alt="facebook"
@@ -903,12 +905,12 @@ export default class PromotionalPost extends Component {
                             <span>{total_active_posts}</span>{" "}
                             <p>Total active post</p>
                           </div>
-                          <div className="col-md-4">
+                          <div className="col-md-3">
                             <span>-</span>
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-2">
+                          <div className="col-md-3 pa_icon">
                           <img
                   src={require("../images/promo2.png")}
                   alt="facebook"
@@ -919,7 +921,7 @@ export default class PromotionalPost extends Component {
                             <span>{total_post_views}</span>{" "}
                             <p>Total post views</p>
                           </div>
-                          <div className="col-md-4">
+                          <div className="col-md-3">
                             <span>
                               {total_post_views ? (
                                 parseInt(total_post_views) -
@@ -964,7 +966,7 @@ export default class PromotionalPost extends Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-2">
+                          <div className="col-md-3 pa_icon">
                           <img
                   src={require("../images/promo3.png")}
                   alt="facebook"
@@ -975,7 +977,7 @@ export default class PromotionalPost extends Component {
                             <span>{total_post_clicks}</span>{" "}
                             <p>Total post clicks</p>
                           </div>
-                          <div className="col-md-4">
+                          <div className="col-md-3">
                             <span>
                               {total_post_clicks ? (
                                 parseInt(total_post_clicks) -
@@ -1020,7 +1022,7 @@ export default class PromotionalPost extends Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-2">
+                          <div className="col-md-3 pa_icon">
                           <img
                   src={require("../images/promo4.png")}
                   alt="facebook"
@@ -1032,7 +1034,7 @@ export default class PromotionalPost extends Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-2">
+                          <div className="col-md-3 pa_icon">
                             <img
                   src={require("../images/promo5.png")}
                   alt="facebook"

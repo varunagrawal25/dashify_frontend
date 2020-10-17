@@ -66,7 +66,7 @@ export default class SideBar extends Component {
             <div className="left_nav">
               <ul className="left_content">
                 <li>
-                  <NavLink to="/">
+                  <NavLink selected to="/overview">
                     <img src={require("./assets/Color.png")} alt="" />
                     <span>Dashboard</span>
                   </NavLink>
