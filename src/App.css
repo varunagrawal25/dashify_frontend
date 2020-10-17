@@ -1,4 +1,5 @@
 body {
+  
   background-color: #f7f9fc;
   font-size: 16px;
   color: #000;
@@ -324,10 +325,13 @@ img {
 }
 
 .content-page {
+  background-image: url("./component/assets/mainback.jpg");
+  background-attachment: fixed;
+  background-size: 100% 100%;
   margin-left: 240px;
   overflow: hidden;
   padding: 0 10px 5px 25px;
-  min-height: 80vh;
+  min-height: 90vh!important;
   margin-top: 73px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
@@ -1528,12 +1532,24 @@ img {
   box-shadow: 3px 8px 20px 5px #ececec;
   border-radius: 10px;
   padding: 15px;
+  background: #ffffff;
+  padding: 33px 10px;
+
+}
+.container-checkbox input:checked ~ .checkmark {
+  border: 1px solid lightgrey ;
+}
+.google img{
+  height: 27px;
+    width: 25px;
+    border-radius: 5px;
 }
 
 .google h3 {
+  display: contents;
   margin: 0px 10px;
   padding: 0;
-  font-size: 18px;
+  font-size: 14px;
   white-space: nowrap;
 }
 
@@ -9010,6 +9026,7 @@ img {
 /* sunil sir css */
 
 /* surya css */
+
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
@@ -9972,13 +9989,18 @@ input.searcdd {
   border-top: 1px solid rgba(204, 204, 204, 0.48);
 }
 .content-page {
+
+  
   margin-left: 240px;
   overflow: hidden;
   padding: 0 10px 5px 25px;
-  min-height: 80vh;
+  min-height: 90vh!important;
   margin-top: 73px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
+}
+.customer-phone textarea{
+border-radius: 10px!important;
 }
 
 .dashifymenu-10 {

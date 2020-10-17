@@ -1383,8 +1383,8 @@ export default class Overview extends Component {
                 <img
                   src={require("../images/facebook.png")}
                   alt="facebook"
-                  height="40"
-                  width="40"
+                  height="25"
+                  width="25"
                 />
                 Message
               </div>
