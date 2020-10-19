@@ -294,13 +294,16 @@ export default class Login extends Component {
                     </MDBRow>
 
                     {this.state.loading ? (
-                      <Loader
-                        type="Oval"
-                        color="#00BFFF"
-                        height={25}
-                        width={25}
-                        // timeout={3000} //3 secs
-                      />
+                      <div className="warning">
+                        <Loader
+                          type="Oval"
+                          color="#00BFFF"
+                          height={25}
+                          width={25}
+
+                          // timeout={3000} //3 secs
+                        />
+                      </div>
                     ) : (
                       <div className="warning">
                         {this.state.wrong == "User is not activate." ? (

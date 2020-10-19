@@ -66,7 +66,14 @@ export default class SideBar extends Component {
             <div className="left_nav">
               <ul className="left_content">
                 <li>
-                  <NavLink selected to="/overview">
+                  <NavLink
+                    selected
+                    to={
+                      "/locations/" +
+                      localStorage.getItem("locationId") +
+                      "/overview"
+                    }
+                  >
                     <img src={require("./assets/Color.png")} alt="" />
                     <span>Dashboard</span>
                   </NavLink>

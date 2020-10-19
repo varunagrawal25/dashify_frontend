@@ -17,6 +17,8 @@ import Loader2 from "react-loader-spinner";
 import Rating from "react-rating";
 import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
 
+let total_listing = 14;
+
 const Yelpconfig = {
   headers: {
     Authorization:
@@ -25,8 +27,6 @@ const Yelpconfig = {
     "Access-Control-Allow-Origin": "http://localhost"
   }
 };
-
-let total_listings = 14;
 
 const DnbConfig = {
   headers: {
@@ -148,7 +148,12 @@ export default class Overview extends Component {
     google_range: "Last week",
     db_google_range: "week",
     social_overview_data: "",
-    graph_google_customer_data: ""
+    graph_google_customer_data: "",
+    all_listing: "-",
+    live_listing: "-",
+    processing: "-",
+    unavailable: "-",
+    opted_out: "-"
   };
   componentDidMount() {
     var today = new Date();
@@ -313,6 +318,16 @@ export default class Overview extends Component {
     all_connection_of_one_location(data, DjangoConfig)
       .then(response => {
         console.log("all connections", response);
+        if (response.data.Listing_details) {
+          this.setState({
+            all_listing: response.data.Listing_details.all_listing,
+            live_listing: response.data.Listing_details.live_listing,
+            processing: response.data.Listing_details.processing,
+            unavailable: response.data.Listing_details.unavailable,
+            opted_out: response.data.Listing_details.opted_out
+          });
+        }
+
         response.data.data.map(l => {
           if (l.Social_Platform.Platform == "Facebook") {
             this.setState({
@@ -505,13 +520,25 @@ export default class Overview extends Component {
       });
   };
 
-  dataDoughnut = (total_listings, all_connections) => {
-    return [
-      { value: total_listings - all_connections.length, label: "Opted out" },
-      { value: all_connections.length, label: "Live Listing" },
-      { value: 0, label: "Processing" },
-      { value: 0, label: "Unavailable" }
-    ];
+  dataDoughnut = (
+    all_listing,
+    live_listing,
+    processing,
+    unavailable,
+    opted_out
+  ) => {
+    let data;
+    if (all_listing != "-") {
+      data = [
+        { value: opted_out, label: "Opted out" },
+        { value: live_listing, label: "Live Listing" },
+        { value: processing, label: "Processing" },
+        { value: unavailable, label: "Unavailable" }
+      ];
+    } else {
+      data = [{ value: total_listing, label: "All listing" }];
+    }
+    return data;
   };
 
   dataBar = (date, phone, direction, website) => {
@@ -690,7 +717,12 @@ export default class Overview extends Component {
 
       notification_data,
       social_overview_data,
-      graph_google_customer_data
+      graph_google_customer_data,
+      all_listing,
+      live_listing,
+      processing,
+      unavailable,
+      opted_out
     } = this.state;
 
     console.log("this.state", this.state);
@@ -1138,65 +1170,64 @@ export default class Overview extends Component {
                 <div className="col-md-6  recent_noti">
                   <div className="recent-9">
                     <h3>Social Overview</h3>
-                    <div className="viewall-div">
-                      <div className="camgianbox">
-                        <div className="dropdown">
-                          <a
-                            href="#"
-                            className="dropdown-toggle"
-                            data-toggle="dropdown"
-                          >
-                            {social_range}
-                          </a>
-                          <div className="dropdown-menu">
-                            <ul>
-                              <li
-                                onClick={this.change_states(
-                                  "Social Overview",
-                                  "week",
-                                  "Last week"
-                                )}
-                              >
-                                Last week
-                              </li>
-                              <li
-                                onClick={this.change_states(
-                                  "Social Overview",
-                                  "month",
-                                  "Last month"
-                                )}
-                              >
-                                Last month
-                              </li>
-                              <li
-                                onClick={this.change_states(
-                                  "Social Overview",
-                                  "3 months",
-                                  "Last 3 months"
-                                )}
-                              >
-                                Last 3 months
-                              </li>
-                              <li
-                                onClick={this.change_states(
-                                  "Social Overview",
-                                  "6 months",
-                                  "Last 6 months"
-                                )}
-                              >
-                                Last 6 months
-                              </li>
-                              <li
-                                onClick={this.change_states(
-                                  "Social Overview",
-                                  "year",
-                                  "Last year"
-                                )}
-                              >
-                                Last year
-                              </li>
-                            </ul>
-                          </div>
+
+                    <div className="camgianbox">
+                      <div className="dropdown">
+                        <a
+                          href="#"
+                          className="dropdown-toggle"
+                          data-toggle="dropdown"
+                        >
+                          {social_range}
+                        </a>
+                        <div className="dropdown-menu">
+                          <ul>
+                            <li
+                              onClick={this.change_states(
+                                "Social Overview",
+                                "week",
+                                "Last week"
+                              )}
+                            >
+                              Last week
+                            </li>
+                            <li
+                              onClick={this.change_states(
+                                "Social Overview",
+                                "month",
+                                "Last month"
+                              )}
+                            >
+                              Last month
+                            </li>
+                            <li
+                              onClick={this.change_states(
+                                "Social Overview",
+                                "3 months",
+                                "Last 3 months"
+                              )}
+                            >
+                              Last 3 months
+                            </li>
+                            <li
+                              onClick={this.change_states(
+                                "Social Overview",
+                                "6 months",
+                                "Last 6 months"
+                              )}
+                            >
+                              Last 6 months
+                            </li>
+                            <li
+                              onClick={this.change_states(
+                                "Social Overview",
+                                "year",
+                                "Last year"
+                              )}
+                            >
+                              Last year
+                            </li>
+                          </ul>
                         </div>
                       </div>
                     </div>
@@ -1248,131 +1279,45 @@ export default class Overview extends Component {
                   <div className="recent-card">
                     <ul className="outped">
                       <li>
-                        <img src={require("../images/j.png")} alt="Zomato" />
+                        <img src={require("../images/j.png")} alt="" />
                         <div className="socialdiv">
-                          <h3>{total_listings}</h3>
+                          <h3>
+                            {all_listing != "-" ? all_listing : total_listing}
+                          </h3>
                           <span>All Listing</span>
                         </div>
                       </li>
 
                       <li>
-                        <img src={require("../images/k.png")} alt="Zomato" />
+                        <img src={require("../images/k.png")} alt="" />
                         <div className="socialdiv">
-                          <h3>
-                            {" "}
-                            {all_connections ? all_connections.length : "-"}
-                          </h3>
+                          <h3> {live_listing}</h3>
                           <span>Live Listing</span>
                         </div>
                       </li>
                       <li>
-                        <img src={require("../images/l.png")} alt="Zomato" />
+                        <img src={require("../images/l.png")} alt="" />
                         <div className="socialdiv">
-                          <h3>-</h3>
+                          <h3>{processing}</h3>
                           <span>Processing</span>
                         </div>
                       </li>
 
                       <li>
-                        <img src={require("../images/m.png")} alt="Zomato" />
+                        <img src={require("../images/m.png")} alt="" />
                         <div className="socialdiv">
-                          <h3>-</h3>
+                          <h3>{unavailable}</h3>
                           <span>Unavailable</span>
                         </div>
                       </li>
                       <li>
-                        <img src={require("../images/n.png")} alt="Zomato" />
+                        <img src={require("../images/n.png")} alt="" />
                         <div className="socialdiv">
-                          <h3>
-                            {all_connections
-                              ? total_listings - all_connections.length
-                              : "-"}
-                          </h3>
+                          <h3>{opted_out}</h3>
                           <span>Opted Out</span>
                         </div>
                       </li>
                     </ul>
-
-                    {/*<div class="row">
-
-                  <div className="col-sm-2 icon_margin  ">
-                    <div className="row ">
-                      <img src={add} alt="add" />
-
-                      <div className="icon_margin ">
-                        <div className="row  ">
-                          <span>{total_listings}</span>
-                        </div>
-                        <div className="row">
-                          <span>All Listing</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-2 icon_margin  ">
-                    <div className="row ">
-                      <img src={add} alt="add" />
-
-                      <div className="icon_margin ">
-                        <div className="row  ">
-                          <span>
-                            {all_connections ? all_connections.length : "-"}
-                          </span>
-                        </div>
-                        <div className="row">
-                          <span>Live Listing</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-2 icon_margin  ">
-                    <div className="row ">
-                      <img src={add} alt="add" />
-
-                      <div className="icon_margin ">
-                        <div className="row  ">
-                          <span>-</span>
-                        </div>
-                        <div className="row">
-                          <span>Processing</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-2 icon_margin  ">
-                    <div className="row ">
-                      <img src={add} alt="add" />
-
-                      <div className="icon_margin ">
-                        <div className="row  ">
-                          <span>-</span>
-                        </div>
-                        <div className="row">
-                          <span>Unavailable</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-sm-2 icon_margin  ">
-                    <div className="row ">
-                      <img src={add} alt="add" />
-
-                      <div className="icon_margin ">
-                        <div className="row  ">
-                          <span>
-                            {all_connections
-                              ? total_listings - all_connections.length
-                              : "-"}
-                          </span>
-                        </div>
-                        <div className="row">
-                          <span>Opted out</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              */}
                   </div>
                 </div>
                 <div className="col-md-3">
@@ -1444,7 +1389,13 @@ export default class Overview extends Component {
                       }
                       colors={["#8264C6", "#634A9B", "#EB05B8", "#3380cc"]}
                       strokeColor={"	false"}
-                      data={this.dataDoughnut(total_listings, all_connections)}
+                      data={this.dataDoughnut(
+                        all_listing,
+                        live_listing,
+                        processing,
+                        unavailable,
+                        opted_out
+                      )}
                     />
                   </div>
                 </div>

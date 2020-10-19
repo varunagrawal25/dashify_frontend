@@ -788,9 +788,6 @@ img {
 }
 
 .pagination-main {
-  background: #fff;
-  box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
-  border-radius: 15px;
   margin-top: 25px;
   padding: 15px;
 }
@@ -10225,6 +10222,9 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-size: 14px;
   line-height: 18px;
   color: red;
+  position: relative;
+  left: 117px;
+
 }
 
 .fine {
@@ -13131,4 +13131,37 @@ span.valpromo {
 .md-form input.form-control.searcdd {
   z-index: 1;
   position: relative;
+}
+
+
+
+.user1 {
+  display: table;
+  width: 100%;
+}
+
+.user_edit_input {
+  width: 45%;
+  float: left;
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.user3 {
+  display: table;
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.user3 input.user_edit_input {
+  width: 91%;
+}
+.error {
+  font-size: 12px;
+  padding: 0px 15px;
+}
+.loaderbox {
+  position: absolute;
+  top: 27%;
+  right: 50%;
 }
