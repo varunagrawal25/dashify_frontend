@@ -331,11 +331,7 @@ img {
   margin-left: 240px;
   overflow: hidden;
   padding: 0 10px 5px 25px;
-<<<<<<< HEAD
   min-height: 90vh !important;
-=======
-  min-height: 90vh!important;
->>>>>>> vithlesh
   margin-top: 73px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
@@ -1564,7 +1560,6 @@ img {
   padding: 15px;
   background: #ffffff;
   padding: 33px 10px;
-<<<<<<< HEAD
 }
 .container-checkbox input:checked ~ .checkmark {
   border: 1px solid lightgrey;
@@ -1573,17 +1568,6 @@ img {
   height: 27px;
   width: 25px;
   border-radius: 5px;
-=======
-
-}
-.container-checkbox input:checked ~ .checkmark {
-  border: 1px solid lightgrey ;
-}
-.google img{
-  height: 27px;
-    width: 25px;
-    border-radius: 5px;
->>>>>>> vithlesh
 }
 
 .google h3 {
@@ -6478,32 +6462,19 @@ ul.socialicon-new li {
 }
 
 .plush_new {
-<<<<<<< HEAD
   width: 112px;
   height: 110px;
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 5px 15px rgba(130, 100, 198, 0.1);
   margin: 10px;
-=======
-  /* width: 110px;
-  height: 110px; */
-  background: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 5px 15px rgba(130, 100, 198, 0.1);
-  /* margin: 10px;
->>>>>>> vithlesh
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
-<<<<<<< HEAD
   color: #4f4f4f;
   text-align: center;
   padding: 0px;
-=======
-  color: #4f4f4f; */
->>>>>>> vithlesh
 }
 
 .plush_new i {
@@ -9385,7 +9356,6 @@ img {
 
 .Pa_container0 {
   padding: 0px 10px;
-<<<<<<< HEAD
 }
 .Pa_container1 {
   background: #ffffff;
@@ -9393,15 +9363,6 @@ img {
   border-radius: 10px;
   padding: 10px;
 }
-=======
-}
-.Pa_container1 {
-  background: #ffffff;
-  box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.12);
-  border-radius: 10px;
-  padding: 10px;
-}
->>>>>>> vithlesh
 /* .this_week a {
   text-decoration: none !important;
 } */
@@ -10073,22 +10034,13 @@ input.searcdd {
   margin-left: 240px;
   overflow: hidden;
   padding: 0 10px 5px 25px;
-<<<<<<< HEAD
   min-height: 90vh !important;
-=======
-  min-height: 90vh!important;
->>>>>>> vithlesh
   margin-top: 73px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
 }
-<<<<<<< HEAD
 .customer-phone textarea {
   border-radius: 10px !important;
-=======
-.customer-phone textarea{
-border-radius: 10px!important;
->>>>>>> vithlesh
 }
 
 .dashifymenu-10 {
@@ -10863,7 +10815,6 @@ ul.dropdown-menu.loginboxds li a:hover {
   margin-top: 50px;
 }
 
-<<<<<<< HEAD
 .vl_box_head {
   font-family: Roboto;
   font-style: normal;
@@ -10885,8 +10836,6 @@ ul.dropdown-menu.loginboxds li a:hover {
   padding: 0px 15px;
 }
 
-=======
->>>>>>> vithlesh
 .vl_input_head {
   font-family: Roboto;
   font-style: normal;
@@ -11697,23 +11646,10 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-<<<<<<< HEAD
-  font-size: 14px;
   color: #4f4f4f;
   opacity: 0.6;
-=======
-  font-size: 15px;
-  color: #4f4f4f;
->>>>>>> vithlesh
   line-height: normal;
-  padding: 2px 8px;
-  border-radius: 5px;
-  border: 0.5px solid #5d80e2;
-  background: transparent;
-<<<<<<< HEAD
   margin: 2px 0px;
-=======
->>>>>>> vithlesh
 }
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -13293,39 +13229,3 @@ span.valpromo {
   z-index: 1;
   position: relative;
 }
-<<<<<<< HEAD
-=======
-
-
-
-.user1 {
-  display: table;
-  width: 100%;
-}
-
-.user_edit_input {
-  width: 45%;
-  float: left;
-  padding: 5px;
-  border: 1px solid #ccc;
-}
-
-.user3 {
-  display: table;
-  width: 100%;
-  margin-bottom: 5px;
-}
-
-.user3 input.user_edit_input {
-  width: 91%;
-}
-.error {
-  font-size: 12px;
-  padding: 0px 15px;
-}
-.loaderbox {
-  position: absolute;
-  top: 27%;
-  right: 50%;
-}
->>>>>>> vithlesh

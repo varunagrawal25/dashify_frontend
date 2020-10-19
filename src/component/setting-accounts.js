@@ -6,35 +6,20 @@ import { get_link_of_forget_password } from "./apis/user";
 import ProfileSettingSidebar from "./setting-sidebar";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import avtar_img from "./assets/img_avatar.png";
-<<<<<<< HEAD
-import {
-  get_login_user_info} from "./apis/user";
-  const DjangoConfig = {
-    headers: {
-      Authorization: "Token " + localStorage.getItem("UserToken")
-    }
-  };
-=======
 import { get_login_user_info } from "./apis/user";
 const DjangoConfig = {
   headers: {
     Authorization: "Token " + localStorage.getItem("UserToken")
   }
 };
->>>>>>> vithlesh
 export default class SettingAccounts extends Component {
   state = {
     user_info: {},
     first_name: "",
     last_name: "",
     user_image: "",
-<<<<<<< HEAD
-    email:""
-  }
-=======
     email: ""
   };
->>>>>>> vithlesh
   componentDidMount = () => {
     let data = { user_id: localStorage.getItem("UserId") };
     get_login_user_info(data, DjangoConfig)
@@ -45,11 +30,7 @@ export default class SettingAccounts extends Component {
             user_info: res.data.user_info,
             first_name: res.data.user_info.first_name,
             last_name: res.data.user_info.last_name,
-<<<<<<< HEAD
-            email:res.data.user_info.user.email,
-=======
             email: res.data.user_info.user.email,
->>>>>>> vithlesh
             user_image: "",
             loading_info: false,
             loading_image: false
@@ -63,11 +44,6 @@ export default class SettingAccounts extends Component {
         this.setState({ loading_info: false, loading_image: false });
       });
   };
-<<<<<<< HEAD
-  
-=======
-
->>>>>>> vithlesh
   changePassword = () => {
     let userEmail = localStorage.getItem("UserEmail");
     const data = {
@@ -115,31 +91,20 @@ export default class SettingAccounts extends Component {
               </div>
               <div className="row setting-14">
                 <div class="col-md-4 avatar  ">
-<<<<<<< HEAD
-                <img
-                    src={
-                      this.state.user_info && this.state.user_info.user_image
-                        ? "https://dashify.biz" + this.state.user_info.user_image
-=======
                   <img
                     src={
                       this.state.user_info && this.state.user_info.user_image
                         ? "https://dashify.biz" +
                           this.state.user_info.user_image
->>>>>>> vithlesh
                         : avtar_img
                     }
                     alt=""
                   />
                   {/* <img src={avtar_img} alt="" /> */}
 
-<<<<<<< HEAD
-                  <p>{this.state.first_name} {this.state.last_name}</p>
-=======
                   <p>
                     {this.state.first_name} {this.state.last_name}
                   </p>
->>>>>>> vithlesh
                 </div>
 
                 <div className="col-md-8 ">

@@ -742,17 +742,10 @@ export default class Overview extends Component {
             <MDBCol md="8">
               <div className="recent-title">
                 <img
-<<<<<<< HEAD
-                  src={require("../images/facebook.png")}
-                  alt="facebook"
-                  height="25"
-                  width="25"
-=======
                   src={"https://dashify.biz" + data.media_image}
                   alt="yelp"
                   height="40"
                   width="40"
->>>>>>> vithlesh
                 />
                 {data.head}
               </div>

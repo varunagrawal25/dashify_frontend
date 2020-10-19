@@ -66,9 +66,6 @@ export default class SideBar extends Component {
             <div className="left_nav">
               <ul className="left_content">
                 <li>
-<<<<<<< HEAD
-                  <NavLink selected to="/overview">
-=======
                   <NavLink
                     selected
                     to={
@@ -77,7 +74,6 @@ export default class SideBar extends Component {
                       "/overview"
                     }
                   >
->>>>>>> vithlesh
                     <img src={require("./assets/Color.png")} alt="" />
                     <span>Dashboard</span>
                   </NavLink>
