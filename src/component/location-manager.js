@@ -23,11 +23,6 @@ export default class ViewLocations extends Component {
       user_id: localStorage.getItem("UserId")
     };
 
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-locations",
-    //   data,
-    //   DjangoConfig1
-    // )
     all_location(data, DjangoConfig1)
       .then(res => {
         console.log(res);
@@ -42,6 +37,7 @@ export default class ViewLocations extends Component {
   }
 
   handleClick = event => {
+    console.log("handleClick", event.target.id, event);
     this.setState({
       currentPage: Number(event.target.id)
     });
@@ -129,7 +125,14 @@ export default class ViewLocations extends Component {
     const renderPageNumbers = pageNumbers.map(number => {
       return (
         <li>
-          <a key={number} id={number} onClick={this.handleClick}>
+          <a
+            key={number}
+            className={
+              currentPage == number ? "apply css here of selected button" : ""
+            }
+            id={number}
+            onClick={this.handleClick}
+          >
             {number}
           </a>
         </li>
@@ -180,76 +183,86 @@ export default class ViewLocations extends Component {
                 // <Spinner />
                 <h4>No Location added, Please add some loaction</h4>
               ) : (
-                <div>
-                  {renderLocations}
-                  <div className="pagination-main">
-                    <div className="pagination">
-                      <ul>
-                        <li className="prev">
-                          <a href="#">Previous</a>
-                        </li>
-                        {renderPageNumbers}
-                        <li className="next">
-                          <a href="#">Next</a>
-                        </li>
-
-                        <li className="itempage dropdown">
-                          <a className="dropdown-select" data-toggle="dropdown">
-                            {this.state.LocationsPerPage == 999999
-                              ? "All"
-                              : this.state.LocationsPerPage}{" "}
-                            Items/page{" "}
-                          </a>
-                          <ul className="dropdown-menu">
-                            <li
-                              onClick={() =>
-                                this.setState({ LocationsPerPage: 3 })
-                              }
-                            >
-                              3 Items/page
-                            </li>
-                            <li
-                              onClick={() =>
-                                this.setState({ LocationsPerPage: 10 })
-                              }
-                            >
-                              10 Items/page
-                            </li>
-                            <li
-                              onClick={() =>
-                                this.setState({ LocationsPerPage: 20 })
-                              }
-                            >
-                              20 Items/page
-                            </li>
-                            <li
-                              onClick={() =>
-                                this.setState({ LocationsPerPage: 50 })
-                              }
-                            >
-                              50 Items/page
-                            </li>
-                            <li
-                              onClick={() =>
-                                this.setState({ LocationsPerPage: 99 })
-                              }
-                            >
-                              99 Items/page
-                            </li>
-                            <li
-                              onClick={() =>
-                                this.setState({ LocationsPerPage: 999999 })
-                              }
-                            >
-                              All Items/page
-                            </li>
-                          </ul>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+                <div>{renderLocations}</div>
               )}
+            </div>
+            <div className="pagination-main">
+              <div className="pagination">
+                <ul>
+                  {currentPage > 1 ? (
+                    <li className="prev">
+                      <a
+                        key={currentPage}
+                        id={currentPage - 1}
+                        onClick={this.handleClick}
+                      >
+                        Previous
+                      </a>
+                    </li>
+                  ) : (
+                    ""
+                  )}
+
+                  {renderPageNumbers}
+
+                  {currentPage < pageNumbers.length ? (
+                    <li className="next">
+                      <a
+                        key={currentPage}
+                        id={currentPage + 1}
+                        onClick={this.handleClick}
+                      >
+                        Next
+                      </a>
+                    </li>
+                  ) : (
+                    ""
+                  )}
+
+                  <li className="itempage dropdown">
+                    <a className="dropdown-select" data-toggle="dropdown">
+                      {this.state.LocationsPerPage == 999999
+                        ? "All"
+                        : this.state.LocationsPerPage}{" "}
+                      Items/page{" "}
+                    </a>
+                    <ul className="dropdown-menu">
+                      <li
+                        onClick={() => this.setState({ LocationsPerPage: 3 })}
+                      >
+                        3 Items/page
+                      </li>
+                      <li
+                        onClick={() => this.setState({ LocationsPerPage: 10 })}
+                      >
+                        10 Items/page
+                      </li>
+                      <li
+                        onClick={() => this.setState({ LocationsPerPage: 20 })}
+                      >
+                        20 Items/page
+                      </li>
+                      <li
+                        onClick={() => this.setState({ LocationsPerPage: 50 })}
+                      >
+                        50 Items/page
+                      </li>
+                      <li
+                        onClick={() => this.setState({ LocationsPerPage: 99 })}
+                      >
+                        99 Items/page
+                      </li>
+                      <li
+                        onClick={() =>
+                          this.setState({ LocationsPerPage: 999999 })
+                        }
+                      >
+                        All Items/page
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         )}

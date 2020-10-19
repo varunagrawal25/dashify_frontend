@@ -18,6 +18,7 @@ import map from "./assets/map_user.png";
 import edit from "./assets/edit.png";
 import Map from "./Map";
 import Cropper from "./utils/cropper";
+import { url_regex, phone_regex } from "./utils/regularexpressions";
 
 const DjangoConfig = {
   headers: {
@@ -39,6 +40,13 @@ export default class User_profile extends Component {
     show_crop_function: false,
     loading_info: true,
     loading_image: true,
+
+    //error
+    first_name_error: "",
+    Company_name_error: "",
+    address_error: "",
+    Phone_error: "",
+    website_error: "",
 
     // cropper
     src: null,
@@ -82,10 +90,9 @@ export default class User_profile extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  submitUserDetails = event => {
+  submitUserDetails = async event => {
     console.log("this.state", this.state);
     event.preventDefault();
-    this.setState({ loading: true });
 
     var {
       user_info,
@@ -107,33 +114,83 @@ export default class User_profile extends Component {
       website
     };
 
-    update_user_info(data, DjangoConfig)
-      .then(response => {
-        let data2 = { user_id: localStorage.getItem("UserId") };
-        this.setState({ loading_info: true });
-        get_login_user_info(data2, DjangoConfig)
-          .then(res => {
-            console.log("user info", res.data);
-            if (res.data && res.data.user_info) {
-              this.setState({
-                user_info: res.data.user_info,
-                edit_details: false,
-                loading_info: false
-              });
-            } else {
+    let error_present = await this.errorValue(data);
+
+    if (!error_present) {
+      this.setState({ loading_info: true });
+      update_user_info(data, DjangoConfig)
+        .then(response => {
+          let data2 = { user_id: localStorage.getItem("UserId") };
+
+          get_login_user_info(data2, DjangoConfig)
+            .then(res => {
+              console.log("user info", res.data);
+              if (res.data && res.data.user_info) {
+                this.setState({
+                  user_info: res.data.user_info,
+                  edit_details: false,
+                  loading_info: false
+                });
+              } else {
+                this.setState({ edit_details: false, loading_info: false });
+                alert("try again");
+              }
+            })
+            .catch(err => {
               this.setState({ edit_details: false, loading_info: false });
               alert("try again");
-            }
-          })
-          .catch(err => {
-            this.setState({ edit_details: false, loading_info: false });
-            alert("try again");
-          });
-      })
-      .catch(res => {
-        this.setState({ edit_details: false, loading_info: false });
-        alert("try again");
-      });
+            });
+          window.location.reload(false);
+        })
+        .catch(res => {
+          this.setState({ edit_details: false, loading_info: false });
+          alert("try again");
+        });
+    }
+  };
+
+  errorValue = data => {
+    this.setState({
+      first_name_error: "",
+      Company_name_error: "",
+      address_error: "",
+      Phone_error: "",
+      website_error: ""
+    });
+
+    let error_present = false;
+
+    if (data.first_name == "") {
+      this.setState({ first_name_error: "*First name can not be empty" });
+      error_present = true;
+    }
+    if (data.Company_name == "") {
+      this.setState({ Company_name_error: "*Company name can not be empty" });
+      error_present = true;
+    }
+    if (data.address == "") {
+      this.setState({ address_error: "*Address can not be empty" });
+      error_present = true;
+    }
+    if (data.Phone) {
+      const result = phone_regex(data.Phone);
+      if (result === false) {
+        this.setState({
+          Phone_error: "Not a valid Phone No."
+        });
+        error_present = true;
+      }
+    }
+    if (data.website) {
+      const result = url_regex(data.website);
+      if (result == null) {
+        this.setState({
+          website_error: "Not a valid website"
+        });
+        error_present = true;
+      }
+    }
+    return error_present;
   };
 
   uploadUserImage = image => {
@@ -195,6 +252,14 @@ export default class User_profile extends Component {
       Phone,
       website,
       user_image,
+
+      //error
+      first_name_error,
+      Company_name_error,
+      address_error,
+      Phone_error,
+      website_error,
+
       loading_info,
       loading_image
     } = this.state;
@@ -272,6 +337,9 @@ export default class User_profile extends Component {
                       placeholder="Last name"
                       className="user_edit_input"
                     />
+                    <div className="error" style={{ color: "red" }}>
+                      {first_name_error}
+                    </div>
                   </div>
                   <MDBRow>
                     <MDBCol md="4">
@@ -280,6 +348,7 @@ export default class User_profile extends Component {
                       <div className="user2">Phone</div>
                       <div className="user2">Website</div>
                     </MDBCol>
+
                     <MDBCol md="8">
                       <form
                         className="needs-validation"
@@ -295,6 +364,9 @@ export default class User_profile extends Component {
                             className="user_edit_input"
                             placeholder="Edit company name"
                           />
+                          <div className="error" style={{ color: "red" }}>
+                            {Company_name_error}
+                          </div>
                         </div>
                         <div className="user3">
                           <input
@@ -305,6 +377,9 @@ export default class User_profile extends Component {
                             className="user_edit_input"
                             placeholder="Edit address"
                           />
+                          <div className="error" style={{ color: "red" }}>
+                            {address_error}
+                          </div>
                         </div>
                         <div className="user3">
                           <input
@@ -315,6 +390,9 @@ export default class User_profile extends Component {
                             className="user_edit_input"
                             placeholder="Edit phone no."
                           />
+                          <div className="error" style={{ color: "red" }}>
+                            {Phone_error}
+                          </div>
                         </div>
                         <div className="user3">
                           <input
@@ -325,6 +403,9 @@ export default class User_profile extends Component {
                             className="user_edit_input"
                             placeholder="Edit website"
                           />
+                          <div className="error" style={{ color: "red" }}>
+                            {website_error}
+                          </div>
                         </div>
                         <button type="submit" className="user_btn">
                           Submit

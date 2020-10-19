@@ -15,9 +15,7 @@ export default class SettingBilling extends Component {
 
           <MDBRow>
             <MDBCol md="3">
-              <MDBRow>
-                <ProfileSettingSidebar />
-              </MDBRow>
+              <ProfileSettingSidebar />
             </MDBCol>
 
             <MDBCol md="9">

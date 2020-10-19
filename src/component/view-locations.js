@@ -14,7 +14,11 @@ import Spinner from "./common/Spinner";
 import Loader from "react-loader-spinner";
 import { MDBCol, MDBRow ,MDBContainer} from "mdbreact";
 import edit_icon from "./assets/edit.png";
+<<<<<<< HEAD
 import cross_img from "./assets/cross_img.png";
+=======
+import delete_icon from "./assets/delete_icon.png";
+>>>>>>> vithlesh
 import edit from "./assets/edit.png";
 
 // const GoogleConfig={
@@ -1105,9 +1109,15 @@ export default class LocationManager extends Component {
                       ) : this.state.detailEdit2 ? (
                         <div className="white-shadow">
                         <div >
+<<<<<<< HEAD
                         <MDBRow >
                                 <MDBCol md='9' className='vl_box_head'>{this.state.name}</MDBCol>
                                 </MDBRow>
+=======
+                        <h2 className="analytics_btnx">
+                              {this.state.name}
+                            </h2>
+>>>>>>> vithlesh
                             
                           <form onSubmit={this.updateDetailsButton("details2")}>
                             {this.state.logoLoading ? (
@@ -1259,11 +1269,19 @@ export default class LocationManager extends Component {
                                   </MDBRow>
 
                                   <MDBRow style={{marginTop:'20px'}}>
+<<<<<<< HEAD
                                     <MDBCol md='3' className='offset-md-5'  >
                                     <button
                                 type="submit"
                                 className="last_btn"
                                 style={{marginLeft:'-5px'}}
+=======
+                                    <MDBCol md='3' className='offset-md-4'  >
+                                    <button
+                                type="submit"
+                                className="last_btn"
+                                style={{marginLeft:'25px'}}
+>>>>>>> vithlesh
                                 // onClick={this.updateDetailsButton2}
                               >
                                 Update
@@ -1274,7 +1292,11 @@ export default class LocationManager extends Component {
                                     <button
                                 className="last_btn"
                                 onClick={this.editDetailsButton2}
+<<<<<<< HEAD
                                 style={{marginLeft:'5px'}}
+=======
+                                style={{marginLeft:'25px'}}
+>>>>>>> vithlesh
                               >
                                 Cancel
                               </button>
@@ -1348,10 +1370,16 @@ export default class LocationManager extends Component {
                       ) : (
                         <div className="white-shadow">
                           <div >
+<<<<<<< HEAD
                             
                               <MDBRow >
                                 <MDBCol md='9' className='vl_box_head'>{this.state.name}</MDBCol>
                                 <MDBCol md='3'><button
+=======
+                            <h2 className="analytics_btnx">
+                              {this.state.name}
+                              <button
+>>>>>>> vithlesh
                                 className="last_btn"
                                 onClick={this.editDetailsButton2}
                               >
@@ -1473,7 +1501,14 @@ export default class LocationManager extends Component {
                                 <MDBCol md='9' className='vl_box_head'>{this.state.name}</MDBCol>
                                 </MDBRow>
                           <form onSubmit={this.updateDetailsButton("details1")}>
+<<<<<<< HEAD
                           
+=======
+                          <div className="upload_text white-shadow">
+                          <h2 className="analytics_btnx">
+                            {this.state.name}
+                          </h2>
+>>>>>>> vithlesh
                           <div className="pt-15">
                           <MDBRow className="uploadauthor">
                                     <MDBCol md="12">
@@ -1505,6 +1540,8 @@ export default class LocationManager extends Component {
 
                                     <MDBCol md="6">
                                     <input
+<<<<<<< HEAD
+=======
                                 name="ownerName_edit"
                                 onChange={this.changeHandler}
                                 type="text"
@@ -1652,6 +1689,209 @@ export default class LocationManager extends Component {
                               </MDBRow>
 
                               <MDBRow style={{marginTop:'20px'}}>
+                                    <MDBCol md='3' className='offset-md-4'  >
+                                    <button
+                                type="submit"
+                                className="last_btn"
+                                style={{marginLeft:'25px'}}
+                                // onClick={this.updateDetailsButton2}
+                              >
+                                Update
+                              </button>
+                              
+                                    </MDBCol>
+                                    <MDBCol md='3'>
+                                    <button
+                                className="last_btn"
+                                onClick={this.editDetailsButton}
+                                style={{marginLeft:'25px'}}
+                              >
+                                Cancel
+                              </button>
+                                    </MDBCol>
+                                  </MDBRow>
+                                  {/* <div className="business-cover text-center">
+                              <button
+                                type="submit"
+                                className="last_btn"
+                                // onClick={this.updateDetailsButton}
+                              >
+                                Update
+                              </button>
+                              <button
+                                className="last_btn"
+                                onClick={this.editDetailsButton}
+                              >
+                                Cancel
+                              </button>
+                            </div> */}
+                            </div>
+                            </div>
+                            </div>
+                            {/* <div className="form-group">
+                              <label>Business Owner Name</label>
+                              <input
+>>>>>>> vithlesh
+                                name="ownerName_edit"
+                                onChange={this.changeHandler}
+                                type="text"
+                                className="vl_edit_input"
+<<<<<<< HEAD
+                                placeholder="Enter Owner Name"
+=======
+                                placeholder="Enter Business Owner Name"
+>>>>>>> vithlesh
+                                value={this.state.ownerName_edit}
+                                required
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                        Owner email :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    <input
+                                name="ownerEmail_edit"
+                                onChange={this.changeHandler}
+                                type="email"
+                                className="vl_edit_input"
+                                placeholder="Enter Owner Email"
+                                value={this.state.ownerEmail_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                        Bussiness tagline :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    <input
+                                name="businessTagline_edit"
+                                onChange={this.changeHandler}
+                                className="vl_edit_input"
+                                placeholder="Enter Business Tagline"
+                                value={this.state.businessTagline_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                        Year of incorporation :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    <input
+                                name="yearOfIncorp_edit"
+                                onChange={this.changeHandler}
+                                type="number"
+                                className="vl_edit_input"
+                                id="yearOfIncorp"
+                                placeholder="Enter Year of Incorporation"
+                                value={this.state.yearOfIncorp_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                        Website :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    
+                               <input
+                                name="website_edit"
+                                type="url"
+                                onChange={this.changeHandler}
+                                className="vl_edit_input"
+<<<<<<< HEAD
+                                value={this.state.website_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                      Facebook Profile :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+=======
+                                value={this.state.about_edit}
+                              ></textarea>
+                            </div>
+                            <div className="form-group">
+                              <label>Facebook Profile</label>
+>>>>>>> vithlesh
+                              <input
+                                name="facebookProfile_edit"
+                                onChange={this.changeHandler}
+                                type="url"
+                                className="vl_edit_input"
+                                placeholder="Enter Facbook Profile"
+                                value={this.state.facebookProfile_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                      Instagram Profile :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    <input
+                                name="twitterProfile_edit"
+                                onChange={this.changeHandler}
+                                type="url"
+                                className="vl_edit_input"
+<<<<<<< HEAD
+                                placeholder="Enter Twitter Profile"
+                                value={this.state.twitterProfile_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+
+                                  <MDBRow className="uploadauthor">
+                                    <MDBCol md="6">
+                                      <div className="author_namebox">
+                                      Twitter Profile :
+                                      </div>
+                                    </MDBCol>
+
+                                    <MDBCol md="6">
+                                    
+                               <input
+                                name="website_edit"
+                                type="url"
+                                onChange={this.changeHandler}
+                                className="vl_edit_input"
+                                value={this.state.website_edit}
+                              />
+                                    </MDBCol>
+                                  </MDBRow>
+                                </MDBCol>
+                              </MDBRow>
+
+                              <MDBRow style={{marginTop:'20px'}}>
                                     <MDBCol md='3' className='offset-md-5'  >
                                     <button
                                 type="submit"
@@ -1769,6 +2009,8 @@ export default class LocationManager extends Component {
                                 onChange={this.changeHandler}
                                 type="url"
                                 className="vl_edit_input"
+=======
+>>>>>>> vithlesh
                                 placeholder="Enter Instagram Profile"
                                 value={this.state.instagramProfile_edit}
                               />
@@ -3651,7 +3893,11 @@ export default class LocationManager extends Component {
                               }
                               alt="Cover image"
                             />
+<<<<<<< HEAD
                            <div className="vl-get-image">
+=======
+                           <div className="get-image">
+>>>>>>> vithlesh
                     <img
                       src={edit}
                       alt=""
@@ -3683,6 +3929,7 @@ export default class LocationManager extends Component {
                             </div> */}
                           </div>
                         ) : (
+<<<<<<< HEAD
                                 <div  className="plush_new">
                                 <span>
                                       <i className="zmdi zmdi-plus"></i>
@@ -3696,13 +3943,33 @@ export default class LocationManager extends Component {
                                       />
                                     </span>
                                 </div>
+=======
+                          <div className="plush_new">
+                            <span>
+                              <i className="zmdi zmdi-plus"/>
+                              Attatch a image
+                              <input
+                                type="file"
+                                name="Business_Cover_Image"
+                                onChange={this.onUploadLogo(
+                                  "Business_Cover_Image"
+                                )}
+                              />
+                            </span>
+                          </div>
+>>>>>>> vithlesh
                         )}
                       </div>
                     </div>
                   </div>
                   <div className="col-md-8">
+<<<<<<< HEAD
                     <div className="business-cover ">
                       <div className='vl_box_head'>Sharred Business Images</div>
+=======
+                    <div className="business-cover">
+                      <h3>Starred Business covers image</h3>
+>>>>>>> vithlesh
                        {this.state.otherImagesLoading ? (
                               <div style={{ textAlign: "center" }}>
                                 <Loader
@@ -3716,7 +3983,11 @@ export default class LocationManager extends Component {
                             ) : (
 
                              
+<<<<<<< HEAD
                               <div style={{marginTop:'5px'}}>
+=======
+                              <div>
+>>>>>>> vithlesh
                                  <MDBRow>
                                 <MDBCol md='2' className="plush_new">
                                 <span>
@@ -3736,6 +4007,7 @@ export default class LocationManager extends Component {
                                             this.state.otherImages[i].Image
                                           }
                                           alt=""
+<<<<<<< HEAD
                                           style={{height:'110px',width:'112px' ,borderRadius:'10px'}}
                                         />
 
@@ -3749,6 +4021,17 @@ export default class LocationManager extends Component {
                                               backgroundColor:'red',
                                               borderRadius:'50%',
                                               padding:'2px',
+=======
+                                        />
+
+                                        <div className="get-image">
+                                          <img
+                                            src={delete_icon}
+                                            alt=""
+                                            style={{
+                                              height: "20px",
+                                              width: "20px"
+>>>>>>> vithlesh
                                             }}
                                             onClick={() =>
                                               this.delete_other_image(n.id)
