@@ -44,7 +44,6 @@ export default class SettingAccounts extends Component {
         this.setState({ loading_info: false, loading_image: false });
       });
   };
-
   changePassword = () => {
     let userEmail = localStorage.getItem("UserEmail");
     const data = {
