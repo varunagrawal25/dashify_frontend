@@ -556,6 +556,7 @@ export default class ReviewGenerationCampaign extends Component {
                           <p>the vocabulary, and the questions</p>
 
                           <div className="googlebox">
+                            <div className='row'>
                             {google_placeid ? (
                               <div className="col-md-5">
                                 <div className="google">
@@ -602,6 +603,7 @@ export default class ReviewGenerationCampaign extends Component {
                               </a>
                             </div>
                           </div>
+                          </div>
 
                           <div className="" style={{ marginTop: 20 }}>
                             <div className="col-md-6">
@@ -625,7 +627,8 @@ export default class ReviewGenerationCampaign extends Component {
                   <div className="customer-phone">
                     <h3>SMS Content</h3>
                     <textarea
-                      className="form-control"
+                      className="form-control "
+                     
                       rows="4"
                       cols="50"
                       // placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley"

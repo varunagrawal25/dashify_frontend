@@ -428,8 +428,8 @@ export default class VoiceListing extends Component {
           <div>
             <MDBRow>
               <MDBCol md="7" className="offset-md-1">
-                <div className="vl_c3_subhead"> {r.question}</div>
-                <div className="vl_contant">{r.answer}</div>
+                <div className="vl_c3_subhead">Question {r.question}</div>
+                <div className="vl_contant">Answer {r.answer}</div>
               </MDBCol>
               <MDBCol md="2" className="offset-md-2">
                 <MDBBtn
@@ -476,7 +476,7 @@ export default class VoiceListing extends Component {
                         ADDRESS AND CONTACT
                       </div>
                       <div className="vl_contant">
-                        {this.state.address}, {this.state.state} ,
+                        {this.state.address} {this.state.state}{" "}
                         {this.state.postalCode}
                         <br />
                         {this.state.phone ? `P : ${this.state.phone}` : ""}

@@ -589,36 +589,39 @@ export default class Topbarmenu extends Component {
 
                 <div className="col-md-3">
                   <div className="row ">
-                    {loading_info ? (
-                      <Loader
-                        type="Oval"
-                        color="#00BFFF"
-                        height={25}
-                        width={25}
-                        // timeout={3000} //3 secs
-                      />
-                    ) : (
-                      <>
-                        <div className="col-md-5 namedash rightdah">
-                          <h3>
-                            {" "}
-                            {first_name} {last_name}{" "}
-                          </h3>
-                        </div>
-                        <div className="col-md-2 ">
-                          <div className="row imgaligng">
-                            {user_image ? (
-                              <img
-                                src={"https://dashify.biz" + user_image}
-                                alt="user"
-                              />
-                            ) : (
-                              <AccountCircleIcon fontSize="large" />
-                            )}
+                    <div className="col-md-5 ">
+                      {loading_info ? (
+                        <Loader
+                          className="loaderbox"
+                          type="Oval"
+                          color="#00BFFF"
+                          height={25}
+                          width={25}
+                          // timeout={3000} //3 secs
+                        />
+                      ) : (
+                        <>
+                          <div className="namedash rightdah">
+                            <h3>
+                              {" "}
+                              {first_name} {last_name}{" "}
+                            </h3>
                           </div>
-                        </div>
-                      </>
-                    )}
+                          <div className="col-md-2 ">
+                            <div className="row imgaligng">
+                              {user_image ? (
+                                <img
+                                  src={"https://dashify.biz" + user_image}
+                                  alt="user"
+                                />
+                              ) : (
+                                <AccountCircleIcon fontSize="large" />
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
+                    </div>
 
                     <ul className="dropdown-menu loginboxds">
                       <li>

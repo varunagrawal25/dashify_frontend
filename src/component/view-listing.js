@@ -28,6 +28,7 @@ import ReactPDF, {
   PDFDownloadLink
 } from "@react-pdf/renderer";
 import { LinkedIn } from "react-linkedin-login-oauth2";
+import { google_listing_detail } from "./apis/social_media";
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -194,11 +195,7 @@ export default class ViewListing extends Component {
         "-" +
         today.getFullYear();
       this.setState({ today });
-      // Axios.post(
-      //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
-      //   data,
-      //   DjangoConfig
-      // )
+
       all_connection_of_one_location(data, DjangoConfig)
         .then(resp => {
           console.log("get all connections", resp);
@@ -210,17 +207,86 @@ export default class ViewListing extends Component {
                 fbtoken = l.Social_Platform.Token;
                 fbPageId = l.Social_Platform.Other_info;
                 fbData = l;
+
+                this.setState({
+                  fbIsLoggedIn: true,
+                  pdf_data: [
+                    ...this.state.pdf_data,
+                    {
+                      listing: "Facebook",
+                      image: require("../images/facebook.png"),
+                      username: fbData.Social_Platform.Username,
+                      status: true,
+                      link: "https://www.facebook.com/" + fbPageId,
+                      date: fbData.Social_Platform.Update_Date.split("T")[0]
+                    }
+                  ],
+                  fbId: fbData.id,
+                  fbName: fbData.Social_Platform.Username,
+                  all_connections: [
+                    ...this.state.all_connections,
+                    { name: "Facebook" }
+                  ]
+                });
               }
 
               if (l.Social_Platform.Platform == "Google") {
                 googleToken = l.Social_Platform.Token;
                 googleData = l;
+                this.setState({
+                  googleIsLoggedIn: true,
+                  pdf_data: [
+                    ...this.state.pdf_data,
+                    {
+                      listing: "Google",
+                      image: require("../images/google.png"),
+                      username: googleData.Social_Platform.Username,
+                      status: true,
+                      date: googleData.Social_Platform.Update_Date.split("T")[0]
+                    }
+                  ],
+                  googleId: googleData.id,
+                  googleName: googleData.Social_Platform.Username,
+                  all_connections: [
+                    ...this.state.all_connections,
+                    { name: "Google" }
+                  ]
+                });
+
+                google_listing_detail(data, DjangoConfig).then(res => {
+                  this.setState({
+                    googleLocationDetail: res.other_info,
+                    googleReviewsPresent: res.google_Reviews_Present
+                  });
+                });
               }
 
               if (l.Social_Platform.Platform == "Linkedin") {
                 linkedinToken = l.Social_Platform.Token;
                 linkedinData = l;
                 linkedin_page_id = l.Social_Platform.Other_info;
+
+                this.setState({
+                  linkedinIsLoggedIn: true,
+                  pdf_data: [
+                    ...this.state.pdf_data,
+                    {
+                      listing: "Linkedin",
+                      image: require("../images/linkedin.png"),
+                      username: linkedinData.Social_Platform.Username,
+                      status: true,
+                      date: linkedinData.Social_Platform.Update_Date.split(
+                        "T"
+                      )[0]
+                    }
+                  ],
+                  linkedinId: linkedinData.id,
+                  linkedinName: linkedinData.Social_Platform.Username,
+                  all_connections: [
+                    ...this.state.all_connections,
+                    { name: "Linkedin" }
+                  ]
+                });
               }
 
               if (l.Social_Platform.Platform == "Foursquare") {
@@ -510,144 +576,6 @@ export default class ViewListing extends Component {
                 });
               }
             });
-
-            const GoogleConfig = {
-              headers: { Authorization: "Bearer " + googleToken }
-            };
-
-            // for facebook
-            if (fbtoken) {
-              Axios.get(
-                "https://graph.facebook.com/me/accounts/?access_token=" +
-                  fbtoken
-              ).then(res => {
-                var fbPageAccessToken;
-                for (let i = 0; i < res.data.data.length; i++) {
-                  if (res.data.data[i].id == fbPageId) {
-                    fbPageAccessToken = res.data.data[i].access_token;
-                  }
-                }
-                Axios.get(
-                  "https://graph.facebook.com/" +
-                    fbPageId +
-                    "/insights/page_engaged_users,page_impressions,page_views_total,page_call_phone_clicks_logged_in_unique,page_get_directions_clicks_logged_in_unique,page_website_clicks_logged_in_unique?period=month&access_token=" +
-                    fbPageAccessToken
-                ).then(resp => {
-                  console.log("fbid", fbData.id);
-                  this.setState({
-                    fbIsLoggedIn: true,
-                    pdf_data: [
-                      ...this.state.pdf_data,
-                      {
-                        listing: "Facebook",
-                        image: require("../images/facebook.png"),
-                        username: fbData.Social_Platform.Username,
-                        status: true,
-                        link: "https://www.facebook.com/" + fbPageId,
-                        date: fbData.Social_Platform.Update_Date.split("T")[0]
-                      }
-                    ],
-                    fbId: fbData.id,
-                    fbName: fbData.Social_Platform.Username,
-                    all_connections: [
-                      ...this.state.all_connections,
-                      { name: "Facebook" }
-                    ]
-                  });
-                });
-              });
-            }
-
-            // Google
-            if (googleToken) {
-              Axios.get(
-                "https://mybusiness.googleapis.com/v4/accounts/",
-                GoogleConfig
-              ).then(res => {
-                console.log("google data", res.data);
-                console.log("google data", googleData);
-
-                Axios.get(
-                  `https://mybusiness.googleapis.com/v4/${googleData.Social_Platform.Other_info}`,
-                  GoogleConfig
-                ).then(res => {
-                  this.setState({ googleLocationDetail: res.data });
-                  console.log("googleLocationDetail", res.data);
-                });
-                this.setState({
-                  googleIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Google",
-                      image: require("../images/google.png"),
-                      username: googleData.Social_Platform.Username,
-                      status: true,
-                      date: googleData.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  googleId: googleData.id,
-                  googleName: googleData.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Google" }
-                  ]
-                });
-                Axios.get(
-                  `https://mybusiness.googleapis.com/v4/${googleData.Social_Platform.Other_info}/reviews`,
-                  GoogleConfig
-                ).then(res => {
-                  if (
-                    res.data &&
-                    res.data.reviews &&
-                    res.data.reviews.length != 0
-                  ) {
-                    this.setState({
-                      googleReviewsPresent: true
-                    });
-                  }
-                });
-              });
-            }
-
-            // Linkedin
-            if (linkedinToken && linkedin_page_id) {
-              const LinkedinConfig = {
-                headers: {
-                  Authorization: "Bearer " + linkedinToken
-                }
-              };
-
-              Axios.get(
-                `https://cors-anywhere.herokuapp.com/https://api.linkedin.com/v2/networkSizes/${linkedin_page_id}?edgeType=CompanyFollowedByMember`,
-                LinkedinConfig
-              ).then(res => {
-                // console.log("linkedin data", res.data);
-                if (res.data && res.data.firstDegreeSize) {
-                  this.setState({
-                    linkedinIsLoggedIn: true,
-                    pdf_data: [
-                      ...this.state.pdf_data,
-                      {
-                        listing: "Linkedin",
-                        image: require("../images/linkedin.png"),
-                        username: linkedinData.Social_Platform.Username,
-                        status: true,
-                        date: linkedinData.Social_Platform.Update_Date.split(
-                          "T"
-                        )[0]
-                      }
-                    ],
-                    linkedinId: linkedinData.id,
-                    linkedinName: linkedinData.Social_Platform.Username,
-                    all_connections: [
-                      ...this.state.all_connections,
-                      { name: "Linkedin" }
-                    ]
-                  });
-                }
-              });
-            }
           }
         })
         .catch(resp => {

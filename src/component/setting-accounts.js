@@ -6,8 +6,45 @@ import { get_link_of_forget_password } from "./apis/user";
 import ProfileSettingSidebar from "./setting-sidebar";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import avtar_img from "./assets/img_avatar.png";
-
+import { get_login_user_info } from "./apis/user";
+const DjangoConfig = {
+  headers: {
+    Authorization: "Token " + localStorage.getItem("UserToken")
+  }
+};
 export default class SettingAccounts extends Component {
+  state = {
+    user_info: {},
+    first_name: "",
+    last_name: "",
+    user_image: "",
+    email: ""
+  };
+  componentDidMount = () => {
+    let data = { user_id: localStorage.getItem("UserId") };
+    get_login_user_info(data, DjangoConfig)
+      .then(res => {
+        console.log("user info", res.data);
+        if (res.data && res.data.user_info) {
+          this.setState({
+            user_info: res.data.user_info,
+            first_name: res.data.user_info.first_name,
+            last_name: res.data.user_info.last_name,
+            email: res.data.user_info.user.email,
+            user_image: "",
+            loading_info: false,
+            loading_image: false
+          });
+        } else {
+          this.setState({ loading_info: false, loading_image: false });
+        }
+      })
+      .catch(err => {
+        console.log("user info err", err);
+        this.setState({ loading_info: false, loading_image: false });
+      });
+  };
+
   changePassword = () => {
     let userEmail = localStorage.getItem("UserEmail");
     const data = {
@@ -36,11 +73,11 @@ export default class SettingAccounts extends Component {
       <>
         {/* <div className="left-side-menu"></div>
         <div className="content-page"> */}
-        <div className="container profile_margin " id="overview-10">
+        <div className="container " id="overview-10">
           <div className="setting-10">
             <h3>Profile Setting</h3>
           </div>
-          <div className="row acct_gap">
+          <div className="row ">
             <MDBCol md="3">
               <ProfileSettingSidebar />
             </MDBCol>
@@ -55,9 +92,20 @@ export default class SettingAccounts extends Component {
               </div>
               <div className="row setting-14">
                 <div class="col-md-4 avatar  ">
-                  <img src={avtar_img} alt="" />
+                  <img
+                    src={
+                      this.state.user_info && this.state.user_info.user_image
+                        ? "https://dashify.biz" +
+                          this.state.user_info.user_image
+                        : avtar_img
+                    }
+                    alt=""
+                  />
+                  {/* <img src={avtar_img} alt="" /> */}
 
-                  <p>Will Newman</p>
+                  <p>
+                    {this.state.first_name} {this.state.last_name}
+                  </p>
                 </div>
 
                 <div className="col-md-8 ">
@@ -70,7 +118,7 @@ export default class SettingAccounts extends Component {
                         type="email"
                         class="form-control"
                         id="inputEmail3"
-                        value={userEmail}
+                        value={this.state.email}
                         readOnly
                       />
                     </div>
@@ -90,23 +138,19 @@ export default class SettingAccounts extends Component {
                       Role:
                     </label>
                     <div class="col-sm-9">
-                      <div
-                        data-toggle="dropdown"
-                        className="changes-style"
-                      >
+                      <div data-toggle="dropdown" className="changes-style">
                         Admin
                         <ArrowDropDownIcon />
                       </div>
-                      
-                        <ul className="dropdown-menu adm">
-                          <li>Admin</li>
-                          <li>User</li>
-                        </ul>
-                     
+
+                      <ul className="dropdown-menu adm">
+                        <li>Admin</li>
+                        <li>User</li>
+                      </ul>
                     </div>
                   </div>
                   <div className="save_gap">
-                    <button type="submit" class="btn btn-profile-10 ">
+                    <button type="submit" class="user_save0">
                       Save
                     </button>
                   </div>
