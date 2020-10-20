@@ -12,6 +12,7 @@ import {
   all_social_media_overview,
   graph_google_customer_actions
 } from "./apis/social_media";
+import {all_social_media_notifications_json} from "./json/social_media"
 import Spinner from "./common/Spinner";
 import Loader2 from "react-loader-spinner";
 import Rating from "react-rating";
@@ -275,10 +276,13 @@ export default class Overview extends Component {
       .then(res => {
         if (res.data) {
           this.setState({ notification_data: res.data });
+        } else {
+          this.setState({ notification_data:all_social_media_notifications_json});
         }
       })
       .catch(err => {
-        console.log("err", err);
+        console.log("all notifiactionerr", err);
+        this.setState({ notification_data: all_social_media_notifications_json });
       });
 
     const overview_query_data = {
