@@ -216,6 +216,7 @@ export default class User_profile extends Component {
                 loading_image: false,
                 show_crop_function: false
               });
+              window.location.reload(false)
             } else {
               this.setState({
                 loading_image: false,

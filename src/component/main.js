@@ -246,25 +246,10 @@ export default class MainApp extends Component {
                             localStorage.getItem("locationId") +
                             "/promotional"
                           }
-                          className="underline-from-left dropdown-toggle"
-                          data-toggle="dropdown"
+                          className="underline-from-left"
                         >
                           Promotional Posts
                         </NavLink>
-
-                        <ul className="dropdown-menu">
-                          <li>
-                            <NavLink
-                              to={
-                                "/locations/" +
-                                localStorage.getItem("locationId") +
-                                "/promotional"
-                              }
-                            >
-                              Promotional Post
-                            </NavLink>
-                          </li>
-                        </ul>
                       </li>
                     </ul>
                   </div>
