@@ -331,7 +331,7 @@ img {
   margin-left: 240px;
   overflow: hidden;
   padding: 0 10px 5px 25px;
-  min-height: 90vh!important;
+  min-height: 90vh !important;
   margin-top: 73px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
@@ -1560,15 +1560,14 @@ img {
   padding: 15px;
   background: #ffffff;
   padding: 33px 10px;
-
 }
 .container-checkbox input:checked ~ .checkmark {
-  border: 1px solid lightgrey ;
+  border: 1px solid lightgrey;
 }
-.google img{
+.google img {
   height: 27px;
-    width: 25px;
-    border-radius: 5px;
+  width: 25px;
+  border-radius: 5px;
 }
 
 .google h3 {
@@ -4080,7 +4079,7 @@ a.yt-ic2 i.fa.fa-youtube-play {
 
 .icon a {
   padding: 10px;
-  font: size 16px;
+  font-size: 16px;
   text-decoration: none !important;
   margin: left;
 }
@@ -5061,6 +5060,13 @@ a.settings:hover {
   opacity: 0.6;
 }
 
+.author_namebox1 {
+  width: 160px;
+  font-weight: 500;
+  color: #000000;
+  opacity: 0.6;
+}
+
 .storetext {
   color: #4f4f4f;
   opacity: 0.6;
@@ -5174,7 +5180,7 @@ ul.socailicon {
 
 .daytype {
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
 
   color: #000;
 }
@@ -6440,12 +6446,12 @@ ul.socialicon-new li {
   color: #fff;
   padding: 6px 15px;
   border-radius: 5px;
-  display: inline-block;
   cursor: pointer;
   font-size: 16px;
   border: 0;
   box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
   outline: none;
+  float: right;
 }
 
 .pay_last_btn:hover {
@@ -6456,17 +6462,19 @@ ul.socialicon-new li {
 }
 
 .plush_new {
-  /* width: 110px;
-  height: 110px; */
+  width: 112px;
+  height: 110px;
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 0px 5px 15px rgba(130, 100, 198, 0.1);
-  /* margin: 10px;
+  margin: 10px;
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
-  color: #4f4f4f; */
+  color: #4f4f4f;
+  text-align: center;
+  padding: 0px;
 }
 
 .plush_new i {
@@ -10026,13 +10034,13 @@ input.searcdd {
   margin-left: 240px;
   overflow: hidden;
   padding: 0 10px 5px 25px;
-  min-height: 90vh!important;
+  min-height: 90vh !important;
   margin-top: 73px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
 }
-.customer-phone textarea{
-border-radius: 10px!important;
+.customer-phone textarea {
+  border-radius: 10px !important;
 }
 
 .dashifymenu-10 {
@@ -10197,7 +10205,43 @@ ul.dropdown-menu.loginboxds li a:hover {
 /* surya css */
 
 /* varun css */
+.payment_box {
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid #fbf6f6;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin: 10px 0px;
+}
 
+.payment_box input[type="checkbox"] {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  opacity: 0;
+  top: 0px;
+}
+.payment_box input[type="checkbox"]:checked {
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  margin-left: 150px;
+  margin-top: 10px;
+  opacity: 1;
+}
+/* .payment_box input:checked {
+  box-shadow: 0px 0px 50px red;
+} */
+
+.payment_box_selected {
+  box-shadow: 0px 0px 15px #4c4c4c;
+}
+
+/* .payment_img {
+  width: 100px;
+  height: 60px;
+} */
 .profile_ana_contant1 {
   font-family: Roboto;
   font-style: normal;
@@ -10769,6 +10813,27 @@ ul.dropdown-menu.loginboxds li a:hover {
 }
 .vl_gap2 {
   margin-top: 50px;
+}
+
+.vl_box_head {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 26px;
+  color: #3d3d3d;
+}
+.vl_gap1 {
+  padding-top: 5px 10px;
+  margin: 10px 0px;
+}
+.vl_gap2 {
+  margin-top: 50px;
+}
+
+.vl_gap3 {
+  margin-top: 15px;
+  padding: 0px 15px;
 }
 
 .vl_input_head {
@@ -11511,12 +11576,47 @@ ul.dropdown-menu.loginboxds li a:hover {
 }
 
 /* user_profile */
+.get-image1 {
+  position: absolute;
+  right: -1px;
+  top: -6px;
+  cursor: pointer;
+}
+
+.get-image1 input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+}
+
+.vl-get-image {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 65px;
+  margin-right: 33px;
+  width: 30px;
+  cursor: pointer;
+}
+
+.vl-get-image input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+}
 
 .get-image {
   position: absolute;
   right: 0;
   top: 0;
   width: 30px;
+  cursor: pointer;
 }
 
 .get-image input[type="file"] {
@@ -11546,13 +11646,10 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 15px;
   color: #4f4f4f;
+  opacity: 0.6;
   line-height: normal;
-  padding: 2px 8px;
-  border-radius: 5px;
-  border: 0.5px solid #5d80e2;
-  background: transparent;
+  margin: 2px 0px;
 }
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */

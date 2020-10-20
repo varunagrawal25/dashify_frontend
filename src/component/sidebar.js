@@ -112,7 +112,7 @@ export default class SideBar extends Component {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/setting-main">
+                  <NavLink to="/setting-main/setting-accounts">
                     <img src={require("./assets/settingsfuture.png")} alt="" />
                     <span>Settings</span>
                   </NavLink>
