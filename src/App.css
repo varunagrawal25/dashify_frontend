@@ -1,5 +1,4 @@
 body {
-  
   background-color: #f7f9fc;
   font-size: 16px;
   color: #000;
@@ -10029,8 +10028,6 @@ input.searcdd {
   border-top: 1px solid rgba(204, 204, 204, 0.48);
 }
 .content-page {
-
-  
   margin-left: 240px;
   overflow: hidden;
   padding: 0 10px 5px 25px;
@@ -10268,7 +10265,6 @@ ul.dropdown-menu.loginboxds li a:hover {
   color: red;
   position: relative;
   left: 117px;
-
 }
 
 .fine {
@@ -11650,6 +11646,7 @@ ul.dropdown-menu.loginboxds li a:hover {
   opacity: 0.6;
   line-height: normal;
   margin: 2px 0px;
+  border-radius: 5px;
 }
 ::placeholder {
   /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -13229,8 +13226,6 @@ span.valpromo {
   z-index: 1;
   position: relative;
 }
-
-
 
 .user1 {
   display: table;

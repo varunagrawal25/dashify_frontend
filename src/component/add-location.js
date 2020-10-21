@@ -8,7 +8,7 @@ import {
 } from "./apis/location";
 import { Redirect } from "react-router-dom";
 import Loader from "react-loader-spinner";
-
+import { MDBCol, MDBRow ,MDBContainer} from "mdbreact";
 //importing regex
 import {
   email_regex,
@@ -1415,9 +1415,100 @@ export default class AddLocation extends Component {
 
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label>Operating Hours </label>
+                            <div className=" white-shadow">
+                          <MDBRow >
+                                <MDBCol md='9' className='vl_box_head'>Operations Hours</MDBCol>
+                                </MDBRow>
+                              <div className="vl_gap3 ">
+                          <MDBRow className=" daybox">
+                            <MDBCol md='3' className='daytype'>
+                            Monday
+                            </MDBCol>
+                            <MDBCol md='5'>
+                            <select
+                              name="monday"
+                              onChange={this.changeHandler}
+                              className="vl_edit_input"
+                            >
+                              <option>Select hours</option>
+                              <option value="OPEN">OPEN</option>
+                              <option value="SPLIT">SPLIT</option>
+                              <option value="OPEN 24x7">OPEN_24x7</option>
+                              <option value="CLOSED">CLOSED</option>
+                            </select>
+                            </MDBCol>
+                            <MDBCol md='4'>
+                            <div className="output">
+                              {this.state.monday == "OPEN" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    {console.log("time")}
 
-                              <div className="timebox">
+                                    <input
+                                      name="mondayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="mondayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>{" "}
+                                </div>
+                              ) : (
+                                ""
+                              )}
+
+                              {this.state.monday == "SPLIT" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    <input
+                                      name="mondayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="mondayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="mondayStart2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="mondayEnd2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            </MDBCol>
+                          </MDBRow>
+
+                              {/*<div className="timebox">
                                 <div className="form-day">MONDAY</div>
                                 <select
                                   name="monday"
@@ -1496,7 +1587,7 @@ export default class AddLocation extends Component {
                                     ""
                                   )}
                                 </div>
-                              </div>
+                              </div> */}
 
                               <input
                                 type="checkbox"
@@ -1507,8 +1598,96 @@ export default class AddLocation extends Component {
                               <div style={{ color: "red" }}>
                                 {applyAllError}
                               </div>
-                                    {applyAll && applyAllError? "":<div><div className="timebox">
-                                <div className="form-day">TUESDAY </div>
+                                    {applyAll && applyAllError? "":<div>
+                                    <MDBRow className=" daybox">
+                            <MDBCol md='3' className='daytype'>
+                            Tuesday 
+                            </MDBCol>
+                            <MDBCol md='5'>
+                            
+                            <select
+                              name="tuesday"
+                              onChange={this.changeHandler}
+                              className="vl_edit_input"
+                            >
+                              <option>Select hours</option>
+                              <option value="OPEN">OPEN</option>
+                              <option value="SPLIT">SPLIT</option>
+                              <option value="OPEN 24x7">OPEN_24x7</option>
+                              <option value="CLOSED">CLOSED</option>
+                            </select>
+                            </MDBCol>
+                            <MDBCol md='4'>
+                            <div className="output">
+                              {this.state.tuesday == "OPEN" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    {console.log("time")}
+
+                                    <input
+                                      name="tuesdayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="tuesdayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>{" "}
+                                </div>
+                              ) : (
+                                ""
+                              )}
+
+                              {this.state.tuesday == "SPLIT" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    <input
+                                      name="tuesdayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="tuesdayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="tuesdayStart2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="tuesdayEnd2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            </MDBCol>
+                          </MDBRow>
+                                {/* <div className="form-day">TUESDAY </div>
                                 <select
                                   name="tuesday"
                                   onChange={this.changeHandler}
@@ -1586,9 +1765,95 @@ export default class AddLocation extends Component {
                                     ""
                                   )}
                                 </div>
-                              </div>
+                              </div> */}
+                              <MDBRow className=" daybox">
+                            <MDBCol md='3' className='daytype'>
+                            Wednesday 
+                            </MDBCol>
+                            <MDBCol md='5'>
+                            <select
+                              name="wednesday"
+                              onChange={this.changeHandler}
+                              className="vl_edit_input"
+                            >
+                              <option>Select hours</option>
+                              <option value="OPEN">OPEN</option>
+                              <option value="SPLIT">SPLIT</option>
+                              <option value="OPEN 24x7">OPEN_24x7</option>
+                              <option value="CLOSED">CLOSED</option>
+                            </select>
+                            </MDBCol>
+                            <MDBCol md='4'>
+                            <div className="output">
+                              {this.state.wednesday == "OPEN" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    {console.log("time")}
 
-                              <div className="timebox">
+                                    <input
+                                      name="wednesdayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="wednesdayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>{" "}
+                                </div>
+                              ) : (
+                                ""
+                              )}
+
+                              {this.state.wednesday == "SPLIT" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    <input
+                                      name="wednesdayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="wednesdayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="wednesdayStart2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="wednesdayEnd2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            </MDBCol>
+                          </MDBRow>
+                              {/* <div className="timebox">
                                 <div className="form-day">WEDNESDAY</div>
                                 <select
                                   name="wednesday"
@@ -1667,9 +1932,95 @@ export default class AddLocation extends Component {
                                     ""
                                   )}
                                 </div>
-                              </div>
+                              </div> */}
+<MDBRow className=" daybox">
+                            <MDBCol md='3' className='daytype'>
+                            Thrusday 
+                            </MDBCol>
+                            <MDBCol md='5'>
+                            <select
+                              name="thursday"
+                              onChange={this.changeHandler}
+                              className="vl_edit_input"
+                            >
+                              <option>Select hours</option>
+                              <option value="OPEN">OPEN</option>
+                              <option value="SPLIT">SPLIT</option>
+                              <option value="OPEN 24x7">OPEN_24x7</option>
+                              <option value="CLOSED">CLOSED</option>
+                            </select>
+                            </MDBCol>
+                            <MDBCol md='4'>
+                            <div className="output">
+                              {this.state.thursday == "OPEN" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    {console.log("time")}
 
-                              <div className="timebox">
+                                    <input
+                                      name="thursdayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="thursdayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>{" "}
+                                </div>
+                              ) : (
+                                ""
+                              )}
+
+                              {this.state.thursday == "SPLIT" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    <input
+                                      name="thursdayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="thursdayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="thursdayStart2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="thursdayEnd2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            </MDBCol>
+                          </MDBRow>
+                              {/* <div className="timebox">
                                 <div className="form-day"> THURSDAY</div>
                                 <select
                                   name="thursday"
@@ -1748,9 +2099,97 @@ export default class AddLocation extends Component {
                                     ""
                                   )}
                                 </div>
-                              </div>
+                              </div> */}
+<MDBRow className=" daybox">
+                            <MDBCol md='3' className='daytype'>
+                            Friday 
+                            </MDBCol>
+                            <MDBCol md='5'>
+                            <select
+                              name="friday"
+                              onChange={this.changeHandler}
+                              className="vl_edit_input"
+                            >
+                              <option>Select hours</option>
+                              <option value="OPEN">OPEN</option>
+                              <option value="SPLIT">SPLIT</option>
+                              <option value="OPEN 24x7">OPEN_24x7</option>
+                              <option value="CLOSED">CLOSED</option>
+                            </select>
+                            </MDBCol>
+                            <MDBCol md='4'>
+                            
 
-                              <div className="timebox">
+                            <div className="output">
+                              {this.state.friday == "OPEN" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    {console.log("time")}
+
+                                    <input
+                                      name="fridayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="fridayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>{" "}
+                                </div>
+                              ) : (
+                                ""
+                              )}
+
+                              {this.state.friday == "SPLIT" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    <input
+                                      name="fridayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="fridayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="fridayStart2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="fridayEnd2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            </MDBCol>
+                          </MDBRow>
+                              {/* <div className="timebox">
                                 <div className="form-day"> FRIDAY</div>
                                 <select
                                   name="friday"
@@ -1829,9 +2268,96 @@ export default class AddLocation extends Component {
                                     ""
                                   )}
                                 </div>
-                              </div>
+                              </div> */}
 
-                              <div className="timebox">
+<MDBRow className=" daybox">
+                            <MDBCol md='3' className='daytype'>
+                            Saturday
+                            </MDBCol>
+                            <MDBCol md='5'>
+                            <select
+                              name="saturday"
+                              onChange={this.changeHandler}
+                              className="vl_edit_input"
+                            >
+                              <option>Select hours</option>
+                              <option value="OPEN">OPEN</option>
+                              <option value="SPLIT">SPLIT</option>
+                              <option value="OPEN 24x7">OPEN_24x7</option>
+                              <option value="CLOSED">CLOSED</option>
+                            </select>
+                            </MDBCol>
+                            <MDBCol md='4'>
+                            <div className="output">
+                              {this.state.saturday == "OPEN" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    {console.log("time")}
+
+                                    <input
+                                      name="saturdayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="saturdayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>{" "}
+                                </div>
+                              ) : (
+                                ""
+                              )}
+
+                              {this.state.saturday == "SPLIT" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    <input
+                                      name="saturdayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="saturdayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="saturdayStart2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="saturdayEnd2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            </MDBCol>
+                          </MDBRow>
+                              {/* <div className="timebox">
                                 <div className="form-day">SATURDAY</div>
                                 <select
                                   name="saturday"
@@ -1910,9 +2436,95 @@ export default class AddLocation extends Component {
                                     ""
                                   )}
                                 </div>
-                              </div>
+                              </div> */}
+<MDBRow className=" daybox">
+                            <MDBCol md='3' className='daytype'>
+                            Sunday 
+                            </MDBCol>
+                            <MDBCol md='5'>
+                            <select
+                              name="sunday"
+                              onChange={this.changeHandler}
+                              className="vl_edit_input"
+                            >
+                              <option>Select hours</option>
+                              <option value="OPEN">OPEN</option>
+                              <option value="SPLIT">SPLIT</option>
+                              <option value="OPEN 24x7">OPEN_24x7</option>
+                              <option value="CLOSED">CLOSED</option>
+                            </select>
+                            </MDBCol>
+                            <MDBCol md='4'>
+                            <div className="output">
+                              {this.state.sunday == "OPEN" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    {console.log("time")}
 
-                              <div className="timebox">
+                                    <input
+                                      name="sundayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="sundayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>{" "}
+                                </div>
+                              ) : (
+                                ""
+                              )}
+
+                              {this.state.sunday == "SPLIT" ? (
+                                <div>
+                                  <p className="basicExample">
+                                    <input
+                                      name="sundayStart1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="sundayEnd1"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="sundayStart2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+
+                                    <input
+                                      name="sundayEnd2"
+                                      onChange={this.changeHandler}
+                                      type="time"
+                                      className="vl_edit_input"
+                                      defaultValue="12:00 AM"
+                                    />
+                                  </p>
+                                </div>
+                              ) : (
+                                ""
+                              )}
+                            </div>
+                            </MDBCol>
+                          </MDBRow>
+                              {/* <div className="timebox">
                                 <div className="form-day">SUNDAY</div>
                                 <select
                                   name="sunday"
@@ -1990,14 +2602,236 @@ export default class AddLocation extends Component {
                                   ) : (
                                     ""
                                   )}
-                                </div>
-                              </div></div>}
-                                    
+                                </div> 
+                              </div>*/}
+                            
+                              </div>}
+                              </div>
+                              </div> 
                               
 
                               <div className="mathedbox">
                                 <h4>Payment Methods</h4>
-                                <div className="paymentbox">
+                                <MDBRow>
+                          <MDBCol md='4' >
+                            <div className='payment_box ' >
+                          <input
+                                name="p_visa"
+                                type="checkbox"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                
+                              /> 
+                              <img
+                                src={require("../images/p-visa.png")}
+                                alt="Visa"
+                                className='payment_img'
+                              />
+                              </div>
+                          </MDBCol>
+
+                          <MDBCol md='4' >
+                            <div className='payment_box'>
+                          <input
+                                name="p_maestro"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-maestro.png")}
+                                alt="Maestro"
+                                className='payment_img'
+                              />
+                              </div>
+                          </MDBCol>
+
+                          <MDBCol md='4'>
+                          <div  className='payment_box '> 
+                          <input
+                                name="p_amex"
+                                type="checkbox"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                              />
+                              <img
+                                src={require("../images/p-amex.png")}
+                                alt="Amex"
+                              />
+                              </div>
+                          </MDBCol>
+</MDBRow>
+<MDBRow>
+                          <MDBCol md='4'>
+                          <div  className='payment_box '> 
+                          <input
+                                name="p_cash"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-cash.png")}
+                                alt="Cash"
+                              />
+                              </div>
+                          </MDBCol>
+
+                          <MDBCol md='4'>
+                          <div  className='payment_box '> 
+                          <input
+                                name="p_crypto"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-crypto.png")}
+                                alt="Crypto"
+                              />
+                              </div>
+                          </MDBCol>
+
+                          <MDBCol md='4'>
+                          <div  className='payment_box '> 
+                          <input
+                                name="p_diners"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-diners.png")}
+                                alt="Diners"
+                              />
+                              </div>
+                          </MDBCol>
+                          </MDBRow>
+<MDBRow>
+                          <MDBCol md='4'>
+                          <div  className='payment_box '> 
+                          <input
+                                name="p_discover"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-discover.png")}
+                                alt="Discover"
+                              />
+                              </div>
+                          </MDBCol>
+
+                          <MDBCol md='4'>
+                          <div  className='payment_box '> 
+                          <input
+                                name="p_apple"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-apple.png")}
+                                alt="Apple"
+                              />
+                              </div>
+                          </MDBCol>
+
+                          <MDBCol md='4'>
+                          <div  className='payment_box '>
+                          <input
+                                name="p_samsung"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-samsung.png")}
+                                alt="Samsung"
+                              />
+                              </div>
+                          </MDBCol>
+                          </MDBRow>
+<MDBRow>
+                          <MDBCol md='4'>
+                          <div  className='payment_box '>
+                          <input
+                                name="p_paypal"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-paypal.png")}
+                                alt="Paypal"
+                              /> 
+                              </div> 
+                          </MDBCol>
+
+                          <MDBCol md='4'>
+                          <div  className='payment_box '> 
+                          <input
+                                name="p_android"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-android.png")}
+                                alt="Android"
+                              />
+                              </div>
+                          </MDBCol>
+
+                          <MDBCol md='4'>
+                          <div  className='payment_box '> 
+                          <input
+                                name="p_invoices"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-invoices.png")}
+                                alt="Invoices"
+                              />
+                              </div>
+                          </MDBCol>
+                          </MDBRow>
+<MDBRow>
+                          <MDBCol md='4'>
+                          <div  className='payment_box '>
+                          <input
+                                name="p_traveler"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              />{" "}
+                              <img
+                                src={require("../images/p-traveler.png")}
+                                alt="Traveler's Check"
+                              />
+                              </div>
+                          </MDBCol>
+
+                          <MDBCol md='4'>
+                          <div  className='payment_box '> 
+                          <input
+                                name="p_financing"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                type="checkbox"
+                              
+                              />{" "}
+                              <img
+                                src={require("../images/p-financing.png")}
+                                alt="Financing"
+                              />
+                              </div>
+                          </MDBCol>
+                        </MDBRow>
+                                {/* <div className="paymentbox">
                                   <ul>
                                     
                                     <li>
@@ -2187,10 +3021,11 @@ export default class AddLocation extends Component {
                                   <div style={{ color: "red" }}>
                                     {paymentMethod_error}
                                   </div>
-                                </div>
+                                </div> */}
                               </div>
                             </div>
                           </div>
+                          
                         </div>
                       </div>
                     </div>

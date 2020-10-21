@@ -835,6 +835,29 @@ console.log('vc',pieData)
         null,
       ],
     ];
+    var dataCol = [
+      this.state.googleReviews.averageRating ? this.state.googleReviews.averageRating: 0
+  ,
+    this.state.fbAccounts0 ? this.state.fb_average_rating : 0
+  ,
+    this.state.yelpDetails.rating ? this.state.yelpDetails.rating : 0
+  ,
+    this.state.appleRating ? this.state.appleRating : 0
+  ,
+    this.state.citysearchRating ? this.state.citysearchRating : 0
+  ,
+    this.state.foursquareDetails.rating ? this.state.foursquareDetails.rating / 2: 0
+  ,
+    this.state.hereRating != "-" ? this.state.hereRating : 0
+  ,
+    this.state.zillowRating != "-" ? this.state.zillowRating : 0
+  ,
+    this.state.tomtomRating != "-" ? this.state.tomtomRating : 0
+  ,
+    this.state.avvoRating != "-" ? this.state.avvoRating : 0
+  ,
+    this.state.zomatoRating != "-" ? this.state.zomatoRating : 0
+    ];
 console.log("colcheck",columnData)
     return (
       <div>
@@ -857,11 +880,28 @@ console.log("colcheck",columnData)
                 </div>
                 {all_connections.length != 0 ? (
                   <div  className="whitechart">
-                    <Column_chart />
+                    {/* <Column_chart /> */}
                   {/* <ReactApexChart 
                   chartType="ColumnChart"
                   loader={<div>Loading Chart</div>}
                   options={{
+                      // title: "Sitewise Distribution Of Ratings",
+                      bar: { groupWidth: "40%" },
+                      legend: {
+                        show:false
+                      },
+                    }}
+                    // For tests
+                    rootProps={{ "data-testid": "6" }} 
+                    series={dataCol} type="bar" height={300} /> */}
+                
+                  <Chart
+                    className="whitechart"
+                    height={"300px"}
+                    chartType="ColumnChart"
+                    loader={<div>Loading Chart</div>}
+                    data={columnData}
+                    options={{
                       // title: "Sitewise Distribution Of Ratings",
                       bar: { groupWidth: "40%" },
                       legend: {
@@ -870,26 +910,9 @@ console.log("colcheck",columnData)
                       },
                     }}
                     // For tests
-                    rootProps={{ "data-testid": "6" }} 
-                    series={columnData} type="bar" height={300} /> */}
-                </div>
-                  // <Chart
-                  //   className="whitechart"
-                  //   height={"300px"}
-                  //   chartType="ColumnChart"
-                  //   loader={<div>Loading Chart</div>}
-                  //   data={columnData}
-                  //   options={{
-                  //     // title: "Sitewise Distribution Of Ratings",
-                  //     bar: { groupWidth: "40%" },
-                  //     legend: {
-                  //       position: "none",
-                  //       textStyle: { color: "black", fontSize: 6 },
-                  //     },
-                  //   }}
-                  //   // For tests
-                  //   rootProps={{ "data-testid": "6" }}
-                  // />
+                    rootProps={{ "data-testid": "6" }}
+                  />
+                  </div>
                 ) : (
                   ""
                 )}
@@ -1131,10 +1154,26 @@ console.log("colcheck",columnData)
         { title: 'Base Rating', field: 'base_rating' },
       ]}
       data={[
-        { review_sites: 'Mehmet', avg_rating: 11, total_reviews: 1987, new_reviews: 45 ,rencency:1 + 'hkgh',base_rating:'nmb jhg'},
-        { review_sites: 'Mehmet', avg_rating: 'Baran', total_reviews: 1987, new_reviews: 45 ,rencency:1 + 'hkgh',base_rating:'nmb jhg'},
-        { review_sites: 'Mehmet', avg_rating: 'Baran', total_reviews: 1987, new_reviews: 45 ,rencency:1 + 'hkgh',base_rating:'nmb jhg'},
-        { review_sites: 'Mehmet', avg_rating: 'Baran', total_reviews: 1987, new_reviews: 45 ,rencency:1 + 'hkgh',base_rating:'nmb jhg'}
+        { review_sites: 'Consolidated',
+         avg_rating: overAllRating != 0? (overAllRating.toString().slice(0, 4) + " " + " "+ 66): "-", 
+         total_reviews: overAllReviewCount ? overAllReviewCount : "-", 
+         new_reviews: total_new_reviews == 0 ? "-" : total_new_reviews ,
+          rencency:1 + "  " +'day',
+          base_rating:'nmb jhg'},
+        { review_sites: 'Google',
+         avg_rating: this.state.googleReviews.averageRating? this.state.googleReviews.averageRating: "-", 
+          total_reviews: this.state.googleReviews.totalReviewCount ? this.state.googleReviews.totalReviewCount : "-",
+          total_reviews_percentage:this.state.googleReviews.totalReviewCount? this.state.googleReviews.totalReviewCount: "-",
+           new_reviews: this.state.google_new_reviews ,
+           rencency:1 + 'hkgh',
+           base_rating:'nmb jhg'},
+        { review_sites: 'Facebook',
+         avg_rating: this.state.fbAccounts[0]? this.state.fb_average_rating: "-",
+          total_reviews:this.state.fbReviews? this.state.fbReviews : "-", 
+          new_reviews: this.state.fb_new_reviews ,
+          rencency:1 + 'hkgh',
+          base_rating:'nmb jhg'},
+        
        
       ]}
       options={{
