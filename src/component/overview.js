@@ -1386,7 +1386,7 @@ export default class Overview extends Component {
                       height={250}
                       width={250}
                       outerRadius={0.95}
-                      innerRadius={0.5}
+                      innerRadius={0.6}
                       clickToggle={false}
                       formatValues={(values, total) =>
                         `${parseInt((values / total) * 100)}%`
