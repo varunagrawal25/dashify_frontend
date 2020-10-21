@@ -12,7 +12,13 @@ import {
   all_social_media_overview,
   graph_google_customer_actions
 } from "./apis/social_media";
-import {all_social_media_notifications_json} from "./json/social_media"
+import {
+  all_social_media_notifications_json,
+  all_social_media_overview_json,
+  graph_google_customer_actions_json
+} from "./json/social_media";
+import { all_connection_of_one_location_json } from "./json/location";
+
 import Spinner from "./common/Spinner";
 import Loader2 from "react-loader-spinner";
 import Rating from "react-rating";
@@ -50,7 +56,8 @@ const DjangoConfig = {
 export default class Overview extends Component {
   state = {
     metric: [],
-    loader: true,
+    // loader: true,
+    loader: false,
     loading: false,
 
     google_token: "",
@@ -154,7 +161,8 @@ export default class Overview extends Component {
     live_listing: "-",
     processing: "-",
     unavailable: "-",
-    opted_out: "-"
+    opted_out: "-",
+    social_media_overview_loader: false
   };
   componentDidMount() {
     var today = new Date();
@@ -268,6 +276,10 @@ export default class Overview extends Component {
       fbPageId,
       googleToken;
 
+    const data = {
+      location_id: this.props.match.params.locationId
+    };
+
     const notification_query_data = {
       location_id: this.props.match.params.locationId
     };
@@ -277,160 +289,155 @@ export default class Overview extends Component {
         if (res.data) {
           this.setState({ notification_data: res.data });
         } else {
-          this.setState({ notification_data:all_social_media_notifications_json});
+          this.setState({
+            notification_data: all_social_media_notifications_json
+          });
         }
       })
       .catch(err => {
         console.log("all notifiactionerr", err);
-        this.setState({ notification_data: all_social_media_notifications_json });
+        this.setState({
+          notification_data: all_social_media_notifications_json
+        });
       });
 
-    const overview_query_data = {
-      location_id: this.props.match.params.locationId,
-      duration: this.state.db_social_range
-    };
+    this.social_media_overview_function();
 
-    all_social_media_overview(overview_query_data)
-      .then(res => {
-        if (res.data) {
-          this.setState({ social_overview_data: res.data });
-        }
-      })
-      .catch(err => {
-        console.log("social overview err", err);
-      });
-
-    const graph_google_query_data = {
-      location_id: this.props.match.params.locationId,
-      duration: this.state.db_google_range
-    };
-
-    graph_google_customer_actions(graph_google_query_data)
-      .then(res => {
-        if (res.data) {
-          this.setState({ graph_google_customer_data: res.data });
-        }
-      })
-      .catch(err => {
-        console.log("graph google err", err);
-      });
-
-    const data = {
-      location_id: this.props.match.params.locationId
-    };
+    this.graph_google_customer_actions_function();
 
     all_connection_of_one_location(data, DjangoConfig)
       .then(response => {
         console.log("all connections", response);
-        if (response.data.Listing_details) {
-          this.setState({
-            all_listing: response.data.Listing_details.all_listing,
-            live_listing: response.data.Listing_details.live_listing,
-            processing: response.data.Listing_details.processing,
-            unavailable: response.data.Listing_details.unavailable,
-            opted_out: response.data.Listing_details.opted_out
-          });
-        }
-
-        response.data.data.map(l => {
-          if (l.Social_Platform.Platform == "Facebook") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Facebook" }
-              ]
-            });
-          } else if (l.Social_Platform.Platform == "Google") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Google" }
-              ]
-            });
-          } else if (l.Social_Platform.Platform == "Yelp") {
-            this.setState({
-              all_connections: [...this.state.all_connections, { name: "Yelp" }]
-            });
-          } else if (l.Social_Platform.Platform == "Foursquare") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Foursquare" }
-              ]
-            });
-          } else if (l.Social_Platform.Platform == "Dnb") {
-            this.setState({
-              all_connections: [...this.state.all_connections, { name: "Dnb" }]
-            });
-          } else if (l.Social_Platform.Platform == "Apple") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Apple" }
-              ]
-            });
-          } else if (l.Social_Platform.Platform == "Instagram") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Instagram" }
-              ]
-            });
-          } else if (l.Social_Platform.Platform == "Citysearch") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Citysearch" }
-              ]
-            });
-          } else if (l.Social_Platform.Platform == "Here") {
-            this.setState({
-              all_connections: [...this.state.all_connections, { name: "Here" }]
-            });
-          } else if (l.Social_Platform.Platform == "Zillow") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Zillow" }
-              ]
-            });
-          } else if (l.Social_Platform.Platform == "Avvo") {
-            this.setState({
-              all_connections: [...this.state.all_connections, { name: "Avvo" }]
-            });
-          } else if (l.Social_Platform.Platform == "Zomato") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Zomato" }
-              ]
-            });
-          } else if (l.Social_Platform.Platform == "Tomtom") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Tomtom" }
-              ]
-            });
-          } else if (l.Social_Platform.Platform == "Linkedin") {
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Linkedin" }
-              ]
-            });
-          }
-        });
-
-        this.setState({ loader: false });
+        this.all_connection_of_one_location_function(response.data);
       })
       .catch(res => {
         console.log("error in overview", res);
         this.setState({
           loader: false
         });
+        this.all_connection_of_one_location_function(
+          all_connection_of_one_location_json
+        );
       });
   }
+
+  graph_google_customer_actions_function = () => {
+    const graph_google_query_data = {
+      location_id: this.props.match.params.locationId,
+      duration: this.state.db_google_range
+    };
+    this.setState({ loading: true });
+    graph_google_customer_actions(graph_google_query_data)
+      .then(res => {
+        if (res.data) {
+          this.setState({
+            graph_google_customer_data: res.data,
+            isGoogleLoggedIn: true,
+            loading: false
+          });
+        } else {
+          this.setState({
+            graph_google_customer_data: graph_google_customer_actions_json(
+              this.state.db_google_range
+            ),
+            isGoogleLoggedIn: true,
+            loading: false
+          });
+        }
+      })
+      .catch(err => {
+        console.log("graph google err", err);
+        this.setState({
+          graph_google_customer_data: graph_google_customer_actions_json(
+            this.state.db_google_range
+          ),
+          isGoogleLoggedIn: true,
+          loading: false
+        });
+      });
+  };
+  all_connection_of_one_location_function = response => {
+    if (response.Listing_details) {
+      this.setState({
+        all_listing: response.Listing_details.all_listing,
+        live_listing: response.Listing_details.live_listing,
+        processing: response.Listing_details.processing,
+        unavailable: response.Listing_details.unavailable,
+        opted_out: response.Listing_details.opted_out
+      });
+    }
+
+    response.data.map(l => {
+      if (l.Social_Platform.Platform == "Facebook") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Facebook" }]
+        });
+      } else if (l.Social_Platform.Platform == "Google") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Google" }]
+        });
+      } else if (l.Social_Platform.Platform == "Yelp") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Yelp" }]
+        });
+      } else if (l.Social_Platform.Platform == "Foursquare") {
+        this.setState({
+          all_connections: [
+            ...this.state.all_connections,
+            { name: "Foursquare" }
+          ]
+        });
+      } else if (l.Social_Platform.Platform == "Dnb") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Dnb" }]
+        });
+      } else if (l.Social_Platform.Platform == "Apple") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Apple" }]
+        });
+      } else if (l.Social_Platform.Platform == "Instagram") {
+        this.setState({
+          all_connections: [
+            ...this.state.all_connections,
+            { name: "Instagram" }
+          ]
+        });
+      } else if (l.Social_Platform.Platform == "Citysearch") {
+        this.setState({
+          all_connections: [
+            ...this.state.all_connections,
+            { name: "Citysearch" }
+          ]
+        });
+      } else if (l.Social_Platform.Platform == "Here") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Here" }]
+        });
+      } else if (l.Social_Platform.Platform == "Zillow") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Zillow" }]
+        });
+      } else if (l.Social_Platform.Platform == "Avvo") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Avvo" }]
+        });
+      } else if (l.Social_Platform.Platform == "Zomato") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Zomato" }]
+        });
+      } else if (l.Social_Platform.Platform == "Tomtom") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Tomtom" }]
+        });
+      } else if (l.Social_Platform.Platform == "Linkedin") {
+        this.setState({
+          all_connections: [...this.state.all_connections, { name: "Linkedin" }]
+        });
+      }
+    });
+
+    this.setState({ loader: false });
+  };
 
   business_report_insight = () => {
     this.setState({ loading: true });
@@ -534,10 +541,10 @@ export default class Overview extends Component {
     let data;
     if (all_listing != "-") {
       data = [
-        { value: opted_out, label: "Opted out" },
-        { value: live_listing, label: "Live Listing" },
-        { value: processing, label: "Processing" },
-        { value: unavailable, label: "Unavailable" }
+        { value: parseInt(opted_out), label: "Opted out" },
+        { value: parseInt(live_listing), label: "Live Listing" },
+        { value: parseInt(processing), label: "Processing" },
+        { value: parseInt(unavailable), label: "Unavailable" }
       ];
     } else {
       data = [{ value: total_listing, label: "All listing" }];
@@ -609,8 +616,8 @@ export default class Overview extends Component {
             },
             ticks: {
               beginAtZero: true,
-              stepSize: 25,
-              max: max_value + 10
+              stepSize: parseInt(max_value / 10),
+              max: parseInt(max_value / 10) * 12
             }
           }
         ]
@@ -621,10 +628,49 @@ export default class Overview extends Component {
   change_states = (name, db_range, range) => async e => {
     if (name == "Google customer Actions") {
       await this.setState({ db_google_range: db_range, google_range: range });
-      this.business_report_insight();
+      // this.business_report_insight();
+      this.graph_google_customer_actions_function();
     } else if (name == "Social Overview") {
-      await this.setState({ db_social_range: db_range, social_range: range });
+      await this.setState({
+        db_social_range: db_range,
+        social_range: range
+      });
+      this.social_media_overview_function();
     }
+  };
+
+  social_media_overview_function = () => {
+    this.setState({ social_media_overview_loader: true });
+    const overview_query_data = {
+      location_id: this.props.match.params.locationId,
+      duration: this.state.db_social_range
+    };
+
+    all_social_media_overview(overview_query_data)
+      .then(res => {
+        if (res.data) {
+          this.setState({
+            social_overview_data: res.data,
+            social_media_overview_loader: false
+          });
+        } else {
+          this.setState({
+            social_overview_data: all_social_media_overview_json(
+              overview_query_data
+            ),
+            social_media_overview_loader: false
+          });
+        }
+      })
+      .catch(err => {
+        console.log("social overview err", err);
+        this.setState({
+          social_overview_data: all_social_media_overview_json(
+            overview_query_data
+          ),
+          social_media_overview_loader: false
+        });
+      });
   };
 
   changeHandler = event => {
@@ -726,7 +772,8 @@ export default class Overview extends Component {
       live_listing,
       processing,
       unavailable,
-      opted_out
+      opted_out,
+      social_media_overview_loader
     } = this.state;
 
     console.log("this.state", this.state);
@@ -1267,7 +1314,17 @@ export default class Overview extends Component {
                   </div>
                 </div> */}
 
-                    {total_social_overview.length != 0 ? (
+                    {this.state.social_media_overview_loader ? (
+                      <div style={{ textAlign: "center" }}>
+                        <Loader2
+                          type="Oval"
+                          color="#00BFFF"
+                          height={25}
+                          width={25}
+                          // timeout={3000} //3 secs
+                        />
+                      </div>
+                    ) : total_social_overview.length != 0 ? (
                       total_social_overview
                     ) : (
                       <div className="col-md-12">
@@ -1470,32 +1527,32 @@ export default class Overview extends Component {
                   </div>
                   <div class="card4">
                     {isGoogleLoggedIn ? (
-                      this.state.metric.length > 0 ? (
-                        this.state.loading ? (
-                          <div style={{ textAlign: "center" }}>
-                            <Loader2
-                              type="Oval"
-                              color="#00BFFF"
-                              height={25}
-                              width={25}
-                              // timeout={3000} //3 secs
-                            />
-                          </div>
-                        ) : (
-                          <Bar
-                            data={this.dataBar(date, phone, direction, website)}
-                            options={this.barChartOptions(
-                              phone,
-                              direction,
-                              website
-                            )}
+                      // this.state.metric.length > 0 ? (
+                      this.state.loading ? (
+                        <div style={{ textAlign: "center" }}>
+                          <Loader2
+                            type="Oval"
+                            color="#00BFFF"
+                            height={25}
+                            width={25}
+                            // timeout={3000} //3 secs
                           />
-                          // this.getBarChart(date, phone,direction,website)
-                        )
+                        </div>
                       ) : (
-                        <h4>No analytics of this Google account</h4>
+                        <Bar
+                          data={this.dataBar(date, phone, direction, website)}
+                          options={this.barChartOptions(
+                            phone,
+                            direction,
+                            website
+                          )}
+                        />
+                        // this.getBarChart(date, phone,direction,website)
                       )
                     ) : (
+                      // ) : (
+                      //   <h4>No analytics of this Google account</h4>
+                      // )
                       <h4>Please connect Google to see graph</h4>
                     )}
                   </div>

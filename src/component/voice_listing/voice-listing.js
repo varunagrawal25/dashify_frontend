@@ -39,8 +39,6 @@ const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
 
-
-
 export default class VoiceListing extends Component {
   state = {
     loader: true,
