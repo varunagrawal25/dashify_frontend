@@ -857,7 +857,7 @@ console.log("colcheck",columnData)
                 </div>
                 {all_connections.length != 0 ? (
                   <div  className="whitechart">
-                    <Column_chart series={series}/>
+                    <Column_chart />
                   {/* <ReactApexChart 
                   chartType="ColumnChart"
                   loader={<div>Loading Chart</div>}
