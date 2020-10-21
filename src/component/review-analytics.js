@@ -6,6 +6,9 @@ import Spinner from "./common/Spinner";
 import Column_chart from "./charts/Column_chart";
 import { Divider } from "@material-ui/core";
 import { MDBCol, MDBRow } from "mdbreact";
+import DonutChart from "react-donut-chart";
+import MaterialTable from 'material-table';
+import ReactApexChart from 'react-apexcharts'
 
 const Yelpconfig = {
   headers: {
@@ -693,44 +696,62 @@ export default class ReviewAnalytics extends Component {
     console.log(overAllReviewCount);
 
     // if (this.state.foursquareReviewCount) {
-    var pieData = [
-      ["Site", "Total Reviews"],
-      ["Google", this.state.googleReviews.totalReviewCount],
-      ["Facebook", this.state.fbReviews],
-      ["Yelp", this.state.yelpDetails.review_count],
-      [
-        "Foursquare",
-        this.state.foursquareReviewCount == "-"
-          ? 0
-          : this.state.foursquareReviewCount,
-      ],
-      [
-        "Apple",
-        this.state.appleReviewCount == "-" ? 0 : this.state.appleReviewCount,
-      ],
-      [
-        "Citysearch",
-        this.state.citysearchReviewCount == "-"
-          ? 0
-          : this.state.citysearchReviewCount,
-      ],
-      ["Here", this.state.hereReviews == "-" ? 0 : this.state.hereReviews],
-      [
-        "Zillow",
-        this.state.zillowReviews == "-" ? 0 : this.state.zillowReviews,
-      ],
-      [
-        "Tomtom",
-        this.state.tomtomReviews == "-" ? 0 : this.state.tomtomReviews,
-      ],
-      ["Avvo", this.state.avvoReviews == "-" ? 0 : this.state.avvoReviews],
-      [
-        "Zomato",
-        this.state.zomatoReviews == "-" ? 0 : this.state.zomatoReviews,
-      ],
-    ];
+      var pieData  = [
+        { value: this.state.googleReviews.totalReviewCount, label:"Google" },
+        { value:this.state.fbReviews, label:"Facebook" },
+        { value: this.state.yelpDetails.review_count, label:"Yelp" },
+        { value:  this.state.foursquareReviewCount == "-"
+        ? 0
+        : this.state.foursquareReviewCount, label: "Foursquare" },
+        { value:this.state.appleReviewCount == "-" ? 0 : this.state.appleReviewCount, label:"Apple" },
+        { value:this.state.citysearchReviewCount == "-"
+               ? 0
+               : this.state.citysearchReviewCount ,label:"Citysearch"},
+        { value: this.state.hereReviews == "-" ? 0 : this.state.hereReviews, label:"Here" },
+        { value: this.state.zillowReviews == "-" ? 0 : this.state.zillowReviews, label: "Zillow" },
+        { value:this.state.tomtomReviews == "-" ? 0 : this.state.tomtomReviews, label:"Tomtom" },
+        { value:  this.state.avvoReviews == "-" ? 0 : this.state.avvoReviews, label:"Avvo" },
+        { value: this.state.zomatoReviews == "-" ? 0 : this.state.zomatoReviews, label: "Zomato" }
+      ];
+    // var pieData = [
+    //   ["Site", "Total Reviews"],
+    //   ["Google", this.state.googleReviews.totalReviewCount],
+    //   ["Facebook", this.state.fbReviews],
+    //   ["Yelp", this.state.yelpDetails.review_count],
+    //   [
+    //     "Foursquare",
+    //     this.state.foursquareReviewCount == "-"
+    //       ? 0
+    //       : this.state.foursquareReviewCount,
+    //   ]
+    //   ,
+    //   [
+    //     "Apple",
+    //     this.state.appleReviewCount == "-" ? 0 : this.state.appleReviewCount,
+    //   ],
+    //   [
+    //     "Citysearch",
+    //     this.state.citysearchReviewCount == "-"
+    //       ? 0
+    //       : this.state.citysearchReviewCount,
+    //   ],
+    //   ["Here", this.state.hereReviews == "-" ? 0 : this.state.hereReviews],
+    //   [
+    //     "Zillow",
+    //     this.state.zillowReviews == "-" ? 0 : this.state.zillowReviews,
+    //   ],
+    //   [
+    //     "Tomtom",
+    //     this.state.tomtomReviews == "-" ? 0 : this.state.tomtomReviews,
+    //   ],
+    //   ["Avvo", this.state.avvoReviews == "-" ? 0 : this.state.avvoReviews],
+    //   [
+    //     "Zomato",
+    //     this.state.zomatoReviews == "-" ? 0 : this.state.zomatoReviews,
+    //   ],
+    // ];
     // }
-
+console.log('vc',pieData)
     var columnData = [
       [
         "Site",
@@ -745,7 +766,7 @@ export default class ReviewAnalytics extends Component {
       ],
       [
         "Google",
-        this.state.googleReviews.averageRating
+        this.state.googleReviews.averageRating  
           ? this.state.googleReviews.averageRating
           : 0,
         "#085bff",
@@ -814,7 +835,7 @@ export default class ReviewAnalytics extends Component {
         null,
       ],
     ];
-
+console.log("colcheck",columnData)
     return (
       <div>
         {/* <div className="content-page"> */}
@@ -835,23 +856,40 @@ export default class ReviewAnalytics extends Component {
                   Sitewise Distribution Of Ratings
                 </div>
                 {all_connections.length != 0 ? (
-                  <Chart
-                    className="whitechart"
-                    height={"300px"}
-                    chartType="ColumnChart"
-                    loader={<div>Loading Chart</div>}
-                    data={columnData}
-                    options={{
+                  <div  className="whitechart">
+                    <Column_chart />
+                  {/* <ReactApexChart 
+                  chartType="ColumnChart"
+                  loader={<div>Loading Chart</div>}
+                  options={{
                       // title: "Sitewise Distribution Of Ratings",
-                      bar: { groupWidth: "60%" },
+                      bar: { groupWidth: "40%" },
                       legend: {
                         position: "none",
                         textStyle: { color: "black", fontSize: 6 },
                       },
                     }}
                     // For tests
-                    rootProps={{ "data-testid": "6" }}
-                  />
+                    rootProps={{ "data-testid": "6" }} 
+                    series={columnData} type="bar" height={300} /> */}
+                </div>
+                  // <Chart
+                  //   className="whitechart"
+                  //   height={"300px"}
+                  //   chartType="ColumnChart"
+                  //   loader={<div>Loading Chart</div>}
+                  //   data={columnData}
+                  //   options={{
+                  //     // title: "Sitewise Distribution Of Ratings",
+                  //     bar: { groupWidth: "40%" },
+                  //     legend: {
+                  //       position: "none",
+                  //       textStyle: { color: "black", fontSize: 6 },
+                  //     },
+                  //   }}
+                  //   // For tests
+                  //   rootProps={{ "data-testid": "6" }}
+                  // />
                 ) : (
                   ""
                 )}
@@ -862,8 +900,24 @@ export default class ReviewAnalytics extends Component {
                   Sitewise Distribution Reviews
                 </div>
                 {all_connections.length != 0 ? (
-                  <div className="whitechart">
-                    <Chart
+                  <div className="whitechart" style={{padding:'28px 45px'}}>
+                    <DonutChart
+                      legend={false}
+                      height={250}
+                      width={250}
+                      loader={<div>Loading Chart</div>}
+                      outerRadius={0.95}
+                      innerRadius={0.6}
+                      // clickToggle={false}
+                      formatValues={(values, total) =>
+                        `${parseInt((values / total) * 100)}%`
+                      }
+                      colors={["#8264C6", "#634A9B", "#EB05B8", "#3380cc","red","blue","green","orange"]}
+                      strokeColor={"false"}
+                      data={pieData}
+                      rootProps={{ "data-testid": "1" }}
+                    />
+                    {/* <Chart
                       height={"300px"}
                       chartType="PieChart"
                       loader={<div>Loading Chart</div>}
@@ -875,7 +929,7 @@ export default class ReviewAnalytics extends Component {
                         pieHole: 0.4,
                       }}
                       rootProps={{ "data-testid": "1" }}
-                    />
+                    /> */}
                   </div>
                 ) : (
                   ""
@@ -1052,817 +1106,66 @@ export default class ReviewAnalytics extends Component {
                 <div className=" mb-30">
                   <div className="analytics-whice">
                     <div className="box-space2">
-                      <table
-                        id="example"
-                        className="analytics-whice"
-                        cellSpacing="0"
-                        width="100%"
-                      >
-                        <thead>
-                          <tr className="thead-color">
-                            <th>Review Sites (5)</th>
-                            <th>Avg.Rating</th>
-                            <th>Total Review</th>
-                            <th>New Reviews</th>
-                            <th>Rencency</th>
-                            <th>Base Rating</th>
-                            <th>Base Review</th>
-                          </tr>
-                        </thead>
+                    <MaterialTable
+                    
+      columns={[
+        {
+          title: 'Review Sites (5)', field: 'review_sites',
+          cellStyle: {
+            backgroundColor: '#E4F2FF',
+            border:'none',
+            fontFamily: 'Roboto',
+            fontStyle: 'normal',
+            fontWeight: '500',
+            fontSize: '14px',
+            lineHeight: '16px',
+            color: '#000000',
+            opacity: '0.6',
+           
+          }
+        },
+        { title: 'Avg. Rating', field: 'avg_rating' },
+        { title: 'Total Reviews', field: 'total_reviews' },
+        { title: 'New Reviews', field: 'new_reviews'},
+        { title: 'Rencency', field: 'rencency' },
+        { title: 'Base Rating', field: 'base_rating' },
+      ]}
+      data={[
+        { review_sites: 'Mehmet', avg_rating: 11, total_reviews: 1987, new_reviews: 45 ,rencency:1 + 'hkgh',base_rating:'nmb jhg'},
+        { review_sites: 'Mehmet', avg_rating: 'Baran', total_reviews: 1987, new_reviews: 45 ,rencency:1 + 'hkgh',base_rating:'nmb jhg'},
+        { review_sites: 'Mehmet', avg_rating: 'Baran', total_reviews: 1987, new_reviews: 45 ,rencency:1 + 'hkgh',base_rating:'nmb jhg'},
+        { review_sites: 'Mehmet', avg_rating: 'Baran', total_reviews: 1987, new_reviews: 45 ,rencency:1 + 'hkgh',base_rating:'nmb jhg'}
+       
+      ]}
+      options={{
+        search:false,
+        paging:false,
+        sorting:true,
+        showTitle:false,
+        headerStyle: {
+          backgroundColor: '#73B6E5',
+          fontFamily: 'Roboto',
+          fontStyle: 'normal',
+          fontWeight: '500',
+          fontSize: '14px',
+          lineHeight: '16px',
+          
+          color: '#ffffff',
+        },
+        cellStyle: {
+          fontFamily: 'Roboto',
+fontStyle: 'normal',
+fontWeight: '500',
+fontSize: '14px',
+lineHeight: '16px',
+border:'none',
+color: '#000000',
 
-                        <tbody className="cons">
-                          <tr>
-                            <td>Consolidated</td>
-                            <td>
-                              {overAllRating != 0
-                                ? overAllRating.toString().slice(0, 4)
-                                : "-"}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {overAllReviewCount ? overAllReviewCount : "-"}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {" "}
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {total_new_reviews == 0 ? "-" : total_new_reviews}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-                          <tr>
-                            <td>Google</td>
-                            <td>
-                              {this.state.googleReviews.averageRating
-                                ? this.state.googleReviews.averageRating
-                                : "-"}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.googleReviews.totalReviewCount
-                                ? this.state.googleReviews.totalReviewCount
-                                : "-"}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.google_new_reviews}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-                          <tr>
-                            <td>Facebook</td>
-                            <td>
-                              {this.state.fbAccounts[0]
-                                ? this.state.fb_average_rating
-                                : "-"}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.fbReviews
-                                ? this.state.fbReviews
-                                : "-"}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.fb_new_reviews}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-                          <tr>
-                            <td>Yelp</td>
-                            <td>
-                              {this.state.yelpDetails.rating
-                                ? this.state.yelpDetails.rating
-                                : "-"}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.yelpDetails.review_count
-                                ? this.state.yelpDetails.review_count
-                                : "-"}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.yelp_new_reviews}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-                          <tr>
-                            <td>Foursquare</td>
-                            <td>
-                              {this.state.foursquareDetails.rating / 2
-                                ? this.state.foursquareDetails.rating / 2
-                                : "-"}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.foursquareReviewCount
-                                ? this.state.foursquareReviewCount
-                                : "-"}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {/* 06 */}-{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-
-                          {/* apple */}
-                          <tr>
-                            <td>Apple</td>
-                            <td>
-                              {this.state.appleRating}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {" "}
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.appleReviewCount}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              -
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-
-                          {/* citysearch */}
-                          <tr>
-                            <td>Citysearch</td>
-                            <td>
-                              {this.state.citysearchRating}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.citysearchReviewCount}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.citysearchNewReviews}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-
-                          {/* here */}
-                          <tr>
-                            <td>Here</td>
-                            <td>
-                              {this.state.hereRating}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.hereReviews}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {/* {this.state.citysearchNewReviews} */}-
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-
-                          {/* zillow */}
-                          <tr>
-                            <td>Zillow</td>
-                            <td>
-                              {this.state.zillowRating}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.zillowReviews}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {/* {this.state.citysearchNewReviews} */}-
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-
-                          {/* tomtom */}
-                          <tr>
-                            <td>Tomtom</td>
-                            <td>
-                              {this.state.tomtomRating.toString().slice(0, 3)}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.tomtomReviews}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.tomtomNewReviews}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-
-                          {/* avvo */}
-                          <tr>
-                            <td>Avvo</td>
-                            <td>
-                              {this.state.avvoRating.toString().slice(0, 3)}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.avvoReviews}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {/* {this.state.citysearchNewReviews} */}-
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-
-                          {/* zomato */}
-                          <tr>
-                            <td>Zomato</td>
-                            <td>
-                              {this.state.zomatoRating}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {this.state.zomatoReviews}{" "}
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>
-                              {/* {this.state.citysearchNewReviews} */}-
-                              <div className="dropdown tablebx_d">
-                                <a
-                                  href="#"
-                                  className="dropdown-toggle"
-                                  data-toggle="dropdown"
-                                >
-                                  {/* 160% */}-
-                                  {/* <span className="zmdi zmdi-caret-down"></span> */}{" "}
-                                </a>
-                                {/* <div className="dropdown-menu">
-                            <ul>
-                              <li>-</li>
-                              <li>-</li>
-                            </ul>
-                          </div> */}
-                              </div>
-                            </td>
-                            <td>{/* 1 days */}-</td>
-                            <td>{/* 4.1 */}-</td>
-                            <td>{/* 160 */}-</td>
-                          </tr>
-                        </tbody>
-                      </table>
+opacity: '0.6',
+        }
+      }}
+    />
+                     
                     </div>
                   </div>
                 </div>
