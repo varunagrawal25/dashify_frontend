@@ -77,47 +77,94 @@ export default class NewFaq extends Component {
             // timeout={3000} //3 secs
           />
         ) : (
-          <div className="row d-flex ">
-            <div className="col-md-8">
-              <div className="faq-title">
-                <h4>
-                  Question :{" "}
-                  <input
+        <MDBContainer>
+        <MDBRow>
+          <MDBCol md='8'  >
+<MDBRow className='vl_gap1'>
+  <MDBCol md='3' className="vl_input_head">
+  Question :
+  </MDBCol>
+  <MDBCol md='9' >
+  <input
                     type="text"
-                    className="form-group"
+                    className="vl_input"
                     name="que"
                     onChange={this.handler}
                   />
-                </h4>
-              </div>
-              <div className="faq-title">
-                <h4>
-                  Answer :{" "}
-                  <input
-                    type="text"
-                    name="ans"
-                    className="form-group"
-                    onChange={this.handler}
-                  />
-                </h4>
-              </div>
-            </div>
+  </MDBCol>
+</MDBRow>
+<MDBRow className='vl_gap1'>
+  <MDBCol md='3' className="vl_input_head ">
+  Answer :
+  </MDBCol>
+  <MDBCol md='9' >
+  <textarea
+                  type="text"
+                  name="ans"
+                  className="vl_input"
+                  onChange={this.handler}
+                />
+                
+  </MDBCol>
+</MDBRow>
+          </MDBCol>
+         
+          <MDBCol md="4" className='vl_gap2' >
+          <button type="submit" className="user_btn" onClick={this.submitFaq(this.state.que, this.state.ans)}>
+                          Submit
+                        </button>
+                        <button
+                          className="user_btn"
+                          onClick={this.props.cancel}
+                        >
+                          {" "}
+                          Cancel
+                        </button>
+                        <div className="warning">{show_err_newfaq}</div>
+          </MDBCol>
+        </MDBRow>
+        </MDBContainer>
+          // <div className="row d-flex ">
+          //   <div className="col-md-8">
+          //     <div className="faq-title">
+          //       <h4>
+          //         Question :{" "}
+          //         <input
+          //           type="text"
+          //           className="form-group"
+          //           name="que"
+          //           onChange={this.handler}
+          //         />
+          //       </h4>
+          //     </div>
+          //     <div className="faq-title">
+          //       <h4>
+          //         Answer :{" "}
+          //         <input
+          //           type="text"
+          //           name="ans"
+          //           className="form-group"
+          //           onChange={this.handler}
+          //         />
+          //       </h4>
+          //     </div>
+          //   </div>
 
-            <div className="col-md-2">
-              <button
-                onClick={this.submitFaq(this.state.que, this.state.ans)}
-                className="btn"
-              >
-                Save
-              </button>
-            </div>
-            <div className="col-md-2">
-              <button onClick={this.props.cancel} className="btn">
-                Cancel
-              </button>
-            </div>
-            <div className="warning">{show_err_newfaq}</div>
-          </div>
+          //   <div className="col-md-2">
+          //     <button
+          //       onClick={this.submitFaq(this.state.que, this.state.ans)}
+          //       className="btn"
+          //     >
+          //       Save
+          //     </button>
+          //   </div>
+          //   <div className="col-md-2">
+          //     <button onClick={this.props.cancel} className="btn">
+          //       Cancel
+          //     </button>
+          //   </div>
+          //   <div className="warning">{show_err_newfaq}</div>
+          // </div>
         )}
       </div>
     );

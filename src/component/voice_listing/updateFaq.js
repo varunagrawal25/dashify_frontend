@@ -134,55 +134,108 @@ export default class UpdateFaq extends Component {
             // timeout={3000} //3 secs
           />
         ) : (
-          <div className="row d-flex ">
-            <div className="col-md-8">
-              <div className="faq-title">
-                <h4>
-                  Question :{" "}
-                  <input
+          <MDBContainer>
+          <MDBRow>
+            <MDBCol md='8'  >
+  <MDBRow className='vl_gap1'>
+    <MDBCol md='3' className="vl_input_head">
+    Question :
+    </MDBCol>
+    <MDBCol md='9' >
+                     <input
                     type="text"
-                    className="form-group"
+                    className="vl_input"
                     name="que"
                     value={this.state.que}
                     onChange={this.handler}
                   />
-                </h4>
-                <div style={{ color: "red" }}>{this.state.que_error}</div>
-              </div>
-              <div className="faq-title">
-                <h4>
-                  Answer :{" "}
-                  <input
-                    type="text"
-                    name="ans"
-                    className="form-group"
-                    value={this.state.ans}
-                    onChange={this.handler}
-                  />
-                </h4>
-                <div style={{ color: "red" }}>{this.state.ans_error}</div>
-              </div>
-            </div>
-
-            <div className="col-md-2">
-              <button
+                  <div style={{ color: "red" }}>{this.state.que_error}</div>
+    </MDBCol>
+  </MDBRow>
+  <MDBRow className='vl_gap1'>
+    <MDBCol md='3' className="vl_input_head ">
+    Answer :
+    </MDBCol>
+    <MDBCol md='9' >
+    <textarea
+                     type="text"
+                     name="ans"
+                     className="form-group"
+                     value={this.state.ans}
+                     onChange={this.handler}
+                   />
+                  <div style={{ color: "red" }}>{this.state.ans_error}</div>
+    </MDBCol>
+  </MDBRow>
+            </MDBCol>
+           
+            <MDBCol md="4" className='vl_gap2' >
+                          <button
                 onClick={this.updateFaq(
                   this.state.que,
                   this.state.ans,
                   this.props.faqid
                 )}
-                className="btn"
+                className="user_btn"
               >
-                update
+                Update
               </button>
-            </div>
-            <div className="col-md-2">
-              <button onClick={this.props.cancel} className="btn">
-                cancel
+              <button onClick={this.props.cancel} className="user_btn">
+                Cancel
               </button>
-            </div>
             <div className="warning">{show_err_updatefaq}</div>
-          </div>
+            </MDBCol>
+          </MDBRow>
+          </MDBContainer>
+          // <div className="row d-flex ">
+          //   <div className="col-md-8">
+          //     <div className="faq-title">
+          //       <h4>
+          //         Question :{" "}
+          //         <input
+          //           type="text"
+          //           className="form-group"
+          //           name="que"
+          //           value={this.state.que}
+          //           onChange={this.handler}
+          //         />
+          //       </h4>
+          //       <div style={{ color: "red" }}>{this.state.que_error}</div>
+          //     </div>
+          //     <div className="faq-title">
+          //       <h4>
+          //         Answer :{" "}
+          //         <input
+          //           type="text"
+          //           name="ans"
+          //           className="form-group"
+          //           value={this.state.ans}
+          //           onChange={this.handler}
+          //         />
+          //       </h4>
+          //       <div style={{ color: "red" }}>{this.state.ans_error}</div>
+          //     </div>
+          //   </div>
+
+          //   <div className="col-md-2">
+          //     <button
+          //       onClick={this.updateFaq(
+          //         this.state.que,
+          //         this.state.ans,
+          //         this.props.faqid
+          //       )}
+          //       className="btn"
+          //     >
+          //       update
+          //     </button>
+          //   </div>
+          //   <div className="col-md-2">
+          //     <button onClick={this.props.cancel} className="btn">
+          //       cancel
+          //     </button>
+          //   </div>
+          //   <div className="warning">{show_err_updatefaq}</div>
+          // </div>
         )}
       </div>
     );
