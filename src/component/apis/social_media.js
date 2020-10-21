@@ -18,11 +18,14 @@ export const graph_google_customer_actions = data => {
 };
 
 // view listing
-
-export const google_listing_detail = (data, DjangoConfig) => {
+export const google_listing_detail = data => {
   return Axios.post(`${API}/social-media/google-listing-detail`, data);
 };
 
-export const citysearch_listing_detail = (data, DjangoConfig) => {
+export const citysearch_listing_detail = data => {
   return Axios.post(`${API}/social-media/citysearch-listing-detail`, data);
+};
+
+export const profile_analytics = data => {
+  return Axios.post(`${API}/social-media/profile-analytics`, data);
 };

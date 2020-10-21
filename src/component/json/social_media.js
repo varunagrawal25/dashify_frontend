@@ -347,3 +347,243 @@ export const graph_google_customer_actions_json = data => {
     };
   }
 };
+
+
+export const profile_analytics_json = data => {
+  if (data == "week") {
+    return {
+      facebook: {
+        views: "23",
+        calls: "34",
+        web: "-",
+        direction: "56",
+        clicks: "78"
+      },
+      facebook_percentage: {
+        views: "2",
+        calls: "4",
+        web: "45",
+        direction: "46",
+        clicks: "78"
+      },
+      google: {
+        views: "253",
+        calls: "354",
+        web: "56",
+        direction: "536",
+        clicks: "478"
+      },
+      google_percentage: {
+        views: "12",
+        calls: "43",
+        web: "35",
+        direction: "46",
+        clicks: "22"
+      },
+      consolidated: {
+        views: "23",
+        calls: "334",
+        web: "54",
+        direction: "56",
+        clicks: "758"
+      },
+      consolidated_percentage: {
+        views: "2",
+        calls: "48",
+        web: "5",
+        direction: "4",
+        clicks: "8"
+      },
+      googleIsLoggedIn:false,
+      fbIsLoggedIn:false
+    };
+  } else if (data == "month") {
+    return {
+      facebook: {
+        views: "23",
+        calls: "34",
+        web: "-",
+        direction: "656",
+        clicks: "768"
+      },
+      facebook_percentage: {
+        views: "2",
+        calls: "4",
+        web: "45",
+        direction: "46",
+        clicks: "78"
+      },
+      google: {
+        views: "23",
+        calls: "34",
+        web: "-",
+        direction: "56",
+        clicks: "78"
+      },
+      google_percentage: {
+        views: "12",
+        calls: "43",
+        web: "35",
+        direction: "46",
+        clicks: "22"
+      },
+      consolidated: {
+        views: "23",
+        calls: "34",
+        web: "-",
+        direction: "56",
+        clicks: "78"
+      },
+      consolidated_percentage: {
+        views: "2",
+        calls: "48",
+        web: "5",
+        direction: "4",
+        clicks: "8"
+      },
+      googleIsLoggedIn:false,
+      fbIsLoggedIn:false
+    };
+  } else if (data == "3 months") {
+    return {
+      facebook: {
+        views: "23",
+        calls: "3412",
+        web: "-",
+        direction: "56",
+        clicks: "78"
+      },
+      facebook_percentage: {
+        views: "2",
+        calls: "42",
+        web: "45",
+        direction: "46",
+        clicks: "78"
+      },
+      google: {
+        views: "23",
+        calls: "3412",
+        web: "-",
+        direction: "5446",
+        clicks: "78"
+      },
+      google_percentage: {
+        views: "12",
+        calls: "43",
+        web: "35",
+        direction: "46",
+        clicks: "22"
+      },
+      consolidated: {
+        views: "23",
+        calls: "3444",
+        web: "-",
+        direction: "56",
+        clicks: "78"
+      },
+      consolidated_percentage: {
+        views: "2",
+        calls: "48",
+        web: "5",
+        direction: "4",
+        clicks: "8"
+      },
+      googleIsLoggedIn:false,
+      fbIsLoggedIn:false
+    };
+  } else if (data == "6 months") {
+    return {
+      facebook: {
+        views: "23",
+        calls: "344",
+        web: "-",
+        direction: "526",
+        clicks: "78"
+      },
+      facebook_percentage: {
+        views: "2",
+        calls: "4",
+        web: "45",
+        direction: "46",
+        clicks: "78"
+      },
+      google: {
+        views: "23",
+        calls: "342",
+        web: "-",
+        direction: "56",
+        clicks: "782"
+      },
+      google_percentage: {
+        views: "12",
+        calls: "43",
+        web: "35",
+        direction: "46",
+        clicks: "22"
+      },
+      consolidated: {
+        views: "2223",
+        calls: "3422",
+        web: "-",
+        direction: "56",
+        clicks: "784"
+      },
+      consolidated_percentage: {
+        views: "2",
+        calls: "48",
+        web: "51",
+        direction: "4",
+        clicks: "81"
+      },
+      googleIsLoggedIn:false,
+      fbIsLoggedIn:false
+    };
+  } else if (data == "year") {
+    return {
+      facebook: {
+        views: "2553",
+        calls: "3554",
+        web: "5656",
+        direction: "5446",
+        clicks: "78tt"
+      },
+      facebook_percentage: {
+        views: "22",
+        calls: "43",
+        web: "45",
+        direction: "46",
+        clicks: "78"
+      },
+      google: {
+        views: "23",
+        calls: "34",
+        web: "-",
+        direction: "56",
+        clicks: "78"
+      },
+      google_percentage: {
+        views: "12",
+        calls: "43",
+        web: "35",
+        direction: "46",
+        clicks: "22"
+      },
+      consolidated: {
+        views: "2113",
+        calls: "3421",
+        web: "-",
+        direction: "561",
+        clicks: "781"
+      },
+      consolidated_percentage: {
+        views: "22",
+        calls: "48",
+        web: "55",
+        direction: "43",
+        clicks: "82"
+      },
+      googleIsLoggedIn:false,
+      fbIsLoggedIn:false
+    };
+  }
+};

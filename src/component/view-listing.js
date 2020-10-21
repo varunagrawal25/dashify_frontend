@@ -253,7 +253,7 @@ export default class ViewListing extends Component {
                   ]
                 });
 
-                google_listing_detail(data, DjangoConfig).then(res => {
+                google_listing_detail(data).then(res => {
                   this.setState({
                     googleLocationDetail: res.other_info,
                     googleReviewsPresent: res.google_Reviews_Present
