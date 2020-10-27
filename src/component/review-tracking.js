@@ -2532,7 +2532,11 @@ export default class ReviewTracking extends Component {
 
     return (
       <div>
+        <div className="setting-10">
+            <h3>Review Tracking</h3>
+          </div>
         <MDBContainer>
+        
           <MDBRow>
             <MDBCol  md='3' className='review_container'>
 <MDBRow>
