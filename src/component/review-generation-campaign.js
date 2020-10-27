@@ -3,6 +3,7 @@ import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
 import { NavLink } from "react-router-dom";
 import Loader from "react-loader-spinner";
+import { MDBCol, MDBRow } from "mdbreact";
 
 const DjangoConfig = {
   headers: {
@@ -422,7 +423,68 @@ export default class ReviewGenerationCampaign extends Component {
     return (
       <div>
         {/* <div className="content-page"> */}
+        {/* <div className="container " id="overview-10">
+            <div className="profanalytic">
+              <h3>Enter Campaign Details </h3>
+            </div>
+            <MDBRow>
+              <MDBCol md='8' className='review_container'>
+<MDBRow>
+  <MDBCol md='1' className='step'>
+  Step 01
+  </MDBCol>
+  <MDBCol md='8' className='camp_heading'>
+  Ralting Email And SMS templete
+  </MDBCol>
+  <MDBCol md='3' className="closebox">
+    <i className="zmdi zmdi-close"></i> Close section
+  </MDBCol>
+</MDBRow>
+<MDBRow>
+  <MDBCol md='6'>
+    <div className='camp_subhead1'>
+    From Email
+    </div>
+    <div>
+    <input
+                            type="email"
+                            className="form-control"
+                            placeholder="mohit.chack@digimonk.in"
+                            name="email_from"
+                            onChange={this.changeHandler}
+                            value={email_from}
+                            required
+                          />
+                          <div style={{ color: "red" }}>{email_from_error}</div>
+    </div>
+  </MDBCol>
+  <MDBCol md='6'>
+    <div className='camp_subhead1'>
+    Customer first name
+    </div>
+    <div>
+    <input
+                            type="email"
+                            className="form-control"
+                            placeholder="david"
+                            name="email_from"
+                            onChange={this.changeHandler}
+                            value={email_from}
+                            required
+                          />
+                          <div style={{ color: "red" }}>{email_from_error}</div>
+    </div>
+  </MDBCol>
+</MDBRow>
+              </MDBCol>
 
+              <MDBCol md='4'>
+<div className='review_container'>
+
+</div>
+              </MDBCol>
+            </MDBRow>
+            </div> */}
         <div className="main_content">
           <form
             className="needs-validation"
@@ -447,10 +509,11 @@ export default class ReviewGenerationCampaign extends Component {
                     </li>
                   </ul>
                   <div className="formbox">
+
                     <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>Campaign Name</label>
+                      <div className="col-md-6 camp_margin1">
+                        <div >
+                          <div className='camp_subhead1'>From Email</div>
                           <input
                             type="text"
                             className="form-control"
@@ -465,89 +528,123 @@ export default class ReviewGenerationCampaign extends Component {
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label>From Email</label>
-                          <input
-                            type="email"
-                            className="form-control"
-                            placeholder="mohit.chack@digimonk.in"
-                            name="email_from"
-                            onChange={this.changeHandler}
-                            value={email_from}
-                            required
-                          />
-                          <div style={{ color: "red" }}>{email_from_error}</div>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label>Reply To</label>
+
+                      <div className="col-md-6 camp_margin1">
+                        <div >
+                          <div className='camp_subhead1'>Customer first name</div>
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Enter a reply email"
-                            name="email_replyto"
+                            placeholder="Enter Campaign Name"
+                            name="campaign_name"
                             onChange={this.changeHandler}
-                            value={email_replyto}
+                            value={campaign_name}
                             required
                           />
                           <div style={{ color: "red" }}>
-                            {email_replyto_error}
+                            {campaign_name_error}
                           </div>
                         </div>
                       </div>
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>Email Subject</label>
+                      <div className="col-md-6 camp_margin2">
+                        <div >
+                          <div className='camp_subhead1'>Customer Email / Phone number</div>
                           <input
                             type="text"
                             className="form-control"
-                            // placeholder="your feedback is important to us"
-                            name="email_subject"
+                            placeholder="Enter Campaign Name"
+                            name="campaign_name"
                             onChange={this.changeHandler}
-                            value={email_subject}
+                            value={campaign_name}
                             required
                           />
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>Email Heading</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            // placeholder="Thank you for trusting us, we hope our service will help you"
-                            name="email_heading"
-                            onChange={this.changeHandler}
-                            value={email_heading}
-                            required
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="">
-                          <label>Email Content</label>
-                          <textarea
-                            className="form-control"
-                            rows="4"
-                            cols="50"
-                            // placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley"
-                            name="email_content"
-                            onChange={this.changeHandler}
-                            value={email_content}
-                            required
-                          ></textarea>
                           <div style={{ color: "red" }}>
-                            {email_content_error}
+                            {campaign_name_error}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col-md-6 camp_margin2">
+                        <div >
+                          <div className='camp_subhead1'>Customer last name</div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            placeholder="Enter Campaign Name"
+                            name="campaign_name"
+                            onChange={this.changeHandler}
+                            value={campaign_name}
+                            required
+                          />
+                          <div style={{ color: "red" }}>
+                            {campaign_name_error}
                           </div>
                         </div>
                       </div>
                     </div>
+                    <div className="mt-30 ">
+                  <div className="camp_subhead2">
+                  Customer Email / Phone number
+                  </div>
+                    <textarea
+                      className="camp_textarea " rows="4" 
+                      // placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley"
+                      name="sms_content"
+                      onChange={this.changeHandler}
+                      value={sms_content}
+                      required
+                    ></textarea>
+                    <div style={{ color: "red" }}>{sms_content_error}</div>
+                  </div>
                   </div>
                 </div>
 
-                <div className=" mt-30">
+                <MDBRow className='blue_container'>
+                  <MDBCol md='12' className='camp_heading'>
+                  Choose Review Sites
+                  </MDBCol>
+                  <MDBCol md='12' className='camp_contant1'>
+                  the vocabulary, and the questions
+                  </MDBCol>
+                 
+  <MDBCol md='5' >
+    <div className='review_sites_container' style={{marginLeft:'-17px'}}>
+<MDBRow > 
+<MDBCol md='3'>
+<img src={require("../images/google.png")} className='camp_icon' />
+</MDBCol>
+<MDBCol md='9' className='review_sites_contant'>
+Google Map
+</MDBCol>
+ </MDBRow>
+ </div>
+ </MDBCol>
+
+ <MDBCol md='5' >
+    <div className='review_sites_container' style={{marginLeft:'-17px'}}>
+<MDBRow > 
+<MDBCol md='3'>
+<img src={require("../images/google.png")} className='camp_icon' />
+</MDBCol>
+<MDBCol md='9' className='review_sites_contant'>
+Google Map
+</MDBCol>
+ </MDBRow>
+ </div>
+ </MDBCol>
+ 
+  <MDBCol md='2'>
+  <a className="camp_add_btn " style={{marginLeft:'-17px'}}>
+                                <i
+                                  className="zmdi zmdi-plus"
+                                  onClick={this.add_customWebsite_function}
+                                ></i>
+                              </a>
+  </MDBCol>
+</MDBRow>
+               
+
+                {/* <div className=" mt-30">
                   <div className="light-blue">
                     <div className="row">
                       <div className="col-md-12">
@@ -621,16 +718,14 @@ export default class ReviewGenerationCampaign extends Component {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
 
-                <div className="mt-30 step2">
-                  <div className="customer-phone">
-                    <h3>SMS Content</h3>
+                <div className="mt-30 review_sites_container">
+                  <div className="camp_subhead2">
+                  Customer Email / Phone number
+                  </div>
                     <textarea
-                      className="form-control "
-                     
-                      rows="4"
-                      cols="50"
+                      className="camp_textarea " rows="4" 
                       // placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley"
                       name="sms_content"
                       onChange={this.changeHandler}
@@ -639,7 +734,7 @@ export default class ReviewGenerationCampaign extends Component {
                     ></textarea>
                     <div style={{ color: "red" }}>{sms_content_error}</div>
                   </div>
-                </div>
+                
                 <div className="btnbox_button mt-30">
                   {loading ? (
                     <Loader
@@ -653,9 +748,9 @@ export default class ReviewGenerationCampaign extends Component {
                     <div style={{ color: "red" }}>{wrong}</div>
                   )}
 
-                  <button type="submit" className="continue">
+                  {/* <button type="submit" className="continue">
                     Continue
-                  </button>
+                  </button> */}
                 </div>
               </div>
 
@@ -666,18 +761,16 @@ export default class ReviewGenerationCampaign extends Component {
                   </div>*/}
 
                   <div className="formbox">
-                    <div className="text-center newclass">
-                      <div className="help-icon">
-                        <span>
-                          <i className="fa fa-info"></i>
-                        </span>
-                      </div>
+                    <div className="exclamation">!</div>
+                    <div className='camp_contant2'>
+                    Business vocabulary and commonly used phrases 
+                    are also detailed in the texts, and all this information ?
+                    </div>
 
-                      <p>
+                      {/* <p>
                         <h3>Hi (name)</h3>
                         <b>{email_heading}</b>
-                      </p>
-                    </div>
+                      </p> */}
                     <div className="sms-newtext">
                       <p>{email_content}</p>
                       {review_by_google ? (

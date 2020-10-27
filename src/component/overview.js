@@ -5,6 +5,7 @@ import ApexCharts from "apexcharts";
 import DonutChart from "react-donut-chart";
 import add from "./assets/tw.png";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
+import ArrowDownIcon from "@material-ui/icons/ArrowDropDown";
 import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
 import {
@@ -1185,15 +1186,18 @@ export default class Overview extends Component {
                                 view_notification_type1: true
                               })
                         }
+                        className='view_less_all1' 
                       >
                         {view_notification_type1 == false
-                          ? "View All"
-                          : "View Less"}
+                          ? (<div>View All <ArrowRightIcon /></div>)
+                          : (<div>View Less <ArrowDownIcon /></div>)}
                       </a>
-                      <ArrowRightIcon />
+                      
                     </div>
                   </div>
                   <div className="card7">
+                  <div class="scrollbar">
+    <div class="overflow">
                     {total_notifications.length != 0 ? (
                       <div className="notifc">
                         {view_notification_type1 == false ? (
@@ -1204,7 +1208,8 @@ export default class Overview extends Component {
                               {total_notifications[2]}
                             </div>
                           ) : (
-                            total_notifications
+                          {total_notifications}
+                            
                           )
                         ) : (
                           total_notifications
@@ -1215,6 +1220,8 @@ export default class Overview extends Component {
                         <h3>No new notification</h3>
                       </div>
                     )}
+                    </div>
+  </div>
                   </div>
                 </div>
 
@@ -1420,12 +1427,12 @@ export default class Overview extends Component {
                                   view_notification_type2: true
                                 })
                           }
+                          className='view_less_all2'
                         >
                           {view_notification_type2 == false
-                            ? "View All"
-                            : "View Less"}
+                            ? (<div>View All <ArrowRightIcon /></div>)
+                            : (<div>View Less <ArrowDownIcon /></div>)}
                         </a>
-                        <ArrowRightIcon />
                       </div>
                     </div>
                   </div>

@@ -1,7 +1,7 @@
 // import { API } from "../../config";
 import Axios from "axios";
-const API = "http://52.14.16.129:8000/api";
-//const API = "https://dashify.biz/api";
+// const API = "http://52.14.16.129:8000/api";
+const API = "https://dashify.biz/api";
 
 export const add_query = query_data => {
   return Axios.post(`${API}/queryes`, query_data);
