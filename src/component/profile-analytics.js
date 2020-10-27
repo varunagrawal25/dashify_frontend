@@ -850,8 +850,8 @@ export default class ProfileAnalytics extends Component {
                       <div className="Pa_container1 ">
                         <div className="row ">
                           <div className="col-md-5 this_week ">
-                            <select onChange={this.change_states} className="review_select_btn">
-                              <option
+                            <select value={this.state.range_name} onChange={this.change_states} className="review_select_btn">
+                              <option selected
                                 value= "week"
                               >
                                 Last week

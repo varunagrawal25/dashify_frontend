@@ -1,7 +1,7 @@
 // import { API } from "../../config";
 import Axios from "axios";
-const API = "http://52.14.16.129:8000/api";
-// const API = "https://dashify.biz/api";
+// const API = "http://52.14.16.129:8000/api";
+const API = "https://dashify.biz/api";
 
 export const faqs_by_id = (data, DjangoConfig) => {
   return Axios.post(`${API}/voice-faq/get-faqs-by-id`, data, DjangoConfig);

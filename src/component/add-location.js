@@ -934,11 +934,11 @@ export default class AddLocation extends Component {
                         <h4>
                           <span>step 1</span> Location Information
                         </h4>
-
-                        <div className="row addlocationboxs">
-                          <div className="col-md-4">
-                            <div className="form-group">
-                              <label>Store Code</label>
+<MDBRow>
+  <MDBCol md='8'>
+  <MDBRow>
+                          <MDBCol md='6' className="form-group">
+                          <label>Store Code</label>
                               <input
                                 type="text"
                                 name="storeCode"
@@ -949,10 +949,10 @@ export default class AddLocation extends Component {
                               <div style={{ color: "red" }}>
                                 {storeCode_error}
                               </div>
-                            </div>
-
-                            <div className="form-group">
-                              <label>
+ 
+                          </MDBCol>
+                          <MDBCol md='6' className="form-group">
+                          <label>
                                 Location Name <span className="red">*</span>
                               </label>
                               <input
@@ -965,25 +965,13 @@ export default class AddLocation extends Component {
                               <div style={{ color: "red" }}>
                                 {locationName_error}
                               </div>
-                            </div>
-                            <div className="form-group">
-                              <label>
+                          </MDBCol>
+
+                          <MDBCol md='6' className="form-group">
+                          <label>
                                 Business Category <span className="red">*</span>
                               </label>
-                              {/* <select
-                                name="category"
-                                onChange={this.changeHandler}
-                                className="form-control"
-                                id="primaryCategory"
-                                required
-                              >
-                                <option value="0" disabled="">
-                                  Select A Business Category
-                                </option>
-                                <option value="1">3D Printing</option>
-                              </select> */}
-
-                              {loadBusinessCategories ? (
+                          {loadBusinessCategories ? (
                                 <h4>Loading.....</h4>
                               ) : (
                                 <div>
@@ -1011,44 +999,47 @@ export default class AddLocation extends Component {
                                   </div>
                                 </div>
                               )}
-                            </div>
-                            <div className="form-group">
-                              <label>Additional Categories</label>
+                          </MDBCol>
+
+                          <MDBCol md='6 ' className="form-group">
+                            <label>Additional Categories</label>
                               <textarea
                                 name="additionalCategories"
                                 onChange={this.changeHandler}
-                                className="form-control height"
+                                className="form-control"
                               ></textarea>
                               <div style={{ color: "red" }}>
                                 {additionalCategories_error}
                               </div>
-                            </div>
-                          </div>
+                          </MDBCol>
+                        </MDBRow>
+  </MDBCol>
+  <MDBCol md='2' className='offset-md-1'>
+  <label>Business Logo</label>
 
-                          <div className="col-md-2">
-                            <div className="form-group">
-                              <label>Business Logo</label>
+{BusinessLogo ? (
+  <img src={BusinessLogo} alt="Business Logo" />
+) : (
+  <div className="staresd margin-top0">
+    <div className="imgup">
+      <i className="zmdi zmdi-image"></i>
+    </div>
+  </div>
+)}
 
-                              {BusinessLogo ? (
-                                <img src={BusinessLogo} alt="Business Logo" />
-                              ) : (
-                                <div className="staresd margin-top0">
-                                  <div className="imgup">
-                                    <i className="zmdi zmdi-image"></i>
-                                  </div>
-                                </div>
-                              )}
-
-                              <div className="upload_btnbox">
-                                <button>Upload your logo</button>
-                                <input
-                                  type="file"
-                                  onChange={this.onUploadLogo}
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+<div className="upload_btnbox">
+  <button>Upload your logo</button>
+  <input
+    type="file"
+    onChange={this.onUploadLogo}
+  />
+</div>
+  </MDBCol>
+</MDBRow>
+                       
+<hr/>
+                       
+                        
 
                         <div className="row addlocationboxs">
                           <div className="col-md-4">
@@ -2620,14 +2611,17 @@ export default class AddLocation extends Component {
                                 type="checkbox"
                                 onChange={this.checkBoxHandler}
                                 value="true"
-                                
+                                id="myCheckbox1"
                               /> 
+                              <label for="myCheckbox1">
                               <img
                                 src={require("../images/p-visa.png")}
                                 alt="Visa"
                                 className='payment_img'
                               />
+                              </label>
                               </div>
+                              
                           </MDBCol>
 
                           <MDBCol md='4' >
@@ -2637,12 +2631,15 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox2"
+                                /> 
+                                <label for="myCheckbox2">
                               <img
                                 src={require("../images/p-maestro.png")}
                                 alt="Maestro"
                                 className='payment_img'
                               />
+                              </label>
                               </div>
                           </MDBCol>
 
@@ -2653,11 +2650,14 @@ export default class AddLocation extends Component {
                                 type="checkbox"
                                 onChange={this.checkBoxHandler}
                                 value="true"
-                              />
+                                id="myCheckbox3"
+                                /> 
+                                <label for="myCheckbox3">
                               <img
                                 src={require("../images/p-amex.png")}
                                 alt="Amex"
                               />
+                              </label>
                               </div>
                           </MDBCol>
 </MDBRow>
@@ -2669,11 +2669,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox4"
+                                /> 
+                                <label for="myCheckbox4">
                               <img
                                 src={require("../images/p-cash.png")}
                                 alt="Cash"
                               />
+                              </label>
                               </div>
                           </MDBCol>
 
@@ -2684,11 +2687,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox5"
+                                /> 
+                                <label for="myCheckbox5">
                               <img
                                 src={require("../images/p-crypto.png")}
                                 alt="Crypto"
                               />
+                              </label>
                               </div>
                           </MDBCol>
 
@@ -2699,11 +2705,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox6"
+                                /> 
+                                <label for="myCheckbox6">
                               <img
                                 src={require("../images/p-diners.png")}
                                 alt="Diners"
                               />
+                              </label>
                               </div>
                           </MDBCol>
                           </MDBRow>
@@ -2715,11 +2724,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox7"
+                                /> 
+                                <label for="myCheckbox7">
                               <img
                                 src={require("../images/p-discover.png")}
                                 alt="Discover"
                               />
+                              </label>
                               </div>
                           </MDBCol>
 
@@ -2730,11 +2742,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox8"
+                                /> 
+                                <label for="myCheckbox8">
                               <img
                                 src={require("../images/p-apple.png")}
                                 alt="Apple"
                               />
+                              </label>
                               </div>
                           </MDBCol>
 
@@ -2745,11 +2760,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox9"
+                                /> 
+                                <label for="myCheckbox9">
                               <img
                                 src={require("../images/p-samsung.png")}
                                 alt="Samsung"
                               />
+                              </label>
                               </div>
                           </MDBCol>
                           </MDBRow>
@@ -2761,11 +2779,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox10"
+                                /> 
+                                <label for="myCheckbox10">
                               <img
                                 src={require("../images/p-paypal.png")}
                                 alt="Paypal"
                               /> 
+                              </label>
                               </div> 
                           </MDBCol>
 
@@ -2776,11 +2797,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox11"
+                                /> 
+                                <label for="myCheckbox11">
                               <img
                                 src={require("../images/p-android.png")}
                                 alt="Android"
                               />
+                              </label>
                               </div>
                           </MDBCol>
 
@@ -2791,11 +2815,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox12"
+                                /> 
+                                <label for="myCheckbox12">
                               <img
                                 src={require("../images/p-invoices.png")}
                                 alt="Invoices"
                               />
+                              </label>
                               </div>
                           </MDBCol>
                           </MDBRow>
@@ -2807,11 +2834,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              />{" "}
+                                id="myCheckbox13"
+                                /> 
+                                <label for="myCheckbox13">
                               <img
                                 src={require("../images/p-traveler.png")}
                                 alt="Traveler's Check"
                               />
+                              </label>
                               </div>
                           </MDBCol>
 
@@ -2822,12 +2852,14 @@ export default class AddLocation extends Component {
                                 onChange={this.checkBoxHandler}
                                 value="true"
                                 type="checkbox"
-                              
-                              />{" "}
+                                id="myCheckbox14"
+                                /> 
+                                <label for="myCheckbox14">
                               <img
                                 src={require("../images/p-financing.png")}
                                 alt="Financing"
                               />
+                              </label>
                               </div>
                           </MDBCol>
                         </MDBRow>
