@@ -972,12 +972,12 @@ console.log("colcheck",columnData)
 
             {all_connections.length != 0 ? (
               <div>
-                <div className=" mb-30">
+                <div className=" mb-20">
                   <div className="antbox">
                     <div className="box-space row">
                       <div className="col-md-10 analytics_btnx">Analytics</div>
-                      <div className="col-md-2 dropdown ra_drop ">
-                      <select className='review_select_btn'>
+                      <div className="col-md-2  ">
+                      <select className='review_select_btn ra_drop'>
                             <option selected >Last six months</option>
                             <option >Last  year</option>
                                 </select>

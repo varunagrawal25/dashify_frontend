@@ -2,9 +2,19 @@ import React, { Component } from "react";
 import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
 import { location_by_id,business_categories,business_states } from "./apis/location";
-import Rating from "react-rating";
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import Rating from '@material-ui/lab/Rating';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import Spinner from "./common/Spinner";
 import { breakStatement } from "@babel/types";
+import star_img from './assets/star.png'
+import review_img1 from './assets/review_img1.png'
+import review_img2 from './assets/review_img2.png'
+import clock from './assets/clock.png'
+import rev_track_twitter from './assets/rev_track_twitter.png'
+import rev_track_fb from './assets/rev_track_fb.png'
+import rev_track_snap from './assets/rev_track_snap.png'
+import rev_track_insta from './assets/rev_track_insta.png'
 import ReactPDF, {
   Image,
   Font,
@@ -15,8 +25,84 @@ import ReactPDF, {
   StyleSheet,
   PDFDownloadLink
 } from "@react-pdf/renderer";
+import { MDBCol, MDBContainer ,MDBRow} from "mdbreact";
 // import { display } from "html2canvas/dist/types/css/property-descriptors/display";
 
+
+const BorderLinearProgress5 = withStyles((theme) => ({
+  root: {
+    marginTop:4,
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: '#00C27A',
+  },
+}))(LinearProgress);
+
+const BorderLinearProgress4 = withStyles((theme) => ({
+  root: {
+    marginTop:4,
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: '#2F80ED',
+  },
+}))(LinearProgress);
+
+const BorderLinearProgress3 = withStyles((theme) => ({
+  root: {
+    marginTop:4,
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: '#56CCF2',
+  },
+}))(LinearProgress);
+
+const BorderLinearProgress2 = withStyles((theme) => ({
+  root: {
+    marginTop:4,
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: '#FCDE00',
+  },
+}))(LinearProgress);
+
+const BorderLinearProgress1 = withStyles((theme) => ({
+  root: {
+    marginTop:4,
+    height: 10,
+    borderRadius: 5,
+  },
+  colorPrimary: {
+    backgroundColor: theme.palette.grey[theme.palette.type === 'light' ? 200 : 700],
+  },
+  bar: {
+    borderRadius: 5,
+    backgroundColor: '#EB0558',
+  },
+}))(LinearProgress);
 const Yelpconfig = {
   headers: {
     Authorization:
@@ -2446,666 +2532,177 @@ export default class ReviewTracking extends Component {
 
     return (
       <div>
-        {/* <div className="content-page"> */}
-
-        {this.state.loader ? (
-          <div className="rightside_title">
-            <Spinner />
+        <div className="setting-10">
+            <h3>Review Tracking</h3>
           </div>
-        ) : (
-          <div className="main_content">
-            <div className="rightside_title">
-              <h1>Review Tracking</h1>
-            </div>
-            {active_listing.length != 0 ? (
-              <div>
-                <div className=" mb-30">
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="rating-block tablediv">
-                        <h4>Overall Rating</h4>
-                        <h2 className="bold padding-bottom-7">
-                          {overAllRating.toString().slice(0, 3)}{" "}
-                          <small>/ 5</small>
-                        </h2>
-                        <fieldset className="rating star">
-                          {/* <input type="radio" id="field6_star5" name="rating2" value="5" /><label className="full" htmlFor="field6_star5"></label>
-                                            <input type="radio" id="field6_star4" name="rating2" value="4" /><label className="full" htmlFor="field6_star4"></label>
-                                            <input type="radio" id="field6_star3" name="rating2" value="3" /><label className="full" htmlFor="field6_star3"></label>
-                                            <input type="radio" id="field6_star2" name="rating2" value="2" /><label className="full" htmlFor="field6_star2"></label>
-                                            <input type="radio" id="field6_star1" name="rating2" value="1" /><label className="full" htmlFor="field6_star1"></label> */}
-                          <Rating
-                            style={{ color: "#f7c508" }}
-                            emptySymbol={["fa fa-star-o fa-2x high"]}
-                            fullSymbol={["fa fa-star fa-2x high"]}
-                            fractions={3}
-                            initialRating={overAllRating}
-                            readonly={true}
-                          />
-                        </fieldset>
-                        <div className="reviewthis">
-                          <h5>{overAllReviewCount} Review</h5>
-                          <h5>This Month</h5>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-md-4">
-                      <div className="tablediv ratingdown">
-                        <h4>Rating breakdown</h4>
-                        <div className="pull-left bottomstar">
-                          <div
-                            className="pull-left"
-                            style={{ width: "35px", lineHeight: "1" }}
-                          >
-                            <div style={{ height: "12px", margin: "5px 0px" }}>
-                              5{" "}
-                              <span className="glyphicon glyphicon-star"></span>
-                            </div>
-                          </div>
-                          <div className="pull-left" style={{ width: "180px" }}>
-                            <div
-                              className="progress"
-                              style={{ height: "12px", margin: "8px 0" }}
-                            >
-                              <div
-                                className="progress-bar progress-bar-success"
-                                role="progressbar"
-                                aria-valuenow="5"
-                                aria-valuemin="0"
-                                aria-valuemax="5"
-                                style={{
-                                  width: (star_5 / total_count) * 100 + "%"
-                                }}
-                              >
-                                <span className="sr-only">
-                                  80% Complete (danger)
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="pull-right"
-                            style={{ marginLeft: "10px" }}
-                          >
-                            {((star_5 / total_count) * 100).toFixed(2)}%
-                          </div>
-                        </div>
-
-                        <div className="pull-left bottomstar">
-                          <div
-                            className="pull-left"
-                            style={{ width: "35px", " lineHeight": "1" }}
-                          >
-                            <div style={{ height: "12px", margin: "5px 0" }}>
-                              4{" "}
-                              <span className="glyphicon glyphicon-star"></span>
-                            </div>
-                          </div>
-                          <div className="pull-left" style={{ width: "180px" }}>
-                            <div
-                              className="progress"
-                              style={{ height: "12px", margin: "8px 0" }}
-                            >
-                              <div
-                                className="progress-bar progress-bar-primary"
-                                role="progressbar"
-                                aria-valuenow="4"
-                                aria-valuemin="0"
-                                aria-valuemax="5"
-                                style={{
-                                  width: (star_4 / total_count) * 100 + "%"
-                                }}
-                              >
-                                <span className="sr-only">
-                                  80% Complete (danger)
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="pull-right"
-                            style={{ marginLeft: "10px" }}
-                          >
-                            {((star_4 / total_count) * 100).toFixed(2)}%
-                          </div>
-                        </div>
-                        <div className="pull-left bottomstar">
-                          <div
-                            className="pull-left"
-                            style={{ width: "35px", lineHeight: "1" }}
-                          >
-                            <div style={{ height: "12px", margin: "5px 0" }}>
-                              3{" "}
-                              <span className="glyphicon glyphicon-star"></span>
-                            </div>
-                          </div>
-                          <div className="pull-left" style={{ width: "180px" }}>
-                            <div
-                              className="progress"
-                              style={{ height: "12px", margin: "8px 0" }}
-                            >
-                              <div
-                                className="progress-bar progress-bar-info"
-                                role="progressbar"
-                                aria-valuenow="3"
-                                aria-valuemin="0"
-                                aria-valuemax="5"
-                                style={{
-                                  width: (star_3 / total_count) * 100 + "%"
-                                }}
-                              >
-                                <span className="sr-only">
-                                  80% Complete (danger)
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="pull-right"
-                            style={{ marginLeft: "10px" }}
-                          >
-                            {((star_3 / total_count) * 100).toFixed(2)}%
-                          </div>
-                        </div>
-
-                        <div className="pull-left bottomstar">
-                          <div
-                            className="pull-left"
-                            style={{ width: "35px", lineHeight: "1" }}
-                          >
-                            <div style={{ height: "12px", margin: "5px 0" }}>
-                              2{" "}
-                              <span className="glyphicon glyphicon-star"></span>
-                            </div>
-                          </div>
-                          <div className="pull-left" style={{ width: "180px" }}>
-                            <div
-                              className="progress"
-                              style={{ height: "12px", margin: "8px 0" }}
-                            >
-                              <div
-                                className="progress-bar progress-bar-warning"
-                                role="progressbar"
-                                aria-valuenow="2"
-                                aria-valuemin="0"
-                                aria-valuemax="5"
-                                style={{
-                                  width: (star_2 / total_count) * 100 + "%"
-                                }}
-                              >
-                                <span className="sr-only">
-                                  80% Complete (danger)
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="pull-right"
-                            style={{ marginLeft: "10px" }}
-                          >
-                            {((star_2 / total_count) * 100).toFixed(2)}%
-                          </div>
-                        </div>
-
-                        <div className="pull-left bottomstar">
-                          <div
-                            className="pull-left"
-                            style={{ width: "35px", lineHeight: "1" }}
-                          >
-                            <div style={{ height: "12px", margin: "5px 0" }}>
-                              1{" "}
-                              <span className="glyphicon glyphicon-star"></span>
-                            </div>
-                          </div>
-                          <div className="pull-left" style={{ width: "180px" }}>
-                            <div
-                              className="progress"
-                              style={{ height: "12px", margin: "8px 0" }}
-                            >
-                              <div
-                                className="progress-bar progress-bar-danger"
-                                role="progressbar"
-                                aria-valuenow="1"
-                                aria-valuemin="0"
-                                aria-valuemax="5"
-                                style={{
-                                  width: (star_1 / total_count) * 100 + "%"
-                                }}
-                              >
-                                <span className="sr-only">
-                                  80% Complete (danger)
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            className="pull-right"
-                            style={{ marginLeft: "10px" }}
-                          >
-                            {((star_1 / total_count) * 100).toFixed(2)}%
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {most_helpful_review}
-                  </div>
-                </div>
-
-                <div className="mt-30 viewallreview">
-                  {/* <div className="box-space">
-              <h1>View All Review</h1>
-            </div> */}
-
-                  <div className="box-space">
-                    <div className="row d-flex">
-                      <div className="col-md-8">
-                        <h2>View All Review</h2>
-                      </div>
-
-                      <div className="col-md-4 text-right">
-                        <PDFDownloadLink
-                          document={this.Quixote(pdf_data1, pdf_data2)}
-                          fileName="somename.pdf"
-                        >
-                          {({ blob, url, loading, error }) =>
-                            loading ? (
-                              "Loading document..."
-                            ) : (
-                              <a className="report_btn">Download Report</a>
-                            )
-                          }
-                        </PDFDownloadLink>
-                      </div>
-                    </div>
-                  </div>
-
-                  {active_listing.length != 0 ? (
-                    <ul
-                      className="nav nav-tabs nav-tabs-dropdown"
-                      role="tablist"
-                    >
-                      <li role="presentation" className="active">
-                        <a
-                          href="#all-interactions"
-                          aria-controls="all-interactions"
-                          role="tab"
-                          data-toggle="tab"
-                        >
-                          All Interactions
-                        </a>
-                      </li>
-
-                      {active_listing.includes("Google") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Google"
-                            aria-controls="city-search"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Google
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Instagram") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Instagram"
-                            aria-controls="inside"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Instagram
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Foursquare") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Foursquare"
-                            aria-controls="inside"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Foursquare
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Yelp") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Yelp"
-                            aria-controls="yelp"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Yelp
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Facebook") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Facebook"
-                            aria-controls="facebook"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Facebook
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Apple") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Apple"
-                            aria-controls="inside"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Apple
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Citysearch") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Citysearch"
-                            aria-controls="inside"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Citysearch
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Zillow") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Zillow"
-                            aria-controls="inside"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Zillow
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Tomtom") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Tomtom"
-                            aria-controls="inside"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Tomtom
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Avvo") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Avvo"
-                            aria-controls="inside"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Avvo
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-
-                      {active_listing.includes("Zomato") ? (
-                        <li role="presentation">
-                          <a
-                            href="#Zomato"
-                            aria-controls="inside"
-                            role="tab"
-                            data-toggle="tab"
-                          >
-                            Zomato
-                          </a>
-                        </li>
-                      ) : (
-                        ""
-                      )}
-                    </ul>
-                  ) : (
-                    <ul
-                      className="nav nav-tabs nav-tabs-dropdown"
-                      role="tablist"
-                    >
-                      <li role="presentation">
-                        <a
-                          aria-controls="all-interactions"
-                          role="tab"
-                          data-toggle="tab"
-                        >
-                          No listings are connected, please connect some
-                          listings to see reviews
-                        </a>
-                      </li>
-                    </ul>
-                  )}
-                </div>
-
-                <div className="mt-30 ">
-                  <div className="tab-content">
-                    <div
-                      role="tabpanel"
-                      className="tab-pane active"
-                      id="all-interactions"
-                    >
-                      {googleAllReviews}
-                      {instaAllComments}
-                      {yelpAllReviews}
-                      {foursquareAllReviews}
-                      {FbAllReviews}
-                      {appleAllReviews}
-                      {citysearchAllReviews}
-                      {zillowAllReviews}
-                      {tomtomAllReviews}
-                      {avvoAllReviews}
-                      {zomatoAllReviews}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane" id="Google">
-                      {googleAllReviews.length != 0 ? (
-                        googleAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane" id="Instagram">
-                      {instaAllComments.length != 0 ? (
-                        instaAllComments
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane " id="Foursquare">
-                      {foursquareAllReviews.length != 0 ? (
-                        foursquareAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane " id="Yelp">
-                      {yelpAllReviews.length != 0 ? (
-                        yelpAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane " id="Apple">
-                      {appleAllReviews.length != 0 ? (
-                        appleAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane " id="Citysearch">
-                      {citysearchAllReviews.length != 0 ? (
-                        citysearchAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane " id="Zillow">
-                      {zillowAllReviews.length != 0 ? (
-                        zillowAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane " id="Tomtom">
-                      {tomtomAllReviews.length != 0 ? (
-                        tomtomAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane " id="Avvo">
-                      {avvoAllReviews.length != 0 ? (
-                        avvoAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    <div role="tabpanel" className="tab-pane " id="Zomato">
-                      {zomatoAllReviews.length != 0 ? (
-                        zomatoAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* <div role="tabpanel" className="tab-pane " id="yellow-pages">
-  <div className="whitebox">
-  <h4>Comming soon</h4>
-      </div>
-
-  </div> */}
-                    <div role="tabpanel" className="tab-pane " id="Facebook">
-                      {FbAllReviews.length != 0 ? (
-                        FbAllReviews
-                      ) : (
-                        <div className="whitebox">
-                          <div className="text_viewahor">
-                            <h4>No review</h4>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* <div role="tabpanel" className="tab-pane " id="instagram">
-  <div className="whitebox">
-  <h4>Comming soon</h4>
-      </div>
+        <MDBContainer>
+        
+          <MDBRow>
+            <MDBCol  md='3' className='review_container'>
+<MDBRow>
+  <MDBCol md='7' className='review_heading1'>
+  Overall Rating
+  </MDBCol>
+  <MDBCol md='5'>
+<select className="review_select_btn">
+  <option>This week</option>
+  <option>This year</option>
+</select>
+  </MDBCol>
+</MDBRow>
+<div className='review_spacing1'>
+    <span id='review_bold_rating'>4.8</span>
+    <span id='review_normal_rating'>/5</span>
   </div>
-  <div role="tabpanel" className="tab-pane " id="twitter">
-  <div className="whitebox">
-  <h4>Comming soon</h4>
-      </div>
+  <div className='review_spacing1'>
+  <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+  </div>
+<div className='review_spacing1 review_contant1'>
+12,1К Reviews
+</div>
+            </MDBCol>
 
-  </div> */}
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className=" mt-30">
-                <div className="analytics-whice">
-                  <div className="box-space2">
-                    <h4>Connect some listings to see Reviews</h4>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
+            <MDBCol  md='5'>
+<div className='review_container'>
+<MDBRow>
+  <MDBCol md='8' className='review_heading1'>
+  Rating Breakdown
+  </MDBCol>
+  <MDBCol md='4'>
+<select className="review_select_btn">
+  <option>This week</option>
+  <option>This year</option>
+</select>
+  </MDBCol>
+</MDBRow>
+ <MDBRow className='review_spacing3'>
+   <MDBCol md='2' className='review_contant1'>5 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
+   <MDBCol md='8'><BorderLinearProgress5 variant="determinate" value={50} /></MDBCol>
+   <MDBCol md='2' className='review_contant1'>85%</MDBCol>
+ </MDBRow>
+ <MDBRow className='review_spacing3'>
+   <MDBCol md='2' className='review_contant1'>4 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
+   <MDBCol md='8'><BorderLinearProgress4 variant="determinate" value={45} /></MDBCol>
+   <MDBCol md='2' className='review_contant1'>45%</MDBCol>
+ </MDBRow>
+ <MDBRow className='review_spacing3'>
+   <MDBCol md='2' className='review_contant1'>3 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
+   <MDBCol md='8'><BorderLinearProgress3 variant="determinate" value={70} /></MDBCol>
+   <MDBCol md='2' className='review_contant1'>70%</MDBCol>
+ </MDBRow>
 
-        {/* </div> */}
+ <MDBRow className='review_spacing3'>
+   <MDBCol md='2' className='review_contant1'>2 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
+   <MDBCol md='8'><BorderLinearProgress2 variant="determinate" value={85} /></MDBCol>
+   <MDBCol md='2' className='review_contant1'>85%</MDBCol>
+ </MDBRow>
+ <MDBRow className='review_spacing3'>
+   <MDBCol md='2' className='review_contant1'>1 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
+   <MDBCol md='8'><BorderLinearProgress1 variant="determinate" value={50} /></MDBCol>
+   <MDBCol md='2' className='review_contant1'>50%</MDBCol>
+ </MDBRow>
+</div>
+            </MDBCol>
+
+            <MDBCol  md='4' className='review_container'>
+  <MDBRow>
+  <MDBCol md='12' className='review_heading1'>
+  Most helpful Reviews
+  </MDBCol>
+</MDBRow>
+<MDBRow className='review_spacing2'>
+  <MDBCol md='3' ><img src={review_img1} alt='' className='review_img1'/> </MDBCol>
+  <MDBCol md='9' style={{marginLeft:'-20px'}}>
+    <div className='review_heading2'>Mark Robinson</div>
+    <div style={{marginTop:'5px'}}><Rating name="size-small" defaultValue={2} size="small" readOnly/></div>
+  </MDBCol>
+</MDBRow>
+<MDBRow className='review_spacing2'>
+  <MDBCol md='12' className='review_contant2'>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor! Lorem ipsum dolor sit amet,
+   consectetur adipiscing elit, sed do eiusmod tempor!
+  </MDBCol>
+</MDBRow>
+
+            </MDBCol>
+            
+
+          </MDBRow>
+
+          <MDBRow className='review_container'>
+            <MDBCol md='3'>
+<div className='review_heading3'>View all reviews</div>
+            </MDBCol>
+            <MDBCol md='5'>
+              <img src={rev_track_twitter} alt='' className='review_icon'/>
+              <img src={rev_track_fb} alt='' className='review_icon'/>
+              <img src={rev_track_insta} alt='' className='review_icon'/>
+              <img src={rev_track_snap} alt='' className='review_icon'/>
+            <select className="review_select_btn" style={{float:'right'}}>
+  <option>See more</option>
+  <option>See less</option>
+</select>
+            </MDBCol>
+            <MDBCol md='4' >
+            <select className="review_select_btn" style={{float:'right'}}>
+  <option>This week</option>
+  <option>This year</option>
+</select>
+            </MDBCol>
+          </MDBRow>
+
+          <MDBRow  className='review_container'>
+            <MDBCol md='9'>
+              <MDBRow>
+              <MDBCol md="2">
+                      <img src={review_img1} alt='review_icon' className='review_img' />
+                      </MDBCol>
+                      <MDBCol md="10" >
+                        <div className='review_heading2'>Dennis Brin</div>
+                        <div style={{marginTop:'5px'}}><Rating name="size-small" defaultValue={2} size="small" readOnly/></div>
+                        <div className='review_contant3'>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation!
+                        </div>
+                      </MDBCol>
+              </MDBRow>
+            </MDBCol>
+                      
+                      <MDBCol  >
+                        <div style={{marginLeft:'40px'}}>
+                        <span ><img src={clock} alt='review_icon' /></span>
+                         <span className='review_contant3' style={{marginLeft:'2%'}}>28 May 2020 at 9:34 AM</span>
+                        </div>
+                          
+                      </MDBCol>
+                    </MDBRow>
+
+                    <MDBRow  className='review_container'>
+            <MDBCol md='9'>
+              <MDBRow>
+              <MDBCol md="2">
+                      <img src={review_img2} alt='review_icon' className='review_img' />
+                      </MDBCol>
+                      <MDBCol md="10" >
+                        <div className='review_heading2'>Robinson Nik</div>
+                        <div style={{marginTop:'5px'}}><Rating name="size-small" defaultValue={2} size="small" readOnly/></div>
+                        <div className='review_contant3'>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation!
+                        </div>
+                      </MDBCol>
+              </MDBRow>
+            </MDBCol>
+                      
+                      <MDBCol  >
+                        <div style={{marginLeft:'40px'}}>
+                        <span ><img src={clock} alt='review_icon' /></span>
+                         <span className='review_contant3' style={{marginLeft:'2%'}}>28 May 2020 at 9:34 AM</span>
+                        </div>
+                          
+                      </MDBCol>
+                    </MDBRow>
+        </MDBContainer>
       </div>
     );
   }

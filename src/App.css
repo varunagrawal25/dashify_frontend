@@ -464,8 +464,8 @@ img {
 
 .step2 ul li a {
   display: block;
-  padding: 2px;
-  font-size: 16px;
+  padding: 3px;
+  font-size: 14px;
   color: #fff;
   background: #00c27a;
   text-decoration: none;
@@ -485,7 +485,11 @@ img {
 }
 
 .step-sms span {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
   font-size: 16px;
+  line-height: 19px;
   color: #3d3d3d;
 }
 
@@ -528,6 +532,7 @@ img {
   border-radius: 0;
   box-shadow: none;
   font-size: 15px;
+  opacity: 0.7;
   border: 0px;
   border-bottom: 1px solid #8264c633;
   font-weight: 400;
@@ -1428,10 +1433,15 @@ img {
 .switch-label {
   position: relative;
   display: block;
-  height: inherit;
+  height: 53px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
   font-size: 16px;
+  line-height: 19px;
+  color: #4f4f4f;
   text-transform: uppercase;
-  background: #e4f2ff;
+  /* background: #e4f2ff; */
   border-radius: inherit;
   -webkit-transition: 0.15s ease-out;
   -moz-transition: 0.15s ease-out;
@@ -1441,18 +1451,17 @@ img {
   -moz-transition-property: opacity background;
   -o-transition-property: opacity background;
   transition-property: opacity background;
-  color: #4f4f4f;
 }
 .switch-label:before,
 .switch-label:after {
   position: absolute;
-  top: 50%;
-  margin-top: -0.5em;
+  top: 15%;
+  /* margin-top: -0.5em;
   line-height: 1;
   -webkit-transition: inherit;
   -moz-transition: inherit;
   -o-transition: inherit;
-  transition: inherit;
+  transition: inherit; */
 }
 .switch-label:before {
   content: attr(data-off);
@@ -1466,9 +1475,9 @@ img {
   opacity: 0;
   color: #4f4f4f;
 }
-.switch-input:checked ~ .switch-label {
+/* .switch-input:checked ~ .switch-label {
   background: #e4f2ff;
-}
+} */
 .switch-input:checked ~ .switch-label:before {
   opacity: 0;
 }
@@ -1536,7 +1545,7 @@ img {
   text-decoration: none;
 }
 .formbox textarea.form-control {
-  height: 80px;
+  height: 35px;
   resize: none;
   line-height: 32px;
 }
@@ -6271,11 +6280,13 @@ tbody.cons td:first-child {
   font-weight: normal;
   color: #4f4f4f;
   text-align: center;
+  padding: 5px 25px;
 }
 .raitingemail h3 {
   font-size: 16px;
   font-weight: 500;
   color: #3d3d3d;
+  line-height: 19px;
   margin: 5px 0px 15px;
 }
 
@@ -6393,7 +6404,8 @@ tbody.cons td:first-child {
 }
 
 .ra_drop {
-  margin-left: -20px;
+  background: transparent;
+  padding: 5px 10px;
 }
 .white-shadow {
   background: #fff;
@@ -9592,7 +9604,27 @@ img {
 /* listing ends */
 
 /* Overview start */
+.view_less_all1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 13px;
+  color: #4f4f4f;
+  mix-blend-mode: normal;
+  text-decoration: none;
+}
 
+.view_less_all2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 11px;
+  line-height: 13px;
+  color: #5d80e2;
+  mix-blend-mode: normal;
+  text-decoration: none;
+}
 .recent-title {
   font-family: Roboto;
   font-style: normal;
@@ -10196,36 +10228,279 @@ ul.dropdown-menu.loginboxds li a:hover {
 }
 
 .form-control {
-  border-radius: 100px;
+  border-radius: 10px;
 }
 
 /* surya css */
 
 /* varun css */
+
+/* enter campigain */
+
+.camp_textarea {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  padding: 15px;
+  color: #4f4f4f;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 10px;
+  border-color: #8264c6;
+  margin: 20px 0px;
+}
+.camp_add_btn {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 70px;
+  line-height: 82px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #8264c6;
+  padding: 5px 20px;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+}
+.blue_container {
+  padding: 20px;
+  background: #e4f2ff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  margin: 30px 0px;
+}
+
+.review_sites_container {
+  padding: 15px;
+  background: #ffffff;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+}
+
+.camp_icon {
+  width: 45px;
+  height: 49px;
+}
+.review_sites_contant {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  color: #454545;
+  margin-top: 15px;
+}
+.step {
+  background: #00c27a;
+  border-radius: 5px;
+  color: #fff;
+  padding: 4px;
+  text-align: center;
+}
+
+.camp_heading {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #3d3d3d;
+  padding: 0px;
+}
+
+.camp_subhead1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #4f4f4f;
+  mix-blend-mode: normal;
+}
+
+.camp_subhead2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  opacity: 0.6;
+}
+
+.camp_contant1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: #979797;
+  padding: 8px 0px;
+}
+
+.camp_contant2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  color: #4f4f4f;
+  mix-blend-mode: normal;
+  padding: 5px 25px;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+.camp_margin1 {
+  margin-top: 25px;
+}
+
+.camp_margin2 {
+  margin-top: 40px;
+}
+.camp_input {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 18px;
+  color: rgba(117, 117, 117, 0.6);
+  border-bottom: 1px solid #8264c633;
+  opacity: 0.7;
+}
+/* scroll */
+/* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+.scrollbar::-webkit-scrollbar {
+  background-color: #fff;
+  width: 16px;
+}
+
+/* background of the scrollbar except button or resizer */
+.scrollbar::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+.scrollbar::-webkit-scrollbar-track:hover {
+  background-color: #f4f4f4;
+}
+
+/* scrollbar itself */
+.scrollbar::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 5px solid #fff;
+}
+.scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #a0a0a5;
+  border: 4px solid #f4f4f4;
+}
+
+/* set button(top and bottom of the scrollbar) */
+.scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* div box */
+body {
+  background-color: #babac0;
+}
+.scrollbar {
+  height: 260px;
+  background: #fff;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.overflow {
+  min-height: 260px;
+}
+
+/* scroll end */
+
 .payment_box {
-  padding: 10px;
   background: #ffffff;
   border: 1px solid #fbf6f6;
   box-sizing: border-box;
   border-radius: 10px;
   margin: 10px 0px;
+  height: 80px;
 }
 
-.payment_box input[type="checkbox"] {
+/* .payment_box input[type="checkbox"] {
   width: 100%;
   height: 100%;
   position: absolute;
   left: 0;
   opacity: 0;
   top: 0px;
-}
-.payment_box input[type="checkbox"]:checked {
-  width: 10px;
-  height: 10px;
+} */
+/* .payment_box input[type="checkbox"]:checked {
+  width: 100%;
+  height: 100%;
   position: absolute;
-  margin-left: 150px;
-  margin-top: 10px;
-  opacity: 1;
+  box-shadow: 0 0 5px #333;
+  z-index: -1;
+} */
+
+input[type="checkbox"][id^="myCheckbox"] {
+  display: none;
+}
+
+label {
+  border: 1px solid #fff;
+  border-radius: 10px;
+  padding: 10px;
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+
+label:before {
+  background-color: white;
+  color: white;
+  content: " ";
+  display: block;
+  border-radius: 50%;
+  border: none;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 25px;
+  height: 25px;
+  text-align: center;
+  line-height: 28px;
+  transition-duration: 0.4s;
+  transform: scale(0);
+}
+
+label img {
+  height: 60px;
+  width: 100px;
+  transition-duration: 0.2s;
+  transform-origin: 50% 50%;
+  margin-left: 10px;
+}
+
+:checked + label {
+  border-color: #ddd;
+  border-radius: 10px;
+}
+
+:checked + label:before {
+  content: "✓";
+  background-color: grey;
+  transform: scale(1);
+}
+
+:checked + label img {
+  transform: scale(0.9);
+  /* box-shadow: 0 0 5px #333; */
+  z-index: -1;
 }
 /* .payment_box input:checked {
   box-shadow: 0px 0px 50px red;
@@ -11359,6 +11634,15 @@ ul.dropdown-menu.loginboxds li a:hover {
   color: #4f4f4f;
 }
 
+.review_heading3 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+}
+
 #review_bold_rating {
   font-family: Roboto;
   font-style: normal;
@@ -11389,12 +11673,11 @@ ul.dropdown-menu.loginboxds li a:hover {
 .review_contant2 {
   font-family: Roboto;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 14px;
   line-height: 16px;
   color: #4f4f4f;
   mix-blend-mode: normal;
-  margin-top: 10px;
 }
 
 .review_contant3 {
@@ -11416,15 +11699,23 @@ ul.dropdown-menu.loginboxds li a:hover {
   margin-top: 20px;
 }
 
+.review_spacing3 {
+  margin-top: 15px;
+  padding: 0px 15px;
+}
+.review_img_position {
+  margin-top: -5px;
+}
 .review_img {
   width: 96.5px;
   height: 132px;
 }
 .review_icon {
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
+  margin: 0px 10px;
 }
-#review_img1 {
+.review_img1 {
   width: 50px;
   height: 50px;
 }
