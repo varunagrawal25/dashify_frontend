@@ -12,15 +12,17 @@ import {
 } from "./apis/location";
 import Spinner from "./common/Spinner";
 import Loader from "react-loader-spinner";
-import { MDBCol, MDBRow ,MDBContainer} from "mdbreact";
+import { MDBCol, MDBRow, MDBContainer } from "mdbreact";
 import edit_icon from "./assets/edit.png";
 import cross_img from "./assets/cross_img.png";
 import edit from "./assets/edit.png";
-
-// const GoogleConfig={
-//     headers:{'Authorization':'Bearer '+localStorage.getItem("googleToken")},
-
-//   }
+import swal from "sweetalert";
+import {
+  email_regex,
+  url_regex,
+  phone_regex,
+  zipcode_regex
+} from "./utils/regularexpressions";
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -49,7 +51,7 @@ export default class LocationManager extends Component {
     twitterProfile: "",
     facebookProfile: "",
     payment: [],
-    loader: false,
+    loader: true,
 
     //edit details
 
@@ -136,6 +138,46 @@ export default class LocationManager extends Component {
     sundayStart2: "",
     sundayEnd2: "",
 
+    mondayStart1_error: "",
+    mondayStart2_error: "",
+    mondayEnd1_error: "",
+    mondayEnd2_error: "",
+    tuesday_error: "",
+    tuesdayStart1_error: "",
+    tuesdayEnd1_error: "",
+    tuesdayStart2_error: "",
+    tuesdayEnd2_error: "",
+
+    wednesday_error_error: "",
+    wednesdayStart1_error: "",
+    wednesdayEnd1_error: "",
+    wednesdayStart2_error: "",
+    wednesdayEnd2_error: "",
+
+    thursday_error: "",
+    thursdayStart1_error: "",
+    thursdayEnd1_error: "",
+    thursdayStart2_error: "",
+    thursdayEnd2_error: "",
+
+    friday_error: "",
+    fridayStart1_error: "",
+    fridayEnd1_error: "",
+    fridayStart2_error: "",
+    fridayEnd2_error: "",
+
+    saturday_error: "",
+    saturdayStart1_error: "",
+    saturdayEnd1_error: "",
+    saturdayStart2_error: "",
+    saturdayEnd2_error: "",
+
+    sunday_error: "",
+    sundayStart1_error: "",
+    sundayEnd1_error: "",
+    sundayStart2_error: "",
+    sundayEnd2_error: "",
+
     monday_s: "",
     monday_day_s: "",
     mondayStart1_s: "",
@@ -144,6 +186,12 @@ export default class LocationManager extends Component {
     mondayEnd2_s: "",
     add_special_hour: false,
     special_hour_data: {},
+
+    monday_day_s_error: "",
+    mondayStart1_s_error: "",
+    mondayEnd1_s_error: "",
+    mondayStart2_s_error: "",
+    mondayEnd2_s_error: "",
 
     LocationDetails: "",
     // otherImageLength: [0, 1, 2, 3, 4, 5, 6, 7],
@@ -158,7 +206,11 @@ export default class LocationManager extends Component {
     logoLoading: false,
     coverImageLoading: false,
 
-    businessCategories: []
+    businessCategories: [],
+
+    phone_error: "",
+    applyAll: false,
+    applyAllError: ""
   };
 
   componentDidMount = async () => {
@@ -171,11 +223,7 @@ export default class LocationManager extends Component {
     const data = {
       location_id: locationId
     };
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-location-by-id",
-    //   data,
-    //   DjangoConfig
-    // )
+
     location_by_id(data, DjangoConfig).then(resp => {
       console.log("location_by_id", resp.data);
       this.setState({
@@ -232,7 +280,10 @@ export default class LocationManager extends Component {
             : ""
         );
       });
-    });
+    }).catch(err => {
+      console.log("err",err)
+      this.setState({loader:false})
+    })
   };
 
   editDetailsButton = event => {
@@ -261,6 +312,9 @@ export default class LocationManager extends Component {
   updateDetailsButton = name => event => {
     event.preventDefault();
     var locationId = this.props.match.params.locationId;
+    this.setState({
+      phone_error: ""
+    });
     let {
       storeCode_edit,
       address_edit,
@@ -290,16 +344,42 @@ export default class LocationManager extends Component {
         Twitter_Profile: twitterProfile_edit
       };
       this.setState({ businessDetailsLoading: true });
+      this.updateDetails(data);
     } else if (name == "details2") {
-      data = {
-        Location_id: locationId,
-        Store_Code: storeCode_edit,
-        Address_1: address_edit,
-        Phone_no: phone_edit,
-        Website: website_edit
-      };
-      this.setState({ businessDetailsLoading2: true });
+      const result = phone_regex(phone_edit);
+      if (result === false) {
+        this.setState({
+          phone_error: "Not a valid Phone No."
+        });
+      } else {
+        data = {
+          Location_id: locationId,
+          Store_Code: storeCode_edit,
+          Address_1: address_edit,
+          Phone_no: phone_edit,
+          Website: website_edit
+        };
+        this.setState({ businessDetailsLoading2: true });
+        this.updateDetails(data);
+      }
     }
+  };
+
+  updateDetails = (data) => {
+    let {
+      storeCode_edit,
+      address_edit,
+      website_edit,
+      phone_edit,
+      ownerName_edit,
+      ownerEmail_edit,
+      businessTagline_edit,
+      yearOfIncorp_edit,
+      about_edit,
+      facebookProfile_edit,
+      instagramProfile_edit,
+      twitterProfile_edit
+    } = this.state;
 
     edit_location_by_id(data, DjangoConfig)
       .then(resp => {
@@ -307,6 +387,7 @@ export default class LocationManager extends Component {
 
         this.setState({
           detailEdit: false,
+          detailEdit2:false,
           businessDetailsLoading: false,
           businessDetailsLoading2: false,
           storeCode: storeCode_edit,
@@ -329,38 +410,9 @@ export default class LocationManager extends Component {
           businessDetailsLoading: false,
           businessDetailsLoading2: false
         });
-        alert("try again");
+        swal("couldn't update details");
       });
   };
-
-  // updateDetailsButton2 = event => {
-  //   event.preventDefault();
-  //   var locationId = this.props.match.params.locationId;
-  //   let {storeCode ,category_id ,address, website, phone} = this.state;
-
-  //   const data = {
-  //     Location_id: locationId,
-  //     Store_Code:storeCode,
-  //     Address_1:address,
-  //     Phone_no:phone,
-  //     Website:website,
-  //     Business_category:category_id
-  //   }
-
-  //   this.setState({ businessDetailsLoading2: true });
-
-  //   edit_location_by_id(data, DjangoConfig)
-  //     .then(resp => {
-  //       console.log("update user details",resp);
-
-  //       this.setState({ detailEdit: false, businessDetailsLoading2: false });
-  //     })
-  //     .catch(resp => {
-  //       console.log("update user details err",resp);
-  //       this.setState({ businessDetailsLoading2: false });
-  //       alert("try again")
-  //     });
-  // };
 
   updatePaymentButton = event => {
     event.preventDefault();
@@ -502,164 +554,604 @@ export default class LocationManager extends Component {
       });
   };
 
-  updateHourButton = event => {
+  allChanger = event => {
+    let {
+      monday,
+      mondayStart1,
+      mondayStart2,
+      mondayEnd1,
+      mondayEnd2
+    } = this.state;
+    let isValid = false;
+    this.setState({ applyAllError: "" });
+    if (monday == "CLOSED" || monday == "OPEN 24x7") {
+      isValid = true;
+    } else if (monday == "OPEN") {
+      if (mondayStart1 && mondayEnd1) {
+        isValid = true;
+      }
+    } else if (monday == "SPLIT") {
+      if (mondayStart1 && mondayStart2 && mondayEnd1 && mondayEnd2) {
+        isValid = true;
+      }
+    }
+
+    if (isValid == false) {
+      this.setState({
+        applyAllError: "Select  operating hours of Monday first"
+      });
+    }
+
+    if (event.target.checked && isValid) {
+      this.setState({
+        applyAll: true,
+
+        tuesday: this.state.monday,
+        tuesdayStart1: this.state.mondayStart1,
+        tuesdayEnd1: this.state.mondayEnd1,
+        tuesdayStart2: this.state.mondayStart2,
+        tuesdayEnd2: this.state.mondayEnd2,
+
+        wednesday: this.state.monday,
+        wednesdayStart1: this.state.mondayStart1,
+        wednesdayEnd1: this.state.mondayEnd1,
+        wednesdayStart2: this.state.mondayStart2,
+        wednesdayEnd2: this.state.mondayEnd2,
+
+        thursday: this.state.monday,
+        thursdayStart1: this.state.mondayStart1,
+        thursdayEnd1: this.state.mondayEnd1,
+        thursdayStart2: this.state.mondayStart2,
+        thursdayEnd2: this.state.mondayEnd2,
+
+        friday: this.state.monday,
+        fridayStart1: this.state.mondayStart1,
+        fridayEnd1: this.state.mondayEnd1,
+        fridayStart2: this.state.mondayStart2,
+        fridayEnd2: this.state.mondayEnd2,
+
+        saturday: this.state.monday,
+        saturdayStart1: this.state.mondayStart1,
+        saturdayEnd1: this.state.mondayEnd1,
+        saturdayStart2: this.state.mondayStart2,
+        saturdayEnd2: this.state.mondayEnd2,
+
+        sunday: this.state.monday,
+        sundayStart1: this.state.mondayStart1,
+        sundayEnd1: this.state.mondayEnd1,
+        sundayStart2: this.state.mondayStart2,
+        sundayEnd2: this.state.mondayEnd2
+      });
+    } else {
+      this.setState({
+        applyAll: false,
+
+        tuesday: "",
+        tuesdayStart1: "",
+        tuesdayEnd1: "",
+        tuesdayStart2: "",
+        tuesdayEnd2: "",
+
+        wednesday: "",
+        wednesdayStart1: "",
+        wednesdayEnd1: "",
+        wednesdayStart2: "",
+        wednesdayEnd2: "",
+
+        thursday: "",
+        thursdayStart1: "",
+        thursdayEnd1: "",
+        thursdayStart2: "",
+        thursdayEnd2: "",
+
+        friday: "",
+        fridayStart1: "",
+        fridayEnd1: "",
+        fridayStart2: "",
+        fridayEnd2: "",
+
+        saturday: "",
+        saturdayStart1: "",
+        saturdayEnd1: "",
+        saturdayStart2: "",
+        saturdayEnd2: "",
+
+        sunday: "",
+        sundayStart1: "",
+        sundayEnd1: "",
+        sundayStart2: "",
+        sundayEnd2: ""
+      });
+    }
+  };
+
+  checkUpdateHourDetaisls = () => {
+    let {
+      monday,
+      mondayStart1,
+      mondayStart2,
+      mondayEnd1,
+      mondayEnd2,
+      tuesday,
+      tuesdayStart1,
+      tuesdayEnd1,
+      tuesdayStart2,
+      tuesdayEnd2,
+
+      wednesday,
+      wednesdayStart1,
+      wednesdayEnd1,
+      wednesdayStart2,
+      wednesdayEnd2,
+
+      thursday,
+      thursdayStart1,
+      thursdayEnd1,
+      thursdayStart2,
+      thursdayEnd2,
+
+      friday,
+      fridayStart1,
+      fridayEnd1,
+      fridayStart2,
+      fridayEnd2,
+
+      saturday,
+      saturdayStart1,
+      saturdayEnd1,
+      saturdayStart2,
+      saturdayEnd2,
+
+      sunday,
+      sundayStart1,
+      sundayEnd1,
+      sundayStart2,
+      sundayEnd2
+    } = this.state;
+
+    this.setState({
+      mondayStart1_error: "",
+      mondayStart2_error: "",
+      mondayEnd1_error: "",
+      mondayEnd2_error: "",
+      tuesdayStart1_error: "",
+      tuesdayEnd1_error: "",
+      tuesdayStart2_error: "",
+      tuesdayEnd2_error: "",
+
+      wednesdayStart1_error: "",
+      wednesdayEnd1_error: "",
+      wednesdayStart2_error: "",
+      wednesdayEnd2_error: "",
+
+      thursdayStart1_error: "",
+      thursdayEnd1_error: "",
+      thursdayStart2_error: "",
+      thursdayEnd2_error: "",
+
+      fridayStart1_error: "",
+      fridayEnd1_error: "",
+      fridayStart2_error: "",
+      fridayEnd2_error: "",
+
+      saturdayStart1_error: "",
+      saturdayEnd1_error: "",
+      saturdayStart2_error: "",
+      saturdayEnd2_error: "",
+
+      sundayStart1_error: "",
+      sundayEnd1_error: "",
+      sundayStart2_error: "",
+      sundayEnd2_error: ""
+    });
+
+    let isError = false;
+
+    if (monday == "OPEN") {
+      if (!mondayStart1) {
+        this.setState({ mondayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!mondayEnd1) {
+        this.setState({ mondayEnd1_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (monday == "SPLIT") {
+      if (!mondayStart1) {
+        this.setState({ mondayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!mondayEnd1) {
+        this.setState({ mondayEnd1_error: "complete this field" });
+        isError = true;
+      }
+      if (!mondayStart2) {
+        this.setState({ mondayEnd2_error: "complete this field" });
+        isError = true;
+      }
+      if (!mondayEnd2) {
+        this.setState({ mondayEnd2_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (tuesday == "OPEN") {
+      if (!tuesdayStart1) {
+        this.setState({ tuesdayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!tuesdayEnd1) {
+        this.setState({ tuesdayEnd1_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (tuesday == "SPLIT") {
+      if (!tuesdayStart1) {
+        this.setState({ tuesdayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!tuesdayEnd1) {
+        this.setState({ tuesdayEnd1_error: "complete this field" });
+        isError = true;
+      }
+      if (!tuesdayStart2) {
+        this.setState({ tuesdayEnd2_error: "complete this field" });
+        isError = true;
+      }
+      if (!tuesdayEnd2) {
+        this.setState({ tuesdayEnd2_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (wednesday == "OPEN") {
+      if (!wednesdayStart1) {
+        this.setState({ wednesdayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!wednesdayEnd1) {
+        this.setState({ wednesdayEnd1_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (wednesday == "SPLIT") {
+      if (!wednesdayStart1) {
+        this.setState({ wednesdayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!wednesdayEnd1) {
+        this.setState({ wednesdayEnd1_error: "complete this field" });
+        isError = true;
+      }
+      if (!wednesdayStart2) {
+        this.setState({ wednesdayEnd2_error: "complete this field" });
+        isError = true;
+      }
+      if (!wednesdayEnd2) {
+        this.setState({ wednesdayEnd2_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (thursday == "OPEN") {
+      if (!thursdayStart1) {
+        this.setState({ thursdayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!thursdayEnd1) {
+        this.setState({ thursdayEnd1_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (thursday == "SPLIT") {
+      if (!thursdayStart1) {
+        this.setState({ thursdayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!thursdayEnd1) {
+        this.setState({ thursdayEnd1_error: "complete this field" });
+        isError = true;
+      }
+      if (!thursdayStart2) {
+        this.setState({ thursdayEnd2_error: "complete this field" });
+        isError = true;
+      }
+      if (!thursdayEnd2) {
+        this.setState({ thursdayEnd2_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (friday == "OPEN") {
+      if (!fridayStart1) {
+        this.setState({ fridayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!fridayEnd1) {
+        this.setState({ fridayEnd1_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (friday == "SPLIT") {
+      if (!fridayStart1) {
+        this.setState({ fridayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!fridayEnd1) {
+        this.setState({ fridayEnd1_error: "complete this field" });
+        isError = true;
+      }
+      if (!fridayStart2) {
+        this.setState({ fridayEnd2_error: "complete this field" });
+        isError = true;
+      }
+      if (!fridayEnd2) {
+        this.setState({ fridayEnd2_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (saturday == "OPEN") {
+      if (!saturdayStart1) {
+        this.setState({ saturdayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!saturdayEnd1) {
+        this.setState({ saturdayEnd1_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (saturday == "SPLIT") {
+      if (!saturdayStart1) {
+        this.setState({ saturdayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!saturdayEnd1) {
+        this.setState({ saturdayEnd1_error: "complete this field" });
+        isError = true;
+      }
+      if (!saturdayStart2) {
+        this.setState({ saturdayEnd2_error: "complete this field" });
+        isError = true;
+      }
+      if (!saturdayEnd2) {
+        this.setState({ saturdayEnd2_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (sunday == "OPEN") {
+      if (!sundayStart1) {
+        this.setState({ sundayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!sundayEnd1) {
+        this.setState({ sundayEnd1_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (sunday == "SPLIT") {
+      if (!sundayStart1) {
+        this.setState({ sundayStart1_error: "complete this field" });
+        isError = true;
+      }
+      if (!sundayEnd1) {
+        this.setState({ sundayEnd1_error: "complete this field" });
+        isError = true;
+      }
+      if (!sundayStart2) {
+        this.setState({ sundayEnd2_error: "complete this field" });
+        isError = true;
+      }
+      if (!sundayEnd2) {
+        this.setState({ sundayEnd2_error: "complete this field" });
+        isError = true;
+      }
+    }
+    return isError;
+  };
+
+  updateHourButton = async event => {
     event.preventDefault();
-    console.log("hr");
 
-    this.setState({ operatingHoursLoading: true });
-
+    let isError = await this.checkUpdateHourDetaisls();
     var locationId = this.props.match.params.locationId;
 
-    const data = {
-      Location_id: locationId,
-      open_houre: {
-        0: {
-          date: "",
-          Day: "Monday",
-          Type: "Regular",
-          Open_status: this.state.monday,
-          start_time_1: this.state.mondayStart1,
-          end_time_1: this.state.mondayEnd1,
-          start_time_2: this.state.mondayStart2,
-          end_time_2: this.state.mondayEnd2
-        },
-        1: {
-          date: "",
-          Day: "Tuesday",
-          Type: "Regular",
-          Open_status: this.state.tuesday,
-          start_time_1: this.state.tuesdayStart1,
-          end_time_1: this.state.tuesdayEnd1,
-          start_time_2: this.state.tuesdayStart2,
-          end_time_2: this.state.tuesdayEnd2
-        },
-        2: {
-          date: "",
-          Day: "Wednesday",
-          Type: "Regular",
-          Open_status: this.state.wednesday,
-          start_time_1: this.state.wednesdayStart1,
-          end_time_1: this.state.wednesdayEnd1,
-          start_time_2: this.state.wednesdayStart2,
-          end_time_2: this.state.wednesdayEnd2
-        },
-        3: {
-          date: "",
-          Day: "Thursday",
-          Type: "Regular",
-          Open_status: this.state.thursday,
-          start_time_1: this.state.thursdayStart1,
-          end_time_1: this.state.thursdayEnd1,
-          start_time_2: this.state.thursdayStart2,
-          end_time_2: this.state.thursdayEnd2
-        },
-        4: {
-          date: "",
-          Day: "Friday",
-          Type: "Regular",
-          Open_status: this.state.friday,
-          start_time_1: this.state.fridayStart1,
-          end_time_1: this.state.fridayEnd1,
-          start_time_2: this.state.fridayStart2,
-          end_time_2: this.state.fridayEnd2
-        },
-        5: {
-          date: "",
-          Day: "Saturday",
-          Type: "Regular",
-          Open_status: this.state.saturday,
-          start_time_1: this.state.saturdayStart1,
-          end_time_1: this.state.saturdayEnd1,
-          start_time_2: this.state.saturdayStart2,
-          end_time_2: this.state.saturdayEnd2
-        },
-        6: {
-          date: "",
-          Day: "Sunday",
-          Type: "Regular",
-          Open_status: this.state.sunday,
-          start_time_1: this.state.sundayStart1,
-          end_time_1: this.state.sundayEnd1,
-          start_time_2: this.state.sundayStart2,
-          end_time_2: this.state.sundayEnd2
+    if (!isError && locationId) {
+      this.setState({ operatingHoursLoading: true });
+
+      const data = {
+        Location_id: locationId,
+        open_houre: {
+          0: {
+            date: "",
+            Day: "Monday",
+            Type: "Regular",
+            Open_status: this.state.monday,
+            start_time_1: this.state.mondayStart1,
+            end_time_1: this.state.mondayEnd1,
+            start_time_2: this.state.mondayStart2,
+            end_time_2: this.state.mondayEnd2
+          },
+          1: {
+            date: "",
+            Day: "Tuesday",
+            Type: "Regular",
+            Open_status: this.state.tuesday,
+            start_time_1: this.state.tuesdayStart1,
+            end_time_1: this.state.tuesdayEnd1,
+            start_time_2: this.state.tuesdayStart2,
+            end_time_2: this.state.tuesdayEnd2
+          },
+          2: {
+            date: "",
+            Day: "Wednesday",
+            Type: "Regular",
+            Open_status: this.state.wednesday,
+            start_time_1: this.state.wednesdayStart1,
+            end_time_1: this.state.wednesdayEnd1,
+            start_time_2: this.state.wednesdayStart2,
+            end_time_2: this.state.wednesdayEnd2
+          },
+          3: {
+            date: "",
+            Day: "Thursday",
+            Type: "Regular",
+            Open_status: this.state.thursday,
+            start_time_1: this.state.thursdayStart1,
+            end_time_1: this.state.thursdayEnd1,
+            start_time_2: this.state.thursdayStart2,
+            end_time_2: this.state.thursdayEnd2
+          },
+          4: {
+            date: "",
+            Day: "Friday",
+            Type: "Regular",
+            Open_status: this.state.friday,
+            start_time_1: this.state.fridayStart1,
+            end_time_1: this.state.fridayEnd1,
+            start_time_2: this.state.fridayStart2,
+            end_time_2: this.state.fridayEnd2
+          },
+          5: {
+            date: "",
+            Day: "Saturday",
+            Type: "Regular",
+            Open_status: this.state.saturday,
+            start_time_1: this.state.saturdayStart1,
+            end_time_1: this.state.saturdayEnd1,
+            start_time_2: this.state.saturdayStart2,
+            end_time_2: this.state.saturdayEnd2
+          },
+          6: {
+            date: "",
+            Day: "Sunday",
+            Type: "Regular",
+            Open_status: this.state.sunday,
+            start_time_1: this.state.sundayStart1,
+            end_time_1: this.state.sundayEnd1,
+            start_time_2: this.state.sundayStart2,
+            end_time_2: this.state.sundayEnd2
+          }
         }
-      }
-    };
+      };
 
-    edit_location_operations_hours_by_id(data, DjangoConfig)
-      .then(resp => {
-        console.log(resp);
-        this.setState({ hourEdit: false });
-        // window.location.reload(false);
+      edit_location_operations_hours_by_id(data, DjangoConfig)
+        .then(resp => {
+          console.log(resp);
+          this.setState({ hourEdit: false });
+          // window.location.reload(false);
 
-        const data1 = {
-          location_id: locationId
-        };
+          const data1 = {
+            location_id: locationId
+          };
 
-        location_by_id(data1, DjangoConfig)
-          .then(resp1 => {
-            this.setState({
-              hours: resp1.data.location.Df_location_poen_hour,
-              operatingHoursLoading: false
+          location_by_id(data1, DjangoConfig)
+            .then(resp1 => {
+              this.setState({
+                hours: resp1.data.location.Df_location_poen_hour,
+                operatingHoursLoading: false
+              });
+            })
+            .catch(resp1 => {
+              console.log(resp1);
+              this.setState({
+                operatingHoursLoading: false
+              });
             });
-          })
-          .catch(resp1 => {
-            console.log(resp1);
-            this.setState({
-              operatingHoursLoading: false
-            });
+        })
+        .catch(resp => {
+          console.log(resp);
+          this.setState({
+            operatingHoursLoading: false
           });
-      })
-      .catch(resp => {
-        console.log(resp);
-        this.setState({
-          operatingHoursLoading: false
         });
-      });
+    }
   };
 
   editSpecialHourButton = event => {
     console.log("hr");
-    this.setState({ add_special_hour: true });
+    this.setState({ add_special_hour: !this.state.add_special_hour });
   };
 
-  // addSpecialHourButton = () => {
-  // console.log("open hours",this.state.LocationDetails.Df_location_poen_hour)
-  // }
+  specialHourError = () => {
+    let {
+      monday_s,
+      monday_day_s,
+      mondayStart1_s,
+      mondayStart2_s,
+      mondayEnd1_s,
+      mondayEnd2_s
+    } = this.state;
+    this.setState({
+      monday_day_s_error: "",
+      mondayStart1_s_error: "",
+      mondayStart2_s_error: "",
+      mondayEnd1_s_error: "",
+      mondayEnd2_s_error: ""
+    });
+    let isError = false;
+    if (!monday_day_s) {
+      this.setState({ monday_day_s_error: "complete this field" });
+      isError = true;
+    }
+    if (monday_s == "OPEN") {
+      if (!mondayStart1_s) {
+        this.setState({ mondayStart1_s_error: "complete this field" });
+        isError = true;
+      }
+      if (!mondayEnd1_s) {
+        this.setState({ mondayEnd1_s_error: "complete this field" });
+        isError = true;
+      }
+    }
+    if (monday_s == "SPLIT") {
+      if (!mondayStart1_s) {
+        this.setState({ mondayStart1_s_error: "complete this field" });
+        isError = true;
+      }
+      if (!mondayEnd1_s) {
+        this.setState({ mondayEnd1_s_error: "complete this field" });
+        isError = true;
+      }
+      if (!mondayStart2_s) {
+        this.setState({ mondayStart2_s_error: "complete this field" });
+        isError = true;
+      }
+      if (!mondayEnd2_s) {
+        this.setState({ mondayEnd2_s_error: "complete this field" });
+        isError = true;
+      }
+    }
+    return isError;
+  };
 
   addSpecialHourButton = async event => {
     event.preventDefault();
 
-    // this.setState(prevState => ({
-    //   special_hour_data: {
-    //     ...prevState.special_hour_data,
-    //     [name]: event.target.value
-    //   }
-    // }));
-    let i = 0;
-    let i2 = this.state.LocationDetails.Df_location_poen_hour.length - 7;
-    console.log("monday", this.state.monday_day_s, i);
+    let isError = await this.specialHourError();
 
-    if (this.state.monday_day_s) {
-      await this.setState(prevState => ({
-        special_hour_data: {
-          ...prevState.special_hour_data,
-          [i]: {
-            date: this.state.monday_day_s,
-            Day: "Special",
-            Type: `Special-${i2}`,
-            Open_status: this.state.monday_s,
-            start_time_1: this.state.mondayStart1_s,
-            end_time_1: this.state.mondayEnd1_s,
-            start_time_2: this.state.mondayStart2_s,
-            end_time_2: this.state.mondayEnd2_s
+    if (!isError) {
+      let i = 0;
+      let i2 = this.state.LocationDetails.Df_location_poen_hour.length - 7;
+      console.log("monday", this.state.monday_day_s, i);
+
+      if (this.state.monday_day_s) {
+        await this.setState(prevState => ({
+          special_hour_data: {
+            ...prevState.special_hour_data,
+            [i]: {
+              date: this.state.monday_day_s,
+              Day: "Special",
+              Type: `Special-${i2}`,
+              Open_status: this.state.monday_s,
+              start_time_1: this.state.mondayStart1_s,
+              end_time_1: this.state.mondayEnd1_s,
+              start_time_2: this.state.mondayStart2_s,
+              end_time_2: this.state.mondayEnd2_s
+            }
           }
-        }
-      }));
-      i++;
-    }
+        }));
+        i++;
+      }
 
-    this.addSpecialHourToDb();
+      this.addSpecialHourToDb();
+    }
   };
 
   addSpecialHourToDb = () => {
@@ -697,10 +1189,17 @@ export default class LocationManager extends Component {
       })
       .catch(resp => {
         console.log(resp);
+        this.setState({ specialTimeLoading: false });
+        swal("couldn't add special hour");
       });
   };
 
+  clear_day_state = date => {
+    this.setState({ [date]: "" });
+  };
+
   changeHandler = event => {
+    console.log("changeHandler", event.target.value);
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -854,6 +1353,56 @@ export default class LocationManager extends Component {
   render() {
     console.log(this.state);
 
+    let {
+      mondayStart1_error,
+      mondayStart2_error,
+      mondayEnd1_error,
+      mondayEnd2_error,
+      tuesday_error,
+      tuesdayStart1_error,
+      tuesdayEnd1_error,
+      tuesdayStart2_error,
+      tuesdayEnd2_error,
+      wednesday_error,
+      wednesdayStart1_error,
+      wednesdayEnd1_error,
+      wednesdayStart2_error,
+      wednesdayEnd2_error,
+
+      thursday_error,
+      thursdayStart1_error,
+      thursdayEnd1_error,
+      thursdayStart2_error,
+      thursdayEnd2_error,
+
+      friday_error,
+      fridayStart1_error,
+      fridayEnd1_error,
+      fridayStart2_error,
+      fridayEnd2_error,
+
+      saturday_error,
+      saturdayStart1_error,
+      saturdayEnd1_error,
+      saturdayStart2_error,
+      saturdayEnd2_error,
+
+      sunday_error,
+      sundayStart1_error,
+      sundayEnd1_error,
+      sundayStart2_error,
+      sundayEnd2_error,
+
+      monday_day_s_error,
+      mondayStart1_s_error,
+      mondayEnd1_s_error,
+      mondayStart2_s_error,
+      mondayEnd2_s_error,
+
+      applyAll,
+    applyAllError
+    } = this.state;
+
     localStorage.setItem("locationId", this.props.match.params.locationId);
 
     var RegularHours1;
@@ -867,7 +1416,7 @@ export default class LocationManager extends Component {
               {h.Open_status == "SPLIT" ? (
                 <div>
                   {h.start_time_1} - {h.end_time_1}
-                  <br/>
+                  <br />
                   {h.start_time_2} - {h.end_time_2}
                 </div>
               ) : (
@@ -938,10 +1487,9 @@ export default class LocationManager extends Component {
     var paymentAccepted;
 
     paymentAccepted = this.state.payment.map(p => (
-                        
-                          // <MDBCol md='2'>
-                          //   <div className='payment_box'>
-      <MDBCol md='2' key={p.id}>
+      // <MDBCol md='2'>
+      //   <div className='payment_box'>
+      <MDBCol md="2" key={p.id}>
         {p.Payment_Method == "Visa" ? (
           <div className='payment_box'>
             <label >
@@ -957,7 +1505,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-maestro.png")} alt="Maestro" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -967,7 +1514,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-amex.png")} alt="Amex" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -977,7 +1523,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-cash.png")} alt="Cash" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -987,7 +1532,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-check.png")} alt="Check" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -997,7 +1541,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-crypto.png")} alt="Crypto" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1007,7 +1550,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-diners.png")} alt="Diners" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1017,7 +1559,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-discover.png")} alt="Discover" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1027,7 +1568,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-apple.png")} alt="Apple" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1037,7 +1577,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-samsung.png")} alt="Samsung" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1047,7 +1586,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-paypal.png")} alt="Paypal" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1057,7 +1595,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-android.png")} alt="Android" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1067,7 +1604,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-invoices.png")} alt="Invoices" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1080,7 +1616,6 @@ export default class LocationManager extends Component {
           />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1090,7 +1625,6 @@ export default class LocationManager extends Component {
           <img src={require("../images/p-financing.png")} alt="Financing" />
           </label>
           </div>
-          
         ) : (
           ""
         )}
@@ -1122,58 +1656,63 @@ export default class LocationManager extends Component {
                     <div className="col-md-4">
                       {this.state.businessDetailsLoading2 ? (
                         <div className="white-shadow">
-                        <div style={{ textAlign: "center" }}>
-                          <Loader
-                            type="Oval"
-                            color="#00BFFF"
-                            height={30}
-                            width={30}
-                            // timeout={3000} //3 secs
-                          />
+                          <div style={{ textAlign: "center" }}>
+                            <Loader
+                              type="Oval"
+                              color="#00BFFF"
+                              height={30}
+                              width={30}
+                              // timeout={3000} //3 secs
+                            />
                           </div>
                         </div>
                       ) : this.state.detailEdit2 ? (
                         <div className="white-shadow">
-                        <div >
-                        <MDBRow >
-                                <MDBCol md='9' className='vl_box_head'>{this.state.name}</MDBCol>
-                                </MDBRow>
-                            
-                          <form onSubmit={this.updateDetailsButton("details2")}>
-                            {this.state.logoLoading ? (
-                              <div style={{ textAlign: "center" }}>
-                                <Loader
-                                  type="Oval"
-                                  color="#00BFFF"
-                                  height={30}
-                                  width={30}
-                                  // timeout={3000} //3 secs
-                                />
-                              </div>
-                            ) : LocationDetails.Business_Logo ? (
-                              <div className="uploadphoto pt-15">
-                                <img
-                                  src={
-                                    "https://dashify.biz" +
-                                    LocationDetails.Business_Logo
-                                  }
-                                  alt=""
-                                />
-                                {/* <br /> */}
-                                <div className="get-image">
-                    <img
-                      src={edit}
-                      alt=""
-                      style={{ height: "20px", width: "20px" }}
-                    /><input
-                    type="file"
-                    name="Business_Logo"
-                    onChange={this.onUploadLogo(
-                      "Business_Logo"
-                    )}
-                  />
-                    </div>
-                                {/* <div>
+                          <div>
+                            <MDBRow>
+                              <MDBCol md="9" className="vl_box_head">
+                                {this.state.name}
+                              </MDBCol>
+                            </MDBRow>
+
+                            <form
+                              onSubmit={this.updateDetailsButton("details2")}
+                            >
+                              {this.state.logoLoading ? (
+                                <div style={{ textAlign: "center" }}>
+                                  <Loader
+                                    type="Oval"
+                                    color="#00BFFF"
+                                    height={30}
+                                    width={30}
+                                    // timeout={3000} //3 secs
+                                  />
+                                </div>
+                              ) : LocationDetails.Business_Logo ? (
+                                <div className="uploadphoto pt-15">
+                                  <img
+                                    src={
+                                      "https://dashify.biz" +
+                                      LocationDetails.Business_Logo
+                                    }
+                                    alt=""
+                                  />
+                                  {/* <br /> */}
+                                  <div className="get-image">
+                                    <img
+                                      src={edit}
+                                      alt=""
+                                      style={{ height: "20px", width: "20px" }}
+                                    />
+                                    <input
+                                      type="file"
+                                      name="Business_Logo"
+                                      onChange={this.onUploadLogo(
+                                        "Business_Logo"
+                                      )}
+                                    />
+                                  </div>
+                                  {/* <div>
                                   Update
                                   <input
                                     type="file"
@@ -1183,23 +1722,24 @@ export default class LocationManager extends Component {
                                     )}
                                   />
                                 </div> */}
-                              </div>
-                            ) : (
-                              <div className="uploadphoto pt-15">
-                                <div className="get-image">
-                    <img
-                      src={edit}
-                      alt=""
-                      style={{ height: "20px", width: "20px" }}
-                    /><input
-                    type="file"
-                    name="Business_Logo"
-                    onChange={this.onUploadLogo(
-                      "Business_Logo"
-                    )}
-                  />
-                    </div>
-                                {/* <div>
+                                </div>
+                              ) : (
+                                <div className="uploadphoto pt-15">
+                                  <div className="get-image">
+                                    <img
+                                      src={edit}
+                                      alt=""
+                                      style={{ height: "20px", width: "20px" }}
+                                    />
+                                    <input
+                                      type="file"
+                                      name="Business_Logo"
+                                      onChange={this.onUploadLogo(
+                                        "Business_Logo"
+                                      )}
+                                    />
+                                  </div>
+                                  {/* <div>
                                   <i className="zmdi zmdi-cloud-upload"></i>
                                   <h3>Upload logo</h3>
                                   <input
@@ -1210,184 +1750,130 @@ export default class LocationManager extends Component {
                                     )}
                                   />
                                 </div> */}
+                                </div>
+                              )}
+
+                              <div className="detailbox">
+                                <MDBRow>
+                                  <MDBCol>
+                                    <MDBRow className="uploadauthor">
+                                      <MDBCol md="6">
+                                        <div className="author_namebox">
+                                          Store Code :
+                                        </div>
+                                      </MDBCol>
+
+                                      <MDBCol md="6">
+                                        <input
+                                          name="storeCode_edit"
+                                          onChange={this.changeHandler}
+                                          type="text"
+                                          className="vl_edit_input"
+                                          value={this.state.storeCode_edit}
+                                        />
+                                      </MDBCol>
+                                    </MDBRow>
+
+                                    <MDBRow className="uploadauthor">
+                                      <MDBCol md="6">
+                                        <div className="author_namebox">
+                                          Address :
+                                        </div>
+                                      </MDBCol>
+
+                                      <MDBCol md="6">
+                                        <input
+                                          name="address_edit"
+                                          onChange={this.changeHandler}
+                                          className="vl_edit_input"
+                                          value={this.state.address_edit}
+                                        />
+                                      </MDBCol>
+                                    </MDBRow>
+
+                                    <MDBRow className="uploadauthor">
+                                      <MDBCol md="6">
+                                        <div className="author_namebox">
+                                          Phone :
+                                        </div>
+                                      </MDBCol>
+
+                                      <MDBCol md="6">
+                                        <input
+                                          name="phone_edit"
+                                          onChange={this.changeHandler}
+                                          type="tel"
+                                          type="number"
+                                          className="vl_edit_input"
+                                          value={this.state.phone_edit}
+                                        />
+                                        <div style={{ color: "red" }}>
+                                          {this.state.phone_error}
+                                        </div>
+                                      </MDBCol>
+                                    </MDBRow>
+
+                                    <MDBRow className="uploadauthor">
+                                      <MDBCol md="6">
+                                        <div className="author_namebox">
+                                          Website :
+                                        </div>
+                                      </MDBCol>
+
+                                      <MDBCol md="6">
+                                        <input
+                                          name="website_edit"
+                                          type="url"
+                                          onChange={this.changeHandler}
+                                          className="vl_edit_input"
+                                          value={this.state.website_edit}
+                                        />
+                                      </MDBCol>
+                                    </MDBRow>
+
+                                    <MDBRow style={{ marginTop: "20px" }}>
+                                      <MDBCol md="3" className="offset-md-5">
+                                        <button
+                                          type="submit"
+                                          className="last_btn"
+                                          style={{ marginLeft: "-5px" }}
+                                          // onClick={this.updateDetailsButton2}
+                                        >
+                                          Update
+                                        </button>
+                                      </MDBCol>
+                                      <MDBCol md="3">
+                                        <button
+                                          className="last_btn"
+                                          onClick={this.editDetailsButton2}
+                                          style={{ marginLeft: "5px" }}
+                                        >
+                                          Cancel
+                                        </button>
+                                      </MDBCol>
+                                    </MDBRow>
+                                  </MDBCol>
+                                </MDBRow>
                               </div>
-                            )}
-
-<div className="detailbox">
-                              <MDBRow>
-                                <MDBCol>
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                        Store Code :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    <input
-                                name="storeCode_edit"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="vl_edit_input"
-                                value={this.state.storeCode_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                        Address :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    <input
-                                name="address_edit"
-                                onChange={this.changeHandler}
-                                className="vl_edit_input"
-                                value={this.state.address_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                        Phone :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    <input
-                                name="phone_edit"
-                                onChange={this.changeHandler}
-                                // type="tel"
-                                type="number"
-                                className="vl_edit_input"
-                                value={this.state.phone_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                        Website :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    <input
-                                name="website_edit"
-                                type="url"
-                                onChange={this.changeHandler}
-                                className="vl_edit_input"
-                                value={this.state.website_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow style={{marginTop:'20px'}}>
-                                    <MDBCol md='3' className='offset-md-5'  >
-                                    <button
-                                type="submit"
-                                className="last_btn"
-                                style={{marginLeft:'-5px'}}
-                                // onClick={this.updateDetailsButton2}
-                              >
-                                Update
-                              </button>
-                              
-                                    </MDBCol>
-                                    <MDBCol md='3'>
-                                    <button
-                                className="last_btn"
-                                onClick={this.editDetailsButton2}
-                                style={{marginLeft:'5px'}}
-                              >
-                                Cancel
-                              </button>
-                                    </MDBCol>
-                                  </MDBRow>
-                                </MDBCol>
-                              </MDBRow>
-                            </div>
-                            {/* <div className="form-group">
-                              <label>Store Code</label>
-                              <input
-                                name="storeCode_edit"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="vl_edit_input"
-                                value={this.state.storeCode_edit}
-                              />
-                            </div>
-
-                            <div className="form-group">
-                              <label>Address</label>
-                              <input
-                                name="address_edit"
-                                onChange={this.changeHandler}
-                                className="vl_edit_input"
-                                value={this.state.address_edit}
-                              />
-                            </div>
-
-                            <div className="form-group">
-                              <label>Phone</label>
-                              <input
-                                name="phone_edit"
-                                onChange={this.changeHandler}
-                                // type="tel"
-                                type="number"
-                                className="vl_edit_input"
-                                value={this.state.phone_edit}
-                              />
-                            </div>
-
-                            <div className="form-group">
-                              <label>Website</label>
-                              <input
-                                name="website_edit"
-                                type="url"
-                                onChange={this.changeHandler}
-                                className="vl_edit_input"
-                                value={this.state.website_edit}
-                              />
-                            </div>
-
-                            <div className="business-cover text-center">
-                              <button
-                                type="submit"
-                                className="last_btn"
-                                // onClick={this.updateDetailsButton2}
-                              >
-                                Update
-                              </button>
-                              <button
-                                className="last_btn"
-                                onClick={this.editDetailsButton2}
-                              >
-                                Cancel
-                              </button>
-                            </div> */}
-                          </form>
+                            </form>
+                          </div>
                         </div>
-                      </div>
                       ) : (
                         <div className="white-shadow">
-                          <div >
-                            
-                              <MDBRow >
-                                <MDBCol md='9' className='vl_box_head'>{this.state.name}</MDBCol>
-                                <MDBCol md='3'><button
-                                className="last_btn"
-                                onClick={this.editDetailsButton2}
-                              >
-                                Edit
-                              </button></MDBCol>
-                              </MDBRow>
+                          <div>
+                            <MDBRow>
+                              <MDBCol md="9" className="vl_box_head">
+                                {this.state.name}
+                              </MDBCol>
+                              <MDBCol md="3">
+                                <button
+                                  className="last_btn"
+                                  onClick={this.editDetailsButton2}
+                                >
+                                  Edit
+                                </button>
+                              </MDBCol>
+                            </MDBRow>
                             <div className="uploadphoto pt-15">
                               <img
                                 src={
@@ -1486,221 +1972,230 @@ export default class LocationManager extends Component {
                     <div className="col-md-4">
                       {this.state.businessDetailsLoading ? (
                         <div className="white-shadow">
-                        <div style={{ textAlign: "center" }}>
-                          <Loader
-                            type="Oval"
-                            color="#00BFFF"
-                            height={30}
-                            width={30}
-                            // timeout={3000} //3 secs
-                          />
-                        </div>
+                          <div style={{ textAlign: "center" }}>
+                            <Loader
+                              type="Oval"
+                              color="#00BFFF"
+                              height={30}
+                              width={30}
+                              // timeout={3000} //3 secs
+                            />
+                          </div>
                         </div>
                       ) : this.state.detailEdit ? (
                         <div className="white-shadow">
-                        <div >
-                        <MDBRow >
-                                <MDBCol md='9' className='vl_box_head'>{this.state.name}</MDBCol>
-                                </MDBRow>
-                          <form onSubmit={this.updateDetailsButton("details1")}>
-                          
-                          <div className="pt-15">
-                          <MDBRow className="uploadauthor">
-                                    <MDBCol md="12">
-                                      <div className="author_namebox">
+                          <div>
+                            <MDBRow>
+                              <MDBCol md="9" className="vl_box_head">
+                                {this.state.name}
+                              </MDBCol>
+                            </MDBRow>
+                            <form
+                              onSubmit={this.updateDetailsButton("details1")}
+                            >
+                              <div className="pt-15">
+                                <MDBRow className="uploadauthor">
+                                  <MDBCol md="12">
+                                    <div className="author_namebox">
                                       About the business :
-                                      </div>
-                                    </MDBCol>
+                                    </div>
+                                  </MDBCol>
 
-                                    <MDBCol md="12">
+                                  <MDBCol md="12">
                                     <textarea
-                                name="about"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="vl_edit_input"
-                                placeholder="Enter about business "
-                                value={this.state.about}
-                              />
+                                      name="about_edit"
+                                      onChange={this.changeHandler}
+                                      type="text"
+                                      className="vl_edit_input"
+                                      placeholder="Enter about business "
+                                      value={this.state.about_edit}
+                                    />
+                                  </MDBCol>
+                                </MDBRow>
+                                <div className="detailbox">
+                                  <MDBRow>
+                                    <MDBCol>
+                                      <MDBRow className="uploadauthor">
+                                        <MDBCol md="6">
+                                          <div className="author_namebox">
+                                            Owner name :
+                                          </div>
+                                        </MDBCol>
+
+                                        <MDBCol md="6">
+                                          <input
+                                            name="ownerName_edit"
+                                            onChange={this.changeHandler}
+                                            type="text"
+                                            className="vl_edit_input"
+                                            placeholder="Enter Owner Name"
+                                            value={this.state.ownerName_edit}
+                                            required
+                                          />
+                                        </MDBCol>
+                                      </MDBRow>
+
+                                      <MDBRow className="uploadauthor">
+                                        <MDBCol md="6">
+                                          <div className="author_namebox">
+                                            Owner email :
+                                          </div>
+                                        </MDBCol>
+
+                                        <MDBCol md="6">
+                                          <input
+                                            name="ownerEmail_edit"
+                                            onChange={this.changeHandler}
+                                            type="email"
+                                            className="vl_edit_input"
+                                            placeholder="Enter Owner Email"
+                                            value={this.state.ownerEmail_edit}
+                                          />
+                                        </MDBCol>
+                                      </MDBRow>
+
+                                      <MDBRow className="uploadauthor">
+                                        <MDBCol md="6">
+                                          <div className="author_namebox">
+                                            Bussiness tagline :
+                                          </div>
+                                        </MDBCol>
+
+                                        <MDBCol md="6">
+                                          <input
+                                            name="businessTagline_edit"
+                                            onChange={this.changeHandler}
+                                            className="vl_edit_input"
+                                            placeholder="Enter Business Tagline"
+                                            value={
+                                              this.state.businessTagline_edit
+                                            }
+                                          />
+                                        </MDBCol>
+                                      </MDBRow>
+
+                                      <MDBRow className="uploadauthor">
+                                        <MDBCol md="6">
+                                          <div className="author_namebox">
+                                            Year of incorporation :
+                                          </div>
+                                        </MDBCol>
+
+                                        <MDBCol md="6">
+                                          <input
+                                            name="yearOfIncorp_edit"
+                                            onChange={this.changeHandler}
+                                            type="number"
+                                            className="vl_edit_input"
+                                            id="yearOfIncorp"
+                                            placeholder="Enter Year of Incorporation"
+                                            value={this.state.yearOfIncorp_edit}
+                                          />
+                                        </MDBCol>
+                                      </MDBRow>
+
+                                      <MDBRow className="uploadauthor">
+                                        <MDBCol md="6">
+                                          <div className="author_namebox">
+                                            Website :
+                                          </div>
+                                        </MDBCol>
+
+                                        <MDBCol md="6">
+                                          <input
+                                            name="website_edit"
+                                            type="url"
+                                            onChange={this.changeHandler}
+                                            className="vl_edit_input"
+                                            value={this.state.website_edit}
+                                          />
+                                        </MDBCol>
+                                      </MDBRow>
+
+                                      <MDBRow className="uploadauthor">
+                                        <MDBCol md="6">
+                                          <div className="author_namebox">
+                                            Facebook Profile :
+                                          </div>
+                                        </MDBCol>
+
+                                        <MDBCol md="6">
+                                          <input
+                                            name="facebookProfile_edit"
+                                            onChange={this.changeHandler}
+                                            type="url"
+                                            className="vl_edit_input"
+                                            placeholder="Enter Facbook Profile"
+                                            value={
+                                              this.state.facebookProfile_edit
+                                            }
+                                          />
+                                        </MDBCol>
+                                      </MDBRow>
+
+                                      <MDBRow className="uploadauthor">
+                                        <MDBCol md="6">
+                                          <div className="author_namebox">
+                                            Instagram Profile :
+                                          </div>
+                                        </MDBCol>
+
+                                        <MDBCol md="6">
+                                          <input
+                                            name="instagramProfile_edit"
+                                            onChange={this.changeHandler}
+                                            type="url"
+                                            className="vl_edit_input"
+                                            placeholder="Enter Instagram Profile"
+                                            value={
+                                              this.state.instagramProfile_edit
+                                            }
+                                          />
+                                        </MDBCol>
+                                      </MDBRow>
+
+                                      <MDBRow className="uploadauthor">
+                                        <MDBCol md="6">
+                                          <div className="author_namebox">
+                                            Twitter Profile :
+                                          </div>
+                                        </MDBCol>
+
+                                        <MDBCol md="6">
+                                          <input
+                                            name="twitterProfile_edit"
+                                            type="url"
+                                            onChange={this.changeHandler}
+                                            className="vl_edit_input"
+                                            placeholder="Enter twitter Profile"
+                                            value={
+                                              this.state.twitterProfile_edit
+                                            }
+                                          />
+                                        </MDBCol>
+                                      </MDBRow>
                                     </MDBCol>
                                   </MDBRow>
-                            <div className="detailbox">
-                          <MDBRow>
-                                <MDBCol>
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                        Owner name :
-                                      </div>
-                                    </MDBCol>
 
-                                    <MDBCol md="6">
-                                    <input
-                                name="ownerName_edit"
-                                onChange={this.changeHandler}
-                                type="text"
-                                className="vl_edit_input"
-                                placeholder="Enter Owner Name"
-                                value={this.state.ownerName_edit}
-                                required
-                              />
+                                  <MDBRow style={{ marginTop: "20px" }}>
+                                    <MDBCol md="3" className="offset-md-5">
+                                      <button
+                                        type="submit"
+                                        className="last_btn"
+                                        style={{ marginLeft: "-5px" }}
+                                        // onClick={this.updateDetailsButton2}
+                                      >
+                                        Update
+                                      </button>
                                     </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                        Owner email :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    <input
-                                name="ownerEmail_edit"
-                                onChange={this.changeHandler}
-                                type="email"
-                                className="vl_edit_input"
-                                placeholder="Enter Owner Email"
-                                value={this.state.ownerEmail_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                        Bussiness tagline :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    <input
-                                name="businessTagline_edit"
-                                onChange={this.changeHandler}
-                                className="vl_edit_input"
-                                placeholder="Enter Business Tagline"
-                                value={this.state.businessTagline_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                        Year of incorporation :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    <input
-                                name="yearOfIncorp_edit"
-                                onChange={this.changeHandler}
-                                type="number"
-                                className="vl_edit_input"
-                                id="yearOfIncorp"
-                                placeholder="Enter Year of Incorporation"
-                                value={this.state.yearOfIncorp_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                        Website :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    
-                               <input
-                                name="website_edit"
-                                type="url"
-                                onChange={this.changeHandler}
-                                className="vl_edit_input"
-                                value={this.state.website_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                      Facebook Profile :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                              <input
-                                name="facebookProfile_edit"
-                                onChange={this.changeHandler}
-                                type="url"
-                                className="vl_edit_input"
-                                placeholder="Enter Facbook Profile"
-                                value={this.state.facebookProfile_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                      Instagram Profile :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    <input
-                                name="twitterProfile_edit"
-                                onChange={this.changeHandler}
-                                type="url"
-                                className="vl_edit_input"
-                                placeholder="Enter Twitter Profile"
-                                value={this.state.twitterProfile_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-
-                                  <MDBRow className="uploadauthor">
-                                    <MDBCol md="6">
-                                      <div className="author_namebox">
-                                      Twitter Profile :
-                                      </div>
-                                    </MDBCol>
-
-                                    <MDBCol md="6">
-                                    
-                               <input
-                                name="website_edit"
-                                type="url"
-                                onChange={this.changeHandler}
-                                className="vl_edit_input"
-                                value={this.state.website_edit}
-                              />
-                                    </MDBCol>
-                                  </MDBRow>
-                                </MDBCol>
-                              </MDBRow>
-
-                              <MDBRow style={{marginTop:'20px'}}>
-                                    <MDBCol md='3' className='offset-md-5'  >
-                                    <button
-                                type="submit"
-                                className="last_btn"
-                                style={{marginLeft:'-5px'}}
-                                // onClick={this.updateDetailsButton2}
-                              >
-                                Update
-                              </button>
-                              
-                                    </MDBCol>
-                                    <MDBCol md='3'>
-                                    <button
-                                className="last_btn"
-                                onClick={this.editDetailsButton}
-                                style={{marginLeft:'5px'}}
-                              >
-                                Cancel
-                              </button>
+                                    <MDBCol md="3">
+                                      <button
+                                        className="last_btn"
+                                        onClick={this.editDetailsButton}
+                                        style={{ marginLeft: "5px" }}
+                                      >
+                                        Cancel
+                                      </button>
                                     </MDBCol>
                                   </MDBRow>
                                   {/* <div className="business-cover text-center">
@@ -1718,10 +2213,10 @@ export default class LocationManager extends Component {
                                 Cancel
                               </button>
                             </div> */}
-                            </div>
-                            </div>
-                            
-                            {/* <div className="form-group">
+                                </div>
+                              </div>
+
+                              {/* <div className="form-group">
                               <label>Business Owner Name</label>
                               <input
                                 name="ownerName_edit"
@@ -1816,7 +2311,7 @@ export default class LocationManager extends Component {
                               />
                             </div> */}
 
-                            {/* <div className="business-cover text-center">
+                              {/* <div className="business-cover text-center">
                               <button
                                 type="submit"
                                 className="last_btn"
@@ -1831,21 +2326,23 @@ export default class LocationManager extends Component {
                                 Cancel
                               </button>
                             </div> */}
-                          </form>
+                            </form>
                           </div>
                         </div>
                       ) : (
                         <div className="upload_text white-shadow">
-                          <MDBRow >
-                                <MDBCol md='9' className='vl_box_head'>{this.state.name}</MDBCol>
-                                <MDBCol md='3'>
-                            <button
-                              className="last_btn"
-                              onClick={this.editDetailsButton}
-                            >
-                              Edit
-                            </button>
-                          </MDBCol>
+                          <MDBRow>
+                            <MDBCol md="9" className="vl_box_head">
+                              {this.state.name}
+                            </MDBCol>
+                            <MDBCol md="3">
+                              <button
+                                className="last_btn"
+                                onClick={this.editDetailsButton}
+                              >
+                                Edit
+                              </button>
+                            </MDBCol>
                           </MDBRow>
                           <div className="pt-15">
                             <h3>About the business</h3>
@@ -1981,1274 +2478,823 @@ export default class LocationManager extends Component {
                     <div className="col-md-4">
                       {this.state.operatingHoursLoading ? (
                         <div className="white-shadow">
-                        <div style={{ textAlign: "center" }}>
-                          <Loader
-                            type="Oval"
-                            color="#00BFFF"
-                            height={30}
-                            width={30}
-                            // timeout={3000} //3 secs
-                          />
-                        </div>
+                          <div style={{ textAlign: "center" }}>
+                            <Loader
+                              type="Oval"
+                              color="#00BFFF"
+                              height={30}
+                              width={30}
+                              // timeout={3000} //3 secs
+                            />
+                          </div>
                         </div>
                       ) : this.state.hourEdit ? (
                         <div className=" white-shadow">
-                          <MDBRow >
-                                <MDBCol md='9' className='vl_box_head'>Operations Hours</MDBCol>
-                                </MDBRow>
-                                <div className="vl_gap3 ">
-                          <MDBRow className=" daybox">
-                            <MDBCol md='3' className='daytype'>
-                            Monday
-                            </MDBCol>
-                            <MDBCol md='5'>
-                            <select
-                              name="monday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-                            </MDBCol>
-                            <MDBCol md='4'>
-                            <div className="output">
-                              {this.state.monday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="mondayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="mondayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.monday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="mondayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="mondayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="mondayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="mondayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
+                          <MDBRow>
+                            <MDBCol md="9" className="vl_box_head">
+                              Operations Hours
                             </MDBCol>
                           </MDBRow>
-                         
-                          {/*<div className="timebox">
-                            <div className="form-day">MONDAY11</div>
-                            <select
-                              name="monday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
+                          <div className="vl_gap3 ">
+                            <MDBRow className=" daybox">
+                              <MDBCol md="3" className="daytype">
+                                Monday
+                              </MDBCol>
+                              <MDBCol md="5">
+                                <select
+                                  name="monday"
+                                  onChange={this.changeHandler}
+                                  className="vl_edit_input"
+                                >
+                                  <option>Select hours</option>
+                                  <option value="OPEN">OPEN</option>
+                                  <option value="SPLIT">SPLIT</option>
+                                  <option value="OPEN 24x7">OPEN_24x7</option>
+                                  <option value="CLOSED">CLOSED</option>
+                                </select>
+                              </MDBCol>
+                              <MDBCol md="4">
+                                <div className="output">
+                                  {this.state.monday == "OPEN" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        {console.log("time")}
 
-                            <div className="output">
-                              {this.state.monday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
+                                        <input
+                                          name="mondayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {mondayStart1_error}
 
-                                    <input
-                                      name="mondayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
+                                        <input
+                                          name="mondayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {mondayEnd1_error}
+                                      </p>{" "}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
 
-                                    <input
-                                      name="mondayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
+                                  {this.state.monday == "SPLIT" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        <input
+                                          name="mondayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {mondayStart1_error}
+
+                                        <input
+                                          name="mondayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {mondayEnd1_error}
+
+                                        <input
+                                          name="mondayStart2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {mondayStart2_error}
+
+                                        <input
+                                          name="mondayEnd2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {mondayEnd2_error}
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {this.state.monday ? (
+                                    <div
+                                      className="closebox"
+                                      onClick={() =>
+                                        this.clear_day_state("monday")
+                                      }
+                                    >
+                                      <i className="zmdi zmdi-close"></i>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
-                              ) : (
-                                ""
-                              )}
+                              </MDBCol>
+                            </MDBRow>
 
-                              {this.state.monday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="mondayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
 
-                                    <input
-                                      name="mondayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
 
-                                    <input
-                                      name="mondayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
 
-                                    <input
-                                      name="mondayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
+                            <input
+                                    type="checkbox"
+                                    name="applyAll"
+                                    onChange={this.allChanger}
+                                  />
+                                  <label>Apply To All</label>
+                                  <div style={{ color: "red" }}>
+                                    {applyAllError}
+                                  </div>
+                                  {applyAll && !applyAllError ? (
+                                    ""
+                                  ) : (
+                                    <div>
+                                      <MDBRow className=" daybox">
+                              <MDBCol md="3" className="daytype">
+                                Tuesday
+                              </MDBCol>
+                              <MDBCol md="5">
+                                <select
+                                  name="tuesday"
+                                  onChange={this.changeHandler}
+                                  className="vl_edit_input"
+                                >
+                                  <option>Select hours</option>
+                                  <option value="OPEN">OPEN</option>
+                                  <option value="SPLIT">SPLIT</option>
+                                  <option value="OPEN 24x7">OPEN_24x7</option>
+                                  <option value="CLOSED">CLOSED</option>
+                                </select>
+                              </MDBCol>
+                              <MDBCol md="4">
+                                <div className="output">
+                                  {this.state.tuesday == "OPEN" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        {console.log("time")}
+
+                                        <input
+                                          name="tuesdayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {tuesdayStart1_error}
+
+                                        <input
+                                          name="tuesdayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {tuesdayEnd1_error}
+                                      </p>{" "}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+
+                                  {this.state.tuesday == "SPLIT" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        <input
+                                          name="tuesdayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {tuesdayStart1_error}
+
+                                        <input
+                                          name="tuesdayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {tuesdayEnd1_error}
+
+                                        <input
+                                          name="tuesdayStart2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {tuesdayStart2_error}
+
+                                        <input
+                                          name="tuesdayEnd2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {tuesdayEnd2_error}
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {this.state.tuesday ? (
+                                    <div
+                                      className="closebox"
+                                      onClick={() =>
+                                        this.clear_day_state("tuesday")
+                                      }
+                                    >
+                                      <i className="zmdi zmdi-close"></i>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
                                 </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div> */}
-                          
-                          <MDBRow className=" daybox">
-                            <MDBCol md='3' className='daytype'>
-                            Tuesday 
-                            </MDBCol>
-                            <MDBCol md='5'>
+                              </MDBCol>
+                            </MDBRow>
+
+                            <MDBRow className=" daybox">
+                              <MDBCol md="3" className="daytype">
+                                Wednesday
+                              </MDBCol>
+                              <MDBCol md="5">
+                                <select
+                                  name="wednesday"
+                                  onChange={this.changeHandler}
+                                  className="vl_edit_input"
+                                >
+                                  <option>Select hours</option>
+                                  <option value="OPEN">OPEN</option>
+                                  <option value="SPLIT">SPLIT</option>
+                                  <option value="OPEN 24x7">OPEN_24x7</option>
+                                  <option value="CLOSED">CLOSED</option>
+                                </select>
+                              </MDBCol>
+                              <MDBCol md="4">
+                                <div className="output">
+                                  {this.state.wednesday == "OPEN" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        {console.log("time")}
+
+                                        <input
+                                          name="wednesdayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {wednesdayStart1_error}
+
+                                        <input
+                                          name="wednesdayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {wednesdayEnd1_error}
+                                      </p>{" "}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+
+                                  {this.state.wednesday == "SPLIT" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        <input
+                                          name="wednesdayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {wednesdayStart1_error}
+
+                                        <input
+                                          name="wednesdayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {wednesdayEnd1_error}
+
+                                        <input
+                                          name="wednesdayStart2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {wednesdayStart2_error}
+
+                                        <input
+                                          name="wednesdayEnd2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {wednesdayEnd2_error}
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {this.state.wednesday ? (
+                                    <div
+                                      className="closebox"
+                                      onClick={() =>
+                                        this.clear_day_state("wednesday")
+                                      }
+                                    >
+                                      <i className="zmdi zmdi-close"></i>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </MDBCol>
+                            </MDBRow>
+
+                            <MDBRow className=" daybox">
+                              <MDBCol md="3" className="daytype">
+                                Thrusday
+                              </MDBCol>
+                              <MDBCol md="5">
+                                <select
+                                  name="thursday"
+                                  onChange={this.changeHandler}
+                                  className="vl_edit_input"
+                                >
+                                  <option>Select hours</option>
+                                  <option value="OPEN">OPEN</option>
+                                  <option value="SPLIT">SPLIT</option>
+                                  <option value="OPEN 24x7">OPEN_24x7</option>
+                                  <option value="CLOSED">CLOSED</option>
+                                </select>
+                              </MDBCol>
+                              <MDBCol md="4">
+                                <div className="output">
+                                  {this.state.thursday == "OPEN" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        {console.log("time")}
+
+                                        <input
+                                          name="thursdayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {thursdayStart1_error}
+
+                                        <input
+                                          name="thursdayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {thursdayEnd1_error}
+                                      </p>{" "}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+
+                                  {this.state.thursday == "SPLIT" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        <input
+                                          name="thursdayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {thursdayStart1_error}
+
+                                        <input
+                                          name="thursdayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {thursdayEnd1_error}
+
+                                        <input
+                                          name="thursdayStart2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {thursdayStart2_error}
+
+                                        <input
+                                          name="thursdayEnd2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {thursdayEnd2_error}
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {this.state.thursday ? (
+                                    <div
+                                      className="closebox"
+                                      onClick={() =>
+                                        this.clear_day_state("thursday")
+                                      }
+                                    >
+                                      <i className="zmdi zmdi-close"></i>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </MDBCol>
+                            </MDBRow>
+
+                            <MDBRow className=" daybox">
+                              <MDBCol md="3" className="daytype">
+                                Friday
+                              </MDBCol>
+                              <MDBCol md="5">
+                                <select
+                                  name="friday"
+                                  onChange={this.changeHandler}
+                                  className="vl_edit_input"
+                                >
+                                  <option>Select hours</option>
+                                  <option value="OPEN">OPEN</option>
+                                  <option value="SPLIT">SPLIT</option>
+                                  <option value="OPEN 24x7">OPEN_24x7</option>
+                                  <option value="CLOSED">CLOSED</option>
+                                </select>
+                              </MDBCol>
+                              <MDBCol md="4">
+                                <div className="output">
+                                  {this.state.friday == "OPEN" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        {console.log("time")}
+
+                                        <input
+                                          name="fridayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {fridayStart1_error}
+
+                                        <input
+                                          name="fridayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {fridayEnd1_error}
+                                      </p>{" "}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+
+                                  {this.state.friday == "SPLIT" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        <input
+                                          name="fridayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {fridayStart1_error}
+
+                                        <input
+                                          name="fridayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {fridayEnd1_error}
+
+                                        <input
+                                          name="fridayStart2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {fridayStart2_error}
+
+                                        <input
+                                          name="fridayEnd2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {fridayEnd2_error}
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {this.state.friday ? (
+                                    <div
+                                      className="closebox"
+                                      onClick={() =>
+                                        this.clear_day_state("friday")
+                                      }
+                                    >
+                                      <i className="zmdi zmdi-close"></i>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </MDBCol>
+                            </MDBRow>
+
+                            <MDBRow className=" daybox">
+                              <MDBCol md="3" className="daytype">
+                                Saturday
+                              </MDBCol>
+                              <MDBCol md="5">
+                                <select
+                                  name="saturday"
+                                  onChange={this.changeHandler}
+                                  className="vl_edit_input"
+                                >
+                                  <option>Select hours</option>
+                                  <option value="OPEN">OPEN</option>
+                                  <option value="SPLIT">SPLIT</option>
+                                  <option value="OPEN 24x7">OPEN_24x7</option>
+                                  <option value="CLOSED">CLOSED</option>
+                                </select>
+                              </MDBCol>
+                              <MDBCol md="4">
+                                <div className="output">
+                                  {this.state.saturday == "OPEN" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        {console.log("time")}
+
+                                        <input
+                                          name="saturdayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {saturdayStart1_error}
+
+                                        <input
+                                          name="saturdayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {saturdayEnd1_error}
+                                      </p>{" "}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+
+                                  {this.state.saturday == "SPLIT" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        <input
+                                          name="saturdayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {saturdayStart1_error}
+
+                                        <input
+                                          name="saturdayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {saturdayEnd1_error}
+
+                                        <input
+                                          name="saturdayStart2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {saturdayStart2_error}
+
+                                        <input
+                                          name="saturdayEnd2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {saturdayEnd2_error}
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {this.state.saturday ? (
+                                    <div
+                                      className="closebox"
+                                      onClick={() =>
+                                        this.clear_day_state("saturday")
+                                      }
+                                    >
+                                      <i className="zmdi zmdi-close"></i>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </MDBCol>
+                            </MDBRow>
+
+                            <MDBRow className=" daybox">
+                              <MDBCol md="3" className="daytype">
+                                Sunday
+                              </MDBCol>
+                              <MDBCol md="5">
+                                <select
+                                  name="sunday"
+                                  onChange={this.changeHandler}
+                                  className="vl_edit_input"
+                                >
+                                  <option>Select hours</option>
+                                  <option value="OPEN">OPEN</option>
+                                  <option value="SPLIT">SPLIT</option>
+                                  <option value="OPEN 24x7">OPEN_24x7</option>
+                                  <option value="CLOSED">CLOSED</option>
+                                </select>
+                              </MDBCol>
+                              <MDBCol md="4">
+                                <div className="output">
+                                  {this.state.sunday == "OPEN" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        {console.log("time")}
+
+                                        <input
+                                          name="sundayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {sundayStart1_error}
+
+                                        <input
+                                          name="sundayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {sundayEnd1_error}
+                                      </p>{" "}
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+
+                                  {this.state.sunday == "SPLIT" ? (
+                                    <div>
+                                      <p className="basicExample">
+                                        <input
+                                          name="sundayStart1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {sundayStart1_error}
+
+                                        <input
+                                          name="sundayEnd1"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {sundayEnd1_error}
+
+                                        <input
+                                          name="sundayStart2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {sundayStart2_error}
+
+                                        <input
+                                          name="sundayEnd2"
+                                          onChange={this.changeHandler}
+                                          type="time"
+                                          className="vl_edit_input"
+                                          defaultValue="12:00 AM"
+                                        />
+                                        {sundayEnd2_error}
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                  {this.state.sunday ? (
+                                    <div
+                                      className="closebox"
+                                      onClick={() =>
+                                        this.clear_day_state("sunday")
+                                      }
+                                    >
+                                      <i className="zmdi zmdi-close"></i>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </MDBCol>
+                            </MDBRow>
+                                    </div>)}
+
                             
-                            <select
-                              name="tuesday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-                            </MDBCol>
-                            <MDBCol md='4'>
-                            <div className="output">
-                              {this.state.tuesday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="tuesdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="tuesdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.tuesday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="tuesdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="tuesdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="tuesdayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="tuesdayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                            </MDBCol>
-                          </MDBRow>
-                          {/* <div className="timebox">
-                            <div className="form-day">TUESDAY </div>
-                            <select
-                              name="tuesday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-
-                            <div className="output">
-                              {this.state.tuesday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="tuesdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="tuesdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.tuesday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="tuesdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="tuesdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="tuesdayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="tuesdayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div> */}
-
-                          <MDBRow className=" daybox">
-                            <MDBCol md='3' className='daytype'>
-                            Wednesday 
-                            </MDBCol>
-                            <MDBCol md='5'>
-                            <select
-                              name="wednesday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-                            </MDBCol>
-                            <MDBCol md='4'>
-                            <div className="output">
-                              {this.state.wednesday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="wednesdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="wednesdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.wednesday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="wednesdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="wednesdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="wednesdayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="wednesdayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                            </MDBCol>
-                          </MDBRow>
-
-                          {/* <div className="timebox">
-                            <div className="form-day">WEDNESDAY</div>
-                            <select
-                              name="wednesday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-
-                            <div className="output">
-                              {this.state.wednesday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="wednesdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="wednesdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.wednesday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="wednesdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="wednesdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="wednesdayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="wednesdayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div> */}
-
-
-                          <MDBRow className=" daybox">
-                            <MDBCol md='3' className='daytype'>
-                            Thrusday 
-                            </MDBCol>
-                            <MDBCol md='5'>
-                            <select
-                              name="thursday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-                            </MDBCol>
-                            <MDBCol md='4'>
-                            <div className="output">
-                              {this.state.thursday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="thursdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="thursdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.thursday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="thursdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="thursdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="thursdayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="thursdayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                            </MDBCol>
-                          </MDBRow>
-                          {/* <div className="timebox">
-                            <div className="form-day"> THURSDAY</div>
-                            <select
-                              name="thursday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-
-                            <div className="output">
-                              {this.state.thursday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="thursdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="thursdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.thursday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="thursdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="thursdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="thursdayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="thursdayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div> */}
-
-
-                          <MDBRow className=" daybox">
-                            <MDBCol md='3' className='daytype'>
-                            Friday 
-                            </MDBCol>
-                            <MDBCol md='5'>
-                            <select
-                              name="friday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-                            </MDBCol>
-                            <MDBCol md='4'>
-                            
-
-                            <div className="output">
-                              {this.state.friday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="fridayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="fridayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.friday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="fridayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="fridayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="fridayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="fridayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                            </MDBCol>
-                          </MDBRow>
-                          {/* <div className="timebox">
-                            <div className="form-day"> FRIDAY</div>
-                            <select
-                              name="friday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-
-                            <div className="output">
-                              {this.state.friday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="fridayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="fridayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.friday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="fridayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="fridayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="fridayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="fridayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div> */}
-
-
-                          <MDBRow className=" daybox">
-                            <MDBCol md='3' className='daytype'>
-                            Saturday
-                            </MDBCol>
-                            <MDBCol md='5'>
-                            <select
-                              name="saturday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-                            </MDBCol>
-                            <MDBCol md='4'>
-                            <div className="output">
-                              {this.state.saturday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="saturdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="saturdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.saturday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="saturdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="saturdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="saturdayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="saturdayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                            </MDBCol>
-                          </MDBRow>
-                          {/* <div className="timebox">
-                            <div className="form-day">SATURDAY</div>
-                            <select
-                              name="saturday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-
-                            <div className="output">
-                              {this.state.saturday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="saturdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="saturdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.saturday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="saturdayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="saturdayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="saturdayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="saturdayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div> */}
-
-
-                          <MDBRow className=" daybox">
-                            <MDBCol md='3' className='daytype'>
-                            Sunday 
-                            </MDBCol>
-                            <MDBCol md='5'>
-                            <select
-                              name="sunday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
-                            </MDBCol>
-                            <MDBCol md='4'>
-                            <div className="output">
-                              {this.state.sunday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="sundayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="sundayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.sunday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="sundayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="sundayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="sundayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="sundayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                            </MDBCol>
-                          </MDBRow>
                           </div>
-                          {/* <div className="timebox">
-                            <div className="form-day">SUNDAY</div>
-                            <select
-                              name="sunday"
-                              onChange={this.changeHandler}
-                              className="vl_edit_input"
-                            >
-                              <option>Select hours</option>
-                              <option value="OPEN">OPEN</option>
-                              <option value="SPLIT">SPLIT</option>
-                              <option value="OPEN 24x7">OPEN_24x7</option>
-                              <option value="CLOSED">CLOSED</option>
-                            </select>
 
-                            <div className="output">
-                              {this.state.sunday == "OPEN" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    {console.log("time")}
-
-                                    <input
-                                      name="sundayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="sundayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>{" "}
-                                </div>
-                              ) : (
-                                ""
-                              )}
-
-                              {this.state.sunday == "SPLIT" ? (
-                                <div>
-                                  <p className="basicExample">
-                                    <input
-                                      name="sundayStart1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="sundayEnd1"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="sundayStart2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-
-                                    <input
-                                      name="sundayEnd2"
-                                      onChange={this.changeHandler}
-                                      type="time"
-                                      className="vl_edit_input"
-                                      defaultValue="12:00 AM"
-                                    />
-                                  </p>
-                                </div>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          </div> */}
- <MDBRow style={{marginTop:'20px'}}>
-                                    <MDBCol md='3' className='offset-md-5'  >
-                                    <button
+                          <MDBRow style={{ marginTop: "20px" }}>
+                            <MDBCol md="3" className="offset-md-5">
+                              <button
                                 type="submit"
                                 className="last_btn"
-                                style={{marginLeft:'-5px'}}
+                                style={{ marginLeft: "-5px" }}
                                 onClick={this.updateHourButton}
                               >
                                 Update
                               </button>
-                              
-                                    </MDBCol>
-                                    <MDBCol md='3'>
-                                    <button
+                            </MDBCol>
+                            <MDBCol md="3">
+                              <button
                                 className="last_btn"
                                 onClick={this.editHourButton}
-                                style={{marginLeft:'5px'}}
+                                style={{ marginLeft: "5px" }}
                               >
                                 Cancel
                               </button>
-                                    </MDBCol>
-                                  </MDBRow>
-
-                          {/* <div className="business-cover text-center">
-                            <button
-                              type="submit"
-                              className="last_btn"
-                              onClick={this.updateHourButton}
-                            >
-                              Update
-                            </button>
-                            <button
-                              className="last_btn"
-                              onClick={this.editHourButton}
-                            >
-                              Cancel
-                            </button>
-                          </div> */}
+                            </MDBCol>
+                          </MDBRow>
                         </div>
                       ) : (
                         <div className=" white-shadow">
-                          <MDBRow >
-                                <MDBCol md='9' className='vl_box_head'>Operations Hours</MDBCol>
-                                <MDBCol md='3'>
-                                <button
+                          <MDBRow>
+                            <MDBCol md="9" className="vl_box_head">
+                              Operations Hours
+                            </MDBCol>
+                            <MDBCol md="3">
+                              <button
                                 className="last_btn"
                                 onClick={this.editHourButton}
                               >
                                 Edit
                               </button>
-                                </MDBCol>
-                                </MDBRow>
-                          
+                            </MDBCol>
+                          </MDBRow>
 
                           {RegularHours1}
 
@@ -3292,6 +3338,7 @@ export default class LocationManager extends Component {
                                           className="vl_edit_input"
                                           defaultValue="12:00 AM"
                                         />
+                                        {mondayStart1_s_error}
 
                                         <input
                                           name="mondayEnd1_s"
@@ -3300,6 +3347,7 @@ export default class LocationManager extends Component {
                                           className="vl_edit_input"
                                           defaultValue="12:00 AM"
                                         />
+                                        {mondayEnd1_s_error}
                                       </p>{" "}
                                     </div>
                                   ) : (
@@ -3316,6 +3364,7 @@ export default class LocationManager extends Component {
                                           className="vl_edit_input"
                                           defaultValue="12:00 AM"
                                         />
+                                        {mondayStart1_s_error}
 
                                         <input
                                           name="mondayEnd1_s"
@@ -3324,6 +3373,7 @@ export default class LocationManager extends Component {
                                           className="vl_edit_input"
                                           defaultValue="12:00 AM"
                                         />
+                                        {mondayEnd1_s_error}
 
                                         <input
                                           name="mondayStart2_s"
@@ -3332,6 +3382,7 @@ export default class LocationManager extends Component {
                                           className="vl_edit_input"
                                           defaultValue="12:00 AM"
                                         />
+                                        {mondayStart2_s_error}
 
                                         <input
                                           name="mondayEnd2_s"
@@ -3340,6 +3391,7 @@ export default class LocationManager extends Component {
                                           className="vl_edit_input"
                                           defaultValue="12:00 AM"
                                         />
+                                        {mondayEnd2_s_error}
                                       </p>
                                     </div>
                                   ) : (
@@ -3352,6 +3404,7 @@ export default class LocationManager extends Component {
                                     className="vl_edit_input"
                                     defaultValue=""
                                   />
+                                  {monday_day_s_error}
                                 </div>
                               </div>
                               <div className="business-cover text-center">
@@ -3361,6 +3414,13 @@ export default class LocationManager extends Component {
                                   onClick={this.addSpecialHourButton}
                                 >
                                   Update
+                                </button>
+                                <button
+                                  type="submit"
+                                  className="last_btn"
+                                  onClick={() => this.editSpecialHourButton()}
+                                >
+                                  Cancel
                                 </button>
                               </div>
                             </div>
@@ -3387,14 +3447,13 @@ export default class LocationManager extends Component {
 
               <div className="mt-30">
                 <div className="light-blue">
-                  
-                  <MDBRow className='box-space'>
-                    <MDBCol md='10' className="vl_box_head">
-                    Payment Method
+                  <MDBRow className="box-space">
+                    <MDBCol md="10" className="vl_box_head">
+                      Payment Method
                     </MDBCol>
 
-                    <MDBCol md='2'>
-                    <button
+                    <MDBCol md="2">
+                      <button
                         className="pay_last_btn"
                         onClick={this.editPaymentButton}
                       >
@@ -3674,18 +3733,17 @@ export default class LocationManager extends Component {
 </MDBRow>                 
                         
                         <MDBRow>
-                          <MDBCol className='offset-md-10' >
-                          <button
-                            type="submit"
-                            className="last_btn"
-                            onClick={this.updatePaymentButton}
-                            style={{float:'right',marginRight:'18px'}}
-                          >
-                            Update
-                          </button>
+                          <MDBCol className="offset-md-10">
+                            <button
+                              type="submit"
+                              className="last_btn"
+                              onClick={this.updatePaymentButton}
+                              style={{ float: "right", marginRight: "18px" }}
+                            >
+                              Update
+                            </button>
                           </MDBCol>
                         </MDBRow>
-                        
                       </form>
                     </div>
                   ) : (
@@ -3694,7 +3752,6 @@ export default class LocationManager extends Component {
                     </div>
                   )}
                 </div>
-              
               </div>
 
               <div className="mt-30">
@@ -3717,32 +3774,17 @@ export default class LocationManager extends Component {
                           <div className="coverimgupload">
                             <img
                               src={
-                                "https://dashify.biz/media/12132/locations/banner/2020/10/14/14_10_2020.jpeg"
+                                "https://dashify.biz" +
+                                LocationDetails.Business_Cover_Image
                               }
                               alt="Cover image"
                             />
-                           <div className="vl-get-image">
-                    <img
-                      src={edit}
-                      alt=""
-                      style={{ height: "20px", width: "20px" }}
-                    />
-                    <input
-                    type="file"
-                    name="Business_Cover_Image"
-                    onChange={this.onUploadLogo(
-                      "Business_Cover_Image"
-                    )}
-                  />
-                    </div>
-                            {/* {console.log(
-                              "LocationDetails.Business_Cover_Image",
-                              LocationDetails.Business_Cover_Image
-                            )}
-                            <br />
-                            <div>
-                              <i className="zmdi zmdi-plus"></i>
-                              Update
+                            <div className="vl-get-image">
+                              <img
+                                src={edit}
+                                alt=""
+                                style={{ height: "20px", width: "20px" }}
+                              />
                               <input
                                 type="file"
                                 name="Business_Cover_Image"
@@ -3750,86 +3792,88 @@ export default class LocationManager extends Component {
                                   "Business_Cover_Image"
                                 )}
                               />
-                            </div> */}
+                            </div>
                           </div>
                         ) : (
-                                <div  className="plush_new">
-                                <span>
-                                      <i className="zmdi zmdi-plus"></i>
-                                      Attatch a image
-                                      <input
-                                        type="file"
-                                        name="Business_Cover_Image"
-                                        onChange={this.onUploadLogo(
-                                          "Business_Cover_Image"
-                                        )}
-                                      />
-                                    </span>
-                                </div>
+                          <div className="plush_new">
+                            <span>
+                              <i className="zmdi zmdi-plus"></i>
+                              Attatch a image
+                              <input
+                                type="file"
+                                name="Business_Cover_Image"
+                                onChange={this.onUploadLogo(
+                                  "Business_Cover_Image"
+                                )}
+                              />
+                            </span>
+                          </div>
                         )}
                       </div>
                     </div>
                   </div>
                   <div className="col-md-8">
                     <div className="business-cover ">
-                      <div className='vl_box_head'>Sharred Business Images</div>
-                       {this.state.otherImagesLoading ? (
-                              <div style={{ textAlign: "center" }}>
-                                <Loader
-                                  type="Oval"
-                                  color="#00BFFF"
-                                  height={30}
-                                  width={30}
-                                  // timeout={3000} //3 secs
+                      <div className="vl_box_head">Sharred Business Images</div>
+                      {this.state.otherImagesLoading ? (
+                        <div style={{ textAlign: "center" }}>
+                          <Loader
+                            type="Oval"
+                            color="#00BFFF"
+                            height={30}
+                            width={30}
+                            // timeout={3000} //3 secs
+                          />
+                        </div>
+                      ) : (
+                        <div style={{ marginTop: "5px" }}>
+                          <MDBRow>
+                            <MDBCol md="2" className="plush_new">
+                              <span>
+                                <i className="zmdi zmdi-plus"></i>
+                                Attatch a image
+                                <input
+                                  type="file"
+                                  name="otherImage"
+                                  onChange={this.onUploadOtherImage}
                                 />
-                              </div>
-                            ) : (
+                              </span>
+                            </MDBCol>
+                            {this.state.otherImages.map((n, i) => (
+                              <MDBCol md="2" className="plush_new">
+                                <img
+                                  src={
+                                    "https://dashify.biz" +
+                                    this.state.otherImages[i].Image
+                                  }
+                                  alt=""
+                                  style={{
+                                    height: "110px",
+                                    width: "112px",
+                                    borderRadius: "10px"
+                                  }}
+                                />
 
-                             
-                              <div style={{marginTop:'5px'}}>
-                                 <MDBRow>
-                                <MDBCol md='2' className="plush_new">
-                                <span>
-                                      <i className="zmdi zmdi-plus"></i>
-                                      Attatch a image
-                                      <input
-                                        type="file"
-                                        name="otherImage"
-                                        onChange={this.onUploadOtherImage}
-                                      />
-                                    </span>
-                                </MDBCol>
-                                {this.state.otherImages.map((n, i) => (
-                                  <MDBCol md='2' className="plush_new"><img
-                                          src={
-                                            "https://dashify.biz" +
-                                            this.state.otherImages[i].Image
-                                          }
-                                          alt=""
-                                          style={{height:'110px',width:'112px' ,borderRadius:'10px'}}
-                                        />
-
-                                        <div className="get-image1">
-                                          <img
-                                            src={cross_img}
-                                            alt=""
-                                            style={{
-                                              height: "10px",
-                                              width: "10px",
-                                              backgroundColor:'red',
-                                              borderRadius:'50%',
-                                              padding:'2px',
-                                            }}
-                                            onClick={() =>
-                                              this.delete_other_image(n.id)
-                                            }
-                                          />
-                                        </div>
-                                      
-                                  </MDBCol>
-                                ))} 
-                              </MDBRow>
-                                {/* <li>
+                                <div className="get-image1">
+                                  <img
+                                    src={cross_img}
+                                    alt=""
+                                    style={{
+                                      height: "10px",
+                                      width: "10px",
+                                      backgroundColor: "red",
+                                      borderRadius: "50%",
+                                      padding: "2px"
+                                    }}
+                                    onClick={() =>
+                                      this.delete_other_image(n.id)
+                                    }
+                                  />
+                                </div>
+                              </MDBCol>
+                            ))}
+                          </MDBRow>
+                          {/* <li>
                                   <div className="plush_new">
                                     <span>
                                       <i className="zmdi zmdi-plus"></i>
@@ -3843,7 +3887,7 @@ export default class LocationManager extends Component {
                                     
                                   </div>
                                 </li> */}
-                                {/* {this.state.otherImages.map((n, i) => (
+                          {/* {this.state.otherImages.map((n, i) => (
                                   <li>
                                     <span>
                                       <div className="coverimgupload">
@@ -3872,8 +3916,8 @@ export default class LocationManager extends Component {
                                     </span>
                                   </li>
                                 ))} */}
-                              </div>
-                            )}
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

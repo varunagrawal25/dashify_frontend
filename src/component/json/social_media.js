@@ -348,7 +348,6 @@ export const graph_google_customer_actions_json = data => {
   }
 };
 
-
 export const profile_analytics_json = data => {
   if (data == "week") {
     return {
@@ -394,8 +393,8 @@ export const profile_analytics_json = data => {
         direction: "4",
         clicks: "8"
       },
-      googleIsLoggedIn:false,
-      fbIsLoggedIn:false
+      googleIsLoggedIn: false,
+      fbIsLoggedIn: false
     };
   } else if (data == "month") {
     return {
@@ -441,8 +440,8 @@ export const profile_analytics_json = data => {
         direction: "4",
         clicks: "8"
       },
-      googleIsLoggedIn:false,
-      fbIsLoggedIn:false
+      googleIsLoggedIn: false,
+      fbIsLoggedIn: false
     };
   } else if (data == "3 months") {
     return {
@@ -488,8 +487,8 @@ export const profile_analytics_json = data => {
         direction: "4",
         clicks: "8"
       },
-      googleIsLoggedIn:false,
-      fbIsLoggedIn:false
+      googleIsLoggedIn: false,
+      fbIsLoggedIn: false
     };
   } else if (data == "6 months") {
     return {
@@ -535,8 +534,8 @@ export const profile_analytics_json = data => {
         direction: "4",
         clicks: "81"
       },
-      googleIsLoggedIn:false,
-      fbIsLoggedIn:false
+      googleIsLoggedIn: false,
+      fbIsLoggedIn: false
     };
   } else if (data == "year") {
     return {
@@ -545,7 +544,7 @@ export const profile_analytics_json = data => {
         calls: "3554",
         web: "5656",
         direction: "5446",
-        clicks: "78tt"
+        clicks: "78"
       },
       facebook_percentage: {
         views: "22",
@@ -582,8 +581,8 @@ export const profile_analytics_json = data => {
         direction: "43",
         clicks: "82"
       },
-      googleIsLoggedIn:false,
-      fbIsLoggedIn:false
+      googleIsLoggedIn: false,
+      fbIsLoggedIn: false
     };
   }
 };
