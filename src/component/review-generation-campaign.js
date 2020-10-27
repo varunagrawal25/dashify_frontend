@@ -3,7 +3,7 @@ import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
 import { NavLink } from "react-router-dom";
 import Loader from "react-loader-spinner";
-import { MDBCol, MDBRow } from "mdbreact";
+import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
 
 const DjangoConfig = {
   headers: {
@@ -517,10 +517,10 @@ export default class ReviewGenerationCampaign extends Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Enter Campaign Name"
+                            placeholder="Compaing name"
                             name="campaign_name"
                             onChange={this.changeHandler}
-                            value={campaign_name}
+                            // value={campaign_name}
                             required
                           />
                           <div style={{ color: "red" }}>
@@ -531,14 +531,14 @@ export default class ReviewGenerationCampaign extends Component {
 
                       <div className="col-md-6 camp_margin1">
                         <div >
-                          <div className='camp_subhead1'>Customer first name</div>
+                          <div className='camp_subhead1'>Reply To</div>
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Enter Campaign Name"
+                            placeholder="David"
                             name="campaign_name"
                             onChange={this.changeHandler}
-                            value={campaign_name}
+                            // value={campaign_name}
                             required
                           />
                           <div style={{ color: "red" }}>
@@ -548,14 +548,14 @@ export default class ReviewGenerationCampaign extends Component {
                       </div>
                       <div className="col-md-6 camp_margin2">
                         <div >
-                          <div className='camp_subhead1'>Customer Email / Phone number</div>
+                          <div className='camp_subhead1'>Email Subject</div>
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Enter Campaign Name"
+                            placeholder="info@ossismedia.co"
                             name="campaign_name"
                             onChange={this.changeHandler}
-                            value={campaign_name}
+                            // value={campaign_name}
                             required
                           />
                           <div style={{ color: "red" }}>
@@ -566,14 +566,14 @@ export default class ReviewGenerationCampaign extends Component {
 
                       <div className="col-md-6 camp_margin2">
                         <div >
-                          <div className='camp_subhead1'>Customer last name</div>
+                          <div className='camp_subhead1'>Email Heading</div>
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Enter Campaign Name"
+                            placeholder="Anderson"
                             name="campaign_name"
                             onChange={this.changeHandler}
-                            value={campaign_name}
+                            // value={campaign_name}
                             required
                           />
                           <div style={{ color: "red" }}>
@@ -584,7 +584,7 @@ export default class ReviewGenerationCampaign extends Component {
                     </div>
                     <div className="mt-30 ">
                   <div className="camp_subhead2">
-                  Customer Email / Phone number
+                  Email Contant
                   </div>
                     <textarea
                       className="camp_textarea " rows="4" 
@@ -607,39 +607,57 @@ export default class ReviewGenerationCampaign extends Component {
                   the vocabulary, and the questions
                   </MDBCol>
                  
-  <MDBCol md='5' >
-    <div className='review_sites_container' style={{marginLeft:'-17px'}}>
+                  <MDBCol md='5' style={{marginLeft:'-15px'}}>
+    <div className='review_sites_container ' >
+                          <input
+                                name="p_visa"
+                                type="checkbox"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                id="myCheckbox1"
+                              /> 
+                              <label for="myCheckbox1">
 <MDBRow > 
 <MDBCol md='3'>
-<img src={require("../images/google.png")} className='camp_icon' />
+<img src={require("./assets/google_map.png")} className='camp_icon' />
 </MDBCol>
 <MDBCol md='9' className='review_sites_contant'>
 Google Map
 </MDBCol>
  </MDBRow>
+ </label>
  </div>
  </MDBCol>
 
  <MDBCol md='5' >
-    <div className='review_sites_container' style={{marginLeft:'-17px'}}>
+    <div className='review_sites_container ' >
+                          <input
+                                name="p_visa"
+                                type="checkbox"
+                                onChange={this.checkBoxHandler}
+                                value="true"
+                                id="myCheckbox2"
+                              /> 
+                              <label for="myCheckbox2">
 <MDBRow > 
 <MDBCol md='3'>
-<img src={require("../images/google.png")} className='camp_icon' />
+<img src={require("./assets/apple_appstore.png")} className='camp_icon' />
 </MDBCol>
 <MDBCol md='9' className='review_sites_contant'>
-Google Map
+Apple AppStore
 </MDBCol>
  </MDBRow>
+ </label>
  </div>
  </MDBCol>
  
   <MDBCol md='2'>
-  <a className="camp_add_btn " style={{marginLeft:'-17px'}}>
+    <MDBBtn className="camp_add_btn ">
                                 <i
                                   className="zmdi zmdi-plus"
                                   onClick={this.add_customWebsite_function}
                                 ></i>
-                              </a>
+                             </MDBBtn>
   </MDBCol>
 </MDBRow>
                
@@ -720,9 +738,9 @@ Google Map
                   </div>
                 </div> */}
 
-                <div className="mt-30 review_sites_container">
+                <div className="mt-30 review_sites_container2">
                   <div className="camp_subhead2">
-                  Customer Email / Phone number
+                  SMS Contant
                   </div>
                     <textarea
                       className="camp_textarea " rows="4" 
@@ -926,6 +944,37 @@ Google Map
                           ""
                         )}
                       </div>
+                      <div className="raitingcolor">
+                      <MDBRow > 
+<MDBCol md='3'>
+<img src={require("./assets/apple_appstore.png")} className='camp_icon' />
+</MDBCol>
+<MDBCol md='5' className='review_sites_contant'>
+Apple AppStore
+</MDBCol>
+<MDBCol md='4'>
+  <MDBBtn className='write_review_btn'>
+    Write a review
+  </MDBBtn>
+</MDBCol>
+ </MDBRow>
+                        </div>
+
+                        <div className="raitingcolor">
+                      <MDBRow > 
+<MDBCol md='3'>
+<img src={require("./assets/google_map.png")} className='camp_icon' />
+</MDBCol>
+<MDBCol md='5' className='review_sites_contant'>
+Google Map
+</MDBCol>
+<MDBCol md='4'>
+  <MDBBtn className='write_review_btn'>
+    Write a review
+  </MDBBtn>
+</MDBCol>
+ </MDBRow>
+                        </div>
                     </div>
                   </div>
                 </div>

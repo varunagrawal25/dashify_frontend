@@ -489,9 +489,9 @@ export default class CampaignPart2 extends Component {
 
                   <div className="formbox">
                     <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>From Email</label>
+                    <div className="col-md-6 camp_margin1">
+                        <div >
+                          <div className='camp_subhead1'>From Email</div>
                           <input
                             type="email"
                             className="form-control"
@@ -500,62 +500,54 @@ export default class CampaignPart2 extends Component {
                           />
                         </div>
                       </div>
-
+                        <div className="col-md-6 camp_margin1">
+                          <div >
+                          <div className='camp_subhead1'>Customer first name</div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value="David"
+                            readonly
+                          />
+                          </div>
+                        </div>
+                        <div className="col-md-6 camp_margin2">
+                          <div>
+                          <div className='camp_subhead1'>Customer Email / Phone number</div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value="info@oasismedia.co"
+                            readonly
+                          />
+                          </div>
+                        </div>
+                        <div className="col-md-6 camp_margin2">
+                          <div >
+                          <div className='camp_subhead1'>Customer last name</div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            value="Anderson"
+                            readonly
+                          />
+                          </div>
+                        </div>
+                  
                       <div className="col-md-12">
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label>Customer first name</label>
-                            {this.add_fname()}
-                          </div>
-                        </div>
-
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label>Customer last name</label>
-                            {this.add_lname()}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* <div className="col-md-12">
-                        <div className="form-group">
-                          <label>Customer Email/Phone number</label> */}
-
-                      <div className="col-md-12">
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label>Customer Email</label>
-                            {this.add_email()}
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label>Customer Phone number</label>
-                            {this.add_phone()}
-                          </div>
-                        </div>
-                      </div>
-                      {/* </div>
-                      </div> */}
-                      <div className="col-md-12">
-                        <div className="form-group text-right">
-                          <button
-                            onClick={this.add_customer_function}
-                            className="add_button"
-                          >
+                          <button onClick={this.add_customer_function} className="add_button" 
+                          style={{float:'right',marginTop:'50px' ,marginBottom:'5px'}}>
                             Add another Customer
                           </button>
-                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="mt-30">
-                  <div className="">
-                    <div className="row">
-                      <div className="col-md-5 col-md-offset-1">
-                        <button className="gen_btn">
+                    <div className="row" style={{marginTop:'40px'}}>
+                    <div className="col-md-2 "/>
+                      <div className="col-md-5 ">
+                        <button className="gen_btn" >
                           Create a new review generation
                         </button>
                       </div>
@@ -576,19 +568,16 @@ export default class CampaignPart2 extends Component {
                         </button>
                       </div>
                     </div>
-                  </div>
-                </div>
+                  
               </div>
               <div className="col-md-4">
-                <div className="step2 topspace">
+                <div className="step2 ">
                   <div className="formbox">
                     <div className="design-ui">
-                      <h3>
                         Upload Your CSV containing Customer Email / Phone
                         Numbers
-                      </h3>
                       <div className="csv">
-                        <img src={require("../images/csv.png")} alt="csv" />
+                        <img src={require("./assets/csv.png")} alt="csv" />
                       </div>
                       <div className="csv-text">
                         <button className="download_btn">

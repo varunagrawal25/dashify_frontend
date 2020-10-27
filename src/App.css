@@ -330,7 +330,6 @@ img {
   margin-left: 240px;
   overflow: hidden;
   padding: 0 10px 5px 25px;
-  min-height: 90vh !important;
   margin-top: 73px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
@@ -565,10 +564,9 @@ img {
 }
 
 .csv {
-  width: 100px;
   background: #f4f4ff;
-  padding: 15px;
-  border-radius: 15px;
+  padding: 20px 15px;
+  border-radius: 10px;
   text-align: center;
 }
 
@@ -579,14 +577,15 @@ img {
 }
 
 .download_btn {
-  padding: 10px 12px;
+  padding: 10px 0px;
+  text-align: center;
   background: #00c27a;
   border-radius: 5px;
   border: 0px;
   color: #fff;
   outline: none;
   text-align: center;
-  width: 150px;
+  width: 90%;
   margin-bottom: 15px;
   font-size: 16px;
 }
@@ -595,13 +594,14 @@ img {
 }
 
 .upload_btn {
-  padding: 8px 20px;
+  padding: 10px 0px;
+  text-align: center;
   background: #fff;
   border-radius: 5px;
   border: 1px solid #eb0558;
   color: #eb0558;
   outline: none;
-  width: 150px;
+  width: 241px;
   font-size: 16px;
 }
 
@@ -651,7 +651,7 @@ img {
   font-size: 16px;
   color: #8264c6;
   font-weight: 500;
-  padding: 14px 25px;
+  padding: 13px 25px;
   border-radius: 5px;
   background: transparent;
   border: 1px solid #8264c6;
@@ -6372,25 +6372,28 @@ tbody.cons td:first-child {
   outline: none;
   padding: 8px 15px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 500;
 }
 
 .add_button:hover {
   background: #05c27b;
 }
-.design-ui h3 {
-  font-size: 16px;
-  line-height: 19px;
-  margin: 0px 0px 20px;
-}
 
 .csv {
   display: inline-block;
   margin-bottom: 20px;
+  margin-top: 30px;
 }
 
 .design-ui {
   text-align: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  padding: 15px 40px;
+  color: #3d3d3d;
 }
 
 .analytics_btnx {
@@ -10255,8 +10258,8 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 70px;
-  line-height: 82px;
+  font-size: 58px;
+  line-height: 70px;
   display: flex;
   align-items: center;
   text-align: center;
@@ -10264,7 +10267,7 @@ ul.dropdown-menu.loginboxds li a:hover {
   padding: 5px 20px;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
-  border-radius: 5px;
+  border-radius: 10px;
 }
 .blue_container {
   padding: 20px;
@@ -10275,15 +10278,36 @@ ul.dropdown-menu.loginboxds li a:hover {
 }
 
 .review_sites_container {
+  background: #ffffff;
+  border: 1px solid #fbf6f6;
+  box-sizing: border-box;
+  height: 72px;
+  border-radius: 10px;
+}
+
+.review_sites_container2 {
   padding: 15px;
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
 }
 
+.write_review_btn {
+  background: #00c27a;
+  border-radius: 5px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #f2f2f2;
+  padding: 6px 7px;
+  margin-top: 12px;
+}
 .camp_icon {
   width: 45px;
   height: 49px;
+  margin-left: 0px;
 }
 .review_sites_contant {
   font-family: Roboto;
@@ -10293,6 +10317,7 @@ ul.dropdown-menu.loginboxds li a:hover {
   line-height: 19px;
   color: #454545;
   margin-top: 15px;
+  padding: 0px;
 }
 .step {
   background: #00c27a;
@@ -10431,22 +10456,6 @@ body {
   height: 80px;
 }
 
-/* .payment_box input[type="checkbox"] {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  opacity: 0;
-  top: 0px;
-} */
-/* .payment_box input[type="checkbox"]:checked {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  box-shadow: 0 0 5px #333;
-  z-index: -1;
-} */
-
 input[type="checkbox"][id^="myCheckbox"] {
   display: none;
 }
@@ -10483,7 +10492,7 @@ label img {
   width: 100px;
   transition-duration: 0.2s;
   transform-origin: 50% 50%;
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
 :checked + label {
@@ -10502,9 +10511,6 @@ label img {
   /* box-shadow: 0 0 5px #333; */
   z-index: -1;
 }
-/* .payment_box input:checked {
-  box-shadow: 0px 0px 50px red;
-} */
 
 .payment_box_selected {
   box-shadow: 0px 0px 15px #4c4c4c;
