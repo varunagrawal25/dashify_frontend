@@ -1126,10 +1126,11 @@ console.log("colcheck",columnData)
                   </div>
                 </div>
 
-                <div className=" mb-30">
+                {/* <div className=" mb-30">
                   <div className="analytics-whice">
-                    <div className="box-space2">
-                    <MaterialTable
+                    <div className="box-space2"> */}
+                    <div style={{margin:'30px 0px'}}>
+                    <MaterialTable 
                     
       columns={[
         {
@@ -1177,6 +1178,8 @@ console.log("colcheck",columnData)
        
       ]}
       options={{
+        disableGutters:true,
+        varient:false,
         search:false,
         paging:false,
         sorting:true,
@@ -1188,7 +1191,7 @@ console.log("colcheck",columnData)
           fontWeight: '500',
           fontSize: '14px',
           lineHeight: '16px',
-          
+          textAlign:'center',
           color: '#ffffff',
         },
         cellStyle: {
@@ -1199,15 +1202,15 @@ fontSize: '14px',
 lineHeight: '16px',
 border:'none',
 color: '#000000',
-
+textAlign:'center',
 opacity: '0.6',
         }
       }}
     />
-                     
-                    </div>
+      </div>               
+                    {/* </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             ) : (
               <div className=" mt-30">
