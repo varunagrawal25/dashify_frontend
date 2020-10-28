@@ -8,6 +8,8 @@ import up_arrow from "./assets/up_arrow.png";
 import down_arrow from "./assets/down_arrow_icon.png";
 import left_arrow from "./assets/left_arrow.png";
 import right_arrow from "./assets/right_arrow.png";
+import MaterialTable from 'material-table';
+import { CenterFocusStrong } from "@material-ui/icons";
 
 export default class RankingAnalytics extends Component {
   render() {
@@ -196,8 +198,83 @@ export default class RankingAnalytics extends Component {
           </MDBRow>
 
           {/* <Datatable/> */}
+          <div style={{margin:'30px 0px'}}>
+                    <MaterialTable 
+                    
+      columns={[
+        {
+          title: 'Keyword (17)', field: 'keyword',
+          cellStyle: {
+            backgroundColor: '#E4F2FF',
+            border:'none',
+            fontFamily: 'Roboto',
+            fontStyle: 'normal',
+            fontWeight: '500',
+            fontSize: '14px',
+            lineHeight: '16px',
+            color: '#000000',
+            opacity: '0.6',
+           
+          }
+        },
+       
+        { title: 'Google Local Rank', field: 'google_local_rank' },
+        { title: 'Google Organic Rank', field: 'google_organic_rank' },
+        { title: 'Bing Search Rank', field: 'bing_search_rank'},
+        { title: 'Yahoo Search Rank', field: 'yahoo_search_rank' },
+      ]}
+      data={[
+        { keyword: 'Italian Pizza Midtown',
+        google_local_rank:'No Match', 
+        google_organic_rank: 'No Match', 
+        bing_search_rank: 'No Match' ,
+        yahoo_search_rank:'No Match'},
+      
+        { keyword: 'Marinara Pizza Midtown',
+        google_local_rank:'No Match', 
+        google_organic_rank: 'No Match', 
+        bing_search_rank: 'No Match' ,
+        yahoo_search_rank:'No Match'},
 
-          <div style={{ margin: "40px 0px" }}>
+        { keyword: 'Pizza King Dhanamandi',
+        google_local_rank:'No Match', 
+        google_organic_rank: 'No Match', 
+        bing_search_rank: 'No Match' ,
+        yahoo_search_rank:'No Match'},
+       
+      ]}
+      options={{
+        disableGutters:true,
+        varient:false,
+        search:false,
+        paging:false,
+        sorting:true,
+        showTitle:false,
+        headerStyle: {
+          backgroundColor: '#73B6E5',
+          fontFamily: 'Roboto',
+          fontStyle: 'normal',
+          fontWeight: '500',
+          fontSize: '14px',
+          lineHeight: '16px',
+          textAlign:'center',
+          color: '#ffffff',
+        },
+        cellStyle: {
+          fontFamily: 'Roboto',
+fontStyle: 'normal',
+fontWeight: '500',
+fontSize: '14px',
+lineHeight: '16px',
+border:'none',
+color: '#000000',
+textAlign:'center',
+opacity: '0.6',
+        }
+      }}
+    />
+      </div>    
+          {/* <div style={{ margin: "40px 0px" }}>
             <div className="analytics-whice">
               <div className="box-space2">
                 <table
@@ -282,7 +359,7 @@ export default class RankingAnalytics extends Component {
                 </table>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* <MDBRow>
              <MDBCol md='7'>
