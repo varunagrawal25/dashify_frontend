@@ -9399,7 +9399,13 @@ img {
 }
 
 .head_font {
-  font-size: 11px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+
+  color: #000000;
 }
 
 .analytics-17 {
@@ -9415,6 +9421,19 @@ img {
   padding: 16px 0px;
 }
 
+.MuiToolbar-root.MuiToolbar-regular.MTableToolbar-root-5.MuiToolbar-gutters {
+  max-height: 0px !important;
+  min-height: 0px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+.MuiToolbar {
+  max-height: 0px !important;
+  min-height: 0px !important;
+  padding: 0px !important;
+  margin: 0px !important;
+}
 /* Analytics ENDS */
 
 /* Profile Setting start */
