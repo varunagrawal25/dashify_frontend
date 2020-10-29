@@ -16,7 +16,7 @@ export default class SettingEmail extends Component {
             <MDBCol
               className="profile_container"
               md="8"
-              style={{ padding: "43px 25px" }}
+              style={{ padding: "35px 25px" }}
             >
               <MDBRow>
                 <MDBCol md="2">
