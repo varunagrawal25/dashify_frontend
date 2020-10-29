@@ -531,15 +531,15 @@ export default class Topbarmenu extends Component {
     return (
       <div className='maindiv'>
           <MDBRow className='topdash '>
-        <MDBCol md='3'>
+        <MDBCol md='3' style={{marginTop:'5px'}}>
         <img src={require("./assets/LOGO 4.png")} alt="" />
         </MDBCol>
 
         
-        <MDBCol md='6'>
+        <MDBCol md='6' style={{marginTop:'12px'}}>
           <MDBRow>
-            <MDBCol md='6'>
-<div className="md-form ">
+            <MDBCol md='6' >
+<div className="md-form vertically_center">
                         <input
                           type="text"
                           name=""
@@ -575,7 +575,7 @@ export default class Topbarmenu extends Component {
                         )}
                       </div>
             </MDBCol>
-            <MDBCol md='6'>
+            <MDBCol md='6' style={{marginTop:'4px'}}>
             <MDBBtn
                         className="add-location last_btn"
                         href="/dashboard#/add-location"
@@ -600,33 +600,23 @@ export default class Topbarmenu extends Component {
                         />
                       ) : (
                         <MDBRow>
-                        <MDBCol md='5' className="namedash rightdah">
+                        <MDBCol md='5' className="namedash rightdah" style={{marginTop:'8px'}}>
                               {first_name} {last_name}
                           </MDBCol> 
-                          <MDBCol md='3'>
+                          <MDBCol md='3' style={{marginTop:'8px'}}>
 {user_image ? (
                             <img
                               src={"https://dashify.biz" + user_image}
                               alt="user"
                               className='navbar_pic'
+                              
                             />
                           ) : (
-                            <AccountCircleIcon fontSize="large" />
+                            <AccountCircleIcon fontSize="large" style={{marginTop:'9px'}}/>
                             )}
-                            <ul className="dropdown-menu loginboxds">
-                      <li>
-                        <a href="#">Profile Settings</a>
-                      </li>
-                      <li>
-                        <Link to="/">
-                          <button class="pay_last_btn1" onClick={this.logout}>
-                            Log Out
-                          </button>
-                        </Link>
-                      </li>
-                    </ul>
+                          
                           </MDBCol>
-                          <MDBCol md='2'>
+                          <MDBCol md='2' style={{marginTop:'18px'}}>
                             <ul className="rightmenu-top nav navbar-nav navbar-right">
                         <li className="dropdown notification-list">
                           <a
@@ -704,8 +694,15 @@ export default class Topbarmenu extends Component {
                         </li>
                       </ul>
                           </MDBCol>
-                          <MDBCol  className="rightdah" data-toggle="dropdown">
-                      <MoreVertIcon />
+                          <MDBCol   style={{marginTop:'21px'}}>
+                            <a  className="rightdah  dropleft" data-toggle="dropdown"><MoreVertIcon/></a>
+                     
+                     <div class="dropdown-menu drop_contant0">
+                     <div className='drop_contant1'>Profile Settings</div>
+                <div  onClick={this.logout}>
+                  <Link to="/" className='drop_contant1'>Log Out</Link>
+                  </div>
+</div>
                           </MDBCol>
                           </MDBRow>
                           )}      

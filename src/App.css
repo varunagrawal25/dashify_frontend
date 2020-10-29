@@ -1180,6 +1180,133 @@ img {
   height: 23.57px;
   padding-left: 20px;
 }
+
+.pp_icon {
+  height: 45px;
+  width: 45px;
+}
+
+.pp_contant1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000000;
+  padding: 2px 0px;
+}
+
+.pp_contant2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  color: #000000;
+  padding: 2px 0px;
+}
+
+.pp_contant3 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #000000;
+  padding: 2px 0px;
+}
+
+.pp_contant4 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  padding: 2px 0px;
+}
+
+.pp_contant5 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+  padding: 2px 0px;
+}
+
+.pp_contant6 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #00c27a;
+  padding-left: 5px;
+  padding-top: 50px;
+}
+.pp_contant_green {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  /* gr */
+  padding: 2px 0px;
+  color: #00c27a;
+}
+
+.pp_contant_red {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+
+  /* red */
+  padding: 2px 0px;
+  color: #eb0558;
+}
+
+.pp_status_active {
+  background: #00c27a;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #ffffff;
+  padding: 7px 15px;
+  mix-blend-mode: normal;
+}
+
+.pp_create_np {
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
+  border-radius: 5px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 10px 40px;
+  color: #f2f2f2;
+  margin-left: 60px;
+}
+.pp_img {
+  height: 100px;
+  width: 100px;
+}
+
+.calender_icon {
+  height: 21px;
+  width: 21px;
+}
+.pp_margin1 {
+  margin-top: 15px;
+}
 .connect_btn {
   display: block;
   border-radius: 5px;
@@ -9319,7 +9446,7 @@ img {
   font-size: 28px;
   line-height: 33px;
   color: #000000;
-  padding: 25px 0px;
+  padding-top: 25px;
 }
 
 .anacard {
@@ -11651,10 +11778,24 @@ label img {
   margin-top: 20px;
 }
 
+.drop_contant0 {
+  border: none;
+  padding: 5px 10px;
+}
+
+.drop_contant1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #4d4d4d;
+  margin: 3px 0px;
+}
 .review_select_btn {
   font-family: Roboto;
   font-style: normal;
-  font-weight: 500;
+  font-weight: 400;
   font-size: 14px;
   line-height: 16px;
   border: none;
@@ -13567,6 +13708,9 @@ span.valpromo {
   position: relative;
 }
 
+.vertically_center {
+  top: 50%;
+}
 .user1 {
   display: table;
   width: 100%;
