@@ -5641,6 +5641,23 @@ h1.reviewboxtitle {
   align-items: center;
   justify-content: space-between;
 }
+.review_period {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 9px;
+  color: #b7b7b7;
+}
+
+.review_period_active {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 19px;
+  color: #8264c6;
+}
 
 .review_weekly li {
   list-style: none;
@@ -9437,9 +9454,13 @@ img {
 /* Analytics ENDS */
 
 /* Profile Setting start */
-
+.navbar_pic {
+  height: 52px;
+  width: 52px;
+  border-radius: 50%;
+}
 .save_gap {
-  padding: 20px;
+  padding-bottom: 25px;
 }
 .profile_margin {
   padding-top: 20px;
@@ -10086,7 +10107,7 @@ input.searcdd {
   overflow: hidden;
   padding: 0 10px 5px 25px;
   min-height: 90vh !important;
-  margin-top: 73px;
+  margin-top: 70px;
   -webkit-transition: all 0.2s ease-out;
   transition: all 0.2s ease-out;
 }
@@ -11638,6 +11659,7 @@ label img {
   line-height: 16px;
   border: none;
   color: #5d80e2;
+  background: transparent;
 }
 
 .review_heading1 {
@@ -12367,6 +12389,7 @@ label img {
   line-height: 19px;
   color: #f2f2f2;
   padding: 10px 30px;
+  margin-left: 6px;
   background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
   box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
   border-radius: 5px;
@@ -13444,8 +13467,9 @@ span.active-b:before {
 }
 
 .input-check {
-  width: 20px;
-  height: 20px;
+  width: 15px;
+  height: 15px;
+  padding-top: 3px;
 }
 .disable-b {
   position: relative;

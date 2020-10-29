@@ -731,8 +731,8 @@ export default class ReviewGenerationStats extends Component {
               </MDBCol>
             </MDBRow>
             <MDBRow>
-              <MDBCol md="4">
-                <div className="review_container">
+              <MDBCol md="4" className="review_container">
+                
                   <MDBRow>
                     <div id="traffic_chart">Traffic Chart</div>
                   </MDBRow>
@@ -805,42 +805,30 @@ export default class ReviewGenerationStats extends Component {
                   ) : (
                     <h4>Connect some listings to see this chart</h4>
                   )}
-                </div>
               </MDBCol>
               <MDBCol md="8">
                 <div className="review_container">
-                  <div className="viewallreview">
-                    <div className="border-bottom d-online-flex">
-                      <ul className="review_weekly">
-                        <li
-                          onClick={this.dailyLineGraph}
-                          className={dailyClicked ? "active" : ""}
-                        >
-                          {" "}
-                          <a>Daily</a>
-                        </li>
-                        <li>
-                          <a>Weekly</a>
-                        </li>
-                        <li
-                          onClick={this.monthlyLineGraph}
-                          className={monthlyClicked ? "active" : ""}
-                        >
-                          {" "}
-                          <a>Monthly</a>
-                        </li>
+                  <MDBRow>
+                    <MDBCol md='1'>
+                    <a onClick={this.dailyLineGraph}
+    className={dailyClicked ? "review_period_active" : "review_period"}>Daily</a>
+                      </MDBCol>
 
-                        <li
-                          onClick={this.yearlyLineGraph}
-                          className={yearlyClicked ? "active" : ""}
-                        >
-                          <a>Yearly</a>
-                        </li>
-                      </ul>
-                    </div>
+                      <MDBCol md='1'>
+                    <a onClick={this.dailyLineGraph}
+    className={dailyClicked ? "review_period_active" : "review_period"}>Weekly</a>
+                      </MDBCol>
 
-                    {/* line chart */}
-                    <div className="line-chart">
+                      <MDBCol md='1'>
+                    <a onClick={this.monthlyLineGraph}
+    className={monthlyClicked ? "review_period_active" : "review_period"}>Monthly</a>
+                      </MDBCol>
+
+                      <MDBCol md='1'>
+                    <a  onClick={this.yearlyLineGraph}
+    className={yearlyClicked ? "review_period_active" : "review_period"}>Yearly</a>
+                      </MDBCol>
+                  </MDBRow>
                       <div>
                         {isGoogleLoggedIn && isFbLoggedIn ? (
                           <Chart
@@ -873,12 +861,11 @@ export default class ReviewGenerationStats extends Component {
                       </div>
 
                       {/* line chart */}
-                    </div>
-                  </div>
+                    
                 </div>
               </MDBCol>
             </MDBRow>
-            <div style={{ padding: "0px 2%" }}>
+            <div style={{ paddingRight: "13px" }}>
               <MDBRow className="review_container">
                 <MDBCol md="2" className="rev_gen_contant4">
                   Campaign list

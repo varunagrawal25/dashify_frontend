@@ -72,15 +72,16 @@ export default class SettingAccounts extends Component {
       <>
         {/* <div className="left-side-menu"></div>
         <div className="content-page"> */}
-        <div className="container " id="overview-10">
+         <MDBContainer>
           <div className="setting-10">
-            <h3>Profile Setting</h3>
+            <h3> Profile Setting</h3>
           </div>
-          <div className="row ">
+
+          <MDBRow>
             <MDBCol md="3">
               <ProfileSettingSidebar />
             </MDBCol>
-            <div className="col-md-8  ">
+            <div className="col-md-9  ">
               <div className="row ">
                 <div className=" setting-12">
                   <h3>My Profile</h3>
@@ -156,8 +157,9 @@ export default class SettingAccounts extends Component {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+         </MDBRow>
+          
+        </MDBContainer>
         {/* </div> */}
       </>
     );

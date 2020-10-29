@@ -6,7 +6,7 @@ import { all_location } from "./apis/location";
 import { all_connection_of_one_location } from "./apis/social_platforms";
 import { Link, Redirect, NavLink } from "react-router-dom";
 import ViewLocations from "./location-manager";
-
+import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import SearchIcon from "@material-ui/icons/Search";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
@@ -529,18 +529,17 @@ export default class Topbarmenu extends Component {
     console.log("this.state in topbarmenu", this.state);
 
     return (
-      <>
-        <div className="maindiv">
-          <div className="navbar-custom">
-            <div className="container-fluid topdash">
-              <div className="row leftdah">
-                <div className="col-md-3">
-                  <img src={require("./assets/LOGO 4.png")} alt="" />
-                </div>
-                <div className="col-md-6 ">
-                  <div className="row searchdah">
-                    <div className="col-md-6 ">
-                      <div className="md-form ">
+      <div className='maindiv'>
+          <MDBRow className='topdash '>
+        <MDBCol md='3'>
+        <img src={require("./assets/LOGO 4.png")} alt="" />
+        </MDBCol>
+
+        
+        <MDBCol md='6'>
+          <MDBRow>
+            <MDBCol md='6'>
+<div className="md-form ">
                         <input
                           type="text"
                           name=""
@@ -575,22 +574,22 @@ export default class Topbarmenu extends Component {
                           </div>
                         )}
                       </div>
-                    </div>
-                    <div className="col-md-6">
-                      <a
+            </MDBCol>
+            <MDBCol md='6'>
+            <MDBBtn
                         className="add-location last_btn"
                         href="/dashboard#/add-location"
                       >
                         <i className="zmdi zmdi-plus"></i> Add Location
-                      </a>
-                    </div>
-                  </div>
-                </div>
+                      </MDBBtn>
+            </MDBCol>
+          </MDBRow>
+        
+        </MDBCol>
 
-                <div className="col-md-3">
-                  <div className="row ">
-                    <div className="col-md-5 ">
-                      {loading_info ? (
+        <MDBCol md='3'>
+         
+         {loading_info ? (
                         <Loader
                           className="loaderbox"
                           type="Oval"
@@ -600,30 +599,21 @@ export default class Topbarmenu extends Component {
                           // timeout={3000} //3 secs
                         />
                       ) : (
-                        <>
-                          <div className="namedash rightdah">
-                            <h3>
-                              {" "}
-                              {first_name} {last_name}{" "}
-                            </h3>
-                          </div>
-                          <div className="col-md-2 ">
-                            <div className="row imgaligng">
-                              {user_image ? (
-                                <img
-                                  src={"https://dashify.biz" + user_image}
-                                  alt="user"
-                                />
-                              ) : (
-                                <AccountCircleIcon fontSize="large" />
-                              )}
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-
-                    <ul className="dropdown-menu loginboxds">
+                        <MDBRow>
+                        <MDBCol md='5' className="namedash rightdah">
+                              {first_name} {last_name}
+                          </MDBCol> 
+                          <MDBCol md='3'>
+{user_image ? (
+                            <img
+                              src={"https://dashify.biz" + user_image}
+                              alt="user"
+                              className='navbar_pic'
+                            />
+                          ) : (
+                            <AccountCircleIcon fontSize="large" />
+                            )}
+                            <ul className="dropdown-menu loginboxds">
                       <li>
                         <a href="#">Profile Settings</a>
                       </li>
@@ -635,10 +625,9 @@ export default class Topbarmenu extends Component {
                         </Link>
                       </li>
                     </ul>
-
-                    {/* <div className="col-md-2 rightdah"></div> */}
-                    <div className="col-md-2 rightdah">
-                      <ul className="rightmenu-top nav navbar-nav navbar-right">
+                          </MDBCol>
+                          <MDBCol md='2'>
+                            <ul className="rightmenu-top nav navbar-nav navbar-right">
                         <li className="dropdown notification-list">
                           <a
                             className="dropdown-toggle"
@@ -714,17 +703,16 @@ export default class Topbarmenu extends Component {
                           </div>
                         </li>
                       </ul>
-                    </div>
-                    <div className="col-md-2 rightdah" data-toggle="dropdown">
+                          </MDBCol>
+                          <MDBCol  className="rightdah" data-toggle="dropdown">
                       <MoreVertIcon />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </>
+                          </MDBCol>
+                          </MDBRow>
+                          )}      
+         </MDBCol>
+       </MDBRow>
+        
+      </div>
     );
   }
 }
