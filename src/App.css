@@ -1490,7 +1490,7 @@ img {
   text-decoration: none;
   display: flex;
   align-items: center;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 500;
 }
 
@@ -9803,10 +9803,16 @@ img {
   line-height: 16px;
 
   color: #000000;
-
+  margin-top: 6px;
   opacity: 0.6;
 }
 
+.overview_icon {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  margin-left: 20px;
+}
 .recent-text {
   font-family: Roboto;
   font-style: normal;
@@ -10421,6 +10427,18 @@ ul.dropdown-menu.loginboxds li a:hover {
   border-color: #8264c6;
   margin: 20px 0px;
 }
+
+.camp_textarea2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 21px;
+  color: #4f4f4f;
+  width: 100%;
+  background: #e4f2ff;
+  border: transparent;
+}
 .camp_add_btn {
   font-family: Roboto;
   font-style: normal;
@@ -10580,6 +10598,7 @@ Not supports in Firefox and IE */
 }
 .scrollbar::-webkit-scrollbar-track:hover {
   background-color: #f4f4f4;
+  border-radius: 16px;
 }
 
 /* scrollbar itself */
@@ -10591,6 +10610,7 @@ Not supports in Firefox and IE */
 .scrollbar::-webkit-scrollbar-thumb:hover {
   background-color: #a0a0a5;
   border: 4px solid #f4f4f4;
+  border-radius: 16px;
 }
 
 /* set button(top and bottom of the scrollbar) */
@@ -10607,6 +10627,7 @@ body {
   background: #fff;
   overflow-y: scroll;
   overflow-x: hidden;
+  margin-right: -15px;
 }
 .overflow {
   min-height: 260px;
@@ -10655,11 +10676,11 @@ label:before {
 }
 
 label img {
-  height: 60px;
+  height: 57px;
   width: 100px;
   transition-duration: 0.2s;
   transform-origin: 50% 50%;
-  margin-left: 20px;
+  margin-left: 12px;
 }
 
 :checked + label {
@@ -11392,7 +11413,7 @@ label img {
 }
 
 .vl_btn_optimize {
-  padding: 5px 25px;
+  padding: 4px 21px;
   border: 1px solid #eb0558;
   box-sizing: border-box;
   filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.05));
@@ -11400,7 +11421,7 @@ label img {
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  font-size: 8px;
+  font-size: 10px;
   line-height: 9px;
   color: #eb0558;
   /* margin-left: 13px; */
@@ -11519,7 +11540,7 @@ label img {
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  font-size: 8px;
+  font-size: 11px;
   line-height: 9px;
   text-align: end;
   color: #000000;
@@ -12198,7 +12219,7 @@ label img {
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
-  line-height: 36px;
+  line-height: 21px;
   color: #4f4f4f;
   text-align: left;
 }
@@ -12337,15 +12358,15 @@ label img {
 .user_btn {
   font-family: Roboto;
   font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
+  font-weight: 500;
+  font-size: 16px;
   line-height: 21px;
   color: #f2f2f2;
   margin-bottom: 30px;
   background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
   box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
   border-radius: 5px;
-  padding: 10px 20px;
+  padding: 8px 20px;
   margin: 10px;
   border: none;
 }

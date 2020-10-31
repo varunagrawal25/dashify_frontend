@@ -584,17 +584,17 @@ export default class ReviewGenerationCampaign extends Component {
                     </div>
                     <div className="mt-30 ">
                   <div className="camp_subhead2">
-                  Email Contant
+                  Email Content
                   </div>
                     <textarea
                       className="camp_textarea " rows="4" 
                       // placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley"
-                      name="sms_content"
+                      name="email_content"
                       onChange={this.changeHandler}
-                      value={sms_content}
+                      value={email_content}
                       required
                     ></textarea>
-                    <div style={{ color: "red" }}>{sms_content_error}</div>
+                    <div style={{ color: "red" }}>{email_content_error}</div>
                   </div>
                   </div>
                 </div>
@@ -790,7 +790,9 @@ Apple AppStore
                         <b>{email_heading}</b>
                       </p> */}
                     <div className="sms-newtext">
-                      <p>{email_content}</p>
+                      <p>Business vocabulary and commonly used 
+                        phrases are also detailed in the texts, 
+                        and all this information - including.</p>
                       {review_by_google ? (
                         <div className="apibox">
                           <img
@@ -876,7 +878,7 @@ Apple AppStore
                           {email_heading}
                         </p>
                       </div>
-
+                      
                       <div className="raitingcolor">
                         <p>{email_content}</p>
                         {review_by_google ? (
@@ -952,7 +954,7 @@ Apple AppStore
 <MDBCol md='5' className='review_sites_contant'>
 Apple AppStore
 </MDBCol>
-<MDBCol md='4'>
+<MDBCol md='4' style={{padding:'0px'}}>
   <MDBBtn className='write_review_btn'>
     Write a review
   </MDBBtn>
@@ -968,7 +970,7 @@ Apple AppStore
 <MDBCol md='5' className='review_sites_contant'>
 Google Map
 </MDBCol>
-<MDBCol md='4'>
+<MDBCol md='4' style={{padding:'0px'}}>
   <MDBBtn className='write_review_btn'>
     Write a review
   </MDBBtn>

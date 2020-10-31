@@ -1919,7 +1919,7 @@ export default class promotional_post extends Component {
 
             <MDBRow>
               <MDBCol md='4' className='review_container'>
-<div style={{textAlign:'center'}}> 
+<div style={{textAlign:'center',marginBottom:'25px'}}> 
 <img src={require("./assets/calender.png")}  alt="" className='calender_icon' />
 <select  className="review_select_btn" >
                               <option selected
@@ -1972,8 +1972,8 @@ export default class promotional_post extends Component {
   </MDBCol>
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
-<div className='pp_contant1'>15</div>
-<div className='pp_contant2'>Total active post</div>
+<div className='pp_contant1'>21</div>
+<div className='pp_contant2'>Total post views</div>
   </MDBCol>
 
   <MDBCol md='3'>
@@ -1987,8 +1987,8 @@ export default class promotional_post extends Component {
   </MDBCol>
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
-<div className='pp_contant1'>15</div>
-<div className='pp_contant2'>Total active post</div>
+<div className='pp_contant1'>06</div>
+<div className='pp_contant2'>Total post clicks</div>
   </MDBCol>
 
   <MDBCol md='3'>
@@ -2002,8 +2002,8 @@ export default class promotional_post extends Component {
   </MDBCol>
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
-<div className='pp_contant1'>15</div>
-<div className='pp_contant2'>Total active post</div>
+<div className='pp_contant1'>12</div>
+<div className='pp_contant2'>Scheduled posts</div>
   </MDBCol>
 
   <MDBCol md='3'>
@@ -2017,8 +2017,8 @@ export default class promotional_post extends Component {
   </MDBCol>
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
-<div className='pp_contant1'>15</div>
-<div className='pp_contant2'>Total active post</div>
+<div className='pp_contant1'>09</div>
+<div className='pp_contant2'>Expirit posts</div>
   </MDBCol>
 
   <MDBCol md='3'>
