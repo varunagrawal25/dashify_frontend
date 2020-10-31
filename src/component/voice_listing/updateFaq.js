@@ -160,7 +160,7 @@ export default class UpdateFaq extends Component {
     <textarea
                      type="text"
                      name="ans"
-                     className="form-group"
+                     className="vl_input"
                      value={this.state.ans}
                      onChange={this.handler}
                    />

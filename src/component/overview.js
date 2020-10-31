@@ -791,18 +791,21 @@ export default class Overview extends Component {
       notification_data.Notification.map(data => (
         <div>
           <MDBRow>
-            <MDBCol md="8">
-              <div className="recent-title">
+            <MDBCol md="1" style={{padding:'0px'}}>
                 <img
                   src={"https://dashify.biz" + data.media_image}
-                  alt="yelp"
-                  height="40"
-                  width="40"
+                  alt=""
+                  className='overview_icon'
                 />
+            </MDBCol>
+
+            <MDBCol md="7" >
+              <div className="recent-title">
+                
                 {data.head}
               </div>
             </MDBCol>
-            <MDBCol md="4" style={{ marginTop: "5px" }}>
+            <MDBCol md="4" style={{ marginTop: "2px" }}>
               <MDBRow>
                 <MDBCol md="6" style={{ padding: "0px" }}>
                   <a href={data.link} className="btn btn-primary ">
@@ -1206,6 +1209,7 @@ export default class Overview extends Component {
                               {total_notifications[0]}
                               {total_notifications[1]}
                               {total_notifications[2]}
+                              {total_notifications[3]}
                             </div>
                           ) : (
                           {total_notifications}
@@ -1230,7 +1234,36 @@ export default class Overview extends Component {
                     <h3>Social Overview</h3>
 
                     <div className="camgianbox">
-                      <div className="dropdown">
+                    <select  className="review_select_btn" >
+                              <option selected
+                                value= "week"
+                              >
+                                Last week
+                              </option>
+                              <option
+                              value = "month"
+                              >
+                                Last month
+                              </option>
+
+                              <option
+                              value= "3 months"
+                              >
+                                Last 3 month
+                              </option>
+
+                              <option
+                              value= "6 months"
+                              >
+                                Last 6 month
+                              </option>
+                              <option
+                              value = "year"
+                              >
+                                Last year
+                              </option>
+                            </select>
+                      {/* <div className="dropdown">
                         <a
                           href="#"
                           className="dropdown-toggle"
@@ -1288,6 +1321,7 @@ export default class Overview extends Component {
                           </ul>
                         </div>
                       </div>
+                     */}
                     </div>
                   </div>
                   <div class="row">
@@ -1472,7 +1506,36 @@ export default class Overview extends Component {
                     <h3>Average Google customer Actions</h3>
 
                     <div className="camgianbox">
-                      <div className="dropdown">
+                    <select  className="review_select_btn" >
+                              <option selected
+                                value= "week"
+                              >
+                                Last week
+                              </option>
+                              <option
+                              value = "month"
+                              >
+                                Last month
+                              </option>
+
+                              <option
+                              value= "3 months"
+                              >
+                                Last 3 month
+                              </option>
+
+                              <option
+                              value= "6 months"
+                              >
+                                Last 6 month
+                              </option>
+                              <option
+                              value = "year"
+                              >
+                                Last year
+                              </option>
+                            </select>
+                      {/* <div className="dropdown">
                         <a
                           href="#"
                           className="dropdown-toggle"
@@ -1530,6 +1593,7 @@ export default class Overview extends Component {
                           </ul>
                         </div>
                       </div>
+                    */}
                     </div>
                   </div>
                   <div class="card4">

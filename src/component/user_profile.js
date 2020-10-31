@@ -345,9 +345,9 @@ export default class User_profile extends Component {
                   <MDBRow>
                     <MDBCol md="4">
                       <div className="user2">Company name</div>
-                      <div className="user2">Address</div>
                       <div className="user2">Phone</div>
                       <div className="user2">Website</div>
+                      <div className="user2">Address</div>
                     </MDBCol>
 
                     <MDBCol md="8">
@@ -369,19 +369,7 @@ export default class User_profile extends Component {
                             {Company_name_error}
                           </div>
                         </div>
-                        <div className="user3">
-                          <input
-                            type="text"
-                            name="address"
-                            value={address}
-                            onChange={this.changeHandler}
-                            className="user_edit_input"
-                            placeholder="Edit address"
-                          />
-                          <div className="error" style={{ color: "red" }}>
-                            {address_error}
-                          </div>
-                        </div>
+                       
                         <div className="user3">
                           <input
                             type="text"
@@ -408,6 +396,20 @@ export default class User_profile extends Component {
                             {website_error}
                           </div>
                         </div>
+
+                        <div className="user3">
+                          <input
+                            type="text"
+                            name="address"
+                            value={address}
+                            onChange={this.changeHandler}
+                            className="user_edit_input"
+                            placeholder="Edit address"
+                          />
+                          <div className="error" style={{ color: "red" }}>
+                            {address_error}
+                          </div>
+                        </div>
                         <button type="submit" className="user_btn">
                           Submit
                         </button>
@@ -430,9 +432,9 @@ export default class User_profile extends Component {
                   <MDBRow>
                     <MDBCol md="4">
                       <div className="user2">Company name</div>
-                      <div className="user2">Address</div>
                       <div className="user2">Phone</div>
                       <div className="user2">Website</div>
+                      <div className="user2">Address</div>
                     </MDBCol>
                     <MDBCol md="8">
                       {user_info.Company_name ? (
@@ -441,11 +443,6 @@ export default class User_profile extends Component {
                         <div className="user_blank"></div>
                       )}
 
-                      {user_info.address ? (
-                        <div className="user3">{user_info.address}</div>
-                      ) : (
-                        <div className="user_blank"></div>
-                      )}
                       {user_info.Phone ? (
                         <div className="user3">{user_info.Phone}</div>
                       ) : (
@@ -456,6 +453,12 @@ export default class User_profile extends Component {
                       ) : (
                         <div className="user_blank"></div>
                       )}
+
+                      {user_info.address ? (
+                        <div className="user3">{user_info.address}</div>
+                      ) : (
+                        <div className="user_blank"></div>
+                      )}      
                     </MDBCol>
                   </MDBRow>
                   <div className="get-image">

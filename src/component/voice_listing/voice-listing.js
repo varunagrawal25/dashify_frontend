@@ -426,10 +426,64 @@ export default class VoiceListing extends Component {
 
         return (
           <div>
+            {this.state.update?(
             <MDBRow>
+              
+            <MDBCol md='8'  >
+  <MDBRow className='vl_gap1'>
+    <MDBCol md='3' className="vl_input_head">
+    Question :
+    </MDBCol>
+    <MDBCol md='9' >
+                     <input
+                    type="text"
+                    className="vl_input"
+                    name="que"
+                    value={this.state.que}
+                    onChange={this.handler}
+                  />
+                  <div style={{ color: "red" }}>{this.state.que_error}</div>
+    </MDBCol>
+  </MDBRow>
+  <MDBRow className='vl_gap1'>
+    <MDBCol md='3' className="vl_input_head ">
+    Answer :
+    </MDBCol>
+    <MDBCol md='9' >
+    <textarea
+                     type="text"
+                     name="ans"
+                     className="vl_input"
+                     value={this.state.ans}
+                     onChange={this.handler}
+                   />
+                  <div style={{ color: "red" }}>{this.state.ans_error}</div>
+    </MDBCol>
+  </MDBRow>
+            </MDBCol>
+           
+              <MDBCol md="4" className='vl_gap2' >
+                          <button
+                // onClick={this.updateFaq(
+                //   this.state.que,
+                //   this.state.ans,
+                //   this.props.faqid
+                // )}
+                className="user_btn"
+              >
+                Update
+              </button>
+              <button onClick={this.updateCancel} className="user_btn">
+                Cancel
+              </button>
+            {/* <div className="warning">{show_err_updatefaq}</div> */}
+            </MDBCol>
+            </MDBRow>
+            ):(
+              <MDBRow>
               <MDBCol md="7" className="offset-md-1">
-                <div className="vl_c3_subhead">Question {r.question}</div>
-                <div className="vl_contant">Answer {r.answer}</div>
+                <div className="vl_c3_subhead"> {r.question}</div>
+                <div className="vl_contant">{r.answer}</div>
               </MDBCol>
               <MDBCol md="2" className="offset-md-2">
                 <MDBBtn
@@ -440,6 +494,7 @@ export default class VoiceListing extends Component {
                 </MDBBtn>
               </MDBCol>
             </MDBRow>
+            )}
             <hr className="voice_hr" />
           </div>
         );
@@ -529,7 +584,7 @@ export default class VoiceListing extends Component {
                               Optimization in progress
                             </a>
                           ) : (
-                            <p style={{ color: "red" }}>can't optimise</p>
+                            <p className="vl_link" style={{ color: "red" }}>can't optimise</p>
                           )
                         ) : (
                           <GoogleLogin
@@ -571,7 +626,7 @@ export default class VoiceListing extends Component {
                               Optimizacion in progress
                             </div>
                           ) : (
-                            <p style={{ color: "red" }}>can't optimise</p>
+                            <p className="vl_link" style={{ color: "red" }}>can't optimise</p>
                           )
                         ) : (
                           <MDBBtn className="vl_btn_optimize" href="/yelplogin">
@@ -602,7 +657,7 @@ export default class VoiceListing extends Component {
                               Optimizacion in progress
                             </div>
                           ) : (
-                            <p style={{ color: "red" }}>can't optimise</p>
+                            <p className="vl_link" style={{ color: "red" }}>can't optimise</p>
                           )
                         ) : (
                           <MDBBtn
@@ -650,7 +705,7 @@ export default class VoiceListing extends Component {
                               Optimizacion in progress
                             </div>
                           ) : (
-                            <p style={{ color: "red" }}>can't optimize</p>
+                            <p className="vl_link" style={{ color: "red" }}>can't optimize</p>
                           )
                         ) : (
                           <MDBBtn
