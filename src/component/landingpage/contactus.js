@@ -85,10 +85,9 @@ class ContactUs extends Component {
   };
   render() {
     return (
-      <div>
+      <div className='bluish_background'>
         <Navbar />
-        <div className="main-blog">
-          <MDBContainer>
+          <MDBContainer >
             <div className="contact_heading">Contacts us</div>
             <div id="contact_contant1_width">
               <div id="contact_contant1" className="contact_contant">
@@ -169,7 +168,7 @@ class ContactUs extends Component {
                           this.setState({ full_name: e.target.value })
                         }
                       />
-                      <div style={{ color: "red" }}>
+                      <div className='input_error'>
                         {this.state.full_name_error}
                       </div>
                     </div>
@@ -184,7 +183,7 @@ class ContactUs extends Component {
                         value={this.state.email}
                         onChange={e => this.setState({ email: e.target.value })}
                       />
-                      <div style={{ color: "red" }}>
+                      <div className='input_error'>
                         {this.state.email_error}
                       </div>
                     </div>
@@ -199,7 +198,7 @@ class ContactUs extends Component {
                           this.setState({ message: e.target.value })
                         }
                       />
-                      <div style={{ color: "red" }}>
+                      <div className='input_error'>
                         {this.state.message_error}
                       </div>
                     </div>
@@ -240,7 +239,7 @@ class ContactUs extends Component {
               </div>
             </div>
           </MDBContainer>
-        </div>
+      
         <Footer />
       </div>
     );

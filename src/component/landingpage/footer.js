@@ -1,104 +1,111 @@
-import React, { Component } from "react";
-import { NavLink, withRouter } from "react-router-dom";
+import React, { Component } from 'react'
+import { NavLink, withRouter} from "react-router-dom";
 import { MDBRow, MDBCol, MDBContainer } from "mdbreact";
-import logo from "../assets/footer-logo.png";
+import logo from '../assets/footer-logo.png'
 
-class Footer extends Component {
-  render() {
-    return (
-      <div>
-        <div className="footer">
-          <MDBContainer>
-            <MDBRow>
-              <MDBCol md="3">
-                <div className="footer-logo">
-                  <img src={logo} alt="logo" />
-                </div>
-              </MDBCol>
-              <MDBCol md="3">
-                <ul>
-                  <li>
-                    {" "}
-                    <NavLink to="/aboutus">About us</NavLink>
-                  </li>
-                  <li>
-                    {" "}
-                    <NavLink to="/how-we-work">How we work</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/our-team">Our team</NavLink>
-                  </li>
-                  <li>
-                    {" "}
-                    <NavLink to="/our-news">Our news</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/our-customer">Our customers</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/blog">Blog</NavLink>
-                  </li>
-                </ul>
-              </MDBCol>
-              <MDBCol md="3">
-                <ul>
-                  <li>
-                    {" "}
-                    <NavLink to="/our-app">Our App</NavLink>
-                  </li>
+ class Footer extends Component {
+    render() {
+        return (
+          
+            <div id='footer_box'>
+            <MDBContainer>
+              <MDBRow>
+                <MDBCol className='col-md-4'>
+                <img src={logo} alt='logo' id='logo'/>
+                </MDBCol>
+                <MDBCol className='col-md-8'>
+                  <MDBRow>
+              <MDBCol className='col-md-4' style={{marginTop:'45px'}}>
+                            
+                            <div >
+                            <NavLink to="/about us" className='options'>About us</NavLink>
+                            </div>
+                            <div > 
+                            <NavLink to="/how-we-work" className='options'>How we work</NavLink>
+                            </div>
+                            <div >
+                            <NavLink to="/our team" className='options'>Our team</NavLink>
+                            </div>
+                            <div >
+                            <NavLink to="/our news" className='options'>Our news</NavLink>
+                            </div>
+                            <div >
+                            <NavLink to="/our customer" className='options'>Our customers</NavLink>
+                            </div>
+                            <div > 
+                            <NavLink to="/blog" className='options'>Blog</NavLink>
+                            </div>
+                            <div > 
+                            <NavLink to="/career" className='options'>Career</NavLink>
+                            </div>
+                           
+                      
+                    </MDBCol>
+                    <MDBCol className='col-md-4' style={{marginTop:'45px'}}>
+                      
+                            <div >
+                            <NavLink to="/our app" className='options'>Our App</NavLink>
+                            </div>
+                            <div >
+                            <NavLink to="/listing management" className='options'>Listings Management</NavLink>
+                            </div>
+                            <div > 
+                            <NavLink to="/review management" className='options'>Review Management</NavLink>
+                            </div>
+                            <div >
+                            <NavLink to="/analytics" className='options'>Analytics</NavLink>
+                            </div>
+                            <div > 
+                            <NavLink to="/commants and review" className='options'>Сomments and reviews</NavLink>
+                            </div>
+                            <div >
+                            <NavLink to="/features" className='options'>Features</NavLink>
+                            </div>
+                      
+                    </MDBCol> 
+                    
+                    <MDBCol className='col-md-4' style={{marginTop:'45px'}}>
+                      
+                            <div >
+                            <NavLink to="/pricing" className='options'>Pricing</NavLink>
+                            </div>
 
-                  <li>
-                    <NavLink to="/listing-management">
-                      Listings Management
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/review-management">Review Management</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/analytics">Analytics</NavLink>
-                  </li>
-                  <li>
-                    {" "}
-                    <NavLink to="/commants-and-review">
-                      Сomments and reviews
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/features">Features</NavLink>
-                  </li>
-                </ul>
-              </MDBCol>
-              <MDBCol md="3">
-                <ul>
-                  <li>
-                    <NavLink to="/pricing">Pricing</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/support">Support</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/chat">Chat</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/login">Log in</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/contactus">Contact us</NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="/career">Career</NavLink>
-                  </li>
-                </ul>
-                <div className="bookbox">
-                  <button className="btn_demo">Book A Demo</button>
-                </div>
-              </MDBCol>
-            </MDBRow>
-          </MDBContainer>
-        </div>
-      </div>
-    );
-  }
+                            <div >
+                            <NavLink to="/scanner" className='options'>Scanner</NavLink>
+                            </div>
+                            <div >
+                            <NavLink to="/support" className='options'>Support</NavLink>
+                            </div>
+                            <div > 
+                            <NavLink to="/chat" className='options'>Chat</NavLink>
+                            </div>
+                            <div >
+                            <NavLink to="/login" className='options'>Log in</NavLink>
+                            </div>
+                            <div >
+                            <NavLink to="/contact us" className='options'>Contact us</NavLink>
+                            </div>
+                        <div >
+                          <button id='btn_box' className='btn'>
+                          Book A Demo
+                          </button>
+                        </div>
+                    </MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                    
+              </MDBRow>
+              </MDBContainer>
+             
+              <div className='rights_box' id='rights'>
+                    
+                      ©Dashify | All Rights Reserved
+                      
+                    </div>
+            </div>
+            
+         
+        )
+    }
 }
-export default withRouter(Footer);
+export default withRouter(Footer)

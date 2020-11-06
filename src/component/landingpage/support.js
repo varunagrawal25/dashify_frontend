@@ -46,7 +46,7 @@ refund policy and any other issues related to Dashify
       </div>
     </div>
     </div>
-    <hr className='collapse_hr' />
+    <hr  />
 
 
     <div className='collapse_box'>
@@ -63,7 +63,7 @@ refund policy and any other issues related to Dashify
       </div>
     </div>
     </div>
-    <hr className='collapse_hr' />
+    <hr  />
 
 
     <div className='collapse_box'>
@@ -80,7 +80,7 @@ refund policy and any other issues related to Dashify
       </div>
     </div>
     </div>
-    <hr className='collapse_hr' />
+    <hr  />
 
     <div className='collapse_box'>
     <div data-toggle="collapse" data-parent="#accordion" href="#collapse4">
@@ -96,7 +96,7 @@ refund policy and any other issues related to Dashify
       </div>
     </div>
     </div>
-    <hr className='collapse_hr' />
+    <hr  />
 
 
     <div className='collapse_box'>
@@ -113,7 +113,7 @@ refund policy and any other issues related to Dashify
       </div>
     </div>
     </div>
-    <hr className='collapse_hr' />
+    <hr  />
 
     <div className='collapse_box'>
     <div data-toggle="collapse" data-parent="#accordion" href="#collapse6">
@@ -130,7 +130,7 @@ refund policy and any other issues related to Dashify
      
     </div>
     </div>
-    <hr className='collapse_hr' />
+    <hr  />
   </div>
   </div>
                             <div id='asknow'>
