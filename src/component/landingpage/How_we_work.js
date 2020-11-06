@@ -1,14 +1,73 @@
+import { MDBCol, MDBContainer, MDBRow } from "mdbreact";
 import React, { Component } from "react";
-import { Container } from "reactstrap";
 import Footer from "./footer";
 import Navbar from "./navbar";
+import email_icon from '../assets/email_icon.png'
+import call_icon from '../assets/call_icon.png'
+import chat_icon from '../assets/chat_icon.png'
+import account from '../assets/account.png'
+import analytics from '../assets/analytics.png'
+import client_feedback from '../assets/client_feedback.png'
+import digital_catalogues from '../assets/digital_catalogues.png'
+import plateform_adv from '../assets/plateform_adv.png'
+import search_quaries from '../assets/search_quaries.png'
+import scan from '../assets/scan.png'
 
 export default class How_we_work extends Component {
   render() {
     return (
-      <div>
+      <div className='bluish_background'>
         <Navbar />
-        <div className="how-it-work">
+        <MDBContainer className='hww_container'>
+         <div className='hww_heading'>How we work</div>
+         <div className='hww_contant1'>
+         Find  solutions to customer service, general inquiry, product problem, business partnership, 
+         software upgrade, refund policy and any other issues related to Dashify
+         </div>
+         <MDBRow>
+           <MDBCol md='6' className='hww_box_outer1'>
+             <div className='hww_box'>
+<MDBRow>
+<div className="numaric">01</div>
+  <MDBCol md='8' className='hww_box_head'>
+  Start our scan
+  </MDBCol>
+  <MDBCol md='4'>
+    <img src={scan} alt='' className='hww_icons'/>
+  </MDBCol>
+  <div className='hww_contant2'>
+  Input your business information, start our scan to see if your information is coming up correctly, 
+  you will get to check the health of your online visibility to see whether consumers are receiving 
+  the correct information about your business and your online exposure.
+  </div>
+</MDBRow>
+             </div>
+           </MDBCol>
+
+         </MDBRow>
+
+         <MDBRow>
+           <MDBCol md='6' className='offset-md-6'>
+             <div>
+<MDBRow>
+  <MDBCol md='8'>
+  Start our scan
+  </MDBCol>
+  <MDBCol md='4'>
+    <img src={scan} alt='' />
+  </MDBCol>
+  <div>
+  Input your business information, start our scan to see if your information is coming up correctly, 
+  you will get to check the health of your online visibility to see whether consumers are receiving 
+  the correct information about your business and your online exposure.
+  </div>
+</MDBRow>
+             </div>
+           </MDBCol>
+
+         </MDBRow>
+        </MDBContainer>
+        {/* <div className="how-it-work">
           <div className="container">
             <div className="how-it-title">
               <h2>How we work</h2>
@@ -214,8 +273,9 @@ export default class How_we_work extends Component {
           </div>
         </div>
         <div className="how-cover"></div>
+ */}
 
-        <div className="what-we-do">
+        {/* <div className="what-we-do">
           <div className="container">
             <div className="how-it-title">
               <h2>What we do?</h2>
@@ -285,6 +345,7 @@ export default class How_we_work extends Component {
             </div>
           </div>
         </div>
+        */}
         <Footer />
       </div>
     );

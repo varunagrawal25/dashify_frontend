@@ -576,8 +576,7 @@ export default class Topbarmenu extends Component {
                       </div>
             </MDBCol>
             <MDBCol md='6' style={{marginTop:'4px'}}>
-            <MDBBtn
-                        className="add-location last_btn"
+            <MDBBtn className="add_location "
                         href="/dashboard#/add-location"
                       >
                         <i className="zmdi zmdi-plus"></i> Add Location

@@ -808,7 +808,7 @@ export default class Overview extends Component {
             <MDBCol md="4" style={{ marginTop: "2px" }}>
               <MDBRow>
                 <MDBCol md="6" style={{ padding: "0px" }}>
-                  <a href={data.link} className="btn btn-primary ">
+                  <a href={data.link} className="btn-primary ">
                     Comment
                   </a>
                 </MDBCol>
