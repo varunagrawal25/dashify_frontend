@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { all_jobs, apply_for_job } from "../apis/outside_pages";
-
+import {MDBCol,MDBRow,MDBContainer,MDBBtn} from 'mdbreact';
 export default class Career extends Component {
   state = {
     loader: true,
@@ -259,62 +259,155 @@ export default class Career extends Component {
   render() {
     let { loader, jobs, jobs_category } = this.state;
     return (
-      <div>
+      <div  className='white_background'>
         <Navbar />
-
-        <div className="review-faq">
-          <div className="container">
-            <div className="review-rank">
-              <h2>Why your business needs review and ranking analytics</h2>
-              <p>
-                Every business that wants to grow organically, utilizes these
-                techniques to stay ahead. Having such information available to
-                you goes a long way in improving the services of your business.
-                Here is how you can benefit from our review and ranking analytic
-                services:
-              </p>
-            </div>
-
-            <div id="accordion" class="accordion">
-              <div className="card mb-0">{this.showJobs()}</div>
-            </div>
-          </div>
-        </div>
-        <div className="review-demo">
-          <div className="container">
-            <div className="review-text">
-              <div class="row">
-                <div className="col-md-7">
-                  <p>
-                    Our user-friendly systems will give you all ranking and
-                    review analytics that you can utilize to grow your business.
-                    We are experts in these services and will make sure that you
-                    have everything you need to grow your business in the best
-                    direction. If you want to employ the use of the review and
-                    ranking analytics then hire our services now!{" "}
-                  </p>
+        <MDBContainer>
+                <MDBRow>
+                  <MDBCol md='6'>
+                  <div id='career_heading'>When the world has questions, Dashify Answers</div>
+                  </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                  <MDBCol md='6'>
+                  <div className='career_contant' >
+                We have an audacious goal to help every business and organization deliver 
+                an official answer every time someone asks them a question.
                 </div>
-                <div className="col-md-5 text-center">
-                  <div class="banner-btn">
-                    <a href="#" class="book_btn">
-                      Book A Demo{" "}
-                    </a>
-                    <a href="#" class="learn_btn">
-                      Learn more{" "}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="cricle9">
-            <img src={require("../assets/ellipse-30.png")} alt="" />
-          </div>
-        </div>
+                  </MDBCol>
 
-        {/* job form */}
-        {this.aplyForJob()}
-        {/* job form */}
+                  <MDBCol md='6'>
+                  <div className='career_contant' >
+                To achieve that, we need a global team made up of the brightest innovators, visionary thought
+                 leaders, and enthusiastic collaborators who care about making a difference in the world while
+                  building an amazing culture in the process.
+                </div>
+                  </MDBCol>
+                </MDBRow>
+                <div className='career_block'>
+                <div className='career_subhead' >Does this sound like you? Join us!</div>
+                <div className="panel-group " id="accordion" >
+                          <div className='collapse_box'>
+        <div data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+        <img src={require("../assets/plus.png")} alt="" className='plus_minus' />
+        <span className='support_collapse_heading' >ENGINEERING</span>
+        </div>
+      
+    <div id="collapse1" className="panel-collapse collapse ">
+      <div className="panel-body support_collapse_body">
+      
+      Manager, Change and Release Management<br/>
+     Senior IT Engineer<br/>
+     Senior Salesforce Developer<br/>
+      <MDBBtn className='collapse_btn'>Apply now</MDBBtn>
+      </div>
+      
+    </div>
+    </div>
+    <hr className='collapse_hr' />
+
+    <div className='collapse_box'>
+        <div data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+        <img src={require("../assets/plus.png")} alt="" className='plus_minus' />
+        <span className='support_collapse_heading' >FINANCE</span>
+        </div>
+      
+    <div id="collapse2" className="panel-collapse collapse ">
+      <div className="panel-body support_collapse_body">
+      
+      Manager, Change and Release Management<br/>
+     Senior IT Engineer<br/>
+     Senior Salesforce Developer<br/>
+      <MDBBtn className='collapse_btn'>Apply now</MDBBtn>
+      </div>
+      
+    </div>
+    </div>
+    <hr className='collapse_hr' />
+
+    <div className='collapse_box'>
+        <div data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+        <img src={require("../assets/plus.png")} alt="" className='plus_minus' />
+        <span className='support_collapse_heading' >INFORMATION TECHNOLOGY</span>
+        </div>
+      
+    <div id="collapse3" className="panel-collapse collapse ">
+      <div className="panel-body support_collapse_body">
+      
+      Manager, Change and Release Management<br/>
+     Senior IT Engineer<br/>
+     Senior Salesforce Developer<br/>
+      <MDBBtn className='collapse_btn'>Apply now</MDBBtn>
+      </div>
+      
+    </div>
+    </div>
+    <hr className='collapse_hr' />
+
+    <div className='collapse_box'>
+        <div data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+        <img src={require("../assets/plus.png")} alt="" className='plus_minus' />
+        <span className='support_collapse_heading' >LEADERSHIP PROGRAMS</span>
+        </div>
+      
+    <div id="collapse4" className="panel-collapse collapse ">
+      <div className="panel-body support_collapse_body">
+      
+      Manager, Change and Release Management<br/>
+     Senior IT Engineer<br/>
+     Senior Salesforce Developer<br/>
+      <MDBBtn className='collapse_btn'>Apply now</MDBBtn>
+      </div>
+      
+    </div>
+    </div>
+    <hr className='collapse_hr' />
+
+    <div className='collapse_box'>
+        <div data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+        <img src={require("../assets/plus.png")} alt="" className='plus_minus' />
+        <span className='support_collapse_heading' >MARKETING</span>
+        </div>
+      
+    <div id="collapse5" className="panel-collapse collapse ">
+      <div className="panel-body support_collapse_body">
+      
+      Manager, Change and Release Management<br/>
+     Senior IT Engineer<br/>
+     Senior Salesforce Developer<br/>
+      <MDBBtn className='collapse_btn'>Apply now</MDBBtn>
+      </div>
+      
+    </div>
+    </div>
+    <hr className='collapse_hr' />
+
+    <div className='collapse_box'>
+        <div data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+        <img src={require("../assets/plus.png")} alt="" className='plus_minus' />
+        <span className='support_collapse_heading' >SALES</span>
+        </div>
+      
+    <div id="collapse6" className="panel-collapse collapse ">
+      <div className="panel-body support_collapse_body">
+      
+      Manager, Change and Release Management<br/>
+     Senior IT Engineer<br/>
+     Senior Salesforce Developer<br/>
+      <MDBBtn className='collapse_btn'>Apply now</MDBBtn>
+      </div>
+      
+    </div>
+    </div>
+    <hr className='collapse_hr' />
+
+    
+    </div>
+                <div className='career_subhead'> 
+                <span  >Any more questions?</span>
+                <span className='career_options' >Ask it now!</span>
+                </div>
+                </div>
+              </MDBContainer>
         <Footer />
       </div>
     );
