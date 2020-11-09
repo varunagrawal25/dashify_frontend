@@ -165,7 +165,7 @@ export default class MainApp extends Component {
                               Ranking Analytics
                             </NavLink>
                           </li>
-                          <li>
+                          {/* <li>
                             <NavLink
                               to={
                                 "/locations/" +
@@ -175,7 +175,7 @@ export default class MainApp extends Component {
                             >
                               Testing Page
                             </NavLink>
-                          </li>
+                          </li> */}
                         </ul>
                       </li>
 

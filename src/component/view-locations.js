@@ -1492,7 +1492,7 @@ export default class LocationManager extends Component {
       <MDBCol md="2" key={p.id}>
         {p.Payment_Method == "Visa" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-visa.png")} alt="Visa" />
           </label>
           </div>
@@ -1501,7 +1501,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Maestro" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-maestro.png")} alt="Maestro" />
           </label>
           </div>
@@ -1510,7 +1510,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Amex" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-amex.png")} alt="Amex" />
           </label>
           </div>
@@ -1519,7 +1519,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Cash" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-cash.png")} alt="Cash" />
           </label>
           </div>
@@ -1528,7 +1528,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Check" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-check.png")} alt="Check" />
           </label>
           </div>
@@ -1537,7 +1537,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Crypto" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-crypto.png")} alt="Crypto" />
           </label>
           </div>
@@ -1546,7 +1546,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Diners" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-diners.png")} alt="Diners" />
           </label>
           </div>
@@ -1555,7 +1555,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Discover" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-discover.png")} alt="Discover" />
           </label>
           </div>
@@ -1564,7 +1564,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Apple" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-apple.png")} alt="Apple" />
           </label>
           </div>
@@ -1573,7 +1573,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Samsung" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-samsung.png")} alt="Samsung" />
           </label>
           </div>
@@ -1582,7 +1582,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Paypal" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-paypal.png")} alt="Paypal" />
           </label>
           </div>
@@ -1591,7 +1591,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Android" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-android.png")} alt="Android" />
           </label>
           </div>
@@ -1600,7 +1600,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Invoices" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-invoices.png")} alt="Invoices" />
           </label>
           </div>
@@ -1609,7 +1609,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Traveler" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img
             src={require("../images/p-traveler.png")}
             alt="Traveler's Check"
@@ -1621,7 +1621,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Financing" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-financing.png")} alt="Financing" />
           </label>
           </div>
@@ -2006,7 +2006,7 @@ export default class LocationManager extends Component {
                                       name="about_edit"
                                       onChange={this.changeHandler}
                                       type="text"
-                                      className="vl_edit_input"
+                                      className="vl_edit_textbox"
                                       placeholder="Enter about business "
                                       value={this.state.about_edit}
                                     />
@@ -2217,7 +2217,7 @@ export default class LocationManager extends Component {
                               </div>
 
                               {/* <div className="form-group">
-                              <label>Business Owner Name</label>
+                              <label className='payment_label'>Business Owner Name</label>
                               <input
                                 name="ownerName_edit"
                                 onChange={this.changeHandler}
@@ -2229,7 +2229,7 @@ export default class LocationManager extends Component {
                               ></input>
                             </div>
                             <div className="form-group">
-                              <label>Owner Email</label>
+                              <label className='payment_label'>Owner Email</label>
                               <input
                                 name="ownerEmail_edit"
                                 onChange={this.changeHandler}
@@ -2241,7 +2241,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>Business Tagline</label>
+                              <label className='payment_label'>Business Tagline</label>
                               <input
                                 name="businessTagline_edit"
                                 onChange={this.changeHandler}
@@ -2252,7 +2252,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>Year of Incorporation</label>
+                              <label className='payment_label'>Year of Incorporation</label>
                               <input
                                 name="yearOfIncorp_edit"
                                 onChange={this.changeHandler}
@@ -2265,7 +2265,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>
+                              <label className='payment_label'>
                                 About The Business <span>*</span>
                               </label>
                               <textarea
@@ -2276,7 +2276,7 @@ export default class LocationManager extends Component {
                               ></textarea>
                             </div>
                             <div className="form-group">
-                              <label>Facebook Profile</label>
+                              <label className='payment_label'>Facebook Profile</label>
                               <input
                                 name="facebookProfile_edit"
                                 onChange={this.changeHandler}
@@ -2288,7 +2288,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>Instagram Profile</label>
+                              <label className='payment_label'>Instagram Profile</label>
                               <input
                                 name="instagramProfile_edit"
                                 onChange={this.changeHandler}
@@ -2300,7 +2300,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>Twitter Profile</label>
+                              <label className='payment_label'>Twitter Profile</label>
                               <input
                                 name="twitterProfile_edit"
                                 onChange={this.changeHandler}
@@ -2346,7 +2346,7 @@ export default class LocationManager extends Component {
                           </MDBRow>
                           <div className="pt-15">
                             <h3>About the business</h3>
-                            <p>{this.state.about}</p>
+                            <p style={{height:'129px'}}>{this.state.about}</p>
                             <div className="detailbox">
                               {/* <div className="uploadauthor">
                             <div className="author_namebox">Owner name :</div>
@@ -2610,7 +2610,7 @@ export default class LocationManager extends Component {
                                     name="applyAll"
                                     onChange={this.allChanger}
                                   />
-                                  <label>Apply To All</label>
+                                  <label className='payment_label'>Apply To All</label>
                                   <div style={{ color: "red" }}>
                                     {applyAllError}
                                   </div>
@@ -3485,7 +3485,7 @@ export default class LocationManager extends Component {
       value="true"
       id="myCheckbox1"
     /> 
-    <label for="myCheckbox1">
+    <label className='payment_label' for="myCheckbox1">
     <img
       src={require("../images/p-visa.png")}
       alt="Visa"
@@ -3505,7 +3505,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox2"
       /> 
-      <label for="myCheckbox2">
+      <label className='payment_label' for="myCheckbox2">
     <img
       src={require("../images/p-maestro.png")}
       alt="Maestro"
@@ -3524,7 +3524,7 @@ export default class LocationManager extends Component {
       value="true"
       id="myCheckbox3"
       /> 
-      <label for="myCheckbox3">
+      <label className='payment_label' for="myCheckbox3">
     <img
       src={require("../images/p-amex.png")}
       alt="Amex"
@@ -3542,7 +3542,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox4"
       /> 
-      <label for="myCheckbox4">
+      <label className='payment_label' for="myCheckbox4">
     <img
       src={require("../images/p-cash.png")}
       alt="Cash"
@@ -3560,7 +3560,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox5"
       /> 
-      <label for="myCheckbox5">
+      <label className='payment_label' for="myCheckbox5">
     <img
       src={require("../images/p-crypto.png")}
       alt="Crypto"
@@ -3578,7 +3578,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox6"
       /> 
-      <label for="myCheckbox6">
+      <label className='payment_label' for="myCheckbox6">
     <img
       src={require("../images/p-diners.png")}
       alt="Diners"
@@ -3596,7 +3596,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox7"
       /> 
-      <label for="myCheckbox7">
+      <label className='payment_label' for="myCheckbox7">
     <img
       src={require("../images/p-discover.png")}
       alt="Discover"
@@ -3614,7 +3614,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox8"
       /> 
-      <label for="myCheckbox8">
+      <label className='payment_label' for="myCheckbox8">
     <img
       src={require("../images/p-apple.png")}
       alt="Apple"
@@ -3632,7 +3632,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox9"
       /> 
-      <label for="myCheckbox9">
+      <label className='payment_label' for="myCheckbox9">
     <img
       src={require("../images/p-samsung.png")}
       alt="Samsung"
@@ -3650,7 +3650,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox10"
       /> 
-      <label for="myCheckbox10">
+      <label className='payment_label' for="myCheckbox10">
     <img
       src={require("../images/p-paypal.png")}
       alt="Paypal"
@@ -3668,7 +3668,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox11"
       /> 
-      <label for="myCheckbox11">
+      <label className='payment_label' for="myCheckbox11">
     <img
       src={require("../images/p-android.png")}
       alt="Android"
@@ -3686,7 +3686,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox12"
       /> 
-      <label for="myCheckbox12">
+      <label className='payment_label' for="myCheckbox12">
     <img
       src={require("../images/p-invoices.png")}
       alt="Invoices"
@@ -3704,7 +3704,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox13"
       /> 
-      <label for="myCheckbox13">
+      <label className='payment_label' for="myCheckbox13">
     <img
       src={require("../images/p-traveler.png")}
       alt="Traveler's Check"
@@ -3722,7 +3722,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox14"
       /> 
-      <label for="myCheckbox14">
+      <label className='payment_label' for="myCheckbox14">
     <img
       src={require("../images/p-financing.png")}
       alt="Financing"
@@ -3778,8 +3778,13 @@ export default class LocationManager extends Component {
                                 LocationDetails.Business_Cover_Image
                               }
                               alt="Cover image"
+                              style={{
+                                height: "110px",
+                                width: "112px",
+                                borderRadius: "10px"
+                              }}
                             />
-                            <div className="vl-get-image">
+                            <div className="vl-get-image1">
                               <img
                                 src={edit}
                                 alt=""

@@ -11,7 +11,9 @@ export default class Login extends Component {
     loading_activate: false
   };
 
-  componentDidMount = async () => {};
+  componentDidMount = async () => {
+    window.scrollTo(0, 0)
+  };
 
   activateHandler = event => {
     event.preventDefault();

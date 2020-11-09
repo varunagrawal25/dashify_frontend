@@ -14,6 +14,9 @@ import search_quaries from '../assets/search_quaries.png'
 import scan from '../assets/scan.png'
 
 export default class How_we_work extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0) 
+}
   render() {
     return (
       <div className='bluish_background'>
@@ -32,7 +35,7 @@ export default class How_we_work extends Component {
   <MDBCol md='8' className='hww_box_head'>
   Start our scan
   </MDBCol>
-  <MDBCol md='4'>
+  <MDBCol md='4' className='scan_img_box'>
     <img src={scan} alt='' className='hww_icons'/>
   </MDBCol>
   <div className='hww_contant2'>

@@ -18,6 +18,7 @@ export default class Career extends Component {
     u_contactNo_error: ""
   };
   componentDidMount = () => {
+      window.scrollTo(0, 0)
     all_jobs()
       .then(res => {
         console.log("all jobs", res.data);

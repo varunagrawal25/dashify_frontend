@@ -1440,8 +1440,8 @@ export default class ViewListing extends Component {
                           ))}
                         </ul>
 
-                        <h3>BUSSINES DISCRIPTION</h3>
-                        <p>{this.state.about}</p>
+                        <h3>Business  Description</h3>
+                        <p className='business_description'>{this.state.about}</p>
                       </div>
                     </div>
                   </div>

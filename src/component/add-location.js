@@ -942,7 +942,7 @@ export default class AddLocation extends Component {
                         <h4>
                           <span>step 1</span> Location Information
                         </h4>
-<MDBRow>
+<MDBRow className='addlocationboxs'>
   <MDBCol md='8'>
   <MDBRow>
                           <MDBCol md='6' className="form-group">
@@ -2708,269 +2708,270 @@ export default class AddLocation extends Component {
                                 </div>
                               </div>
 
-                              <div className="mathedbox">
+                             
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="stepone-loaction">
                                 <h4>Payment Methods</h4>
                                 <MDBRow>
-                          <MDBCol md='4' >
-                            <div className='payment_box ' >
-                          <input
-                                name="p_visa"
-                                type="checkbox"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                id="myCheckbox1"
-                              /> 
-                              <label for="myCheckbox1">
-                              <img
-                                src={require("../images/p-visa.png")}
-                                alt="Visa"
-                                className='payment_img'
-                              />
-                              </label>
-                              </div>
-                              
-                          </MDBCol>
+<MDBCol md='2' >
+  <div className='payment_box ' >
+<input
+      name="p_visa"
+      type="checkbox"
+      onChange={this.checkBoxHandler}
+      value="true"
+      id="myCheckbox1"
+    /> 
+    <label className='payment_label' for="myCheckbox1">
+    <img
+      src={require("../images/p-visa.png")}
+      alt="Visa"
+      className='payment_img'
+    />
+    </label>
+    </div>
+    
+</MDBCol>
 
-                          <MDBCol md='4' >
-                            <div className='payment_box'>
-                          <input
-                                name="p_maestro"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox2"
-                                /> 
-                                <label for="myCheckbox2">
-                              <img
-                                src={require("../images/p-maestro.png")}
-                                alt="Maestro"
-                                className='payment_img'
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2' >
+  <div className='payment_box'>
+<input
+      name="p_maestro"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox2"
+      /> 
+      <label className='payment_label' for="myCheckbox2">
+    <img
+      src={require("../images/p-maestro.png")}
+      alt="Maestro"
+      className='payment_img'
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_amex"
-                                type="checkbox"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                id="myCheckbox3"
-                                /> 
-                                <label for="myCheckbox3">
-                              <img
-                                src={require("../images/p-amex.png")}
-                                alt="Amex"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-</MDBRow>
-<MDBRow>
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_cash"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox4"
-                                /> 
-                                <label for="myCheckbox4">
-                              <img
-                                src={require("../images/p-cash.png")}
-                                alt="Cash"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_amex"
+      type="checkbox"
+      onChange={this.checkBoxHandler}
+      value="true"
+      id="myCheckbox3"
+      /> 
+      <label className='payment_label' for="myCheckbox3">
+    <img
+      src={require("../images/p-amex.png")}
+      alt="Amex"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_crypto"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox5"
-                                /> 
-                                <label for="myCheckbox5">
-                              <img
-                                src={require("../images/p-crypto.png")}
-                                alt="Crypto"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_cash"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox4"
+      /> 
+      <label className='payment_label' for="myCheckbox4">
+    <img
+      src={require("../images/p-cash.png")}
+      alt="Cash"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_diners"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox6"
-                                /> 
-                                <label for="myCheckbox6">
-                              <img
-                                src={require("../images/p-diners.png")}
-                                alt="Diners"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-                          </MDBRow>
-<MDBRow>
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_discover"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox7"
-                                /> 
-                                <label for="myCheckbox7">
-                              <img
-                                src={require("../images/p-discover.png")}
-                                alt="Discover"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_crypto"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox5"
+      /> 
+      <label className='payment_label' for="myCheckbox5">
+    <img
+      src={require("../images/p-crypto.png")}
+      alt="Crypto"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_apple"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox8"
-                                /> 
-                                <label for="myCheckbox8">
-                              <img
-                                src={require("../images/p-apple.png")}
-                                alt="Apple"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_diners"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox6"
+      /> 
+      <label className='payment_label' for="myCheckbox6">
+    <img
+      src={require("../images/p-diners.png")}
+      alt="Diners"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '>
-                          <input
-                                name="p_samsung"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox9"
-                                /> 
-                                <label for="myCheckbox9">
-                              <img
-                                src={require("../images/p-samsung.png")}
-                                alt="Samsung"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-                          </MDBRow>
-<MDBRow>
-                          <MDBCol md='4'>
-                          <div  className='payment_box '>
-                          <input
-                                name="p_paypal"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox10"
-                                /> 
-                                <label for="myCheckbox10">
-                              <img
-                                src={require("../images/p-paypal.png")}
-                                alt="Paypal"
-                              /> 
-                              </label>
-                              </div> 
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_discover"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox7"
+      /> 
+      <label className='payment_label' for="myCheckbox7">
+    <img
+      src={require("../images/p-discover.png")}
+      alt="Discover"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_android"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox11"
-                                /> 
-                                <label for="myCheckbox11">
-                              <img
-                                src={require("../images/p-android.png")}
-                                alt="Android"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_apple"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox8"
+      /> 
+      <label className='payment_label' for="myCheckbox8">
+    <img
+      src={require("../images/p-apple.png")}
+      alt="Apple"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_invoices"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox12"
-                                /> 
-                                <label for="myCheckbox12">
-                              <img
-                                src={require("../images/p-invoices.png")}
-                                alt="Invoices"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-                          </MDBRow>
-<MDBRow>
-                          <MDBCol md='4'>
-                          <div  className='payment_box '>
-                          <input
-                                name="p_traveler"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox13"
-                                /> 
-                                <label for="myCheckbox13">
-                              <img
-                                src={require("../images/p-traveler.png")}
-                                alt="Traveler's Check"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '>
+<input
+      name="p_samsung"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox9"
+      /> 
+      <label className='payment_label' for="myCheckbox9">
+    <img
+      src={require("../images/p-samsung.png")}
+      alt="Samsung"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_financing"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox14"
-                                /> 
-                                <label for="myCheckbox14">
-                              <img
-                                src={require("../images/p-financing.png")}
-                                alt="Financing"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-                        </MDBRow>
-                                {/* <div className="paymentbox">
+<MDBCol md='2'>
+<div  className='payment_box '>
+<input
+      name="p_paypal"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox10"
+      /> 
+      <label className='payment_label' for="myCheckbox10">
+    <img
+      src={require("../images/p-paypal.png")}
+      alt="Paypal"
+    /> 
+    </label>
+    </div> 
+</MDBCol>
+
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_android"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox11"
+      /> 
+      <label className='payment_label' for="myCheckbox11">
+    <img
+      src={require("../images/p-android.png")}
+      alt="Android"
+    />
+    </label>
+    </div>
+</MDBCol>
+
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_invoices"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox12"
+      /> 
+      <label className='payment_label' for="myCheckbox12">
+    <img
+      src={require("../images/p-invoices.png")}
+      alt="Invoices"
+    />
+    </label>
+    </div>
+</MDBCol>
+
+<MDBCol md='2'>
+<div  className='payment_box '>
+<input
+      name="p_traveler"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox13"
+      /> 
+      <label className='payment_label' for="myCheckbox13">
+    <img
+      src={require("../images/p-traveler.png")}
+      alt="Traveler's Check"
+    />
+    </label>
+    </div>
+</MDBCol>
+
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_financing"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox14"
+      /> 
+      <label className='payment_label' for="myCheckbox14">
+    <img
+      src={require("../images/p-financing.png")}
+      alt="Financing"
+    />
+    </label>
+    </div>
+</MDBCol>
+</MDBRow>                 
+                                                  {/* <div className="paymentbox">
                                   <ul>
                                     
                                     <li>
@@ -3162,10 +3163,7 @@ export default class AddLocation extends Component {
                                   </div>
                                 </div> */}
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                           
                     </div>
 
                     <div className="promotional-box border-bottom">

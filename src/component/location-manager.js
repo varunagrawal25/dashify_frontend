@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Axios from "axios";
 import Spinner from "./common/Spinner";
 import { all_location } from "./apis/location";
+import { Last } from "react-bootstrap/esm/PageItem";
+import { MDBCol, MDBRow } from "mdbreact";
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -12,7 +14,7 @@ export default class ViewLocations extends Component {
     loader: true,
     AllLocations: [],
     currentPage: 1,
-    LocationsPerPage: 3
+    LocationsPerPage: 5
   };
 
   componentDidMount() {
@@ -46,7 +48,14 @@ export default class ViewLocations extends Component {
   changeItemsPerPage = event => {
     console.log("items", event.target.value);
   };
-
+  itemsPerPage=(e)=>{
+    this.setState({
+      LocationsPerPage:e.target.value
+    })
+  }
+  pagebottom=()=>{
+    window.scrollTo(0,500)
+  }
   render() {
     var link;
 
@@ -62,7 +71,7 @@ export default class ViewLocations extends Component {
 
     const renderLocations = currentLocations.map((loc, index) => {
       return (
-        <div className="listdata" key={loc.id}>
+        <div className="listdata " key={loc.id}>
           <div className="row d-flex">
             <div className="col-md-3">
               <div className="authordata ">
@@ -72,8 +81,7 @@ export default class ViewLocations extends Component {
                       ? "https://dashify.biz" + loc.Business_Logo
                       : require("../images/Logo2.png")
                   }
-                  height="100"
-                  width="100"
+                  
                 />
                 <div className="authordatatext">
                   <h4>{loc.Location_name}</h4>
@@ -108,6 +116,7 @@ export default class ViewLocations extends Component {
               </div>
             </div>
           </div>
+       <hr/>
         </div>
       );
     });
@@ -124,103 +133,136 @@ export default class ViewLocations extends Component {
 
     const renderPageNumbers = pageNumbers.map(number => {
       return (
-        <li>
-          <a
+        <li >
+          <button
             key={number}
             className={
-              currentPage == number ? "apply css here of selected button" : ""
+              currentPage == number ? "pagination_page_num_selected" : "pagination_page_num"
             }
             id={number}
             onClick={this.handleClick}
           >
             {number}
-          </a>
+          </button>
         </li>
       );
     });
 
     return (
-      <div>
+      <div style={{marginBottom:'30px'}}>
         {this.state.loader ? (
           <div className="rightside_title">
             <Spinner />
           </div>
         ) : (
           <div>
-            {/* <div className="content-page"> */}
-
-            <div className="rightside_title">
+           
+<MDBRow>
+  <MDBCol md='10'>
+  <div className="rightside_title">
               <h1>Location Manager</h1>
             </div>
-
+  </MDBCol>
+  <MDBCol md='2'>
+  <select onChange={this.itemsPerPage} className="review_select_btn items_select" >
+                    <option value="5">5 Items/page</option>
+                    <option value="10">10 Items/page</option>
+                    <option value="20">20 Items/page</option>
+                    <option value="50">50 Items/page</option>
+                    <option value="99">99 Items/page</option>
+                    <option value="999999">All Items</option>
+                  </select>
+  </MDBCol>
+</MDBRow>
+            
+            
             <div className="tablediv">
-              <div className="border-bottom">
-                <div className="dataview nametop">
-                  <div className="titledivb">
                     <div className="row">
                       <div className="col-md-3">
-                        <div className="company-name text-left">
+                        <div className="location_company_name">
                           Company Name
                         </div>
                       </div>
                       <div className="col-md-3">
-                        <div className="company-name text-center">Address</div>
+                        <div className="location_address">Address</div>
                       </div>
                       <div className="col-md-3">
-                        <div className="company-name text-center">
+                        <div className="location_phone">
                           Phone Number
                         </div>
                       </div>
                       <div className="col-md-3">
-                        <div className="company-name text-center">Action</div>
+                        <div className="location_action">Action</div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </div>
+              
 
               {this.state.AllLocations.length == 0 ? (
                 // <Spinner />
                 <h4>No Location added, Please add some loaction</h4>
               ) : (
+                <div class="scrollbar" style={{height:'380px' ,marginRight:'0px'}}>
                 <div>{renderLocations}</div>
+                </div>
               )}
             </div>
             <div className="pagination-main">
               <div className="pagination">
                 <ul>
                   {currentPage > 1 ? (
-                    <li className="prev">
-                      <a
+                    <li >
+                      <button 
+                      className="prev"
                         key={currentPage}
                         id={currentPage - 1}
                         onClick={this.handleClick}
                       >
                         Previous
-                      </a>
+                      </button>
                     </li>
                   ) : (
-                    ""
+                    <li >
+                      <button disabled
+                      className="prev"
+                        key={currentPage}
+                        id={currentPage - 1}
+                        onClick={this.handleClick}
+                      >
+                        Previous
+                      </button>
+                    </li>
                   )}
-
-                  {renderPageNumbers}
+<li style={{marginTop:'5px'}}>
+{renderPageNumbers}
+</li>
+                  
 
                   {currentPage < pageNumbers.length ? (
-                    <li className="next">
-                      <a
+                    <li >
+                      <button
+                      className="next"
                         key={currentPage}
                         id={currentPage + 1}
                         onClick={this.handleClick}
                       >
                         Next
-                      </a>
+                      </button>
                     </li>
                   ) : (
-                    ""
+                    <li >
+                      <button disabled
+                      className="next"
+                        key={currentPage}
+                        id={currentPage + 1}
+                        onClick={this.handleClick}
+                      >
+                        Next
+                      </button>
+                    </li>
                   )}
 
-                  <li className="itempage dropdown">
-                    <a className="dropdown-select" data-toggle="dropdown">
+                  {/* <li className="itempage dropdown" >
+                    <a className="dropdown-select" data-toggle="dropdown"  style={{marginBottom:'250px'}}>
                       {this.state.LocationsPerPage == 999999
                         ? "All"
                         : this.state.LocationsPerPage}{" "}
@@ -261,6 +303,7 @@ export default class ViewLocations extends Component {
                       </li>
                     </ul>
                   </li>
+                 */}
                 </ul>
               </div>
             </div>

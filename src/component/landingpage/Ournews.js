@@ -22,6 +22,10 @@ export default class Ournews extends Component {
     console.log(`active page is ${pageNumber}`);
     this.setState({activePage: pageNumber});
   }
+
+  componentDidMount() {
+    window.scrollTo(0, 0)
+}
   render() {
     return (
        <div className='white_background'>
