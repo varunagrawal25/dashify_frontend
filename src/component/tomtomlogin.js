@@ -161,7 +161,7 @@ class TomtomLogin extends Component {
                   // timeout={3000} //3 secs
                 />
               ) : (
-                <div style={{ color: "red" }}>{this.state.wrong}</div>
+                <div class='err_msg'>{this.state.wrong}</div>
               )}
               <p>
                 <label htmlFor="url">Business Name</label>
@@ -174,7 +174,7 @@ class TomtomLogin extends Component {
                     this.setState({ businessName: e.target.value })
                   }
                 />
-                <div style={{ color: "red" }}>
+                <div class='err_msg'>
                   {this.state.businessName_error}
                 </div>
               </p>
@@ -187,7 +187,7 @@ class TomtomLogin extends Component {
                   placeholder="Gwalior"
                   onChange={e => this.setState({ city: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.city_error}</div>
+                <div class='err_msg'>{this.state.city_error}</div>
               </p>
               <p>
                 <label htmlFor="url">State</label>
@@ -198,7 +198,7 @@ class TomtomLogin extends Component {
                   placeholder="Madhya Pradesh"
                   onChange={e => this.setState({ state: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.state_error}</div>
+                <div class='err_msg'>{this.state.state_error}</div>
               </p>
               <p>
                 <label htmlFor="url">Country</label>
@@ -209,7 +209,7 @@ class TomtomLogin extends Component {
                   placeholder="India"
                   onChange={e => this.setState({ country: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.country_error}</div>
+                <div class='err_msg'>{this.state.country_error}</div>
               </p>
 
               <p>
@@ -219,7 +219,7 @@ class TomtomLogin extends Component {
                   id="username"
                   onChange={e => this.setState({ username: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.username_error}</div>
+                <div class='err_msg'>{this.state.username_error}</div>
               </p>
               <p>
                 <label htmlFor="password">Password</label>
@@ -228,7 +228,7 @@ class TomtomLogin extends Component {
                   id="password"
                   onChange={e => this.setState({ password: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.password_error}</div>
+                <div class='err_msg'>{this.state.password_error}</div>
               </p>
               <p>
                 {/* <button type="submit" ><Link to="/yelp">Login</Link></button> */}

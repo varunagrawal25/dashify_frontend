@@ -186,7 +186,7 @@ class DnbLogin extends Component {
                   // timeout={3000} //3 secs
                 />
               ) : (
-                <div style={{ color: "red" }}>{this.state.wrong}</div>
+                <div class='err_msg'>{this.state.wrong}</div>
               )}
               <p>
                 <label htmlFor="url">Company DUNS Number</label>
@@ -197,7 +197,7 @@ class DnbLogin extends Component {
                   placeholder="804735132"
                   onChange={e => this.setState({ url: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.url_error}</div>
+                <div class='err_msg'>{this.state.url_error}</div>
               </p>
 
               <p>
@@ -207,7 +207,7 @@ class DnbLogin extends Component {
                   id="username"
                   onChange={e => this.setState({ username: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.username_error}</div>
+                <div class='err_msg'>{this.state.username_error}</div>
               </p>
               <p>
                 <label htmlFor="password">Password</label>
@@ -216,7 +216,7 @@ class DnbLogin extends Component {
                   id="password"
                   onChange={e => this.setState({ password: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.password_error}</div>
+                <div class='err_msg'>{this.state.password_error}</div>
               </p>
               <p>
                 {/* <button type="submit" ><Link to="/yelp">Login</Link></button> */}

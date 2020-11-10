@@ -13,7 +13,7 @@ import Blog from "./component/landingpage/Blog";
 import Career from "./component/landingpage/career";
 import ContactUs from "./component/landingpage/contactus";
 import Support from "./component/landingpage/support";
-import pricing from "./component/landingpage/pricing";
+import pricing from "./component/landingpage/Pricing";
 import How_we_work from "./component/landingpage/How_we_work";
 import Login from "./component/landingpage/login";
 import Signup from "./component/landingpage/signup";

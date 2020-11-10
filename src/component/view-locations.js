@@ -1410,8 +1410,8 @@ export default class LocationManager extends Component {
       <div className="vl_gap3">
         {this.state.hours.map(h =>
           h.Type == "Regular" ? (
-            <MDBRow className="daybox " key={h.id}>
-              <MDBCol className="daytype">{h.Day}</MDBCol>
+            <div className="daybox " key={h.id}>
+              <div className="daytype">{h.Day}</div>
 
               {h.Open_status == "SPLIT" ? (
                 <div>
@@ -1434,7 +1434,7 @@ export default class LocationManager extends Component {
               {h.Open_status == "OPEN 24x7" ? <div>OPEN 24x7</div> : ""}
 
               {h.Open_status == "CLOSED" ? <div>CLOSED</div> : ""}
-            </MDBRow>
+            </div>
           ) : (
             ""
           )
@@ -1444,7 +1444,7 @@ export default class LocationManager extends Component {
 
     var RegularHours2;
     RegularHours2 = (
-      <div className="promotional-box">
+      <div className="vl_gap4">
         {this.state.hours.map(h =>
           h.Day == "Special" ? (
             <div className="daybox" key={h.id}>
@@ -1807,7 +1807,7 @@ export default class LocationManager extends Component {
                                           className="vl_edit_input"
                                           value={this.state.phone_edit}
                                         />
-                                        <div style={{ color: "red" }}>
+                                        <div class='err_msg'>
                                           {this.state.phone_error}
                                         </div>
                                       </MDBCol>
@@ -2500,7 +2500,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Monday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="monday"
                                   onChange={this.changeHandler}
@@ -2513,7 +2513,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.monday == "OPEN" ? (
                                     <div>
@@ -2593,7 +2593,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("monday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -2601,17 +2601,15 @@ export default class LocationManager extends Component {
                                 </div>
                               </MDBCol>
                             </MDBRow>
-
-
-
-
-                            <input
+                            <div>
+                              <span><input
                                     type="checkbox"
                                     name="applyAll"
                                     onChange={this.allChanger}
-                                  />
-                                  <label className='payment_label'>Apply To All</label>
-                                  <div style={{ color: "red" }}>
+                                  /></span>
+                                  <span className='apply_all'>Apply To All</span>
+                                  </div>
+                                  <div class='err_msg'>
                                     {applyAllError}
                                   </div>
                                   {applyAll && !applyAllError ? (
@@ -2622,7 +2620,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Tuesday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="tuesday"
                                   onChange={this.changeHandler}
@@ -2635,7 +2633,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.tuesday == "OPEN" ? (
                                     <div>
@@ -2715,7 +2713,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("tuesday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -2728,7 +2726,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Wednesday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="wednesday"
                                   onChange={this.changeHandler}
@@ -2741,7 +2739,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.wednesday == "OPEN" ? (
                                     <div>
@@ -2821,7 +2819,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("wednesday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -2834,7 +2832,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Thrusday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="thursday"
                                   onChange={this.changeHandler}
@@ -2847,7 +2845,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.thursday == "OPEN" ? (
                                     <div>
@@ -2927,7 +2925,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("thursday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -2940,7 +2938,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Friday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="friday"
                                   onChange={this.changeHandler}
@@ -2953,7 +2951,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.friday == "OPEN" ? (
                                     <div>
@@ -3033,7 +3031,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("friday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -3046,7 +3044,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Saturday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="saturday"
                                   onChange={this.changeHandler}
@@ -3059,7 +3057,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.saturday == "OPEN" ? (
                                     <div>
@@ -3139,7 +3137,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("saturday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -3152,7 +3150,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Sunday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="sunday"
                                   onChange={this.changeHandler}
@@ -3165,7 +3163,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.sunday == "OPEN" ? (
                                     <div>
@@ -3245,7 +3243,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("sunday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -3312,8 +3310,20 @@ export default class LocationManager extends Component {
                             <div className="form-group">
                               <div className="timebox">
                                 {/* <div className="form-day">MONDAY</div> */}
-
-                                <select
+<MDBRow>
+   <MDBCol md='12'>
+                             
+                                  <input
+                                    name="monday_day_s"
+                                    onChange={this.changeHandler}
+                                    type="date"
+                                    className="vl_edit_input"
+                                  />
+                                  {monday_day_s_error}
+                             
+  </MDBCol>
+  <MDBCol md='6'>
+  <select
                                   name="monday_s"
                                   onChange={this.changeHandler}
                                   className="vl_edit_input"
@@ -3323,10 +3333,10 @@ export default class LocationManager extends Component {
                                   <option value="SPLIT">SPLIT</option>
                                   <option value="OPEN 24x7">OPEN_24x7</option>
                                   <option value="CLOSED">CLOSED</option>
-                                </select>
-
-                                <div className="output">
-                                  {this.state.monday_s == "OPEN" ? (
+                                </select>                
+  </MDBCol>
+ <MDBCol md='6' className="output">
+ {this.state.monday_s == "OPEN" ? (
                                     <div>
                                       <p className="basicExample">
                                         {console.log("time")}
@@ -3397,17 +3407,32 @@ export default class LocationManager extends Component {
                                   ) : (
                                     ""
                                   )}
-                                  <input
-                                    name="monday_day_s"
-                                    onChange={this.changeHandler}
-                                    type="date"
-                                    className="vl_edit_input"
-                                    defaultValue=""
-                                  />
-                                  {monday_day_s_error}
-                                </div>
+ </MDBCol>
+</MDBRow>
+                                   
                               </div>
-                              <div className="business-cover text-center">
+                              <MDBRow style={{ marginTop: "20px" }}>
+                            <MDBCol md="3" className="offset-md-5">
+                              <button
+                                type="submit"
+                                className="last_btn"
+                                style={{ marginLeft: "-5px" }}
+                                onClick={this.addSpecialHourButton}
+                              >
+                                Update
+                              </button>
+                            </MDBCol>
+                            <MDBCol md="3">
+                              <button
+                                className="last_btn"
+                                onClick={() => this.editSpecialHourButton()}
+                                style={{ marginLeft: "5px" }}
+                              >
+                                Cancel
+                              </button>
+                            </MDBCol>
+                          </MDBRow>
+                              {/* <div className="business-cover text-center">
                                 <button
                                   type="submit"
                                   className="last_btn"
@@ -3423,6 +3448,7 @@ export default class LocationManager extends Component {
                                   Cancel
                                 </button>
                               </div>
+                             */}
                             </div>
                           ) : (
                             <div>

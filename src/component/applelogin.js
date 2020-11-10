@@ -140,7 +140,7 @@ class AppleLogin extends Component {
                   // timeout={3000} //3 secs
                 />
               ) : (
-                <div style={{ color: "red" }}>{this.state.wrong}</div>
+                <div classname='err_msg'>{this.state.wrong}</div>
               )}
               <p>
                 <label htmlFor="url">Apple Listing Url</label>
@@ -151,7 +151,7 @@ class AppleLogin extends Component {
                   placeholder="https://apps.apple.com/us/app/ullu/id1435281792"
                   onChange={e => this.setState({ id: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.id_error}</div>
+                <div class='err_msg'>{this.state.id_error}</div>
               </p>
 
               <p>
@@ -161,7 +161,7 @@ class AppleLogin extends Component {
                   id="username"
                   onChange={e => this.setState({ username: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.username_error}</div>
+                <div class='err_msg'>{this.state.username_error}</div>
               </p>
               <p>
                 <label htmlFor="password">Apple Password</label>
@@ -170,7 +170,7 @@ class AppleLogin extends Component {
                   id="password"
                   onChange={e => this.setState({ password: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.password_error}</div>
+                <div class='err_msg'>{this.state.password_error}</div>
               </p>
               <p>
                 {/* <button type="submit" ><Link to="/yelp">Login</Link></button> */}

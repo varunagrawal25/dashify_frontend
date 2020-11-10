@@ -1326,8 +1326,6 @@ img {
   font-weight: 500;
   font-size: 14px;
   line-height: 16px;
-
-  /* red */
   padding: 2px 0px;
   color: #eb0558;
 }
@@ -1645,7 +1643,7 @@ img {
 .switch-label:before,
 .switch-label:after {
   position: absolute;
-  top: 15%;
+  top: 34%;
   /* margin-top: -0.5em;
   line-height: 1;
   -webkit-transition: inherit;
@@ -1655,13 +1653,13 @@ img {
 }
 .switch-label:before {
   content: attr(data-off);
-  right: 11px;
+  right: 15px;
   text-shadow: 0 1px rgba(255, 255, 255, 0.5);
   color: #4f4f4f;
 }
 .switch-label:after {
   content: attr(data-on);
-  left: 11px;
+  left: 15px;
   opacity: 0;
   color: #4f4f4f;
 }
@@ -4687,7 +4685,18 @@ form.serachbox-right input[type="text"] {
 .promotional-box {
   padding: 15px;
 }
-
+.apply_all {
+  font-weight: 500;
+  font-size: 15px;
+  color: #000;
+  margin-left: 5px;
+  opacity: 0.6;
+}
+.apply_all_margin{
+  margin-left: 17px;
+  margin-bottom: -15px;
+  margin-top: 15px;
+}
 .post-promonal {
   border: 1px solid #f0f0f0;
   border-radius: 10px;
@@ -5364,6 +5373,20 @@ ul.socailicon {
   justify-content: space-between;
   border-bottom: 1px solid #ccc;
   padding: 7px 0px;
+  padding-right: 10px;
+  font-weight: 500;
+  color: #4f4f4f;
+  font-size: 14px;
+  opacity: 0.6;
+}
+
+.daybox2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  padding: 20px 0px;
+  padding-right: 10px;
   font-weight: 500;
   color: #4f4f4f;
   font-size: 14px;
@@ -6178,10 +6201,10 @@ textarea.form-control.businessh {
   align-items: center;
 }
 
-.timebox select {
+/* .timebox select {
   width: 30%;
   margin-right: 15px;
-}
+} */
 
 .colors input {
   width: 47%;
@@ -6509,6 +6532,7 @@ tbody.cons td:first-child {
   border-radius: 10px;
   margin-bottom: 15px;
   color: #4f4f4f;
+  white-space: pre-wrap;
 }
 
 .light-blue {
@@ -11036,6 +11060,7 @@ ul.dropdown-menu.loginboxds li a:hover {
   box-sizing: border-box;
   height: 72px;
   border-radius: 10px;
+  padding: 10px;
 }
 
 .review_sites_container2 {
@@ -11058,8 +11083,8 @@ ul.dropdown-menu.loginboxds li a:hover {
   margin-top: 12px;
 }
 .camp_icon {
-  width: 45px;
-  height: 49px;
+  width: 45px !important;
+  height: 49px !important;
   margin-left: 0px;
 }
 .review_sites_contant {
@@ -11852,6 +11877,14 @@ label img {
   margin-top: -20px;
   margin-bottom: 7px;
 }
+.err_msg {
+  color: red;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+}
 #contact_social {
   font-family: Montserrat;
   font-style: normal;
@@ -11890,9 +11923,19 @@ label img {
 
 .vl_gap3 {
   margin-top: 15px;
-  padding: 0px 15px;
+  padding-right: 15px;
+  /* padding: 0px 15px; */
 }
 
+.vl_gap4 {
+  padding: 15px 0px;
+}
+.vl_gap5 {
+  margin-top: 15px;
+  /* padding-right: 15px; */
+  padding: 0px 15px;
+  border: 1px solid #ccc;
+}
 .vl_input_head {
   font-family: Roboto;
   font-style: normal;
@@ -12772,13 +12815,23 @@ label img {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
+  font-size: 14px;
   color: #4f4f4f;
-  opacity: 0.6;
   line-height: normal;
   margin: 2px 0px;
   border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
+option {
+  width: 100%;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #4f4f4f;
+  line-height: normal;
+}
 .vl_edit_textbox {
   width: 100%;
   font-family: Roboto;

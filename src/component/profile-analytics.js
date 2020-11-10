@@ -923,7 +923,7 @@ export default class ProfileAnalytics extends Component {
                               </div>
                             ) : parseInt(gviews_per) <
                               0 ? (
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {parseInt(gviews_per).toString()
                                     .slice(0, 5) +
                                   " %"}
@@ -960,7 +960,7 @@ export default class ProfileAnalytics extends Component {
                               </div>
                             ) : parseInt(gWeb_per) <
                               0 ? (
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {parseInt(gviews_per).toString()
                                     .slice(0, 5) +
                                   " %"}
@@ -997,7 +997,7 @@ export default class ProfileAnalytics extends Component {
                               </div>
                             ) : parseInt(gcalls_per) <
                               0 ? (
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {parseInt(gcalls_per).toString()
                                     .slice(0, 5) +
                                   " %"}
@@ -1034,7 +1034,7 @@ export default class ProfileAnalytics extends Component {
                               </div>
                             ) : parseInt(condirection_per) <
                               0 ? (
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {parseInt(condirection_per).toString()
                                     .slice(0, 5) +
                                   " %"}
@@ -1071,7 +1071,7 @@ export default class ProfileAnalytics extends Component {
                               </div>
                             ) : parseInt(conclicks_per) <
                               0 ? (
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {parseInt(conclicks_per).toString()
                                     .slice(0, 5) +
                                   " %"}
