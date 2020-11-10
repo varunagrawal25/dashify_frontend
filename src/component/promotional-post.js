@@ -943,7 +943,7 @@
 //                                 ) : parseInt(total_post_views) -
 //                                     parseInt(total_post_views2) <
 //                                   0 ? (
-//                                   <div style={{ color: "red" }}>
+//                                   <div class='err_msg'>
 //                                     <span>
 //                                       <i className="zmdi zmdi-minus"></i>
 //                                       {(
@@ -999,7 +999,7 @@
 //                                 ) : parseInt(total_post_clicks) -
 //                                     parseInt(total_post_clicks2) <
 //                                   0 ? (
-//                                   <div style={{ color: "red" }}>
+//                                   <div class='err_msg'>
 //                                     <span>
 //                                       <i className="zmdi zmdi-minus"></i>
 //                                       {(

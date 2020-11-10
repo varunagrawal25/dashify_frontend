@@ -61,19 +61,19 @@ class Navber extends Component {
             <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
               <ul className="nav navbar-nav navbar-right ml-auto">
                 <li>
-                  <Link to="#">Home</Link>
+                  <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="#about">About Us</Link>
+                  <Link to="/about">About Us</Link>
                 </li>
                 <li>
-                  <Link to="#portfolio">Features</Link>
+                  <Link to="/portfolio">Features</Link>
                 </li>
                 <li>
                   <Link to="/pricing">Pricing</Link>
                 </li>
                 <li>
-                  <Link to="#contact">Support</Link>
+                  <Link to="/contact">Support</Link>
                 </li>
                 {/* <li>
                   <Link to="Login">{isAlreadyLogin ? name : "Sign in"}</Link>

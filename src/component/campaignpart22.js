@@ -222,7 +222,7 @@ export default class CampaignPart2 extends Component {
             value={this.state.email_sendto_email[i]}
             required
           />
-          <div style={{ color: "red" }}>{this.state.email_sendto_error[i]}</div>
+          <div class='err_msg'>{this.state.email_sendto_error[i]}</div>
         </div>
       );
     }
@@ -342,7 +342,7 @@ export default class CampaignPart2 extends Component {
                           name="email_replyto"
                           placeholder="customerone12@gmail.com"
                         />
-                        <div style={{ color: "red" }}>
+                        <div class='err_msg'>
                           {this.state.email_replyto_error}
                         </div> */}
                           {this.add_email()}

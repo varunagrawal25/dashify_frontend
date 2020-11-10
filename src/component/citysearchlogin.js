@@ -137,7 +137,7 @@ class CitySearchLogin extends Component {
                   // timeout={3000} //3 secs
                 />
               ) : (
-                <div style={{ color: "red" }}>{this.state.wrong}</div>
+                <div class='err_msg'>{this.state.wrong}</div>
               )}
               <p>
                 <label htmlFor="url">Citysearch Listing Url</label>
@@ -148,7 +148,7 @@ class CitySearchLogin extends Component {
                   placeholder="http://www.citysearch.com/profile/656716190/midland_tx/rogers_ford_sales_inc.html"
                   onChange={e => this.setState({ url: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.url_error}</div>
+                <div class='err_msg'>{this.state.url_error}</div>
               </p>
 
               <p>
@@ -158,7 +158,7 @@ class CitySearchLogin extends Component {
                   id="username"
                   onChange={e => this.setState({ username: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.username_error}</div>
+                <div class='err_msg'>{this.state.username_error}</div>
               </p>
               <p>
                 <label htmlFor="password">Citysearch Password</label>
@@ -167,7 +167,7 @@ class CitySearchLogin extends Component {
                   id="password"
                   onChange={e => this.setState({ password: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.password_error}</div>
+                <div class='err_msg'>{this.state.password_error}</div>
               </p>
               <p>
                 {/* <button type="submit" ><Link to="/yelp">Login</Link></button> */}

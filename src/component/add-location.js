@@ -929,7 +929,6 @@ export default class AddLocation extends Component {
               <h1>Add Location</h1>
             </div>
 
-            <div className="mt-30">
               <div className="row">
                 <div className="col-md-12">
                   <div className="analytics-whice">
@@ -942,7 +941,7 @@ export default class AddLocation extends Component {
                         <h4>
                           <span>step 1</span> Location Information
                         </h4>
-<MDBRow>
+<MDBRow className='addlocationboxs'>
   <MDBCol md='8'>
   <MDBRow>
                           <MDBCol md='6' className="form-group">
@@ -954,7 +953,7 @@ export default class AddLocation extends Component {
                                 placeholder="Please enter store code"
                                 className="form-control"
                               />
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {storeCode_error}
                               </div>
  
@@ -970,7 +969,7 @@ export default class AddLocation extends Component {
                                 placeholder="Enter Location Name"
                                 className="form-control"
                               />
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {locationName_error}
                               </div>
                           </MDBCol>
@@ -1002,7 +1001,7 @@ export default class AddLocation extends Component {
                                       </option>
                                     ))}
                                   </select>
-                                  <div style={{ color: "red" }}>
+                                  <div class='err_msg'>
                                     {category_error}
                                   </div>
                                 </div>
@@ -1016,7 +1015,7 @@ export default class AddLocation extends Component {
                                 onChange={this.changeHandler}
                                 className="form-control"
                               ></textarea>
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {additionalCategories_error}
                               </div>
                           </MDBCol>
@@ -1062,7 +1061,7 @@ export default class AddLocation extends Component {
                                 placeholder="Colony / Street / Locality"
                                 className="form-control"
                               />
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {address1_error}
                               </div>
                             </div>
@@ -1078,7 +1077,7 @@ export default class AddLocation extends Component {
                                 placeholder="Flat / House No. / Floor / Building"
                                 className="form-control"
                               />
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {address2_error}
                               </div>
                             </div>
@@ -1096,7 +1095,7 @@ export default class AddLocation extends Component {
                                 placeholder="Enter City Name"
                                 className="form-control"
                               />
-                              <div style={{ color: "red" }}>{city_error}</div>
+                              <div class='err_msg'>{city_error}</div>
                             </div>
                           </div>
 
@@ -1137,7 +1136,7 @@ export default class AddLocation extends Component {
                                     </option>
                                   ))}
                                 </select>
-                                <div style={{ color: "red" }}>
+                                <div class='err_msg'>
                                   {country_error}
                                 </div>
                               </div>
@@ -1186,7 +1185,7 @@ export default class AddLocation extends Component {
                                     )
                                   )}
                                 </select>
-                                <div style={{ color: "red" }}>
+                                <div class='err_msg'>
                                   {state_error}
                                 </div>
                               </div>
@@ -1203,10 +1202,11 @@ export default class AddLocation extends Component {
                                 name="zipCode"
                                 onChange={this.changeHandler}
                                 id="state"
+                                placeholder="Enter zipcode"
                                 required
                                 className="form-control"
                               />
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {zipCode_error}
                               </div>
                             </div>
@@ -1222,7 +1222,7 @@ export default class AddLocation extends Component {
                                 className="form-control"
                                 placeholder="Enter your number"
                               />
-                              <div style={{ color: "red" }}>{phone_error}</div>
+                              <div class='err_msg'>{phone_error}</div>
                             </div>
                           </div>
 
@@ -1236,7 +1236,7 @@ export default class AddLocation extends Component {
                                 className="form-control"
                                 placeholder="Enter your website"
                               />
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {website_error}
                               </div>
                             </div>
@@ -1310,7 +1310,7 @@ export default class AddLocation extends Component {
                                 id="ownerName"
                                 placeholder="Enter Business Owner Name"
                               ></input>
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {ownerName_error}
                               </div>
                             </div>
@@ -1324,7 +1324,7 @@ export default class AddLocation extends Component {
                                 id="ownerEmail"
                                 placeholder="Enter Owner Email"
                               ></input>
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {ownerEmail_error}
                               </div>
                             </div>
@@ -1338,7 +1338,7 @@ export default class AddLocation extends Component {
                                 id="businessTagline"
                                 placeholder="Enter Business Tagline"
                               ></input>
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {businessTagline_error}
                               </div>
                             </div>
@@ -1353,7 +1353,7 @@ export default class AddLocation extends Component {
                                 id="yearOfIncorp"
                                 placeholder="Enter Year of Incorporation"
                               ></input>
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {yearOfIncorp_error}
                               </div>
                             </div>
@@ -1367,7 +1367,7 @@ export default class AddLocation extends Component {
                                 onChange={this.changeHandler}
                                 className="form-control businessh"
                               ></textarea>
-                              <div style={{ color: "red" }}>{about_error}</div>
+                              <div class='err_msg'>{about_error}</div>
                             </div>
                             <div className="form-group">
                               <label>Facebook Profile</label>
@@ -1378,7 +1378,7 @@ export default class AddLocation extends Component {
                                 className="form-control"
                                 placeholder="Enter Facbook Profile"
                               />
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {facebookProfile_error}
                               </div>
                             </div>
@@ -1392,7 +1392,7 @@ export default class AddLocation extends Component {
                                 className="form-control"
                                 placeholder="Enter Instagram Profile"
                               />
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {instagramProfile_error}
                               </div>
                             </div>
@@ -1406,7 +1406,7 @@ export default class AddLocation extends Component {
                                 className="form-control"
                                 placeholder="Enter Twitter Profile"
                               />
-                              <div style={{ color: "red" }}>
+                              <div class='err_msg'>
                                 {twitterProfile_error}
                               </div>
                             </div>
@@ -1414,14 +1414,14 @@ export default class AddLocation extends Component {
 
                           <div className="col-md-6">
                             <div className="form-group">
-                              <div className=" white-shadow">
+                              <div >
                                 <MDBRow>
                                   <MDBCol md="9" className="vl_box_head">
                                     Operations Hours
                                   </MDBCol>
                                 </MDBRow>
-                                <div className="vl_gap3 ">
-                                  <MDBRow className=" daybox">
+                                <div className="vl_gap5 ">
+                                  <MDBRow className=" daybox2">
                                     <MDBCol md="3" className="daytype">
                                       Monday
                                     </MDBCol>
@@ -1509,103 +1509,25 @@ export default class AddLocation extends Component {
                                         )}
                                       </div>
                                     </MDBCol>
-                                  </MDBRow>
-
-                                  {/*<div className="timebox">
-                                <div className="form-day">MONDAY</div>
-                                <select
-                                  name="monday"
-                                  onChange={this.changeHandler}
-                                  className="form-control colorselector"
-                                >
-                                  <option>Select hours</option>
-                                  <option value="OPEN">OPEN</option>
-                                  <option value="SPLIT">SPLIT</option>
-                                  <option value="OPEN 24x7">OPEN_24x7</option>
-                                  <option value="CLOSED">CLOSED</option>
-                                </select>
-
-                                <div className="output">
-                                  {this.state.monday == "OPEN" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="mondayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="mondayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>{" "}
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-
-                                  {this.state.monday == "SPLIT" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="mondayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="mondayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="mondayStart2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="mondayEnd2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              </div> */}
-
-                                  <input
+                                    <div className='apply_all_margin'>
+                              <span><input
                                     type="checkbox"
                                     name="applyAll"
                                     onChange={this.allChanger}
-                                  />
-                                  <label>Apply To All</label>
-                                  <div style={{ color: "red" }}>
+                                  /></span>
+                                  <span className='apply_all'>Apply To All</span>
+                                  </div>
+                                  <div class='err_msg apply_all_margin'>
                                     {applyAllError}
                                   </div>
+                                  </MDBRow>
+
+                                 
                                   {applyAll && !applyAllError ? (
                                     ""
                                   ) : (
                                     <div>
-                                      <MDBRow className=" daybox">
+                                      <MDBRow className=" daybox2">
                                         <MDBCol md="3" className="daytype">
                                           Tuesday
                                         </MDBCol>
@@ -1708,86 +1630,8 @@ export default class AddLocation extends Component {
                                           </div>
                                         </MDBCol>
                                       </MDBRow>
-                                      {/* <div className="form-day">TUESDAY </div>
-                                <select
-                                  name="tuesday"
-                                  onChange={this.changeHandler}
-                                  className="form-control colorselector"
-                                >
-                                  <option>Select hours</option>
-                                  <option value="OPEN">OPEN</option>
-                                  <option value="SPLIT">SPLIT</option>
-                                  <option value="OPEN 24x7">OPEN_24x7</option>
-                                  <option value="CLOSED">CLOSED</option>
-                                </select>
-
-                                <div className="output">
-                                  {this.state.tuesday == "OPEN" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="tuesdayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="tuesdayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>{" "}
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-
-                                  {this.state.tuesday == "SPLIT" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="tuesdayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="tuesdayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="tuesdayStart2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="tuesdayEnd2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              </div> */}
-                                      <MDBRow className=" daybox">
+                                      
+                                      <MDBRow className=" daybox2">
                                         <MDBCol md="3" className="daytype">
                                           Wednesday
                                         </MDBCol>
@@ -1890,87 +1734,8 @@ export default class AddLocation extends Component {
                                           </div>
                                         </MDBCol>
                                       </MDBRow>
-                                      {/* <div className="timebox">
-                                <div className="form-day">WEDNESDAY</div>
-                                <select
-                                  name="wednesday"
-                                  onChange={this.changeHandler}
-                                  className="form-control colorselector"
-                                >
-                                  <option>Select hours</option>
-                                  <option value="OPEN">OPEN</option>
-                                  <option value="SPLIT">SPLIT</option>
-                                  <option value="OPEN 24x7">OPEN_24x7</option>
-                                  <option value="CLOSED">CLOSED</option>
-                                </select>
-
-                                <div className="output">
-                                  {this.state.wednesday == "OPEN" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="wednesdayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="wednesdayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>{" "}
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-
-                                  {this.state.wednesday == "SPLIT" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="wednesdayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="wednesdayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="wednesdayStart2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="wednesdayEnd2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              </div> */}
-                                      <MDBRow className=" daybox">
+                                     
+                                      <MDBRow className=" daybox2">
                                         <MDBCol md="3" className="daytype">
                                           Thrusday
                                         </MDBCol>
@@ -2073,87 +1838,8 @@ export default class AddLocation extends Component {
                                           </div>
                                         </MDBCol>
                                       </MDBRow>
-                                      {/* <div className="timebox">
-                                <div className="form-day"> THURSDAY</div>
-                                <select
-                                  name="thursday"
-                                  onChange={this.changeHandler}
-                                  className="form-control colorselector"
-                                >
-                                  <option>Select hours</option>
-                                  <option value="OPEN">OPEN</option>
-                                  <option value="SPLIT">SPLIT</option>
-                                  <option value="OPEN 24x7">OPEN_24x7</option>
-                                  <option value="CLOSED">CLOSED</option>
-                                </select>
-
-                                <div className="output">
-                                  {this.state.thursday == "OPEN" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="thursdayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="thursdayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>{" "}
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-
-                                  {this.state.thursday == "SPLIT" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="thursdayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="thursdayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="thursdayStart2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="thursdayEnd2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              </div> */}
-                                      <MDBRow className=" daybox">
+                                    
+                                      <MDBRow className=" daybox2">
                                         <MDBCol md="3" className="daytype">
                                           Friday
                                         </MDBCol>
@@ -2337,7 +2023,7 @@ export default class AddLocation extends Component {
                                 </div>
                               </div> */}
 
-                                      <MDBRow className=" daybox">
+                                      <MDBRow className=" daybox2">
                                         <MDBCol md="3" className="daytype">
                                           Saturday
                                         </MDBCol>
@@ -2520,7 +2206,7 @@ export default class AddLocation extends Component {
                                   )}
                                 </div>
                               </div> */}
-                                      <MDBRow className=" daybox">
+                                      <MDBRow className=" daybox2">
                                         <MDBCol md="3" className="daytype">
                                           Sunday
                                         </MDBCol>
@@ -2708,269 +2394,270 @@ export default class AddLocation extends Component {
                                 </div>
                               </div>
 
-                              <div className="mathedbox">
+                             
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="stepone-loaction">
                                 <h4>Payment Methods</h4>
                                 <MDBRow>
-                          <MDBCol md='4' >
-                            <div className='payment_box ' >
-                          <input
-                                name="p_visa"
-                                type="checkbox"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                id="myCheckbox1"
-                              /> 
-                              <label for="myCheckbox1">
-                              <img
-                                src={require("../images/p-visa.png")}
-                                alt="Visa"
-                                className='payment_img'
-                              />
-                              </label>
-                              </div>
-                              
-                          </MDBCol>
+<MDBCol md='2' >
+  <div className='payment_box ' >
+<input
+      name="p_visa"
+      type="checkbox"
+      onChange={this.checkBoxHandler}
+      value="true"
+      id="myCheckbox1"
+    /> 
+    <label className='payment_label' for="myCheckbox1">
+    <img
+      src={require("../images/p-visa.png")}
+      alt="Visa"
+      className='payment_img'
+    />
+    </label>
+    </div>
+    
+</MDBCol>
 
-                          <MDBCol md='4' >
-                            <div className='payment_box'>
-                          <input
-                                name="p_maestro"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox2"
-                                /> 
-                                <label for="myCheckbox2">
-                              <img
-                                src={require("../images/p-maestro.png")}
-                                alt="Maestro"
-                                className='payment_img'
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2' >
+  <div className='payment_box'>
+<input
+      name="p_maestro"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox2"
+      /> 
+      <label className='payment_label' for="myCheckbox2">
+    <img
+      src={require("../images/p-maestro.png")}
+      alt="Maestro"
+      className='payment_img'
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_amex"
-                                type="checkbox"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                id="myCheckbox3"
-                                /> 
-                                <label for="myCheckbox3">
-                              <img
-                                src={require("../images/p-amex.png")}
-                                alt="Amex"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-</MDBRow>
-<MDBRow>
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_cash"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox4"
-                                /> 
-                                <label for="myCheckbox4">
-                              <img
-                                src={require("../images/p-cash.png")}
-                                alt="Cash"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_amex"
+      type="checkbox"
+      onChange={this.checkBoxHandler}
+      value="true"
+      id="myCheckbox3"
+      /> 
+      <label className='payment_label' for="myCheckbox3">
+    <img
+      src={require("../images/p-amex.png")}
+      alt="Amex"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_crypto"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox5"
-                                /> 
-                                <label for="myCheckbox5">
-                              <img
-                                src={require("../images/p-crypto.png")}
-                                alt="Crypto"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_cash"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox4"
+      /> 
+      <label className='payment_label' for="myCheckbox4">
+    <img
+      src={require("../images/p-cash.png")}
+      alt="Cash"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_diners"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox6"
-                                /> 
-                                <label for="myCheckbox6">
-                              <img
-                                src={require("../images/p-diners.png")}
-                                alt="Diners"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-                          </MDBRow>
-<MDBRow>
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_discover"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox7"
-                                /> 
-                                <label for="myCheckbox7">
-                              <img
-                                src={require("../images/p-discover.png")}
-                                alt="Discover"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_crypto"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox5"
+      /> 
+      <label className='payment_label' for="myCheckbox5">
+    <img
+      src={require("../images/p-crypto.png")}
+      alt="Crypto"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_apple"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox8"
-                                /> 
-                                <label for="myCheckbox8">
-                              <img
-                                src={require("../images/p-apple.png")}
-                                alt="Apple"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_diners"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox6"
+      /> 
+      <label className='payment_label' for="myCheckbox6">
+    <img
+      src={require("../images/p-diners.png")}
+      alt="Diners"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '>
-                          <input
-                                name="p_samsung"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox9"
-                                /> 
-                                <label for="myCheckbox9">
-                              <img
-                                src={require("../images/p-samsung.png")}
-                                alt="Samsung"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-                          </MDBRow>
-<MDBRow>
-                          <MDBCol md='4'>
-                          <div  className='payment_box '>
-                          <input
-                                name="p_paypal"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox10"
-                                /> 
-                                <label for="myCheckbox10">
-                              <img
-                                src={require("../images/p-paypal.png")}
-                                alt="Paypal"
-                              /> 
-                              </label>
-                              </div> 
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_discover"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox7"
+      /> 
+      <label className='payment_label' for="myCheckbox7">
+    <img
+      src={require("../images/p-discover.png")}
+      alt="Discover"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_android"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox11"
-                                /> 
-                                <label for="myCheckbox11">
-                              <img
-                                src={require("../images/p-android.png")}
-                                alt="Android"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_apple"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox8"
+      /> 
+      <label className='payment_label' for="myCheckbox8">
+    <img
+      src={require("../images/p-apple.png")}
+      alt="Apple"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_invoices"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox12"
-                                /> 
-                                <label for="myCheckbox12">
-                              <img
-                                src={require("../images/p-invoices.png")}
-                                alt="Invoices"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-                          </MDBRow>
-<MDBRow>
-                          <MDBCol md='4'>
-                          <div  className='payment_box '>
-                          <input
-                                name="p_traveler"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox13"
-                                /> 
-                                <label for="myCheckbox13">
-                              <img
-                                src={require("../images/p-traveler.png")}
-                                alt="Traveler's Check"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
+<MDBCol md='2'>
+<div  className='payment_box '>
+<input
+      name="p_samsung"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox9"
+      /> 
+      <label className='payment_label' for="myCheckbox9">
+    <img
+      src={require("../images/p-samsung.png")}
+      alt="Samsung"
+    />
+    </label>
+    </div>
+</MDBCol>
 
-                          <MDBCol md='4'>
-                          <div  className='payment_box '> 
-                          <input
-                                name="p_financing"
-                                onChange={this.checkBoxHandler}
-                                value="true"
-                                type="checkbox"
-                                id="myCheckbox14"
-                                /> 
-                                <label for="myCheckbox14">
-                              <img
-                                src={require("../images/p-financing.png")}
-                                alt="Financing"
-                              />
-                              </label>
-                              </div>
-                          </MDBCol>
-                        </MDBRow>
-                                {/* <div className="paymentbox">
+<MDBCol md='2'>
+<div  className='payment_box '>
+<input
+      name="p_paypal"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox10"
+      /> 
+      <label className='payment_label' for="myCheckbox10">
+    <img
+      src={require("../images/p-paypal.png")}
+      alt="Paypal"
+    /> 
+    </label>
+    </div> 
+</MDBCol>
+
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_android"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox11"
+      /> 
+      <label className='payment_label' for="myCheckbox11">
+    <img
+      src={require("../images/p-android.png")}
+      alt="Android"
+    />
+    </label>
+    </div>
+</MDBCol>
+
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_invoices"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox12"
+      /> 
+      <label className='payment_label' for="myCheckbox12">
+    <img
+      src={require("../images/p-invoices.png")}
+      alt="Invoices"
+    />
+    </label>
+    </div>
+</MDBCol>
+
+<MDBCol md='2'>
+<div  className='payment_box '>
+<input
+      name="p_traveler"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox13"
+      /> 
+      <label className='payment_label' for="myCheckbox13">
+    <img
+      src={require("../images/p-traveler.png")}
+      alt="Traveler's Check"
+    />
+    </label>
+    </div>
+</MDBCol>
+
+<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+      name="p_financing"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox14"
+      /> 
+      <label className='payment_label' for="myCheckbox14">
+    <img
+      src={require("../images/p-financing.png")}
+      alt="Financing"
+    />
+    </label>
+    </div>
+</MDBCol>
+</MDBRow>                 
+                                                  {/* <div className="paymentbox">
                                   <ul>
                                     
                                     <li>
@@ -3157,15 +2844,12 @@ export default class AddLocation extends Component {
                                       />
                                     </li>
                                   </ul>
-                                  <div style={{ color: "red" }}>
+                                  <div class='err_msg'>
                                     {paymentMethod_error}
                                   </div>
                                 </div> */}
                               </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                           
                     </div>
 
                     <div className="promotional-box border-bottom">
@@ -3263,7 +2947,7 @@ export default class AddLocation extends Component {
                   </div>
                 </div>
               </div>
-            </div>
+           
 
             <div className="mt-30">
               <div className="row">
@@ -3286,7 +2970,7 @@ export default class AddLocation extends Component {
                         Location added succesfully
                       </div>
                     ) : (
-                      <div style={{ color: "red" }}>{show_message}</div>
+                      <div class='err_msg'>{show_message}</div>
                     )}
                     <div className="upload_btnbox">
                       <button type="submit">Add New Location</button>

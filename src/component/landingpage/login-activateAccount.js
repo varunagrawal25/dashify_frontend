@@ -23,6 +23,7 @@ export default class Login extends Component {
   };
 
   componentDidMount = async () => {
+    window.scrollTo(0, 0)
     await this.isAlreadyLoginRememberme();
 
     await this.notLogout();

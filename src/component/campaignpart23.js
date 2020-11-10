@@ -204,7 +204,7 @@ export default class CampaignPart2 extends Component {
               value={this.state.sendto_name[i]}
               required
             />
-            <div style={{ color: "red" }}>
+            <div class='err_msg'>
               {this.state.name_sendto_error[i]}
             </div>
           </div>
@@ -254,7 +254,7 @@ export default class CampaignPart2 extends Component {
               value={this.state.sendto_contact[i]}
               required
             />
-            <div style={{ color: "red" }}>
+            <div class='err_msg'>
               {this.state.contact_sendto_error[i]}
             </div>
           </div>
@@ -286,7 +286,7 @@ export default class CampaignPart2 extends Component {
               value={this.state.sendto_email[i]}
               required
             />
-            <div style={{ color: "red" }}>
+            <div class='err_msg'>
               {this.state.email_sendto_error[i]}
             </div>
           </div>

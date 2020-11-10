@@ -156,7 +156,7 @@ class HereLogin extends Component {
                   // timeout={3000} //3 secs
                 />
               ) : (
-                <div style={{ color: "red" }}>{this.state.wrong}</div>
+                <div class='err_msg'>{this.state.wrong}</div>
               )}
               <p>
                 <label htmlFor="url">Here Listing Url</label>
@@ -167,7 +167,7 @@ class HereLogin extends Component {
                   placeholder="https://wego.here.com/india/mumbai/hotel/taj-mahal-tower,-mumbai--356te7g9-4ff5b2b3f342414b81436cb645af1ac3?x=ep&map=18.9224,72.8335,15,normal"
                   onChange={e => this.setState({ id: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.id_error}</div>
+                <div class='err_msg'>{this.state.id_error}</div>
               </p>
 
               <p>
@@ -177,7 +177,7 @@ class HereLogin extends Component {
                   id="username"
                   onChange={e => this.setState({ username: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.username_error}</div>
+                <div class='err_msg'>{this.state.username_error}</div>
               </p>
               <p>
                 <label htmlFor="password">Here Password</label>
@@ -186,7 +186,7 @@ class HereLogin extends Component {
                   id="password"
                   onChange={e => this.setState({ password: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.password_error}</div>
+                <div class='err_msg'>{this.state.password_error}</div>
               </p>
               <p>
                 {/* <button type="submit" ><Link to="/yelp">Login</Link></button> */}

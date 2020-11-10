@@ -338,7 +338,7 @@ export default class User_profile extends Component {
                       placeholder="Last name"
                       className="user_edit_input"
                     />
-                    <div className="error" style={{ color: "red" }}>
+                    <div className="error" class='err_msg'>
                       {first_name_error}
                     </div>
                   </div>
@@ -365,7 +365,7 @@ export default class User_profile extends Component {
                             className="user_edit_input"
                             placeholder="Edit company name"
                           />
-                          <div className="error" style={{ color: "red" }}>
+                          <div className="error" class='err_msg'>
                             {Company_name_error}
                           </div>
                         </div>
@@ -379,7 +379,7 @@ export default class User_profile extends Component {
                             className="user_edit_input"
                             placeholder="Edit phone no."
                           />
-                          <div className="error" style={{ color: "red" }}>
+                          <div className="error" class='err_msg'>
                             {Phone_error}
                           </div>
                         </div>
@@ -392,7 +392,7 @@ export default class User_profile extends Component {
                             className="user_edit_input"
                             placeholder="Edit website"
                           />
-                          <div className="error" style={{ color: "red" }}>
+                          <div className="error" class='err_msg'>
                             {website_error}
                           </div>
                         </div>
@@ -406,7 +406,7 @@ export default class User_profile extends Component {
                             className="user_edit_input"
                             placeholder="Edit address"
                           />
-                          <div className="error" style={{ color: "red" }}>
+                          <div className="error" class='err_msg'>
                             {address_error}
                           </div>
                         </div>

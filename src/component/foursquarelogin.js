@@ -130,7 +130,7 @@ class FourSquareLogin extends Component {
                   // timeout={3000} //3 secs
                 />
               ) : (
-                <div style={{ color: "red" }}>{this.state.wrong}</div>
+                <div class='err_msg'>{this.state.wrong}</div>
               )}
               <p>
                 <label htmlFor="url">Foursquare Listing Url</label>
@@ -141,7 +141,7 @@ class FourSquareLogin extends Component {
                   placeholder="https://foursquare.com/v/mudspot/3fd66200f964a520c4f11ee3"
                   onChange={e => this.setState({ url: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.url_error}</div>
+                <div class='err_msg'>{this.state.url_error}</div>
               </p>
 
               <p>
@@ -151,7 +151,7 @@ class FourSquareLogin extends Component {
                   id="username"
                   onChange={e => this.setState({ username: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.username_error}</div>
+                <div class='err_msg'>{this.state.username_error}</div>
               </p>
               <p>
                 <label htmlFor="password">Foursquare Password</label>
@@ -160,7 +160,7 @@ class FourSquareLogin extends Component {
                   id="password"
                   onChange={e => this.setState({ password: e.target.value })}
                 />
-                <div style={{ color: "red" }}>{this.state.password_error}</div>
+                <div class='err_msg'>{this.state.password_error}</div>
               </p>
               <p>
                 {/* <button type="submit" ><Link to="/yelp">Login</Link></button> */}

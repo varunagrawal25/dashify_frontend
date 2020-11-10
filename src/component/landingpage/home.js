@@ -514,6 +514,7 @@ import { account_activate } from "../apis/user";
 
 export default class Home extends Component {
   componentDidMount = () => {
+      window.scrollTo(0, 0)
     console.log("this.props", this.props.match.params.param2);
 
     if (this.props.match.params.param1 && this.props.match.params.param2) {

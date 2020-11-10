@@ -10,7 +10,9 @@ class EmailConfirmation extends React.Component {
   constructor(props) {
     super(props);
   }
-
+componentDidMount(){
+  window.scrollTo(0, 0)
+}
   submitHandler(e) {
     // e.preventDefault()
     var { username } = this.props.match.params;

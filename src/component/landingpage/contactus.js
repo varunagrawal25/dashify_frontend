@@ -27,6 +27,10 @@ class ContactUs extends Component {
     loading: false
   };
 
+  componentDidMount() {
+    window.scrollTo(0, 0)
+}
+
   onSubmit = e => {
     e.preventDefault();
 

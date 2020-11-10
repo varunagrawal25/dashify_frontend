@@ -610,18 +610,17 @@ export default class ReviewGenerationCampaign extends Component {
                   <MDBCol md='5' style={{marginLeft:'-15px'}}>
     <div className='review_sites_container ' >
                           <input
-                                name="p_visa"
                                 type="checkbox"
-                                onChange={this.checkBoxHandler}
+                                // onChange={this.checkBoxHandler}
                                 value="true"
                                 id="myCheckbox1"
                               /> 
                               <label for="myCheckbox1">
 <MDBRow > 
-<MDBCol md='3'>
+<MDBCol md='4' className='no_right_padding'>
 <img src={require("./assets/google_map.png")} className='camp_icon' />
 </MDBCol>
-<MDBCol md='9' className='review_sites_contant'>
+<MDBCol md='8' className='review_sites_contant'>
 Google Map
 </MDBCol>
  </MDBRow>
@@ -632,18 +631,17 @@ Google Map
  <MDBCol md='5' >
     <div className='review_sites_container ' >
                           <input
-                                name="p_visa"
                                 type="checkbox"
-                                onChange={this.checkBoxHandler}
+                                // onChange={}
                                 value="true"
                                 id="myCheckbox2"
                               /> 
                               <label for="myCheckbox2">
 <MDBRow > 
-<MDBCol md='3'>
+<MDBCol md='4'  className='no_right_padding'>
 <img src={require("./assets/apple_appstore.png")} className='camp_icon' />
 </MDBCol>
-<MDBCol md='9' className='review_sites_contant'>
+<MDBCol md='8' className='review_sites_contant' style={{paddingLeft:'6px'}}>
 Apple AppStore
 </MDBCol>
  </MDBRow>

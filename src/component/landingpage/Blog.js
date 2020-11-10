@@ -16,6 +16,7 @@ export default class Blog extends Component {
   };
 
   componentDidMount() {
+    window.scrollTo(0, 0)
     var today = new Date();
 
     all_blogs()
