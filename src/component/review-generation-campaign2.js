@@ -499,7 +499,7 @@ export default class ReviewGenerationCampaign extends Component {
                             value={campaign_name}
                             required
                           />
-                          <div style={{ color: "red" }}>
+                          <div class='err_msg'>
                             {campaign_name_error}
                           </div>
                         </div>
@@ -516,7 +516,7 @@ export default class ReviewGenerationCampaign extends Component {
                             value={email_from}
                             required
                           />
-                          <div style={{ color: "red" }}>{email_from_error}</div>
+                          <div class='err_msg'>{email_from_error}</div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -531,7 +531,7 @@ export default class ReviewGenerationCampaign extends Component {
                             value={email_replyto}
                             required
                           />
-                          <div style={{ color: "red" }}>
+                          <div class='err_msg'>
                             {email_replyto_error}
                           </div>
                         </div>
@@ -577,7 +577,7 @@ export default class ReviewGenerationCampaign extends Component {
                             value={email_content}
                             required
                           ></textarea>
-                          <div style={{ color: "red" }}>
+                          <div class='err_msg'>
                             {email_content_error}
                           </div>
                         </div>
@@ -679,7 +679,7 @@ export default class ReviewGenerationCampaign extends Component {
                       value={sms_content}
                       required
                     ></textarea>
-                    <div style={{ color: "red" }}>{sms_content_error}</div>
+                    <div class='err_msg'>{sms_content_error}</div>
                   </div>
                 </div>
                 <div className="btnbox_button mt-30">
@@ -692,7 +692,7 @@ export default class ReviewGenerationCampaign extends Component {
                       // timeout={3000} //3 secs
                     />
                   ) : (
-                    <div style={{ color: "red" }}>{wrong}</div>
+                    <div class='err_msg'>{wrong}</div>
                   )}
 
                   <button type="submit" className="continue">

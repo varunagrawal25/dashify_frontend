@@ -3,6 +3,9 @@ import Footer from "./footer";
 import Navbar from "./navbar";
 
 export default class Review_management extends Component {
+  componentDidMount() {
+    window.scrollTo(0, 0)
+}
   render() {
     return (
       <div>

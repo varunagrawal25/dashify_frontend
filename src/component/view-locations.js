@@ -1410,8 +1410,8 @@ export default class LocationManager extends Component {
       <div className="vl_gap3">
         {this.state.hours.map(h =>
           h.Type == "Regular" ? (
-            <MDBRow className="daybox " key={h.id}>
-              <MDBCol className="daytype">{h.Day}</MDBCol>
+            <div className="daybox " key={h.id}>
+              <div className="daytype">{h.Day}</div>
 
               {h.Open_status == "SPLIT" ? (
                 <div>
@@ -1434,7 +1434,7 @@ export default class LocationManager extends Component {
               {h.Open_status == "OPEN 24x7" ? <div>OPEN 24x7</div> : ""}
 
               {h.Open_status == "CLOSED" ? <div>CLOSED</div> : ""}
-            </MDBRow>
+            </div>
           ) : (
             ""
           )
@@ -1444,7 +1444,7 @@ export default class LocationManager extends Component {
 
     var RegularHours2;
     RegularHours2 = (
-      <div className="promotional-box">
+      <div className="vl_gap4">
         {this.state.hours.map(h =>
           h.Day == "Special" ? (
             <div className="daybox" key={h.id}>
@@ -1492,7 +1492,7 @@ export default class LocationManager extends Component {
       <MDBCol md="2" key={p.id}>
         {p.Payment_Method == "Visa" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-visa.png")} alt="Visa" />
           </label>
           </div>
@@ -1501,7 +1501,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Maestro" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-maestro.png")} alt="Maestro" />
           </label>
           </div>
@@ -1510,7 +1510,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Amex" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-amex.png")} alt="Amex" />
           </label>
           </div>
@@ -1519,7 +1519,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Cash" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-cash.png")} alt="Cash" />
           </label>
           </div>
@@ -1528,7 +1528,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Check" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-check.png")} alt="Check" />
           </label>
           </div>
@@ -1537,7 +1537,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Crypto" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-crypto.png")} alt="Crypto" />
           </label>
           </div>
@@ -1546,7 +1546,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Diners" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-diners.png")} alt="Diners" />
           </label>
           </div>
@@ -1555,7 +1555,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Discover" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-discover.png")} alt="Discover" />
           </label>
           </div>
@@ -1564,7 +1564,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Apple" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-apple.png")} alt="Apple" />
           </label>
           </div>
@@ -1573,7 +1573,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Samsung" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-samsung.png")} alt="Samsung" />
           </label>
           </div>
@@ -1582,7 +1582,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Paypal" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-paypal.png")} alt="Paypal" />
           </label>
           </div>
@@ -1591,7 +1591,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Android" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-android.png")} alt="Android" />
           </label>
           </div>
@@ -1600,7 +1600,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Invoices" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-invoices.png")} alt="Invoices" />
           </label>
           </div>
@@ -1609,7 +1609,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Traveler" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img
             src={require("../images/p-traveler.png")}
             alt="Traveler's Check"
@@ -1621,7 +1621,7 @@ export default class LocationManager extends Component {
         )}
         {p.Payment_Method == "Financing" ? (
           <div className='payment_box'>
-            <label >
+            <label className='payment_label' >
           <img src={require("../images/p-financing.png")} alt="Financing" />
           </label>
           </div>
@@ -1807,7 +1807,7 @@ export default class LocationManager extends Component {
                                           className="vl_edit_input"
                                           value={this.state.phone_edit}
                                         />
-                                        <div style={{ color: "red" }}>
+                                        <div class='err_msg'>
                                           {this.state.phone_error}
                                         </div>
                                       </MDBCol>
@@ -2006,7 +2006,7 @@ export default class LocationManager extends Component {
                                       name="about_edit"
                                       onChange={this.changeHandler}
                                       type="text"
-                                      className="vl_edit_input"
+                                      className="vl_edit_textbox"
                                       placeholder="Enter about business "
                                       value={this.state.about_edit}
                                     />
@@ -2217,7 +2217,7 @@ export default class LocationManager extends Component {
                               </div>
 
                               {/* <div className="form-group">
-                              <label>Business Owner Name</label>
+                              <label className='payment_label'>Business Owner Name</label>
                               <input
                                 name="ownerName_edit"
                                 onChange={this.changeHandler}
@@ -2229,7 +2229,7 @@ export default class LocationManager extends Component {
                               ></input>
                             </div>
                             <div className="form-group">
-                              <label>Owner Email</label>
+                              <label className='payment_label'>Owner Email</label>
                               <input
                                 name="ownerEmail_edit"
                                 onChange={this.changeHandler}
@@ -2241,7 +2241,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>Business Tagline</label>
+                              <label className='payment_label'>Business Tagline</label>
                               <input
                                 name="businessTagline_edit"
                                 onChange={this.changeHandler}
@@ -2252,7 +2252,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>Year of Incorporation</label>
+                              <label className='payment_label'>Year of Incorporation</label>
                               <input
                                 name="yearOfIncorp_edit"
                                 onChange={this.changeHandler}
@@ -2265,7 +2265,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>
+                              <label className='payment_label'>
                                 About The Business <span>*</span>
                               </label>
                               <textarea
@@ -2276,7 +2276,7 @@ export default class LocationManager extends Component {
                               ></textarea>
                             </div>
                             <div className="form-group">
-                              <label>Facebook Profile</label>
+                              <label className='payment_label'>Facebook Profile</label>
                               <input
                                 name="facebookProfile_edit"
                                 onChange={this.changeHandler}
@@ -2288,7 +2288,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>Instagram Profile</label>
+                              <label className='payment_label'>Instagram Profile</label>
                               <input
                                 name="instagramProfile_edit"
                                 onChange={this.changeHandler}
@@ -2300,7 +2300,7 @@ export default class LocationManager extends Component {
                             </div>
 
                             <div className="form-group">
-                              <label>Twitter Profile</label>
+                              <label className='payment_label'>Twitter Profile</label>
                               <input
                                 name="twitterProfile_edit"
                                 onChange={this.changeHandler}
@@ -2346,7 +2346,7 @@ export default class LocationManager extends Component {
                           </MDBRow>
                           <div className="pt-15">
                             <h3>About the business</h3>
-                            <p>{this.state.about}</p>
+                            <p style={{height:'129px'}}>{this.state.about}</p>
                             <div className="detailbox">
                               {/* <div className="uploadauthor">
                             <div className="author_namebox">Owner name :</div>
@@ -2500,7 +2500,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Monday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="monday"
                                   onChange={this.changeHandler}
@@ -2513,7 +2513,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.monday == "OPEN" ? (
                                     <div>
@@ -2593,7 +2593,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("monday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -2601,17 +2601,15 @@ export default class LocationManager extends Component {
                                 </div>
                               </MDBCol>
                             </MDBRow>
-
-
-
-
-                            <input
+                            <div>
+                              <span><input
                                     type="checkbox"
                                     name="applyAll"
                                     onChange={this.allChanger}
-                                  />
-                                  <label>Apply To All</label>
-                                  <div style={{ color: "red" }}>
+                                  /></span>
+                                  <span className='apply_all'>Apply To All</span>
+                                  </div>
+                                  <div class='err_msg'>
                                     {applyAllError}
                                   </div>
                                   {applyAll && !applyAllError ? (
@@ -2622,7 +2620,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Tuesday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="tuesday"
                                   onChange={this.changeHandler}
@@ -2635,7 +2633,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.tuesday == "OPEN" ? (
                                     <div>
@@ -2715,7 +2713,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("tuesday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -2728,7 +2726,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Wednesday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="wednesday"
                                   onChange={this.changeHandler}
@@ -2741,7 +2739,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.wednesday == "OPEN" ? (
                                     <div>
@@ -2821,7 +2819,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("wednesday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -2834,7 +2832,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Thrusday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="thursday"
                                   onChange={this.changeHandler}
@@ -2847,7 +2845,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.thursday == "OPEN" ? (
                                     <div>
@@ -2927,7 +2925,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("thursday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -2940,7 +2938,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Friday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="friday"
                                   onChange={this.changeHandler}
@@ -2953,7 +2951,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.friday == "OPEN" ? (
                                     <div>
@@ -3033,7 +3031,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("friday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -3046,7 +3044,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Saturday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="saturday"
                                   onChange={this.changeHandler}
@@ -3059,7 +3057,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.saturday == "OPEN" ? (
                                     <div>
@@ -3139,7 +3137,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("saturday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -3152,7 +3150,7 @@ export default class LocationManager extends Component {
                               <MDBCol md="3" className="daytype">
                                 Sunday
                               </MDBCol>
-                              <MDBCol md="5">
+                              <MDBCol md="5" className='no_right_padding'>
                                 <select
                                   name="sunday"
                                   onChange={this.changeHandler}
@@ -3165,7 +3163,7 @@ export default class LocationManager extends Component {
                                   <option value="CLOSED">CLOSED</option>
                                 </select>
                               </MDBCol>
-                              <MDBCol md="4">
+                              <MDBCol md="4"  className='no_right_padding'>
                                 <div className="output">
                                   {this.state.sunday == "OPEN" ? (
                                     <div>
@@ -3245,7 +3243,7 @@ export default class LocationManager extends Component {
                                         this.clear_day_state("sunday")
                                       }
                                     >
-                                      <i className="zmdi zmdi-close"></i>
+                                      {/* <i className="zmdi zmdi-close"></i> */}
                                     </div>
                                   ) : (
                                     ""
@@ -3312,8 +3310,20 @@ export default class LocationManager extends Component {
                             <div className="form-group">
                               <div className="timebox">
                                 {/* <div className="form-day">MONDAY</div> */}
-
-                                <select
+<MDBRow>
+   <MDBCol md='12'>
+                             
+                                  <input
+                                    name="monday_day_s"
+                                    onChange={this.changeHandler}
+                                    type="date"
+                                    className="vl_edit_input"
+                                  />
+                                  {monday_day_s_error}
+                             
+  </MDBCol>
+  <MDBCol md='6'>
+  <select
                                   name="monday_s"
                                   onChange={this.changeHandler}
                                   className="vl_edit_input"
@@ -3323,10 +3333,10 @@ export default class LocationManager extends Component {
                                   <option value="SPLIT">SPLIT</option>
                                   <option value="OPEN 24x7">OPEN_24x7</option>
                                   <option value="CLOSED">CLOSED</option>
-                                </select>
-
-                                <div className="output">
-                                  {this.state.monday_s == "OPEN" ? (
+                                </select>                
+  </MDBCol>
+ <MDBCol md='6' className="output">
+ {this.state.monday_s == "OPEN" ? (
                                     <div>
                                       <p className="basicExample">
                                         {console.log("time")}
@@ -3397,17 +3407,32 @@ export default class LocationManager extends Component {
                                   ) : (
                                     ""
                                   )}
-                                  <input
-                                    name="monday_day_s"
-                                    onChange={this.changeHandler}
-                                    type="date"
-                                    className="vl_edit_input"
-                                    defaultValue=""
-                                  />
-                                  {monday_day_s_error}
-                                </div>
+ </MDBCol>
+</MDBRow>
+                                   
                               </div>
-                              <div className="business-cover text-center">
+                              <MDBRow style={{ marginTop: "20px" }}>
+                            <MDBCol md="3" className="offset-md-5">
+                              <button
+                                type="submit"
+                                className="last_btn"
+                                style={{ marginLeft: "-5px" }}
+                                onClick={this.addSpecialHourButton}
+                              >
+                                Update
+                              </button>
+                            </MDBCol>
+                            <MDBCol md="3">
+                              <button
+                                className="last_btn"
+                                onClick={() => this.editSpecialHourButton()}
+                                style={{ marginLeft: "5px" }}
+                              >
+                                Cancel
+                              </button>
+                            </MDBCol>
+                          </MDBRow>
+                              {/* <div className="business-cover text-center">
                                 <button
                                   type="submit"
                                   className="last_btn"
@@ -3423,6 +3448,7 @@ export default class LocationManager extends Component {
                                   Cancel
                                 </button>
                               </div>
+                             */}
                             </div>
                           ) : (
                             <div>
@@ -3485,7 +3511,7 @@ export default class LocationManager extends Component {
       value="true"
       id="myCheckbox1"
     /> 
-    <label for="myCheckbox1">
+    <label className='payment_label' for="myCheckbox1">
     <img
       src={require("../images/p-visa.png")}
       alt="Visa"
@@ -3505,7 +3531,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox2"
       /> 
-      <label for="myCheckbox2">
+      <label className='payment_label' for="myCheckbox2">
     <img
       src={require("../images/p-maestro.png")}
       alt="Maestro"
@@ -3524,7 +3550,7 @@ export default class LocationManager extends Component {
       value="true"
       id="myCheckbox3"
       /> 
-      <label for="myCheckbox3">
+      <label className='payment_label' for="myCheckbox3">
     <img
       src={require("../images/p-amex.png")}
       alt="Amex"
@@ -3542,7 +3568,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox4"
       /> 
-      <label for="myCheckbox4">
+      <label className='payment_label' for="myCheckbox4">
     <img
       src={require("../images/p-cash.png")}
       alt="Cash"
@@ -3560,7 +3586,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox5"
       /> 
-      <label for="myCheckbox5">
+      <label className='payment_label' for="myCheckbox5">
     <img
       src={require("../images/p-crypto.png")}
       alt="Crypto"
@@ -3578,7 +3604,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox6"
       /> 
-      <label for="myCheckbox6">
+      <label className='payment_label' for="myCheckbox6">
     <img
       src={require("../images/p-diners.png")}
       alt="Diners"
@@ -3596,7 +3622,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox7"
       /> 
-      <label for="myCheckbox7">
+      <label className='payment_label' for="myCheckbox7">
     <img
       src={require("../images/p-discover.png")}
       alt="Discover"
@@ -3614,7 +3640,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox8"
       /> 
-      <label for="myCheckbox8">
+      <label className='payment_label' for="myCheckbox8">
     <img
       src={require("../images/p-apple.png")}
       alt="Apple"
@@ -3632,7 +3658,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox9"
       /> 
-      <label for="myCheckbox9">
+      <label className='payment_label' for="myCheckbox9">
     <img
       src={require("../images/p-samsung.png")}
       alt="Samsung"
@@ -3650,7 +3676,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox10"
       /> 
-      <label for="myCheckbox10">
+      <label className='payment_label' for="myCheckbox10">
     <img
       src={require("../images/p-paypal.png")}
       alt="Paypal"
@@ -3668,7 +3694,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox11"
       /> 
-      <label for="myCheckbox11">
+      <label className='payment_label' for="myCheckbox11">
     <img
       src={require("../images/p-android.png")}
       alt="Android"
@@ -3686,7 +3712,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox12"
       /> 
-      <label for="myCheckbox12">
+      <label className='payment_label' for="myCheckbox12">
     <img
       src={require("../images/p-invoices.png")}
       alt="Invoices"
@@ -3704,7 +3730,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox13"
       /> 
-      <label for="myCheckbox13">
+      <label className='payment_label' for="myCheckbox13">
     <img
       src={require("../images/p-traveler.png")}
       alt="Traveler's Check"
@@ -3722,7 +3748,7 @@ export default class LocationManager extends Component {
       type="checkbox"
       id="myCheckbox14"
       /> 
-      <label for="myCheckbox14">
+      <label className='payment_label' for="myCheckbox14">
     <img
       src={require("../images/p-financing.png")}
       alt="Financing"
@@ -3778,8 +3804,13 @@ export default class LocationManager extends Component {
                                 LocationDetails.Business_Cover_Image
                               }
                               alt="Cover image"
+                              style={{
+                                height: "110px",
+                                width: "112px",
+                                borderRadius: "10px"
+                              }}
                             />
-                            <div className="vl-get-image">
+                            <div className="vl-get-image1">
                               <img
                                 src={edit}
                                 alt=""
@@ -3925,11 +3956,10 @@ export default class LocationManager extends Component {
             </div>
           )
         ) : (
-          <div className="analytics-whice">
-            <div className="box-space2">
-              <h4>Connect Location first</h4>
+          
+            <div >
+              <h4 className='connect_msg'>Connect Location first</h4>
             </div>
-          </div>
         )}
       </div>
     );

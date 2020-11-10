@@ -13,7 +13,9 @@ export default class Login extends Component {
     loading: false
   };
 
-
+  componentDidMount() {
+    window.scrollTo(0, 0)
+}
 //   submitHandler = event => {
 //     event.preventDefault();
 

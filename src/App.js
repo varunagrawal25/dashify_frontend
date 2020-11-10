@@ -13,7 +13,7 @@ import Blog from "./component/landingpage/Blog";
 import Career from "./component/landingpage/career";
 import ContactUs from "./component/landingpage/contactus";
 import Support from "./component/landingpage/support";
-import pricing from "./component/landingpage/pricing";
+import pricing from "./component/landingpage/Pricing";
 import How_we_work from "./component/landingpage/How_we_work";
 import Login from "./component/landingpage/login";
 import Signup from "./component/landingpage/signup";
@@ -60,13 +60,13 @@ class App extends Component {
             <Route exact path="/how-we-work" component={How_we_work} />
            
             {/* <Route exact path="/" component={Home} /> */}
-             <Route  path="/about us" component={Aboutus} />
-             <Route  path="/contact us" component={Contactus} />
-             <Route  path="/listing management" component={Listing_management} />
-             <Route  path="/our news" component={Our_news} />
-             <Route  path="/our team" component={Our_team} />
+             <Route  path="/about-us" component={Aboutus} />
+             <Route  path="/contact-us" component={Contactus} />
+             <Route  path="/listing-management" component={Listing_management} />
+             <Route  path="/our-news" component={Our_news} />
+             <Route  path="/our-team" component={Our_team} />
              <Route  path="/scanner" component={Scanner} />
-             <Route  path="/review management" component={Review_management} />
+             <Route  path="/review-management" component={Review_management} />
             {/* <Route exact path="/Login" component={Login} /> */}
 
             <Route

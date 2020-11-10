@@ -10,6 +10,9 @@ import { MDBCol, MDBContainer, MDBRow } from 'mdbreact'
 import Footer from "./footer";
 import Navbar from "./navbar";
 export default class Listing_management extends Component {
+  componentDidMount(){
+    window.scrollTo(0, 0)
+  }
     render() {
         return (
             <div>

@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import CampaignPart2 from "./campaignpart2";
 import ReviewGenerationCampaign from "./review-generation-campaign";
+import ReviewGenerationCampaign2 from "./review-generation-campaign2";
 import ReviewTracking from "./review-tracking";
 import ViewAListing from "./view-listing";
 import VoiceListing from "./voice_listing/voice-listing";
@@ -165,7 +166,7 @@ export default class MainApp extends Component {
                               Ranking Analytics
                             </NavLink>
                           </li>
-                          <li>
+                          {/* <li>
                             <NavLink
                               to={
                                 "/locations/" +
@@ -175,7 +176,7 @@ export default class MainApp extends Component {
                             >
                               Testing Page
                             </NavLink>
-                          </li>
+                          </li> */}
                         </ul>
                       </li>
 
@@ -274,6 +275,11 @@ export default class MainApp extends Component {
                   path="/locations/:locationId/review-generation-campaign"
                   render={props => <ReviewGenerationCampaign {...props} />}
                 />
+                {/* <Route
+                  
+                  path="/review-generation-campaign-step-2"
+                  component={ReviewGenerationCampaign2}
+                /> */}
                 <Route
                   exact
                   path="/locations/:locationId/review-tracking"
@@ -369,6 +375,7 @@ export default class MainApp extends Component {
                   path="/setting-main/setting-updateCard"
                   component={SettingUpdateCard}
                 />
+
                 <Route
                   exact
                   path="/connectedaccounts/:redirect_to"

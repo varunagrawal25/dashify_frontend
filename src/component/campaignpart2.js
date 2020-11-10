@@ -207,7 +207,7 @@ export default class CampaignPart2 extends Component {
               value={this.state.sendto_fname[i]}
               required
             />
-            <div style={{ color: "red" }}>
+            <div class='err_msg'>
               {this.state.fname_sendto_error[i]}
             </div>
           </div>
@@ -238,7 +238,7 @@ export default class CampaignPart2 extends Component {
               value={this.state.sendto_lname[i]}
               required
             />
-            {/* <div style={{ color: "red" }}>
+            {/* <div class='err_msg'>
               {this.state.lname_sendto_error[i]}
             </div> */}
           </div>
@@ -269,7 +269,7 @@ export default class CampaignPart2 extends Component {
               value={this.state.sendto_contact[i]}
               required
             />
-            <div style={{ color: "red" }}>
+            <div class='err_msg'>
               {this.state.contact_sendto_error[i]}
             </div>
           </div>
@@ -301,7 +301,7 @@ export default class CampaignPart2 extends Component {
               value={this.state.sendto_email[i]}
               required
             />
-            <div style={{ color: "red" }}>
+            <div class='err_msg'>
               {this.state.email_sendto_error[i]}
             </div>
           </div>
@@ -561,7 +561,7 @@ export default class CampaignPart2 extends Component {
                             // timeout={3000} //3 secs
                           />
                         ) : (
-                          <div style={{ color: "red" }}>{wrong}</div>
+                          <div class='err_msg'>{wrong}</div>
                         )}
                         <button type="submit" className="lunch_btn">
                           Launch Campaign
@@ -576,18 +576,18 @@ export default class CampaignPart2 extends Component {
                     <div className="design-ui">
                         Upload Your CSV containing Customer Email / Phone
                         Numbers
-                      <div className="csv">
+                      <div className="camp_csv">
                         <img src={require("./assets/csv.png")} alt="csv" />
                       </div>
-                      <div className="csv-text">
+                      <div >
                         <button className="download_btn">
                           Download Simple
                         </button>
-                        <div className="uploadbox">
+                      </div>
+                      <div className="uploadbox">
                           <button className="upload_btn">Upload CSV</button>
                           <input type="file" />
                         </div>
-                      </div>
                     </div>
                   </div>
                 </div>

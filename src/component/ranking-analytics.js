@@ -38,13 +38,13 @@ export default class RankingAnalytics extends Component {
               </select>
             </MDBCol>
 
-            <MDBCol md="2">
-              <select id="ranking_ketword_btn">
-                <option selected value="Add new keyword">
+            <MDBCol md="2" className="no_left_padding">
+              <select className="ranking_keyword_btn" >
+                <option selected value="Add new keyword" className='ranking_keyword_btn_options'>
                   Add new keyword
                 </option>
-                <option value="Add new keyword">Add new keyword</option>
-                <option value="Add new keyword">Add new keyword</option>
+                <option value="Add new keyword" className='ranking_keyword_btn_options'>Add new keyword</option>
+                <option value="Add new keyword" className='ranking_keyword_btn_options'>Add new keyword</option>
               </select>
             </MDBCol>
           </MDBRow>

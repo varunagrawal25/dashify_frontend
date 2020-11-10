@@ -1032,7 +1032,7 @@ export default class ProfileAnalytics extends Component {
                                 ) : parseInt(profileViews1) -
                                     parseInt(profileViews2) <
                                   0 ? (
-                                  <div style={{ color: "red" }}>
+                                  <div class='err_msg'>
                                     {(
                                       ((parseInt(profileViews1) -
                                         parseInt(profileViews2)) *
@@ -1093,7 +1093,7 @@ export default class ProfileAnalytics extends Component {
                                     <span className="zmdi zmdi-caret-up"></span>
                                   </div>
                                 ) : parseInt(gWeb1) - parseInt(gWeb2) < 0 ? (
-                                  <div style={{ color: "red" }}>
+                                  <div class='err_msg'>
                                     {(
                                       ((parseInt(gWeb1) - parseInt(gWeb2)) *
                                         100) /
@@ -1153,7 +1153,7 @@ export default class ProfileAnalytics extends Component {
                                   </div>
                                 ) : parseInt(gcalls1) - parseInt(gcalls2) <
                                   0 ? (
-                                  <div style={{ color: "red" }}>
+                                  <div class='err_msg'>
                                     {(
                                       ((parseInt(gcalls1) - parseInt(gcalls2)) *
                                         100) /
@@ -1216,7 +1216,7 @@ export default class ProfileAnalytics extends Component {
                                 ) : parseInt(gdirection1) -
                                     parseInt(gdirection2) <
                                   0 ? (
-                                  <div style={{ color: "red" }}>
+                                  <div class='err_msg'>
                                     {(
                                       ((parseInt(gdirection1) -
                                         parseInt(gdirection2)) *
@@ -1300,7 +1300,7 @@ export default class ProfileAnalytics extends Component {
                                     parseInt(gcalls2) -
                                     parseInt(gWeb2) <
                                   0 ? (
-                                  <div style={{ color: "red" }}>
+                                  <div class='err_msg'>
                                     {(
                                       ((parseInt(gdirection1) +
                                         parseInt(gcalls1) +

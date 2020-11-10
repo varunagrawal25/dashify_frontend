@@ -427,59 +427,61 @@ export default class VoiceListing extends Component {
         return (
           <div>
             {this.state.update?(
-            <MDBRow>
+              null
+  //           <MDBRow>
               
-            <MDBCol md='8'  >
-  <MDBRow className='vl_gap1'>
-    <MDBCol md='3' className="vl_input_head">
-    Question :
-    </MDBCol>
-    <MDBCol md='9' >
-                     <input
-                    type="text"
-                    className="vl_input"
-                    name="que"
-                    value={this.state.que}
-                    onChange={this.handler}
-                  />
-                  <div style={{ color: "red" }}>{this.state.que_error}</div>
-    </MDBCol>
-  </MDBRow>
-  <MDBRow className='vl_gap1'>
-    <MDBCol md='3' className="vl_input_head ">
-    Answer :
-    </MDBCol>
-    <MDBCol md='9' >
-    <textarea
-                     type="text"
-                     name="ans"
-                     className="vl_input"
-                     value={this.state.ans}
-                     onChange={this.handler}
-                   />
-                  <div style={{ color: "red" }}>{this.state.ans_error}</div>
-    </MDBCol>
-  </MDBRow>
-            </MDBCol>
+  //           <MDBCol md='8'  >
+  // <MDBRow className='vl_gap1'>
+  //   <MDBCol md='3' className="vl_input_head">
+  //   Question :
+  //   </MDBCol>
+  //   <MDBCol md='9' >
+  //                    <input
+  //                   type="text"
+  //                   className="vl_input"
+  //                   name="que"
+  //                   value={this.state.que}
+  //                   onChange={this.handler}
+  //                 />
+  //                 <div style={{ color: "red" }}>{this.state.que_error}</div>
+  //   </MDBCol>
+  // </MDBRow>
+  // <MDBRow className='vl_gap1'>
+  //   <MDBCol md='3' className="vl_input_head ">
+  //   Answer :
+  //   </MDBCol>
+  //   <MDBCol md='9' >
+  //   <textarea
+  //                    type="text"
+  //                    name="ans"
+  //                    className="vl_input"
+  //                    value={this.state.ans}
+  //                    onChange={this.handler}
+  //                  />
+  //                 <div style={{ color: "red" }}>{this.state.ans_error}</div>
+  //   </MDBCol>
+  // </MDBRow>
+  //           </MDBCol>
            
-              <MDBCol md="4" className='vl_gap2' >
-                          <button
-                // onClick={this.updateFaq(
-                //   this.state.que,
-                //   this.state.ans,
-                //   this.props.faqid
-                // )}
-                className="user_btn"
-              >
-                Update
-              </button>
-              <button onClick={this.updateCancel} className="user_btn">
-                Cancel
-              </button>
-            {/* <div className="warning">{show_err_updatefaq}</div> */}
-            </MDBCol>
-            </MDBRow>
-            ):(
+  //             <MDBCol md="4" className='vl_gap2' >
+  //                         <button
+  //               // onClick={this.updateFaq(
+  //               //   this.state.que,
+  //               //   this.state.ans,
+  //               //   this.props.faqid
+  //               // )}
+  //               className="user_btn"
+  //             >
+  //               Update
+  //             </button>
+  //             <button onClick={this.updateCancel} className="user_btn">
+  //               Cancel
+  //             </button>
+  //           {/* <div className="warning">{show_err_updatefaq}</div> */}
+  //           </MDBCol>
+  //           </MDBRow>
+           
+           ):(<>
               <MDBRow>
               <MDBCol md="7" className="offset-md-1">
                 <div className="vl_c3_subhead"> {r.question}</div>
@@ -494,8 +496,10 @@ export default class VoiceListing extends Component {
                 </MDBBtn>
               </MDBCol>
             </MDBRow>
-            )}
             <hr className="voice_hr" />
+            </>
+            )}
+           
           </div>
         );
       });
@@ -564,7 +568,7 @@ export default class VoiceListing extends Component {
             </MDBContainer>
             <MDBContainer className="voice_container">
               <MDBRow>
-                <div className="col-md-12">
+                <div className="col-md-12 vl_c2">
                   <ul className="main-listfive">
                     <li>
                       <div className="img-iconbox col-md-4 ">
@@ -875,10 +879,8 @@ export default class VoiceListing extends Component {
             <div className="setting-10">
               <h3>Voice Listing</h3>
             </div>
-            <div className="analytics-whice">
-              <div className="box-space2">
-                <h4>Connect Location first</h4>
-              </div>
+            <div >
+              <h4 className='connect_msg'>Connect Location first</h4>
             </div>
           </MDBContainer>
         )}

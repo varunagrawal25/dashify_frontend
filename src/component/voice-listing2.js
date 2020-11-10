@@ -136,7 +136,7 @@ class UpdateFaq extends Component {
                   onChange={this.handler}
                 />
               </h4>
-              <div style={{ color: "red" }}>{this.props.error.que_error}</div>
+              <div class='err_msg'>{this.props.error.que_error}</div>
             </div>
             <div className="faq-title">
               <h4>
@@ -149,7 +149,7 @@ class UpdateFaq extends Component {
                   onChange={this.handler}
                 />
               </h4>
-              <div style={{ color: "red" }}>{this.props.error.ans_error}</div>
+              <div class='err_msg'>{this.props.error.ans_error}</div>
             </div>
           </div>
 
@@ -727,7 +727,7 @@ export default class VoiceListing extends Component {
                           in progress
                         </a>
                       ) : (
-                        <p style={{ color: "red" }}>can't optimise</p>
+                        <p class='err_msg'>can't optimise</p>
                       )
                     ) : (
                       <GoogleLogin
@@ -758,7 +758,7 @@ export default class VoiceListing extends Component {
                           in progress
                         </a>
                       ) : (
-                        <p style={{ color: "red" }}>can't optimise</p>
+                        <p class='err_msg'>can't optimise</p>
                       )
                     ) : (
                       <a href="/yelplogin" className="optimize">
@@ -782,7 +782,7 @@ export default class VoiceListing extends Component {
                           in progress
                         </a>
                       ) : (
-                        <p style={{ color: "red" }}>can't optimise</p>
+                        <p class='err_msg'>can't optimise</p>
                       )
                     ) : (
                       <a href="/applelogin" className="optimize">
@@ -815,7 +815,7 @@ export default class VoiceListing extends Component {
                           in progress
                         </a>
                       ) : (
-                        <p style={{ color: "red" }}>can't optimize</p>
+                        <p class='err_msg'>can't optimize</p>
                       )
                     ) : (
                       <a href="/foursquarelogin" className="optimize">

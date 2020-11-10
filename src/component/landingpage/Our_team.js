@@ -22,6 +22,9 @@ import Footer from "./footer";
 import Navbar from "./navbar";
 
 export default class Our_team extends Component {
+    componentDidMount() {
+        window.scrollTo(0, 0)
+    }
     render() {
         return (
             <div className='white_background'>
