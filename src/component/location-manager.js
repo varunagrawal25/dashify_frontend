@@ -199,7 +199,7 @@ export default class ViewLocations extends Component {
 
               {this.state.AllLocations.length == 0 ? (
                 // <Spinner />
-                <h4>No Location added, Please add some loaction</h4>
+                <h4 className='connect_msg'>No Location added, Please add some loaction</h4>
               ) : (
                 <div class="scrollbar" style={{height:'380px' ,marginRight:'0px'}}>
                 <div>{renderLocations}</div>

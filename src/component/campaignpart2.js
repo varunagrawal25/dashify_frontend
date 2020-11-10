@@ -576,18 +576,18 @@ export default class CampaignPart2 extends Component {
                     <div className="design-ui">
                         Upload Your CSV containing Customer Email / Phone
                         Numbers
-                      <div className="csv">
+                      <div className="camp_csv">
                         <img src={require("./assets/csv.png")} alt="csv" />
                       </div>
-                      <div className="csv-text">
+                      <div >
                         <button className="download_btn">
                           Download Simple
                         </button>
-                        <div className="uploadbox">
+                      </div>
+                      <div className="uploadbox">
                           <button className="upload_btn">Upload CSV</button>
                           <input type="file" />
                         </div>
-                      </div>
                     </div>
                   </div>
                 </div>

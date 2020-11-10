@@ -3956,11 +3956,10 @@ export default class LocationManager extends Component {
             </div>
           )
         ) : (
-          <div className="analytics-whice">
-            <div className="box-space2">
-              <h4>Connect Location first</h4>
+          
+            <div >
+              <h4 className='connect_msg'>Connect Location first</h4>
             </div>
-          </div>
         )}
       </div>
     );

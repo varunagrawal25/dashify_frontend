@@ -1369,7 +1369,7 @@ export default class Overview extends Component {
                       total_social_overview
                     ) : (
                       <div className="col-md-12">
-                        <h4>Please connect some listing</h4>
+                        <h4 className='connect_msg'>Please connect some listing</h4>
                       </div>
                     )}
                   </div>
@@ -1624,7 +1624,7 @@ export default class Overview extends Component {
                       // ) : (
                       //   <h4>No analytics of this Google account</h4>
                       // )
-                      <h4>Please connect Google to see graph</h4>
+                      <h4 className='connect_msg'>Please connect Google to see graph</h4>
                     )}
                   </div>
                 </div>

@@ -319,7 +319,10 @@ export default class User_profile extends Component {
                   />
                 </div>
               ) : edit_details ? (
+                
                 <div>
+               <MDBRow>
+                  <MDBCol md='6'>
                   <div className="user1">
                     {" "}
                     <input
@@ -328,101 +331,136 @@ export default class User_profile extends Component {
                       value={first_name}
                       onChange={this.changeHandler}
                       placeholder="First name"
-                      className="user_edit_input"
+                      className="user_edit_input_name"
                     />
+                    <div className="error" class='err_msg_user'>
+                      {first_name_error}
+                    </div>
+                    </div>
+                    
+                  </MDBCol>
+                  <MDBCol md='6'>
+                  <div className="user1">
                     <input
                       type="text"
                       name="last_name"
                       value={last_name}
                       onChange={this.changeHandler}
                       placeholder="Last name"
-                      className="user_edit_input"
+                      className="user_edit_input_name"
                     />
-                    <div className="error" class='err_msg'>
-                      {first_name_error}
-                    </div>
                   </div>
-                  <MDBRow>
-                    <MDBCol md="4">
-                      <div className="user2">Company name</div>
-                      <div className="user2">Phone</div>
-                      <div className="user2">Website</div>
-                      <div className="user2">Address</div>
-                    </MDBCol>
-
-                    <MDBCol md="8">
-                      <form
+                  </MDBCol>
+                </MDBRow>
+                 
+                  <form
                         className="needs-validation"
                         onSubmit={this.submitUserDetails}
                         noValidate
                       >
-                        <div className="user3">
-                          <input
-                            type="text"
-                            name="Company_name"
-                            value={Company_name}
-                            onChange={this.changeHandler}
-                            className="user_edit_input"
-                            placeholder="Edit company name"
-                          />
-                          <div className="error" class='err_msg'>
-                            {Company_name_error}
-                          </div>
-                        </div>
-                       
-                        <div className="user3">
-                          <input
-                            type="text"
-                            name="Phone"
-                            value={Phone}
-                            onChange={this.changeHandler}
-                            className="user_edit_input"
-                            placeholder="Edit phone no."
-                          />
-                          <div className="error" class='err_msg'>
-                            {Phone_error}
-                          </div>
-                        </div>
-                        <div className="user3">
-                          <input
-                            type="text"
-                            name="website"
-                            value={website}
-                            onChange={this.changeHandler}
-                            className="user_edit_input"
-                            placeholder="Edit website"
-                          />
-                          <div className="error" class='err_msg'>
-                            {website_error}
-                          </div>
-                        </div>
+                  <MDBRow className='user_rowspace'>
+                    <MDBCol md="4">
+                      <div className="user2">Company name</div>
+                      </MDBCol>
+                      <MDBCol md="8">
+                    
+                    <div className="user3">
+                      <input
+                        type="text"
+                        name="Company_name"
+                        value={Company_name}
+                        onChange={this.changeHandler}
+                        className="user_edit_input"
+                        placeholder="Edit company name"
+                      />
+                      
+                    </div>
 
-                        <div className="user3">
-                          <input
-                            type="text"
-                            name="address"
-                            value={address}
-                            onChange={this.changeHandler}
-                            className="user_edit_input"
-                            placeholder="Edit address"
-                          />
-                          <div className="error" class='err_msg'>
-                            {address_error}
-                          </div>
-                        </div>
-                        <button type="submit" className="user_btn">
-                          Submit
-                        </button>
-                        <button
-                          className="user_btn"
-                          onClick={() => this.setState({ edit_details: false })}
-                        >
-                          {" "}
-                          Cancel
-                        </button>
-                      </form>
+                    <div className="error" class='err_msg_user'>
+                        {Company_name_error}
+                      </div>
+                </MDBCol>
+                      </MDBRow>
+                      <MDBRow className='user_rowspace'>
+                      <MDBCol md="4">
+                      <div className="user2">Phone</div>
+                      </MDBCol>
+                      <MDBCol md="8">
+                   
+                    <div className="user3">
+                      <input
+                        type="text"
+                        name="Phone"
+                        value={Phone}
+                        onChange={this.changeHandler}
+                        className="user_edit_input"
+                        placeholder="Edit phone no."
+                      />
+                      
+                    </div>
+                    <div className="error" class='err_msg_user'>
+                        {Phone_error}
+                      </div>
+                </MDBCol>
+                      </MDBRow>
+                      <MDBRow className='user_rowspace'>
+                      <MDBCol md="4">
+                      <div className="user2">Website</div>
+                      </MDBCol>
+                      <MDBCol md="8">
+                    <div className="user3">
+                      <input
+                        type="text"
+                        name="website"
+                        value={website}
+                        onChange={this.changeHandler}
+                        className="user_edit_input"
+                        placeholder="Edit website"
+                      />
+                     
+                    </div>
+                    <div className="error" class='err_msg_user'>
+                        {website_error}
+                      </div>
+                </MDBCol>
+                      </MDBRow>
+                      <MDBRow className='user_rowspace'>
+                      <MDBCol md="4">
+                      <div className="user2">Address</div>
                     </MDBCol>
+                    <MDBCol md="8">
+                    <div className="user3">
+                      <input
+                        type="text"
+                        name="address"
+                        value={address}
+                        onChange={this.changeHandler}
+                        className="user_edit_input"
+                        placeholder="Edit address"
+                      />
+                      
+                    </div>
+                    <div className="error" class='err_msg_user'>
+                        {address_error}
+                      </div>
+                  
+                </MDBCol>
+                   
                   </MDBRow>
+                  <div style={{marginLeft:'54%'}}>
+                  <button type="submit" className="user_btn">
+                      Submit
+                    </button>
+                    <button
+                      className="user_btn"
+                      onClick={() => this.setState({ edit_details: false })}
+                     
+                    >
+                      {" "}
+                      Cancel
+                    </button>
+                    </div>
+                  </form>
                 </div>
               ) : (
                 <div>
@@ -430,32 +468,48 @@ export default class User_profile extends Component {
                     {user_info.first_name} {user_info.last_name}
                   </div>
                   <MDBRow>
-                    <MDBCol md="4">
+                    <MDBCol md="4" >
                       <div className="user2">Company name</div>
-                      <div className="user2">Phone</div>
-                      <div className="user2">Website</div>
-                      <div className="user2">Address</div>
                     </MDBCol>
                     <MDBCol md="8">
                       {user_info.Company_name ? (
-                        <div className="user3">{user_info.Company_name}</div>
+                        <div className="user3_new">{user_info.Company_name}</div>
                       ) : (
                         <div className="user_blank"></div>
-                      )}
-
+                      )}    
+                    </MDBCol>
+                    </MDBRow>
+                    <MDBRow>                   
+                     <MDBCol md="4">
+                      <div className="user2">Phone</div>
+                    </MDBCol>
+                    <MDBCol md="8">
                       {user_info.Phone ? (
-                        <div className="user3">{user_info.Phone}</div>
+                        <div className="user3_new">{user_info.Phone}</div>
                       ) : (
                         <div className="user_blank"></div>
-                      )}
+                      )}      
+                    </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                    <MDBCol md="4">
+                      <div className="user2">Website</div>
+                    </MDBCol>
+                    <MDBCol md="8">
                       {user_info.website ? (
-                        <div className="user3">{user_info.website}</div>
+                        <div className="user3_new">{user_info.website}</div>
                       ) : (
                         <div className="user_blank"></div>
-                      )}
-
+                      )}      
+                    </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                    <MDBCol md="4">
+                      <div className="user2">Address</div>
+                    </MDBCol>
+                    <MDBCol md="8">
                       {user_info.address ? (
-                        <div className="user3">{user_info.address}</div>
+                        <div className="user3_new">{user_info.address}</div>
                       ) : (
                         <div className="user_blank"></div>
                       )}      
