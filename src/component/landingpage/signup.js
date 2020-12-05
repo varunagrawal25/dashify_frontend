@@ -3,7 +3,7 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import Axios from "axios";
-import { signup, get_all_user, send_varification_link } from "../apis/user";
+import { signup, get_all_user, send_varification_link ,get_all_country} from "../apis/user";
 import { MDBCol, MDBRow, MDBContainer, MDBBtn } from "mdbreact";
 import { Checkbox } from "@material-ui/core";
 import {
@@ -11,6 +11,8 @@ import {
   password_regex,
   phone_regex
 } from "../utils/regularexpressions";
+import swal from "sweetalert";
+import { secure_pin } from "../../config";
 
 export default class Signup extends Component {
   state = {
@@ -20,7 +22,7 @@ export default class Signup extends Component {
     fname: "",
     lname: "",
     bname: "",
-    country: "",
+    country: [],
     phone: "",
     confirm_password: "",
     username_error: "",
@@ -46,19 +48,37 @@ export default class Signup extends Component {
     // Axios.get(
     //   "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/account/get-all-user"
     // )
-
-    get_all_user()
+    const data = {secure_pin}
+    get_all_user(data)
       .then(res => {
-        this.setState({
-          all_users: res.data.user_info
-        });
-        console.log("all users", res.data.user_info);
+        if(res.data.status == "1"){
+          this.setState({
+            all_users: res.data.users_array
+          }) 
+        }
+        
+        
+        console.log("all users", res.data.users_array);
       })
       .catch(res => {
         console.log("error in loading all users");
       });
+      get_all_country(data)
+      .then(res => {
+          this.setState({
+            country: res.data.country_array
+          }) 
+        
+        
+          console.log("all country00", this.state.country)
+        console.log("all country", res.data.country_array);
+      })
+      .catch(res => {
+        console.log("error in loading all country");
+      });
   };
 
+  
   submitHandler = async event => {
     event.preventDefault();
     // event.target.className += ' was-validated';
@@ -70,10 +90,11 @@ export default class Signup extends Component {
       last_name: this.state.lname,
       username: this.state.username,
       password: this.state.password,
-      Company_name: this.state.bname,
-      Country: this.state.country,
-      Phone: this.state.phone,
-      Zip: "123"
+      Business_name: this.state.bname,
+      country: 'India',
+      phone_no: this.state.phone,
+      Zip: "123",
+      secure_pin
     };
 
     await this.errorValue(data);
@@ -84,20 +105,20 @@ export default class Signup extends Component {
         .then(resp => {
           this.setState({ loading: false });
           console.log("resp", resp);
-          if (resp.data.response == "Account create successfuly") {
-            this.activateHandler();
-            this.setState({ show_signup_button: false });
+          if (resp.data.status == "1") {
+            this.setState({ show_signup_button: false,email_sent: 1 });
+            swal(resp.data.message)
           } else {
             this.setState({
               error: resp,
               isRegister: false
             });
             if (
-              resp.data.username == "A user with that username already exists."
+              resp.data.message == "Email Id exist"
             ) {
-              this.setState({ username_error: resp.data.username });
+              this.setState({ username_error: resp.data.message });
             } else {
-              alert("something went wrong");
+              swal(resp.data.message)
             }
             console.log("error1", resp);
           }
@@ -105,25 +126,27 @@ export default class Signup extends Component {
         .catch(error => {
           this.setState({ error: error, isRegister: false, loading: false });
           console.log("error2", error);
+          swal("Registration failed")
         });
     }
   };
 
-  activateHandler = () => {
+  resendLink = () => {
     this.setState({ email_sent: "", loading_activate: true });
 
     const data = {
+      secure_pin,
       email_id: this.state.username
     };
 
     send_varification_link(data)
       .then(res => {
         this.setState({ loading_activate: false, email_sent: 1 });
-        alert("sent succesfully");
+        swal("sent succesfully");
       })
       .catch(res => {
         this.setState({ loading_activate: false, email_sent: 0 });
-        alert("sent failed");
+        swal("sent failed");
       });
   };
 
@@ -135,6 +158,17 @@ export default class Signup extends Component {
     if (event.target.name == "username") {
       this.is_username_present(event.target.value);
     }
+  };
+
+  changeHandler1 = event => {
+    // this.setState({ [event.target.name]: event.target.value });
+    // if (event.target.name == "confirm_password") {
+    //   this.is_password_match(event.target.value);
+    // }
+    // if (event.target.name == "username") {
+    //   this.is_username_present(event.target.value);
+    // }
+    console.log(event.target.value)
   };
 
   errorValue = data => {
@@ -183,19 +217,19 @@ export default class Signup extends Component {
         any_error = true;
       }
     }
-    if (data.Company_name == "") {
+    if (data.Business_name == "") {
       this.setState({ bname_error: "*Enter your Company name" });
       any_error = true;
     }
-    if (data.Country == "") {
+    if (data.country == "") {
       this.setState({ city_error: "*Enter your Country name" });
       any_error = true;
     }
-    if (data.Phone == "") {
+    if (data.phone_no == "") {
       this.setState({ phone_error: "*Enter your Phone No." });
       any_error = true;
     } else {
-      const result = phone_regex(data.username);
+      const result = phone_regex(data.phone_no);
       if (result === false) {
         this.setState({
           phone_error: "Not a valid Phone no."
@@ -247,7 +281,7 @@ export default class Signup extends Component {
     // if (this.state.isRegister) {
     //   return <Redirect to={"/email-confirmation/" + this.state.username} />;
     // }
-    console.log("this.state", this.state);
+    console.log("this.state", this.state.country);
     return (
       //   <div>
       //     <div className="container">
@@ -335,14 +369,20 @@ export default class Signup extends Component {
                     <MDBCol md="6">
                       <div className="modal_body_subheading">Country</div>
                       <div>
-                        <input
-                          value={this.state.country}
-                          onChange={this.changeHandler}
-                          type="text"
+                        <select
+                           // value={this.state.country}
+                          onChange={this.changeHandler1}
                           className="modal_inputbox modal_inputbox_new"
-                          name="country"
+                         name="country"
                           required
-                        />
+                        >
+                          <option>select country</option>
+                          {this.state.country.map(value=>{
+                            return(
+                              <option value={value.id}>{value.name}</option>
+                            )
+                          }) }
+                          </select>
                         <div className="warning">
                           {this.state.country_error}
                         </div>
@@ -451,7 +491,7 @@ export default class Signup extends Component {
                   </MDBRow>
                   {/* {this.state.show_signup_button ? ( */}
 
-                  {this.state.email_sent == 0 ? (
+                  {this.state.show_signup_button ? (
                     <div>
                       <button
                         type="submit"
@@ -502,21 +542,15 @@ export default class Signup extends Component {
                         <div className="message_normal">
                           Didn't get link?
                           <a
-                            onClick={() => this.activateHandler()}
+                            onClick={() => this.resendLink()}
                             className="for-color"
                           >
                             {" "}
                             Send again
                           </a>
                         </div>
-                        {/* <button onClick={() => this.activateHandler}>
-                          send again
-                        </button> */}
                       </div>
                     ) : (
-                      // this.state.email_sent == 0 ? (
-                      //   <div className="warning">someting went wrong</div>
-                      // ) :
                       ""
                     )}
                   </div>

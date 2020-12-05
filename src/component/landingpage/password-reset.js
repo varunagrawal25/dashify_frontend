@@ -5,6 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import { reset_password } from "../apis/user";
 import Loader from "react-loader-spinner";
+import { secure_pin } from "../../config";
 // import setAuthToken from '../utils/setAuthToken';
 
 class PasswordReset extends React.Component {
@@ -37,9 +38,10 @@ class PasswordReset extends React.Component {
     if (cal) {
       var { param1, param2 } = this.props.match.params;
       const data = {
-        pera_1: param1,
-        pera_2: param2,
-        password: this.state.Password
+        secure_pin,user_id:param1,reset_token:param2,new_password:this.state.Password
+        // pera_1: param1,
+        // pera_2: param2,
+        // password: this.state.Password
       };
       this.setState({ loading: true });
 

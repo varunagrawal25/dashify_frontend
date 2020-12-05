@@ -19,7 +19,7 @@ import edit from "./assets/edit.png";
 import Map from "./Map";
 import Cropper from "./utils/cropper";
 import { url_regex, phone_regex } from "./utils/regularexpressions";
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: {
     Authorization: "Token " + localStorage.getItem("UserToken")
@@ -28,7 +28,7 @@ const DjangoConfig = {
 
 export default class User_profile extends Component {
   state = {
-    user_info: {},
+    users_login: {},
     edit_details: false,
     first_name: "",
     last_name: "",
@@ -58,23 +58,26 @@ export default class User_profile extends Component {
   };
 
   componentDidMount = () => {
-    let data = { user_id: localStorage.getItem("UserId") };
-    get_login_user_info(data, DjangoConfig)
+    let data = { user_id: localStorage.getItem("UserId") ,secure_pin};
+    get_login_user_info(data)
       .then(res => {
-        console.log("user info", res.data);
-        if (res.data && res.data.user_info) {
+        console.log("user info0", res.data);
+        console.log("user info", res.data.users_login);
+        if (res.data &&  res.data.users_login) {
           this.setState({
-            user_info: res.data.user_info,
-            first_name: res.data.user_info.first_name,
-            last_name: res.data.user_info.last_name,
-            Company_name: res.data.user_info.Company_name,
-            address: res.data.user_info.address,
-            Phone: res.data.user_info.Phone,
-            website: res.data.user_info.website,
-            user_image: res.data.user_info.user_image,
+            users_login: res.data.users_login,
+            first_name: res.data.users_login[0].first_name,
+            last_name: res.data.users_login[0].last_name,
+            Company_name: res.data.users_login[0].company,
+            address: res.data.users_login[0].address,
+            Phone: res.data.users_login[0].phone_no,
+            website: res.data.users_login[0].website,
+            user_image: res.data.users_login[0].user_image,
             loading_info: false,
             loading_image: false
+            
           });
+          console.log("statr value",this.state)
         } else {
           this.setState({ loading_info: false, loading_image: false });
         }
@@ -95,7 +98,7 @@ export default class User_profile extends Component {
     event.preventDefault();
 
     var {
-      user_info,
+      users_login,
       first_name,
       last_name,
       Company_name,
@@ -105,7 +108,7 @@ export default class User_profile extends Component {
     } = this.state;
 
     const data = {
-      username: user_info.user ? user_info.user.username : "",
+      username: users_login[0].user ? users_login[0].user.username : "",
       first_name,
       last_name,
       Company_name,
@@ -120,14 +123,14 @@ export default class User_profile extends Component {
       this.setState({ loading_info: true });
       update_user_info(data, DjangoConfig)
         .then(response => {
-          let data2 = { user_id: localStorage.getItem("UserId") };
+          let data2 = { user_id: localStorage.getItem("UserId") ,secure_pin};
 
-          get_login_user_info(data2, DjangoConfig)
+          get_login_user_info(data2)
             .then(res => {
               console.log("user info", res.data);
-              if (res.data && res.data.user_info) {
+              if (res.data && res.data.users_login) {
                 this.setState({
-                  user_info: res.data.user_info,
+                  users_login: res.data.users_login,
                   edit_details: false,
                   loading_info: false
                 });
@@ -194,25 +197,25 @@ export default class User_profile extends Component {
   };
 
   uploadUserImage = image => {
-    let { user_info } = this.state;
+    let { users_login } = this.state;
 
     console.log("image", image);
 
     this.setState({ loading_image: true });
     const data = {
-      username: user_info.user ? user_info.user.username : "",
+      username: users_login[0].user ? users_login[0].user.username : "",
       user_image: image
     };
 
     update_user_image(data, DjangoConfig)
       .then(response => {
-        let data2 = { user_id: localStorage.getItem("UserId") };
-        get_login_user_info(data2, DjangoConfig)
+        let data2 = { user_id: localStorage.getItem("UserId") ,secure_pin};
+        get_login_user_info(data2)
           .then(res => {
-            if (res.data && res.data.user_info.user_image) {
-              console.log("getting image", res.data.user_info.user_image);
+            if (res.data && res.data.users_login[0].user_image) {
+              console.log("getting image", res.data.users_login[0].user_image);
               this.setState({
-                user_image: res.data.user_info.user_image,
+                user_image: res.data.users_login[0].user_image,
                 loading_image: false,
                 show_crop_function: false
               });
@@ -244,7 +247,7 @@ export default class User_profile extends Component {
 
   render() {
     const {
-      user_info,
+      users_login,
       edit_details,
       first_name,
       last_name,
@@ -465,15 +468,15 @@ export default class User_profile extends Component {
               ) : (
                 <div>
                   <div className="user1">
-                    {user_info.first_name} {user_info.last_name}
+                    {first_name} {last_name}
                   </div>
                   <MDBRow>
                     <MDBCol md="4" >
                       <div className="user2">Company name</div>
                     </MDBCol>
                     <MDBCol md="8">
-                      {user_info.Company_name ? (
-                        <div className="user3_new">{user_info.Company_name}</div>
+                      {Company_name ? (
+                        <div className="user3_new">{Company_name}</div>
                       ) : (
                         <div className="user_blank"></div>
                       )}    
@@ -484,8 +487,8 @@ export default class User_profile extends Component {
                       <div className="user2">Phone</div>
                     </MDBCol>
                     <MDBCol md="8">
-                      {user_info.Phone ? (
-                        <div className="user3_new">{user_info.Phone}</div>
+                      {Phone ? (
+                        <div className="user3_new">{Phone}</div>
                       ) : (
                         <div className="user_blank"></div>
                       )}      
@@ -496,8 +499,8 @@ export default class User_profile extends Component {
                       <div className="user2">Website</div>
                     </MDBCol>
                     <MDBCol md="8">
-                      {user_info.website ? (
-                        <div className="user3_new">{user_info.website}</div>
+                      {website ? (
+                        <div className="user3_new">{website}</div>
                       ) : (
                         <div className="user_blank"></div>
                       )}      
@@ -508,8 +511,8 @@ export default class User_profile extends Component {
                       <div className="user2">Address</div>
                     </MDBCol>
                     <MDBCol md="8">
-                      {user_info.address ? (
-                        <div className="user3_new">{user_info.address}</div>
+                      {address ? (
+                        <div className="user3_new">{address}</div>
                       ) : (
                         <div className="user_blank"></div>
                       )}      

@@ -4,7 +4,7 @@ import Spinner from "./common/Spinner";
 import { all_location } from "./apis/location";
 import { Last } from "react-bootstrap/esm/PageItem";
 import { MDBCol, MDBRow } from "mdbreact";
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -22,13 +22,14 @@ export default class ViewLocations extends Component {
       headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
     };
     const data = {
-      user_id: localStorage.getItem("UserId")
+      user_id: "11",
+      secure_pin
     };
-
-    all_location(data, DjangoConfig1)
+console.log("data55",data)
+    all_location(data)
       .then(res => {
-        console.log(res);
-        console.log(res.data.all_location);
+        console.log("ll",res);
+        console.log("loc",res.data.all_location);
 
         this.setState({ AllLocations: res.data.all_location, loader: false });
       })
@@ -84,19 +85,19 @@ export default class ViewLocations extends Component {
                   
                 />
                 <div className="authordatatext">
-                  <h4>{loc.Location_name}</h4>
+                  <h4>{loc.location_name}</h4>
                 </div>
               </div>
             </div>
 
             <div className="col-md-3">
               <div className="text-center address">
-                <h4>{loc.Address_1}</h4>
+                <h4>{loc.address1}</h4>
               </div>
             </div>
             <div className="col-md-3">
               <div className="text-center phonenumber">
-                <h4>{loc.Phone_no}</h4>
+                <h4>{loc.phone_no}</h4>
               </div>
             </div>
             <div className="col-md-3">
@@ -108,7 +109,7 @@ export default class ViewLocations extends Component {
                   href={link}
                   onClick={() => {
                     localStorage.setItem("locationId", loc.id.toString());
-                    localStorage.setItem("locationName", loc.Location_name);
+                    localStorage.setItem("locationName", loc.location_name);
                   }}
                 >
                   View listing

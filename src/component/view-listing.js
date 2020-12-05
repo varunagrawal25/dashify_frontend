@@ -29,7 +29,7 @@ import ReactPDF, {
 } from "@react-pdf/renderer";
 import { LinkedIn } from "react-linkedin-login-oauth2";
 import { google_listing_detail } from "./apis/social_media";
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -174,6 +174,7 @@ export default class ViewListing extends Component {
   async componentDidMount() {
     if (this.props.match.params.locationId != "null") {
       const data = {
+        secure_pin,
         location_id: this.props.match.params.locationId
       };
       var googleToken,
@@ -581,43 +582,47 @@ export default class ViewListing extends Component {
         .catch(resp => {
           console.log(resp);
         });
-
-      location_by_id(data, DjangoConfig)
+const data1={secure_pin,countryid:"1"}
+      location_by_id(data)
         .then(resp => {
           this.setState({ state: "Loading....", category: "Loading...." });
-
-          business_states(DjangoConfig).then(resp1 => {
-            resp1.data.status.map((s, i) =>
-              s.id == resp.data.location.State
-                ? this.setState({ state: s.State_name })
+          console.log("ll448",resp)
+          business_states(data1).then(resp1 => {
+            console.log("ll44",resp1)
+            console.log("ll445",resp.data.location_details[0])
+            console.log("ll446",resp1.data.all_states)
+            resp1.data.all_states.map((s, i) =>
+              s.id == resp.data.location_details[0].state
+                ? this.setState({ state: s.name })
                 : ""
             );
           });
 
-          business_categories(DjangoConfig).then(resp1 => {
-            resp1.data.BusinessCategory.map((b, i) =>
-              b.id == resp.data.location.Business_category
-                ? this.setState({ category: b.Category_Name })
+          business_categories(data).then(resp1 => {
+            console.log("ll447",resp1.data.bussiness_category_array)
+            resp1.data.bussiness_category_array.map((b, i) =>
+              b.id == resp.data.location_details[0].bussiness_cate
+                ? this.setState({ category: b.name })
                 : ""
             );
           });
 
           console.log(resp.data);
           this.setState({
-            location: resp.data.location,
-            name: resp.data.location.Location_name,
+            location: resp.data.location_details[0],
+            name: resp.data.location_details[0].location_name,
 
-            address: resp.data.location.Address_1,
+            address: resp.data.location_details[0].address1,
 
-            phone: resp.data.location.Phone_no,
+            phone: resp.data.location_details[0].phone_no,
 
-            about: resp.data.location.About_Business,
+            about: resp.data.location_details[0].about_bussiness,
 
-            city: resp.data.location.City,
-            postalCode: resp.data.location.Zipcode,
-            logo: resp.data.location.Business_Logo,
-            cover: resp.data.location.Business_Cover_Image,
-            otherImage: resp.data.location.Df_location_image,
+            city: resp.data.location_details[0].city,
+            postalCode: resp.data.location_details[0].zipcode,
+            logo: resp.data.location_details[0].bussiness_logo,
+            cover: resp.data.location_details[0].bussiness_cover_image,
+            otherImage: resp.data.location_images,
 
             loader: false
           });
@@ -1151,7 +1156,7 @@ export default class ViewListing extends Component {
     if (data.name) {
       yelpScore++;
     }
-    if (data.location && data.location.address1) {
+    if (data.location && data.location_details[0].address1) {
       yelpScore++;
     }
     if (data.phone) {
@@ -1217,10 +1222,10 @@ export default class ViewListing extends Component {
             <li>
               <span>Address:</span>
               <div className="bing-detail-text">
-                {data.location && data.location.address1 ? (
+                {data.location && data.location_details[0].address1 ? (
                   <div>
-                    {data.location.address1},{data.location.city},
-                    {data.location.country}
+                    {data.location_details[0].address1},{data.location_details[0].city},
+                    {data.location_details[0].country}
                   </div>
                 ) : (
                   "-"
