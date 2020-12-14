@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Flaticon.css";
 import "./App.css";
-import "reactjs-popup/dist/index.css";
+
 import MainApp from "./component/main";
 
 import InstagramLogin from "./component/instagramlogin";
@@ -13,7 +13,7 @@ import Blog from "./component/landingpage/Blog";
 import Career from "./component/landingpage/career";
 import ContactUs from "./component/landingpage/contactus";
 import Support from "./component/landingpage/support";
-import pricing from "./component/landingpage/Pricing";
+import Pricing from "./component/landingpage/pricing";
 import How_we_work from "./component/landingpage/How_we_work";
 import Login from "./component/landingpage/login";
 import Signup from "./component/landingpage/signup";
@@ -29,14 +29,9 @@ import ZomatoLogin from "./component/zomatologin";
 import AvvoLogin from "./component/avvologin";
 import { LinkedInPopUp } from "react-linkedin-login-oauth2";
 import PageNotFound from "./component/page-not-found";
-import PrivateRoute from "./auth/PrivateRoute";
-import Listing_management from './component/landingpage/Listing_management'
-import Our_news from './component/landingpage/Ournews'
-import Our_team from './component/landingpage/Our_team'
-import Scanner from './component/landingpage/Scanner'
+
+// import EmailConfirmation from "./component/landingpage/email-confirmation";
 import PasswordReset from "./component/landingpage/password-reset";
-import Aboutus from './component/landingpage/Aboutus'
-import Contactus from './component/landingpage/contactus'
 
 class App extends Component {
   render() {
@@ -56,17 +51,13 @@ class App extends Component {
             <Route exact path="/career" component={Career} />
             <Route exact path="/contactus" component={ContactUs} />
             <Route exact path="/support" component={Support} />
-            <Route exact path="/pricing" component={pricing} />
+            <Route exact path="/pricing" component={Pricing} />
             <Route exact path="/how-we-work" component={How_we_work} />
-           
-            {/* <Route exact path="/" component={Home} /> */}
-             <Route  path="/about-us" component={Aboutus} />
-             <Route  path="/contact-us" component={Contactus} />
-             <Route  path="/listing-management" component={Listing_management} />
-             <Route  path="/our-news" component={Our_news} />
-             <Route  path="/our-team" component={Our_team} />
-             <Route  path="/scanner" component={Scanner} />
-             <Route  path="/review-management" component={Review_management} />
+            <Route
+              exact
+              path="/review-management"
+              component={Review_management}
+            />
             {/* <Route exact path="/Login" component={Login} /> */}
 
             <Route
@@ -99,7 +90,7 @@ class App extends Component {
 
             <Route exact path="/linkedin" component={LinkedInPopUp} />
 
-            <PrivateRoute exact path="/dashboard" component={MainApp} />
+            <Route exact path="/dashboard" component={MainApp} />
             <Route path="/" component={PageNotFound} />
           </Switch>
         </BrowserRouter>

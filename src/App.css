@@ -11393,8 +11393,8 @@ label img {
   font-size: 14px;
   line-height: 18px;
   color: red;
-  position: relative;
-  left: 117px;
+  /* position: relative;
+  left: 117px; */
 }
 
 .fine {

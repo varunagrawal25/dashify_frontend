@@ -1,5 +1,5 @@
 export const email_regex = data => {
-  const pattern = /[a-zA-Z0-9]+[\.]?([a-zA-Z0-9]+)?[\@][a-z]{3,9}[\.][a-z]{2,5}/g;
+  const pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const result = pattern.test(data);
   //   if (result === false) {
   //     this.setState({
@@ -26,7 +26,7 @@ export const url_regex = data => {
 };
 
 export const phone_regex = data => {
-  const regex = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+  const regex = /^\d{10}$/;
 
   //validate('1234567890')     // true
   //validate(1234567890)       // true
@@ -37,7 +37,7 @@ export const phone_regex = data => {
 };
 
 export const zipcode_regex = data => {
-  const regex = /^\d{5}$|^\d{5}-\d{4}$/;
+  const regex = /^[0-9]{5}(?:-[0-9]{4})?$/;
 
   //   if (result == null) {
   //     this.setState({

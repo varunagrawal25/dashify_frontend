@@ -13,7 +13,7 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Loader from "react-loader-spinner";
 import { get_login_user_info } from "./apis/user";
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -90,19 +90,21 @@ export default class Topbarmenu extends Component {
       headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
     };
     const data = {
-      user_id: localStorage.getItem("UserId")
+      // user_id: localStorage.getItem("UserId"),
+      user_id:"11",
+      secure_pin
     };
-
+console.log("user_id",data.user_id)
     // for getting user details
-    let data3 = { user_id: localStorage.getItem("UserId") };
-    get_login_user_info(data3, DjangoConfig)
+    let data3 = { user_id: localStorage.getItem("UserId"),secure_pin };
+    get_login_user_info(data3)
       .then(res => {
         console.log("user info", res.data);
-        if (res.data && res.data.user_info) {
+        if (res.data && res.data.users_login) {
           this.setState({
-            first_name: res.data.user_info.first_name,
-            last_name: res.data.user_info.last_name,
-            user_image: res.data.user_info.user_image,
+            first_name: res.data.users_login[0].first_name,
+            last_name: res.data.users_login[0].last_name,
+            user_image: res.data.users_login[0].user_image,
             loading_info: false
           });
         } else {
@@ -115,10 +117,10 @@ export default class Topbarmenu extends Component {
       });
 
     //for notifications
-    all_location(data, DjangoConfig1)
+    all_location(data)
       .then(res => {
         console.log(res);
-        console.log(res.data.all_location);
+        console.log("963",res.data.all_location);
 
         this.setState({ AllLocations: res.data.all_location });
       })
@@ -277,9 +279,9 @@ export default class Topbarmenu extends Component {
     // if (this.state.AllLocations) {
     //   this.state.AllLocations.map(loc => {
     //     if (location_id == loc.id.toString()) {
-    //       localStorage.setItem("locationName", loc.Location_name);
+    //       localStorage.setItem("locationName", loc.location_name);
     //     }
-    //     options.push({ name: loc.Location_name, value: loc.id.toString() });
+    //     options.push({ name: loc.location_name, value: loc.id.toString() });
     //   });
     // }
 
@@ -287,9 +289,9 @@ export default class Topbarmenu extends Component {
 
     if (this.state.AllLocations.length != 0) {
       this.state.AllLocations.map(data => {
-        courses = [...courses, data.Location_name];
+        courses = [...courses, data.location_name];
         // if (location_id == data.id.toString()) {
-        //   localStorage.setItem("locationName", data.Location_name);
+        //   localStorage.setItem("locationName", data.location_name);
         // }
       });
     }
@@ -309,7 +311,7 @@ export default class Topbarmenu extends Component {
     if (options.length != 0) {
       options.map((data1, i) => {
         this.state.AllLocations.map((data2, j) => {
-          if (data1 == data2.Location_name) {
+          if (data1 == data2.location_name) {
             filtered_posts = [...filtered_posts, data2];
           }
         });
@@ -563,10 +565,10 @@ export default class Topbarmenu extends Component {
                                       key={`location-${i}`}
                                       onClick={this.change(
                                         f.id.toString(),
-                                        f.Location_name
+                                        f.location_name
                                       )}
                                     >
-                                      {f.Location_name}
+                                      {f.location_name}
                                     </li>
                                   ))
                                 : "No Result"}
