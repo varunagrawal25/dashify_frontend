@@ -31,7 +31,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { MDBCol, MDBRow } from "mdbreact";
 import { profile_analytics_json } from "./json/social_media";
 import swal from 'sweetalert';
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -344,33 +344,35 @@ export default class ProfileAnalytics extends Component {
     this.profile_analytics_function();
 
     const data = {
+secure_pin,
       location_id: this.props.match.params.locationId
     };
-    
-    location_by_id(data, DjangoConfig).then(resp => {
+    const data1={secure_pin,countryid:"1"}
+    location_by_id(data).then(resp => {
 
-      business_states(DjangoConfig).then(resp1 => {
-        resp1.data.status.map((s, i) =>
-          s.id == resp.data.location.State
-            ? this.setState({ state: s.State_name })
+      business_states(data1).then(resp1 => {
+        resp1.data.all_states.map((s, i) =>
+        s.id == resp.data.location_details[0].state
+            ? this.setState({ state: s.name })
             : ""
         );
       });
 
-      business_categories(DjangoConfig).then(resp1 => {
-        resp1.data.BusinessCategory.map((b, i) =>
-          b.id == resp.data.location.Business_category
-            ? this.setState({ category: b.Category_Name })
+      business_categories(data).then(resp1 => {
+        resp1.data.bussiness_category_array.map((b, i) =>
+          b.id == resp.data.location_details[0].bussiness_cate
+            ? this.setState({ category: b.name })
             : ""
         );
       });
 
       this.setState({
-        name: resp.data.location.Location_name,
-        address: resp.data.location.Address_1,
-        phone: resp.data.location.Phone_no,
-        city: resp.data.location.City,
-        postalCode: resp.data.location.Zipcode,
+        name: resp.data.location_details[0].location_name,
+
+        address: resp.data.location_details[0].address1,
+        phone: resp.data.location.phone_no,
+        city: resp.data.location.city,
+        postalCode: resp.data.location.zipcode,
         loader:false
       });
     }).catch(err => {

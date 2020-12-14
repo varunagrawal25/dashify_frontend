@@ -803,7 +803,7 @@ export default class ReviewGenerationStats extends Component {
                       </MDBCol>
                     </MDBRow>
                   ) : (
-                    <h4>Connect some listings to see this chart</h4>
+                    <h4 className='connect_msg1'>Connect some listings to see this chart</h4>
                   )}
               </MDBCol>
               <MDBCol md="8">
@@ -853,7 +853,7 @@ export default class ReviewGenerationStats extends Component {
                           />
                         ) : (
                           <div className="viewallreview traffic-chartbox">
-                            <h4>
+                            <h4 className='connect_msg1'>
                               Facebook and Google listing must be connected
                             </h4>
                           </div>

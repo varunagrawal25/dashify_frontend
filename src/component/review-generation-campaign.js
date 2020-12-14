@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
 
@@ -750,7 +750,15 @@ Apple AppStore
                     ></textarea>
                     <div style={{ color: "red" }}>{sms_content_error}</div>
                   </div>
-                
+                <MDBRow>
+                  <MDBCol md='2' className='offset-md-10'>
+                  <Link to="/locations/:locationId/campaignpart2/:campaign_id">
+                  <MDBBtn className='next_btn'>
+                  Next
+  </MDBBtn>
+  </Link>
+                  </MDBCol>
+                </MDBRow>
                 <div className="btnbox_button mt-30">
                   {loading ? (
                     <Loader

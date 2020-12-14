@@ -27,7 +27,7 @@ import ReactPDF, {
 } from "@react-pdf/renderer";
 import { MDBCol, MDBContainer ,MDBRow} from "mdbreact";
 // import { display } from "html2canvas/dist/types/css/property-descriptors/display";
-
+import { secure_pin } from "../config";
 
 const BorderLinearProgress5 = withStyles((theme) => ({
   root: {
@@ -269,6 +269,7 @@ export default class ReviewTracking extends Component {
     this.setState({ today });
 
     const data = {
+      secure_pin,
       location_id: this.props.match.params.locationId
     };
 
@@ -978,38 +979,57 @@ export default class ReviewTracking extends Component {
     //   data,
     //   DjangoConfig
     // )
-    location_by_id(data, DjangoConfig).then(resp => {
-      // this.setState({ state: "Loading....", category: "Loading...." });
-      // Axios.get(
-      //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/states",
-      //   DjangoConfig
-      // )
-      business_states(DjangoConfig).then(resp1 => {
-        resp1.data.status.map((s, i) =>
-          s.id == resp.data.location.State
-            ? this.setState({ state: s.State_name })
+    const data1={secure_pin,countryid:"1"}
+    location_by_id(data).then(resp => {
+
+      business_states(data1).then(resp1 => {
+        resp1.data.all_states.map((s, i) =>
+        s.id == resp.data.location_details[0].state
+            ? this.setState({ state: s.name })
             : ""
         );
       });
 
-      // Axios.get(
-      //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/business-categoryes",
-      //   DjangoConfig
-      // )
-      business_categories(DjangoConfig).then(resp1 => {
-        resp1.data.BusinessCategory.map((b, i) =>
-          b.id == resp.data.location.Business_category
-            ? this.setState({ category: b.Category_Name })
+      business_categories(data).then(resp1 => {
+        resp1.data.bussiness_category_array.map((b, i) =>
+          b.id == resp.data.location_details[0].bussiness_cate
+            ? this.setState({ category: b.name })
             : ""
         );
       });
+    // location_by_id(data, DjangoConfig).then(resp => {
+    //   // this.setState({ state: "Loading....", category: "Loading...." });
+    //   // Axios.get(
+    //   //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/states",
+    //   //   DjangoConfig
+    //   // )
+    //   business_states(DjangoConfig).then(resp1 => {
+    //     resp1.data.status.map((s, i) =>
+    //       s.id == resp.data.location.State
+    //         ? this.setState({ state: s.State_name })
+    //         : ""
+    //     );
+    //   });
+
+    //   // Axios.get(
+    //   //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/business-categoryes",
+    //   //   DjangoConfig
+    //   // )
+    //   business_categories(data).then(resp1 => {
+    //     resp1.data.BusinessCategory.map((b, i) =>
+    //       b.id == resp.data.location.Business_category
+    //         ? this.setState({ category: b.Category_Name })
+    //         : ""
+    //     );
+    //   });
 
       this.setState({
-        name: resp.data.location.Location_name,
-        address: resp.data.location.Address_1,
-        phone: resp.data.location.Phone_no,
-        city: resp.data.location.City,
-        postalCode: resp.data.location.Zipcode
+        name: resp.data.location_details[0].location_name,
+
+        address: resp.data.location_details[0].address1,
+        phone: resp.data.location_details[0].phone_no,
+        city: resp.data.location_details[0].city,
+        postalCode: resp.data.location_details[0].zipcode
       });
     });
   };

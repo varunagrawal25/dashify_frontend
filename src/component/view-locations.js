@@ -23,7 +23,7 @@ import {
   phone_regex,
   zipcode_regex
 } from "./utils/regularexpressions";
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -221,61 +221,72 @@ export default class LocationManager extends Component {
   loading_location_details = () => {
     var locationId = this.props.match.params.locationId;
     const data = {
+      secure_pin,
       location_id: locationId
     };
-
-    location_by_id(data, DjangoConfig).then(resp => {
-      console.log("location_by_id", resp.data);
+console.log("data255",data)
+    location_by_id(data)
+    .then(resp => {
+      
+      console.log("location_by_id0", resp);
+      console.log("location_by_id1", resp.data);
+      console.log("location_by_id2", resp.data.location_details);
+      console.log("location_by_id3", resp.data.location_details[0].location_name);
       this.setState({
-        location: resp.data.location,
-        name: resp.data.location.Location_name,
-        storeCode: resp.data.location.Store_Code,
+        location: resp.data.location_details[0],
+        name: resp.data.location_details[0].location_name,
+        storeCode: resp.data.location_details[0].stor_code,
         category: "Loading.....",
         category_id: "",
-        address: resp.data.location.Address_1,
-        website: resp.data.location.Website,
-        phone: resp.data.location.Phone_no,
-        hours: resp.data.location.Df_location_poen_hour,
-        about: resp.data.location.About_Business,
-        ownerName: resp.data.location.Business_Owner_Name,
-        addressLine: resp.data.location,
-        city: resp.data.location.City,
-        state: resp.data.location.State,
-        postalCode: resp.data.location.Zipcode,
-        ownerEmail: resp.data.location.Owner_Email,
-        yearOfIncorp: resp.data.location.Year_Of_Incorporation,
-        businessTagline: resp.data.location.Business_Tagline,
-        instagramProfile: resp.data.location.Instagram_Profile,
-        twitterProfile: resp.data.location.Twitter_Profile,
-        facebookProfile: resp.data.location.Facebook_Profile,
-        payment: resp.data.location.Df_location_payments,
-        LocationDetails: resp.data.location,
-        otherImages: resp.data.location.Df_location_image,
+        address: resp.data.location_details[0].address1,
+        website: resp.data.location_details[0].website,
+        phone: resp.data.location_details[0].phone_no,
+        hours: resp.data.open_hours_details,
+        about: resp.data.location_details[0].about_bussiness,
+        ownerName: resp.data.location_details[0].bussiness_owner_name,
+        addressLine: resp.data.location_details,
+        city: resp.data.location_details[0].city,
+        state: resp.data.location_details[0].state,
+        postalCode: resp.data.location_details[0].zipcode,
+        ownerEmail: resp.data.location_details[0].bussiness_owner_email,
+        yearOfIncorp: resp.data.location_details[0].year_of_incorporation,
+        businessTagline: resp.data.location_details[0].bussiness_tagline,
+        instagramProfile: resp.data.location_details[0].instagram_profile,
+        twitterProfile: resp.data.location_details[0].twitter_profile,
+        facebookProfile: resp.data.location_details[0].facebook_profile,
+        payment: resp.data.location_payment_method_detail,
+        LocationDetails: resp.data.location_details[0],
+        otherImages: resp.data.location_images,
         loader: false,
 
         //editing details
-        name_edit: resp.data.location.Location_name,
-        storeCode_edit: resp.data.location.Store_Code,
-        address_edit: resp.data.location.Address_1,
-        website_edit: resp.data.location.Website,
-        phone_edit: resp.data.location.Phone_no,
-        about_edit: resp.data.location.About_Business,
-        ownerName_edit: resp.data.location.Business_Owner_Name,
-        addressLine_edit: resp.data.location,
-        city_edit: resp.data.location.City,
-        state_edit: resp.data.location.State,
-        postalCode_edit: resp.data.location.Zipcode,
-        ownerEmail_edit: resp.data.location.Owner_Email,
-        yearOfIncorp_edit: resp.data.location.Year_Of_Incorporation,
-        businessTagline_edit: resp.data.location.Business_Tagline,
-        instagramProfile_edit: resp.data.location.Instagram_Profile,
-        twitterProfile_edit: resp.data.location.Twitter_Profile,
-        facebookProfile_edit: resp.data.location.Facebook_Profile
-      });
-
-      business_categories(DjangoConfig).then(resp1 => {
-        resp1.data.BusinessCategory.map((b, i) =>
-          b.id == resp.data.location.Business_category
+        name_edit: resp.data.location_details[0].location_name,
+        storeCode_edit: resp.data.location_details[0].stor_code,
+        address_edit: resp.data.location_details[0].address1,
+        website_edit: resp.data.location_details[0].website,
+        phone_edit: resp.data.location_details[0].phone_no,
+        about_edit: resp.data.location_details[0].about_bussiness,
+        ownerName_edit: resp.data.location_details[0].bussiness_owner_name,
+        addressLine_edit: resp.data.location_details,
+        city_edit: resp.data.location_details[0].city,
+        state_edit: resp.data.location_details[0].state,
+        postalCode_edit: resp.data.location_details[0].zipcode,
+        ownerEmail_edit: resp.data.location_details[0].bussiness_owner_email,
+        yearOfIncorp_edit: resp.data.location_details[0].year_of_incorporation,
+        businessTagline_edit: resp.data.location_details[0].bussiness_tagline,
+        instagramProfile_edit: resp.data.location_details[0].instagram_profile,
+        twitterProfile_edit: resp.data.location_details[0].twitter_profile,
+        facebookProfile_edit: resp.data.location_details[0].facebook_profile
+      }).catch(err =>
+        {
+          console.log("err25",err)
+        })
+      console.log("name88",this.state.name)
+console.log("name88",resp.data.location_details[0].location_name)
+const data={secure_pin}
+      business_categories(data).then(resp1 => {
+        resp1.data.bussiness_category_array.map((b, i) =>
+          b.id == resp.data.location_details[0].bussiness_cate
             ? this.setState({ category: b.Category_Name })
             : ""
         );
@@ -330,18 +341,33 @@ export default class LocationManager extends Component {
       twitterProfile_edit
     } = this.state;
     let data = {};
-
+  
     if (name == "details1") {
       data = {
-        Location_id: locationId,
-        Business_Owner_Name: ownerName_edit,
-        Owner_Email: ownerEmail_edit,
-        Business_Tagline: businessTagline_edit,
-        Year_Of_Incorporation: yearOfIncorp_edit,
-        About_Business: about_edit,
-        Facebook_Profile: facebookProfile_edit,
-        Instagram_Profile: instagramProfile_edit,
-        Twitter_Profile: twitterProfile_edit
+        secure_pin,
+        location_id: locationId,
+        // user_id: localStorage.getItem("UserId"),
+        // bussiness_cate:resp.data.location_details[0].bussiness_cate,
+        // location_name:this.state.name,
+        // address2
+        // country
+        // state
+        // city
+        // zipcode
+        // franchiese_locaiton
+        // do_not_publish_my_address
+        bussiness_owner_name: ownerName_edit,
+        bussiness_owner_email: ownerEmail_edit,
+        bussiness_tagline: businessTagline_edit,
+        year_of_incorporation: yearOfIncorp_edit,
+        about_bussiness: about_edit,
+        facebook_profile: facebookProfile_edit,
+        instagram_profile: instagramProfile_edit,
+        twitter_profile: twitterProfile_edit,
+        stor_code: storeCode_edit,
+          address1: address_edit,
+          phone_no: phone_edit,
+          website: website_edit
       };
       this.setState({ businessDetailsLoading: true });
       this.updateDetails(data);
@@ -353,11 +379,12 @@ export default class LocationManager extends Component {
         });
       } else {
         data = {
-          Location_id: locationId,
-          Store_Code: storeCode_edit,
-          Address_1: address_edit,
-          Phone_no: phone_edit,
-          Website: website_edit
+          secure_pin,
+          location_id: locationId,
+          stor_code: storeCode_edit,
+          address1: address_edit,
+          phone_no: phone_edit,
+          website: website_edit
         };
         this.setState({ businessDetailsLoading2: true });
         this.updateDetails(data);
@@ -380,8 +407,8 @@ export default class LocationManager extends Component {
       instagramProfile_edit,
       twitterProfile_edit
     } = this.state;
-
-    edit_location_by_id(data, DjangoConfig)
+console.log("tt25",data)
+    edit_location_by_id(data)
       .then(resp => {
         console.log("update user details", resp);
 
@@ -500,17 +527,19 @@ export default class LocationManager extends Component {
     }
 
     const data = {
-      Location_id: locationId,
-      payment_method: payment
+    secure_pin,
+    user_id: localStorage.getItem("UserId"),
+    location_id: locationId,
+      payment_method_array: payment
     };
     const data2 = {
       Location_id: locationId
     };
-    console.log(data);
+    console.log("datacheck",data);
 
     this.setState({ paymentLoading: true });
 
-    edit_location_payment_by_id(data, DjangoConfig)
+    edit_location_payment_by_id(data)
       .then(resp => {
         console.log("paycheck",resp);
         this.setState({
@@ -533,12 +562,13 @@ export default class LocationManager extends Component {
           p_visa: false
         });
         const data1 = {
+          secure_pin,
           location_id: locationId
         };
-        location_by_id(data1, DjangoConfig)
+        location_by_id(data1)
           .then(resp1 => {
             this.setState({
-              payment: resp1.data.location.Df_location_payments,
+              payment: resp1.data.location_payment_method_detail,
               paymentLoading: false
             });
           })
@@ -961,8 +991,8 @@ export default class LocationManager extends Component {
           0: {
             date: "",
             Day: "Monday",
-            Type: "Regular",
-            Open_status: this.state.monday,
+            Type: "regular",
+            open_status: this.state.monday,
             start_time_1: this.state.mondayStart1,
             end_time_1: this.state.mondayEnd1,
             start_time_2: this.state.mondayStart2,
@@ -971,8 +1001,8 @@ export default class LocationManager extends Component {
           1: {
             date: "",
             Day: "Tuesday",
-            Type: "Regular",
-            Open_status: this.state.tuesday,
+            Type: "regular",
+            open_status: this.state.tuesday,
             start_time_1: this.state.tuesdayStart1,
             end_time_1: this.state.tuesdayEnd1,
             start_time_2: this.state.tuesdayStart2,
@@ -981,8 +1011,8 @@ export default class LocationManager extends Component {
           2: {
             date: "",
             Day: "Wednesday",
-            Type: "Regular",
-            Open_status: this.state.wednesday,
+            Type: "regular",
+            open_status: this.state.wednesday,
             start_time_1: this.state.wednesdayStart1,
             end_time_1: this.state.wednesdayEnd1,
             start_time_2: this.state.wednesdayStart2,
@@ -991,8 +1021,8 @@ export default class LocationManager extends Component {
           3: {
             date: "",
             Day: "Thursday",
-            Type: "Regular",
-            Open_status: this.state.thursday,
+            Type: "regular",
+            open_status: this.state.thursday,
             start_time_1: this.state.thursdayStart1,
             end_time_1: this.state.thursdayEnd1,
             start_time_2: this.state.thursdayStart2,
@@ -1001,8 +1031,8 @@ export default class LocationManager extends Component {
           4: {
             date: "",
             Day: "Friday",
-            Type: "Regular",
-            Open_status: this.state.friday,
+            Type: "regular",
+            open_status: this.state.friday,
             start_time_1: this.state.fridayStart1,
             end_time_1: this.state.fridayEnd1,
             start_time_2: this.state.fridayStart2,
@@ -1011,8 +1041,8 @@ export default class LocationManager extends Component {
           5: {
             date: "",
             Day: "Saturday",
-            Type: "Regular",
-            Open_status: this.state.saturday,
+            Type: "regular",
+            open_status: this.state.saturday,
             start_time_1: this.state.saturdayStart1,
             end_time_1: this.state.saturdayEnd1,
             start_time_2: this.state.saturdayStart2,
@@ -1021,8 +1051,8 @@ export default class LocationManager extends Component {
           6: {
             date: "",
             Day: "Sunday",
-            Type: "Regular",
-            Open_status: this.state.sunday,
+            Type: "regular",
+            open_status: this.state.sunday,
             start_time_1: this.state.sundayStart1,
             end_time_1: this.state.sundayEnd1,
             start_time_2: this.state.sundayStart2,
@@ -1035,16 +1065,17 @@ export default class LocationManager extends Component {
         .then(resp => {
           console.log(resp);
           this.setState({ hourEdit: false });
-          // window.location.reload(false);
+          // window.location_details[0].reload(false);
 
           const data1 = {
-            location_id: locationId
+            location_id: locationId,
+            secure_pin
           };
 
-          location_by_id(data1, DjangoConfig)
+          location_by_id(data1)
             .then(resp1 => {
               this.setState({
-                hours: resp1.data.location.Df_location_poen_hour,
+                hours: resp1.data.open_hours_details,
                 operatingHoursLoading: false
               });
             })
@@ -1139,7 +1170,7 @@ export default class LocationManager extends Component {
               date: this.state.monday_day_s,
               Day: "Special",
               Type: `Special-${i2}`,
-              Open_status: this.state.monday_s,
+              open_status: this.state.monday_s,
               start_time_1: this.state.mondayStart1_s,
               end_time_1: this.state.mondayEnd1_s,
               start_time_2: this.state.mondayStart2_s,
@@ -1172,13 +1203,13 @@ export default class LocationManager extends Component {
         this.setState({ add_special_hour: false });
 
         const data1 = {
-          location_id: locationId
+          location_id: locationId,secure_pin
         };
 
-        location_by_id(data1, DjangoConfig)
+        location_by_id(data1)
           .then(resp1 => {
             this.setState({
-              hours: resp1.data.location.Df_location_poen_hour,
+              hours: resp1.data.open_hours_details,
               specialTimeLoading: false
             });
           })
@@ -1236,10 +1267,11 @@ export default class LocationManager extends Component {
       update_images_by_location_id(data, DjangoConfig)
         .then(resp => {
           const data1 = {
-            location_id: locationId
+            location_id: locationId,
+            secure_pin
           };
 
-          location_by_id(data1, DjangoConfig)
+          location_by_id(data1)
             .then(resp1 => {
               this.setState({
                 LocationDetails: resp1.data.location,
@@ -1281,12 +1313,13 @@ export default class LocationManager extends Component {
       add_other_images_by_location_id(data, DjangoConfig)
         .then(resp => {
           const data1 = {
-            location_id: locationId
+            location_id: locationId,
+            secure_pin
           };
-          location_by_id(data1, DjangoConfig)
+          location_by_id(data1)
             .then(resp1 => {
               this.setState({
-                otherImages: resp1.data.location.Df_location_image,
+                otherImages: resp1.data.location_images,
                 otherImagesLoading: false
               });
             })
@@ -1314,12 +1347,13 @@ export default class LocationManager extends Component {
     delete_other_images_by_location_id(data, DjangoConfig)
       .then(res => {
         const data1 = {
-          location_id: locationId
+          location_id: locationId,
+          secure_pin
         };
-        location_by_id(data1, DjangoConfig)
+        location_by_id(data1)
           .then(resp1 => {
             this.setState({
-              otherImages: resp1.data.location.Df_location_image,
+              otherImages: resp1.data.location_images,
               otherImagesLoading: false
             });
           })
@@ -1338,11 +1372,12 @@ export default class LocationManager extends Component {
 
   _loadBusinessCategories = () => {
     this.setState({ loadBusinessCategories: true });
-
-    business_categories(DjangoConfig)
+const data={secure_pin}
+    business_categories(data)
       .then(res => {
+        console.log("bc25",res)
         this.setState({
-          businessCategories: res.data.BusinessCategory
+          businessCategories: res.data.bussiness_category_array
         });
       })
       .catch(res => {
@@ -1351,7 +1386,7 @@ export default class LocationManager extends Component {
   };
 
   render() {
-    console.log(this.state);
+    console.log("kk",this.state.hours);
 
     let {
       mondayStart1_error,
@@ -1405,15 +1440,15 @@ export default class LocationManager extends Component {
 
     localStorage.setItem("locationId", this.props.match.params.locationId);
 
-    var RegularHours1;
-    RegularHours1 = (
+    var regularHours1;
+    regularHours1 = (
       <div className="vl_gap3">
         {this.state.hours.map(h =>
-          h.Type == "Regular" ? (
+          h.type == "regular" ? (
             <div className="daybox " key={h.id}>
               <div className="daytype">{h.Day}</div>
 
-              {h.Open_status == "SPLIT" ? (
+              {h.open_status == "SPLIT" ? (
                 <div>
                   {h.start_time_1} - {h.end_time_1}
                   <br />
@@ -1423,7 +1458,7 @@ export default class LocationManager extends Component {
                 ""
               )}
 
-              {h.Open_status == "OPEN" ? (
+              {h.open_status == "OPEN" ? (
                 <div>
                   From {h.start_time_1} to {h.end_time_1}
                 </div>
@@ -1431,9 +1466,9 @@ export default class LocationManager extends Component {
                 ""
               )}
 
-              {h.Open_status == "OPEN 24x7" ? <div>OPEN 24x7</div> : ""}
+              {h.open_status == "OPEN 24x7" ? <div>OPEN 24x7</div> : ""}
 
-              {h.Open_status == "CLOSED" ? <div>CLOSED</div> : ""}
+              {h.open_status == "CLOSED" ? <div>CLOSED</div> : ""}
             </div>
           ) : (
             ""
@@ -1442,8 +1477,8 @@ export default class LocationManager extends Component {
       </div>
     );
 
-    var RegularHours2;
-    RegularHours2 = (
+    var regularHours2;
+    regularHours2 = (
       <div className="vl_gap4">
         {this.state.hours.map(h =>
           h.Day == "Special" ? (
@@ -1456,7 +1491,7 @@ export default class LocationManager extends Component {
                   .join("-")}
               </div>
 
-              {h.Open_status == "SPLIT" ? (
+              {h.open_status == "SPLIT" ? (
                 <div>
                   {h.start_time_1} - {h.end_time_1},{h.start_time_2} -{" "}
                   {h.end_time_2}
@@ -1465,7 +1500,7 @@ export default class LocationManager extends Component {
                 ""
               )}
 
-              {h.Open_status == "OPEN" ? (
+              {h.open_status == "OPEN" ? (
                 <div>
                   From {h.start_time_1} to {h.end_time_1}
                 </div>
@@ -1473,9 +1508,9 @@ export default class LocationManager extends Component {
                 ""
               )}
 
-              {h.Open_status == "OPEN 24x7" ? <div>OPEN 24x7</div> : ""}
+              {h.open_status == "OPEN 24x7" ? <div>OPEN 24x7</div> : ""}
 
-              {h.Open_status == "CLOSED" ? <div>CLOSED</div> : ""}
+              {h.open_status == "CLOSED" ? <div>CLOSED</div> : ""}
             </div>
           ) : (
             ""
@@ -1490,7 +1525,7 @@ export default class LocationManager extends Component {
       // <MDBCol md='2'>
       //   <div className='payment_box'>
       <MDBCol md="2" key={p.id}>
-        {p.Payment_Method == "Visa" ? (
+        {p.payment_name == "Visa" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-visa.png")} alt="Visa" />
@@ -1499,7 +1534,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Maestro" ? (
+        {p.payment_name == "Maestro" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-maestro.png")} alt="Maestro" />
@@ -1508,7 +1543,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Amex" ? (
+        {p.payment_name == "Amex" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-amex.png")} alt="Amex" />
@@ -1517,7 +1552,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Cash" ? (
+        {p.payment_name == "Cash" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-cash.png")} alt="Cash" />
@@ -1526,7 +1561,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Check" ? (
+        {p.payment_name == "Check" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-check.png")} alt="Check" />
@@ -1535,7 +1570,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Crypto" ? (
+        {p.payment_name == "Crypto" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-crypto.png")} alt="Crypto" />
@@ -1544,7 +1579,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Diners" ? (
+        {p.payment_name == "Diners" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-diners.png")} alt="Diners" />
@@ -1553,7 +1588,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Discover" ? (
+        {p.payment_name == "Discover" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-discover.png")} alt="Discover" />
@@ -1562,7 +1597,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Apple" ? (
+        {p.payment_name == "Apple" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-apple.png")} alt="Apple" />
@@ -1571,7 +1606,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Samsung" ? (
+        {p.payment_name == "Samsung" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-samsung.png")} alt="Samsung" />
@@ -1580,7 +1615,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Paypal" ? (
+        {p.payment_name == "Paypal" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-paypal.png")} alt="Paypal" />
@@ -1589,7 +1624,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Android" ? (
+        {p.payment_name == "Android" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-android.png")} alt="Android" />
@@ -1598,7 +1633,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Invoices" ? (
+        {p.payment_name == "Invoices" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-invoices.png")} alt="Invoices" />
@@ -1607,7 +1642,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Traveler" ? (
+        {p.payment_name == "Traveler" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img
@@ -1619,7 +1654,7 @@ export default class LocationManager extends Component {
         ) : (
           ""
         )}
-        {p.Payment_Method == "Financing" ? (
+        {p.payment_name == "Financing" ? (
           <div className='payment_box'>
             <label className='payment_label' >
           <img src={require("../images/p-financing.png")} alt="Financing" />
@@ -3294,7 +3329,7 @@ export default class LocationManager extends Component {
                             </MDBCol>
                           </MDBRow>
 
-                          {RegularHours1}
+                          {regularHours1}
 
                           {this.state.specialTimeLoading ? (
                             <div style={{ textAlign: "center" }}>
@@ -3461,7 +3496,7 @@ export default class LocationManager extends Component {
                                 </a>
                               </div>
 
-                              {RegularHours2}
+                              {regularHours2}
                             </div>
                           )}
                         </div>
@@ -3875,7 +3910,7 @@ export default class LocationManager extends Component {
                                 <img
                                   src={
                                     "https://dashify.biz" +
-                                    this.state.otherImages[i].Image
+                                    this.state.otherImages[i].image
                                   }
                                   alt=""
                                   style={{
@@ -3956,11 +3991,10 @@ export default class LocationManager extends Component {
             </div>
           )
         ) : (
-          <div className="analytics-whice">
-            <div className="box-space2">
-              <h4>Connect Location first</h4>
+          
+            <div >
+              <h4 className='connect_msg'>Connect Location first</h4>
             </div>
-          </div>
         )}
       </div>
     );

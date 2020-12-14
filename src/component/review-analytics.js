@@ -1214,11 +1214,9 @@ opacity: '0.6',
               </div>
             ) : (
               <div className=" mt-30">
-                <div className="analytics-whice">
-                  <div className="box-space2">
-                    <h4>Connect some listings to see Review Analytics</h4>
-                  </div>
-                </div>
+                
+                    <h4 className='connect_msg'>Connect some listings to see Review Analytics</h4>
+                
               </div>
             )}
           </div>

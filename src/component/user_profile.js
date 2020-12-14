@@ -19,7 +19,7 @@ import edit from "./assets/edit.png";
 import Map from "./Map";
 import Cropper from "./utils/cropper";
 import { url_regex, phone_regex } from "./utils/regularexpressions";
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: {
     Authorization: "Token " + localStorage.getItem("UserToken")
@@ -28,7 +28,7 @@ const DjangoConfig = {
 
 export default class User_profile extends Component {
   state = {
-    user_info: {},
+    users_login: {},
     edit_details: false,
     first_name: "",
     last_name: "",
@@ -58,23 +58,26 @@ export default class User_profile extends Component {
   };
 
   componentDidMount = () => {
-    let data = { user_id: localStorage.getItem("UserId") };
-    get_login_user_info(data, DjangoConfig)
+    let data = { user_id: localStorage.getItem("UserId") ,secure_pin};
+    get_login_user_info(data)
       .then(res => {
-        console.log("user info", res.data);
-        if (res.data && res.data.user_info) {
+        console.log("user info0", res.data);
+        console.log("user info", res.data.users_login);
+        if (res.data &&  res.data.users_login) {
           this.setState({
-            user_info: res.data.user_info,
-            first_name: res.data.user_info.first_name,
-            last_name: res.data.user_info.last_name,
-            Company_name: res.data.user_info.Company_name,
-            address: res.data.user_info.address,
-            Phone: res.data.user_info.Phone,
-            website: res.data.user_info.website,
-            user_image: res.data.user_info.user_image,
+            users_login: res.data.users_login,
+            first_name: res.data.users_login[0].first_name,
+            last_name: res.data.users_login[0].last_name,
+            Company_name: res.data.users_login[0].company,
+            address: res.data.users_login[0].address,
+            Phone: res.data.users_login[0].phone_no,
+            website: res.data.users_login[0].website,
+            user_image: res.data.users_login[0].user_image,
             loading_info: false,
             loading_image: false
+            
           });
+          console.log("statr value",this.state)
         } else {
           this.setState({ loading_info: false, loading_image: false });
         }
@@ -95,7 +98,7 @@ export default class User_profile extends Component {
     event.preventDefault();
 
     var {
-      user_info,
+      users_login,
       first_name,
       last_name,
       Company_name,
@@ -105,7 +108,7 @@ export default class User_profile extends Component {
     } = this.state;
 
     const data = {
-      username: user_info.user ? user_info.user.username : "",
+      username: users_login[0].user ? users_login[0].user.username : "",
       first_name,
       last_name,
       Company_name,
@@ -120,14 +123,14 @@ export default class User_profile extends Component {
       this.setState({ loading_info: true });
       update_user_info(data, DjangoConfig)
         .then(response => {
-          let data2 = { user_id: localStorage.getItem("UserId") };
+          let data2 = { user_id: localStorage.getItem("UserId") ,secure_pin};
 
-          get_login_user_info(data2, DjangoConfig)
+          get_login_user_info(data2)
             .then(res => {
               console.log("user info", res.data);
-              if (res.data && res.data.user_info) {
+              if (res.data && res.data.users_login) {
                 this.setState({
-                  user_info: res.data.user_info,
+                  users_login: res.data.users_login,
                   edit_details: false,
                   loading_info: false
                 });
@@ -194,25 +197,25 @@ export default class User_profile extends Component {
   };
 
   uploadUserImage = image => {
-    let { user_info } = this.state;
+    let { users_login } = this.state;
 
     console.log("image", image);
 
     this.setState({ loading_image: true });
     const data = {
-      username: user_info.user ? user_info.user.username : "",
+      username: users_login[0].user ? users_login[0].user.username : "",
       user_image: image
     };
 
     update_user_image(data, DjangoConfig)
       .then(response => {
-        let data2 = { user_id: localStorage.getItem("UserId") };
-        get_login_user_info(data2, DjangoConfig)
+        let data2 = { user_id: localStorage.getItem("UserId") ,secure_pin};
+        get_login_user_info(data2)
           .then(res => {
-            if (res.data && res.data.user_info.user_image) {
-              console.log("getting image", res.data.user_info.user_image);
+            if (res.data && res.data.users_login[0].user_image) {
+              console.log("getting image", res.data.users_login[0].user_image);
               this.setState({
-                user_image: res.data.user_info.user_image,
+                user_image: res.data.users_login[0].user_image,
                 loading_image: false,
                 show_crop_function: false
               });
@@ -244,7 +247,7 @@ export default class User_profile extends Component {
 
   render() {
     const {
-      user_info,
+      users_login,
       edit_details,
       first_name,
       last_name,
@@ -319,7 +322,10 @@ export default class User_profile extends Component {
                   />
                 </div>
               ) : edit_details ? (
+                
                 <div>
+               <MDBRow>
+                  <MDBCol md='6'>
                   <div className="user1">
                     {" "}
                     <input
@@ -328,134 +334,185 @@ export default class User_profile extends Component {
                       value={first_name}
                       onChange={this.changeHandler}
                       placeholder="First name"
-                      className="user_edit_input"
+                      className="user_edit_input_name"
                     />
+                    <div className="error" class='err_msg_user'>
+                      {first_name_error}
+                    </div>
+                    </div>
+                    
+                  </MDBCol>
+                  <MDBCol md='6'>
+                  <div className="user1">
                     <input
                       type="text"
                       name="last_name"
                       value={last_name}
                       onChange={this.changeHandler}
                       placeholder="Last name"
-                      className="user_edit_input"
+                      className="user_edit_input_name"
                     />
-                    <div className="error" class='err_msg'>
-                      {first_name_error}
-                    </div>
                   </div>
-                  <MDBRow>
-                    <MDBCol md="4">
-                      <div className="user2">Company name</div>
-                      <div className="user2">Phone</div>
-                      <div className="user2">Website</div>
-                      <div className="user2">Address</div>
-                    </MDBCol>
-
-                    <MDBCol md="8">
-                      <form
+                  </MDBCol>
+                </MDBRow>
+                 
+                  <form
                         className="needs-validation"
                         onSubmit={this.submitUserDetails}
                         noValidate
                       >
-                        <div className="user3">
-                          <input
-                            type="text"
-                            name="Company_name"
-                            value={Company_name}
-                            onChange={this.changeHandler}
-                            className="user_edit_input"
-                            placeholder="Edit company name"
-                          />
-                          <div className="error" class='err_msg'>
-                            {Company_name_error}
-                          </div>
-                        </div>
-                       
-                        <div className="user3">
-                          <input
-                            type="text"
-                            name="Phone"
-                            value={Phone}
-                            onChange={this.changeHandler}
-                            className="user_edit_input"
-                            placeholder="Edit phone no."
-                          />
-                          <div className="error" class='err_msg'>
-                            {Phone_error}
-                          </div>
-                        </div>
-                        <div className="user3">
-                          <input
-                            type="text"
-                            name="website"
-                            value={website}
-                            onChange={this.changeHandler}
-                            className="user_edit_input"
-                            placeholder="Edit website"
-                          />
-                          <div className="error" class='err_msg'>
-                            {website_error}
-                          </div>
-                        </div>
+                  <MDBRow className='user_rowspace'>
+                    <MDBCol md="4">
+                      <div className="user2">Company name</div>
+                      </MDBCol>
+                      <MDBCol md="8">
+                    
+                    <div className="user3">
+                      <input
+                        type="text"
+                        name="Company_name"
+                        value={Company_name}
+                        onChange={this.changeHandler}
+                        className="user_edit_input"
+                        placeholder="Edit company name"
+                      />
+                      
+                    </div>
 
-                        <div className="user3">
-                          <input
-                            type="text"
-                            name="address"
-                            value={address}
-                            onChange={this.changeHandler}
-                            className="user_edit_input"
-                            placeholder="Edit address"
-                          />
-                          <div className="error" class='err_msg'>
-                            {address_error}
-                          </div>
-                        </div>
-                        <button type="submit" className="user_btn">
-                          Submit
-                        </button>
-                        <button
-                          className="user_btn"
-                          onClick={() => this.setState({ edit_details: false })}
-                        >
-                          {" "}
-                          Cancel
-                        </button>
-                      </form>
+                    <div className="error" class='err_msg_user'>
+                        {Company_name_error}
+                      </div>
+                </MDBCol>
+                      </MDBRow>
+                      <MDBRow className='user_rowspace'>
+                      <MDBCol md="4">
+                      <div className="user2">Phone</div>
+                      </MDBCol>
+                      <MDBCol md="8">
+                   
+                    <div className="user3">
+                      <input
+                        type="text"
+                        name="Phone"
+                        value={Phone}
+                        onChange={this.changeHandler}
+                        className="user_edit_input"
+                        placeholder="Edit phone no."
+                      />
+                      
+                    </div>
+                    <div className="error" class='err_msg_user'>
+                        {Phone_error}
+                      </div>
+                </MDBCol>
+                      </MDBRow>
+                      <MDBRow className='user_rowspace'>
+                      <MDBCol md="4">
+                      <div className="user2">Website</div>
+                      </MDBCol>
+                      <MDBCol md="8">
+                    <div className="user3">
+                      <input
+                        type="text"
+                        name="website"
+                        value={website}
+                        onChange={this.changeHandler}
+                        className="user_edit_input"
+                        placeholder="Edit website"
+                      />
+                     
+                    </div>
+                    <div className="error" class='err_msg_user'>
+                        {website_error}
+                      </div>
+                </MDBCol>
+                      </MDBRow>
+                      <MDBRow className='user_rowspace'>
+                      <MDBCol md="4">
+                      <div className="user2">Address</div>
                     </MDBCol>
+                    <MDBCol md="8">
+                    <div className="user3">
+                      <input
+                        type="text"
+                        name="address"
+                        value={address}
+                        onChange={this.changeHandler}
+                        className="user_edit_input"
+                        placeholder="Edit address"
+                      />
+                      
+                    </div>
+                    <div className="error" class='err_msg_user'>
+                        {address_error}
+                      </div>
+                  
+                </MDBCol>
+                   
                   </MDBRow>
+                  <div style={{marginLeft:'54%'}}>
+                  <button type="submit" className="user_btn">
+                      Submit
+                    </button>
+                    <button
+                      className="user_btn"
+                      onClick={() => this.setState({ edit_details: false })}
+                     
+                    >
+                      {" "}
+                      Cancel
+                    </button>
+                    </div>
+                  </form>
                 </div>
               ) : (
                 <div>
                   <div className="user1">
-                    {user_info.first_name} {user_info.last_name}
+                    {first_name} {last_name}
                   </div>
                   <MDBRow>
-                    <MDBCol md="4">
+                    <MDBCol md="4" >
                       <div className="user2">Company name</div>
+                    </MDBCol>
+                    <MDBCol md="8">
+                      {Company_name ? (
+                        <div className="user3_new">{Company_name}</div>
+                      ) : (
+                        <div className="user_blank"></div>
+                      )}    
+                    </MDBCol>
+                    </MDBRow>
+                    <MDBRow>                   
+                     <MDBCol md="4">
                       <div className="user2">Phone</div>
+                    </MDBCol>
+                    <MDBCol md="8">
+                      {Phone ? (
+                        <div className="user3_new">{Phone}</div>
+                      ) : (
+                        <div className="user_blank"></div>
+                      )}      
+                    </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                    <MDBCol md="4">
                       <div className="user2">Website</div>
+                    </MDBCol>
+                    <MDBCol md="8">
+                      {website ? (
+                        <div className="user3_new">{website}</div>
+                      ) : (
+                        <div className="user_blank"></div>
+                      )}      
+                    </MDBCol>
+                    </MDBRow>
+                    <MDBRow>
+                    <MDBCol md="4">
                       <div className="user2">Address</div>
                     </MDBCol>
                     <MDBCol md="8">
-                      {user_info.Company_name ? (
-                        <div className="user3">{user_info.Company_name}</div>
-                      ) : (
-                        <div className="user_blank"></div>
-                      )}
-
-                      {user_info.Phone ? (
-                        <div className="user3">{user_info.Phone}</div>
-                      ) : (
-                        <div className="user_blank"></div>
-                      )}
-                      {user_info.website ? (
-                        <div className="user3">{user_info.website}</div>
-                      ) : (
-                        <div className="user_blank"></div>
-                      )}
-
-                      {user_info.address ? (
-                        <div className="user3">{user_info.address}</div>
+                      {address ? (
+                        <div className="user3_new">{address}</div>
                       ) : (
                         <div className="user_blank"></div>
                       )}      

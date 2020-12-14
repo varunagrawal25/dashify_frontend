@@ -5,7 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import { get_link_of_forget_password } from "../apis/user";
 import Loader from "react-loader-spinner";
-
+import { secure_pin } from "../../config";
 class Login extends React.Component {
   state = {
     Email: "",
@@ -17,7 +17,8 @@ class Login extends React.Component {
     event.preventDefault();
     // event.target.className += ' was-validated';
     const data = {
-      email_id: this.state.Email
+      email_id: this.state.Email,
+      secure_pin
     };
     if (this.state.Email) {
       this.setState({ loading: true });
@@ -25,9 +26,10 @@ class Login extends React.Component {
       //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/account/get-link-of-forget-password",
       //   data
       // )
+      console.log("112233",data)
       get_link_of_forget_password(data)
         .then(res => {
-          console.log(res);
+          console.log("332211",res);
           this.setState({ error: "", loading: false });
           alert("Reset Password link sent to your Mail");
           //   alert(res.data.messgae)
@@ -35,7 +37,7 @@ class Login extends React.Component {
         .catch(res => {
           console.log("error in forgot", res);
           // this.setState({ error: "* Not registered email" });
-          alert("something went wront");
+          alert("something went wrong");
           this.setState({ loading: false });
         });
     } else {

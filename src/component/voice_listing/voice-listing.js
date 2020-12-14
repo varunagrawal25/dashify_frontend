@@ -34,7 +34,7 @@ import attachment from "../assets/attachment.png";
 
 import NewFaq from "./newFaq";
 import UpdateFaq from "./updateFaq";
-
+import { secure_pin } from "../../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -172,44 +172,45 @@ export default class VoiceListing extends Component {
 
   componentDidMount() {
     const data = {
+      secure_pin,
       location_id: this.props.match.params.locationId
     };
-
-    location_by_id(data, DjangoConfig).then(resp => {
+    const data1={secure_pin,countryid:"1"}
+    location_by_id(data).then(resp => {
       console.log("hi");
       this.setState({ state: "Loading....", category: "Loading...." });
-      business_states(DjangoConfig).then(resp1 => {
-        resp1.data.status.map((s, i) =>
-          s.id == resp.data.location.State
-            ? this.setState({ state: s.State_name })
+      business_states(data1).then(resp1 => {
+        resp1.data.all_states.map((s, i) =>
+        s.id == resp.data.location_details[0].state
+            ? this.setState({ state: s.name })
             : ""
         );
       });
 
-      business_categories(DjangoConfig).then(resp1 => {
-        resp1.data.BusinessCategory.map((b, i) =>
-          b.id == resp.data.location.Business_category
-            ? this.setState({ category: b.Category_Name })
+      business_categories(data).then(resp1 => {
+        resp1.data.bussiness_category_array.map((b, i) =>
+          b.id == resp.data.location_details[0].bussiness_cate
+            ? this.setState({ category: b.name })
             : ""
         );
       });
 
-      console.log(resp.data);
+      console.log("bbb",resp.data);
       this.setState({
-        location: resp.data.location,
-        name: resp.data.location.Location_name,
+        location: resp.data.location_details[0],
+        name: resp.data.location_details[0].location_name,
 
-        address: resp.data.location.Address_1,
+        address: resp.data.location_details[0].address1,
 
-        phone: resp.data.location.Phone_no,
+        phone: resp.data.location_details[0].phone_no,
 
-        about: resp.data.location.About_Business,
+        about: resp.data.location_details[0].about_bussiness,
 
-        city: resp.data.location.City,
-        postalCode: resp.data.location.Zipcode,
-        logo: resp.data.location.Business_Logo,
-        cover: resp.data.location.Business_Cover_Image,
-        otherImage: resp.data.location.Df_location_image,
+        city: resp.data.location_details[0].city,
+        postalCode: resp.data.location_details[0].zipcode,
+        logo: resp.data.location_details[0].bussiness_logo,
+        cover: resp.data.location_details[0].bussiness_cover_image,
+        otherImage: resp.data.location_images,
 
         loader: false
       });
@@ -879,10 +880,8 @@ export default class VoiceListing extends Component {
             <div className="setting-10">
               <h3>Voice Listing</h3>
             </div>
-            <div className="analytics-whice">
-              <div className="box-space2">
-                <h4>Connect Location first</h4>
-              </div>
+            <div >
+              <h4 className='connect_msg'>Connect Location first</h4>
             </div>
           </MDBContainer>
         )}

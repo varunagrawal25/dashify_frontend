@@ -16,7 +16,7 @@ import {
   phone_regex,
   zipcode_regex
 } from "./utils/regularexpressions";
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -28,7 +28,7 @@ export default class AddLocation extends Component {
       storeCode: "",
       category: "",
       additionalCategories: "",
-
+      country_selected_id:"",
       address1: "",
       address2: "",
       city: "",
@@ -180,68 +180,52 @@ export default class AddLocation extends Component {
 
     await this.Other_images();
 
-    var payment = {},
-      i = 0;
+    var payment = []
 
     if (p_amex) {
-      payment["" + i] = "Amex";
-      i++;
+      payment.push({payment_name: "Amex"})
     }
     if (p_android) {
-      payment["" + i] = "Android";
-      i++;
+      payment.push({payment_name: "Android"})
     }
     if (p_apple) {
-      payment["" + i] = "Apple";
-      i++;
+      payment.push({payment_name: "Apple"})
     }
     if (p_cash) {
-      payment["" + i] = "Cash";
-      i++;
+      payment.push({payment_name: "Cash"})
     }
     if (p_check) {
-      payment["" + i] = "Check";
-      i++;
+      payment.push({payment_name: "Check"})
     }
     if (p_crypto) {
-      payment["" + i] = "Crypto";
-      i++;
+      payment.push({payment_name: "Crypto"})
     }
     if (p_diners) {
-      payment["" + i] = "Diners";
-      i++;
+      payment.push({payment_name: "Diners"})
     }
     if (p_discover) {
-      payment["" + i] = "Discover";
-      i++;
+      payment.push({payment_name: "Discover"})
     }
     if (p_financing) {
-      payment["" + i] = "Financing";
-      i++;
+      payment.push({payment_name: "Financing"})
     }
     if (p_invoices) {
-      payment["" + i] = "Invoices";
-      i++;
+      payment.push({payment_name: "Invoices"})
     }
     if (p_maestro) {
-      payment["" + i] = "Maestro";
-      i++;
+      payment.push({payment_name: "Maestro"})
     }
     if (p_paypal) {
-      payment["" + i] = "Paypal";
-      i++;
+      payment.push({payment_name: "Paypal"})
     }
     if (p_samsung) {
-      payment["" + i] = "Samsung";
-      i++;
+      payment.push({payment_name: "Samsung"})
     }
     if (p_traveler) {
-      payment["" + i] = "Traveler";
-      i++;
+      payment.push({payment_name: "Traveler"})
     }
     if (p_visa) {
-      payment["" + i] = "Visa";
-      i++;
+      payment.push({payment_name: "Visa"})
     }
     var franchise, donot;
     // if (this.state.FranchiseLocation) {
@@ -255,109 +239,46 @@ export default class AddLocation extends Component {
     //   donot = "false";
     // }
 
-    const data = {
-      user_id: localStorage.getItem("UserId"),
-      Store_Code: this.state.storeCode,
-      Location_name: this.state.locationName,
-      Business_category: this.state.category,
-      Additional_catugory: this.state.additionalCategories,
-      Address_1: this.state.address1,
-      Address_2: this.state.address2,
-      Country: this.state.country,
-      State: this.state.state,
-      City: this.state.city,
-      Zipcode: this.state.zipCode,
-      Phone_no: this.state.phone,
-      Website: this.state.website,
-      Franchise_Location: this.state.Franchise_Location,
-      Do_not_publish_my_address: this.state.Do_not_publish_my_address,
-      Business_Owner_Name: this.state.ownerName,
-      Owner_Email: this.state.ownerEmail,
-      Business_Tagline: this.state.businessTagline,
-      Year_Of_Incorporation: this.state.yearOfIncorp,
-      About_Business: this.state.about,
-      Facebook_Profile: this.state.facebookProfile,
-      Instagram_Profile: this.state.instagramProfile,
-      Twitter_Profile: this.state.twitterProfile,
-      payment_method: payment,
-      Business_Logo: this.state.BusinessLogo,
-      Business_Cover_Image: this.state.BusinessCoverImage,
-      other_image: this.state.otherImage,
-      open_houre: {
-        0: {
-          Day: "Monday",
-          Type: "Regular",
-          Open_status: this.state.monday,
-          start_time_1: this.state.mondayStart1,
-          end_time_1: this.state.mondayEnd1,
-          start_time_2: this.state.mondayStart2,
-          end_time_2: this.state.mondayEnd2
-        },
-        1: {
-          Day: "Tuesday",
-          Type: "Regular",
-          Open_status: this.state.tuesday,
-          start_time_1: this.state.tuesdayStart1,
-          end_time_1: this.state.tuesdayEnd1,
-          start_time_2: this.state.tuesdayStart2,
-          end_time_2: this.state.tuesdayEnd2
-        },
-        2: {
-          Day: "Wednesday",
-          Type: "Regular",
-          Open_status: this.state.wednesday,
-          start_time_1: this.state.wednesdayStart1,
-          end_time_1: this.state.wednesdayEnd1,
-          start_time_2: this.state.wednesdayStart2,
-          end_time_2: this.state.wednesdayEnd2
-        },
-        3: {
-          Day: "Thursday",
-          Type: "Regular",
-          Open_status: this.state.thursday,
-          start_time_1: this.state.thursdayStart1,
-          end_time_1: this.state.thursdayEnd1,
-          start_time_2: this.state.thursdayStart2,
-          end_time_2: this.state.thursdayEnd2
-        },
-        4: {
-          Day: "Friday",
-          Type: "Regular",
-          Open_status: this.state.friday,
-          start_time_1: this.state.fridayStart1,
-          end_time_1: this.state.fridayEnd1,
-          start_time_2: this.state.fridayStart2,
-          end_time_2: this.state.fridayEnd2
-        },
-        5: {
-          Day: "Saturday",
-          Type: "Regular",
-          Open_status: this.state.saturday,
-          start_time_1: this.state.saturdayStart1,
-          end_time_1: this.state.saturdayEnd1,
-          start_time_2: this.state.saturdayStart2,
-          end_time_2: this.state.saturdayEnd2
-        },
-        6: {
-          Day: "Sunday",
-          Type: "Regular",
-          Open_status: this.state.sunday,
-          start_time_1: this.state.sundayStart1,
-          end_time_1: this.state.sundayEnd1,
-          start_time_2: this.state.sundayStart2,
-          end_time_2: this.state.sundayEnd2
-        }
-      }
-    };
-    console.log("data", data);
+
+    
+const data = {
+secure_pin,user_id: localStorage.getItem("UserId"), stor_code: this.state.storeCode, bussiness_logo:this.state.BusinessLogo,
+bussiness_cate : this.state.category, location_name:this.state.locationName , address1:  this.state.address1 ,
+ address2 :  this.state.address1 , country :this.state.country , state : this.state.state , city:this.state.city , 
+ zipcode : this.state.zipCode ,phone_no :this.state.phone ,website :this.state.website ,
+  franchiese_locaiton :this.state.Franchise_Location ,do_not_publish_my_address:  this.state.Do_not_publish_my_address ,
+  bussiness_owner_name:this.state.ownerName , bussiness_owner_email :this.state.ownerEmail ,
+  bussiness_tagline : this.state.businessTagline ,year_of_incorporation :this.state.yearOfIncorp ,
+  about_bussines : this.state.about,facebook_profile: this.state.facebookProfile ,
+  instagram_profile: this.state.instagramProfile ,twitter_profile:this.state.twitterProfile ,
+  bussiness_cover_image: this.state.BusinessCoverImage,payment_method_array: payment, 
+  more_bussiness_images_array :  this.state.otherImage, open_hours_apply_all : "0" ,
+   open_hours_array :[{day:"Monday",open_status:this.state.monday,start_time1: this.state.mondayStart1,
+   end_time1:this.state.mondayEnd1,start_time2:this.state.mondayStart2,end_time2:this.state.mondayEnd2},
+   {day:"Tuesday",open_status:this.state.tuesday,start_time1: this.state.tuesdayStart1,end_time1:this.state.tuesdayEnd1,
+   start_time2:this.state.tuesdayStart2,end_time2:this.state.tuesdayEnd2},{day:"Wednesday",
+   open_status:this.state.wednesday,start_time1: this.state.wednesdayStart1,end_time1:this.state.wednesdayEnd1,
+   start_time2:this.state.wednesdayStart2,end_time2:this.state.wednesdayEnd2},
+   {day:"Thursday",open_status:this.state.thursday,start_time1: this.state.thursdayStart1,
+   end_time1:this.state.thursdayEnd1,start_time2:this.state.thursdayStart2,end_time2:this.state.thursdayEnd2},
+   {day:"Friday",open_status:this.state.friday,start_time1: this.state.fridayStart1,end_time1:this.state.fridayEnd1,
+   start_time2:this.state.fridayStart2,end_time2:this.state.fridayEnd2},{day:"Saturday",open_status:this.state.saturday,
+   start_time1: this.state.saturdayStart1,end_time1:this.state.saturdayEnd1,start_time2:this.state.saturdayStart2,
+   end_time2:this.state.saturdayEnd2},{day:"Sunday",open_status:this.state.sunday,start_time1: this.state.sundayStart1,
+   end_time1:this.state.sundayEnd1,start_time2:this.state.sundayStart2,end_time2:this.state.sundayEnd2}]
+
+}
+
+
+    console.log("data11", data);
 
     let error_present = await this.errorValue(data);
 
     if (!error_present) {
       this.setState({ loading: true, show_message: "" });
-      add_location(data, DjangoConfig)
+      add_location(data)
         .then(async res => {
-          console.log("response", res);
+          console.log("resp1", res);
           if (res.data.message == "Location Add successfully") {
             localStorage.setItem("locationId", res.data.Location_id.toString());
             localStorage.setItem("locationName", this.state.locationName);
@@ -493,11 +414,12 @@ export default class AddLocation extends Component {
         error_present = true;
       }
     }
+    console.log("data.Website",data.website)
     if (data.Website == "") {
       this.setState({ website_error: "*Website can not be empty" });
       error_present = true;
     } else {
-      const result = url_regex(data.Website);
+      const result = url_regex(data.website);
       if (result == null) {
         this.setState({
           website_error: "Not a valid website"
@@ -549,7 +471,7 @@ export default class AddLocation extends Component {
       var currentYear = new Date().getFullYear();
       var input = parseInt(data.Year_Of_Incorporation);
       console.log(input, currentYear);
-      if ((input > 0 && input <= currentYear) == false) {
+      if (( input <= currentYear) == false) {
         this.setState({
           yearOfIncorp_error: "*Invaild Year of Incorporation"
         });
@@ -562,13 +484,13 @@ export default class AddLocation extends Component {
       });
       error_present = true;
     }
-    if (data.Instagram_Profile == "") {
+    if (data.instagram_profile == "") {
       this.setState({
         instagramProfile_error: "*Instagram Profile can not be empty"
       });
       error_present = true;
     } else {
-      const result = url_regex(data.Instagram_Profile);
+      const result = url_regex(data.instagram_profile);
       if (result == null) {
         this.setState({
           instagramProfile_error: "Not a valid url"
@@ -576,13 +498,13 @@ export default class AddLocation extends Component {
         error_present = true;
       }
     }
-    if (data.Twitter_Profile == "") {
+    if (data.twitter_profile == "") {
       this.setState({
         twitterProfile_error: "*Twitter Profile can not be empty"
       });
       error_present = true;
     } else {
-      const result = url_regex(data.Twitter_Profile);
+      const result = url_regex(data.twitter_profile);
       if (result == null) {
         this.setState({
           twitterProfile_error: "Not a valid url"
@@ -590,13 +512,13 @@ export default class AddLocation extends Component {
         error_present = true;
       }
     }
-    if (data.Facebook_Profile == "") {
+    if (data.facebook_profile == "") {
       this.setState({
         facebookProfile_error: "*Facebook Profile can not be empty"
       });
       error_present = true;
     } else {
-      const result = url_regex(data.Facebook_Profile);
+      const result = url_regex(data.facebook_profile);
       if (result == null) {
         this.setState({
           facebookProfile_error: "Not a valid url"
@@ -604,7 +526,7 @@ export default class AddLocation extends Component {
         error_present = true;
       }
     }
-    if (data.payment_method == "") {
+    if (data.payment_method_array == "") {
       this.setState({
         paymentMethod_error: "*Payment method can not be empty"
       });
@@ -640,16 +562,23 @@ export default class AddLocation extends Component {
   };
 
   Other_images = async () => {
-    let otherImage = {
-      0: this.state.other_image0,
-      1: this.state.other_image1,
-      2: this.state.other_image2
-    };
+    let otherImage = [{bussiness_image : this.state.other_image0},{bussiness_image : this.state.other_image1},{bussiness_image : this.state.other_image2}];
     await this.setState({ otherImage: otherImage });
   };
 
   changeHandler = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  changeHandler1 = event => {
+    this.setState({ [event.target.name]: event.target.value ,
+    country_selected_id:event.target.value},()=>{
+      this._loadStateCategories();
+    });
+    // console.log("this.state.country_selected_id1",this.state.country_selected_id)
+    
+    
+    // this.setState({ [event.target.name]: event.target.value });
   };
 
   checkBoxHandler = event => {
@@ -777,16 +706,25 @@ export default class AddLocation extends Component {
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/business-categoryes",
     //   DjangoConfig
     // )
-    business_categories(DjangoConfig)
+    const data = {secure_pin}
+    console.log("data1234", data)
+    business_categories(data)
       .then(res => {
-        this.setState({
-          businessCategories: res.data.BusinessCategory,
+        console.log("hello123", res.data.bussiness_category_array)
+        const busi_cat =res.data.bussiness_category_array
+
+        console.log("hello1234", busi_cat)
+           this.setState({
+          businessCategories: busi_cat,
           loadBusinessCategories: false
+          
         });
+       
       })
       .catch(res => {
         console.log("error in loading business categories");
       });
+      console.log(this.state)
   };
 
   _loadCountryCategories = () => {
@@ -795,28 +733,36 @@ export default class AddLocation extends Component {
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/counrty",
     //   DjangoConfig
     // )
-    business_counrty(DjangoConfig)
+    const data = {secure_pin}
+    business_counrty(data)
       .then(res => {
+        console.log("resp223",res)
         this.setState({
-          countryCategories: res.data.counrty,
+          countryCategories: res.data.country_array,
           loadCountryCategories: false
         });
+        console.log("all country a", this.state.countryCategories);
       })
-      .catch(res => {
-        console.log("error in loading country categories");
+      .catch(e => {
+        console.log(e);
       });
   };
-
+  
   _loadStateCategories = () => {
+
+    // console.log()
     this.setState({ loadStateCategories: true });
     // Axios.get(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/states",
     //   DjangoConfig
     // )
-    business_states(DjangoConfig)
+    const data = {secure_pin,countryid:this.state.country_selected_id}
+    console.log("this.state.country_selected_id111",this.state.country_selected_id)
+    business_states(data)
       .then(res => {
+        console.log("00",res)
         this.setState({
-          stateCategories: res.data.status,
+          stateCategories: res.data.all_states,
           loadStateCategories: false
         });
       })
@@ -828,7 +774,7 @@ export default class AddLocation extends Component {
   componentDidMount() {
     this._loadBusinessCategories();
     this._loadCountryCategories();
-    this._loadStateCategories();
+    // this._loadStateCategories();
   }
 
   render() {
@@ -913,7 +859,7 @@ export default class AddLocation extends Component {
       applyAllError
     } = this.state;
 
-    console.log("this.state", this.state);
+    // console.log("this.state", this.state);
 
     return (
       <div>
@@ -992,12 +938,12 @@ export default class AddLocation extends Component {
                                     <option value="0" disabled="">
                                       Select A Business Category
                                     </option>
-                                    {businessCategories.map((b, i) => (
+                                    {this.state.businessCategories.map((b, i) => (
                                       <option
                                         key={`business-${i}`}
                                         value={b.id}
                                       >
-                                        {b.Category_Name}
+                                        {b.name}
                                       </option>
                                     ))}
                                   </select>
@@ -1120,7 +1066,7 @@ export default class AddLocation extends Component {
                               <div>
                                 <select
                                   name="country"
-                                  onChange={this.changeHandler}
+                                  onChange={this.changeHandler1}
                                   id="country"
                                   required
                                   className="form-control"
@@ -1132,7 +1078,7 @@ export default class AddLocation extends Component {
                                   </option>
                                   {countryCategories.map((c, i) => (
                                     <option key={`country-${i}`} value={c.id}>
-                                      {c.Country_Name}
+                                      {c.name}
                                     </option>
                                   ))}
                                 </select>
@@ -1170,15 +1116,15 @@ export default class AddLocation extends Component {
                                   className="form-control"
                                 >
                                   <option value="0" disabled="">
-                                    {this.state.country == "" ||
+                                    {this.state.country_selected_id == "" ||
                                     loadStateCategories
                                       ? "Select Country first"
                                       : "Select State"}
                                   </option>
                                   {stateCategories.map((s, i) =>
-                                    this.state.country == s.Country_Name ? (
+                                    this.state.country_selected_id == s.country_id ? (
                                       <option key={`stste-${i}`} value={s.id}>
-                                        {s.State_name}
+                                        {s.name}
                                       </option>
                                     ) : (
                                       ""
