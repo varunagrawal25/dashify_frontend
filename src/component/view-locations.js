@@ -52,7 +52,7 @@ export default class LocationManager extends Component {
     facebookProfile: "",
     payment: [],
     loader: true,
-
+    img_type:'',
     //edit details
 
     name_edit: "",
@@ -209,7 +209,7 @@ export default class LocationManager extends Component {
     businessCategories: [],
 
     phone_error: "",
-    applyAll: false,
+    applyAll: "0",
     applyAllError: ""
   };
 
@@ -341,21 +341,31 @@ const data={secure_pin}
       twitterProfile_edit
     } = this.state;
     let data = {};
-  
+    // {"secure_pin":"digimonk","location_id":"11","user_id":"11","stor_code":"123123sdfq212","bussiness_cate":"11",
+    // "location_name":"Gwalior","address1":"GGsdfsd","address2":"sdfsdMG","country":"101","state":"21","city":"221",
+    // "zipcode":"344334","phone_no":"1231231231","website":"www.digimonk.in","franchiese_locaiton":"1",
+    // "do_not_publish_my_address":"1","bussiness_owner_name":"ram","bussiness_owner_email":"ram.gautam2@digimonk.in",
+    // "bussiness_tagline":"ggggg,asasdasd,asdasds","year_of_incorporation":"2012",
+    // "about_bussiness":"fkljlskdjf asdklfjtks dflksdfj sdklfjsd kdfjsl","facebook_profile":"facebook.com",
+    // "instagram_profile":"instagram.com","twitter_profile":"twitter.com"}
     if (name == "details1") {
       data = {
         secure_pin,
         location_id: locationId,
-        // user_id: localStorage.getItem("UserId"),
-        // bussiness_cate:resp.data.location_details[0].bussiness_cate,
-        // location_name:this.state.name,
-        // address2
-        // country
-        // state
-        // city
-        // zipcode
-        // franchiese_locaiton
-        // do_not_publish_my_address
+        user_id: localStorage.getItem("UserId"),
+        stor_code: storeCode_edit,
+        bussiness_cate:"1",
+        location_name:this.state.name,
+        address1: address_edit,
+        address2 :"ind",
+        country :"101",
+        state :"21",
+        city :"211",
+        zipcode :"474001",
+        phone_no: phone_edit,
+          website: website_edit,
+        franchiese_locaiton:"0",
+        do_not_publish_my_address:"0",
         bussiness_owner_name: ownerName_edit,
         bussiness_owner_email: ownerEmail_edit,
         bussiness_tagline: businessTagline_edit,
@@ -364,10 +374,7 @@ const data={secure_pin}
         facebook_profile: facebookProfile_edit,
         instagram_profile: instagramProfile_edit,
         twitter_profile: twitterProfile_edit,
-        stor_code: storeCode_edit,
-          address1: address_edit,
-          phone_no: phone_edit,
-          website: website_edit
+          
       };
       this.setState({ businessDetailsLoading: true });
       this.updateDetails(data);
@@ -379,12 +386,36 @@ const data={secure_pin}
         });
       } else {
         data = {
+          // secure_pin,
+          // location_id: locationId,
+          // stor_code: storeCode_edit,
+          // address1: address_edit,
+          // phone_no: phone_edit,
+          // website: website_edit
           secure_pin,
-          location_id: locationId,
-          stor_code: storeCode_edit,
-          address1: address_edit,
-          phone_no: phone_edit,
-          website: website_edit
+        location_id: locationId,
+        user_id: localStorage.getItem("UserId"),
+        stor_code: storeCode_edit,
+        bussiness_cate:"1",
+        location_name:this.state.name,
+        address1: address_edit,
+        address2 :"ind",
+        country :"101",
+        state :"21",
+        city :"211",
+        zipcode :"474001",
+        phone_no: phone_edit,
+          website: website_edit,
+        franchiese_locaiton:"0",
+        do_not_publish_my_address:"0",
+        bussiness_owner_name: ownerName_edit,
+        bussiness_owner_email: ownerEmail_edit,
+        bussiness_tagline: businessTagline_edit,
+        year_of_incorporation: yearOfIncorp_edit,
+        about_bussiness: about_edit,
+        facebook_profile: facebookProfile_edit,
+        instagram_profile: instagramProfile_edit,
+        twitter_profile: twitterProfile_edit,
         };
         this.setState({ businessDetailsLoading2: true });
         this.updateDetails(data);
@@ -466,66 +497,67 @@ console.log("tt25",data)
       i = 0;
 
     if (p_amex) {
-      payment["" + i] = "Amex";
+      payment["" + i] = {"payment_name":"Amex"};
       i++;
     }
     if (p_android) {
-      payment["" + i] = "Android";
+      payment["" + i] = {"payment_name":"Android"};
       i++;
     }
     if (p_apple) {
-      payment["" + i] = "Apple";
+      payment["" + i] = {"payment_name":"Apple"};
       i++;
     }
     if (p_cash) {
-      payment["" + i] = "Cash";
+      payment["" + i] = {"payment_name":"Cash"};
       i++;
     }
     if (p_check) {
-      payment["" + i] = "Check";
+      payment["" + i] = {"payment_name":"Check"};
       i++;
     }
     if (p_crypto) {
-      payment["" + i] = "Crypto";
+      payment["" + i] = {"payment_name":"Crypto"};
       i++;
     }
     if (p_diners) {
-      payment["" + i] = "Diners";
+      payment["" + i] = {"payment_name":"Diners"};
       i++;
     }
     if (p_discover) {
-      payment["" + i] = "Discover";
+      payment["" + i] = {"payment_name":"Discover"};
       i++;
     }
     if (p_financing) {
-      payment["" + i] = "Financing";
+      payment["" + i] = {"payment_name":"Financing"};
       i++;
     }
     if (p_invoices) {
-      payment["" + i] = "Invoices";
+      payment["" + i] = {"payment_name":"Invoices"};
       i++;
     }
     if (p_maestro) {
-      payment["" + i] = "Maestro";
+      payment["" + i] = {"payment_name":"Maestro"};
       i++;
     }
     if (p_paypal) {
-      payment["" + i] = "Paypal";
+      payment["" + i] = {"payment_name":"Paypal"};
       i++;
     }
     if (p_samsung) {
-      payment["" + i] = "Samsung";
+      payment["" + i] = {"payment_name":"Samsung"};
       i++;
     }
     if (p_traveler) {
-      payment["" + i] = "Traveler";
+      payment["" + i] = {"payment_name":"Traveler"};
       i++;
     }
     if (p_visa) {
-      payment["" + i] = "Visa";
+      payment["" + i] = {"payment_name":"Visa"};
       i++;
     }
-
+    // {"secure_pin":"digimonk","location_id":"11","user_id":"11","payment_method_array":[{"payment_name":"Instamonjo"},
+    // {"payment_name":"Strip"}]}
     const data = {
     secure_pin,
     user_id: localStorage.getItem("UserId"),
@@ -611,10 +643,11 @@ console.log("tt25",data)
         applyAllError: "Select  operating hours of Monday first"
       });
     }
-
+console.log("timecheck1",event.target.checked)
+console.log("timecheck2",isValid)
     if (event.target.checked && isValid) {
       this.setState({
-        applyAll: true,
+        applyAll: "1",
 
         tuesday: this.state.monday,
         tuesdayStart1: this.state.mondayStart1,
@@ -654,7 +687,7 @@ console.log("tt25",data)
       });
     } else {
       this.setState({
-        applyAll: false,
+        applyAll: "0",
 
         tuesday: "",
         tuesdayStart1: "",
@@ -984,84 +1017,70 @@ console.log("tt25",data)
 
     if (!isError && locationId) {
       this.setState({ operatingHoursLoading: true });
-
+      // {"secure_pin":"digimonk","location_id":"11","user_id":"11","open_hours_apply_all":"1",
+      // "open_hours_array":[{"day":"Wednesday","open_status":"OPEN","start_time1":"11:00 AM","end_time1":"02:40 PM",
+      // "start_time2":"03:20 PM","end_time2":"08:00 PM"}]}
       const data = {
-        Location_id: locationId,
-        open_houre: {
-          0: {
-            date: "",
-            Day: "Monday",
-            Type: "regular",
-            open_status: this.state.monday,
-            start_time_1: this.state.mondayStart1,
-            end_time_1: this.state.mondayEnd1,
-            start_time_2: this.state.mondayStart2,
-            end_time_2: this.state.mondayEnd2
-          },
-          1: {
-            date: "",
-            Day: "Tuesday",
-            Type: "regular",
-            open_status: this.state.tuesday,
-            start_time_1: this.state.tuesdayStart1,
-            end_time_1: this.state.tuesdayEnd1,
-            start_time_2: this.state.tuesdayStart2,
-            end_time_2: this.state.tuesdayEnd2
-          },
-          2: {
-            date: "",
-            Day: "Wednesday",
-            Type: "regular",
-            open_status: this.state.wednesday,
-            start_time_1: this.state.wednesdayStart1,
-            end_time_1: this.state.wednesdayEnd1,
-            start_time_2: this.state.wednesdayStart2,
-            end_time_2: this.state.wednesdayEnd2
-          },
-          3: {
-            date: "",
-            Day: "Thursday",
-            Type: "regular",
-            open_status: this.state.thursday,
-            start_time_1: this.state.thursdayStart1,
-            end_time_1: this.state.thursdayEnd1,
-            start_time_2: this.state.thursdayStart2,
-            end_time_2: this.state.thursdayEnd2
-          },
-          4: {
-            date: "",
-            Day: "Friday",
-            Type: "regular",
-            open_status: this.state.friday,
-            start_time_1: this.state.fridayStart1,
-            end_time_1: this.state.fridayEnd1,
-            start_time_2: this.state.fridayStart2,
-            end_time_2: this.state.fridayEnd2
-          },
-          5: {
-            date: "",
-            Day: "Saturday",
-            Type: "regular",
-            open_status: this.state.saturday,
-            start_time_1: this.state.saturdayStart1,
-            end_time_1: this.state.saturdayEnd1,
-            start_time_2: this.state.saturdayStart2,
-            end_time_2: this.state.saturdayEnd2
-          },
-          6: {
-            date: "",
-            Day: "Sunday",
-            Type: "regular",
-            open_status: this.state.sunday,
-            start_time_1: this.state.sundayStart1,
-            end_time_1: this.state.sundayEnd1,
-            start_time_2: this.state.sundayStart2,
-            end_time_2: this.state.sundayEnd2
-          }
-        }
+        secure_pin,
+        location_id: locationId,
+        user_id: localStorage.getItem("UserId"),
+        open_hours_apply_all:this.state.applyAll,
+        
+        open_hours_array: [ {
+         day: "Monday",
+          open_status: this.state.monday,
+          start_time1: this.state.mondayStart1,
+          end_time1: this.state.mondayEnd1,
+          start_time2: this.state.mondayStart2,
+          end_time2: this.state.mondayEnd2
+        },{
+         day: "Tuesday",
+          open_status: this.state.tuesday,
+          start_time1: this.state.tuesdayStart1,
+          end_time1: this.state.tuesdayEnd1,
+          start_time2: this.state.tuesdayStart2,
+          end_time2: this.state.tuesdayEnd2
+        },{
+         day: "Wednesday",
+          open_status: this.state.wednesday,
+          start_time1: this.state.wednesdayStart1,
+          end_time1: this.state.wednesdayEnd1,
+          start_time2: this.state.wednesdayStart2,
+          end_time2: this.state.wednesdayEnd2
+        },{
+         day: "Thursday",
+          open_status: this.state.thursday,
+          start_time1: this.state.thursdayStart1,
+          end_time1: this.state.thursdayEnd1,
+          start_time2: this.state.thursdayStart2,
+          end_time2: this.state.thursdayEnd2
+        },{
+         day: "Friday",
+          open_status: this.state.friday,
+          start_time1: this.state.fridayStart1,
+          end_time1: this.state.fridayEnd1,
+          start_time2: this.state.fridayStart2,
+          end_time2: this.state.fridayEnd2
+        },{
+         day: "Saturday",
+          open_status: this.state.saturday,
+          start_time1: this.state.saturdayStart1,
+          end_time1: this.state.saturdayEnd1,
+          start_time2: this.state.saturdayStart2,
+          end_time2: this.state.saturdayEnd2
+        }, {
+         day: "Sunday",
+          open_status: this.state.sunday,
+          start_time1: this.state.sundayStart1,
+          end_time1: this.state.sundayEnd1,
+          start_time2: this.state.sundayStart2,
+          end_time2: this.state.sundayEnd2
+        }]
+         
       };
-
-      edit_location_operations_hours_by_id(data, DjangoConfig)
+      
+      console.log("json data",JSON.stringify(data))
+      edit_location_operations_hours_by_id(data)
         .then(resp => {
           console.log(resp);
           this.setState({ hourEdit: false });
@@ -1168,13 +1187,13 @@ console.log("tt25",data)
             ...prevState.special_hour_data,
             [i]: {
               date: this.state.monday_day_s,
-              Day: "Special",
+              day: "Special",
               Type: `Special-${i2}`,
               open_status: this.state.monday_s,
-              start_time_1: this.state.mondayStart1_s,
-              end_time_1: this.state.mondayEnd1_s,
-              start_time_2: this.state.mondayStart2_s,
-              end_time_2: this.state.mondayEnd2_s
+              start_time1: this.state.mondayStart1_s,
+              end_time1: this.state.mondayEnd1_s,
+              start_time2: this.state.mondayStart2_s,
+              end_time2: this.state.mondayEnd2_s
             }
           }
         }));
@@ -1197,7 +1216,7 @@ console.log("tt25",data)
 
     this.setState({ specialTimeLoading: true });
 
-    edit_location_operations_hours_by_id(data, DjangoConfig)
+    edit_location_operations_hours_by_id(data)
       .then(resp => {
         console.log(resp);
         this.setState({ add_special_hour: false });
@@ -1244,11 +1263,12 @@ console.log("tt25",data)
   };
 
   onUploadLogo = name => event => {
-    if (name == "Business_Logo") {
-      this.setState({ logoLoading: true });
+    if (name == "bussiness_logo") {
+      
+      this.setState({ logoLoading: true ,img_type:'logo'});
     }
-    if (name == "Business_Cover_Image") {
-      this.setState({ coverImageLoading: true });
+    if (name == "bussiness_cover_image") {
+      this.setState({ coverImageLoading: true ,img_type:'cover'});
     }
     let files = event.target.files;
     let reader = new FileReader();
@@ -1258,13 +1278,19 @@ console.log("tt25",data)
       //   this.setState({ BusinessLogoUpdate: e.target.result });
 
       var locationId = this.props.match.params.locationId;
-
+      // {"secure_pin":"digimonk","user_id":"11","location_id":"11",
+      // "bussiness_logo_cover":"base64image","type_cover_logo":"logo/cover"}
       const data = {
+        secure_pin,
+        user_id: localStorage.getItem("UserId"),
         location_id: locationId,
-        [name]: e.target.result
+        bussiness_logo_cover:e.target.result,
+        type_cover_logo:this.state.img_type
+        // [name]: e.target.result
+        
       };
-
-      update_images_by_location_id(data, DjangoConfig)
+      console.log("result555",data)
+      update_images_by_location_id(data)
         .then(resp => {
           const data1 = {
             location_id: locationId,
@@ -1274,14 +1300,15 @@ console.log("tt25",data)
           location_by_id(data1)
             .then(resp1 => {
               this.setState({
-                LocationDetails: resp1.data.location,
+                LocationDetails: resp1.data.location_details[0],
                 logoLoading: false,
                 coverImageLoading: false
               });
+              console.log("7770",resp1)
             })
             .catch(resp1 => {
               console.log(resp1);
-              alert("uploading image failed");
+              alert("uploading image failedc");
               this.setState({ logoLoading: false, coverImageLoading: false });
             });
         })
@@ -1446,13 +1473,13 @@ const data={secure_pin}
         {this.state.hours.map(h =>
           h.type == "regular" ? (
             <div className="daybox " key={h.id}>
-              <div className="daytype">{h.Day}</div>
+              <div className="daytype">{h.day}</div>
 
               {h.open_status == "SPLIT" ? (
                 <div>
-                  {h.start_time_1} - {h.end_time_1}
+                  {h.start_time1} - {h.end_time1}
                   <br />
-                  {h.start_time_2} - {h.end_time_2}
+                  {h.start_time2} - {h.end_time2}
                 </div>
               ) : (
                 ""
@@ -1460,7 +1487,7 @@ const data={secure_pin}
 
               {h.open_status == "OPEN" ? (
                 <div>
-                  From {h.start_time_1} to {h.end_time_1}
+                  From {h.start_time1} to {h.end_time1}
                 </div>
               ) : (
                 ""
@@ -1481,9 +1508,9 @@ const data={secure_pin}
     regularHours2 = (
       <div className="vl_gap4">
         {this.state.hours.map(h =>
-          h.Day == "Special" ? (
+          h.day == "Special" ? (
             <div className="daybox" key={h.id}>
-              {/* <div className="daytype">{h.Day}</div> */}
+              {/* <div className="daytype">{h.day}</div> */}
               <div className="daytype">
                 {h.date
                   .split("-")
@@ -1493,8 +1520,8 @@ const data={secure_pin}
 
               {h.open_status == "SPLIT" ? (
                 <div>
-                  {h.start_time_1} - {h.end_time_1},{h.start_time_2} -{" "}
-                  {h.end_time_2}
+                  {h.start_time1} - {h.end_time1},{h.start_time2} -{" "}
+                  {h.end_time2}
                 </div>
               ) : (
                 ""
@@ -1502,7 +1529,7 @@ const data={secure_pin}
 
               {h.open_status == "OPEN" ? (
                 <div>
-                  From {h.start_time_1} to {h.end_time_1}
+                  From {h.start_time1} to {h.end_time1}
                 </div>
               ) : (
                 ""
@@ -1723,12 +1750,12 @@ const data={secure_pin}
                                     // timeout={3000} //3 secs
                                   />
                                 </div>
-                              ) : LocationDetails.Business_Logo ? (
+                              ) : LocationDetails.bussiness_logo ? (
                                 <div className="uploadphoto pt-15">
                                   <img
                                     src={
-                                      "https://dashify.biz" +
-                                      LocationDetails.Business_Logo
+                                      "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                      LocationDetails.bussiness_logo
                                     }
                                     alt=""
                                   />
@@ -1741,9 +1768,9 @@ const data={secure_pin}
                                     />
                                     <input
                                       type="file"
-                                      name="Business_Logo"
+                                      name="bussiness_logo"
                                       onChange={this.onUploadLogo(
-                                        "Business_Logo"
+                                        "bussiness_logo"
                                       )}
                                     />
                                   </div>
@@ -1751,9 +1778,9 @@ const data={secure_pin}
                                   Update
                                   <input
                                     type="file"
-                                    name="Business_Logo"
+                                    name="bussiness_logo"
                                     onChange={this.onUploadLogo(
-                                      "Business_Logo"
+                                      "bussiness_logo"
                                     )}
                                   />
                                 </div> */}
@@ -1768,9 +1795,9 @@ const data={secure_pin}
                                     />
                                     <input
                                       type="file"
-                                      name="Business_Logo"
+                                      name="bussiness_logo"
                                       onChange={this.onUploadLogo(
-                                        "Business_Logo"
+                                        "bussiness_logo"
                                       )}
                                     />
                                   </div>
@@ -1779,9 +1806,9 @@ const data={secure_pin}
                                   <h3>Upload logo</h3>
                                   <input
                                     type="file"
-                                    name="Business_Logo"
+                                    name="bussiness_logo"
                                     onChange={this.onUploadLogo(
-                                      "Business_Logo"
+                                      "bussiness_logo"
                                     )}
                                   />
                                 </div> */}
@@ -1858,7 +1885,7 @@ const data={secure_pin}
                                       <MDBCol md="6">
                                         <input
                                           name="website_edit"
-                                          type="url"
+                                          type="text"
                                           onChange={this.changeHandler}
                                           className="vl_edit_input"
                                           value={this.state.website_edit}
@@ -1912,9 +1939,9 @@ const data={secure_pin}
                             <div className="uploadphoto pt-15">
                               <img
                                 src={
-                                  LocationDetails.Business_Logo
-                                    ? "https://dashify.biz" +
-                                      LocationDetails.Business_Logo
+                                  LocationDetails.bussiness_logo
+                                    ? "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                      LocationDetails.bussiness_logo
                                     : require("./assets/user_img.png")
                                 }
                                 alt="Logo"
@@ -2139,7 +2166,7 @@ const data={secure_pin}
                                         <MDBCol md="6">
                                           <input
                                             name="website_edit"
-                                            type="url"
+                                            type="text"
                                             onChange={this.changeHandler}
                                             className="vl_edit_input"
                                             value={this.state.website_edit}
@@ -2647,7 +2674,7 @@ const data={secure_pin}
                                   <div class='err_msg'>
                                     {applyAllError}
                                   </div>
-                                  {applyAll && !applyAllError ? (
+                                  {applyAll=="1" && !applyAllError ? (
                                     ""
                                   ) : (
                                     <div>
@@ -3831,12 +3858,12 @@ const data={secure_pin}
                               // timeout={3000} //3 secs
                             />
                           </div>
-                        ) : LocationDetails.Business_Cover_Image ? (
+                        ) : LocationDetails.bussiness_cover_image ? (
                           <div className="coverimgupload">
                             <img
                               src={
-                                "https://dashify.biz" +
-                                LocationDetails.Business_Cover_Image
+                                "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                LocationDetails.bussiness_cover_image
                               }
                               alt="Cover image"
                               style={{
@@ -3853,9 +3880,9 @@ const data={secure_pin}
                               />
                               <input
                                 type="file"
-                                name="Business_Cover_Image"
+                                name="bussiness_cover_image"
                                 onChange={this.onUploadLogo(
-                                  "Business_Cover_Image"
+                                  "bussiness_cover_image"
                                 )}
                               />
                             </div>
@@ -3867,9 +3894,9 @@ const data={secure_pin}
                               Attatch a image
                               <input
                                 type="file"
-                                name="Business_Cover_Image"
+                                name="bussiness_cover_image"
                                 onChange={this.onUploadLogo(
-                                  "Business_Cover_Image"
+                                  "bussiness_cover_image"
                                 )}
                               />
                             </span>
@@ -3909,7 +3936,7 @@ const data={secure_pin}
                               <MDBCol md="2" className="plush_new">
                                 <img
                                   src={
-                                    "https://dashify.biz" +
+                                    "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
                                     this.state.otherImages[i].image
                                   }
                                   alt=""
@@ -3959,7 +3986,7 @@ const data={secure_pin}
                                       <div className="coverimgupload">
                                         <img
                                           src={
-                                            "https://dashify.biz" +
+                                            "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
                                             this.state.otherImages[i].Image
                                           }
                                           alt="Starred Business covers image"

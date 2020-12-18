@@ -22,40 +22,32 @@ export const business_counrty = (data) => {
 export const business_states = (data) => {
   return Axios.post(`${API}/admin/account_api/get_states`, data);
 };
+export const business_cities = (data) => {
+  return Axios.post(`${API}/admin/account_api/get_cities`, data);
+};
 
 export const location_by_id = (data) => {
   console.log("location api",`${API}/admin/location_api/get_location_detail`)
   return Axios.post(`${API}/admin/location_api/get_location_detail`, data);
 };
 
-export const edit_location_by_id = (data, DjangoConfig) => {
-  return Axios.post(
-    `${API}/locations/edit-Location-Business-by-id`,
-    data,
-    DjangoConfig
-  );
+export const edit_location_by_id = (data) => {
+  return Axios.post( `${API}/admin/location_api/update_location`, data );
 };
 
-export const edit_location_operations_hours_by_id = (data, DjangoConfig) => {
+export const edit_location_operations_hours_by_id = (data) => {
   return Axios.post(
-    `${API}/locations/edit-Location-operations-hours-by-id`,
-    data,
-    DjangoConfig
-  );
+    `${API}/admin/location_api/update_location_hours`, data);
 };
 
 export const edit_location_payment_by_id = (data) => {
   return Axios.post(
-    `${API}/admin/location_api/update_location_payment_method`,
-    data );
+    `${API}/admin/location_api/update_location_payment_method`,data );
 };
 
-export const update_images_by_location_id = (data, DjangoConfig) => {
+export const update_images_by_location_id = (data) => {
   return Axios.post(
-    `${API}/locations/update-images-files-by-location-id`,
-    data,
-    DjangoConfig
-  );
+    `${API}/admin/location_api/update_logo_cover_image`, data);
 };
 
 export const add_other_images_by_location_id = (data, DjangoConfig) => {

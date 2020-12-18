@@ -26,12 +26,12 @@ export const get_login_user_info = (data) => {
 	return Axios.post(`${API}/admin/account_api/get_users_info`, data);
 };
 
-export const update_user_info = (data, DjangoConfig) => {
-	return Axios.post(`${API}/account/update-user-info`, data, DjangoConfig);
+export const update_user_info = (data) => {
+	return Axios.post(`${API}/admin/account_api/user_profile_data_update`, data);
 };
 
-export const update_user_image = (data, DjangoConfig) => {
-	return Axios.post(`${API}/account/update-user-image`, data, DjangoConfig);
+export const update_user_image = (data) => {
+	return Axios.post(`${API}/admin/account_api/user_profile_image_update`, data);
 };
 
 export const reset_password = (data) => {
