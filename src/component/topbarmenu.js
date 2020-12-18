@@ -90,8 +90,8 @@ export default class Topbarmenu extends Component {
       headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
     };
     const data = {
-      // user_id: localStorage.getItem("UserId"),
-      user_id:"11",
+      user_id: localStorage.getItem("UserId"),
+      // user_id:"11",
       secure_pin
     };
 console.log("user_id",data.user_id)
@@ -104,7 +104,7 @@ console.log("user_id",data.user_id)
           this.setState({
             first_name: res.data.users_login[0].first_name,
             last_name: res.data.users_login[0].last_name,
-            user_image: res.data.users_login[0].user_image,
+            user_image: res.data.users_login[0].profile_image,
             loading_info: false
           });
         } else {
@@ -607,7 +607,7 @@ console.log("user_id",data.user_id)
                           <MDBCol md='3' style={{marginTop:'8px'}}>
 {user_image ? (
                             <img
-                              src={"https://dashify.biz" + user_image}
+                              src={"https://digimonk.net/dashify-ci/assets/upload/images/profile-type-image/" + user_image}
                               alt="user"
                               className='navbar_pic'
                               

@@ -22,7 +22,7 @@ export default class ViewLocations extends Component {
       headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
     };
     const data = {
-      user_id: "11",
+      user_id: localStorage.getItem("UserId"),
       secure_pin
     };
 console.log("data55",data)

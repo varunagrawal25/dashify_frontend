@@ -4,7 +4,7 @@ import {
   add_location,
   business_categories,
   business_counrty,
-  business_states
+  business_states,business_cities
 } from "./apis/location";
 import { Redirect } from "react-router-dom";
 import Loader from "react-loader-spinner";
@@ -24,11 +24,12 @@ export default class AddLocation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      locationName: "",
+      location_name: "",
       storeCode: "",
       category: "",
       additionalCategories: "",
       country_selected_id:"",
+      state_selected_id:"",
       address1: "",
       address2: "",
       city: "",
@@ -82,8 +83,8 @@ export default class AddLocation extends Component {
       sundayEnd2: "",
 
       about: "",
-      Franchise_Location: "false",
-      Do_not_publish_my_address: "true",
+      Franchise_Location: "0",
+      Do_not_publish_my_address: "1",
       ownerName: "",
       ownerEmail: "",
       yearOfIncorp: "",
@@ -120,13 +121,15 @@ export default class AddLocation extends Component {
       businessCategories: [],
       countryCategories: [],
       stateCategories: [],
+      cityCategories: [],
       loadBusinessCategories: false,
       loadCountryCategories: false,
       loadStateCategories: false,
+      loadCityCategories: false,
       applyAll: false,
       isSuccess: false,
 
-      locationName_error: "",
+      location_name_error: "",
       storeCode_error: "",
       category_error: "",
       additionalCategories_error: "",
@@ -239,17 +242,26 @@ export default class AddLocation extends Component {
     //   donot = "false";
     // }
 
-
+    // {"secure_pin":"digimonk","user_id":"121","stor_code":"sdfq212","bussiness_logo":"base64image","bussiness_cate":"11",
+    // "location_name":"Gwal","address1":"G","address2":"M","country":"101","state":"21","city":"221","zipcode":"121212",
+    // "phone_no":"1231231231","website":"www.digimonk.in","franchiese_locaiton":"1","do_not_publish_my_address":"1",
+    // "bussiness_owner_name":"ram","bussiness_owner_email":"ram.gautam@digimonk.in","bussiness_tagline":"asasdasd,asdasds",
+    // "year_of_incorporation":"2012","about_bussiness":"fkljlskdjf asdklfjtks dflksdfj sdklfjsd kdfjsl","facebook_profile":"facebook.com",
+    // "instagram_profile":"instagram.com","twitter_profile":"twitter.com","bussiness_cover_image":"base64image","open_hours_apply_all":"1",
+    // "open_hours_array":[{"day":"Monday","open_status":"OPEN","start_time1":"10:00 AM","end_time1":"02:00 PM","start_time2":"03:00 PM",
+    // "end_time2":"09:00 PM"},{"day":"Tuesday","open_status":"OPEN","start_time1":"10:00 AM","end_time1":"02:00 PM","start_time2":"03:00 PM",
+    // "end_time2":"09:00 PM"}],"payment_method_array":[{"payment_name":"Paypal"},{"payment_name":"Strip"}],
+    // "more_bussiness_images_array":[{"bussiness_image":"base64image1"},{"bussiness_image":"base64image2"}]}
     
 const data = {
 secure_pin,user_id: localStorage.getItem("UserId"), stor_code: this.state.storeCode, bussiness_logo:this.state.BusinessLogo,
-bussiness_cate : this.state.category, location_name:this.state.locationName , address1:  this.state.address1 ,
+bussiness_cate : this.state.category, location_name:this.state.location_name , address1:  this.state.address1 ,
  address2 :  this.state.address1 , country :this.state.country , state : this.state.state , city:this.state.city , 
  zipcode : this.state.zipCode ,phone_no :this.state.phone ,website :this.state.website ,
   franchiese_locaiton :this.state.Franchise_Location ,do_not_publish_my_address:  this.state.Do_not_publish_my_address ,
   bussiness_owner_name:this.state.ownerName , bussiness_owner_email :this.state.ownerEmail ,
   bussiness_tagline : this.state.businessTagline ,year_of_incorporation :this.state.yearOfIncorp ,
-  about_bussines : this.state.about,facebook_profile: this.state.facebookProfile ,
+  about_bussiness : this.state.about,facebook_profile: this.state.facebookProfile ,
   instagram_profile: this.state.instagramProfile ,twitter_profile:this.state.twitterProfile ,
   bussiness_cover_image: this.state.BusinessCoverImage,payment_method_array: payment, 
   more_bussiness_images_array :  this.state.otherImage, open_hours_apply_all : "0" ,
@@ -279,15 +291,17 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
       add_location(data)
         .then(async res => {
           console.log("resp1", res);
-          if (res.data.message == "Location Add successfully") {
-            localStorage.setItem("locationId", res.data.Location_id.toString());
-            localStorage.setItem("locationName", this.state.locationName);
+          if (res.data.message == "Successfully add location !") {
+            console.log("done")
+            localStorage.setItem("locationId", res.data.id);
+            localStorage.setItem("location_name", this.state.location_name);
             await this.setState({
               isSuccess: true,
               loading: false
             });
             console.log("Location Add successfull", res.data);
           } else {
+            console.log("!done")
             this.setState({
               error: res,
               isSuccess: false,
@@ -298,6 +312,7 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
         })
         .catch(res => {
           console.log("error in add location");
+          console.log("!!done")
           this.setState({
             error: res,
             isSuccess: false,
@@ -313,7 +328,7 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
 
   errorValue = data => {
     let {
-      locationName_error,
+      location_name_error,
       storeCode_error,
       category_error,
       additionalCategories_error,
@@ -338,7 +353,7 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
     } = this.state;
 
     this.setState({
-      locationName_error: "",
+      location_name_error: "",
       storeCode_error: "",
       category_error: "",
       additionalCategories_error: "",
@@ -365,7 +380,7 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
     let error_present = false;
 
     if (data.Location_name == "") {
-      this.setState({ locationName_error: "*Location can not be empty" });
+      this.setState({ location_name_error: "*Location can not be empty" });
       error_present = true;
     }
     if (data.Store_Code == "") {
@@ -402,11 +417,11 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
       this.setState({ country_error: "*Please select your country" });
       error_present = true;
     }
-    if (data.Zipcode == "") {
+    if (data.zipcode == "") {
       this.setState({ zipCode_error: "*Zipcode can not be empty" });
       error_present = true;
     } else {
-      const result = zipcode_regex(data.Zipcode);
+      const result = zipcode_regex(data.zipcode);
       if (result === false) {
         this.setState({
           zipCode_error: "Not a valid zipcode"
@@ -415,7 +430,7 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
       }
     }
     console.log("data.Website",data.website)
-    if (data.Website == "") {
+    if (data.website == "") {
       this.setState({ website_error: "*Website can not be empty" });
       error_present = true;
     } else {
@@ -427,11 +442,11 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
         error_present = true;
       }
     }
-    if (data.Phone_no == "") {
+    if (data.phone_no == "") {
       this.setState({ phone_error: "*Phone No. can not be empty" });
       error_present = true;
     } else {
-      const result = phone_regex(data.Phone_no);
+      const result = phone_regex(data.phone_no);
       if (result === false) {
         this.setState({
           phone_error: "Not a valid Phone No."
@@ -450,11 +465,11 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
       this.setState({ ownerName_error: "*Owner name can not be empty" });
       error_present = true;
     }
-    if (data.Owner_Email == "") {
+    if (data.bussiness_owner_email == "") {
       this.setState({ ownerEmail_error: "*Owner email can not be empty" });
       error_present = true;
     } else {
-      const result = email_regex(data.Owner_Email);
+      const result = email_regex(data.bussiness_owner_email);
       if (result === false) {
         this.setState({
           ownerEmail_error: "Not a valid email"
@@ -462,14 +477,14 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
         error_present = true;
       }
     }
-    if (data.Year_Of_Incorporation == "") {
+    if (data.year_of_incorporation == "") {
       this.setState({
         yearOfIncorp_error: "*Year of Incorporation can not be empty"
       });
       error_present = true;
     } else {
       var currentYear = new Date().getFullYear();
-      var input = parseInt(data.Year_Of_Incorporation);
+      var input = parseInt(data.year_of_incorporation);
       console.log(input, currentYear);
       if (( input <= currentYear) == false) {
         this.setState({
@@ -575,10 +590,12 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
     country_selected_id:event.target.value},()=>{
       this._loadStateCategories();
     });
-    // console.log("this.state.country_selected_id1",this.state.country_selected_id)
-    
-    
-    // this.setState({ [event.target.name]: event.target.value });
+  };
+  changeHandler2 = event => {
+    this.setState({ [event.target.name]: event.target.value ,
+    state_selected_id:event.target.value},()=>{
+      this._loadCityCategories();
+    });
   };
 
   checkBoxHandler = event => {
@@ -749,13 +766,9 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
   };
   
   _loadStateCategories = () => {
-
-    // console.log()
     this.setState({ loadStateCategories: true });
-    // Axios.get(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/states",
-    //   DjangoConfig
-    // )
+  
+    
     const data = {secure_pin,countryid:this.state.country_selected_id}
     console.log("this.state.country_selected_id111",this.state.country_selected_id)
     business_states(data)
@@ -771,6 +784,24 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
       });
   };
 
+  _loadCityCategories = () => {
+    this.setState({ loadCityCategories: true });
+  
+    
+    const data = {secure_pin,stateid:this.state.state_selected_id}
+    console.log("this.state.country_selected_id111",this.state.state_selected_id)
+    business_cities(data)
+      .then(res => {
+        console.log("011",res)
+        this.setState({
+          cityCategories: res.data.all_cities,
+          loadCityCategories: false
+        });
+      })
+      .catch(res => {
+        console.log("error in loading state categories");
+      });
+  };
   componentDidMount() {
     this._loadBusinessCategories();
     this._loadCountryCategories();
@@ -785,10 +816,12 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
       businessCategories,
       countryCategories,
       stateCategories,
+      cityCategories,
       loadBusinessCategories,
       loadCountryCategories,
       loadStateCategories,
-      locationName_error,
+      loadCityCategories,
+      location_name_error,
       storeCode_error,
       category_error,
       additionalCategories_error,
@@ -910,13 +943,13 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
                               </label>
                               <input
                                 type="text"
-                                name="locationName"
+                                name="location_name"
                                 onChange={this.changeHandler}
                                 placeholder="Enter Location Name"
                                 className="form-control"
                               />
                               <div class='err_msg'>
-                                {locationName_error}
+                                {location_name_error}
                               </div>
                           </MDBCol>
 
@@ -1034,13 +1067,37 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
                               <label>
                                 City <span>*</span>
                               </label>
-                              <input
+                              {/* <input
                                 type="text"
                                 name="city"
                                 onChange={this.changeHandler}
                                 placeholder="Enter City Name"
                                 className="form-control"
-                              />
+                              /> */}
+                              <select
+                                  name="city"
+                                  onChange={this.changeHandler}
+                                  id="city"
+                                  required
+                                  className="form-control"
+                                >
+                                  <option value="0" disabled="">
+                                    {this.state.state_selected_id == "" ||
+                                    loadCityCategories
+                                      ? "Select State first"
+                                      : "Select City"}
+                                  </option>
+                                  {cityCategories.map((c, i) =>
+                                    this.state.state_selected_id == c.state_id ? (
+                                      <option key={`stste-${i}`} value={c.id}>
+                                        {c.name}
+                                      </option>
+                                    ) : (
+                                      ""
+                                    )
+                                  )}
+                                </select>
+                                
                               <div class='err_msg'>{city_error}</div>
                             </div>
                           </div>
@@ -1110,7 +1167,7 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
                               <div>
                                 <select
                                   name="state"
-                                  onChange={this.changeHandler}
+                                  onChange={this.changeHandler2}
                                   id="state"
                                   required
                                   className="form-control"
@@ -1131,6 +1188,7 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
                                     )
                                   )}
                                 </select>
+                                
                                 <div class='err_msg'>
                                   {state_error}
                                 </div>
@@ -1194,13 +1252,13 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
                                 <input
                                   type="checkbox"
                                   checked={
-                                    this.state.Franchise_Location == "true"
+                                    this.state.Franchise_Location == "1"
                                       ? true
                                       : false
                                   }
                                   name="Franchise_Location"
                                   value={
-                                    this.state.Franchise_Location == "true"
+                                    this.state.Franchise_Location == "1"
                                       ? false
                                       : true
                                   }
@@ -1215,14 +1273,14 @@ bussiness_cate : this.state.category, location_name:this.state.locationName , ad
                                   type="checkbox"
                                   checked={
                                     this.state.Do_not_publish_my_address ==
-                                    "true"
+                                    "1"
                                       ? true
                                       : false
                                   }
                                   name="Do_not_publish_my_address"
                                   value={
                                     this.state.Do_not_publish_my_address ==
-                                    "true"
+                                    "1"
                                       ? false
                                       : true
                                   }
