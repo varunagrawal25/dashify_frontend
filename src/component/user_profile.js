@@ -34,7 +34,7 @@ export default class User_profile extends Component {
     last_name: "",
     Company_name: "",
     address: "",
-    Phone: "",
+    phone_no: "",
     website: "",
     user_image: "",
     show_crop_function: false,
@@ -45,7 +45,7 @@ export default class User_profile extends Component {
     first_name_error: "",
     Company_name_error: "",
     address_error: "",
-    Phone_error: "",
+    phone_no_error: "",
     website_error: "",
 
     // cropper
@@ -62,7 +62,7 @@ export default class User_profile extends Component {
     get_login_user_info(data)
       .then(res => {
         console.log("user info0", res.data);
-        console.log("user info", res.data.users_login);
+        console.log("user info img", res.data.users_login[0].profile_image);
         if (res.data &&  res.data.users_login) {
           this.setState({
             users_login: res.data.users_login,
@@ -70,9 +70,9 @@ export default class User_profile extends Component {
             last_name: res.data.users_login[0].last_name,
             Company_name: res.data.users_login[0].company,
             address: res.data.users_login[0].address,
-            Phone: res.data.users_login[0].phone_no,
+            phone_no: res.data.users_login[0].phone_no,
             website: res.data.users_login[0].website,
-            user_image: res.data.users_login[0].user_image,
+            user_image: res.data.users_login[0].profile_image,
             loading_info: false,
             loading_image: false
             
@@ -103,26 +103,30 @@ export default class User_profile extends Component {
       last_name,
       Company_name,
       address,
-      Phone,
+      phone_no,
       website
     } = this.state;
-
+    // {"secure_pin":"digimonk","user_id":"10","first_name":"ramggh222222","last_name":"gautam ram",
+    // "phone_no":"111231231","website":"digimonk.in","address":"Gwalior India"}
     const data = {
-      username: users_login[0].user ? users_login[0].user.username : "",
+      // username: users_login[0].user ? users_login[0].user.username : "",
+      user_id:localStorage.getItem("UserId") ,
       first_name,
       last_name,
-      Company_name,
+      // Company_name,
       address,
-      Phone,
-      website
+      phone_no,
+      website,
+      secure_pin
     };
-
+console.log("data888",data)
     let error_present = await this.errorValue(data);
 
     if (!error_present) {
       this.setState({ loading_info: true });
-      update_user_info(data, DjangoConfig)
+      update_user_info(data)
         .then(response => {
+          console.log("response78",response)
           let data2 = { user_id: localStorage.getItem("UserId") ,secure_pin};
 
           get_login_user_info(data2)
@@ -135,6 +139,7 @@ export default class User_profile extends Component {
                   loading_info: false
                 });
               } else {
+                console.log("err78")
                 this.setState({ edit_details: false, loading_info: false });
                 alert("try again");
               }
@@ -143,7 +148,7 @@ export default class User_profile extends Component {
               this.setState({ edit_details: false, loading_info: false });
               alert("try again");
             });
-          window.location.reload(false);
+          // window.location.reload(false);
         })
         .catch(res => {
           this.setState({ edit_details: false, loading_info: false });
@@ -157,7 +162,7 @@ export default class User_profile extends Component {
       first_name_error: "",
       Company_name_error: "",
       address_error: "",
-      Phone_error: "",
+      phone_no_error: "",
       website_error: ""
     });
 
@@ -175,11 +180,11 @@ export default class User_profile extends Component {
       this.setState({ address_error: "*Address can not be empty" });
       error_present = true;
     }
-    if (data.Phone) {
-      const result = phone_regex(data.Phone);
+    if (data.phone_no) {
+      const result = phone_regex(data.phone_no);
       if (result === false) {
         this.setState({
-          Phone_error: "Not a valid Phone No."
+          phone_no_error: "Not a valid phone_no No."
         });
         error_present = true;
       }
@@ -203,39 +208,44 @@ export default class User_profile extends Component {
 
     this.setState({ loading_image: true });
     const data = {
-      username: users_login[0].user ? users_login[0].user.username : "",
-      user_image: image
+      // username: users_login[0].user ? users_login[0].user.username : "",
+      secure_pin,
+      user_id: localStorage.getItem("UserId") ,
+      profile_image: image
     };
-
-    update_user_image(data, DjangoConfig)
+console.log("imgdata",data)
+    update_user_image(data)
       .then(response => {
+        console.log("getting image0", response)
         let data2 = { user_id: localStorage.getItem("UserId") ,secure_pin};
         get_login_user_info(data2)
           .then(res => {
-            if (res.data && res.data.users_login[0].user_image) {
-              console.log("getting image", res.data.users_login[0].user_image);
+            console.log("ll88",res)
+            if (res.data) {
+              console.log("getting image", res.data.users_login[0].profile_image);
               this.setState({
-                user_image: res.data.users_login[0].user_image,
+                user_image: res.data.users_login[0].profile_image,
                 loading_image: false,
                 show_crop_function: false
               });
-              window.location.reload(false)
+              console.log("getting image1", this.state.user_image)
+              // window.location.reload(false)
             } else {
               this.setState({
                 loading_image: false,
                 show_crop_function: false
               });
-              alert("try again");
+              alert("try again0");
             }
           })
           .catch(err => {
             this.setState({ loading_image: false, show_crop_function: false });
-            alert("try again");
+            alert("try again1");
           });
       })
       .catch(res => {
         this.setState({ loading_image: false, show_crop_function: false });
-        alert("try again");
+        alert("try again2");
       });
   };
 
@@ -246,6 +256,7 @@ export default class User_profile extends Component {
   };
 
   render() {
+    console.log("image done",this.state.user_image)
     const {
       users_login,
       edit_details,
@@ -253,7 +264,7 @@ export default class User_profile extends Component {
       last_name,
       Company_name,
       address,
-      Phone,
+      phone_no,
       website,
       user_image,
 
@@ -261,7 +272,7 @@ export default class User_profile extends Component {
       first_name_error,
       Company_name_error,
       address_error,
-      Phone_error,
+      phone_no_error,
       website_error,
 
       loading_info,
@@ -292,7 +303,7 @@ export default class User_profile extends Component {
                   <img
                     src={
                       user_image
-                        ? "https://dashify.biz" + user_image
+                        ? "https://digimonk.net/dashify-ci/assets/upload/images/profile-type-image/" + user_image
                         : user_img_def
                     }
                     alt="user"
@@ -386,15 +397,15 @@ export default class User_profile extends Component {
                       </MDBRow>
                       <MDBRow className='user_rowspace'>
                       <MDBCol md="4">
-                      <div className="user2">Phone</div>
+                      <div className="user2">phone_no</div>
                       </MDBCol>
                       <MDBCol md="8">
                    
                     <div className="user3">
                       <input
                         type="text"
-                        name="Phone"
-                        value={Phone}
+                        name="phone_no"
+                        value={phone_no}
                         onChange={this.changeHandler}
                         className="user_edit_input"
                         placeholder="Edit phone no."
@@ -402,7 +413,7 @@ export default class User_profile extends Component {
                       
                     </div>
                     <div className="error" class='err_msg_user'>
-                        {Phone_error}
+                        {phone_no_error}
                       </div>
                 </MDBCol>
                       </MDBRow>
@@ -484,11 +495,11 @@ export default class User_profile extends Component {
                     </MDBRow>
                     <MDBRow>                   
                      <MDBCol md="4">
-                      <div className="user2">Phone</div>
+                      <div className="user2">phone_no</div>
                     </MDBCol>
                     <MDBCol md="8">
-                      {Phone ? (
-                        <div className="user3_new">{Phone}</div>
+                      {phone_no ? (
+                        <div className="user3_new">{phone_no}</div>
                       ) : (
                         <div className="user_blank"></div>
                       )}      

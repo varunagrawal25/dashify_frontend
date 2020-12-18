@@ -37,7 +37,7 @@ export const phone_regex = data => {
 };
 
 export const zipcode_regex = data => {
-  const regex = /^[0-9]{5}(?:-[0-9]{4})?$/;
+  const regex = /^[0-9]{6}(?:-[0-9]{4})?$/;
 
   //   if (result == null) {
   //     this.setState({

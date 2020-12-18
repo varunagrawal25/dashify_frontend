@@ -177,6 +177,7 @@ export default class ViewListing extends Component {
         secure_pin,
         location_id: this.props.match.params.locationId
       };
+      console.log("78945",this.props.match.params.locationId)
       var googleToken,
         linkedinToken,
         fbtoken,
@@ -737,7 +738,12 @@ const data1={secure_pin,countryid:"1"}
         this.props.history.push({
           pathname: `/linkedin-connectedaccounts/${resp.data.access_token}/view-listing/${this.props.match.params.locationId}`
         });
-
+        // {"secure_pin":"digimonk","user_id":"11","location_id":"11","connect_unique_id":"asdfasd12121212",
+        // "token":"sdfass222","username":"digimonk","first_name":"ram","last_name":"gautam",
+        // "email_id":"ram.gautam@digimonk.in",
+        // "other_info":"{'student':{ 'name':'Harrysdf', 'country':'United State', 'ContactNo':'1231212'}}",
+        // "connect_url":"https://digimonk.net/dashify-ci/admin/socialmedia_api/connect_social_media",
+        // "connect_type":"Facebook"}
         // const data = {
         //   location_id: this.props.match.params.locationId,
         //   Platform: "Linkedin",
@@ -1414,7 +1420,7 @@ const data1={secure_pin,countryid:"1"}
                           <img
                             src={
                               this.state.logo
-                                ? "https://dashify.biz" + this.state.logo
+                                ? "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + this.state.logo
                                 : require("../images/Logo2.png")
                             }
                             height="150"
@@ -1437,7 +1443,7 @@ const data1={secure_pin,countryid:"1"}
                           {this.state.otherImage.map((img, i) => (
                             <li>
                               <img
-                                src={"https://dashify.biz" + img.Image}
+                                src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + img.Image}
                                 height="115"
                                 width="115"
                               />
