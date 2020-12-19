@@ -2,7 +2,6 @@ import React from "react";
 import Logo from "./img/Logo.png";
 import { Link } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
-import Axios from "axios";
 import { get_link_of_forget_password } from "../apis/user";
 import Loader from "react-loader-spinner";
 import { secure_pin } from "../../config";

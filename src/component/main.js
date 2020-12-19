@@ -40,7 +40,6 @@ import GoogleConnectedAccounts from "./google-connectedaccounts";
 import LinkedinConnectedAccounts from "./linkedin-connectedaccounts";
 import HereRelatedLocation from "./here-related-location";
 import TomtomRelatedLocation from "./tomtom-related-location";
-import TestingPage from "./testing-page";
 import PageNotFound from "./page-not-found";
 
 export default class MainApp extends Component {
@@ -166,17 +165,7 @@ export default class MainApp extends Component {
                               Ranking Analytics
                             </NavLink>
                           </li>
-                          {/* <li>
-                            <NavLink
-                              to={
-                                "/locations/" +
-                                localStorage.getItem("locationId") +
-                                "/testing-page"
-                              }
-                            >
-                              Testing Page
-                            </NavLink>
-                          </li> */}
+                         
                         </ul>
                       </li>
 
@@ -323,11 +312,7 @@ export default class MainApp extends Component {
                   render={props => <ProfileAnalytics {...props} />}
                 />
 
-                <Route
-                  exact
-                  path="/locations/:locationId/testing-page"
-                  render={props => <TestingPage {...props} />}
-                />
+               
 
                 <Route
                   exact

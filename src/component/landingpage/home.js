@@ -511,6 +511,7 @@ import Slider from "react-slick";
 import Footer from "./footer";
 import Navbar from "./navbar";
 import { account_activate } from "../apis/user";
+import { secure_pin } from "../../config";
 
 export default class Home extends Component {
   componentDidMount = () => {
@@ -519,16 +520,18 @@ export default class Home extends Component {
 
     if (this.props.match.params.param1 && this.props.match.params.param2) {
       var { param1, param2 } = this.props.match.params;
-
+      
       const data = {
-        pera_1: param1,
-        pera_2: param2
+        secure_pin,
+        user_id: param1,
+        activation_code: param2
       };
+console.log("qq1",data)
 
       account_activate(data)
         .then(res => {
           console.log("account activation", res);
-          alert(res.data.messgae);
+          alert(res.data.message);
         })
         .catch(res => console.log("not active"));
     }

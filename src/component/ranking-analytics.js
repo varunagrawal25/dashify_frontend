@@ -9,7 +9,6 @@ import down_arrow from "./assets/down_arrow_icon.png";
 import left_arrow from "./assets/left_arrow.png";
 import right_arrow from "./assets/right_arrow.png";
 import MaterialTable from 'material-table';
-import { CenterFocusStrong } from "@material-ui/icons";
 
 export default class RankingAnalytics extends Component {
   render() {

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Axios from "axios";
 import {
   add_location,
   business_categories,
@@ -8,7 +7,7 @@ import {
 } from "./apis/location";
 import { Redirect } from "react-router-dom";
 import Loader from "react-loader-spinner";
-import { MDBCol, MDBRow, MDBContainer } from "mdbreact";
+import { MDBCol, MDBRow} from "mdbreact";
 //importing regex
 import {
   email_regex,
@@ -1067,13 +1066,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                               <label>
                                 City <span>*</span>
                               </label>
-                              {/* <input
-                                type="text"
-                                name="city"
-                                onChange={this.changeHandler}
-                                placeholder="Enter City Name"
-                                className="form-control"
-                              /> */}
+                             
                               <select
                                   name="city"
                                   onChange={this.changeHandler}
@@ -1107,19 +1100,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                               <label>
                                 Country <span>*</span>
                               </label>
-                              {/* <select
-                                name="country"
-                                onChange={this.changeHandler}
-                                id="country"
-                                required
-                                className="form-control"
-                              >
-                                <option value="0" disabled="">
-                                  Select Country
-                                </option>
-                                <option value="1">Australia</option>
-                              </select> */}
-
+                             
                               <div>
                                 <select
                                   name="country"
@@ -1151,18 +1132,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                               <label>
                                 State <span>*</span>
                               </label>
-                              {/* <select
-                                name="state"
-                                onChange={this.changeHandler}
-                                id="state"
-                                required
-                                className="form-control"
-                              >
-                                <option value="0" disabled="">
-                                  Select State
-                                </option>
-                                <option value="1">Auckland</option>
-                              </select> */}
+                            
 
                               <div>
                                 <select
@@ -1946,86 +1916,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                           </div>
                                         </MDBCol>
                                       </MDBRow>
-                                      {/* <div className="timebox">
-                                <div className="form-day"> FRIDAY</div>
-                                <select
-                                  name="friday"
-                                  onChange={this.changeHandler}
-                                  className="form-control colorselector"
-                                >
-                                  <option>Select hours</option>
-                                  <option value="OPEN">OPEN</option>
-                                  <option value="SPLIT">SPLIT</option>
-                                  <option value="OPEN 24x7">OPEN_24x7</option>
-                                  <option value="CLOSED">CLOSED</option>
-                                </select>
-
-                                <div className="output">
-                                  {this.state.friday == "OPEN" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="fridayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="fridayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>{" "}
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-
-                                  {this.state.friday == "SPLIT" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="fridayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="fridayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="fridayStart2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="fridayEnd2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              </div> */}
+                                      
 
                                       <MDBRow className=" daybox2">
                                         <MDBCol md="3" className="daytype">
@@ -2130,86 +2021,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                           </div>
                                         </MDBCol>
                                       </MDBRow>
-                                      {/* <div className="timebox">
-                                <div className="form-day">SATURDAY</div>
-                                <select
-                                  name="saturday"
-                                  onChange={this.changeHandler}
-                                  className="form-control colorselector"
-                                >
-                                  <option>Select hours</option>
-                                  <option value="OPEN">OPEN</option>
-                                  <option value="SPLIT">SPLIT</option>
-                                  <option value="OPEN 24x7">OPEN_24x7</option>
-                                  <option value="CLOSED">CLOSED</option>
-                                </select>
-
-                                <div className="output">
-                                  {this.state.saturday == "OPEN" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="saturdayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="saturdayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>{" "}
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-
-                                  {this.state.saturday == "SPLIT" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="saturdayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="saturdayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="saturdayStart2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="saturdayEnd2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div>
-                              </div> */}
+                                      
                                       <MDBRow className=" daybox2">
                                         <MDBCol md="3" className="daytype">
                                           Sunday
@@ -2313,86 +2125,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                           </div>
                                         </MDBCol>
                                       </MDBRow>
-                                      {/* <div className="timebox">
-                                <div className="form-day">SUNDAY</div>
-                                <select
-                                  name="sunday"
-                                  onChange={this.changeHandler}
-                                  className="form-control colorselector"
-                                >
-                                  <option>Select hours</option>
-                                  <option value="OPEN">OPEN</option>
-                                  <option value="SPLIT">SPLIT</option>
-                                  <option value="OPEN 24x7">OPEN_24x7</option>
-                                  <option value="CLOSED">CLOSED</option>
-                                </select>
-
-                                <div className="output">
-                                  {this.state.sunday == "OPEN" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="sundayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="sundayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>{" "}
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-
-                                  {this.state.sunday == "SPLIT" ? (
-                                    <div>
-                                      <p className="basicExample">
-                                        <input
-                                          name="sundayStart1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="sundayEnd1"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="sundayStart2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-
-                                        <input
-                                          name="sundayEnd2"
-                                          onChange={this.changeHandler}
-                                          type="time"
-                                          className="time end form-control "
-                                          defaultValue="12:00 AM"
-                                        />
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    ""
-                                  )}
-                                </div> 
-                              </div>*/}
+                                      
                                     </div>
                                   )}
                                 </div>
@@ -2661,197 +2394,6 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
     </div>
 </MDBCol>
 </MDBRow>                 
-                                                  {/* <div className="paymentbox">
-                                  <ul>
-                                    
-                                    <li>
-                                      <input
-                                        name="p_visa"
-                                        type="checkbox"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                      />
-                                      <img
-                                        src={require("../images/p-visa.png")}
-                                        alt="Visa"
-                                      />
-                                    </li>
-
-                                    <li>
-                                      <input
-                                        name="p_maestro"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-maestro.png")}
-                                        alt="Maestro"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_amex"
-                                        type="checkbox"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                      />
-                                      <img
-                                        src={require("../images/p-amex.png")}
-                                        alt="Amex"
-                                      />
-                                    </li>
-
-                                    <li>
-                                      <input
-                                        name="p_cash"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-cash.png")}
-                                        alt="Cash"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_check"
-                                        type="checkbox"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                      />
-                                      <img
-                                        src={require("../images/p-check.png")}
-                                        alt="Check"
-                                      />
-                                    </li>
-
-                                    <li>
-                                      <input
-                                        name="p_crypto"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-crypto.png")}
-                                        alt="Crypto"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_diners"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-diners.png")}
-                                        alt="Diners"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_discover"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-discover.png")}
-                                        alt="Discover"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_apple"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-apple.png")}
-                                        alt="Apple"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_samsung"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-samsung.png")}
-                                        alt="Samsung"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_paypal"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-paypal.png")}
-                                        alt="Paypal"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_android"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-android.png")}
-                                        alt="Android"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_invoices"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-invoices.png")}
-                                        alt="Invoices"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_traveler"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-traveler.png")}
-                                        alt="Traveler's Check"
-                                      />
-                                    </li>
-                                    <li>
-                                      <input
-                                        name="p_financing"
-                                        onChange={this.checkBoxHandler}
-                                        value="true"
-                                        type="checkbox"
-                                      />{" "}
-                                      <img
-                                        src={require("../images/p-financing.png")}
-                                        alt="Financing"
-                                      />
-                                    </li>
-                                  </ul>
-                                  <div class='err_msg'>
-                                    {paymentMethod_error}
-                                  </div>
-                                </div> */}
                               </div>
                            
                     </div>
