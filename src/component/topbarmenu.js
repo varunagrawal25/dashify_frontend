@@ -1,14 +1,11 @@
 import React, { Component } from "react";
-import SelectSearch from "react-select-search";
 import Axios from "axios";
 import { logout } from "./apis/user";
 import { all_location } from "./apis/location";
 import { all_connection_of_one_location } from "./apis/social_platforms";
-import { Link, Redirect, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ViewLocations from "./location-manager";
 import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
-import SearchIcon from "@material-ui/icons/Search";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Loader from "react-loader-spinner";

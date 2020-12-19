@@ -14,7 +14,6 @@ import twitter from "./assets/tw.png";
 import snap from "./assets/snap.png";
 import paypal from "./assets/paypal.png";
 import mastercard from "./assets/mastercard.png";
-import map from "./assets/map_user.png";
 import edit from "./assets/edit.png";
 import Map from "./Map";
 import Cropper from "./utils/cropper";

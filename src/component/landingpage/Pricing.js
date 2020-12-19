@@ -1,124 +1,490 @@
-import React, { Component } from "react";
-import { MDBCol, MDBRow, MDBContainer, MDBBtn } from "mdbreact";
-import Logo from "./img/Logo.png";
-import Loader from "react-loader-spinner";
-import { Link, Redirect } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
-import Signin from "./login";
-import Axios from "axios";
+import React, { Component } from 'react'
+import { MDBBtn, MDBCol, MDBContainer, MDBRow } from 'mdbreact'
+import Footer from "./footer";
+import Navbar from "./navbar";
+import check from '../assets/pricing_check.png'
+import cross from '../assets/pricing_cross.png'
 
-export default class Login extends Component {
-  state = {
-    price:"",
-    loading: false
-  };
-
-  componentDidMount() {
-    window.scrollTo(0, 0)
-}
-//   submitHandler = event => {
-//     event.preventDefault();
-
-//     this.setState({ Email_error: "", Password_error: "", wrong: "" });
-
-//     var cal = false;
-//     if (this.state.Email == "" && this.state.Password == "") {
-//       this.setState({
-//         Email_error: "Enter Email",
-//         Password_error: "Enter Password"
-//       });
-//     } else if (this.state.Email == "") {
-//       this.setState({ Email_error: "Enter Email" });
-//     } else if (this.state.Password == "") {
-//       this.setState({ Password_error: "Enter Password" });
-//     } else {
-//       cal = true;
-//     }
-
-//     if (cal) {
-//       const data = {
-//         username: this.state.Email,
-//         password: this.state.Password
-//       };
-
-//       this.setState({ loading: true });
-
-//       login(data)
-//         .then(async res => {
-//           console.log("login success", res.data);
-//           await localStorage.setItem("RememberMe", this.state.RememberMe);
-//           await localStorage.setItem("UserToken", res.data.Token);
-//           await localStorage.setItem("UserId", res.data.user_info[0].id);
-//           await localStorage.setItem("UserEmail", this.state.Email);
-//           await localStorage.setItem(
-//             "UserName",
-//             res.data.user_info[0].first_name +
-//               " " +
-//               res.data.user_info[0].last_name
-//           );
-//           // setAuthToken(res.data.Token)
-//           await this.setState({ isSuccessLogin: true, loading: false });
-//         })
-//         .catch(err => {
-//           console.log("login error", err.response);
-//           console.log("login error", err.message);
-//           if (err.response.status == 403) {
-//             window.location.assign("/dashboard");
-//           } else if (err.response.status == 400) {
-//             this.setState({
-//               wrong:
-//                 "Username and pasword is incorrect & may be your account is not activate",
-//               loading: false
-//             });
-//           } else {
-//             this.setState({ wrong: "Server error", loading: false });
-//           }
-//         });
-//     }
-//   };
-
+export default class Pricing extends Component {
   render() {
-      let {price,loading} = this.state;
     return (
       <div>
-        <div className="container">
+        <Navbar />
+        <div >
+        <MDBContainer>
+        <div className='contact_heading'>Pricing</div>
+        <div id='pricing_width1'>
+<div id='contact_contant1' className='contact_contant'>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+ Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+</div>
+</div>
 
-
-              <div className="modal-body modal_body">
-                <div style={{ padding: "0px 10%" }}>
-                  {this.state.loading ? (
-                    <Loader
-                      type="Oval"
-                      color="#00BFFF"
-                      height={25}
-                      width={25}
-                      // timeout={3000} //3 secs
-                    />
-                  ) : (
-                    <div style={{ color: "red" }}>{this.state.wrong}</div>
-                  )}
-                  
-                  <ul className="nav navbar-nav navbar-right ml-auto">
-                <li>
-                  <Link data-toggle="modal" data-target="#myModalSignin" onClick={()=>this.setState({price:16})}>16$</Link>
-                </li>
-                <li>
-                  <Link data-toggle="modal" data-target="#myModalSignin" onClick={()=>this.setState({price:18})}>18$</Link>
-                </li>
-                <li>
-                  <Link data-toggle="modal" data-target="#myModalSignin" onClick={()=>this.setState({price:20})}>20$</Link>
-                </li>
-                <li>
-                  <Link data-toggle="modal" data-target="#myModalSignin" onClick={()=>this.setState({price:30})}>30$</Link>
-                </li>
-                </ul>
-                  
+                <div id='pricing_period'>
+                  <MDBBtn id='pricing_btn1'>Monthly</MDBBtn>
+                  <MDBBtn id='pricing_btn2'>Annual</MDBBtn>
                 </div>
-              </div>
+
+                <MDBRow>
+                    <MDBCol md='4'/>
+                  <MDBCol md='8' className=' pricing_container1'>
+                      <MDBRow>
+                      <MDBCol md='3' >
+                      <div style={{textAlign:'center'}}>
+                        <div className='pricing_contant1'>Start</div>
+                        <div >
+                        <span className='pricing_contant2'>16</span>
+                        <span>$</span>
+                        </div>
+                        <div ><MDBBtn className='pricing_enable_btn'>Enable</MDBBtn></div>
+                        </div>
+                  </MDBCol>
+
+                  <MDBCol md='3' >
+                      <div style={{textAlign:'center'}}>
+                        <div className='pricing_contant1'>Business</div>
+                        <div >
+                        <span className='pricing_contant2'>18</span>
+                        <span>$</span>
+                        </div>
+                        <div ><MDBBtn className='pricing_enable_btn'>Enable</MDBBtn></div>
+                        </div>
+                  </MDBCol>
+
+                  <MDBCol md='3' >
+                      <div style={{textAlign:'center'}}>
+                        <div className='pricing_contant1'>Professional</div>
+                        <div >
+                        <span className='pricing_contant2'>20</span>
+                        <span>$</span>
+                        </div>
+                        <div ><MDBBtn className='pricing_enable_btn'>Enable</MDBBtn></div>
+                        </div>
+                  </MDBCol>
+
+                  <MDBCol md='3' >
+                      <div style={{textAlign:'center'}}>
+                        <div className='pricing_contant1'>Max</div>
+                        <div >
+                        <span className='pricing_contant2'>30</span>
+                        <span>$</span>
+                        </div>
+                        <div ><MDBBtn className='pricing_enable_btn'>Enable</MDBBtn></div>
+                        </div>
+                  </MDBCol>
+                      </MDBRow>
+                  </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol className='pricing_contant3'>
+                        General
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                
+                <MDBRow>
+                    <MDBCol className='pricing_contant3'>
+                    Advertising platform
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'>0 $</MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol className='pricing_contant3'>
+                    Rating
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
 
 
+                <MDBRow>
+                    <MDBCol className='pricing_contant3'>
+                    Statistics
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+
+                <MDBRow>
+                    <MDBCol className='pricing_contant3'>
+                    Tenders
+                    </MDBCol>
+                </MDBRow>
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant4' >
+                    Lorem ipsum dolor sit amet
+                    </MDBCol>
+                    <MDBCol md='8' className=' pricing_container2'>
+                    <MDBRow>
+                      <MDBCol md='3' className='pricing_contant5'><img src={cross} className='p_cross'/> </MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                      <MDBCol md='3' className='pricing_contant5'><img src={check} className='p_check'/></MDBCol>
+                    </MDBRow>
+                    </MDBCol>
+                </MDBRow>
+
+                <MDBRow>
+                    <MDBCol md='4' className='pricing_contant6'>
+                       Total :
+                    </MDBCol>
+                  <MDBCol md='8' className=' pricing_container3'>
+                      <MDBRow>
+                      <MDBCol md='3' >
+                      <div style={{textAlign:'center'}}>
+                        <div >
+                        <span className='pricing_contant2'>16</span>
+                        <span>$</span>
+                        </div>
+                        <div ><MDBBtn className='pricing_enable_btn'>Enable</MDBBtn></div>
+                        </div>
+                  </MDBCol>
+
+                  <MDBCol md='3' >
+                      <div style={{textAlign:'center'}}>
+                        <div >
+                        <span className='pricing_contant2'>18</span>
+                        <span>$</span>
+                        </div>
+                        <div ><MDBBtn className='pricing_enable_btn'>Enable</MDBBtn></div>
+                        </div>
+                  </MDBCol>
+
+                  <MDBCol md='3' >
+                      <div style={{textAlign:'center'}}>
+                        <div >
+                        <span className='pricing_contant2'>20</span>
+                        <span>$</span>
+                        </div>
+                        <div ><MDBBtn className='pricing_enable_btn'>Enable</MDBBtn></div>
+                        </div>
+                  </MDBCol>
+
+                  <MDBCol md='3' >
+                      <div style={{textAlign:'center'}}>
+                        <div >
+                        <span className='pricing_contant2'>30</span>
+                        <span>$</span>
+                        </div>
+                        <div ><MDBBtn className='pricing_enable_btn'>Enable</MDBBtn></div>
+                        </div>
+                  </MDBCol>
+                      </MDBRow>
+                  </MDBCol>
+                </MDBRow>
+
+                        <div id='support_width2'>
+                        <div className='contact_heading' >Frequently asked questions about pricing </div>
+                        <div className="panel-group pricing_block" id="accordion" >
+                          <div className='collapse_box'>
+        <div data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+        <img src={require("../assets/plus.png")} alt="" className='plus_minus' />
+        <span className='support_collapse_heading' >
+            Do I need to enter my credit card details to sign up?
+        </span>
+        </div>
+      
+    <div id="collapse1" className="panel-collapse collapse ">
+      <div className="panel-body support_collapse_body">
+      Google. Google Maps. Amazon Alexa. Apple Maps. Facebook. Bing. Yahoo. Yelp. It doesn’t matter which map, 
+      app, voice assistant, search engine, GPS system, or social network consumers use to find and engage with 
+      your business. What matters is that they discover accurate, complete, and compelling information at every turn.
       </div>
-      <Signin price={price} />
+    </div>
+    </div>
+    <hr className='pricing_collapse_hr' />
+
+
+    <div className='collapse_box'>
+    <div data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+        <img src={require("../assets/plus.png")} alt="" className='plus_minus' />
+        <span className='support_collapse_heading' >Is there a setup free?</span>
+        </div>
+      
+    <div id="collapse2" className="panel-collapse collapse ">
+      <div className="panel-body support_collapse_body">
+      Google. Google Maps. Amazon Alexa. Apple Maps. Facebook. Bing. Yahoo. Yelp. It doesn’t matter which map, 
+      app, voice assistant, search engine, GPS system, or social network consumers use to find and engage with 
+      your business. What matters is that they discover accurate, complete, and compelling information at every turn.
+      </div>
+    </div>
+    </div>
+    <hr className='pricing_collapse_hr' />
+
+
+    <div className='collapse_box'>
+    <div data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+        <img src={require("../assets/plus.png")} alt="" className='plus_minus' />
+        <span className='support_collapse_heading' >
+        Is there any storage or usage limit for a content repository?
+        </span>
+        </div>
+      
+    <div id="collapse3" className="panel-collapse collapse ">
+      <div className="panel-body support_collapse_body">
+      Google. Google Maps. Amazon Alexa. Apple Maps. Facebook. Bing. Yahoo. Yelp. It doesn’t matter which map, 
+      app, voice assistant, search engine, GPS system, or social network consumers use to find and engage with 
+      your business. What matters is that they discover accurate, complete, and compelling information at every turn.
+      </div>
+    </div>
+    </div>
+    <hr className='pricing_collapse_hr' />
+  </div>
+  </div>
+                            <div id='asknow'>
+                        <span id='support_contant3'>Any more questions?</span>
+                        <span id='support_contant4' className='support_contant'>Ask it now! </span>
+                        {/* <hr id='line'/> */}
+                        </div>
+            </MDBContainer>
+        </div>
+        <Footer />
       </div>
     );
   }

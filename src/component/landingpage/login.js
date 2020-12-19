@@ -184,6 +184,7 @@ export default class Login extends Component {
 					}
 				})
 				.catch((res) => {
+					console.log(";;")
 					this.setState({ loading_activate: false, email_sent: 0 });
 				});
 		}
@@ -215,7 +216,7 @@ export default class Login extends Component {
 			// return <Redirect to="/dashboard" />;
 			window.location.assign("/dashboard");
 		}
-
+console.log("this.state.email_sent",this.state.email_sent)
 		return (
 			// <div>
 			//   <div className="container">
@@ -396,9 +397,12 @@ export default class Login extends Component {
 												width={25}
 												// timeout={3000} //3 secs
 											/>
+										) : this.state.email_sent == "" ? (
+											<div className="warning"></div>
 										) : this.state.email_sent == 0 ? (
-											<div className="fine">Email not sent</div>
-										) : this.state.email_sent == 1 ? (
+											<div className="warning">Email not sent</div>
+										) :
+										 this.state.email_sent == 1 ? (
 											<div className="fine">
 												Email verification link has been sent to your inbox
 												successfully

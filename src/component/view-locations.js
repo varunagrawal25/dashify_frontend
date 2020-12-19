@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Axios from "axios";
 import {
   business_categories,
   location_by_id,
