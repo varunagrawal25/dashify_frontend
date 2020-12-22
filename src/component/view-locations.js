@@ -226,7 +226,20 @@ export default class LocationManager extends Component {
 console.log("data255",data)
     location_by_id(data)
     .then(resp => {
-      
+      const data2={secure_pin}
+console.log("jj",data2)
+      business_categories(data2).then(resp1 => {
+        console.log("jj",resp1)
+        resp1.data.bussiness_category_array.map((b, i) =>
+        b.id == resp.data.location_details[0].bussiness_cate
+        ? this.setState({ category: b.name })
+        : ""
+        );
+        
+      }).catch(err => {
+        console.log("err",err)
+        this.setState({category: "Loading..."})
+      });
       console.log("location_by_id0", resp);
       console.log("location_by_id1", resp.data);
       console.log("location_by_id2", resp.data.location_details);
@@ -282,18 +295,12 @@ console.log("data255",data)
         })
       console.log("name88",this.state.name)
 console.log("name88",resp.data.location_details[0].location_name)
-const data={secure_pin}
-      business_categories(data).then(resp1 => {
-        resp1.data.bussiness_category_array.map((b, i) =>
-          b.id == resp.data.location_details[0].bussiness_cate
-            ? this.setState({ category: b.Category_Name })
-            : ""
-        );
-      });
+
     }).catch(err => {
       console.log("err",err)
       this.setState({loader:false})
     })
+    
   };
 
   editDetailsButton = event => {
@@ -353,7 +360,7 @@ const data={secure_pin}
         location_id: locationId,
         user_id: localStorage.getItem("UserId"),
         stor_code: storeCode_edit,
-        bussiness_cate:"1",
+        bussiness_cate:this.state.category,
         location_name:this.state.name,
         address1: address_edit,
         address2 :"ind",
@@ -395,7 +402,7 @@ const data={secure_pin}
         location_id: locationId,
         user_id: localStorage.getItem("UserId"),
         stor_code: storeCode_edit,
-        bussiness_cate:"1",
+        bussiness_cate:this.state.category,
         location_name:this.state.name,
         address1: address_edit,
         address2 :"ind",
@@ -1170,49 +1177,59 @@ console.log("timecheck2",isValid)
     return isError;
   };
 
-  addSpecialHourButton = async event => {
-    event.preventDefault();
+  // addSpecialHourButton = async event => {
+  //   event.preventDefault();
 
-    let isError = await this.specialHourError();
+  //   let isError = await this.specialHourError();
 
-    if (!isError) {
-      let i = 0;
-      let i2 = this.state.LocationDetails.Df_location_poen_hour.length - 7;
-      console.log("monday", this.state.monday_day_s, i);
+  //   if (!isError) {
+  //     let i = 0;
+  //     let i2 = this.state.LocationDetails.Df_location_poen_hour.length - 7;
+  //     console.log("monday", this.state.monday_day_s, i);
 
-      if (this.state.monday_day_s) {
-        await this.setState(prevState => ({
-          special_hour_data: {
-            ...prevState.special_hour_data,
-            [i]: {
-              date: this.state.monday_day_s,
-              day: "Special",
-              Type: `Special-${i2}`,
-              open_status: this.state.monday_s,
-              start_time1: this.state.mondayStart1_s,
-              end_time1: this.state.mondayEnd1_s,
-              start_time2: this.state.mondayStart2_s,
-              end_time2: this.state.mondayEnd2_s
-            }
-          }
-        }));
-        i++;
-      }
+  //     if (this.state.monday_day_s) {
+  //       await this.setState(prevState => ({
+  //         special_hour_data: {
+  //           ...prevState.special_hour_data,
+  //           [i]: {
+  //             date: this.state.monday_day_s,
+  //             day: "Special",
+  //             Type: `Special-${i2}`,
+  //             open_status: this.state.monday_s,
+  //             start_time1: this.state.mondayStart1_s,
+  //             end_time1: this.state.mondayEnd1_s,
+  //             start_time2: this.state.mondayStart2_s,
+  //             end_time2: this.state.mondayEnd2_s
+  //           }
+  //         }
+  //       }));
+  //       i++;
+  //     }
 
-      this.addSpecialHourToDb();
-    }
-  };
+  //     this.addSpecialHourToDb();
+  //   }
+  // };
 
-  addSpecialHourToDb = () => {
+  addSpecialHourButton = () => {
     // event.preventDefault();
     console.log("special");
     var locationId = this.props.match.params.locationId;
 
     const data = {
-      Location_id: locationId,
-      open_houre: this.state.special_hour_data
+      secure_pin,
+        location_id: locationId,
+        user_id: localStorage.getItem("UserId"),
+      type: "special", 
+      open_hours_array: [ {
+        special_date: this.state.monday_day_s,
+        open_status: this.state.monday_s,
+        start_time1: this.state.mondayStart1_s,
+        end_time1: this.state.mondayEnd1_s,
+        start_time2: this.state.mondayStart2_s,
+        end_time2: this.state.mondayEnd2_s
+               }]
     };
-
+console.log("happyh",data)
     this.setState({ specialTimeLoading: true });
 
     edit_location_operations_hours_by_id(data)
@@ -1328,15 +1345,19 @@ console.log("timecheck2",isValid)
       //   this.setState({ BusinessLogoUpdate: e.target.result });
 
       var locationId = this.props.match.params.locationId;
-
+      // {"secure_pin":"digimonk","user_id":"10","location_id":"38",
+      // "more_bussiness_images_array":[{"bussiness_image":"base64image1"},{"bussiness_image":"base64image2"}]}
       const data = {
+        secure_pin,
+        user_id: localStorage.getItem("UserId"),
         location_id: locationId,
-        other_image: { 0: e.target.result }
+        
+        more_bussiness_images_array: [{ bussiness_image: e.target.result }]
       };
-
+console.log("kkl",data)
       this.setState({ otherImagesLoading: true });
 
-      add_other_images_by_location_id(data, DjangoConfig)
+      add_other_images_by_location_id(data)
         .then(resp => {
           const data1 = {
             location_id: locationId,
@@ -1366,11 +1387,13 @@ console.log("timecheck2",isValid)
   delete_other_image = image_id => {
     var locationId = this.props.match.params.locationId;
     const data = {
+      secure_pin,
+      location_id:locationId,
       image_id: image_id
     };
     console.log("image_id", image_id);
     this.setState({ otherImagesLoading: true });
-    delete_other_images_by_location_id(data, DjangoConfig)
+    delete_other_images_by_location_id(data)
       .then(res => {
         const data1 = {
           location_id: locationId,
@@ -1507,11 +1530,11 @@ const data={secure_pin}
     regularHours2 = (
       <div className="vl_gap4">
         {this.state.hours.map(h =>
-          h.day == "Special" ? (
+          h.type == "special" ? (
             <div className="daybox" key={h.id}>
               {/* <div className="daytype">{h.day}</div> */}
               <div className="daytype">
-                {h.date
+                {h.special_date
                   .split("-")
                   .reverse()
                   .join("-")}
@@ -1834,7 +1857,34 @@ const data={secure_pin}
                                         />
                                       </MDBCol>
                                     </MDBRow>
+                                    <MDBRow className="uploadauthor">
+                                      <MDBCol md="6">
+                                        <div className="author_namebox">
+                                          Category :
+                                        </div>
+                                      </MDBCol>
 
+                                      <MDBCol md="6">
+                                      <select
+                                    name="category"
+                                    onChange={this.changeHandler}
+                                    className="form-control"
+                                    id="primaryCategory"
+                                  >
+                                    <option value="0" disabled="">
+                                      Select Category
+                                    </option>
+                                    {this.state.businessCategories.map((b, i) => (
+                                      <option
+                                        key={`business-${i}`}
+                                        value={b.id}
+                                      >
+                                        {b.name}
+                                      </option>
+                                    ))}
+                                  </select>
+                                      </MDBCol>
+                                    </MDBRow>
                                     <MDBRow className="uploadauthor">
                                       <MDBCol md="6">
                                         <div className="author_namebox">
@@ -1987,9 +2037,10 @@ const data={secure_pin}
                                     <MDBCol md="6">
                                       <div className="storetext">
                                         {
-                                          (this.state.city,
-                                          this.state.state,
-                                          this.state.postalCode)
+                                          this.state.address
+                                          // (this.state.city,
+                                          // this.state.state,
+                                          // this.state.postalCode)
                                         }
                                       </div>
                                     </MDBCol>
@@ -2155,7 +2206,7 @@ const data={secure_pin}
                                         </MDBCol>
                                       </MDBRow>
 
-                                      <MDBRow className="uploadauthor">
+                                      {/* <MDBRow className="uploadauthor">
                                         <MDBCol md="6">
                                           <div className="author_namebox">
                                             Website :
@@ -2172,6 +2223,7 @@ const data={secure_pin}
                                           />
                                         </MDBCol>
                                       </MDBRow>
+ */}
 
                                       <MDBRow className="uploadauthor">
                                         <MDBCol md="6">
@@ -2476,12 +2528,13 @@ const data={secure_pin}
                                     </MDBCol>
                                   </MDBRow>
 
-                                  <MDBRow className="uploadauthor">
+                                  {/* <MDBRow className="uploadauthor">
                                     <MDBCol md="6">
                                       <div className="author_namebox">
                                         Website :
                                       </div>
                                     </MDBCol>
+
 
                                     <MDBCol md="6">
                                       <div className="storetext">
@@ -2489,6 +2542,7 @@ const data={secure_pin}
                                       </div>
                                     </MDBCol>
                                   </MDBRow>
+                                */}
                                 </MDBCol>
                               </MDBRow>
                             </div>
@@ -3933,10 +3987,8 @@ const data={secure_pin}
                             </MDBCol>
                             {this.state.otherImages.map((n, i) => (
                               <MDBCol md="2" className="plush_new">
-                                <img
-                                  src={
-                                    "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
-                                    this.state.otherImages[i].image
+                                <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                    n.image
                                   }
                                   alt=""
                                   style={{

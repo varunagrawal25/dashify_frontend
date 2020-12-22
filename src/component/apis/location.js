@@ -50,18 +50,12 @@ export const update_images_by_location_id = (data) => {
     `${API}/admin/location_api/update_logo_cover_image`, data);
 };
 
-export const add_other_images_by_location_id = (data, DjangoConfig) => {
+export const add_other_images_by_location_id = (data) => {
   return Axios.post(
-    `${API}/locations/add-other-images-files-by-location-id`,
-    data,
-    DjangoConfig
-  );
+    `${API}/admin/location_api/update_more_images`, data );
 };
 
-export const delete_other_images_by_location_id = (data, DjangoConfig) => {
+export const delete_other_images_by_location_id = (data) => {
   return Axios.post(
-    `${API}/locations/remove-other-images-files-by-location-id-image-id`,
-    data,
-    DjangoConfig
-  );
+    `${API}/admin/location_api/delete_other_images`, data );
 };
