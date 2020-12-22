@@ -12257,6 +12257,22 @@ label img {
   margin-top: 20px;
 }
 
+.vl_btn_c3_delete {
+  width: 83.18px;
+  height: 30.45px;
+  background: #c94c4c;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 19px;
+  color: #f2f2f2;
+  margin-left: 40px;
+  margin-top: 20px;
+}
+
 .vl_link {
   font-family: Roboto;
   font-style: normal;
@@ -12434,6 +12450,13 @@ label img {
     margin-left: 0px;
   }
 
+  .vl_btn_c3_delete {
+    width: 75px;
+    height: 27px;
+    font-size: 14px;
+    line-height: 18px;
+    margin-left: 0px;
+  }
   #vl_btn_edit {
     width: 75px;
     height: 27px;

@@ -20,7 +20,7 @@ import GoogleLogin from "react-google-login";
 import Spinner from "../common/Spinner";
 import { MDBRow, MDBCol, MDBBtn, MDBCard, MDBContainer } from "mdbreact";
 import Loader from "react-loader-spinner";
-
+import { secure_pin } from "../../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -51,14 +51,14 @@ export default class UpdateFaq extends Component {
 
   faqById = id => {
     var data = {
-      faq_id: id
+      faqid: id
     };
 
     let filtered_faq = this.props.allfaq.filter(data => data.id === id);
 
     this.setState({
-      que: filtered_faq[0].question,
-      ans: filtered_faq[0].answer
+      que: filtered_faq[0].que,
+      ans: filtered_faq[0].ans
     });
 
     // faqs_by_id(data, DjangoConfig).then(resp => {
@@ -74,12 +74,14 @@ export default class UpdateFaq extends Component {
   updateFaq = (que, ans, id) => event => {
     event.preventDefault();
     var data = {
-      Location_id: this.props.locationId,
-      question: que,
-      answer: ans,
-      faq_id: id
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.locationId,
+      que: que,
+      ans: ans,
+      faqid: id
     };
-
+console.log("update_data",data)
     this.setState({ que_error: "", ans_error: "", loader_update: true });
 
     let is_que = false,
@@ -98,8 +100,9 @@ export default class UpdateFaq extends Component {
     }
 
     if (is_ans && is_que) {
-      edit_faq(data, DjangoConfig)
+      edit_faq(data)
         .then(async resp => {
+          console.log("edit",resp)
           await this.props.getNewAllFaq();
           await this.props.cancel();
           this.setState({

@@ -554,6 +554,8 @@ console.log("user_id",data.user_id)
                           ""
                         ) : (
                           <div className="searchtrans">
+                            <div class="scrollbar">
+                                       <div class="overflow">
                             <ul name="language" id="language" required>
                               {filtered_posts.length != 0
                                 ? filtered_posts.map((f, i) => (
@@ -570,6 +572,8 @@ console.log("user_id",data.user_id)
                                   ))
                                 : "No Result"}
                             </ul>
+                          </div>
+                          </div>
                           </div>
                         )}
                       </div>
