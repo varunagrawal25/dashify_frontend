@@ -25,7 +25,7 @@ import ReactPDF, {
 } from "@react-pdf/renderer";
 // import jsPDF from "jspdf";
 // import html2canvas from "html2canvas";
-
+import swal from "sweetalert";
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -171,7 +171,7 @@ export default class ProfileAnalytics extends Component {
 
   responseErrorGoogle = response => {
     console.log(response);
-    alert("try again");
+    swal("try again");
   };
 
   responseGoogle = response => {

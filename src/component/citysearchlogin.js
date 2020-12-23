@@ -3,6 +3,7 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
+import swal from "sweetalert";
 
 class CitySearchLogin extends Component {
   state = {
@@ -87,7 +88,7 @@ class CitySearchLogin extends Component {
                 this.setState({ isUrl: true, loading: false });
               })
               .catch(resp => {
-                alert("Invalid username or password");
+                swal("Invalid username or password");
                 console.log("citysearch resp", resp);
                 this.setState({
                   wrong: "Invalid or Not authorised",
@@ -95,12 +96,12 @@ class CitySearchLogin extends Component {
                 });
               });
           } else {
-            alert("Invalid username or password");
+            swal("Invalid username or password");
             this.setState({ loading: false });
           }
         })
         .catch(res => {
-          alert("Invalid username or password");
+          swal("Invalid username or password");
           this.setState({ loading: false });
         });
     }

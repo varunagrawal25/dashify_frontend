@@ -15,6 +15,7 @@ import { Button } from "reactstrap";
 import { MDBCol, MDBContainer, MDBRow } from "mdbreact";
 import Footer from "./footer";
 import Navbar from "./navbar";
+import swal from "sweetalert";
 
 class ContactUs extends Component {
   state = {
@@ -77,11 +78,11 @@ class ContactUs extends Component {
       add_query(data)
         .then(res => {
           this.setState({ loading: false });
-          alert("Submitted succesfully");
+          swal("Submitted succesfully");
           console.log("contact us response", res.data);
         })
         .catch(res => {
-          alert("Something went wrong");
+          swal("Something went wrong");
           this.setState({ loading: false });
           console.log("contact us error", res);
         });

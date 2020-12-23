@@ -32,6 +32,7 @@ import { MDBCol, MDBRow } from "mdbreact";
 import { profile_analytics_json } from "./json/social_media";
 import swal from 'sweetalert';
 import { secure_pin } from "../config";
+
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -191,7 +192,7 @@ export default class ProfileAnalytics extends Component {
 
   responseErrorGoogle = response => {
     console.log(response);
-    // alert("try again");
+    // swal("try again");
     swal("Google connection failed!");
   };
 

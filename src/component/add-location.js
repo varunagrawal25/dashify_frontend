@@ -125,7 +125,7 @@ export default class AddLocation extends Component {
       loadCountryCategories: false,
       loadStateCategories: false,
       loadCityCategories: false,
-      applyAll: false,
+      applyAll: "0",
       isSuccess: false,
 
       location_name_error: "",
@@ -263,7 +263,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
   about_bussiness : this.state.about,facebook_profile: this.state.facebookProfile ,
   instagram_profile: this.state.instagramProfile ,twitter_profile:this.state.twitterProfile ,
   bussiness_cover_image: this.state.BusinessCoverImage,payment_method_array: payment, 
-  more_bussiness_images_array :  this.state.otherImage, open_hours_apply_all : "0" ,
+  more_bussiness_images_array :  this.state.otherImage, open_hours_apply_all : this.state.applyAll ,
    open_hours_array :[{day:"Monday",open_status:this.state.monday,start_time1: this.state.mondayStart1,
    end_time1:this.state.mondayEnd1,start_time2:this.state.mondayStart2,end_time2:this.state.mondayEnd2},
    {day:"Tuesday",open_status:this.state.tuesday,start_time1: this.state.tuesdayStart1,end_time1:this.state.tuesdayEnd1,
@@ -635,7 +635,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
 
     if (event.target.checked && isValid) {
       this.setState({
-        applyAll: true,
+        applyAll: "1",
 
         tuesday: this.state.monday,
         tuesdayStart1: this.state.mondayStart1,
@@ -675,7 +675,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
       });
     } else {
       this.setState({
-        applyAll: false,
+        applyAll: "0",
 
         tuesday: "",
         tuesdayStart1: "",
@@ -1497,7 +1497,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                   </MDBRow>
 
                                  
-                                  {applyAll && !applyAllError ? (
+                                  {applyAll=="1" && !applyAllError ? (
                                     ""
                                   ) : (
                                     <div>

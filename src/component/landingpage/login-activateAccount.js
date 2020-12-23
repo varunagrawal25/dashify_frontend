@@ -7,6 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 import { Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import { login, account_activate, logout } from "../apis/user";
+import swal from "sweetalert";
 
 export default class Login extends Component {
   state = {
@@ -43,7 +44,7 @@ export default class Login extends Component {
       account_activate(data)
         .then(res => {
           console.log("account activation", res);
-          alert(res.data.messgae);
+          swal(res.data.messgae);
 
           // setAuthToken(res.data.Token)
 

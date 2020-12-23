@@ -3,6 +3,7 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
+import swal from "sweetalert";
 
 class AvvoLogin extends Component {
   state = {
@@ -93,7 +94,7 @@ class AvvoLogin extends Component {
                 this.setState({ isUrl: true, loading: false });
               })
               .catch(resp => {
-                alert("Invalid Avvo's Lawyer Id");
+                swal("Invalid Avvo's Lawyer Id");
                 console.log("Avvo resp", resp.data);
                 this.setState({
                   // wrong: "Invalid Avvo's Lawyer Id",
@@ -101,14 +102,14 @@ class AvvoLogin extends Component {
                 });
               });
           } else {
-            alert("Invalid Avvo's Lawyer Id");
+            swal("Invalid Avvo's Lawyer Id");
             this.setState({
               loading: false
             });
           }
         })
         .catch(res => {
-          alert("Invalid Avvo's Lawyer Id");
+          swal("Invalid Avvo's Lawyer Id");
           this.setState({ loading: false });
         });
     }

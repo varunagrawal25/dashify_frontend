@@ -3,6 +3,7 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
+import swal from "sweetalert";
 
 const Zomatoconfig = {
   headers: {
@@ -89,19 +90,19 @@ class ZomatoLogin extends Component {
                 this.setState({ isUrl: true, loading: false });
               })
               .catch(resp => {
-                alert("Invalid Zomato id");
+                swal("Invalid Zomato id");
                 console.log("Zomato resp", resp.data);
                 this.setState({
                   loading: false
                 });
               });
           } else {
-            alert("Invalid Zomato id");
+            swal("Invalid Zomato id");
             this.setState({ loading: false });
           }
         })
         .catch(res => {
-          alert("Invalid Zomato id");
+          swal("Invalid Zomato id");
           this.setState({ loading: false });
         });
     }

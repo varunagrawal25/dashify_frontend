@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
+import swal from "sweetalert";
 
 class HereLogin extends Component {
   state = {
@@ -82,7 +83,7 @@ class HereLogin extends Component {
         long = link.split("map=")[1].split(",")[1];
         valid_place_name = true;
       } else {
-        alert(
+        swal(
           "Please put url in this form => https://wego.here.com/india/mumbai/hotel/taj-mahal-tower,-mumbai--356te7g9-4ff5b2b3f342414b81436cb645af1ac3?x=ep&map=18.9224,72.8335,15,normal "
         );
       }
@@ -116,7 +117,7 @@ class HereLogin extends Component {
         })
         .catch(resp => {
           console.log("Here error", resp.data);
-          alert(
+          swal(
             "Please put url in this form => https://wego.here.com/india/mumbai/hotel/taj-mahal-tower,-mumbai--356te7g9-4ff5b2b3f342414b81436cb645af1ac3?x=ep&map=18.9224,72.8335,15,normal "
           );
           this.setState({

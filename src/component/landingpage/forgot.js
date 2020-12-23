@@ -5,6 +5,8 @@ import { Row, Col } from "react-bootstrap";
 import { get_link_of_forget_password } from "../apis/user";
 import Loader from "react-loader-spinner";
 import { secure_pin } from "../../config";
+import swal from "sweetalert";
+
 class Login extends React.Component {
   state = {
     Email: "",
@@ -30,13 +32,13 @@ class Login extends React.Component {
         .then(res => {
           console.log("332211",res);
           this.setState({ error: "", loading: false });
-          alert("Reset Password link sent to your Mail");
-          //   alert(res.data.messgae)
+          swal("Reset Password link sent to your Mail");
+          //   swal(res.data.messgae)
         })
         .catch(res => {
           console.log("error in forgot", res);
           // this.setState({ error: "* Not registered email" });
-          alert("something went wrong");
+          swal("something went wrong");
           this.setState({ loading: false });
         });
     } else {

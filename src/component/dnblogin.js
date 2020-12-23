@@ -3,6 +3,7 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
+import swal from "sweetalert";
 
 const DnbConfig = {
   headers: {
@@ -59,7 +60,7 @@ class DnbLogin extends Component {
       })
       .catch(resp => {
         console.log("DNB authentication error", resp.data);
-        alert("Admin side error");
+        swal("Admin side error");
       });
   };
 
