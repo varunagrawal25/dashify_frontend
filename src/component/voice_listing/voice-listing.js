@@ -81,7 +81,9 @@ export default class VoiceListing extends Component {
     console.log(" delete");
 
     var data = {
-      faq_id: nameid
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      faqid: nameid
     };
 
     // Axios.post(
@@ -89,17 +91,32 @@ export default class VoiceListing extends Component {
     //   data,
     //   DjangoConfig
     // )
-    delete_faq(data, DjangoConfig).then(resp => {
+    delete_faq(data).then(resp => {
       console.log(resp);
       // Axios.get(
       //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/voice-faq/get-all-faqs",
       //   DjangoConfig
       // )
-      all_faq(DjangoConfig).then(resp => {
-        console.log(resp);
-        this.setState({ allFaq: resp.data.all_faqs });
-      });
+      // all_faq(DjangoConfig).then(resp => {
+      //   console.log(resp);
+      //   this.setState({ allFaq: resp.data.all_faqs });
+      // });
     });
+    var datal = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId
+    };
+
+    all_faq_by_location_id(datal)
+      .then(resp => {
+        console.log("all faq0", resp);
+        console.log("all faq1", resp.data);
+        this.setState({ allFaq: resp.data.faq_list });
+      })
+      .catch(err => {
+        console.log("err in getallFaq", err);
+      });
   };
 
   submitCancel = e => {
@@ -121,13 +138,16 @@ export default class VoiceListing extends Component {
     //   });
 
     var datal = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
       location_id: this.props.match.params.locationId
     };
 
-    all_faq_by_location_id(datal, DjangoConfig)
+    all_faq_by_location_id(datal)
       .then(resp => {
-        console.log("all faq", resp.data);
-        this.setState({ allFaq: resp.data.all_faqs });
+        console.log("all faq0", resp);
+        console.log("all faq1", resp.data);
+        this.setState({ allFaq: resp.data.faq_list });
       })
       .catch(err => {
         console.log("err in getallFaq", err);
@@ -145,15 +165,15 @@ export default class VoiceListing extends Component {
       this.state.allFaq.map(r => {
         dynadiv +=
           "<div class='faq'> <div class='faq-question'> <span class='faq-question-label'>Q.</span> <span class='faq-value'>" +
-          r.question +
+          r.que +
           "</span> </div><div> <span class='faq-answer-label'>A.</span> <span class='faq-value'>" +
-          r.answer +
+          r.ans +
           "</span> </div></div>";
         dynaJs +=
           '{"@type":"Question","name":"' +
-          r.question +
+          r.que +
           '","acceptedAnswer":{"@type":"Answer","text":"' +
-          r.answer +
+          r.ans +
           '"}},';
       });
 
@@ -175,10 +195,13 @@ export default class VoiceListing extends Component {
       secure_pin,
       location_id: this.props.match.params.locationId
     };
-    const data1={secure_pin,countryid:"1"}
+    
+console.log("location44",data)
+    if(this.props.match.params.locationId !=="null"){
     location_by_id(data).then(resp => {
       console.log("hi");
       this.setState({ state: "Loading....", category: "Loading...." });
+      const data1={secure_pin,countryid:resp.data.location_details[0].country}
       business_states(data1).then(resp1 => {
         resp1.data.all_states.map((s, i) =>
         s.id == resp.data.location_details[0].state
@@ -215,14 +238,16 @@ export default class VoiceListing extends Component {
         loader: false
       });
     });
-
+  }
     var datal = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
       location_id: this.props.match.params.locationId
     };
 
-    all_faq_by_location_id(datal, DjangoConfig).then(resp => {
+    all_faq_by_location_id(datal).then(resp => {
       console.log("all faq", resp);
-      this.setState({ allFaq: resp.data.all_faqs });
+      this.setState({ allFaq: resp.data.faq_list });
     });
 
     const Yelpconfig = {
@@ -417,11 +442,13 @@ export default class VoiceListing extends Component {
   render() {
     if (this.state.otherImage) {
       var otherIma = this.state.otherImage.map((img, i) => (
-        <img src={img.Image} className="vl_img" />
+        <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+        img.image
+      } className="vl_img" />
       ));
     }
-
-    if (this.state.allFaq.map) {
+console.log("this.state.allFaq",this.state.allFaq)
+    if (this.state.allFaq) {
       var AllFaq = this.state.allFaq.map(r => {
         var nameid = r.id;
 
@@ -485,15 +512,24 @@ export default class VoiceListing extends Component {
            ):(<>
               <MDBRow>
               <MDBCol md="7" className="offset-md-1">
-                <div className="vl_c3_subhead"> {r.question}</div>
-                <div className="vl_contant">{r.answer}</div>
+                <div className="vl_c3_subhead"> {r.que}</div>
+                <div className="vl_contant">{r.ans}</div>
               </MDBCol>
-              <MDBCol md="2" className="offset-md-2">
+              <MDBCol md="1" >
                 <MDBBtn
                   onClick={() => this.editFaq(nameid)}
                   className="vl_btn_c3_edit"
+                  style={{marginLeft:'70px'}}
                 >
                   Edit
+                </MDBBtn>
+              </MDBCol>
+              <MDBCol md="1" className="offset-md-1">
+                <MDBBtn
+                  onClick={() => this.deleteFaq(nameid)}
+                  className="vl_btn_c3_delete"
+                >
+                  Delete
                 </MDBBtn>
               </MDBCol>
             </MDBRow>
@@ -522,7 +558,7 @@ export default class VoiceListing extends Component {
                         // alt="vl_img1"
                         src={
                           this.state.logo
-                            ? "https://dashify.biz" + this.state.logo
+                            ? "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + this.state.logo
                             : require("../../images/Logo2.png")
                         }
                         className="responsive"
@@ -560,7 +596,9 @@ export default class VoiceListing extends Component {
                   <MDBRow>
                     {this.state.otherImage
                       ? this.state.otherImage.map((img, i) => (
-                          <img src={img.Image} className="vl_img" />
+                        <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                        img.image
+                      } className="vl_img" />
                         ))
                       : ""}
                   </MDBRow>

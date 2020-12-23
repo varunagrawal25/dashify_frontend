@@ -347,34 +347,39 @@ export default class ProfileAnalytics extends Component {
 secure_pin,
       location_id: this.props.match.params.locationId
     };
-    const data1={secure_pin,countryid:"1"}
+  
+   
     location_by_id(data).then(resp => {
-
-      business_states(data1).then(resp1 => {
-        resp1.data.all_states.map((s, i) =>
-        s.id == resp.data.location_details[0].state
-            ? this.setState({ state: s.name })
-            : ""
-        );
-      });
-
-      business_categories(data).then(resp1 => {
-        resp1.data.bussiness_category_array.map((b, i) =>
-          b.id == resp.data.location_details[0].bussiness_cate
-            ? this.setState({ category: b.name })
-            : ""
-        );
-      });
-
-      this.setState({
-        name: resp.data.location_details[0].location_name,
-
-        address: resp.data.location_details[0].address1,
-        phone: resp.data.location.phone_no,
-        city: resp.data.location.city,
-        postalCode: resp.data.location.zipcode,
-        loader:false
-      });
+      if(this.props.match.params.locationId !=="null"){
+        const data1={secure_pin,countryid:resp.data.location_details[0].country}
+        business_states(data1).then(resp1 => {
+          resp1.data.all_states.map((s, i) =>
+          s.id == resp.data.location_details[0].state
+              ? this.setState({ state: s.name })
+              : ""
+          );
+        });
+  
+        business_categories(data).then(resp1 => {
+          resp1.data.bussiness_category_array.map((b, i) =>
+            b.id == resp.data.location_details[0].bussiness_cate
+              ? this.setState({ category: b.name })
+              : ""
+          );
+        });
+  
+        this.setState({
+          name: resp.data.location_details[0].location_name,
+  
+          address: resp.data.location_details[0].address1,
+          phone: resp.data.location.phone_no,
+          city: resp.data.location.city,
+          postalCode: resp.data.location.zipcode,
+          loader:false
+        });
+      
+      }
+     
     }).catch(err => {
       this.setState({loader:false})
     })

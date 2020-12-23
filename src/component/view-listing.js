@@ -583,11 +583,12 @@ export default class ViewListing extends Component {
         .catch(resp => {
           console.log(resp);
         });
-const data1={secure_pin,countryid:"1"}
+
       location_by_id(data)
         .then(resp => {
           this.setState({ state: "Loading....", category: "Loading...." });
           console.log("ll448",resp)
+          const data1={secure_pin,countryid:resp.data.location_details[0].country}
           business_states(data1).then(resp1 => {
             console.log("ll44",resp1)
             console.log("ll445",resp.data.location_details[0])
@@ -1398,8 +1399,8 @@ const data1={secure_pin,countryid:"1"}
                       <div className="dolce-title">
                         <h2>
                           {this.state.name}
-                          <br />
-                          <span>{this.state.address}</span>
+                          {/* <br />
+                          <span>{this.state.address}</span> */}
                         </h2>
                         <button
                           onClick={() =>
@@ -1443,7 +1444,7 @@ const data1={secure_pin,countryid:"1"}
                           {this.state.otherImage.map((img, i) => (
                             <li>
                               <img
-                                src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + img.Image}
+                                src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + img.image}
                                 height="115"
                                 width="115"
                               />
