@@ -2089,10 +2089,10 @@ const data1={secure_pin,countryid:"1"}
                         ) : (
                           <div className="google_btnb">
                             <GoogleLogin
-                              //for localhost
-                              //clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
+                              for localhost
+                              clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
                               //for server
-                              clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
+                             // clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
                               buttonText="Connect a account"
                               class="connect_btn"
                               scope="https://www.googleapis.com/auth/business.manage"

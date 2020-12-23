@@ -40,6 +40,7 @@ class GoogleConnectedAccounts extends Component {
       "https://mybusiness.googleapis.com/v4/accounts/",
       GoogleConfig
     ).then(res => {
+      console.log(res)
       localStorage.setItem("accountId", res.data.accounts[0].name);
 
       Axios.get(
@@ -48,7 +49,7 @@ class GoogleConnectedAccounts extends Component {
           "/locations",
         GoogleConfig
       ).then(resp => {
-        console.log("google location", resp.data);
+        console.log("google location from ", resp.data);
         this.setState({
           all_pages: resp.data.locations ? resp.data.locations : [],
           loader: false
