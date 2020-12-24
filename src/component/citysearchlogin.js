@@ -4,7 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import swal from "sweetalert";
-
+import {secure_pin} from "../config"
 class CitySearchLogin extends Component {
   state = {
     url: "",
@@ -65,16 +65,29 @@ class CitySearchLogin extends Component {
           if (res.data) {
             console.log("citysearch response", res.data);
             const data = {
-              location_id: localStorage.getItem("locationId"),
-              Platform: "Citysearch",
-              Token: "",
-              Username: res.data.locations
-                ? res.data.locations[0].name
-                : this.state.username,
-              Email: this.state.username,
-              Password: "",
-              Connect_status: "Connect",
-              Other_info: "{'URL':" + this.state.url + ",'data':''}"
+              // location_id: localStorage.getItem("locationId"),
+              // Platform: "Citysearch",
+              // Token: "",
+              // Username: res.data.locations
+              //   ? res.data.locations[0].name
+              //   : this.state.username,
+              // Email: this.state.username,
+              // Password: "",
+              // Connect_status: "Connect",
+              // Other_info: "{'URL':" + this.state.url + ",'data':''}"
+
+              secure_pin,
+              "user_id":localStorage.getItem("UserId"),
+              "location_id":localStorage.getItem("locationId"),
+              "connect_unique_id":"",
+              "token":"",
+              "username":"",
+              "password":"",
+              "first_name":"",
+              "last_name":"",
+              "email_id":this.state.username,
+              "connect_url": this.state.url,
+              "connect_type":"Citysearch",
             };
 
             // Axios.post(
@@ -82,7 +95,8 @@ class CitySearchLogin extends Component {
             //   data,
             //   DjangoConfig
             // )
-            add_social_account(data, DjangoConfig)
+            console.log("kk",data)
+            add_social_account(data)
               .then(resp => {
                 console.log("citysearch resp", resp);
                 this.setState({ isUrl: true, loading: false });

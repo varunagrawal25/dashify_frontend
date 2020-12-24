@@ -15,8 +15,7 @@ export default class SideBar extends Component {
                     selected
                     to={
                       "/locations/" +
-                      localStorage.getItem("locationId") +
-                      "/overview"
+                      localStorage.getItem("locationId") 
                     }
                   >
                     <img src={require("./assets/Color.png")} alt="" />

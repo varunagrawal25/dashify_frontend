@@ -3,7 +3,7 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
-
+import {secure_pin} from "../config"
 const Yelpconfig = {
   headers: {
     Authorization:
@@ -61,24 +61,40 @@ class YelpLogin extends Component {
         headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
       };
 
-      Axios.get(
-        "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-          this.state.url.slice(25),
-        Yelpconfig
-      )
-        .then(resp => {
-          if (resp.data.name) {
+      // Axios.get(
+      //   "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
+      //     this.state.url.slice(25),
+      //   Yelpconfig
+      // )
+      //   .then(resp => {
+      //     if (resp.data.name) {
             const data = {
-              location_id: localStorage.getItem("locationId"),
-              Platform: "Yelp",
-              Token: "",
-              Username: resp.data.name,
-              Email: "",
-              Password: this.state.password,
-              Connect_status: "Connect",
-              Other_info: "{'URL':" + this.state.url + ",'data':''}"
+              // location_id: localStorage.getItem("locationId"),
+              // Platform: "Yelp",
+              // Token: "",
+              // Username: resp.data.name,
+              // Email: "",
+              // Password: this.state.password,
+              // Connect_status: "Connect",
+              // Other_info: "{'URL':" + this.state.url + ",'data':''}"
+
+
+              secure_pin,
+              "user_id":localStorage.getItem("UserId"),
+              "location_id":localStorage.getItem("locationId"),
+              "connect_unique_id":"",
+              "token":"",
+              "username":"",
+              "password":this.state.password,
+              "first_name":"",
+              "last_name":"",
+              "email_id":this.state.username,
+              "connect_url": this.state.url,
+              "connect_type":"Yelp",
+             
             };
-            add_social_account(data, DjangoConfig)
+            console.log("data",data)
+            add_social_account(data)
               .then(resp => {
                 console.log(resp);
                 this.setState({ isUrl: true, loading: false });
@@ -93,14 +109,14 @@ class YelpLogin extends Component {
           } else {
             this.setState({ loading: false });
           }
-        })
-        .catch(resp => {
-          this.setState({
-            wrong: "Invalid or Not authorised",
-            loading: false
-          });
-        });
-    }
+    //     })
+    //     .catch(resp => {
+    //       this.setState({
+    //         wrong: "Invalid or Not authorised",
+    //         loading: false
+    //       });
+    //     });
+    // }
   };
 
   render() {

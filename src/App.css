@@ -10750,6 +10750,16 @@ ul.dropdown-menu.loginboxds li a:hover {
 }
 
 /* additional promotional post end*/
+.no_faq{
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #3f3f3f;
+  margin-top: 10px;
+  text-align: center;
+}
 .connect_msg {
   text-align: center;
   font-size: 25px;
