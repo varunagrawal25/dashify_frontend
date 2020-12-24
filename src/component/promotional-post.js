@@ -310,16 +310,16 @@
 //         })
 //         .catch(resp => {
 //           console.log("google post error", resp);
-//           alert("Something went wrong");
+//           swal("Something went wrong");
 //           this.setState({ loader: false });
 //         });
 //     } else {
-//       alert("Both Image and summary field can not be empty at same time");
+//       swal("Both Image and summary field can not be empty at same time");
 //       this.setState({ loader: false });
 //     }
 //     // });
 //     // } else {
-//     //   alert("Please connect google listing");
+//     //   swal("Please connect google listing");
 //     //   this.setState({loader: false})
 //     // }
 //     // });
@@ -383,21 +383,21 @@
 //               })
 //               .catch(res => {
 //                 this.setState({ loader: false });
-//                 alert("post is not updated");
+//                 swal("post is not updated");
 //               });
 //           } else {
-//             alert("Both Image and summary field can not be empty at same time");
+//             swal("Both Image and summary field can not be empty at same time");
 //             this.setState({ loader: false });
 //           }
 //         } else {
-//           alert("Please connect google listing");
+//           swal("Please connect google listing");
 //           this.setState({ loader: false });
 //         }
 //       })
 //       .catch(res => {
 //         console.log("error while updating", res);
 //         this.setState({ loader: false });
-//         alert("Please connect google listing");
+//         swal("Please connect google listing");
 //       });
 //   };
 
@@ -560,7 +560,7 @@
 //           });
 //       } else {
 //         this.setState({ loader: false });
-//         alert("Google listing is disconnected, please connect first");
+//         swal("Google listing is disconnected, please connect first");
 //       }
 //     });
 //   };
@@ -1907,8 +1907,105 @@ import React, { Component } from 'react'
 import es_img1 from "./assets/es_img1.png";
 import edit from "./assets/edit.png";
 import delete_icon from "./assets/delete_icon.png";
+import { Checkbox } from '@material-ui/core';
+import {
+  location_by_id,
+  add_other_images_by_location_id,
+  delete_other_images_by_location_id
+} from "./apis/location";
+import { secure_pin } from "../config";
+import cross_img from "./assets/cross_img.png";
+import attach from "./assets/attach.png"
+import swal from "sweetalert";
 
 export default class promotional_post extends Component {
+
+state={
+  otherImages: [],
+  otherImagesLoading: false,
+}
+  onUploadOtherImage = event => {
+    let files = event.target.files;
+    let reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = e => {
+      //   console.log(e.target.result);
+      //   this.setState({ BusinessLogoUpdate: e.target.result });
+
+      var locationId = this.props.match.params.locationId;
+      // {"secure_pin":"digimonk","user_id":"10","location_id":"38",
+      // "more_bussiness_images_array":[{"bussiness_image":"base64image1"},{"bussiness_image":"base64image2"}]}
+      const data = {
+        secure_pin,
+        user_id: localStorage.getItem("UserId"),
+        location_id: locationId,
+        
+        more_bussiness_images_array: [{ bussiness_image: e.target.result }]
+      };
+console.log("kkl",data)
+      this.setState({ otherImagesLoading: true });
+
+      add_other_images_by_location_id(data)
+        .then(resp => {
+          const data1 = {
+            location_id: locationId,
+            secure_pin
+          };
+          location_by_id(data1)
+            .then(resp1 => {
+              this.setState({
+                otherImages: resp1.data.location_images,
+                otherImagesLoading: false
+              });
+            })
+            .catch(resp1 => {
+              console.log(resp1);
+              swal("uploading image failed");
+              this.setState({ otherImagesLoading: false });
+            });
+        })
+        .catch(resp => {
+          console.log(resp);
+          swal("uploading image failed");
+          this.setState({ otherImagesLoading: false });
+        });
+    };
+  };
+
+  delete_other_image = image_id => {
+    var locationId = this.props.match.params.locationId;
+    const data = {
+      secure_pin,
+      location_id:locationId,
+      image_id: image_id
+    };
+    console.log("image_id", image_id);
+    this.setState({ otherImagesLoading: true });
+    delete_other_images_by_location_id(data)
+      .then(res => {
+        const data1 = {
+          location_id: locationId,
+          secure_pin
+        };
+        location_by_id(data1)
+          .then(resp1 => {
+            this.setState({
+              otherImages: resp1.data.location_images,
+              otherImagesLoading: false
+            });
+          })
+          .catch(resp1 => {
+            console.log(resp1);
+            swal("deleting image failed");
+            this.setState({ otherImagesLoading: false });
+          });
+      })
+      .catch(res => {
+        swal("deleting image failed");
+        this.setState({ otherImagesLoading: false });
+        console.log(res);
+      });
+  };
   render() {
     return (
       <div>
@@ -2152,10 +2249,137 @@ N/A
                 </div>
               </MDBCol>
               <MDBCol md='4' className='review_container'>
-                <MDBBtn className='pp_create_np'>Create a new post</MDBBtn>
+                <MDBBtn className='pp_create_np' data-toggle="modal" data-target="#myModal">Create a new post</MDBBtn>
+                <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          {/* <button type="button" class="close" data-dismiss="modal">&times;</button> */}
+         <div className="ap_heading">Additional Promotional Posts</div>
+        </div>
+        <div class="modal-body">
+         <MDBRow>
+           <MDBCol md='8' className='ap_subhead1'>
+           Write your post
+           </MDBCol>
+           <MDBCol md='4' className='ap_subhead2'>
+           100-150 Characters
+           </MDBCol>
+         </MDBRow>
+
+         <MDBRow style={{marginTop:'15px'}}> 
+           <MDBCol md='8'>
+           <MDBRow >
+                            <MDBCol md="2" className="ap_image">
+                              <span>
+                                <i className="zmdi zmdi-plus"></i>
+                                <input
+                                  type="file"
+                                  name="otherImage"
+                                  onChange={this.onUploadOtherImage}
+                                />
+                              </span>
+                            </MDBCol>
+                            {this.state.otherImages.map((n, i) => (
+                              <MDBCol md="2" className="ap_image">
+                                <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                    n.image
+                                  }
+                                  alt=""
+                                  style={{
+                                    height: "60px",
+                                    width: "60px",
+                                    borderRadius: "10px"
+                                  }}
+                                />
+
+                                <div className="get-image1">
+                                  <img
+                                    src={cross_img}
+                                    alt=""
+                                    style={{
+                                      height: "10px",
+                                      width: "10px",
+                                      backgroundColor: "red",
+                                      borderRadius: "50%",
+                                      padding: "2px",
+                                      marginTop: "-3px"
+                                    }}
+                                    onClick={() =>
+                                      this.delete_other_image(n.id)
+                                    }
+                                  />
+                                </div>
+                              </MDBCol>
+                            ))}
+                          </MDBRow>
+                         
+           </MDBCol>
+           <MDBCol md='4' className='ap_contant1'>
+             <span><img src={attach} /></span>
+           Attatch a document
+           </MDBCol>
+         </MDBRow>
+         <MDBRow>
+           <MDBCol md='12'>
+           <textarea rows='6' className='ap_textarea' placeholder='Enter your post content here...'/>
+           </MDBCol>
+         </MDBRow>
+         <MDBRow style={{marginTop:'15px'}}>
+           <MDBCol md='1' className='ap_check'>
+             <Checkbox />
+           </MDBCol>
+           <MDBCol md='5' className='ap_contant2'>
+           Add a CTA
+           </MDBCol>
+           <MDBCol md='1' className='ap_check'>
+             <Checkbox/>
+           </MDBCol>
+           <MDBCol md='5' className='ap_contant2'>
+           Post an event
+           </MDBCol>
+         </MDBRow>
+         <MDBRow style={{marginTop:'15px'}}>
+           <MDBCol md='1' className='ap_check'>
+             <Checkbox/>
+           </MDBCol>
+           <MDBCol md='5' className='ap_contant2'>
+           Make this post a promoyional post
+           </MDBCol>
+           <MDBCol md='1' className='ap_check'>
+             <Checkbox/>
+           </MDBCol>
+           <MDBCol md='5' className='ap_contant2'>
+           Report this post after expairy 
+           </MDBCol>
+         </MDBRow>
+         <MDBRow style={{marginTop:'15px'}}>
+          <MDBCol md='6'>
+            <MDBBtn className="draft_btn" >
+            Save as Draft
+            </MDBBtn>
+          </MDBCol>
+
+          <MDBCol md='6'>
+            <MDBBtn className="cp_btn">
+            Confirm Post
+            </MDBBtn>
+          </MDBCol>
+        </MDBRow>
+   
+        </div>
+        
+        
+     </div>
+      
+    </div>
+  </div>
+  
+
+
                 </MDBCol>
                 <MDBCol md='8' >
-                  <div className='pp_contant6'>Your post will be published</div>
+                  {/* <div className='pp_contant6'>Your post will be published</div> */}
                 </MDBCol>
             </MDBRow>
             </MDBContainer>

@@ -1324,13 +1324,13 @@ console.log("happyh",data)
             })
             .catch(resp1 => {
               console.log(resp1);
-              alert("uploading image failedc");
+              swal("uploading image failedc");
               this.setState({ logoLoading: false, coverImageLoading: false });
             });
         })
         .catch(resp => {
           console.log(resp);
-          alert("uploading image failed");
+          swal("uploading image failed");
           this.setState({ logoLoading: false, coverImageLoading: false });
         });
     };
@@ -1372,13 +1372,13 @@ console.log("kkl",data)
             })
             .catch(resp1 => {
               console.log(resp1);
-              alert("uploading image failed");
+              swal("uploading image failed");
               this.setState({ otherImagesLoading: false });
             });
         })
         .catch(resp => {
           console.log(resp);
-          alert("uploading image failed");
+          swal("uploading image failed");
           this.setState({ otherImagesLoading: false });
         });
     };
@@ -1408,12 +1408,12 @@ console.log("kkl",data)
           })
           .catch(resp1 => {
             console.log(resp1);
-            alert("deleting image failed");
+            swal("deleting image failed");
             this.setState({ otherImagesLoading: false });
           });
       })
       .catch(res => {
-        alert("deleting image failed");
+        swal("deleting image failed");
         this.setState({ otherImagesLoading: false });
         console.log(res);
       });

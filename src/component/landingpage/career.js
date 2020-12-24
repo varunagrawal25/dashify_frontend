@@ -3,6 +3,7 @@ import Footer from "./footer";
 import Navbar from "./navbar";
 import { all_jobs, apply_for_job } from "../apis/outside_pages";
 import {MDBCol,MDBRow,MDBContainer,MDBBtn} from 'mdbreact';
+import swal from "sweetalert";
 export default class Career extends Component {
   state = {
     loader: true,
@@ -117,11 +118,11 @@ export default class Career extends Component {
       apply_for_job(data)
         .then(res => {
           this.setState({ loading: false });
-          alert("Submitted succesfully");
+          swal("Submitted succesfully");
           console.log("apply for job response", res.data);
         })
         .catch(res => {
-          alert("Something went wrong");
+          swal("Something went wrong");
           this.setState({ loading: false });
           console.log("apply for job error", res, data);
         });

@@ -7,6 +7,8 @@ import ProfileSettingSidebar from "./setting-sidebar";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import avtar_img from "./assets/img_avatar.png";
 import { get_login_user_info } from "./apis/user";
+import swal from "sweetalert";
+
 const DjangoConfig = {
   headers: {
     Authorization: "Token " + localStorage.getItem("UserToken")
@@ -58,11 +60,11 @@ export default class SettingAccounts extends Component {
       get_link_of_forget_password(data)
         .then(res => {
           console.log(res);
-          alert("Reset Password link sent to your Mail");
+          swal("Reset Password link sent to your Mail");
         })
         .catch(res => {
           console.log("error in forgot", res);
-          alert("something went wront");
+          swal("something went wront");
         });
     }
   };

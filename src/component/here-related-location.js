@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import Spinner from "./common/Spinner";
+import swal from "sweetalert";
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -39,12 +40,12 @@ class HereRelatedLocation extends Component {
           this.setState({ isUrl: true, loading: false });
         })
         .catch(resp => {
-          alert("Something went wrong");
+          swal("Something went wrong");
           console.log("Here error response", resp.data);
           this.setState({ loading: false });
         });
     } else {
-      alert("Something went wrong");
+      swal("Something went wrong");
     }
   };
 

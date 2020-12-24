@@ -31,7 +31,7 @@ import vl_img9 from "../assets/vl_img9.png";
 import vl_img10 from "../assets/vl_img10.png";
 import vl_img11 from "../assets/vl_img11.png";
 import attachment from "../assets/attachment.png";
-
+import swal from "sweetalert";
 import NewFaq from "./newFaq";
 import UpdateFaq from "./updateFaq";
 import { secure_pin } from "../../config";
@@ -76,7 +76,7 @@ export default class VoiceListing extends Component {
   };
 
   deleteFaq = nameid => {
-    alert("You are going to delete this FAQ");
+    swal("You are going to delete this FAQ");
 
     console.log(" delete");
 
@@ -419,7 +419,7 @@ console.log("location44",data)
 
   responseErrorGoogle = response => {
     console.log(response);
-    alert("try again");
+    swal("try again");
   };
 
   responseGoogle = async response => {
@@ -544,6 +544,13 @@ console.log("this.state.allFaq",this.state.allFaq)
     return (
       <div>
         {this.props.match.params.locationId != "null" ? (
+        
+          <div>
+            {this.state.loader ? (
+          <div className="rightside_title">
+            <Spinner />
+          </div>
+        ) : (
           <div>
             <MDBContainer>
               <div className="setting-10">
@@ -912,6 +919,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                 {AllFaq}
               </div>
             </MDBContainer>
+          </div>)}
           </div>
         ) : (
           <MDBContainer>

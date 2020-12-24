@@ -30,6 +30,8 @@ import ReactPDF, {
 import { LinkedIn } from "react-linkedin-login-oauth2";
 import { google_listing_detail } from "./apis/social_media";
 import { secure_pin } from "../config";
+import swal from "sweetalert";
+
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -661,7 +663,7 @@ export default class ViewListing extends Component {
     //   // this.setState({ redirect_to_connectedaccounts: true });
     // }).catch(res => {
     //   console.log("google refresh token error",res)
-    //   alert("something went wrong")
+    //   swal("something went wrong")
     // })
 
     await localStorage.setItem("fb_token", response.accessToken);
@@ -814,7 +816,7 @@ export default class ViewListing extends Component {
       linkedin_code: ""
       // linkedin_errorMessage: error.errorMessage
     });
-    alert("Linkedin : ", error.errorMessage);
+    swal("Linkedin : ", error.errorMessage);
   };
 
   disconnectAccount = e => {

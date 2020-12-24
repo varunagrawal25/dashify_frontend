@@ -3,6 +3,7 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
+import swal from "sweetalert";
 
 class ZillowLogin extends Component {
   state = {
@@ -90,7 +91,7 @@ class ZillowLogin extends Component {
                 this.setState({ isUrl: true, loading: false });
               })
               .catch(resp => {
-                alert("Invalid Zillow Email");
+                swal("Invalid Zillow Email");
                 console.log("zillow resp", resp.data);
                 this.setState({
                   // wrong: "Invalid Zillow Email",
@@ -98,14 +99,14 @@ class ZillowLogin extends Component {
                 });
               });
           } else {
-            alert("Invalid Zillow Email");
+            swal("Invalid Zillow Email");
             this.setState({
               loading: false
             });
           }
         })
         .catch(res => {
-          alert("Invalid Zillow Email");
+          swal("Invalid Zillow Email");
           this.setState({ loading: false });
         });
     }
