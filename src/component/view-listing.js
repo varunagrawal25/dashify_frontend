@@ -822,7 +822,14 @@ export default class ViewListing extends Component {
   disconnectAccount = e => {
     console.log(e.target.name);
     var name = e.target.name;
-    const data = { location_connect_social_id: e.target.id };
+    const data = { 
+      "secure_pin":"digimonk",
+      "user_id":localStorage.getItem("UserId") ,
+      "location_id":localStorage.getItem("locationId"),
+      "connect_type":"Yelp"
+     };
+
+     console.log(data)
 
     remove_social_account(data, DjangoConfig)
       .then(resp => {

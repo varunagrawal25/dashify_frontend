@@ -17,7 +17,7 @@ export const add_social_account = (data) => {
 
 export const remove_social_account = (data, DjangoConfig) => {
   return Axios.post(
-    `${API}/locations/location-connect-remove-with-social-media`,
+    `${API}/admin/socialmedia_api/disconnect_social_media`,
     data,
     DjangoConfig
   );
