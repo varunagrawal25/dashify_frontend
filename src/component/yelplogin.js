@@ -157,7 +157,7 @@ class YelpLogin extends Component {
               <p>
                 <label htmlFor="url">Yelp Listing Url</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="https://www.yelp.com/biz/uncle-boys-san-francisco"

@@ -162,7 +162,7 @@ class ZillowLogin extends Component {
               <p>
                 <label htmlFor="url">Zillow Email</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="example@gmail.com"

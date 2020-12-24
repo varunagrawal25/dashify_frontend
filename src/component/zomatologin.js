@@ -158,7 +158,7 @@ class ZomatoLogin extends Component {
               <p>
                 <label htmlFor="url">Zomato Restaurant Id</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="18740397"

@@ -150,7 +150,7 @@ class FourSquareLogin extends Component {
               <p>
                 <label htmlFor="url">Foursquare Listing Url</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="https://foursquare.com/v/mudspot/3fd66200f964a520c4f11ee3"

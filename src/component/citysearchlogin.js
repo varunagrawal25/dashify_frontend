@@ -157,7 +157,7 @@ class CitySearchLogin extends Component {
               <p>
                 <label htmlFor="url">Citysearch Listing Url</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="http://www.citysearch.com/profile/656716190/midland_tx/rogers_ford_sales_inc.html"

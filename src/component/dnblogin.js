@@ -205,7 +205,7 @@ class DnbLogin extends Component {
               <p>
                 <label htmlFor="url">Company DUNS Number</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="804735132"
