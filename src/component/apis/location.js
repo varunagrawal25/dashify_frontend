@@ -40,6 +40,11 @@ export const edit_location_operations_hours_by_id = (data) => {
     `${API}/admin/location_api/update_location_hours`, data);
 };
 
+export const All_payment_by_location = (data) => {
+  return Axios.post(
+    `${API}/admin/location_api/list_location_payment_method`,data );
+};
+
 export const edit_location_payment_by_id = (data) => {
   return Axios.post(
     `${API}/admin/location_api/update_location_payment_method`,data );

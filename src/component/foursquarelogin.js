@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import swal from "sweetalert";
+import {secure_pin} from "../config"
 
 class FourSquareLogin extends Component {
   state = {
@@ -65,17 +66,30 @@ class FourSquareLogin extends Component {
           // console.log("citysearch resp",res);
           if (res.data && res.data.response && res.data.response.venue) {
             const data = {
-              location_id: localStorage.getItem("locationId"),
-              Platform: "Foursquare",
-              Token: "",
-              Username: res.data.response.venue.name,
-              Email: this.state.username,
-              Password: this.state.password,
-              Connect_status: "Connect",
-              Other_info: "{'URL':" + this.state.url + ",'data':''}"
+              // location_id: localStorage.getItem("locationId"),
+              // Platform: "Foursquare",
+              // Token: "",
+              // Username: res.data.response.venue.name,
+              // Email: this.state.username,
+              // Password: this.state.password,
+              // Connect_status: "Connect",
+              // Other_info: "{'URL':" + this.state.url + ",'data':''}"
+
+              secure_pin,
+        "user_id":localStorage.getItem("UserId"),
+        "location_id":localStorage.getItem("locationId"),
+        "connect_unique_id":"",
+        "token":"",
+        "username":"",
+        "password":this.state.password,
+        "first_name":"",
+        "last_name":"",
+        "email_id":this.state.username,
+        "connect_url": this.state.url,
+        "connect_type":"Foursquare",
             };
 
-            add_social_account(data, DjangoConfig)
+            add_social_account(data)
               .then(resp => {
                 console.log(resp);
                 this.setState({ isUrl: true, loading: false });

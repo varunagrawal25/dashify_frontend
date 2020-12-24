@@ -3,7 +3,7 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
-
+import {secure_pin} from "../config"
 const Yelpconfig = {
   headers: {
     Authorization:

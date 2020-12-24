@@ -4,6 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import swal from "sweetalert";
+import {secure_pin} from "../config"
 
 class AvvoLogin extends Component {
   state = {
@@ -78,14 +79,27 @@ class AvvoLogin extends Component {
           if (res.data.lawyers.length != 0) {
             let resp_data = res.data.lawyers[0];
             const data = {
-              location_id: localStorage.getItem("locationId"),
-              Platform: "Avvo",
-              Token: this.props.location.hash.split("#access_token=")[1],
-              Username: resp_data.firstname + " " + resp_data.lastname,
-              Email: this.state.username,
-              Password: this.state.password,
-              Connect_status: "Connect",
-              Other_info: this.state.url
+              // location_id: localStorage.getItem("locationId"),
+              // Platform: "Avvo",
+              // Token: this.props.location.hash.split("#access_token=")[1],
+              // Username: resp_data.firstname + " " + resp_data.lastname,
+              // Email: this.state.username,
+              // Password: this.state.password,
+              // Connect_status: "Connect",
+              // Other_info: this.state.url
+
+              secure_pin,
+              "user_id":localStorage.getItem("UserId"),
+              "location_id":localStorage.getItem("locationId"),
+              "connect_unique_id":"",
+              "token":"",
+              "username":"",
+              "password":this.state.password,
+              "first_name":"",
+              "last_name":"",
+              "email_id":this.state.username,
+              "connect_url": this.state.url,
+              "connect_type":"Avvo",
             };
 
             add_social_account(data, DjangoConfig)

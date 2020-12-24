@@ -916,7 +916,9 @@ console.log("this.state.allFaq",this.state.allFaq)
                   ""
                 )}
 
-                {AllFaq}
+                <div>
+                {this.state.allFaq.length>0?(AllFaq):<div className='no_faq'>No FAQ to show</div>}
+                </div>
               </div>
             </MDBContainer>
           </div>)}
