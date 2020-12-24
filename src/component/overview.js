@@ -445,16 +445,9 @@ export default class Overview extends Component {
     const GoogleConfig = {
       headers: { Authorization: "Bearer " + this.state.google_token }
     };
-    // Axios.get(
-    //   `https://mybusiness.googleapis.com/v4/${localStorage.getItem("accountId")}/locations`,
-    //   GoogleConfig
-    // ).then(resp => {
-    //   console.log(resp.data);
-
-    // localStorage.setItem("locationIdover", resp.data.locations[0].name);
-
+   
     const reportInsights = {
-      // locationNames: [localStorage.getItem("locationIdover")],
+    
       locationNames: [this.state.locationIdGoogle],
       basicRequest: {
         metricRequests: [

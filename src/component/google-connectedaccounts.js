@@ -65,15 +65,28 @@ class GoogleConnectedAccounts extends Component {
     const g_data = this.state.google_props;
 
     const data = {
-      location_id: g_data.location_id,
-      Platform: "Google",
-      Token: g_data.Token,
-      Username: this.state.all_pages[index].locationName,
-      Email: g_data.Email,
-      Password: "",
-      Connect_status: "Connect",
-      Other_info: this.state.all_pages[index].name
+      // location_id: g_data.location_id,
+      // Platform: "Google",
+      // Token: g_data.Token,
+      // Username: this.state.all_pages[index].locationName,
+      // Email: g_data.Email,
+      // Password: "",
+      // Connect_status: "Connect",
+      // Other_info: this.state.all_pages[index].name,
+
+
+      "secure_pin":"digimonk",
+      "user_id":localStorage.getItem("UserId"),
+      "location_id":g_data.location_id,
+      "google_id":g_data.googleIdf?g_data.googleIdf:"",
+      "token":g_data.Token,
+      "name":this.state.all_pages[index].locationName,
+      "email_id":g_data.Email,
+      "image_url":g_data.googleImgUrl ?g_data.googleImgUrl:"" ,
+      "connect_type":"Google",
+      "path_name":this.state.all_pages[index].name
     };
+    console.log("googleRa",data)
 
     add_social_account(data, DjangoConfig)
       .then(resp => {

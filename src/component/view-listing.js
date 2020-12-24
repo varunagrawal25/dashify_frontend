@@ -174,8 +174,7 @@ export default class ViewListing extends Component {
   async componentDidMount() {
     if (this.props.match.params.locationId != "null") {
       const data = {
-        secure_pin,
-        location_id: this.props.match.params.locationId
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
       };
       console.log("78945",this.props.match.params.locationId)
       var googleToken,
@@ -200,12 +199,13 @@ export default class ViewListing extends Component {
 
       all_connection_of_one_location(data, DjangoConfig)
         .then(resp => {
-          console.log("get all connections", resp);
-          this.setState({ allListings: resp.data.data });
+          console.log("get all connections by id s", resp);
+          this.setState({ allListings: resp.data.social_media_list });
 
           if (this.state.allListings) {
             this.state.allListings.map(l => {
-              if (l.Social_Platform.Platform == "Facebook") {
+              console.log("loop all")
+              if (l.connect_type == "Facebook") {
                 fbtoken = l.Social_Platform.Token;
                 fbPageId = l.Social_Platform.Other_info;
                 fbData = l;
@@ -232,38 +232,38 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Google") {
-                googleToken = l.Social_Platform.Token;
-                googleData = l;
+              if (l.connect_type === "Google") {
+                // googleToken = l.token;
+                // googleData = l;
                 this.setState({
                   googleIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Google",
-                      image: require("../images/google.png"),
-                      username: googleData.Social_Platform.Username,
-                      status: true,
-                      date: googleData.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  googleId: googleData.id,
-                  googleName: googleData.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Google" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Google",
+                  //     image: require("../images/google.png"),
+                  //     username: googleData.Social_Platform.Username,
+                  //     status: true,
+                  //     date: googleData.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // // ],
+                  // googleId: googleData.id,
+                  // googleName: googleData.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Google" }
+                  // ]
                 });
 
-                google_listing_detail(data).then(res => {
-                  this.setState({
-                    googleLocationDetail: res.other_info,
-                    googleReviewsPresent: res.google_Reviews_Present
-                  });
-                });
+                // google_listing_detail(data).then(res => {
+                //   this.setState({
+                //     googleLocationDetail: res.other_info,
+                //     googleReviewsPresent: res.google_Reviews_Present
+                //   });
+                // });
               }
 
-              if (l.Social_Platform.Platform == "Linkedin") {
+              if (l.connect_type == "Linkedin") {
                 linkedinToken = l.Social_Platform.Token;
                 linkedinData = l;
                 linkedin_page_id = l.Social_Platform.Other_info;
@@ -291,7 +291,7 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Foursquare") {
+              if (l.connect_type == "Foursquare") {
                 console.log("yes four");
                 this.setState({
                   foursquareIsLoggedIn: true,
@@ -315,7 +315,7 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Dnb") {
+              if (l.connect_type == "Dnb") {
                 console.log("yes DNB");
                 this.setState({
                   dnbIsLoggedIn: true,
@@ -339,7 +339,7 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Instagram") {
+              if (l.connect_type == "Instagram") {
                 console.log("yes Instagram");
                 this.setState({
                   instaIsLoggedIn: true,
@@ -366,41 +366,41 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Yelp") {
+              if (l.connect_type === "Yelp") {
                 console.log("yes yelp");
                 this.setState({
                   yelpIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Yelp",
-                      image: require("../images/yelp.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  yelpId: l.id,
-                  yelpName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Yelp" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Yelp",
+                  //     image: require("../images/yelp.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true,
+                  //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // yelpId: l.id,
+                  // yelpName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Yelp" }
+                  // ]
                 });
-                Axios.get(
-                  "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-                    l.Social_Platform.Other_info.split(",")[0]
-                      .slice(7)
-                      .slice(25),
-                  Yelpconfig
-                ).then(resp => {
-                  console.log("yelpDetails", resp.data);
-                  this.setState({ yelpDetails: resp.data });
-                });
+                // Axios.get(
+                //   "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
+                //     l.Social_Platform.Other_info.split(",")[0]
+                //       .slice(7)
+                //       .slice(25),
+                //   Yelpconfig
+                // ).then(resp => {
+                //   console.log("yelpDetails", resp.data);
+                //   this.setState({ yelpDetails: resp.data });
+                // });
               }
 
-              if (l.Social_Platform.Platform == "Apple") {
+              if (l.connect_type == "Apple") {
                 console.log("yes Apple");
                 this.setState({
                   appleIsLoggedIn: true,
@@ -424,7 +424,7 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Citysearch") {
+              if (l.connect_type == "Citysearch") {
                 console.log("Citysearch data", l);
                 this.setState({
                   citysearchIsLoggedIn: true,
@@ -458,7 +458,7 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Zillow") {
+              if (l.connect_type == "Zillow") {
                 console.log("Zillow data", l);
                 this.setState({
                   zillowIsLoggedIn: true,
@@ -482,7 +482,7 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Tomtom") {
+              if (l.connect_type == "Tomtom") {
                 console.log("Tomtom data", l);
                 this.setState({
                   tomtomIsLoggedIn: true,
@@ -506,7 +506,7 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Zomato") {
+              if (l.connect_type == "Zomato") {
                 console.log("Zomato data", l);
                 this.setState({
                   zomatoIsLoggedIn: true,
@@ -530,7 +530,7 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Avvo") {
+              if (l.connect_type == "Avvo") {
                 console.log("Avvo data", l);
                 this.setState({
                   avvoIsLoggedIn: true,
@@ -554,7 +554,7 @@ export default class ViewListing extends Component {
                 });
               }
 
-              if (l.Social_Platform.Platform == "Here") {
+              if (l.connect_type == "Here") {
                 console.log("yes here");
                 this.setState({
                   hereIsLoggedIn: true,
@@ -684,6 +684,8 @@ export default class ViewListing extends Component {
       Username: response.profileObj.name,
       Email: response.profileObj.email,
       location_id: this.props.match.params.locationId,
+      googleImgUrl:response.profileObj.imageUrl,
+      googleIdf:response.profileObj.googleId,
       redirect_to: "/view-listing"
     };
 

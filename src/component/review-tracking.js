@@ -269,8 +269,7 @@ export default class ReviewTracking extends Component {
     this.setState({ today });
 
     const data = {
-      secure_pin,
-      location_id: this.props.match.params.locationId
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
     };
 
 
@@ -282,21 +281,21 @@ export default class ReviewTracking extends Component {
     all_connection_of_one_location(data, DjangoConfig).then(response => {
         console.log(response);
 
-        response.data.data.map(l => {
-          if (l.Social_Platform.Platform == "Facebook") {
+        response.data.social_media_list.map(l => {
+          if (l.connect_type == "Facebook") {
             fbtoken = l.Social_Platform.Token;
             console.log(fbtoken);
             fbPageId = l.Social_Platform.Other_info;
           }
 
-          if (l.Social_Platform.Platform == "Google") {
+          if (l.connect_type == "Google") {
             console.log("yes goo");
             googleToken = l.Social_Platform.Token;
             googleData = l;
             console.log(googleToken);
           }
 
-          if (l.Social_Platform.Platform == "Foursquare") {
+          if (l.connect_type == "Foursquare") {
             console.log("yes four");
             console.log("foursquare platform", l.Social_Platform.Other_info);
 
@@ -305,7 +304,7 @@ export default class ReviewTracking extends Component {
               .split("/")[5];
           }
 
-          if (l.Social_Platform.Platform == "Instagram") {
+          if (l.connect_type == "Instagram") {
             console.log("yes instagram");
             console.log(
               "instagram id",
@@ -314,13 +313,13 @@ export default class ReviewTracking extends Component {
             instaUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
           }
 
-          if (l.Social_Platform.Platform == "Yelp") {
+          if (l.connect_type == "Yelp") {
             console.log("yes yelp");
             console.log(l.Social_Platform.Other_info.split(",")[0].slice(7));
             yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
           }
 
-          if (l.Social_Platform.Platform == "Apple") {
+          if (l.connect_type == "Apple") {
             console.log("yes apple");
             console.log(
               "apple platform",
@@ -336,7 +335,7 @@ export default class ReviewTracking extends Component {
               .slice(2);
           }
 
-          if (l.Social_Platform.Platform == "Citysearch") {
+          if (l.connect_type== "Citysearch") {
             console.log("yes Citysearch");
             console.log("Citysearch platform", l.Social_Platform.Other_info);
 
@@ -345,21 +344,21 @@ export default class ReviewTracking extends Component {
               .split("/")[4];
           }
 
-          if (l.Social_Platform.Platform == "Zillow") {
+          if (l.connect_type == "Zillow") {
             console.log("yes Zillow");
             console.log("Zillow platform", l.Social_Platform.Other_info);
 
             zillowUrl = l.Social_Platform.Other_info;
           }
 
-          if (l.Social_Platform.Platform == "Tomtom") {
+          if (l.connect_type == "Tomtom") {
             console.log("yes Tomtom");
             console.log("Tomtom platform", l.Social_Platform.Other_info);
 
             tomtomUrl = l.Social_Platform.Other_info;
           }
 
-          if (l.Social_Platform.Platform == "Avvo") {
+          if (l.connect_type == "Avvo") {
             console.log("yes Avvo");
             console.log("Avvo platform", l.Social_Platform.Other_info);
 
@@ -367,7 +366,7 @@ export default class ReviewTracking extends Component {
             avvoToken = l.Social_Platform.Token;
           }
 
-          if (l.Social_Platform.Platform == "Zomato") {
+          if (l.connect_type == "Zomato") {
             console.log("yes Zomato");
             console.log("Zomato platform", l.Social_Platform.Other_info);
 

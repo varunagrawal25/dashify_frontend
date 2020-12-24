@@ -92,7 +92,7 @@ export default class ReviewAnalytics extends Component {
       zomatoUrl;
 
     const data = {
-      location_id: this.props.match.params.locationId,
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
     };
 
     // Axios.post(
@@ -104,22 +104,22 @@ export default class ReviewAnalytics extends Component {
       .then((response) => {
         console.log(response);
 
-        this.setState({ loader: false });
-        response.data.data.map((l) => {
-          if (l.Social_Platform.Platform == "Facebook") {
+        this.setState({ loader: false,all_connections:response.data.social_media_list });
+        response.data.social_media_list.map((l) => {
+          if (l.connect_type == "Facebook") {
             fbtoken = l.Social_Platform.Token;
             console.log(fbtoken);
             fbPageId = l.Social_Platform.Other_info;
           }
 
-          if (l.Social_Platform.Platform == "Google") {
+          if (l.connect_type == "Google") {
             console.log("yes goo");
-            googleToken = l.Social_Platform.Token;
-            console.log(googleToken);
-            this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
+            // googleToken = l.Social_Platform.Token;
+            // console.log(googleToken);
+            // this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
           }
 
-          if (l.Social_Platform.Platform == "Foursquare") {
+          if (l.connect_type== "Foursquare") {
             console.log("yes four");
 
             fourUrl = l.Social_Platform.Other_info.split(",")[0]
@@ -127,38 +127,38 @@ export default class ReviewAnalytics extends Component {
               .split("/")[5];
           }
 
-          if (l.Social_Platform.Platform == "Yelp") {
+          if (l.connect_type == "Yelp") {
             console.log("yes yelp");
 
-            yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
+            // yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
           }
 
-          if (l.Social_Platform.Platform == "Apple") {
+          if (l.connect_type == "Apple") {
             appleUrl = l.Social_Platform.Other_info.split(",")[0]
               .slice(7)
               .split("/")[6]
               .slice(2);
           }
 
-          if (l.Social_Platform.Platform == "Citysearch") {
+          if (l.connect_type == "Citysearch") {
             citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
               .slice(7)
               .split("/")[4];
           }
-          if (l.Social_Platform.Platform == "Here") {
+          if (l.connect_type == "Here") {
             hereUrl = l.Social_Platform.Other_info;
           }
-          if (l.Social_Platform.Platform == "Zillow") {
+          if (l.connect_type == "Zillow") {
             zillowUrl = l.Social_Platform.Other_info;
           }
-          if (l.Social_Platform.Platform == "Tomtom") {
+          if (l.connect_type == "Tomtom") {
             tomtomUrl = l.Social_Platform.Other_info;
           }
-          if (l.Social_Platform.Platform == "Avvo") {
+          if (l.connect_type == "Avvo") {
             avvoUrl = l.Social_Platform.Other_info;
             avvoToken = l.Social_Platform.Token;
           }
-          if (l.Social_Platform.Platform == "Zomato") {
+          if (l.connect_type == "Zomato") {
             zomatoUrl = l.Social_Platform.Other_info;
           }
         });
@@ -275,18 +275,7 @@ export default class ReviewAnalytics extends Component {
             console.log(res.data);
             localStorage.setItem("accountId", res.data.accounts[0].name);
 
-            // Axios.get(
-            //   "https://mybusiness.googleapis.com/v4/" +
-            //     localStorage.getItem("accountId") +
-            //     "/locations",
-            //   GoogleConfig
-            // ).then(resp => {
-            //   console.log(resp.data);
-
-            //   localStorage.setItem(
-            //     "locationIdGoogle",
-            //     resp.data.locations[0].name
-            //   );
+         
             Axios.get(
               "https://mybusiness.googleapis.com/v4/" +
                 this.state.locationIdGoogle +

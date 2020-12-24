@@ -5,7 +5,7 @@ const API = "https://digimonk.net/dashify-ci";
 
 export const all_connection_of_one_location = (data, DjangoConfig) => {
   return Axios.post(
-    `${API}/locations/get-all-connection-of-one-location`,
+    `${API}/admin/socialmedia_api/get_all_social_connected_list`,
     data,
     DjangoConfig
   );
