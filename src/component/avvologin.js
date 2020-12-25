@@ -164,7 +164,7 @@ class AvvoLogin extends Component {
               <p>
                 <label htmlFor="url">Avvo's Lawyer Id</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="1441968"

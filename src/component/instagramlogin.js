@@ -146,7 +146,7 @@ console.log("instadata",data)
               <p>
                 <label htmlFor="url">Instagram User Id</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="teamdigimonk"

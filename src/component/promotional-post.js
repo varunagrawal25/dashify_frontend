@@ -2176,7 +2176,7 @@ Status
                   sed do eiusmod tempor incididunt ut labore et dolore </div>
                   
                   <div className="pp_contant2">
-                    <img src={edit} alt="" className="es_icon" />
+                    <img src={edit} alt="" className="es_icon" data-toggle="modal" data-target="#myModal"/>
                     <img src={delete_icon} alt="" className="es_icon" />
                   </div>
                 </MDBCol>
@@ -2220,7 +2220,7 @@ N/A
                   sed do eiusmod tempor incididunt ut labore et dolore </div>
                   
                   <div className="pp_contant2">
-                    <img src={edit} alt="" className="es_icon" />
+                    <img src={edit} alt="" className="es_icon" data-toggle="modal" data-target="#myModal"/>
                     <img src={delete_icon} alt="" className="es_icon" />
                   </div>
                 </MDBCol>
