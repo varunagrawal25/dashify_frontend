@@ -216,6 +216,18 @@ export default class ProfileAnalytics extends Component {
   componentDidMount() {
     var yelpUrl, fourUrl, fbtoken, fbPageId, googleToken;
 
+    const data2={
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+    }
+    console.log(data2,"data2")
+
+    Axios.post(
+      "https://digimonk.net/dashify-ci/admin/socialmedia_api/get_profile_analytics_locationid",
+      data2
+    ).then(resp => {
+      console.log("digi",resp);
+    });
+
     var today = new Date();
     var date =
       today.getFullYear() +

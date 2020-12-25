@@ -819,14 +819,14 @@ export default class ViewListing extends Component {
     swal("Linkedin : ", error.errorMessage);
   };
 
-  disconnectAccount = e => {
+  disconnectAccount = name=> e => {
     console.log(e.target.name);
     var name = e.target.name;
     const data = { 
       "secure_pin":"digimonk",
       "user_id":localStorage.getItem("UserId") ,
       "location_id":localStorage.getItem("locationId"),
-      "connect_type":"Yelp"
+      "connect_type":name
      };
 
      console.log(data)
@@ -1379,7 +1379,8 @@ export default class ViewListing extends Component {
       pdf_data,
       googleLocationDetail,
       citysearchDetails,
-      yelpDetails
+      yelpDetails,
+      allListings
     } = this.state;
 
     const {
@@ -1487,7 +1488,7 @@ export default class ViewListing extends Component {
                         </div>
                         <div className="dolce-textbox">
                           <h4>
-                            {all_connections ? all_connections.length : "-"}
+                            {allListings ? allListings.length : "-"}
                           </h4>
                           <strong>Sync Listing</strong>
                           <p>Keyword that have moved up in the rank</p>
@@ -1500,8 +1501,8 @@ export default class ViewListing extends Component {
                         </div>
                         <div className="dolce-textbox">
                           <h4>
-                            {all_connections
-                              ? total_listings - all_connections.length
+                            {allListings
+                              ? total_listings - allListings.length
                               : "-"}
                           </h4>
                           <strong>Requiring Action</strong>
@@ -1657,7 +1658,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.yelpId}
                             name="yelpIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Yelp")}
                           >
                             Disconnect
                           </a>
@@ -1716,7 +1717,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.instaId}
                             name="instaIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Instagram")}
                           >
                             Disconnect
                           </a>
@@ -1774,7 +1775,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.fbId}
                             name="fbIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Facebook")}
                           >
                             Disconnect
                           </a>
@@ -1843,7 +1844,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.linkedinId}
                             name="linkedinIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Linkedin")}
                           >
                             Disconnect
                           </a>
@@ -1917,7 +1918,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.avvoId}
                             name="avvoIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Avvo")}
                           >
                             Disconnect
                           </a>
@@ -1978,7 +1979,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.foursquareId}
                             name="foursquareIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Foursquare")}
                           >
                             Disconnect
                           </a>
@@ -2036,7 +2037,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.dnbId}
                             name="dnbIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Dnb")}
                           >
                             Disconnect
                           </a>
@@ -2094,7 +2095,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.googleId}
                             name="googleIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Google")}
                           >
                             Disconnect
                           </a>
