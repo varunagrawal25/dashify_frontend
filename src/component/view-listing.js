@@ -208,29 +208,29 @@ export default class ViewListing extends Component {
             this.state.allListings.map(l => {
               console.log("loop all")
               if (l.connect_type == "Facebook") {
-                fbtoken = l.Social_Platform.Token;
-                fbPageId = l.Social_Platform.Other_info;
-                fbData = l;
+                // fbtoken = l.Social_Platform.Token;
+                // fbPageId = l.Social_Platform.Other_info;
+                // fbData = l;
 
                 this.setState({
                   fbIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Facebook",
-                      image: require("../images/facebook.png"),
-                      username: fbData.Social_Platform.Username,
-                      status: true,
-                      link: "https://www.facebook.com/" + fbPageId,
-                      date: fbData.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  fbId: fbData.id,
-                  fbName: fbData.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Facebook" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Facebook",
+                  //     image: require("../images/facebook.png"),
+                  //     username: fbData.Social_Platform.Username,
+                  //     status: true,
+                  //     link: "https://www.facebook.com/" + fbPageId,
+                  //     date: fbData.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // fbId: fbData.id,
+                  // fbName: fbData.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Facebook" }
+                  // ]
                 });
               }
 
@@ -266,30 +266,30 @@ export default class ViewListing extends Component {
               }
 
               if (l.connect_type == "Linkedin") {
-                linkedinToken = l.Social_Platform.Token;
-                linkedinData = l;
-                linkedin_page_id = l.Social_Platform.Other_info;
+                // linkedinToken = l.Social_Platform.Token;
+                // linkedinData = l;
+                // linkedin_page_id = l.Social_Platform.Other_info;
 
                 this.setState({
                   linkedinIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Linkedin",
-                      image: require("../images/linkedin.png"),
-                      username: linkedinData.Social_Platform.Username,
-                      status: true,
-                      date: linkedinData.Social_Platform.Update_Date.split(
-                        "T"
-                      )[0]
-                    }
-                  ],
-                  linkedinId: linkedinData.id,
-                  linkedinName: linkedinData.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Linkedin" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Linkedin",
+                  //     image: require("../images/linkedin.png"),
+                  //     username: linkedinData.Social_Platform.Username,
+                  //     status: true,
+                  //     date: linkedinData.Social_Platform.Update_Date.split(
+                  //       "T"
+                  //     )[0]
+                  //   }
+                  // ],
+                  // linkedinId: linkedinData.id,
+                  // linkedinName: linkedinData.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Linkedin" }
+                  // ]
                 });
               }
 
@@ -297,23 +297,23 @@ export default class ViewListing extends Component {
                 console.log("yes four");
                 this.setState({
                   foursquareIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Foursquare",
-                      image: require("../images/foursquare.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  foursquareId: l.id,
-                  foursquareName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Foursquare" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Foursquare",
+                  //     image: require("../images/foursquare.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true,
+                  //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // foursquareId: l.id,
+                  // foursquareName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Foursquare" }
+                  // ]
                 });
               }
 
@@ -321,50 +321,50 @@ export default class ViewListing extends Component {
                 console.log("yes DNB");
                 this.setState({
                   dnbIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Dnb",
-                      image: require("../images/dnb.jpg"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  dnbId: l.id,
-                  dnbName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Dnb" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Dnb",
+                  //     image: require("../images/dnb.jpg"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true,
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // dnbId: l.id,
+                  // dnbName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Dnb" }
+                  // ]
                 });
               }
 
-              if (l.connect_type == "Instagram") {
+              if (l.connect_type === "Instagram") {
                 console.log("yes Instagram");
                 this.setState({
                   instaIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Instagram",
-                      image: require("../images/instagram.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link:
-                        "https://www.instagram.com/" +
-                        l.Social_Platform.Other_info.split(",")[0].slice(7) +
-                        "/",
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  instaId: l.id,
-                  instaName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Instagram" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Instagram",
+                  //     image: require("../images/instagram.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true,
+                  //     link:
+                  //       "https://www.instagram.com/" +
+                  //       l.Social_Platform.Other_info.split(",")[0].slice(7) +
+                  //       "/",
+                  //     date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // instaId: l.id,
+                  // instaName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Instagram" }
+                  // ]
                 });
               }
 
@@ -406,23 +406,23 @@ export default class ViewListing extends Component {
                 console.log("yes Apple");
                 this.setState({
                   appleIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Apple",
-                      image: require("../images/apple.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  appleId: l.id,
-                  appleName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Apple" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Apple",
+                  //     image: require("../images/apple.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true,
+                  //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // appleId: l.id,
+                  // appleName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Apple" }
+                  // ]
                 });
               }
 
@@ -430,57 +430,57 @@ export default class ViewListing extends Component {
                 console.log("Citysearch data", l);
                 this.setState({
                   citysearchIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Citysearch",
-                      image: require("../images/citysearch.jpg"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  citysearchId: l.id,
-                  citysearchName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Citysearch" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Citysearch",
+                  //     image: require("../images/citysearch.jpg"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true,
+                  //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // citysearchId: l.id,
+                  // citysearchName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Citysearch" }
+                  // ]
                 });
-                let citysearchId = l.Social_Platform.Other_info.split(",")[0]
-                  .slice(7)
-                  .split("/")[4];
-                Axios.get(
-                  `https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/places/v2/detail?id=${citysearchId}&id_type=cs&client_ip=123.4.56.78&publisher=test&format=json`
-                ).then(res => {
-                  // console.log("citysearchDetails",res.data.locations[0])
-                  if (res.data.locations)
-                    this.setState({ citysearchDetails: res.data.locations[0] });
-                });
+                // let citysearchId = l.Social_Platform.Other_info.split(",")[0]
+                //   .slice(7)
+                //   .split("/")[4];
+                // Axios.get(
+                //   `https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/places/v2/detail?id=${citysearchId}&id_type=cs&client_ip=123.4.56.78&publisher=test&format=json`
+                // ).then(res => {
+                //   // console.log("citysearchDetails",res.data.locations[0])
+                //   if (res.data.locations)
+                //     this.setState({ citysearchDetails: res.data.locations[0] });
+                // });
               }
 
               if (l.connect_type == "Zillow") {
                 console.log("Zillow data", l);
                 this.setState({
                   zillowIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Zillow",
-                      image: require("../images/zillow.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  zillowId: l.id,
-                  zillowName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Zillow" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Zillow",
+                  //     image: require("../images/zillow.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true,
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // zillowId: l.id,
+                  // zillowName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Zillow" }
+                  // ]
                 });
               }
 
@@ -488,23 +488,23 @@ export default class ViewListing extends Component {
                 console.log("Tomtom data", l);
                 this.setState({
                   tomtomIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Tomtom",
-                      image: require("../images/tomtom.png"),
-                      username: l.Social_Platform.Username,
-                      status: true
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  tomtomId: l.id,
-                  tomtomName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Tomtom" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Tomtom",
+                  //     image: require("../images/tomtom.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     // date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // tomtomId: l.id,
+                  // tomtomName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Tomtom" }
+                  // ]
                 });
               }
 
@@ -512,23 +512,23 @@ export default class ViewListing extends Component {
                 console.log("Zomato data", l);
                 this.setState({
                   zomatoIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Zomato",
-                      image: require("../images/zomato.png"),
-                      username: l.Social_Platform.Username,
-                      status: true
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  zomatoId: l.id,
-                  zomatoName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Zomato" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Zomato",
+                  //     image: require("../images/zomato.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     // date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // zomatoId: l.id,
+                  // zomatoName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Zomato" }
+                  // ]
                 });
               }
 
@@ -536,23 +536,23 @@ export default class ViewListing extends Component {
                 console.log("Avvo data", l);
                 this.setState({
                   avvoIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Avvo",
-                      image: require("../images/avvo.png"),
-                      username: l.Social_Platform.Username,
-                      status: true
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  avvoId: l.id,
-                  avvoName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Avvo" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Avvo",
+                  //     image: require("../images/avvo.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     // date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // avvoId: l.id,
+                  // avvoName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Avvo" }
+                  // ]
                 });
               }
 
@@ -560,23 +560,23 @@ export default class ViewListing extends Component {
                 console.log("yes here");
                 this.setState({
                   hereIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Here",
-                      image: require("../images/here.png"),
-                      username: l.Social_Platform.Username,
-                      status: true
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  hereId: l.id,
-                  hereName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Here" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Here",
+                  //     image: require("../images/here.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     // date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // hereId: l.id,
+                  // hereName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Here" }
+                  // ]
                 });
               }
             });
