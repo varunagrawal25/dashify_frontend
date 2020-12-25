@@ -11,6 +11,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Loader from "react-loader-spinner";
 import { get_login_user_info } from "./apis/user";
 import { secure_pin } from "../config";
+import SelectSearch from 'react-select-search';
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -272,15 +273,15 @@ console.log("user_id",data.user_id)
       view_notification_type1
     } = this.state;
 
-    // var options = [];
-    // if (this.state.AllLocations) {
-    //   this.state.AllLocations.map(loc => {
-    //     if (location_id == loc.id.toString()) {
-    //       localStorage.setItem("locationName", loc.location_name);
-    //     }
-    //     options.push({ name: loc.location_name, value: loc.id.toString() });
-    //   });
-    // }
+    var locations = [];
+    if (this.state.AllLocations) {
+      this.state.AllLocations.map(loc => {
+        if (location_id == loc.id.toString()) {
+          localStorage.setItem("locationName", loc.location_name);
+        }
+        locations.push({ name: loc.location_name, value: loc.id.toString() });
+      });
+    }
 
     let courses = [];
 
@@ -538,7 +539,12 @@ console.log("user_id",data.user_id)
         <MDBCol md='6' style={{marginTop:'12px'}}>
           <MDBRow>
             <MDBCol md='6' >
+          
 <div className="md-form vertically_center">
+{/* <SelectSearch options={locations} value={this.state.search} className="searcdd" name="language" 
+placeholder={loc_name ? loc_name : "Search"} onChange={e =>
+                            this.setState({ search: e.target.value.split(" ") })
+                          }/> */}
                         <input
                           type="text"
                           name=""

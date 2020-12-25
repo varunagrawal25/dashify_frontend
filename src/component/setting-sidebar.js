@@ -11,7 +11,7 @@ export default class ProfileSettingSidebar extends Component {
       <MDBCol className="profile_container">
         <div className="profile1">
           {lastNameOfUrl == "setting-accounts" ? (
-            <NavLink to="/setting-main/setting-accounts" className="active">
+            <NavLink to="/setting-main/setting-accounts/my-profile" className="active">
               Account
             </NavLink>
           ) : (

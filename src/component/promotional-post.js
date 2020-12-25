@@ -2256,6 +2256,14 @@ N/A
         <div class="modal-header">
           {/* <button type="button" class="close" data-dismiss="modal">&times;</button> */}
          <div className="ap_heading">Additional Promotional Posts</div>
+         <button
+										type="button"
+										className="modal_header_icon"
+                    data-dismiss="modal"
+                    style={{color:'#5d80e2',fontSize:'25px', padding:'0px'}}
+									>
+										&times;
+									</button>
         </div>
         <div class="modal-body">
          <MDBRow>
