@@ -213,20 +213,46 @@ export default class ProfileAnalytics extends Component {
     });
   };
 
+
+  filterAnalytics (data){
+
+    Axios.post(
+      "https://digimonk.net/dashify-ci/admin/socialmedia_api/get_profile_analytics_by_filter",
+      data
+    ).then(resp => {
+      console.log("digi",resp);
+
+      this.setState({
+        googleAnalytics:resp.data
+      })
+    });
+
+
+  }
+
+  fliterUpdate=e=>{
+    console.log(e.target.value)
+    const data2={
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+
+      ,"filter_type":e.target.value
+    }
+    console.log(data2,"data2")
+    this.filterAnalytics(data2);
+  }
+
   componentDidMount() {
     var yelpUrl, fourUrl, fbtoken, fbPageId, googleToken;
 
     const data2={
       "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+
+      ,"filter_type":"last week"
     }
     console.log(data2,"data2")
+    this.filterAnalytics(data2);
 
-    Axios.post(
-      "https://digimonk.net/dashify-ci/admin/socialmedia_api/get_profile_analytics_locationid",
-      data2
-    ).then(resp => {
-      console.log("digi",resp);
-    });
+   
 
     var today = new Date();
     var date =
@@ -696,6 +722,8 @@ secure_pin,
       fbIsLoggedIn,
       googleIsLoggedIn
     } = this.state;
+
+    var googleAnalytics=this.state.googleAnalytics;
     console.log("this.state", this.state);
 
     let pdf_data = [
@@ -870,31 +898,31 @@ secure_pin,
                       <div className="Pa_container1 ">
                         <div className="row ">
                           <div className="col-md-5 this_week ">
-                            <select value={this.state.range_name} onChange={this.change_states} className="review_select_btn">
+                            <select  onChange={this.fliterUpdate} className="review_select_btn">
                               <option selected
-                                value= "week"
+                                value= "last week"
                               >
                                 Last week
                               </option>
                               <option
-                              value = "month"
+                              value = "last month"
                               >
                                 Last month
                               </option>
 
                               <option
-                              value= "3 months"
+                              value= "last 3 months"
                               >
                                 Last 3 month
                               </option>
 
                               <option
-                              value= "6 months"
+                              value= "last 6 months"
                               >
                                 Last 6 month
                               </option>
                               <option
-                              value = "year"
+                              value = "last year"
                               >
                                 Last year
                               </option>
@@ -929,7 +957,7 @@ secure_pin,
                           </div>
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
-                              {conViews}
+                            {googleAnalytics.c_total_profile_views?googleAnalytics.c_total_profile_views:"0"}
                             </p>
                             <p className="analytic-17">Total profile view</p>
                           </div>
@@ -966,7 +994,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {conWeb}
+                             {googleAnalytics.c_website_visit?googleAnalytics.c_website_visit:"0"}
                             </p>
                             <p className="analytic-17">Website Visit</p>
                           </div>
@@ -1003,7 +1031,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {gcalls}
+                              {googleAnalytics.c_phone_calls?googleAnalytics.c_phone_calls:"0"}
                             </p>
                             <p className="analytic-17">Phone calls</p>
                           </div>
@@ -1040,7 +1068,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {condirection}
+                              {googleAnalytics.c_direct_request?googleAnalytics.c_direct_request:"0"}
                             </p>
                             <p className="analytic-17">Direction request</p>
                           </div>
@@ -1077,7 +1105,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {conclicks}
+                              {googleAnalytics.c_buttons_clicks?googleAnalytics.c_buttons_clicks:"0"}
                             </p>
                             <p className="analytic-17">Button clicks</p>
                           </div>
@@ -1124,41 +1152,31 @@ secure_pin,
                               <td scope="row" className="analytics-17">
                                 Consolidated
                               </td>
-                              <td>
-                                {conViews}
-                              </td>
-                              <td>
-                                {conWeb}
-                              </td>
-                              <td>
-                                {concalls}
-                              </td>
-                              <td>
-                                {condirection}
-                              </td>
-                              <td>
-                                {conclicks}
-                              </td>
+                              <td>{googleAnalytics.c_total_profile_views?googleAnalytics.c_total_profile_views:"0"}</td>
+                              <td>{googleAnalytics.c_website_visit?googleAnalytics.c_website_visit:"0"}</td>
+                              <td>{googleAnalytics.c_phone_calls?googleAnalytics.c_phone_calls:"0"} </td>
+                              <td>{googleAnalytics.c_direct_request?googleAnalytics.c_direct_request:"0"}</td>
+                              <td>{googleAnalytics.c_buttons_clicks?googleAnalytics.c_buttons_clicks:"0"}</td>
                             </tr>
                             <tr>
                               <td scope="row" className="analytics-17">
                                 Google
                               </td>
-                              <td>{gviews}</td>
-                              <td>{gWeb}</td>
-                              <td>{gcalls} </td>
-                              <td>{gdirection}</td>
-                              <td>{gclicks}</td>
+                              <td>{googleAnalytics.g_total_profile_views?googleAnalytics.g_total_profile_views:"0"}</td>
+                              <td>{googleAnalytics.g_website_visit?googleAnalytics.g_website_visit:"0"}</td>
+                              <td>{googleAnalytics.g_phone_calls?googleAnalytics.g_phone_calls:"0"} </td>
+                              <td>{googleAnalytics.g_direct_request?googleAnalytics.g_direct_request:"0"}</td>
+                              <td>{googleAnalytics.g_buttons_clicks?googleAnalytics.g_buttons_clicks:"0"}</td>
                             </tr>
                             <tr>
                               <td scope="row" className="analytics-17">
                                 Facebook
                               </td>
-                              <td>{fViews}</td>
-                              <td>{fWeb}</td>
-                              <td>{fcalls} </td>
-                              <td>{fdirection}</td>
-                              <td>{fclicks}</td>
+                              <td>{googleAnalytics.f_total_profile_views?googleAnalytics.f_total_profile_views:"0"}</td>
+                              <td>{googleAnalytics.f_website_visit?googleAnalytics.f_website_visit:"0"}</td>
+                              <td>{googleAnalytics.f_phone_calls?googleAnalytics.f_phone_calls:"0"} </td>
+                              <td>{googleAnalytics.f_direct_request?googleAnalytics.f_direct_request:"0"}</td>
+                              <td>{googleAnalytics.f_buttons_clicks?googleAnalytics.f_buttons_clicks:"0"}</td>
                             </tr>
                             {/* <tr>
                             <th scope="row" className="analytics-17">

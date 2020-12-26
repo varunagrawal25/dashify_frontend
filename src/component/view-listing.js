@@ -651,7 +651,12 @@ export default class ViewListing extends Component {
     const fb_data = {
       location_id: this.props.match.params.locationId,
       Username: response.name,
-      Email: response.email
+      Email: response.email,
+      AccessToken: response.accessToken,
+      image:response.picture.data.url,
+      userId:response.userID
+
+
     };
 
     // Axios.get("https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=187396122554776&client_secret=bad0dbb6029a3530ca46048415abe95e&fb_exchange_token="+response.accessToken).then(async res => {
@@ -819,14 +824,14 @@ export default class ViewListing extends Component {
     swal("Linkedin : ", error.errorMessage);
   };
 
-  disconnectAccount = name=> e => {
+  disconnectAccount = namefrom=> e => {
     console.log(e.target.name);
     var name = e.target.name;
     const data = { 
       "secure_pin":"digimonk",
       "user_id":localStorage.getItem("UserId") ,
       "location_id":localStorage.getItem("locationId"),
-      "connect_type":name
+      "connect_type":namefrom
      };
 
      console.log(data)

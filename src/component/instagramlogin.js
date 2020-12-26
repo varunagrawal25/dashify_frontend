@@ -112,7 +112,7 @@ console.log("instadata",data)
       add_social_account(data, DjangoConfig)
       .then(resp => {
         console.log(resp);
-        // this.setState({ isUrl: true, loading: false });
+        this.setState({ isUrl: true, loading: false });
       })
       .catch(resp => {
         console.log(resp);

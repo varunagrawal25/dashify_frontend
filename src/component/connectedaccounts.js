@@ -39,15 +39,29 @@ class ConnectedAccounts extends Component {
     const fb_data = JSON.parse(localStorage.getItem("fb_data"));
 
     const data = {
-      location_id: fb_data.location_id,
-      Platform: "Facebook",
-      Token: localStorage.getItem("fb_token"),
-      Username: fb_data.Username,
-      Email: fb_data.Email,
-      Password: "",
-      Connect_status: "Connect",
-      Other_info: this.state.all_pages[index].id
+      // location_id: fb_data.location_id,
+      // Platform: "Facebook",
+      // Token: localStorage.getItem("fb_token"),
+      // Username: fb_data.Username,
+      // Email: fb_data.Email,
+      // Password: "",
+      // Connect_status: "Connect",
+      // Other_info: this.state.all_pages[index].id,
+
+
+      "secure_pin":"digimonk",
+      "user_id":localStorage.getItem("UserId"),
+      "location_id":fb_data.location_id,
+      "facebook_id":fb_data.userId,
+      "token":fb_data.AccessToken,
+      "name":fb_data.Username,
+      "email_id":fb_data.Email,
+      "picture_url":fb_data.image,
+      "connect_type":"Facebook",
+      "page_access_token":this.state.all_pages[index].access_token,
+      "page_id":this.state.all_pages[index].id
     };
+    console.log(data)
 
     // Axios.post(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/social-platforms/add-account",
