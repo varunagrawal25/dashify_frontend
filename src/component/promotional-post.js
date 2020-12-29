@@ -436,7 +436,7 @@ N/A
     
 
   <div class="tab-content">
-    <div id="promo_post" class="tab-pane fade in active">
+    <div id="promo_post" class="tab-pane fade  active" style={{opacity:'1'}}>
     {/* <MDBRow>
            <MDBCol md='8' className='ap_subhead1'>
            Write your post
