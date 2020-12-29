@@ -10750,7 +10750,7 @@ ul.dropdown-menu.loginboxds li a:hover {
 }
 
 /* additional promotional post end*/
-.no_faq{
+.no_faq {
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
@@ -12833,6 +12833,17 @@ label img {
 
   color: #4f4f4f;
 }
+.billing_head {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #4f4f4f;
+  margin-left: 9px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 .profile1 a {
   display: block;
   padding: 10px 0px;
@@ -12864,6 +12875,22 @@ label img {
   color: #4f4f4f;
   mix-blend-mode: normal;
   padding: 0px 10px;
+}
+.promo_input {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #4f4f4f;
+  padding: 10px 15px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 92%;
+  margin: 20px 0px;
+  margin-left: 4%;
 }
 
 .profile4 {
