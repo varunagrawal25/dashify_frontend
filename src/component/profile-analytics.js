@@ -957,7 +957,8 @@ secure_pin,
                           </div>
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
-                            {googleAnalytics.c_total_profile_views?googleAnalytics.c_total_profile_views:"0"}
+                            {
+                            googleAnalytics?googleAnalytics.c_total_profile_views:"0"}
                             </p>
                             <p className="analytic-17">Total profile view</p>
                           </div>
@@ -994,7 +995,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                             {googleAnalytics.c_website_visit?googleAnalytics.c_website_visit:"0"}
+                             {googleAnalytics?googleAnalytics.c_website_visit:"0"}
                             </p>
                             <p className="analytic-17">Website Visit</p>
                           </div>
@@ -1031,7 +1032,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {googleAnalytics.c_phone_calls?googleAnalytics.c_phone_calls:"0"}
+                              {googleAnalytics?googleAnalytics.c_phone_calls:"0"}
                             </p>
                             <p className="analytic-17">Phone calls</p>
                           </div>
@@ -1068,7 +1069,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {googleAnalytics.c_direct_request?googleAnalytics.c_direct_request:"0"}
+                              {googleAnalytics?googleAnalytics.c_direct_request:"0"}
                             </p>
                             <p className="analytic-17">Direction request</p>
                           </div>
@@ -1105,7 +1106,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {googleAnalytics.c_buttons_clicks?googleAnalytics.c_buttons_clicks:"0"}
+                              {googleAnalytics?googleAnalytics.c_buttons_clicks:"0"}
                             </p>
                             <p className="analytic-17">Button clicks</p>
                           </div>
@@ -1152,11 +1153,11 @@ secure_pin,
                               <td scope="row" className="analytics-17">
                                 Consolidated
                               </td>
-                              <td>{googleAnalytics.c_total_profile_views?googleAnalytics.c_total_profile_views:"0"}</td>
-                              <td>{googleAnalytics.c_website_visit?googleAnalytics.c_website_visit:"0"}</td>
-                              <td>{googleAnalytics.c_phone_calls?googleAnalytics.c_phone_calls:"0"} </td>
-                              <td>{googleAnalytics.c_direct_request?googleAnalytics.c_direct_request:"0"}</td>
-                              <td>{googleAnalytics.c_buttons_clicks?googleAnalytics.c_buttons_clicks:"0"}</td>
+                              <td>{googleAnalytics?googleAnalytics.c_total_profile_views:"0"}</td>
+                              <td>{googleAnalytics?googleAnalytics.c_website_visit:"0"}</td>
+                              <td>{googleAnalytics?googleAnalytics.c_phone_calls:"0"} </td>
+                              <td>{googleAnalytics?googleAnalytics.c_direct_request:"0"}</td>
+                              <td>{googleAnalytics?googleAnalytics.c_buttons_clicks:"0"}</td>
                             </tr>
                             <tr>
                               <td scope="row" className="analytics-17">

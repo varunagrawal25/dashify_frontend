@@ -1634,6 +1634,154 @@ export default class ViewListing extends Component {
                 <div className="mt-30">
                   <h2 className="account-listing">Account</h2>
 
+
+                    {/* google */}
+                    <div className="account-api">
+                    <div className="row d-flex">
+                      <div className="col-md-3">
+                        <div className="f-connect">
+                          <div className="yelp-icon">
+                            <img
+                              src={require("../images/google.png")}
+                              alt="Google"
+                            />
+                          </div>
+                          <div className="yelp-text">
+                            {this.state.googleIsLoggedIn ? (
+                              <div>
+                                <p>Connected</p>
+                                <h4>{this.state.googleName} </h4>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-3">
+                        {this.state.googleIsLoggedIn ? (
+                          <a
+                            className="disconnect_btn"
+                            id={this.state.googleId}
+                            name="googleIsLoggedIn"
+                            onClick={this.disconnectAccount("Google")}
+                          >
+                            Disconnect
+                          </a>
+                        ) : (
+                          <div className="google_btnb">
+                            <GoogleLogin
+                              // for localhost
+                              // clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
+                             // for server
+                             clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
+                              buttonText="Connect a account"
+                              class="connect_btn"
+                              scope="https://www.googleapis.com/auth/business.manage"
+                              onSuccess={this.responseGoogle}
+                              onFailure={this.responseErrorGoogle}
+                              cookiePolicy={"single_host_origin"}
+                              icon={false}
+
+                              //for refresh token
+                              // accessType="offline"
+                              // responseType="code"
+                              // pompt="consent"
+                            />
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="col-md-6">
+                        {this.state.googleIsLoggedIn ? (
+                          <div className="refres_box enble_refresh">
+                            <i className="fa fa-link"></i>
+                            <span>Syncing</span>
+                          </div>
+                        ) : (
+                          <div className="refres_box disble_refresh">
+                            <i className="zmdi zmdi-close"></i>
+                            <span>
+                              Connect your account to sync the listing
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                   {/* fb */}
+                   <div className="account-api">
+                    <div className="row d-flex">
+                      <div className="col-md-3">
+                        <div className="f-connect">
+                          <div className="yelp-icon">
+                            <img
+                              src={require("../images/facebook.png")}
+                              alt="Facebook"
+                            />
+                          </div>
+                          <div className="yelp-text">
+                            {this.state.fbIsLoggedIn ? (
+                              <div>
+                                <p>Connected</p>
+                                <h4>{this.state.fbName} </h4>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-3">
+                        {this.state.fbIsLoggedIn ? (
+                          <a
+                            className="disconnect_btn"
+                            id={this.state.fbId}
+                            name="fbIsLoggedIn"
+                            onClick={this.disconnectAccount("Facebook")}
+                          >
+                            Disconnect
+                          </a>
+                        ) : (
+                          <FacebookLogin
+                            for server
+                            appId="3550574924973433"
+                            //  for localhost
+                            // appId="187396122554776"
+                            // appId="3044182972316291"
+                            autoLoad={false}
+                            fields="name,email,picture"
+                            // fields="name,email,picture,pages_read_engagement,pages_read_user_content,Page Public Metadata Access"
+                            onClick={this.componentClicked}
+                            callback={this.responseFacebook}
+                            textButton="Connect a account"
+                            cssClass="connect_btn"
+                          />
+                        )}
+                      </div>
+
+                      <div className="col-md-6">
+                        {this.state.fbIsLoggedIn ? (
+                          <div className="refres_box enble_refresh">
+                            <i className="fa fa-link"></i>
+                            <span>Syncing</span>
+                          </div>
+                        ) : (
+                          <div className="refres_box disble_refresh">
+                            <i className="zmdi zmdi-close"></i>
+                            <span>
+                              Connect your account to sync the listing
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+
                   {/* yelp */}
                   <div className="account-api">
                     <div className="row d-flex">
@@ -1691,6 +1839,66 @@ export default class ViewListing extends Component {
                       </div>
                     </div>
                   </div>
+
+
+                   {/* foursquare */}
+                   <div className="account-api">
+                    <div className="row d-flex">
+                      <div className="col-md-3">
+                        <div className="f-connect">
+                          <div className="yelp-icon">
+                            <img
+                              src={require("../images/foursquare.png")}
+                              alt="Foursquare"
+                            />
+                          </div>
+                          <div className="yelp-text">
+                            {this.state.foursquareIsLoggedIn ? (
+                              <div>
+                                <p>Connected</p>
+                                <h4>{this.state.foursquareName} </h4>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-3">
+                        {this.state.foursquareIsLoggedIn ? (
+                          <a
+                            className="disconnect_btn"
+                            id={this.state.foursquareId}
+                            name="foursquareIsLoggedIn"
+                            onClick={this.disconnectAccount("Foursquare")}
+                          >
+                            Disconnect
+                          </a>
+                        ) : (
+                          <a href="/foursquarelogin" className="connect_btn">
+                            Connect a account
+                          </a>
+                        )}
+                      </div>
+
+                      <div className="col-md-6">
+                        {this.state.foursquareIsLoggedIn ? (
+                          <div className="refres_box enble_refresh">
+                            <i className="fa fa-link"></i>
+                            <span>Syncing</span>
+                          </div>
+                        ) : (
+                          <div className="refres_box disble_refresh">
+                            <i className="zmdi zmdi-close"></i>
+                            <span>
+                              Connect your account to sync the listing
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
 
                   {/* instagram */}
 
@@ -1751,75 +1959,7 @@ export default class ViewListing extends Component {
                     </div>
                   </div>
 
-                  {/* fb */}
-                  <div className="account-api">
-                    <div className="row d-flex">
-                      <div className="col-md-3">
-                        <div className="f-connect">
-                          <div className="yelp-icon">
-                            <img
-                              src={require("../images/facebook.png")}
-                              alt="Facebook"
-                            />
-                          </div>
-                          <div className="yelp-text">
-                            {this.state.fbIsLoggedIn ? (
-                              <div>
-                                <p>Connected</p>
-                                <h4>{this.state.fbName} </h4>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        {this.state.fbIsLoggedIn ? (
-                          <a
-                            className="disconnect_btn"
-                            id={this.state.fbId}
-                            name="fbIsLoggedIn"
-                            onClick={this.disconnectAccount("Facebook")}
-                          >
-                            Disconnect
-                          </a>
-                        ) : (
-                          <FacebookLogin
-                            // for server
-                            // appId="3550574924973433"
-                            // for localhost
-                            appId="187396122554776"
-                            // appId="3044182972316291"
-                            autoLoad={false}
-                            fields="name,email,picture"
-                            // fields="name,email,picture,pages_read_engagement,pages_read_user_content,Page Public Metadata Access"
-                            onClick={this.componentClicked}
-                            callback={this.responseFacebook}
-                            textButton="Connect a account"
-                            cssClass="connect_btn"
-                          />
-                        )}
-                      </div>
-
-                      <div className="col-md-6">
-                        {this.state.fbIsLoggedIn ? (
-                          <div className="refres_box enble_refresh">
-                            <i className="fa fa-link"></i>
-                            <span>Syncing</span>
-                          </div>
-                        ) : (
-                          <div className="refres_box disble_refresh">
-                            <i className="zmdi zmdi-close"></i>
-                            <span>
-                              Connect your account to sync the listing
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
+                 
                   {/* linkedin */}
                   <div className="account-api">
                     <div className="row d-flex">
@@ -1955,64 +2095,7 @@ export default class ViewListing extends Component {
                     </div>
                   </div>
 
-                  {/* foursquare */}
-                  <div className="account-api">
-                    <div className="row d-flex">
-                      <div className="col-md-3">
-                        <div className="f-connect">
-                          <div className="yelp-icon">
-                            <img
-                              src={require("../images/foursquare.png")}
-                              alt="Foursquare"
-                            />
-                          </div>
-                          <div className="yelp-text">
-                            {this.state.foursquareIsLoggedIn ? (
-                              <div>
-                                <p>Connected</p>
-                                <h4>{this.state.foursquareName} </h4>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        {this.state.foursquareIsLoggedIn ? (
-                          <a
-                            className="disconnect_btn"
-                            id={this.state.foursquareId}
-                            name="foursquareIsLoggedIn"
-                            onClick={this.disconnectAccount("Foursquare")}
-                          >
-                            Disconnect
-                          </a>
-                        ) : (
-                          <a href="/foursquarelogin" className="connect_btn">
-                            Connect a account
-                          </a>
-                        )}
-                      </div>
-
-                      <div className="col-md-6">
-                        {this.state.foursquareIsLoggedIn ? (
-                          <div className="refres_box enble_refresh">
-                            <i className="fa fa-link"></i>
-                            <span>Syncing</span>
-                          </div>
-                        ) : (
-                          <div className="refres_box disble_refresh">
-                            <i className="zmdi zmdi-close"></i>
-                            <span>
-                              Connect your account to sync the listing
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
+                 
                   {/* DNB */}
                   <div className="account-api">
                     <div className="row d-flex">
@@ -2071,80 +2154,7 @@ export default class ViewListing extends Component {
                     </div>
                   </div>
 
-                  {/* google */}
-                  <div className="account-api">
-                    <div className="row d-flex">
-                      <div className="col-md-3">
-                        <div className="f-connect">
-                          <div className="yelp-icon">
-                            <img
-                              src={require("../images/google.png")}
-                              alt="Google"
-                            />
-                          </div>
-                          <div className="yelp-text">
-                            {this.state.googleIsLoggedIn ? (
-                              <div>
-                                <p>Connected</p>
-                                <h4>{this.state.googleName} </h4>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        {this.state.googleIsLoggedIn ? (
-                          <a
-                            className="disconnect_btn"
-                            id={this.state.googleId}
-                            name="googleIsLoggedIn"
-                            onClick={this.disconnectAccount("Google")}
-                          >
-                            Disconnect
-                          </a>
-                        ) : (
-                          <div className="google_btnb">
-                            <GoogleLogin
-                              for localhost
-                              clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
-                              //for server
-                             // clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
-                              buttonText="Connect a account"
-                              class="connect_btn"
-                              scope="https://www.googleapis.com/auth/business.manage"
-                              onSuccess={this.responseGoogle}
-                              onFailure={this.responseErrorGoogle}
-                              cookiePolicy={"single_host_origin"}
-                              icon={false}
-
-                              //for refresh token
-                              // accessType="offline"
-                              // responseType="code"
-                              // pompt="consent"
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="col-md-6">
-                        {this.state.googleIsLoggedIn ? (
-                          <div className="refres_box enble_refresh">
-                            <i className="fa fa-link"></i>
-                            <span>Syncing</span>
-                          </div>
-                        ) : (
-                          <div className="refres_box disble_refresh">
-                            <i className="zmdi zmdi-close"></i>
-                            <span>
-                              Connect your account to sync the listing
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                
 
                   {/* apple */}
                   <div className="account-api">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
+import {review_analytics_by_location} from "./apis/review"
 import Chart from "react-google-charts";
 import Spinner from "./common/Spinner";
 import Column_chart from "./charts/Column_chart";
@@ -107,9 +108,9 @@ export default class ReviewAnalytics extends Component {
         this.setState({ loader: false,all_connections:response.data.social_media_list });
         response.data.social_media_list.map((l) => {
           if (l.connect_type == "Facebook") {
-            fbtoken = l.Social_Platform.Token;
-            console.log(fbtoken);
-            fbPageId = l.Social_Platform.Other_info;
+            // fbtoken = l.Social_Platform.Token;
+            // console.log(fbtoken);
+            // fbPageId = l.Social_Platform.Other_info;
           }
 
           if (l.connect_type == "Google") {
@@ -122,9 +123,9 @@ export default class ReviewAnalytics extends Component {
           if (l.connect_type== "Foursquare") {
             console.log("yes four");
 
-            fourUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[5];
+            // fourUrl = l.Social_Platform.Other_info.split(",")[0]
+            //   .slice(7)
+            //   .split("/")[5];
           }
 
           if (l.connect_type == "Yelp") {
@@ -134,34 +135,56 @@ export default class ReviewAnalytics extends Component {
           }
 
           if (l.connect_type == "Apple") {
-            appleUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[6]
-              .slice(2);
+            // appleUrl = l.Social_Platform.Other_info.split(",")[0]
+            //   .slice(7)
+            //   .split("/")[6]
+            //   .slice(2);
           }
 
           if (l.connect_type == "Citysearch") {
-            citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[4];
+            // citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
+            //   .slice(7)
+            //   .split("/")[4];
           }
           if (l.connect_type == "Here") {
-            hereUrl = l.Social_Platform.Other_info;
+            // hereUrl = l.Social_Platform.Other_info;
           }
           if (l.connect_type == "Zillow") {
-            zillowUrl = l.Social_Platform.Other_info;
+            // zillowUrl = l.Social_Platform.Other_info;
           }
           if (l.connect_type == "Tomtom") {
-            tomtomUrl = l.Social_Platform.Other_info;
+            // tomtomUrl = l.Social_Platform.Other_info;
           }
           if (l.connect_type == "Avvo") {
-            avvoUrl = l.Social_Platform.Other_info;
-            avvoToken = l.Social_Platform.Token;
+            // avvoUrl = l.Social_Platform.Other_info;
+            // avvoToken = l.Social_Platform.Token;
           }
           if (l.connect_type == "Zomato") {
-            zomatoUrl = l.Social_Platform.Other_info;
+            // zomatoUrl = l.Social_Platform.Other_info;
           }
         });
+
+        const data2={
+          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,
+          "location_id":localStorage.getItem("locationId"),
+          "filter_type":"last year"
+        };
+
+        review_analytics_by_location(data2).then((response) => {
+          console.log("ana",response);
+
+          this.setState({
+
+            TotalReview:response.data.analytics_data[0].total_reviews,
+            NewReview:response.data.analytics_data[0].new_reviews,
+            AvgRating:response.data.analytics_data[0].average_rating,
+            ReviewResponseRate:response.data.analytics_data[0].review_response_rate,
+
+           AllAnalytics:response.data.reviews_data
+
+          })
+        })
+        .catch((error)=>console.log(error))
 
         // for facebook
         if (fbtoken) {
@@ -604,7 +627,7 @@ export default class ReviewAnalytics extends Component {
   render() {
     console.log("states", this.state);
 
-    let { all_connections } = this.state;
+    let { all_connections, TotalReview,NewReview,AvgRating,ReviewResponseRate,AllAnalytics } = this.state;
 
     var total_new_reviews =
       (this.state.fb_new_reviews == "-" ? 0 : this.state.fb_new_reviews) +
@@ -998,7 +1021,7 @@ console.log("colcheck",columnData)
                               </div>
                             </div>
                             <div className="icon-text">
-                              {overAllReviewCount ? overAllReviewCount : "-"}
+                              {TotalReview ? TotalReview : "0"}
                               <div className="dropdown parsent">
                                 <a
                                   href="#"
@@ -1028,7 +1051,7 @@ console.log("colcheck",columnData)
                               </div>
                             </div>
                             <div className="icon-text">
-                              {total_new_reviews == 0 ? "-" : total_new_reviews}
+                              {NewReview ? NewReview:0}
                               <div className="dropdown parsent">
                                 <a
                                   href="#"
@@ -1058,9 +1081,9 @@ console.log("colcheck",columnData)
                               </div>
                             </div>
                             <div className="icon-text">
-                              {overAllRating != 0
-                                ? overAllRating.toString().slice(0, 4)
-                                : "-"}
+                              {AvgRating
+                                ? AvgRating
+                                : "0"}
                               <div className="dropdown parsent">
                                 <a
                                   href="#"
@@ -1090,7 +1113,7 @@ console.log("colcheck",columnData)
                               </div>
                             </div>
                             <div className="icon-text">
-                              {/* 84 */}-
+                              {/* 84 */} {ReviewResponseRate?ReviewResponseRate:0}
                               <div className="dropdown parsent">
                                 <a
                                   href="#"

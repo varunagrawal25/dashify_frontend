@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
+import {overall_rating_review} from "./apis/review";
 import { location_by_id,business_categories,business_states } from "./apis/location";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
@@ -383,7 +384,32 @@ export default class ReviewTracking extends Component {
           data2
         ).then(resp => {
           console.log("digi",resp);
+          this.setState({AllReviews:resp.data.reviews_array});
         });
+
+
+        const data3={
+          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+         "type":"all","filter_type":"last week"
+        }
+
+        overall_rating_review(data3).then(response => {
+          console.log("over",response);
+
+          this.setState({
+            AvgRating:response.data.overall_rating_array[0].Average_rating,
+            TotalReviews:response.data.overall_rating_array[0].Total_reviews,
+            RatingTotalReviews:response.data.rating_breakdown_array[0].Total_reviews,
+            FiveStar:response.data.rating_breakdown_array[0].five_star,
+            FourStar:response.data.rating_breakdown_array[0].four_star,
+            ThreeStar:response.data.rating_breakdown_array[0].three_star,
+            TwoStar:response.data.rating_breakdown_array[0].two_star,
+            OneStar:response.data.rating_breakdown_array[0].one_star,
+            HelpfulReview:response.data.most_helpful_reviews[0]
+          })
+
+        })
+  
 
         const GoogleConfig = {
           headers: { Authorization: "Bearer " + googleToken }
@@ -1416,9 +1442,128 @@ export default class ReviewTracking extends Component {
       });
     }
   };
+  Update_Overall_Breakdown=type=>e=>{
+    var filter=e.target.value;
+console.log("upd",filter)
+    if(type === "overall_rating" ){
+      console.log("overall");
+      const data3={
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+       "type":type,"filter_type":filter
+      }
+
+      overall_rating_review(data3).then(response => {
+        console.log("over",response);
+
+        this.setState({
+          AvgRating:response.data.overall_rating_array[0].Average_rating,
+          TotalReviews:response.data.overall_rating_array[0].Total_reviews,
+          // RatingTotalReviews:response.data.rating_breakdown_array[0].Total_reviews,
+          // FiveStar:response.data.rating_breakdown_array[0].five_star,
+          // FourStar:response.data.rating_breakdown_array[0].four_star,
+          // ThreeStar:response.data.rating_breakdown_array[0].three_star,
+          // TwoStar:response.data.rating_breakdown_array[0].two_star,
+          // OneStar:response.data.rating_breakdown_array[0].one_star,
+          // HelpfulReview:response.data.most_helpful_reviews[0]
+        })
+
+      })
+    }
+
+    
+    if(type === "rating_breakdown" ){
+      console.log("breakdown");
+
+      const data3={
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+       "type":type,"filter_type":filter
+      }
+
+      overall_rating_review(data3).then(response => {
+        console.log("over",response);
+
+        this.setState({
+          // AvgRating:response.data.overall_rating_array[0].Average_rating,
+          // TotalReviews:response.data.overall_rating_array[0].Total_reviews,
+          RatingTotalReviews:response.data.rating_breakdown_array[0].Total_reviews,
+          FiveStar:response.data.rating_breakdown_array[0].five_star,
+          FourStar:response.data.rating_breakdown_array[0].four_star,
+          ThreeStar:response.data.rating_breakdown_array[0].three_star,
+          TwoStar:response.data.rating_breakdown_array[0].two_star,
+          OneStar:response.data.rating_breakdown_array[0].one_star,
+          // HelpfulReview:response.data.most_helpful_reviews[0]
+        })
+
+      })
+
+
+    }
+  }
 
   render() {
     console.log("this.state", this.state);
+
+    var finalFive=   parseInt((this.state.FiveStar/ this.state.RatingTotalReviews)*100); 
+    var finalFour= parseInt((this.state.FourStar/ this.state.RatingTotalReviews)*100); 
+    var finalThree= parseInt((this.state.ThreeStar/ this.state.RatingTotalReviews)*100); 
+    var finalTwo= parseInt((this.state.TwoStar/ this.state.RatingTotalReviews)*100); 
+    var finalOne= parseInt((this.state.OneStar/ this.state.RatingTotalReviews)*100); 
+    var HelpfulReview=this.state.HelpfulReview;
+    var HelpfulReviewName,HelpfulReviewText,HelpfulReviewRating,HelpfulReviewImg;
+    if(HelpfulReview){
+      HelpfulReviewName= HelpfulReview.name;
+      HelpfulReviewText=HelpfulReview.text;
+      HelpfulReviewRating=HelpfulReview.rating;
+      HelpfulReviewImg=HelpfulReview.url
+
+
+
+
+    }
+    var AllReviews=this.state.AllReviews;
+    var FinalReviews;
+    if (AllReviews){
+     FinalReviews= AllReviews.map((r)=>{
+      // const star = {
+      //   ONE: 1,
+      //   TWO: 2,
+      //   THREE: 3,
+      //   FOUR: 4,
+      //   FIVE: 5
+      // };
+      // console.log(star[r.rating])
+
+
+        return(<MDBRow  className='review_container' key={r.review_id}>
+        <MDBCol md='9'>
+          <MDBRow>
+          <MDBCol md="2">
+                  <img src={r.image_url ?r.image_url : review_img1} alt='review_icon' className='review_img' />
+                  </MDBCol>
+                  <MDBCol md="10" >
+                    <div className='review_heading2'> {r.name} </div>
+                    <div style={{marginTop:'5px'}}>
+                      
+                  
+                      <Rating name="size-small" defaultValue={parseInt(r.rating)} size="small" readOnly/></div>
+                    
+                    <div className='review_contant3'>
+                   {r.text}
+                    </div>
+                  </MDBCol>
+          </MDBRow>
+        </MDBCol>
+                  
+                  <MDBCol  >
+                    <div style={{marginLeft:'40px'}}>
+                    <span ><img src={clock} alt='review_icon' /></span>
+                     <span className='review_contant3' style={{marginLeft:'2%'}}> {r.time_created} </span>
+                    </div>
+                      
+                  </MDBCol>
+                </MDBRow>)
+      })
+    }
 
     let {
       fbAccounts,
@@ -2574,21 +2719,21 @@ export default class ReviewTracking extends Component {
   Overall Rating
   </MDBCol>
   <MDBCol md='5'>
-<select className="review_select_btn">
-  <option>This week</option>
-  <option>This year</option>
+<select className="review_select_btn" onChange={this.Update_Overall_Breakdown("overall_rating")}>
+  <option value="last week">This week</option>
+  <option value="last year">This year</option>
 </select>
   </MDBCol>
 </MDBRow>
 <div className='review_spacing1'>
-    <span id='review_bold_rating'>4.8</span>
+    <span id='review_bold_rating'> {this.state.AvgRating} </span>
     <span id='review_normal_rating'>/5</span>
   </div>
   <div className='review_spacing1'>
-  <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+  <Rating name="half-rating-read" value={parseInt(this.state.AvgRating)}  readOnly />
   </div>
 <div className='review_spacing1 review_contant1'>
-12,1К Reviews
+{this.state.TotalReviews} Reviews
 </div>
             </MDBCol>
 
@@ -2599,37 +2744,37 @@ export default class ReviewTracking extends Component {
   Rating Breakdown
   </MDBCol>
   <MDBCol md='4'>
-<select className="review_select_btn">
-  <option>This week</option>
-  <option>This year</option>
+<select className="review_select_btn" onChange={this.Update_Overall_Breakdown("rating_breakdown")}>
+  <option value="last week">This week</option>
+  <option value="last year">This year</option>
 </select>
   </MDBCol>
 </MDBRow>
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>5 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress5 variant="determinate" value={50} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>85%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress5 variant="determinate" value={finalFive ?finalFive:0} /></MDBCol>
+   <MDBCol md='2' className='review_contant1'> {finalFive ? finalFive:0}%</MDBCol>
  </MDBRow>
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>4 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress4 variant="determinate" value={45} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>45%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress4 variant="determinate" value={finalFour ? finalFour :0} /></MDBCol>
+    <MDBCol md='2' className='review_contant1'>{finalFour ? finalFour :0}%</MDBCol>
  </MDBRow>
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>3 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress3 variant="determinate" value={70} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>70%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress3 variant="determinate" value={finalThree ? finalThree :0} /></MDBCol>
+    <MDBCol md='2' className='review_contant1'>{finalThree ?finalThree:0}%</MDBCol>
  </MDBRow>
 
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>2 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress2 variant="determinate" value={85} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>85%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress2 variant="determinate" value={finalTwo ?finalTwo:0} /></MDBCol>
+    <MDBCol md='2' className='review_contant1'>{finalTwo ? finalTwo:0}%</MDBCol>
  </MDBRow>
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>1 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress1 variant="determinate" value={50} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>50%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress1 variant="determinate" value={finalOne ? finalOne:0} /></MDBCol>
+    <MDBCol md='2' className='review_contant1'>{finalOne?finalOne:0}%</MDBCol>
  </MDBRow>
 </div>
             </MDBCol>
@@ -2641,16 +2786,15 @@ export default class ReviewTracking extends Component {
   </MDBCol>
 </MDBRow>
 <MDBRow className='review_spacing2'>
-  <MDBCol md='3' ><img src={review_img1} alt='' className='review_img1'/> </MDBCol>
+  <MDBCol md='3' ><img src={HelpfulReviewImg} alt='' className='review_img1'/> </MDBCol>
   <MDBCol md='9' style={{marginLeft:'-20px'}}>
-    <div className='review_heading2'>Mark Robinson</div>
-    <div style={{marginTop:'5px'}}><Rating name="size-small" defaultValue={2} size="small" readOnly/></div>
+    <div className='review_heading2'> {HelpfulReviewName} </div>
+    <div style={{marginTop:'5px'}}><Rating name="size-small" value={parseInt(HelpfulReviewRating)} size="small" readOnly/></div>
   </MDBCol>
 </MDBRow>
 <MDBRow className='review_spacing2'>
   <MDBCol md='12' className='review_contant2'>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor! Lorem ipsum dolor sit amet,
-   consectetur adipiscing elit, sed do eiusmod tempor!
+ {HelpfulReviewText}
   </MDBCol>
 </MDBRow>
 
@@ -2681,7 +2825,9 @@ export default class ReviewTracking extends Component {
             </MDBCol>
           </MDBRow>
 
-          <MDBRow  className='review_container'>
+          {FinalReviews}
+
+          {/* <MDBRow  className='review_container'>
             <MDBCol md='9'>
               <MDBRow>
               <MDBCol md="2">
@@ -2731,7 +2877,7 @@ export default class ReviewTracking extends Component {
                         </div>
                           
                       </MDBCol>
-                    </MDBRow>
+                    </MDBRow> */}
         </MDBContainer>
       </div>
     );

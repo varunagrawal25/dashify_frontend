@@ -7,7 +7,7 @@ import add from "./assets/tw.png";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import ArrowDownIcon from "@material-ui/icons/ArrowDropDown";
 import Axios from "axios";
-import { all_connection_of_one_location } from "./apis/social_platforms";
+import { all_listing_overview } from "./apis/social_platforms";
 import {
   all_social_media_notifications,
   all_social_media_overview,
@@ -277,9 +277,7 @@ export default class Overview extends Component {
       fbPageId,
       googleToken;
 
-    const data = {
-      location_id: this.props.match.params.locationId
-    };
+    const data = {"secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")};
 
     const notification_query_data = {
       location_id: this.props.match.params.locationId
@@ -306,7 +304,7 @@ export default class Overview extends Component {
 
     this.graph_google_customer_actions_function();
 
-    all_connection_of_one_location(data, DjangoConfig)
+    all_listing_overview(data, DjangoConfig)
       .then(response => {
         console.log("all connections", response);
         this.all_connection_of_one_location_function(response.data);
@@ -323,13 +321,20 @@ export default class Overview extends Component {
   }
 
   graph_google_customer_actions_function = () => {
-    const graph_google_query_data = {
-      location_id: this.props.match.params.locationId,
-      duration: this.state.db_google_range
-    };
+
+    const graph_google_query_data = 
+    {
+      "secure_pin":"digimonk",
+    "user_id":localStorage.getItem("UserId") ,
+    "location_id":localStorage.getItem("locationId"),
+    "filter_type":"last 3 months"};
+
+
+
     this.setState({ loading: true });
     graph_google_customer_actions(graph_google_query_data)
       .then(res => {
+        console.log("graph",res)
         if (res.data) {
           this.setState({
             graph_google_customer_data: res.data,
@@ -358,84 +363,84 @@ export default class Overview extends Component {
       });
   };
   all_connection_of_one_location_function = response => {
-    if (response.Listing_details) {
+    if (response.overviews_analytics_data) {
       this.setState({
-        all_listing: response.Listing_details.all_listing,
-        live_listing: response.Listing_details.live_listing,
-        processing: response.Listing_details.processing,
-        unavailable: response.Listing_details.unavailable,
-        opted_out: response.Listing_details.opted_out
+        all_listing: response.overviews_analytics_data[0].All_listing,
+        live_listing: response.overviews_analytics_data[0].Live_listing,
+        processing: response.overviews_analytics_data[0].Processing,
+        unavailable: response.overviews_analytics_data[0].Unavilable,
+        opted_out: response.overviews_analytics_data[0].Opted_out
       });
     }
 
-    response.data.map(l => {
-      if (l.Social_Platform.Platform == "Facebook") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Facebook" }]
-        });
-      } else if (l.Social_Platform.Platform == "Google") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Google" }]
-        });
-      } else if (l.Social_Platform.Platform == "Yelp") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Yelp" }]
-        });
-      } else if (l.Social_Platform.Platform == "Foursquare") {
-        this.setState({
-          all_connections: [
-            ...this.state.all_connections,
-            { name: "Foursquare" }
-          ]
-        });
-      } else if (l.Social_Platform.Platform == "Dnb") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Dnb" }]
-        });
-      } else if (l.Social_Platform.Platform == "Apple") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Apple" }]
-        });
-      } else if (l.Social_Platform.Platform == "Instagram") {
-        this.setState({
-          all_connections: [
-            ...this.state.all_connections,
-            { name: "Instagram" }
-          ]
-        });
-      } else if (l.Social_Platform.Platform == "Citysearch") {
-        this.setState({
-          all_connections: [
-            ...this.state.all_connections,
-            { name: "Citysearch" }
-          ]
-        });
-      } else if (l.Social_Platform.Platform == "Here") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Here" }]
-        });
-      } else if (l.Social_Platform.Platform == "Zillow") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Zillow" }]
-        });
-      } else if (l.Social_Platform.Platform == "Avvo") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Avvo" }]
-        });
-      } else if (l.Social_Platform.Platform == "Zomato") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Zomato" }]
-        });
-      } else if (l.Social_Platform.Platform == "Tomtom") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Tomtom" }]
-        });
-      } else if (l.Social_Platform.Platform == "Linkedin") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Linkedin" }]
-        });
-      }
-    });
+    // response.data.map(l => {
+    //   if (l.Social_Platform.Platform == "Facebook") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Facebook" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Google") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Google" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Yelp") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Yelp" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Foursquare") {
+    //     this.setState({
+    //       all_connections: [
+    //         ...this.state.all_connections,
+    //         { name: "Foursquare" }
+    //       ]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Dnb") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Dnb" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Apple") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Apple" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Instagram") {
+    //     this.setState({
+    //       all_connections: [
+    //         ...this.state.all_connections,
+    //         { name: "Instagram" }
+    //       ]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Citysearch") {
+    //     this.setState({
+    //       all_connections: [
+    //         ...this.state.all_connections,
+    //         { name: "Citysearch" }
+    //       ]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Here") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Here" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Zillow") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Zillow" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Avvo") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Avvo" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Zomato") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Zomato" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Tomtom") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Tomtom" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Linkedin") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Linkedin" }]
+    //     });
+    //   }
+    // });
 
     this.setState({ loader: false });
   };
