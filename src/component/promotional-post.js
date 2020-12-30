@@ -4,18 +4,13 @@ import es_img1 from "./assets/es_img1.png";
 import edit from "./assets/edit.png";
 import delete_icon from "./assets/delete_icon.png";
 import { Checkbox } from '@material-ui/core';
-import {
-  location_by_id,
-  add_other_images_by_location_id,
-  delete_other_images_by_location_id
-} from "./apis/location";
+import {Add_Promotional ,All_Promotional_list} from "./apis/location";
 import { secure_pin } from "../config";
 import cross_img from "./assets/cross_img.png";
 import attach from "./assets/attach.png"
 import swal from "sweetalert";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
-import Axios from "axios";
 export default class promotional_post extends Component {
 
 state={
@@ -40,67 +35,197 @@ state={
   expiry_post:'',
   cta_drop:'',
   cta_url:'',
-  type:"promo_post"
+  type:"promotional",
+  show_date:'',
+  show_details:'',
+  show_title:'',
+  show_active_status:'',
+  promo_list:[]
 }
-draftClicked = (draft) => {
+componentDidMount = () =>{
+ 
   const data = {
-    otherImages: this.state.otherImages,
-    offer_title:this.state.offer_title,
-    promo_start_date:this.state.promo_start_date,
-    promo_end_date:this.state.promo_end_date,
-    promo_start_time:this.state.promo_start_time,
-    promo_end_time:this.state.promo_end_time,
-    event_start_date:this.state.event_start_date,
-    event_end_date:this.state.event_end_date,
-    event_start_time:this.state.event_start_time,
-    event_end_time:this.state.event_end_time,
-    offer_details:this.state.offer_details,
-    redeem_offer:this.state.redeem_offer,
-    coupon_code:this.state.coupon_code,
-    terms:this.state.terms,
-    event_title:this.state.event_title,
-    event_details:this.state.event_details,
-    cta_post:this.state.cta_post,
-    expiry_post:this.state.expiry_post,
-    cta_drop:this.state.cta_drop,
-    cta_url:this.state.cta_url,
-    type:this.state.type
+    secure_pin,
+    user_id: localStorage.getItem("UserId"),
+    location_id: this.props.match.params.locationId
   }
-Axios.post(
-      "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
-      data,draft
-    )
-    console.log(data)
+  All_Promotional_list(data)
+  .then(resp => {
+     this.setState({
+      promo_list: resp.data.promotional_details,
+    })
+console.log("ppk",this.state.promo_list)
+  })
 }
-confirmPost = (active) => {
-  const data = {
-    otherImages: this.state.otherImages,
-    offer_title:this.state.offer_title,
-    promo_start_date:this.state.promo_start_date,
-    promo_end_date:this.state.promo_end_date,
-    promo_start_time:this.state.promo_start_time,
-    promo_end_time:this.state.promo_end_time,
-    event_start_date:this.state.event_start_date,
-    event_end_date:this.state.event_end_date,
-    event_start_time:this.state.event_start_time,
-    event_end_time:this.state.event_end_time,
-    offer_details:this.state.offer_details,
-    redeem_offer:this.state.redeem_offer,
-    coupon_code:this.state.coupon_code,
-    terms:this.state.terms,
-    event_title:this.state.event_title,
-    event_details:this.state.event_details,
-    cta_post:this.state.cta_post,
-    expiry_post:this.state.expiry_post,
-    cta_drop:this.state.cta_drop,
-    cta_url:this.state.cta_url,
-    type:this.state.type
+draftClicked = () => {
+  if(this.state.type=="promotional"){
+    const data = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId,
+      submit_type:this.state.type,
+      title:this.state.offer_title,
+      start_date:this.state.promo_start_date + this.state.promo_start_time,
+      end_date:this.state.promo_end_date + this.state.promo_end_time,
+      details:this.state.offer_details,
+      redeem_offer:this.state.redeem_offer,
+      coupon_code:this.state.coupon_code,
+      terms_condi:this.state.terms,
+      save_status:"draft",
+      attached_images: this.state.otherImages,
+    }
+    Add_Promotional(data)
+    .then(resp => {
+      
+    })
+      console.log(data)
   }
-Axios.post(
-      "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
-      data,active
-    )
-console.log(data)
+
+  if(this.state.type=="event"){
+    const data = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId,
+      submit_type:this.state.type,
+      save_status:"draft",
+      attached_images: this.state.otherImages,
+      start_date:this.state.event_start_date + this.state.event_start_time,
+      end_date:this.state.event_end_date + this.state.event_end_time,
+      title:this.state.event_title,
+      details:this.state.event_details,
+      
+    }
+    Add_Promotional(data)
+    .then(resp => {
+      
+    })
+      console.log(data)
+  }
+  if(this.state.type=="cta"){
+    const data = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId,
+      submit_type:this.state.type,
+      save_status:"draft",
+      attached_images: this.state.otherImages,
+      details:this.state.cta_post,
+      category:this.state.cta_drop,
+      link:this.state.cta_url,
+      
+    }
+    Add_Promotional(data)
+    .then(resp => {
+      
+    })
+      console.log(data)
+  }
+
+  if(this.state.type=="report"){
+    const data = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId,
+      submit_type:this.state.type,
+      save_status:"draft",
+      attached_images: this.state.otherImages,
+      details:this.state.expiry_post,
+      
+    }
+    Add_Promotional(data)
+    .then(resp => {
+      
+    })
+      console.log(data)
+  }
+ 
+}
+// {"secure_pin":"digimonk","user_id":"10","location_id":"45","submit_type":"promotional","title":"test promotional",
+// "start_date":"11-12-2020 13:25","end_date":"11-12-2020 13:25","details":"this is testing promotional........",
+// "coupon_code":"CDFE1123","redeem_offer":"24","terms_condi":"testing terms conditionsssssss....","save_status":"draft",
+// "attached_images":[{"promotional_image":"data:image/png;base64"},{"promotional_image":"data:image/png;base64"}]}
+confirmPost = () => {
+  if(this.state.type=="promotional"){
+    const data = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId,
+      submit_type:this.state.type,
+      title:this.state.offer_title,
+      start_date:this.state.promo_start_date + this.state.promo_start_time,
+      end_date:this.state.promo_end_date + this.state.promo_end_time,
+      details:this.state.offer_details,
+      redeem_offer:this.state.redeem_offer,
+      coupon_code:this.state.coupon_code,
+      terms_condi:this.state.terms,
+      save_status:"active",
+      attached_images: this.state.otherImages,
+    }
+    Add_Promotional(data)
+    .then(resp => {
+      
+    })
+      console.log(data)
+  }
+
+  if(this.state.type=="event"){
+    const data = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId,
+      submit_type:this.state.type,
+      save_status:"active",
+      attached_images: this.state.otherImages,
+      start_date:this.state.event_start_date + this.state.event_start_time,
+      end_date:this.state.event_end_date + this.state.event_end_time,
+      title:this.state.event_title,
+      details:this.state.event_details,
+      
+    }
+    Add_Promotional(data)
+    .then(resp => {
+      
+    })
+      console.log(data)
+  }
+  if(this.state.type=="cta"){
+    const data = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId,
+      submit_type:this.state.type,
+      save_status:"active",
+      attached_images: this.state.otherImages,
+      details:this.state.cta_post,
+      category:this.state.cta_drop,
+      link:this.state.cta_url,
+      
+    }
+    Add_Promotional(data)
+    .then(resp => {
+      
+    })
+      console.log(data)
+  }
+
+  if(this.state.type=="report"){
+    const data = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId,
+      submit_type:this.state.type,
+      save_status:"active",
+      attached_images: this.state.otherImages,
+      details:this.state.expiry_post,
+      
+    }
+    Add_Promotional(data)
+    .then(resp => {
+      
+    })
+      console.log(data)
+  }
+ 
 }
 changeHandler = event => {
   this.setState({ [event.target.name]: event.target.value });
@@ -161,6 +286,7 @@ changeHandler = event => {
       // };
 // console.log("kkl",data)
       this.setState({ otherImagesLoading: true });
+    
 
       // add_other_images_by_location_id(data)
       //   .then(resp => {
@@ -376,6 +502,55 @@ Status
 </MDBRow>
 <hr/>
 <div class="scrollbar">
+  {this.state.promo_list.map(d =>(
+    <div>
+    <MDBRow>
+  <MDBCol md='7'>
+  <MDBRow>
+                <MDBCol md="3" style={{padding:'0px'}}>
+                  <img
+                    src={es_img1}
+                    alt="es_img1"
+                    className="pp_img"
+                    
+                  />
+                </MDBCol>
+                <MDBCol md="9">
+                <div className="pp_contant2">{d.date}</div>
+                  <div className="pp_contant3">{d.title}</div>
+                  <div className="pp_contant2">{d.details}</div>
+                  
+                  <div className="pp_contant2">
+                    <img src={edit} alt="" className="es_icon" data-toggle="modal" data-target="#myModal"/>
+                    <img src={delete_icon} alt="" className="es_icon" />
+                  </div>
+                </MDBCol>
+               
+              </MDBRow>
+  </MDBCol>
+  <MDBCol md='5' >
+  <MDBRow className='pp_contant5' >
+  <MDBCol md='3'>
+N/A
+</MDBCol>
+
+<MDBCol md='3'>
+N/A
+</MDBCol>
+
+<MDBCol md='6' >
+  {d.save_status=="active"?<MDBBtn className='pp_status_active'>Active</MDBBtn>:null}
+  {d.save_status=="draft"?<MDBBtn className='pp_status_active'>Draft</MDBBtn>:null}
+</MDBCol>
+    </MDBRow>
+  </MDBCol>
+
+</MDBRow>
+ <hr/>
+ </div>
+  ))}
+
+{/* <hr/>
 <MDBRow>
   <MDBCol md='7'>
   <MDBRow>
@@ -417,51 +592,7 @@ N/A
     </MDBRow>
   </MDBCol>
 
-</MDBRow>
-
-<hr/>
-<MDBRow>
-  <MDBCol md='7'>
-  <MDBRow>
-                <MDBCol md="3" style={{padding:'0px'}}>
-                  <img
-                    src={es_img1}
-                    alt="es_img1"
-                    className="pp_img"
-                    
-                  />
-                </MDBCol>
-                <MDBCol md="9">
-                <div className="pp_contant2">2nd March</div>
-                  <div className="pp_contant3">Jazz Today By Whitney Ballett</div>
-                  <div className="pp_contant2">Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                  sed do eiusmod tempor incididunt ut labore et dolore </div>
-                  
-                  <div className="pp_contant2">
-                    <img src={edit} alt="" className="es_icon" data-toggle="modal" data-target="#myModal"/>
-                    <img src={delete_icon} alt="" className="es_icon" />
-                  </div>
-                </MDBCol>
-               
-              </MDBRow>
-  </MDBCol>
-  <MDBCol md='5' >
-  <MDBRow className='pp_contant5' >
-  <MDBCol md='3'>
-N/A
-</MDBCol>
-
-<MDBCol md='3'>
-N/A
-</MDBCol>
-
-<MDBCol md='6' >
-<MDBBtn className='pp_status_active'>Active</MDBBtn>
-</MDBCol>
-    </MDBRow>
-  </MDBCol>
-
-</MDBRow>
+</MDBRow> */}
 
 </div>
                 </div>
@@ -486,10 +617,10 @@ N/A
         <div class="modal-body" >
           <div className="breadcrumb-menu" style={{margin:'0px' ,marginBottom:'30px'}}>
           <ul class="nav nav-tabs nav-justified ">
-    <li ><a data-toggle="tab" href="#promo_post" className='active' onClick={ () => {this.setState({type:"promo_post"})}}> Promotional post</a></li>
-    <li ><a data-toggle="tab" href="#post_event" onClick={ () => {this.setState({type:"post_event"})}}>Post an event</a></li>
-    <li><a data-toggle="tab" href="#add_cta" onClick={ () => {this.setState({type:"add_cta"})}}>Add a CTA</a></li>
-    <li><a data-toggle="tab" href="#expiry" onClick={ () => {this.setState({type:"expiry"})}}>Report this post after expairy</a></li>
+    <li ><a data-toggle="tab" href="#promo_post" className='active' onClick={ () => {this.setState({type:"promotional"})}}> Promotional post</a></li>
+    <li ><a data-toggle="tab" href="#post_event" onClick={ () => {this.setState({type:"event"})}}>Post an event</a></li>
+    <li><a data-toggle="tab" href="#add_cta" onClick={ () => {this.setState({type:"cta"})}}>Add a CTA</a></li>
+    <li><a data-toggle="tab" href="#expiry" onClick={ () => {this.setState({type:"report"})}}>Report this post after expairy</a></li>
   </ul>
           </div>
     
@@ -518,7 +649,7 @@ N/A
                                 />
                               </span>
                             </MDBCol>
-                            {/* {this.state.otherImages.map((n, i) => ( */}
+                            {/* {this.state.otherImages.map(n => ( */}
                               <MDBCol md="2" className="ap_image">
                                 <img src={this.state.otherImages}
                                   alt=""
@@ -628,7 +759,7 @@ N/A
                                 />
                               </span>
                             </MDBCol>
-                            {/* {this.state.otherImages.map((n, i) => ( */}
+                            {/* {this.state.otherImages.map(n => ( */}
                               <MDBCol md="2" className="ap_image">
                                 <img src={this.state.otherImages}
                                   alt=""
@@ -729,7 +860,7 @@ N/A
                                 />
                               </span>
                             </MDBCol>
-                            {/* {this.state.otherImages.map((n, i) => ( */}
+                            {/* {this.state.otherImages.map(n => ( */}
                               <MDBCol md="2" className="ap_image">
                                 <img src={this.state.otherImages}
                                   alt=""
@@ -818,7 +949,7 @@ N/A
                                 />
                               </span>
                             </MDBCol>
-                            {/* {this.state.otherImages.map((n, i) => ( */}
+                            {/* {this.state.otherImages.map(n => ( */}
                               <MDBCol md="2" className="ap_image">
                                 <img src={this.state.otherImages}
                                   alt=""
