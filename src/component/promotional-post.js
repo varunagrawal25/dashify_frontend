@@ -13,9 +13,9 @@ import { secure_pin } from "../config";
 import cross_img from "./assets/cross_img.png";
 import attach from "./assets/attach.png"
 import swal from "sweetalert";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
+import Axios from "axios";
 export default class promotional_post extends Component {
 
 state={
@@ -40,9 +40,68 @@ state={
   expiry_post:'',
   cta_drop:'',
   cta_url:'',
-  type:""
+  type:"promo_post"
 }
-
+draftClicked = (draft) => {
+  const data = {
+    otherImages: this.state.otherImages,
+    offer_title:this.state.offer_title,
+    promo_start_date:this.state.promo_start_date,
+    promo_end_date:this.state.promo_end_date,
+    promo_start_time:this.state.promo_start_time,
+    promo_end_time:this.state.promo_end_time,
+    event_start_date:this.state.event_start_date,
+    event_end_date:this.state.event_end_date,
+    event_start_time:this.state.event_start_time,
+    event_end_time:this.state.event_end_time,
+    offer_details:this.state.offer_details,
+    redeem_offer:this.state.redeem_offer,
+    coupon_code:this.state.coupon_code,
+    terms:this.state.terms,
+    event_title:this.state.event_title,
+    event_details:this.state.event_details,
+    cta_post:this.state.cta_post,
+    expiry_post:this.state.expiry_post,
+    cta_drop:this.state.cta_drop,
+    cta_url:this.state.cta_url,
+    type:this.state.type
+  }
+Axios.post(
+      "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
+      data,draft
+    )
+    console.log(data)
+}
+confirmPost = (active) => {
+  const data = {
+    otherImages: this.state.otherImages,
+    offer_title:this.state.offer_title,
+    promo_start_date:this.state.promo_start_date,
+    promo_end_date:this.state.promo_end_date,
+    promo_start_time:this.state.promo_start_time,
+    promo_end_time:this.state.promo_end_time,
+    event_start_date:this.state.event_start_date,
+    event_end_date:this.state.event_end_date,
+    event_start_time:this.state.event_start_time,
+    event_end_time:this.state.event_end_time,
+    offer_details:this.state.offer_details,
+    redeem_offer:this.state.redeem_offer,
+    coupon_code:this.state.coupon_code,
+    terms:this.state.terms,
+    event_title:this.state.event_title,
+    event_details:this.state.event_details,
+    cta_post:this.state.cta_post,
+    expiry_post:this.state.expiry_post,
+    cta_drop:this.state.cta_drop,
+    cta_url:this.state.cta_url,
+    type:this.state.type
+  }
+Axios.post(
+      "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
+      data,active
+    )
+console.log(data)
+}
 changeHandler = event => {
   this.setState({ [event.target.name]: event.target.value });
   if (event.target.name == "offer_title") {
@@ -87,83 +146,83 @@ changeHandler = event => {
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = e => {
-      //   console.log(e.target.result);
-      //   this.setState({ BusinessLogoUpdate: e.target.result });
+        console.log(e.target.result);
+        this.setState({ otherImages: e.target.result });
 
       var locationId = this.props.match.params.locationId;
       // {"secure_pin":"digimonk","user_id":"10","location_id":"38",
       // "more_bussiness_images_array":[{"bussiness_image":"base64image1"},{"bussiness_image":"base64image2"}]}
-      const data = {
-        secure_pin,
-        user_id: localStorage.getItem("UserId"),
-        location_id: locationId,
+      // const data = {
+      //   secure_pin,
+      //   user_id: localStorage.getItem("UserId"),
+      //   location_id: locationId,
         
-        more_bussiness_images_array: [{ bussiness_image: e.target.result }]
-      };
-console.log("kkl",data)
+      //   more_bussiness_images_array: [{ bussiness_image: e.target.result }]
+      // };
+// console.log("kkl",data)
       this.setState({ otherImagesLoading: true });
 
-      add_other_images_by_location_id(data)
-        .then(resp => {
-          const data1 = {
-            location_id: locationId,
-            secure_pin
-          };
-          location_by_id(data1)
-            .then(resp1 => {
-              this.setState({
-                otherImages: resp1.data.location_images,
-                otherImagesLoading: false
-              });
-            })
-            .catch(resp1 => {
-              console.log(resp1);
-              swal("uploading image failed");
-              this.setState({ otherImagesLoading: false });
-            });
-        })
-        .catch(resp => {
-          console.log(resp);
-          swal("uploading image failed");
-          this.setState({ otherImagesLoading: false });
-        });
+      // add_other_images_by_location_id(data)
+      //   .then(resp => {
+      //     const data1 = {
+      //       location_id: locationId,
+      //       secure_pin
+      //     };
+      //     location_by_id(data1)
+      //       .then(resp1 => {
+      //         this.setState({
+      //           otherImages: resp1.data.location_images,
+      //           otherImagesLoading: false
+      //         });
+      //       })
+      //       .catch(resp1 => {
+      //         console.log(resp1);
+      //         swal("uploading image failed");
+      //         this.setState({ otherImagesLoading: false });
+      //       });
+      //   })
+      //   .catch(resp => {
+      //     console.log(resp);
+      //     swal("uploading image failed");
+      //     this.setState({ otherImagesLoading: false });
+      //   });
     };
   };
 
-  delete_other_image = image_id => {
-    var locationId = this.props.match.params.locationId;
-    const data = {
-      secure_pin,
-      location_id:locationId,
-      image_id: image_id
-    };
-    console.log("image_id", image_id);
-    this.setState({ otherImagesLoading: true });
-    delete_other_images_by_location_id(data)
-      .then(res => {
-        const data1 = {
-          location_id: locationId,
-          secure_pin
-        };
-        location_by_id(data1)
-          .then(resp1 => {
-            this.setState({
-              otherImages: resp1.data.location_images,
-              otherImagesLoading: false
-            });
-          })
-          .catch(resp1 => {
-            console.log(resp1);
-            swal("deleting image failed");
-            this.setState({ otherImagesLoading: false });
-          });
-      })
-      .catch(res => {
-        swal("deleting image failed");
-        this.setState({ otherImagesLoading: false });
-        console.log(res);
-      });
-  };
+  // delete_other_image = image_id => {
+  //   var locationId = this.props.match.params.locationId;
+  //   const data = {
+  //     secure_pin,
+  //     location_id:locationId,
+  //     image_id: image_id
+  //   };
+  //   console.log("image_id", image_id);
+  //   this.setState({ otherImagesLoading: true });
+  //   delete_other_images_by_location_id(data)
+  //     .then(res => {
+  //       const data1 = {
+  //         location_id: locationId,
+  //         secure_pin
+  //       };
+  //       location_by_id(data1)
+  //         .then(resp1 => {
+  //           this.setState({
+  //             otherImages: resp1.data.location_images,
+  //             otherImagesLoading: false
+  //           });
+  //         })
+  //         .catch(resp1 => {
+  //           console.log(resp1);
+  //           swal("deleting image failed");
+  //           this.setState({ otherImagesLoading: false });
+  //         });
+  //     })
+  //     .catch(res => {
+  //       swal("deleting image failed");
+  //       this.setState({ otherImagesLoading: false });
+  //       console.log(res);
+  //     });
+  // };
   render() {
     console.log("kkk",this.state.type)
     return (
@@ -454,16 +513,14 @@ N/A
                                 <i className="zmdi zmdi-plus"></i>
                                 <input
                                   type="file"
-                                  name="otherImage"
+                                  name="otherImages"
                                   onChange={this.onUploadOtherImage}
                                 />
                               </span>
                             </MDBCol>
-                            {this.state.otherImages.map((n, i) => (
+                            {/* {this.state.otherImages.map((n, i) => ( */}
                               <MDBCol md="2" className="ap_image">
-                                <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
-                                    n.image
-                                  }
+                                <img src={this.state.otherImages}
                                   alt=""
                                   style={{
                                     height: "60px",
@@ -472,7 +529,7 @@ N/A
                                   }}
                                 />
 
-                                <div className="get-image1">
+                                {/* <div className="get-image1">
                                   <img
                                     src={cross_img}
                                     alt=""
@@ -488,9 +545,9 @@ N/A
                                       this.delete_other_image(n.id)
                                     }
                                   />
-                                </div>
+                                </div> */}
                               </MDBCol>
-                            ))}
+                            {/* ))} */}
                           </MDBRow>
                          
            </MDBCol>
@@ -566,16 +623,14 @@ N/A
                                 <i className="zmdi zmdi-plus"></i>
                                 <input
                                   type="file"
-                                  name="otherImage"
+                                  name="otherImages"
                                   onChange={this.onUploadOtherImage}
                                 />
                               </span>
                             </MDBCol>
-                            {this.state.otherImages.map((n, i) => (
+                            {/* {this.state.otherImages.map((n, i) => ( */}
                               <MDBCol md="2" className="ap_image">
-                                <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
-                                    n.image
-                                  }
+                                <img src={this.state.otherImages}
                                   alt=""
                                   style={{
                                     height: "60px",
@@ -584,7 +639,7 @@ N/A
                                   }}
                                 />
 
-                                <div className="get-image1">
+                                {/* <div className="get-image1">
                                   <img
                                     src={cross_img}
                                     alt=""
@@ -601,8 +656,9 @@ N/A
                                     }
                                   />
                                 </div>
+                              */}
                               </MDBCol>
-                            ))}
+                            {/* ))} */}
                           </MDBRow>
                          
            </MDBCol>
@@ -668,16 +724,14 @@ N/A
                                 <i className="zmdi zmdi-plus"></i>
                                 <input
                                   type="file"
-                                  name="otherImage"
+                                  name="otherImages"
                                   onChange={this.onUploadOtherImage}
                                 />
                               </span>
                             </MDBCol>
-                            {this.state.otherImages.map((n, i) => (
+                            {/* {this.state.otherImages.map((n, i) => ( */}
                               <MDBCol md="2" className="ap_image">
-                                <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
-                                    n.image
-                                  }
+                                <img src={this.state.otherImages}
                                   alt=""
                                   style={{
                                     height: "60px",
@@ -686,7 +740,7 @@ N/A
                                   }}
                                 />
 
-                                <div className="get-image1">
+                                {/* <div className="get-image1">
                                   <img
                                     src={cross_img}
                                     alt=""
@@ -699,12 +753,13 @@ N/A
                                       marginTop: "-3px"
                                     }}
                                     onClick={() =>
-                                      this.delete_other_image(n.id)
+                                      this.delete_other_image(nid)
                                     }
                                   />
                                 </div>
-                              </MDBCol>
-                            ))}
+                             */}
+                             </MDBCol>
+                            {/* ))} */}
                           </MDBRow>
                          
            </MDBCol>
@@ -758,16 +813,14 @@ N/A
                                 <i className="zmdi zmdi-plus"></i>
                                 <input
                                   type="file"
-                                  name="otherImage"
+                                  name="otherImages"
                                   onChange={this.onUploadOtherImage}
                                 />
                               </span>
                             </MDBCol>
-                            {this.state.otherImages.map((n, i) => (
+                            {/* {this.state.otherImages.map((n, i) => ( */}
                               <MDBCol md="2" className="ap_image">
-                                <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
-                                    n.image
-                                  }
+                                <img src={this.state.otherImages}
                                   alt=""
                                   style={{
                                     height: "60px",
@@ -776,7 +829,7 @@ N/A
                                   }}
                                 />
 
-                                <div className="get-image1">
+                                {/* <div className="get-image1">
                                   <img
                                     src={cross_img}
                                     alt=""
@@ -793,8 +846,9 @@ N/A
                                     }
                                   />
                                 </div>
+                              */}
                               </MDBCol>
-                            ))}
+                            {/* ))} */}
                           </MDBRow>
                          
            </MDBCol>
@@ -844,13 +898,13 @@ N/A
          */}
          <MDBRow style={{marginTop:'15px'}}>
           <MDBCol md='6'>
-            <MDBBtn className="draft_btn" >
+            <MDBBtn className="draft_btn"  onClick={this.draftClicked}>
             Save as Draft
             </MDBBtn>
           </MDBCol>
 
           <MDBCol md='6'>
-            <MDBBtn className="cp_btn">
+            <MDBBtn className="cp_btn" onClick={this.confirmPost}> 
             Confirm Post
             </MDBBtn>
           </MDBCol>
