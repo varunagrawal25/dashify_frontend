@@ -541,10 +541,8 @@ console.log("user_id",data.user_id)
             <MDBCol md='6' >
           
 <div className="md-form vertically_center">
-{/* <SelectSearch options={locations} value={this.state.search} className="searcdd" name="language" 
-placeholder={loc_name ? loc_name : "Search"} onChange={e =>
-                            this.setState({ search: e.target.value.split(" ") })
-                          }/> */}
+{/* <SelectSearch options={locations} value={locations.value} className="searcdd" name="language" 
+placeholder={loc_name ? loc_name : "Search"}  /> */}
                         <input
                           type="text"
                           name=""

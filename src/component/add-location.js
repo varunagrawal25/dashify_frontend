@@ -1061,40 +1061,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                             </div>
                           </div>
 
-                          <div className="col-md-4">
-                            <div className="form-group">
-                              <label>
-                                City <span>*</span>
-                              </label>
-                             
-                              <select
-                                  name="city"
-                                  onChange={this.changeHandler}
-                                  id="city"
-                                  required
-                                  className="form-control"
-                                >
-                                  <option value="0" disabled="">
-                                    {this.state.state_selected_id == "" ||
-                                    loadCityCategories
-                                      ? "Select State first"
-                                      : "Select City"}
-                                  </option>
-                                  {cityCategories.map((c, i) =>
-                                    this.state.state_selected_id == c.state_id ? (
-                                      <option key={`stste-${i}`} value={c.id}>
-                                        {c.name}
-                                      </option>
-                                    ) : (
-                                      ""
-                                    )
-                                  )}
-                                </select>
-                                
-                              <div class='err_msg'>{city_error}</div>
-                            </div>
-                          </div>
-
+                          
                           <div className="col-md-4">
                             <div className="form-group">
                               <label>
@@ -1163,6 +1130,39 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                   {state_error}
                                 </div>
                               </div>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label>
+                                City <span>*</span>
+                              </label>
+                             
+                              <select
+                                  name="city"
+                                  onChange={this.changeHandler}
+                                  id="city"
+                                  required
+                                  className="form-control"
+                                >
+                                  <option value="0" disabled="">
+                                    {this.state.state_selected_id == "" ||
+                                    loadCityCategories
+                                      ? "Select State first"
+                                      : "Select City"}
+                                  </option>
+                                  {cityCategories.map((c, i) =>
+                                    this.state.state_selected_id == c.state_id ? (
+                                      <option key={`stste-${i}`} value={c.id}>
+                                        {c.name}
+                                      </option>
+                                    ) : (
+                                      ""
+                                    )
+                                  )}
+                                </select>
+                                
+                              <div class='err_msg'>{city_error}</div>
                             </div>
                           </div>
 

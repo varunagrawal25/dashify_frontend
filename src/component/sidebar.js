@@ -47,7 +47,7 @@ export default class SideBar extends Component {
                 <li>
                   <NavLink to="/support">
                     <img src={require("./assets/uservoice.png")} alt="" />
-                    <span>Suport</span>
+                    <span>Support</span>
                   </NavLink>
                 </li>
                 <li>
