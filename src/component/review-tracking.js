@@ -188,6 +188,18 @@ export default class ReviewTracking extends Component {
   state = {
     fbAccounts: [],
 
+
+
+    AvgRating:0,
+            TotalReviews:0,
+            RatingTotalReviews:0,
+            FiveStar:0,
+            FourStar:0,
+            ThreeStar:0,
+            TwoStar:0,
+            OneStar:0,
+            HelpfulReview:'',
+
     fbReviews: [],
     fb_overallrating: 0,
     zillowAvgRating: "",
@@ -390,6 +402,9 @@ export default class ReviewTracking extends Component {
         ).then(resp => {
           console.log("digi",resp);
           this.setState({AllReviews:resp.data.reviews_array});
+        })
+        .catch(res=>{
+
         });
 
 
@@ -414,6 +429,10 @@ export default class ReviewTracking extends Component {
           })
 
         })
+        .catch(res=>{
+          
+        });
+
   
 
         const GoogleConfig = {
@@ -2807,6 +2826,7 @@ console.log("upd",filter)
 </div>
             </MDBCol>
 
+{this.state.HelpfulReview?
             <MDBCol  md='4' className='review_container'>
   <MDBRow>
   <MDBCol md='12' className='review_heading1'>
@@ -2827,6 +2847,7 @@ console.log("upd",filter)
 </MDBRow>
 
             </MDBCol>
+            :"No helpful review"}
             
 
           </MDBRow>

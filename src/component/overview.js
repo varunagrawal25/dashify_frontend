@@ -7,7 +7,7 @@ import add from "./assets/tw.png";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import ArrowDownIcon from "@material-ui/icons/ArrowDropDown";
 import Axios from "axios";
-import { all_listing_overview } from "./apis/social_platforms";
+import { all_connection_of_one_location, all_listing_overview } from "./apis/social_platforms";
 import {
   all_social_media_notifications,
   all_social_media_overview,
@@ -276,6 +276,56 @@ export default class Overview extends Component {
       fbtoken,
       fbPageId,
       googleToken;
+      const data = {"secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")};
+
+
+      all_connection_of_one_location(data, DjangoConfig)
+      .then(resp => {
+        console.log("get all connections by id s", resp);
+        this.setState({ allListings: resp.data.social_media_list });
+
+        if (this.state.allListings) {
+          this.state.allListings.map(l => {
+            console.log("loop all")
+            if (l.connect_type == "Facebook") {
+              // fbtoken = l.Social_Platform.Token;
+              // fbPageId = l.Social_Platform.Other_info;
+              // fbData = l;
+
+              this.setState({
+                fbIsLoggedIn: true,
+                // pdf_data: [
+                //   ...this.state.pdf_data,
+                //   {
+                //     listing: "Facebook",
+                //     image: require("../images/facebook.png"),
+                //     username: fbData.Social_Platform.Username,
+                //     status: true,
+                //     link: "https://www.facebook.com/" + fbPageId,
+                //     date: fbData.Social_Platform.Update_Date.split("T")[0]
+                //   }
+                // ],
+                // fbId: fbData.id,
+                // fbName: fbData.Social_Platform.Username,
+                // all_connections: [
+                //   ...this.state.all_connections,
+                //   { name: "Facebook" }
+                // ]
+              });
+            }
+
+            if (l.connect_type === "Google") {
+              // googleToken = l.token;
+              // googleData = l;
+              this.setState({
+                googleIsLoggedIn: true,
+               
+              });
+              this.graph_google_customer_actions_function();
+
+             
+            }
+
 
     const data = {"secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")};
 
@@ -302,7 +352,7 @@ export default class Overview extends Component {
 
     this.social_media_overview_function();
 
-    this.graph_google_customer_actions_function();
+   
 
     all_listing_overview(data, DjangoConfig)
       .then(response => {
@@ -318,6 +368,12 @@ export default class Overview extends Component {
           all_connection_of_one_location_json
         );
       });
+  })
+
+
+}
+      
+    })
   }
 
   graph_google_customer_actions_function = e => 
@@ -845,6 +901,8 @@ if(e){
 
     let total_social_overview = [];
     let index = 0;
+
+    if(social_overview_data.social_overviews_analytics_data)
     social_overview_data &&
       social_overview_data.social_overviews_analytics_data.map((data, i) => {
         if (i <= 3) {
