@@ -320,14 +320,20 @@ export default class Overview extends Component {
       });
   }
 
-  graph_google_customer_actions_function = () => {
+  graph_google_customer_actions_function = e => 
+  {
 
+    var filter='';
+    if(e){
+      filter=e.target.value;
+    }
     const graph_google_query_data = 
     {
-      "secure_pin":"digimonk",
+    "secure_pin":"digimonk",
     "user_id":localStorage.getItem("UserId") ,
     "location_id":localStorage.getItem("locationId"),
-    "filter_type":"last 3 months"};
+    "filter_type":filter?filter:"last week"
+  };
 
 
 
@@ -540,10 +546,11 @@ export default class Overview extends Component {
     let data;
     if (all_listing != "-") {
       data = [
-        { value: parseInt(opted_out), label: "Opted out" },
+        { value: parseInt(all_listing), label: "All Listing" },
         { value: parseInt(live_listing), label: "Live Listing" },
         { value: parseInt(processing), label: "Processing" },
-        { value: parseInt(unavailable), label: "Unavailable" }
+        { value: parseInt(unavailable), label: "Unavailable" },
+        { value: parseInt(opted_out), label: "Opted out" },
       ];
     } else {
       data = [{ value: total_listing, label: "All listing" }];
@@ -638,15 +645,20 @@ export default class Overview extends Component {
     }
   };
 
-  social_media_overview_function = () => {
+  social_media_overview_function = e => {
     this.setState({ social_media_overview_loader: true });
+    var filter='';
+if(e){
+  filter=e.target.value;
+}
     const overview_query_data = {
-      location_id: this.props.match.params.locationId,
-      duration: this.state.db_social_range
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+      "filter_type":filter?filter:"last week"
     };
 
     all_social_media_overview(overview_query_data)
       .then(res => {
+        console.log(res)
         if (res.data) {
           this.setState({
             social_overview_data: res.data,
@@ -834,13 +846,13 @@ export default class Overview extends Component {
     let total_social_overview = [];
     let index = 0;
     social_overview_data &&
-      social_overview_data.Overview.map((data, i) => {
+      social_overview_data.social_overviews_analytics_data.map((data, i) => {
         if (i <= 3) {
           total_social_overview[i] = (
             <div class=" col-md-6 ">
               <div class="card social-10 ">
                 <div className="fb-socails">
-                  <img src={data.image} alt="" />
+                  <img src={data.icon} alt="" />
                 </div>
 
                 <div className="row card_jump">
@@ -1232,31 +1244,31 @@ export default class Overview extends Component {
                     <h3>Social Overview</h3>
 
                     <div className="camgianbox">
-                    <select  className="review_select_btn" >
+                    <select  className="review_select_btn"  onChange={this.social_media_overview_function}>
                               <option selected
-                                value= "week"
+                                value= "last week"
                               >
                                 Last week
                               </option>
                               <option
-                              value = "month"
+                              value = "last month"
                               >
                                 Last month
                               </option>
 
                               <option
-                              value= "3 months"
+                              value= "last 3 months"
                               >
                                 Last 3 month
                               </option>
 
                               <option
-                              value= "6 months"
+                              value= "last 6 months"
                               >
                                 Last 6 month
                               </option>
                               <option
-                              value = "year"
+                              value = "last year"
                               >
                                 Last year
                               </option>
@@ -1504,31 +1516,31 @@ export default class Overview extends Component {
                     <h3>Average Google customer Actions</h3>
 
                     <div className="camgianbox">
-                    <select  className="review_select_btn" >
+                    <select  className="review_select_btn" onChange={this.graph_google_customer_actions_function} >
                               <option selected
-                                value= "week"
+                                value= "last week"
                               >
                                 Last week
                               </option>
                               <option
-                              value = "month"
+                              value = "last month"
                               >
                                 Last month
                               </option>
 
                               <option
-                              value= "3 months"
+                              value= "last 3 months"
                               >
                                 Last 3 month
                               </option>
 
                               <option
-                              value= "6 months"
+                              value= "last 6 months"
                               >
                                 Last 6 month
                               </option>
                               <option
-                              value = "year"
+                              value = "last year"
                               >
                                 Last year
                               </option>

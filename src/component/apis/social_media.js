@@ -10,7 +10,7 @@ export const all_social_media_notifications = data => {
 };
 
 export const all_social_media_overview = data => {
-  return Axios.post(`${API}/social-media/social-overview`, data);
+  return Axios.post(`${API}/admin/socialmedia_api/get_social_overview_listing`, data);
 };
 
 export const graph_google_customer_actions = data => {
@@ -30,3 +30,8 @@ export const citysearch_listing_detail = data => {
 export const profile_analytics = data => {
   return Axios.post(`${API}/social-media/profile-analytics`, data);
 };
+
+export const optimization_score = data => {
+  return Axios.post(`${API}/admin/socialmedia_api/check_social_score`, data);
+};
+

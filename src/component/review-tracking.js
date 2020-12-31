@@ -375,7 +375,9 @@ export default class ReviewTracking extends Component {
         //   }
         // });
         const data2={
-          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+
+          "filter_type":"last week"
         }
         console.log(data2,"data2")
 
@@ -1498,6 +1500,29 @@ console.log("upd",filter)
 
 
     }
+  }
+
+  UpdateReviewsFilter=e=>{
+    var filter= e.target.value;
+    console.log(filter);
+    this.setState({AllReviews:[]})
+
+    const data2={
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+
+      "filter_type":filter
+    }
+    console.log(data2,"data2 reviews")
+
+    Axios.post(
+      "https://digimonk.net/dashify-ci/admin/socialmedia_api/get_all_reviews_by_locationid",
+      data2
+    ).then(resp => {
+      console.log("digi",resp);
+      this.setState({AllReviews:resp.data.reviews_array});
+    });
+
+
   }
 
   render() {
@@ -2818,9 +2843,13 @@ console.log("upd",filter)
 </select>
             </MDBCol>
             <MDBCol md='4' >
-            <select className="review_select_btn" style={{float:'right'}}>
-  <option>This week</option>
-  <option>This year</option>
+            <select className="review_select_btn" style={{float:'right'}}  onChange={this.UpdateReviewsFilter} >
+  <option value="last week">This week</option>
+  <option value="last month">last month</option>
+  <option value="last 3 months">last 3 months</option>
+  <option value="last 6 months">last 6 months</option>
+  <option value="last year">This year</option>
+  <option value="all">Lifetime</option>
 </select>
             </MDBCol>
           </MDBRow>

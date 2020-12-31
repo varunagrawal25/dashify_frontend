@@ -13,8 +13,8 @@ import { secure_pin } from "../config";
 import cross_img from "./assets/cross_img.png";
 import attach from "./assets/attach.png"
 import swal from "sweetalert";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import DatePicker from "react-datepicker";
+// import "react-datepicker/dist/react-datepicker.css";
 
 export default class promotional_post extends Component {
 

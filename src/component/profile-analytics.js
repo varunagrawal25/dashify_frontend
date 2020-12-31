@@ -223,7 +223,22 @@ export default class ProfileAnalytics extends Component {
       console.log("digi",resp);
 
       this.setState({
-        googleAnalytics:resp.data
+        googleAnalytics:resp.data,
+        c_buttons_clicks: resp.data.c_buttons_clicks,
+c_direct_request: resp.data.c_direct_request,
+c_phone_calls: resp.data.c_phone_calls,
+c_total_profile_views:resp.data.c_total_profile_views,
+c_website_visit:resp.data.c_website_visit,
+f_buttons_clicks: resp.data.f_buttons_clicks,
+f_direct_request: resp.data.f_direct_request,
+f_phone_calls: resp.data.f_phone_calls,
+f_total_profile_views: resp.data.f_total_profile_views,
+f_website_visit: resp.data.f_website_visit,
+g_buttons_clicks: resp.data.g_buttons_clicks,
+g_direct_request: resp.data.g_direct_request,
+g_phone_calls: resp.data.g_phone_calls,
+g_total_profile_views: resp.data.g_total_profile_views,
+g_website_visit: resp.data.g_website_visit,
       })
     });
 
@@ -251,6 +266,54 @@ export default class ProfileAnalytics extends Component {
     }
     console.log(data2,"data2")
     this.filterAnalytics(data2);
+
+
+
+   
+
+    var today = new Date();
+    today =
+      today.getDate() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getFullYear();
+    this.setState({ today });
+
+    const dat2 = {
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+    };
+    
+
+    all_connection_of_one_location(dat2, DjangoConfig)
+      .then(resp => {
+        console.log("get all connections by id s", resp);
+        this.setState({ allListings: resp.data.social_media_list });
+
+        if (this.state.allListings) {
+          this.state.allListings.map(l => {
+            console.log("loop all")
+            if (l.connect_type == "Facebook") {
+             
+              this.setState({
+                fbIsLoggedIn: true,
+               
+              });
+            }
+
+            if (l.connect_type === "Google") {
+             
+              this.setState({
+                googleIsLoggedIn: true,
+              
+              });
+
+             
+            }
+
+          })
+        }
+        })
 
    
 
@@ -380,7 +443,7 @@ export default class ProfileAnalytics extends Component {
     });
 
 
-    this.profile_analytics_function();
+    // this.profile_analytics_function();
 
     const data = {
 secure_pin,
@@ -480,11 +543,11 @@ secure_pin,
     </Document>
   );
 
-  profile_analytics_function = () => {
-    let date_range = this.state.range_name;
-    console.log(this.state.range_name)
-    // let { range_name } = this.state;
-    this.setState({ loading: true });
+  // profile_analytics_function = () => {
+  //   let date_range = this.state.range_name;
+  //   console.log(this.state.range_name)
+  //   // let { range_name } = this.state;
+  //   this.setState({ loading: true });
     // if (range_name == "week") {
     //   date_range = "week";
     // } else if (range_name == "month") {
@@ -496,151 +559,151 @@ secure_pin,
     // } else if (range_name == "year") {
     //   date_range = "month";
     // }
-    const data = {
-      location_id: this.props.match.params.locationId,
-      duration: date_range
-    };
+  //   const data = {
+  //     location_id: this.props.match.params.locationId,
+  //     duration: date_range
+  //   };
 
-    profile_analytics(data,DjangoConfig)
-      .then(resp => {
-        if (resp.data && resp.data.facebook) {
-          this.setState({
-            fViews: resp.data.facebook.views,
-            fWeb: resp.data.facebook.web,
-            fcalls: resp.data.facebook.calls,
-            fdirection: resp.data.facebook.direction,
-            fclicks: resp.data.facebook.clicks,
+  //   profile_analytics(data,DjangoConfig)
+  //     .then(resp => {
+  //       if (resp.data && resp.data.facebook) {
+  //         this.setState({
+  //           fViews: resp.data.facebook.views,
+  //           fWeb: resp.data.facebook.web,
+  //           fcalls: resp.data.facebook.calls,
+  //           fdirection: resp.data.facebook.direction,
+  //           fclicks: resp.data.facebook.clicks,
 
-            fViews_per: resp.data.facebook_percentage.views,
-            fWeb_per: resp.data.facebook_percentage.web,
-            fcalls_per: resp.data.facebook_percentage.calls,
-            fdirection_per: resp.data.facebook_percentage.direction,
-            fclicks_per: resp.data.facebook_percentage.clicks,
+  //           fViews_per: resp.data.facebook_percentage.views,
+  //           fWeb_per: resp.data.facebook_percentage.web,
+  //           fcalls_per: resp.data.facebook_percentage.calls,
+  //           fdirection_per: resp.data.facebook_percentage.direction,
+  //           fclicks_per: resp.data.facebook_percentage.clicks,
 
-              gviews:resp.data.google.views,
-              gWeb: resp.data.google.web,
-              gcalls:resp.data.google.calls,
-              gdirection:resp.data.google.direction,
-              gclicks: resp.data.google.clicks,
+  //             gviews:resp.data.google.views,
+  //             gWeb: resp.data.google.web,
+  //             gcalls:resp.data.google.calls,
+  //             gdirection:resp.data.google.direction,
+  //             gclicks: resp.data.google.clicks,
 
-              gviews_per:resp.data.google_percentage.views,
-              gWeb_per: resp.data.google_percentage.web,
-              gcalls_per:resp.data.google_percentage.calls,
-              gdirection_per:resp.data.google_percentage.direction,
-              gclicks_per: resp.data.google_percentage.clicks,
+  //             gviews_per:resp.data.google_percentage.views,
+  //             gWeb_per: resp.data.google_percentage.web,
+  //             gcalls_per:resp.data.google_percentage.calls,
+  //             gdirection_per:resp.data.google_percentage.direction,
+  //             gclicks_per: resp.data.google_percentage.clicks,
 
-            conViews: resp.data.consolidated.views,
-            conWeb: resp.data.consolidated.web,
-            concalls: resp.data.consolidated.calls,
-            condirection: resp.data.consolidated.direction,
-            conclicks: resp.data.consolidated.clicks,
+  //           conViews: resp.data.consolidated.views,
+  //           conWeb: resp.data.consolidated.web,
+  //           concalls: resp.data.consolidated.calls,
+  //           condirection: resp.data.consolidated.direction,
+  //           conclicks: resp.data.consolidated.clicks,
 
-            conViews_per: resp.data.consolidated_percentage.views,
-            conWeb_per: resp.data.consolidated_percentage.web,
-            concalls_per: resp.data.consolidated_percentage.calls,
-            condirection_per: resp.data.consolidated_percentage.direction,
-            conclicks_per: resp.data.consolidated_percentage.clicks,
+  //           conViews_per: resp.data.consolidated_percentage.views,
+  //           conWeb_per: resp.data.consolidated_percentage.web,
+  //           concalls_per: resp.data.consolidated_percentage.calls,
+  //           condirection_per: resp.data.consolidated_percentage.direction,
+  //           conclicks_per: resp.data.consolidated_percentage.clicks,
 
-              fbIsLoggedIn: resp.data.fbIsLoggedIn,
-              googleIsLoggedIn:resp.data.googleIsLoggedIn,
-              loading: false
+  //             fbIsLoggedIn: resp.data.fbIsLoggedIn,
+  //             googleIsLoggedIn:resp.data.googleIsLoggedIn,
+  //             loading: false
 
-          });
-        } else {
-          let prof_data = profile_analytics_json(data)
-          this.setState({
-            fViews: prof_data.facebook.views,
-            fWeb: prof_data.facebook.web,
-            fcalls: prof_data.facebook.calls,
-            fdirection: prof_data.facebook.direction,
-            fclicks: prof_data.facebook.clicks,
+  //         });
+  //       } else {
+  //         let prof_data = profile_analytics_json(data)
+  //         this.setState({
+  //           fViews: prof_data.facebook.views,
+  //           fWeb: prof_data.facebook.web,
+  //           fcalls: prof_data.facebook.calls,
+  //           fdirection: prof_data.facebook.direction,
+  //           fclicks: prof_data.facebook.clicks,
 
-            fViews_per: prof_data.facebook_percentage.views,
-            fWeb_per: prof_data.facebook_percentage.web,
-            fcalls_per: prof_data.facebook_percentage.calls,
-            fdirection_per: prof_data.facebook_percentage.direction,
-            fclicks_per: prof_data.facebook_percentage.clicks,
+  //           fViews_per: prof_data.facebook_percentage.views,
+  //           fWeb_per: prof_data.facebook_percentage.web,
+  //           fcalls_per: prof_data.facebook_percentage.calls,
+  //           fdirection_per: prof_data.facebook_percentage.direction,
+  //           fclicks_per: prof_data.facebook_percentage.clicks,
 
-              gviews:prof_data.google.views,
-              gWeb: prof_data.google.web,
-              gcalls:prof_data.google.calls,
-              gdirection:prof_data.google.direction,
-              gclicks: prof_data.google.clicks,
+  //             gviews:prof_data.google.views,
+  //             gWeb: prof_data.google.web,
+  //             gcalls:prof_data.google.calls,
+  //             gdirection:prof_data.google.direction,
+  //             gclicks: prof_data.google.clicks,
 
-              gviews_per:prof_data.google_percentage.views,
-              gWeb_per: prof_data.google_percentage.web,
-              gcalls_per:prof_data.google_percentage.calls,
-              gdirection_per:prof_data.google_percentage.direction,
-              gclicks_per: prof_data.google_percentage.clicks,
+  //             gviews_per:prof_data.google_percentage.views,
+  //             gWeb_per: prof_data.google_percentage.web,
+  //             gcalls_per:prof_data.google_percentage.calls,
+  //             gdirection_per:prof_data.google_percentage.direction,
+  //             gclicks_per: prof_data.google_percentage.clicks,
 
-            conViews: prof_data.consolidated.views,
-            conWeb: prof_data.consolidated.web,
-            concalls: prof_data.consolidated.calls,
-            condirection: prof_data.consolidated.direction,
-            conclicks: prof_data.consolidated.clicks,prof_data,
+  //           conViews: prof_data.consolidated.views,
+  //           conWeb: prof_data.consolidated.web,
+  //           concalls: prof_data.consolidated.calls,
+  //           condirection: prof_data.consolidated.direction,
+  //           conclicks: prof_data.consolidated.clicks,prof_data,
 
-            conViews_per: prof_data.consolidated_percentage.views,
-            conWeb_per: prof_data.consolidated_percentage.web,
-            concalls_per: prof_data.consolidated_percentage.calls,
-            condirection_per: prof_data.consolidated_percentage.direction,
-            conclicks_per: prof_data.consolidated_percentage.clicks,
+  //           conViews_per: prof_data.consolidated_percentage.views,
+  //           conWeb_per: prof_data.consolidated_percentage.web,
+  //           concalls_per: prof_data.consolidated_percentage.calls,
+  //           condirection_per: prof_data.consolidated_percentage.direction,
+  //           conclicks_per: prof_data.consolidated_percentage.clicks,
 
-            fbIsLoggedIn: prof_data.fbIsLoggedIn,
-            googleIsLoggedIn:prof_data.googleIsLoggedIn,
-              loading: false
+  //           fbIsLoggedIn: prof_data.fbIsLoggedIn,
+  //           googleIsLoggedIn:prof_data.googleIsLoggedIn,
+  //             loading: false
 
-          });
-        }
-      })
-      .catch(err => {
-        console.log("profile analytics err", err);
-        let prof_data = profile_analytics_json(data.duration)
-        console.log("profile analytics json  err", prof_data,data);
-          this.setState({
-            fViews: prof_data.facebook.views,
-            fWeb: prof_data.facebook.web,
-            fcalls: prof_data.facebook.calls,
-            fdirection: prof_data.facebook.direction,
-            fclicks: prof_data.facebook.clicks,
+  //         });
+  //       }
+  //     })
+  //     .catch(err => {
+  //       console.log("profile analytics err", err);
+  //       let prof_data = profile_analytics_json(data.duration)
+  //       console.log("profile analytics json  err", prof_data,data);
+  //         this.setState({
+  //           fViews: prof_data.facebook.views,
+  //           fWeb: prof_data.facebook.web,
+  //           fcalls: prof_data.facebook.calls,
+  //           fdirection: prof_data.facebook.direction,
+  //           fclicks: prof_data.facebook.clicks,
 
-            fViews_per: prof_data.facebook_percentage.views,
-            fWeb_per: prof_data.facebook_percentage.web,
-            fcalls_per: prof_data.facebook_percentage.calls,
-            fdirection_per: prof_data.facebook_percentage.direction,
-            fclicks_per: prof_data.facebook_percentage.clicks,
+  //           fViews_per: prof_data.facebook_percentage.views,
+  //           fWeb_per: prof_data.facebook_percentage.web,
+  //           fcalls_per: prof_data.facebook_percentage.calls,
+  //           fdirection_per: prof_data.facebook_percentage.direction,
+  //           fclicks_per: prof_data.facebook_percentage.clicks,
 
-              gviews:prof_data.google.views,
-              gWeb: prof_data.google.web,
-              gcalls:prof_data.google.calls,
-              gdirection:prof_data.google.direction,
-              gclicks: prof_data.google.clicks,
+  //             gviews:prof_data.google.views,
+  //             gWeb: prof_data.google.web,
+  //             gcalls:prof_data.google.calls,
+  //             gdirection:prof_data.google.direction,
+  //             gclicks: prof_data.google.clicks,
 
-              gviews_per:prof_data.google_percentage.views,
-              gWeb_per: prof_data.google_percentage.web,
-              gcalls_per:prof_data.google_percentage.calls,
-              gdirection_per:prof_data.google_percentage.direction,
-              gclicks_per: prof_data.google_percentage.clicks,
+  //             gviews_per:prof_data.google_percentage.views,
+  //             gWeb_per: prof_data.google_percentage.web,
+  //             gcalls_per:prof_data.google_percentage.calls,
+  //             gdirection_per:prof_data.google_percentage.direction,
+  //             gclicks_per: prof_data.google_percentage.clicks,
 
-            conViews: prof_data.consolidated.views,
-            conWeb: prof_data.consolidated.web,
-            concalls: prof_data.consolidated.calls,
-            condirection: prof_data.consolidated.direction,
-            conclicks: prof_data.consolidated.clicks,prof_data,
+  //           conViews: prof_data.consolidated.views,
+  //           conWeb: prof_data.consolidated.web,
+  //           concalls: prof_data.consolidated.calls,
+  //           condirection: prof_data.consolidated.direction,
+  //           conclicks: prof_data.consolidated.clicks,prof_data,
 
-            conViews_per: prof_data.consolidated_percentage.views,
-            conWeb_per: prof_data.consolidated_percentage.web,
-            concalls_per: prof_data.consolidated_percentage.calls,
-            condirection_per: prof_data.consolidated_percentage.direction,
-            conclicks_per: prof_data.consolidated_percentage.clicks,
+  //           conViews_per: prof_data.consolidated_percentage.views,
+  //           conWeb_per: prof_data.consolidated_percentage.web,
+  //           concalls_per: prof_data.consolidated_percentage.calls,
+  //           condirection_per: prof_data.consolidated_percentage.direction,
+  //           conclicks_per: prof_data.consolidated_percentage.clicks,
 
-            fbIsLoggedIn: prof_data.fbIsLoggedIn,
-            googleIsLoggedIn:prof_data.googleIsLoggedIn,
-              loading: false
+  //           fbIsLoggedIn: prof_data.fbIsLoggedIn,
+  //           googleIsLoggedIn:prof_data.googleIsLoggedIn,
+  //             loading: false
 
-          });
+  //         });
    
-      });
-  };
+  //     });
+  // };
 
   // printDocument() {
   //   const input = document.getElementById("divToPrint");
@@ -720,7 +783,23 @@ secure_pin,
       conclicks_per,
 
       fbIsLoggedIn,
-      googleIsLoggedIn
+      googleIsLoggedIn,
+
+      c_buttons_clicks,
+c_direct_request,
+c_phone_calls,
+c_total_profile_views,
+c_website_visit,
+f_buttons_clicks,
+f_direct_request,
+f_phone_calls,
+f_total_profile_views,
+f_website_visit,
+g_buttons_clicks,
+g_direct_request,
+g_phone_calls,
+g_total_profile_views,
+g_website_visit
     } = this.state;
 
     var googleAnalytics=this.state.googleAnalytics;
@@ -805,7 +884,7 @@ secure_pin,
                 )}
               </MDBCol>
 
-              <MDBCol md="4" style={{ padding: "0px 20px" }}>
+              {/* <MDBCol md="4" style={{ padding: "0px 20px" }}>
                 {this.state.fbIsLoggedIn ? (
                   ""
                 ) : (
@@ -836,7 +915,9 @@ secure_pin,
                     </MDBCol>
                   </MDBRow>
                 )}
-              </MDBCol>
+              </MDBCol> */}
+
+
               <MDBCol md="4" style={{ padding: "0px 20px" }}>
                 {this.state.googleIsLoggedIn ? (
                   ""
@@ -958,7 +1039,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                             {
-                            googleAnalytics?googleAnalytics.c_total_profile_views:"0"}
+                            c_total_profile_views?c_total_profile_views:"0"}
                             </p>
                             <p className="analytic-17">Total profile view</p>
                           </div>
@@ -995,7 +1076,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                             {googleAnalytics?googleAnalytics.c_website_visit:"0"}
+                             {c_website_visit?c_website_visit:"0"}
                             </p>
                             <p className="analytic-17">Website Visit</p>
                           </div>
@@ -1032,7 +1113,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {googleAnalytics?googleAnalytics.c_phone_calls:"0"}
+                              {c_phone_calls?c_phone_calls:"0"}
                             </p>
                             <p className="analytic-17">Phone calls</p>
                           </div>
@@ -1069,7 +1150,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {googleAnalytics?googleAnalytics.c_direct_request:"0"}
+                              {c_direct_request?c_direct_request:"0"}
                             </p>
                             <p className="analytic-17">Direction request</p>
                           </div>
@@ -1106,7 +1187,7 @@ secure_pin,
                           <div className="col-md-6" style={{ lineHeight: 0 }}>
                             <p className="analytic-16">
                               {" "}
-                              {googleAnalytics?googleAnalytics.c_buttons_clicks:"0"}
+                              {c_buttons_clicks?c_buttons_clicks:"0"}
                             </p>
                             <p className="analytic-17">Button clicks</p>
                           </div>
@@ -1153,31 +1234,31 @@ secure_pin,
                               <td scope="row" className="analytics-17">
                                 Consolidated
                               </td>
-                              <td>{googleAnalytics?googleAnalytics.c_total_profile_views:"0"}</td>
-                              <td>{googleAnalytics?googleAnalytics.c_website_visit:"0"}</td>
-                              <td>{googleAnalytics?googleAnalytics.c_phone_calls:"0"} </td>
-                              <td>{googleAnalytics?googleAnalytics.c_direct_request:"0"}</td>
-                              <td>{googleAnalytics?googleAnalytics.c_buttons_clicks:"0"}</td>
+                              <td>{c_total_profile_views?c_total_profile_views:"0"}</td>
+                              <td>{c_website_visit?c_website_visit:"0"}</td>
+                              <td>{c_phone_calls?c_phone_calls:"0"} </td>
+                              <td>{c_direct_request?c_direct_request:"0"}</td>
+                              <td>{c_buttons_clicks?c_buttons_clicks:"0"}</td>
                             </tr>
                             <tr>
                               <td scope="row" className="analytics-17">
                                 Google
                               </td>
-                              <td>{googleAnalytics.g_total_profile_views?googleAnalytics.g_total_profile_views:"0"}</td>
-                              <td>{googleAnalytics.g_website_visit?googleAnalytics.g_website_visit:"0"}</td>
-                              <td>{googleAnalytics.g_phone_calls?googleAnalytics.g_phone_calls:"0"} </td>
-                              <td>{googleAnalytics.g_direct_request?googleAnalytics.g_direct_request:"0"}</td>
-                              <td>{googleAnalytics.g_buttons_clicks?googleAnalytics.g_buttons_clicks:"0"}</td>
+                              <td>{g_total_profile_views?g_total_profile_views:"0"}</td>
+                              <td>{g_website_visit?g_website_visit:"0"}</td>
+                              <td>{g_phone_calls?g_phone_calls:"0"} </td>
+                              <td>{g_direct_request?g_direct_request:"0"}</td>
+                              <td>{g_buttons_clicks?g_buttons_clicks:"0"}</td>
                             </tr>
                             <tr>
                               <td scope="row" className="analytics-17">
                                 Facebook
                               </td>
-                              <td>{googleAnalytics.f_total_profile_views?googleAnalytics.f_total_profile_views:"0"}</td>
-                              <td>{googleAnalytics.f_website_visit?googleAnalytics.f_website_visit:"0"}</td>
-                              <td>{googleAnalytics.f_phone_calls?googleAnalytics.f_phone_calls:"0"} </td>
-                              <td>{googleAnalytics.f_direct_request?googleAnalytics.f_direct_request:"0"}</td>
-                              <td>{googleAnalytics.f_buttons_clicks?googleAnalytics.f_buttons_clicks:"0"}</td>
+                              <td>{f_total_profile_views?f_total_profile_views:"0"}</td>
+                              <td>{f_website_visit?f_website_visit:"0"}</td>
+                              <td>{f_phone_calls?f_phone_calls:"0"} </td>
+                              <td>{f_direct_request?f_direct_request:"0"}</td>
+                              <td>{f_buttons_clicks?f_buttons_clicks:"0"}</td>
                             </tr>
                             {/* <tr>
                             <th scope="row" className="analytics-17">
