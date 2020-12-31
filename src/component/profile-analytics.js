@@ -95,75 +95,76 @@ const styles = StyleSheet.create({
 export default class ProfileAnalytics extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      loader: true,
+      loading: false,
+  
+      gviews: "-",
+      gWeb: "-",
+      gcalls: "-",
+      gdirection: "-",
+      gclicks:"-",
+  
+      gviews_per: "-",
+      gWeb_per: "-",
+      gcalls_per: "-",
+      gdirection_per: "-",
+      gclicks_per:"-",
+  
+      fViews: "-",
+      fWeb: "-",
+      fcalls: "-",
+      fdirection: "-",
+      fclicks: "-",
+  
+      fViews_per: "-",
+      fWeb_per: "-",
+      fcalls_per: "-",
+      fdirection_per: "-",
+      fclicks_per: "-",
+  
+      conViews: "-",
+      conWeb: "-",
+      concalls: "-",
+      condirection: "-",
+      conclicks: "-",
+  
+      conViews_per: "-",
+      conWeb_per: "-",
+      concalls_per: "-",
+      condirection_per: "-",
+      conclicks_per: "-",
+  
+  
+      fbIsLoggedIn: false,
+      googleIsLoggedIn: false,
+  
+      google_token: "",
+      locationIdGoogle: "",
+  
+      show_states: "",
+      range_name: "week",
+      today_date: "",
+      last_week: "",
+      last_month: "",
+      last_3_month: "",
+      last_6_month: "",
+      last_year: "",
+  
+  
+      fbtoken: "",
+      fbPageId: "",
+  
+      name: "",
+      address: "",
+      phone: "",
+      city: "",
+      postalCode: "",
+      category: "",
+      state: ""
+    };
   }
-  state = {
-    loader: true,
-    loading: false,
-
-    gviews: "-",
-    gWeb: "-",
-    gcalls: "-",
-    gdirection: "-",
-    gclicks:"-",
-
-    gviews_per: "-",
-    gWeb_per: "-",
-    gcalls_per: "-",
-    gdirection_per: "-",
-    gclicks_per:"-",
-
-    fViews: "-",
-    fWeb: "-",
-    fcalls: "-",
-    fdirection: "-",
-    fclicks: "-",
-
-    fViews_per: "-",
-    fWeb_per: "-",
-    fcalls_per: "-",
-    fdirection_per: "-",
-    fclicks_per: "-",
-
-    conViews: "-",
-    conWeb: "-",
-    concalls: "-",
-    condirection: "-",
-    conclicks: "-",
-
-    conViews_per: "-",
-    conWeb_per: "-",
-    concalls_per: "-",
-    condirection_per: "-",
-    conclicks_per: "-",
-
-
-    fbIsLoggedIn: false,
-    googleIsLoggedIn: false,
-
-    google_token: "",
-    locationIdGoogle: "",
-
-    show_states: "",
-    range_name: "week",
-    today_date: "",
-    last_week: "",
-    last_month: "",
-    last_3_month: "",
-    last_6_month: "",
-    last_year: "",
-
-
-    fbtoken: "",
-    fbPageId: "",
-
-    name: "",
-    address: "",
-    phone: "",
-    city: "",
-    postalCode: "",
-    category: "",
-    state: ""
-  };
+ 
 
   componentClicked = e => {
     console.log("clicked");
@@ -198,12 +199,16 @@ export default class ProfileAnalytics extends Component {
 
   responseGoogle = response => {
     console.log("google response", response);
+    
+  
 
     let state = {
       Token: response.accessToken,
       Username: response.profileObj.name,
       Email: response.profileObj.email,
       location_id: this.props.match.params.locationId,
+      googleImgUrl:response.profileObj.imageUrl,
+      googleIdf:response.profileObj.googleId,
       redirect_to: "/profile-analytics"
     };
     this.props.history.push({
@@ -239,6 +244,7 @@ g_direct_request: resp.data.g_direct_request,
 g_phone_calls: resp.data.g_phone_calls,
 g_total_profile_views: resp.data.g_total_profile_views,
 g_website_visit: resp.data.g_website_visit,
+loader:false
       })
     });
 
@@ -313,7 +319,9 @@ g_website_visit: resp.data.g_website_visit,
 
           })
         }
-        })
+        });
+
+      
 
    
 
@@ -737,6 +745,7 @@ secure_pin,
   };
 
   render() {
+    var showAnaly= this.state.fbIsLoggedIn || this.state.googleIsLoggedIn;
     let {
       today_date,
       last_week,
@@ -961,6 +970,8 @@ g_website_visit
               </MDBCol>
             </MDBRow>
 
+
+                  {showAnaly?
             <div className="container analytic-11 ">
               <div className="">
                 {this.state.loading ? (
@@ -1287,7 +1298,9 @@ g_website_visit
                   </div>
                 )}
               </div>
-            </div>
+            </div>:
+
+            <div>Connect google or facebook to see listing</div>}
           </div>
         )}
         {/* </div> */}

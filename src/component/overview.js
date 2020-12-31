@@ -58,7 +58,7 @@ export default class Overview extends Component {
   state = {
     metric: [],
     // loader: true,
-    loader: true,
+    loader: false,
     loading: false,
 
     google_token: "",
@@ -288,35 +288,15 @@ export default class Overview extends Component {
           this.state.allListings.map(l => {
             console.log("loop all")
             if (l.connect_type == "Facebook") {
-              // fbtoken = l.Social_Platform.Token;
-              // fbPageId = l.Social_Platform.Other_info;
-              // fbData = l;
-
+              
               this.setState({
                 fbIsLoggedIn: true,
-                // pdf_data: [
-                //   ...this.state.pdf_data,
-                //   {
-                //     listing: "Facebook",
-                //     image: require("../images/facebook.png"),
-                //     username: fbData.Social_Platform.Username,
-                //     status: true,
-                //     link: "https://www.facebook.com/" + fbPageId,
-                //     date: fbData.Social_Platform.Update_Date.split("T")[0]
-                //   }
-                // ],
-                // fbId: fbData.id,
-                // fbName: fbData.Social_Platform.Username,
-                // all_connections: [
-                //   ...this.state.all_connections,
-                //   { name: "Facebook" }
-                // ]
+               
               });
             }
 
             if (l.connect_type === "Google") {
-              // googleToken = l.token;
-              // googleData = l;
+              
               this.setState({
                 googleIsLoggedIn: true,
                
@@ -364,9 +344,9 @@ export default class Overview extends Component {
         this.setState({
           loader: false
         });
-        this.all_connection_of_one_location_function(
-          all_connection_of_one_location_json
-        );
+        // this.all_connection_of_one_location_function(
+        //   all_connection_of_one_location_json
+        // );
       });
   })
 
@@ -435,74 +415,7 @@ export default class Overview extends Component {
       });
     }
 
-    // response.data.map(l => {
-    //   if (l.Social_Platform.Platform == "Facebook") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Facebook" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Google") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Google" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Yelp") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Yelp" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Foursquare") {
-    //     this.setState({
-    //       all_connections: [
-    //         ...this.state.all_connections,
-    //         { name: "Foursquare" }
-    //       ]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Dnb") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Dnb" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Apple") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Apple" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Instagram") {
-    //     this.setState({
-    //       all_connections: [
-    //         ...this.state.all_connections,
-    //         { name: "Instagram" }
-    //       ]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Citysearch") {
-    //     this.setState({
-    //       all_connections: [
-    //         ...this.state.all_connections,
-    //         { name: "Citysearch" }
-    //       ]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Here") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Here" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Zillow") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Zillow" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Avvo") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Avvo" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Zomato") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Zomato" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Tomtom") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Tomtom" }]
-    //     });
-    //   } else if (l.Social_Platform.Platform == "Linkedin") {
-    //     this.setState({
-    //       all_connections: [...this.state.all_connections, { name: "Linkedin" }]
-    //     });
-    //   }
-    // });
+  
 
     this.setState({ loader: false });
   };
@@ -722,9 +635,8 @@ if(e){
           });
         } else {
           this.setState({
-            social_overview_data: all_social_media_overview_json(
-              overview_query_data
-            ),
+            // social_overview_data: all_social_media_overview_json(
+            //   overview_query_data            ),
             social_media_overview_loader: false
           });
         }
@@ -732,9 +644,8 @@ if(e){
       .catch(err => {
         console.log("social overview err", err);
         this.setState({
-          social_overview_data: all_social_media_overview_json(
-            overview_query_data
-          ),
+          // social_overview_data: all_social_media_overview_json(
+          //   overview_query_data          ),
           social_media_overview_loader: false
         });
       });
@@ -846,10 +757,13 @@ if(e){
     console.log("this.state", this.state);
 
     if (graph_google_customer_data) {
-      var date = graph_google_customer_data.date,
-        phone = graph_google_customer_data.phone,
-        website = graph_google_customer_data.website,
-        direction = graph_google_customer_data.direction;
+      var date = graph_google_customer_data.date;
+       var phone = graph_google_customer_data.phone;
+        var website = graph_google_customer_data.website;
+        var direction = graph_google_customer_data.direction;
+
+        console.log("gra",phone);
+        console.log("gra",website)
     }
 
     let total_notifications =
@@ -1679,9 +1593,9 @@ if(e){
                         </div>
                       ) : (
                         <Bar
-                          data={this.dataBar(date, phone, direction, website)}
+                          data={this.dataBar(date.slice(0,365), phone, direction, website)}
                           options={this.barChartOptions(
-                            phone,
+                            direction,
                             direction,
                             website
                           )}
