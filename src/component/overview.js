@@ -58,7 +58,7 @@ export default class Overview extends Component {
   state = {
     metric: [],
     // loader: true,
-    loader: false,
+    loader: true,
     loading: false,
 
     google_token: "",
