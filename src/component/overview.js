@@ -327,7 +327,8 @@ export default class Overview extends Component {
             }
 
 
-    const data = {"secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")};
+    const data = {"secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,
+    "location_id":localStorage.getItem("locationId")};
 
     const notification_query_data = {
       location_id: this.props.match.params.locationId
@@ -354,7 +355,7 @@ export default class Overview extends Component {
 
    
 
-    all_listing_overview(data, DjangoConfig)
+    all_listing_overview(data)
       .then(response => {
         console.log("all connections", response);
         this.all_connection_of_one_location_function(response.data);

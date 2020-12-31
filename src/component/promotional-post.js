@@ -501,6 +501,7 @@ Status
 
 </MDBRow>
 <hr/>
+{this.state.promo_list.length>0?
 <div class="scrollbar">
   {this.state.promo_list.map(d =>(
     <div>
@@ -595,6 +596,7 @@ N/A
 </MDBRow> */}
 
 </div>
+               :<div className='no_faq' style={{marginTop:'40px',marginBottom:'40px'}}>No promotional post to show</div>}
                 </div>
               </MDBCol>
               <MDBCol md='4' className='review_container'>
