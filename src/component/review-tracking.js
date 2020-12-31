@@ -16,6 +16,9 @@ import rev_track_twitter from './assets/rev_track_twitter.png'
 import rev_track_fb from './assets/rev_track_fb.png'
 import rev_track_snap from './assets/rev_track_snap.png'
 import rev_track_insta from './assets/rev_track_insta.png'
+import yelp from '../images/yelp.png'
+import google from '../images/google2.png'
+import foursquare from '../images/foursquare222.png'
 import ReactPDF, {
   Image,
   Font,
@@ -2833,10 +2836,11 @@ console.log("upd",filter)
 <div className='review_heading3'>View all reviews</div>
             </MDBCol>
             <MDBCol md='5'>
-              <img src={rev_track_twitter} alt='' className='review_icon'/>
-              <img src={rev_track_fb} alt='' className='review_icon'/>
-              <img src={rev_track_insta} alt='' className='review_icon'/>
-              <img src={rev_track_snap} alt='' className='review_icon'/>
+            <img src={google} alt='' className='review_icon'/>
+            <img src={rev_track_fb} alt='' className='review_icon'/>
+              <img src={yelp} alt='' className='review_icon'/>
+              <img src={foursquare} alt='' className='review_icon'/>
+              
             <select className="review_select_btn" style={{float:'right'}}>
   <option>See more</option>
   <option>See less</option>

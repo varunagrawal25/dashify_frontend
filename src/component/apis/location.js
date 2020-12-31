@@ -64,3 +64,13 @@ export const delete_other_images_by_location_id = (data) => {
   return Axios.post(
     `${API}/admin/location_api/delete_other_images`, data );
 };
+
+export const Add_Promotional = (data) => {
+  return Axios.post(
+    `${API}/admin/promotion_api/add_promotion`, data );
+};
+
+export const All_Promotional_list = (data) => {
+  return Axios.post(
+    `${API}/admin/promotion_api/all_promotional_by_locationid`, data );
+};
