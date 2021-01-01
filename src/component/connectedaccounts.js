@@ -24,7 +24,7 @@ class ConnectedAccounts extends Component {
       "https://graph.facebook.com/me/accounts?fields=access_token,id,name,overall_star_rating,category,category_list,tasks&access_token=" +
         fb_accessToken
     ).then(res => {
-      console.log("facebook response", res.data.data);
+      console.log("facebook response", res);
       this.setState({
         all_pages: res.data.data ? res.data.data : [],
         loader: false

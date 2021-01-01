@@ -9,6 +9,7 @@ import {
   add_social_account,
   remove_social_account
 } from "./apis/social_platforms";
+import {optimization_score} from './apis/social_media';
 import {
   location_by_id,
   business_categories,
@@ -126,6 +127,7 @@ export default class ViewListing extends Component {
     tomtomName: "",
     zomatoName: "",
     avvoName: "",
+    LastSyncDate:'',
 
     fbToken: "",
     // instaToken: "",
@@ -175,6 +177,26 @@ export default class ViewListing extends Component {
 
   async componentDidMount() {
     if (this.props.match.params.locationId != "null") {
+
+
+      const dataOpt={
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      
+        
+      };
+
+
+      optimization_score(dataOpt)
+      .then(resp => {
+        console.log("voice", resp);
+
+        this.setState({SocialScore:resp.data.social_score})
+      })
+      .catch(resp => {
+        console.log(resp);
+      });
+
+
       const data = {
         "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
       };
@@ -206,6 +228,7 @@ export default class ViewListing extends Component {
 
           if (this.state.allListings) {
             this.state.allListings.map(l => {
+              this.setState({LastSyncDate:l.update_date})
               console.log("loop all")
               if (l.connect_type == "Facebook") {
                
@@ -474,6 +497,8 @@ export default class ViewListing extends Component {
   };
 
   responseFacebook = async response => {
+
+    try{
     console.log("facebook response", response);
 
     const fb_data = {
@@ -505,6 +530,10 @@ export default class ViewListing extends Component {
     this.props.history.push({
       pathname: `/connectedaccounts/view-listing`
     });
+
+  }catch(e){
+
+  }
   };
 
   responseErrorGoogle = response => {
@@ -1213,7 +1242,9 @@ export default class ViewListing extends Component {
       googleLocationDetail,
       citysearchDetails,
       yelpDetails,
-      allListings
+      allListings,
+      SocialScore,
+      LastSyncDate
     } = this.state;
 
     const {
@@ -1222,6 +1253,148 @@ export default class ViewListing extends Component {
     } = this.state;
     let googleScore = 0;
     let maxScore = 9;
+
+
+    var ScoreList;
+    if(SocialScore){
+   ScoreList= SocialScore.map(s=>{
+
+
+      return(
+
+        <div className="col-md-4">
+                     <div className="bing-box">
+        <div className="google-top">
+          <img src={s.icon} alt="" width="65px" height="65px" />
+
+          <div className="progress" data-percentage={s.score}>
+            <span className="progress-left">
+              <span className="progress-bar"></span>
+            </span>
+            <span className="progress-right">
+              <span className="progress-bar"></span>
+            </span>
+            <div className="progress-value">
+              <div>
+                {s.score}%
+                <br />
+                <span>score</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bing-detils">
+          <ul>
+            {/* <li>
+              <span>Link:</span>
+              <div className="bing-detail-text">
+                {googleLocationDetail.websiteUrl ? (
+                  <input type="checkbox" id="html" defaultChecked />
+                ) : (
+                  <input type="checkbox" id="html" />
+                )}
+                <label htmlFor="html"></label>
+              </div>
+            </li>
+
+            <li>
+              <span>Name:</span>
+              <div className="bing-detail-text">
+                {googleLocationDetail.locationName
+                  ? googleLocationDetail.locationName
+                  : "-"}
+              </div>
+            </li>
+            <li>
+              <span>Address:</span>
+              <div className="bing-detail-text">
+                {googleLocationDetail.address ? (
+                  <div>
+                    {googleLocationDetail.address.addressLines.map(
+                      data => data
+                    )}
+                    ,{googleLocationDetail.address.locality},
+                    {googleLocationDetail.address.administrativeArea},
+                    {googleLocationDetail.address.postalCode}
+                  </div>
+                ) : (
+                  "-"
+                )}
+              </div>
+            </li>
+            <li>
+              <span>Phone:</span>
+              <div className="bing-detail-text">
+                {googleLocationDetail.primaryPhone
+                  ? googleLocationDetail.primaryPhone
+                  : "-"}
+              </div>
+            </li> */}
+            <h3>Detailed breakdown</h3>
+            <ul className="breack-bing">
+              <li>
+                <span>Categories</span>
+                <div className="bing-cat">
+                  {s.categories ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Website URL Present</span>
+                <div className="bing-cat">
+                  {s.website_url? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Hours of operation</span>
+                <div className="bing-cat">
+                  {s.hours ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Photos present</span>
+                <div className="bing-cat">
+                {s.photos ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+              <li>
+                <span>Reviews</span>
+                <div className="bing-cat">
+                  {s.reviews ? (
+                    <a className="bing-yes">Yes</a>
+                  ) : (
+                    <a className="bing-no">No</a>
+                  )}
+                </div>
+              </li>
+            </ul>
+          </ul>
+        </div>
+      </div>
+      </div>
+      )
+    })
+
+    }
+
+
+
 
     return (
       <div className="main_content">
@@ -1347,7 +1520,7 @@ export default class ViewListing extends Component {
                 </div>
                 <div className="mt-30">
                   <div className="row">
-                    <div className="col-md-4">
+                    {/* <div className="col-md-4">
                       {googleLocationDetail ? (
                         this.googleLocationDetailFunction(googleLocationDetail)
                       ) : (
@@ -1380,9 +1553,9 @@ export default class ViewListing extends Component {
                           </div>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                     {/*citysearch start*/}
-                    <div className="col-md-4">
+                    {/* <div className="col-md-4">
                       {citysearchDetails ? (
                         this.citysearchDetailsFunction(citysearchDetails)
                       ) : (
@@ -1417,11 +1590,11 @@ export default class ViewListing extends Component {
                           </div>
                         </div>
                       )}
-                    </div>
+                    </div> */}
                     {/*citysearch end*/}
 
                     {/*yelp start*/}
-                    <div className="col-md-4">
+                    {/* <div className="col-md-4">
                       {yelpDetails ? (
                         this.yelpDetailsFunction(yelpDetails)
                       ) : (
@@ -1455,7 +1628,9 @@ export default class ViewListing extends Component {
                         </div>
                       )}
                     </div>
-                    {/*yelp end*/}
+                    yelp end */}
+
+                    {ScoreList}
                   </div>
                 </div>
 
@@ -1500,9 +1675,9 @@ export default class ViewListing extends Component {
                           <div className="google_btnb">
                             <GoogleLogin
                               //for localhost
-                              clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
+                             // clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
                              // for server
-                            // clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
+                             clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
                               buttonText="Connect a account"
                               class="connect_btn"
                               scope="https://www.googleapis.com/auth/business.manage"
@@ -1515,7 +1690,7 @@ export default class ViewListing extends Component {
                               // accessType="offline"
                               // responseType="code"
                               // pompt="consent"
-                            />
+                            /> 
                           </div>
                         )}
                       </div>
@@ -1576,12 +1751,13 @@ export default class ViewListing extends Component {
                         ) : (
                           <FacebookLogin
                             // for server
-                            // appId="3550574924973433"
+                             appId="3044182972316291"
                              //for localhost
-                            appId="187396122554776"
+                            //appId="187396122554776"
                             // appId="3044182972316291"
                             autoLoad={false}
                             fields="name,email,picture"
+                           // scope="public_profile,pages_read_engagement,pages_show_list,read_insights"
                             // fields="name,email,picture,pages_read_engagement,pages_read_user_content,Page Public Metadata Access"
                             onClick={this.componentClicked}
                             callback={this.responseFacebook}
@@ -2333,7 +2509,7 @@ export default class ViewListing extends Component {
                   </div>
 
                   <div className="listing-lastupdate">
-                    <p>Last Update Yesterday at 13:10 PM</p>
+                    <p>Last Update {LastSyncDate}</p>
                     <PDFDownloadLink
                       document={this.Quixote(pdf_data)}
                       fileName="connected_listing_report.pdf"
