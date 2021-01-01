@@ -364,7 +364,7 @@ export default class Overview extends Component {
   }
 
 
-  get_all_icons_function=e=>{
+ get_all_icons_function =e=>{
 
     const data={
     secure_pin,

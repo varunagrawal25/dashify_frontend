@@ -24,7 +24,7 @@ class ConnectedAccounts extends Component {
       "https://graph.facebook.com/me/accounts?fields=access_token,id,name,overall_star_rating,category,category_list,tasks&access_token=" +
         fb_accessToken
     ).then(res => {
-      console.log("facebook response", res.data.data);
+      console.log("facebook response", res);
       this.setState({
         all_pages: res.data.data ? res.data.data : [],
         loader: false
@@ -105,10 +105,10 @@ class ConnectedAccounts extends Component {
           <div  key={p.id}>
           <hr/>
             <MDBRow>
-              <MDBCol md='3' className='connect_table_contant'>
+              <MDBCol md='5' className='connect_table_contant'>
               {p.name}
               </MDBCol>
-              <MDBCol md='2' className='connect_table_contant'>
+              <MDBCol md='5' className='connect_table_contant'>
               {p.category}
               </MDBCol>
               {/* <MDBCol md='5' className='connect_table_contant'>
@@ -163,10 +163,10 @@ class ConnectedAccounts extends Component {
 </MDBRow>
      
 <MDBRow style={{background:'#ffffff',margin:'0px'}}>
-           <MDBCol md='3' className='connect_table_heading'>
+           <MDBCol md='5' className='connect_table_heading'>
            Page Name
            </MDBCol>
-           <MDBCol md='2' className='connect_table_heading'>
+           <MDBCol md='5' className='connect_table_heading'>
            Category
            </MDBCol>
            {/* <MDBCol md='5' className='connect_table_heading'>

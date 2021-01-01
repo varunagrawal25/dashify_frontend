@@ -849,9 +849,13 @@ g_website_visit
         {/* <div className="left-side-menu"></div>
         <div className="content-page"> */}
         {this.state.loader ? (
-          <div className="rightside_title">
-            <Spinner />
+          <div className="container " id="overview-10">
+          <div className="profanalytic">
+            <h3>Profile Analytics</h3>
           </div>
+          <Spinner />
+          </div>
+          
         ) : (
           <div className="container " id="overview-10">
             <div className="profanalytic">
