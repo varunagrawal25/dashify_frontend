@@ -836,6 +836,7 @@ img {
 }
 
 .action a {
+  text-decoration: none;
   border: 0px;
   color: #fff;
   padding: 10px 30px;
@@ -12435,7 +12436,7 @@ label img {
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  font-size: 13px;
+  font-size: 8px;
   line-height: 15px;
   text-align: end;
   color: #000000;
