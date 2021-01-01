@@ -545,13 +545,14 @@ console.log("this.state.allFaq",this.state.allFaq)
           <div>
             {this.state.loader ? (
           <div className="rightside_title">
+            <h1>Voice Listing</h1>
             <Spinner />
           </div>
         ) : (
           <div>
             <MDBContainer>
-              <div className="setting-10">
-                <h3>Voice Listing</h3>
+              <div className="rightside_title">
+                <h1>Voice Listing</h1>
               </div>
               <MDBRow className="voice_container">
                 <MDBCol sm="12" md="5" lg="5">
@@ -925,8 +926,8 @@ console.log("this.state.allFaq",this.state.allFaq)
           </div>
         ) : (
           <MDBContainer>
-            <div className="setting-10">
-              <h3>Voice Listing</h3>
+            <div className="rightside_title">
+              <h1>Voice Listing</h1>
             </div>
             <div >
               <h4 className='connect_msg'>Connect Location first</h4>

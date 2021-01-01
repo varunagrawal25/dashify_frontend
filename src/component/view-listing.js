@@ -1400,6 +1400,7 @@ export default class ViewListing extends Component {
       <div className="main_content">
         {this.state.loader ? (
           <div className="rightside_title">
+            <h1>Listing Overview</h1>
             <Spinner />
           </div>
         ) : (
@@ -2528,7 +2529,7 @@ export default class ViewListing extends Component {
               </div>
             ) : (
               <div >
-              <h4 className='connect_msg'>Connect Location first</h4>
+              <h4 className='connect_msg'>Connect Location First</h4>
             </div>
             )}
           </div>

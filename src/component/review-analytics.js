@@ -917,6 +917,7 @@ console.log("colcheck",columnData)
 
         {this.state.loader ? (
           <div className="rightside_title">
+            <h1>Review Analytics</h1>
             <Spinner />
           </div>
         ) : (
@@ -927,10 +928,12 @@ console.log("colcheck",columnData)
 
             <MDBRow>
               <MDBCol md="8">
-                <div className="analytics_btnx">
+                
+                {all_connections.length != 0 ? (
+                  <div>
+                    <div className="analytics_btnx">
                   Sitewise Distribution Of Ratings
                 </div>
-                {all_connections.length != 0 ? (
                   <div  className="whitechart">
                     {/* <Column_chart /> */}
                   {/* <ReactApexChart 
@@ -965,16 +968,19 @@ console.log("colcheck",columnData)
                     rootProps={{ "data-testid": "6" }}
                   />
                   </div>
+                </div>
                 ) : (
                   ""
                 )}
               </MDBCol>
 
               <MDBCol md="4">
-                <div className="analytics_btnx">
+                
+                {all_connections.length != 0 ? (
+                  <div>
+                  <div className="analytics_btnx">
                   Sitewise Distribution Reviews
                 </div>
-                {all_connections.length != 0 ? (
                   <div className="whitechart" style={{padding:'28px 45px'}}>
                     <DonutChart
                       legend={false}
@@ -1006,7 +1012,8 @@ console.log("colcheck",columnData)
                       rootProps={{ "data-testid": "1" }}
                     /> */}
                   </div>
-                ) : (
+                  </div>
+                   ) : (
                   ""
                 )}
               </MDBCol>
@@ -1270,7 +1277,7 @@ opacity: '0.6',
             ) : (
               <div className=" mt-30">
                 
-                    <h4 className='connect_msg'>Connect some listings to see Review Analytics</h4>
+                    <h4 className='connect_msg'>Connect Some Listings To See Review Analytics</h4>
                 
               </div>
             )}

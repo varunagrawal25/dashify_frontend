@@ -943,7 +943,7 @@ g_website_visit
 
                     <MDBCol md="6" className="profile_ana_contant1">
                       Connect your Google profile to get profile analytics for
-                      your Facebook listing
+                      your Google listing
                     </MDBCol>
                     <MDBCol md="4">
                       <GoogleLogin
@@ -1299,8 +1299,9 @@ g_website_visit
                 )}
               </div>
             </div>:
-
-            <div>Connect google or facebook to see listing</div>}
+            <div >
+              <h4 className='connect_msg'>Connect Google Or Facebook To See Listing</h4>
+            </div>}
           </div>
         )}
         {/* </div> */}
