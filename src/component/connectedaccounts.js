@@ -111,11 +111,11 @@ class ConnectedAccounts extends Component {
               <MDBCol md='2' className='connect_table_contant'>
               {p.category}
               </MDBCol>
-              <MDBCol md='5' className='connect_table_contant'>
+              {/* <MDBCol md='5' className='connect_table_contant'>
               {p.category_list.map(data => (
                     <div>{data.name}</div>
                   ))}
-              </MDBCol>
+              </MDBCol> */}
               <MDBCol md='2' className='action' style={{marginTop:'11px'}}>
               <button type="submit">Connect</button>
               </MDBCol>
@@ -169,9 +169,9 @@ class ConnectedAccounts extends Component {
            <MDBCol md='2' className='connect_table_heading'>
            Category
            </MDBCol>
-           <MDBCol md='5' className='connect_table_heading'>
+           {/* <MDBCol md='5' className='connect_table_heading'>
            Category list
-           </MDBCol>
+           </MDBCol> */}
            <MDBCol md='2' className='connect_table_heading' style={{marginLeft:'-25px'}}>
            Action
            </MDBCol>
