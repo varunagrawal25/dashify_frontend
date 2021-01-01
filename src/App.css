@@ -836,6 +836,7 @@ img {
 }
 
 .action a {
+  text-decoration: none;
   border: 0px;
   color: #fff;
   padding: 10px 30px;
