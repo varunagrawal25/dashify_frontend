@@ -1278,7 +1278,7 @@ if(e){
                       </div>
                 </div> ) : (
                       <div className="col-md-12" >
-                        <h4 className='connect_msg'>No new notification</h4>
+                        <h4 className='connect_msg'>No New Notification</h4>
                       </div>
                     )}
                     </div>
@@ -1339,7 +1339,7 @@ if(e){
                       total_social_overview
                     ) : (
                       <div className="col-md-12">
-                        <h4 className='connect_msg'>Please connect some listing</h4>
+                        <h4 className='connect_msg'>Please Connect Some Listing</h4>
                       </div>
                     )}
                   </div>
@@ -1401,13 +1401,13 @@ if(e){
                       {view_notification_type2 == false ? (
                         total_listing_images.length > 5 ? (
                           <div className="sou">
-                            <ul>
+                            
                               {total_listing_images[0]}
                               {total_listing_images[1]}
                               {total_listing_images[2]}
                               {total_listing_images[3]}
                               {total_listing_images[4]}
-                            </ul>
+                            
                           </div>
                         ) : (
                           <div className="sou">
@@ -1432,10 +1432,18 @@ if(e){
                                 })
                           }
                           className='view_less_all2'
-                        >{AllIcons}
+                        ><MDBRow>
+                          <MDBCol md='8' style={{display:'flex'}}>
+                          {AllIcons}
+                          </MDBCol>
+                          <MDBCol md='4' style={{padding:'0px'}}>
                           {view_notification_type2 == false
                             ? (<div onClick={this.IconsAllLess("All")}>View All <ArrowRightIcon /></div>)
                             : (<div onClick={this.IconsAllLess("Less")}>View Less <ArrowDownIcon /></div>)}
+                          </MDBCol>
+                        </MDBRow>
+                          
+                          
                         </a>
                       </div>
                     </div>
@@ -1594,7 +1602,7 @@ if(e){
                       // ) : (
                       //   <h4>No analytics of this Google account</h4>
                       // )
-                      <h4 className='connect_msg'>Please connect Google to see graph</h4>
+                      <h4 className='connect_msg'>Please Connect Google To See Graph</h4>
                     )}
                   </div>
                 </div>

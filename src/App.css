@@ -14723,6 +14723,7 @@ ul.outped li span {
   width: 25px;
   height: 25px;
   border-radius: 100%;
+  margin: 0px 5px;
 }
 
 .tooltip[x-placement^="bottom"],
