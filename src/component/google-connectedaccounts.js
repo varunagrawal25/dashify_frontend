@@ -3,6 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import Spinner from "./common/Spinner";
+import { MDBCol, MDBRow } from "mdbreact";
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -116,24 +117,17 @@ class GoogleConnectedAccounts extends Component {
     const allPages = this.state.all_pages.map((p, i) => {
       return (
         <form onSubmit={this.onSubmit(i)}>
-          <div className="listdata" key={p.id}>
-            <div className="row d-flex">
-              <div className="col-md-3">
-                <div className="authordata ">
-                  <div className="authordatatext">
-                    <h3>{p.locationName}</h3>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-md-3">
-                <div className="text-center address">
-                  <h4>{p.primaryCategory.displayName}</h4>
-                </div>
-              </div>
-              <div className="col-md-3">
-                <div className="text-center phonenumber">
-                  {p.address ? (
+          <div  key={p.id}>
+            <hr/>
+            <MDBRow>
+              <MDBCol md='3' className='connect_table_contant'>
+              {p.locationName}
+              </MDBCol>
+              <MDBCol md='2' className='connect_table_contant'>
+              {p.primaryCategory.displayName}
+              </MDBCol>
+              <MDBCol md='5' className='connect_table_contant'>
+              {p.address ? (
                     <div>
                       {p.address.addressLines.map(data => data)},
                       {p.address.locality},{p.address.administrativeArea},
@@ -151,14 +145,11 @@ class GoogleConnectedAccounts extends Component {
                   ) : (
                     ""
                   )}
-                </div>
-              </div>
-              <div className="col-md-3">
-                <div className="action">
-                  <button type="submit">connect</button>
-                </div>
-              </div>
-            </div>
+              </MDBCol>
+              <MDBCol md='2' className='action' style={{marginTop:'11px'}}>
+              <button type="submit">Connect</button>
+              </MDBCol>
+            </MDBRow>
           </div>
         </form>
       );
@@ -166,53 +157,62 @@ class GoogleConnectedAccounts extends Component {
 
     return (
       <div>
-        <div className="rightside_title">
-          <div className="foursquer-logo">
-            <img src={require("../images/google.png")} alt="Google" />
-          </div>
-          <h1>Google locations</h1>
-        </div>
-        <div className="tablediv">
-          <div className="border-bottom">
-            <div className="dataview nametop">
-              <div className="titledivb">
-                <div className="row">
-                  <div className="col-md-3">
-                    <div className="company-name text-left">Locatiobn name</div>
-                  </div>
-                  <div className="col-md-3">
-                    <div className="company-name text-center">Category</div>
-                  </div>
-                  <div className="col-md-3">
-                    <div className="company-name text-center">Address</div>
-                  </div>
-                  <div className="col-md-3">
-                    <div className="company-name text-center">Action</div>
-                  </div>
-                </div>
-              </div>
+         {this.state.loader ? (
+            <div >
+                 <MDBRow>
+          <MDBCol md='1'>
+          <img src={require("../images/google.png")} alt="Google" style={{height:'40px',width:'40px' ,marginTop:'25px'}}/>
+          </MDBCol>
+  <MDBCol md='11'>
+  <div className="rightside_title" style={{marginLeft:'-28px'}}>
+  
+  <h1>Google Locations</h1>
             </div>
-          </div>
-
-          {this.state.loader ? (
-            <Spinner />
+  </MDBCol>
+ 
+  </MDBRow>
+              <Spinner />
+              </div>
           ) : this.state.all_pages.length == 0 ? (
-            <div className="listdata" key="no googl account">
-              <div className="row d-flex">
-                <div className="col-md-12">
-                  <div className="authordata ">
-                    <div className="authordatatext">
-                      <h3>No Google Business account to connect</h3>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <h4 className='connect_msg'>No Google Business Account To Connect</h4>
+         
+         ) : (
+          <div>
+        <MDBRow>
+          <MDBCol md='1'>
+          <img src={require("../images/google.png")} alt="Google" style={{height:'40px',width:'40px' ,marginTop:'25px'}}/>
+          </MDBCol>
+  <MDBCol md='11'>
+  <div className="rightside_title" style={{marginLeft:'-28px'}}>
+  
+  <h1>Google Locations</h1>
             </div>
-          ) : (
-            <div>{allPages}</div>
-          )}
+  </MDBCol>
+ 
+  </MDBRow>
+        
+  <MDBRow style={{background:'#ffffff',margin:'0px'}}>
+              <MDBCol md='3' className='connect_table_heading'>
+              Location Name
+              </MDBCol>
+              <MDBCol md='2' className='connect_table_heading'>
+              Category
+              </MDBCol>
+              <MDBCol md='5' className='connect_table_heading'>
+              Address
+              </MDBCol>
+              <MDBCol md='2' className='connect_table_heading' style={{marginLeft:'-25px'}}>
+              Action
+              </MDBCol>
+            </MDBRow>
+        <div class="scrollbar" style={{height:'300px' ,marginRight:'0px'}}>
+        
+        <div>{allPages}</div>
+       </div>
         </div>
-      </div>
+       )}
+         
+        </div>
     );
   }
 }

@@ -1532,6 +1532,7 @@ console.log("upd",filter)
 
   render() {
     console.log("this.state", this.state);
+   
 
     var finalFive=   parseInt((this.state.FiveStar/ this.state.RatingTotalReviews)*100); 
     var finalFour= parseInt((this.state.FourStar/ this.state.RatingTotalReviews)*100); 
@@ -2734,7 +2735,8 @@ console.log("upd",filter)
     }
 
     console.log("active_listing", active_listing);
-
+    console.log("ll",FinalReviews)
+    console.log("llk",this.state.AllReviews)
     return (
       <div>
         
@@ -2809,13 +2811,15 @@ console.log("upd",filter)
 </div>
             </MDBCol>
 
-{this.state.HelpfulReview?
+
             <MDBCol  md='4' className='review_container'>
   <MDBRow>
   <MDBCol md='12' className='review_heading1'>
   Most helpful Reviews
   </MDBCol>
 </MDBRow>
+{this.state.HelpfulReview?
+<div>
 <MDBRow className='review_spacing2'>
   <MDBCol md='3' ><img src={HelpfulReviewImg} alt='' className='review_img1'/> </MDBCol>
   <MDBCol md='9' style={{marginLeft:'-20px'}}>
@@ -2828,9 +2832,9 @@ console.log("upd",filter)
  {HelpfulReviewText}
   </MDBCol>
 </MDBRow>
-
+ </div>:<div className='no_faq' style={{marginTop:'70px'}}>No helpful review</div>}
             </MDBCol>
-            :"No helpful review"}
+           
             
 
           </MDBRow>
@@ -2862,8 +2866,8 @@ console.log("upd",filter)
             </MDBCol>
           </MDBRow>
 
-          {FinalReviews}
-
+          {FinalReviews?FinalReviews:<div className='no_faq' style={{marginTop:'40px',marginBottom:'40px'}}>No Review</div>}
+          
           {/* <MDBRow  className='review_container'>
             <MDBCol md='9'>
               <MDBRow>
