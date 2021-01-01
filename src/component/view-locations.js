@@ -1813,8 +1813,8 @@ const data={secure_pin}
 
     return (
       <div className="main_content">
-        <div className="setting-10">
-            <h3>Business Information</h3>
+        <div className="rightside_title">
+            <h1>Business Information</h1>
           </div>
         {this.props.match.params.locationId != "null" ? (
           this.state.loader ? (
@@ -4428,7 +4428,7 @@ checked
         ) : (
           
             <div >
-              <h4 className='connect_msg'>Connect Location first</h4>
+              <h4 className='connect_msg'>Connect Location First</h4>
             </div>
         )}
       </div>
