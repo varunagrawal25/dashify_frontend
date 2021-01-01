@@ -1120,7 +1120,7 @@ console.log("timecheck2",isValid)
         location_id: locationId,
         user_id: localStorage.getItem("UserId"),
         open_hours_apply_all:this.state.applyAll,
-        // type:'regular',
+        type:'regular',
         open_hours_array: [ {
          day: "Monday",
           open_status: this.state.monday,

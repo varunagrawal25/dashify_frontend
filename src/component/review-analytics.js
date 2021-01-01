@@ -630,6 +630,8 @@ export default class ReviewAnalytics extends Component {
 
     let { all_connections, TotalReview,NewReview,AvgRating,ReviewResponseRate,AllAnalytics, Consolidate } = this.state;
     
+    if(AllAnalytics)
+    AllAnalytics.push(Consolidate[0])
     
     // var total_new_reviews =
     //   (this.state.fb_new_reviews == "-" ? 0 : this.state.fb_new_reviews) +
@@ -727,6 +729,7 @@ export default class ReviewAnalytics extends Component {
 
     var pieGraphData=[];
     if(AllAnalytics){
+      
       AllAnalytics.map(a=>{
         var temp={
            value: a.total_reviews, label:a.connect_type 
