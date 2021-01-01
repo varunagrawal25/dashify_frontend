@@ -1268,10 +1268,11 @@ if(e){
                     </div>
                   </div>
                   <div className="card7">
-                  <div class="scrollbar">
-    <div class="overflow">
+                
                     {total_notifications.length != 0 ? (
                       <div className="notifc">
+                          <div class="scrollbar">
+    <div class="overflow">
                         {view_notification_type1 == false ? (
                           total_notifications.length > 3 ? (
                             <div>
@@ -1288,15 +1289,15 @@ if(e){
                           total_notifications
                         )}
                       </div>
-                    ) : (
-                      <div className="col-md-12">
-                        <h3>No new notification</h3>
+                      </div>
+                </div> ) : (
+                      <div className="col-md-12" >
+                        <h4 className='connect_msg'>No new notification</h4>
                       </div>
                     )}
                     </div>
   </div>
-                  </div>
-                </div>
+                 
 
                 <div className="col-md-6  recent_noti">
                   <div className="recent-9">
@@ -1332,97 +1333,11 @@ if(e){
                                 Last year
                               </option>
                             </select>
-                      {/* <div className="dropdown">
-                        <a
-                          href="#"
-                          className="dropdown-toggle"
-                          data-toggle="dropdown"
-                        >
-                          {social_range}
-                        </a>
-                        <div className="dropdown-menu">
-                          <ul>
-                            <li
-                              onClick={this.change_states(
-                                "Social Overview",
-                                "week",
-                                "Last week"
-                              )}
-                            >
-                              Last week
-                            </li>
-                            <li
-                              onClick={this.change_states(
-                                "Social Overview",
-                                "month",
-                                "Last month"
-                              )}
-                            >
-                              Last month
-                            </li>
-                            <li
-                              onClick={this.change_states(
-                                "Social Overview",
-                                "3 months",
-                                "Last 3 months"
-                              )}
-                            >
-                              Last 3 months
-                            </li>
-                            <li
-                              onClick={this.change_states(
-                                "Social Overview",
-                                "6 months",
-                                "Last 6 months"
-                              )}
-                            >
-                              Last 6 months
-                            </li>
-                            <li
-                              onClick={this.change_states(
-                                "Social Overview",
-                                "year",
-                                "Last year"
-                              )}
-                            >
-                              Last year
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                     */}
+                     
                     </div>
                   </div>
                   <div class="row">
-                    {/* <div class=" col-md-6 ">
-                  <div class="card social-10 ">
-                    <img src={fb} />
-
-                    <div className="row card_jump">
-                      <div className="col-sm-4 social-11">
-                        <h6>310,125 </h6>
-                        <p>+10,03% </p>
-                        <a href="#" class="link-social" role="button">
-                          Likes
-                        </a>
-                      </div>
-                      <div className="col-sm-4 social-11">
-                        <h6>310,125 </h6>
-                        <p>+10,03% </p>
-                        <a href="#" class="link-social" role="button">
-                          Chek ins
-                        </a>
-                      </div>
-                      <div className="col-sm-4 social-11">
-                        <h6>310,125 </h6>
-                        <p>+10,03% </p>
-                        <a href="#" class="link-social" role="button">
-                          Chek ins
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
+                   
 
                     {this.state.social_media_overview_loader ? (
                       <div style={{ textAlign: "center" }}>
