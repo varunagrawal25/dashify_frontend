@@ -71,40 +71,57 @@ class InstagramLogin extends Component {
         "location_id":localStorage.getItem("locationId"),
         "connect_unique_id":"",
         "token":"",
-        "username":"",
+        "username":this.state.url,
         "password":this.state.password,
         "first_name":"",
         "last_name":"",
         "email_id":this.state.username,
-        "connect_url": this.state.url,
+        "connect_url": "",
         "connect_type":"Instagram",
       };
+
+
+
 console.log("instadata",data)
-      Axios.get("https://www.instagram.com/" + this.state.url + "/?__a=1")
-        .then(res => {
-          if (res.data.graphql.user) {
-            add_social_account(data)
-              .then(resp => {
-                console.log(resp);
-                this.setState({ isUrl: true, loading: false });
-              })
-              .catch(resp => {
-                console.log(resp);
-                swal("Invalid username or password");
-                this.setState({
-                  wrong: "Invalid or Not authorised",
-                  loading: false
-                });
-              });
-          } else {
-            swal("Invalid username or password");
-            this.setState({ loading: false });
-          }
-        })
-        .catch(resp => {
-          swal("Invalid username or password");
-          this.setState({ loading: false });
+      // Axios.get("https://www.instagram.com/" + this.state.url + "/?__a=1")
+      //   .then(res => {
+      //     if (res.data.graphql.user) {
+      //       add_social_account(data)
+      //         .then(resp => {
+      //           console.log(resp);
+      //           this.setState({ isUrl: true, loading: false });
+      //         })
+      //         .catch(resp => {
+      //           console.log(resp);
+      //           swal("Invalid username or password");
+      //           this.setState({
+      //             wrong: "Invalid or Not authorised",
+      //             loading: false
+      //           });
+      //         });
+      //     } else {
+      //       swal("Invalid username or password");
+      //       this.setState({ loading: false });
+      //     }
+      //   })
+      //   .catch(resp => {
+      //     swal("Invalid username or password");
+      //     this.setState({ loading: false });
+      //   });
+
+      add_social_account(data, DjangoConfig)
+      .then(resp => {
+        console.log(resp);
+        this.setState({ isUrl: true, loading: false });
+      })
+      .catch(resp => {
+        console.log(resp);
+        this.setState({
+          wrong: "Invalid or Not authorised",
+          loading: false
         });
+      });
+   
     }
   };
 
@@ -146,7 +163,7 @@ console.log("instadata",data)
               <p>
                 <label htmlFor="url">Instagram User Id</label>
                 <input
-                  type="url"
+                  type="text"
                   id="url"
                   value={this.state.url}
                   placeholder="teamdigimonk"

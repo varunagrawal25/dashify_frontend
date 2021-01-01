@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { all_connection_of_one_location } from "../apis/social_platforms";
+import {optimization_score} from '../apis/social_media'
 import {
   location_by_id,
   business_categories,
@@ -250,160 +251,142 @@ console.log("location44",data)
       this.setState({ allFaq: resp.data.faq_list });
     });
 
-    const Yelpconfig = {
-      headers: {
-        Authorization:
-          "bearer _1cVnrrkqmG_dwNUdtorVxarkzItJM7AWM700rkRxM7aPdDfxJECcdaN00ADjSkrStF1pX4sdGCspYeSjU7VGkpjWYoMsC2_filBf5d5J5GMRTgXws_W6qusNMhYX3Yx",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost"
-      }
-    };
+    // const Yelpconfig = {
+    //   headers: {
+    //     Authorization:
+    //       "bearer _1cVnrrkqmG_dwNUdtorVxarkzItJM7AWM700rkRxM7aPdDfxJECcdaN00ADjSkrStF1pX4sdGCspYeSjU7VGkpjWYoMsC2_filBf5d5J5GMRTgXws_W6qusNMhYX3Yx",
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "http://localhost"
+    //   }
+    // };
 
-    all_connection_of_one_location(data, DjangoConfig)
+    const dataVoice = {
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+    };
+   
+    all_connection_of_one_location(dataVoice, DjangoConfig)
       .then(resp => {
-        console.log("get all connections", resp);
-        this.setState({ allListings: resp.data.data });
+        console.log("get all connections by id s", resp);
+        this.setState({ allListings: resp.data.social_media_list });
 
         if (this.state.allListings) {
           this.state.allListings.map(l => {
-            if (l.Social_Platform.Platform == "Google") {
-              const GoogleConfig = {
-                headers: { Authorization: "Bearer " + l.Social_Platform.Token }
-              };
+            console.log("loop all")
+            if (l.connect_type == "Facebook") {
+              
 
-              let locationIdGoogle = l.Social_Platform.Other_info;
-
-              Axios.get(
-                "https://mybusiness.googleapis.com/v4/" + locationIdGoogle,
-                GoogleConfig
-              ).then(res => {
-                console.log("google location details", res.data);
-                this.setState({ googleLoggedIn: true });
-
-                if (
-                  res.data.primaryCategory &&
-                  res.data.regularHours &&
-                  res.data.regularHours.periods &&
-                  res.data.websiteUrl &&
-                  res.data.locationName &&
-                  res.data.address &&
-                  res.data.primaryPhone
-                ) {
-                  if (
-                    res.data.primaryCategory.categoryId &&
-                    res.data.regularHours.periods.length > 0 &&
-                    res.data.address.regionCode &&
-                    res.data.address.postalCode &&
-                    res.data.address.locality &&
-                    res.data.address.administrativeArea
-                  ) {
-                    this.setState({
-                      googleOptimized: true
-                    });
-                  }
-                }
+              this.setState({
+                fbIsLoggedIn: true,
+          
               });
             }
 
-            if (l.Social_Platform.Platform == "Foursquare") {
+            if (l.connect_type === "Google") {
+             
+              this.setState({
+                googleIsLoggedIn: true,
+             
+              });
+
+             
+            }
+
+
+            if (l.connect_type == "Foursquare") {
               console.log("yes four");
-              var fourUrl = l.Social_Platform.Other_info.split(",")[0]
-                .slice(7)
-                .split("/")[5];
-              Axios.get(
-                "https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v2/venues/" +
-                  fourUrl +
-                  "?client_id=44RU2431YG02H4E00RQTLKEUKIKINQSFO2JBHII2WHH32PXZ&client_secret=FWV2WOL40MQ5M1YZ5E2TKUWIQ4WYZ1QUJXOQ24VGRSXFA3IY&v=20180323"
-              ).then(res => {
-                console.log("foursquare data", res.data.response.venue);
-                var fouro = res.data.response.venue;
-                if (
-                  fouro.categories &&
-                  fouro.hours &&
-                  fouro.hours.dayData &&
-                  fouro.name &&
-                  fouro.location.city &&
-                  fouro.location.country &&
-                  fouro.location.state
-                ) {
-                  if (
-                    fouro.categories.length > 0 &&
-                    fouro.hours.dayData.length > 0
-                  ) {
-                    this.setState({
-                      fourBixby: true
-                    });
-                  }
-                }
-              });
               this.setState({
-                foursquareIsLoggedIn: true
+                foursquareIsLoggedIn: true,
+                // pdf_data: [
+                //   ...this.state.pdf_data,
+                //   {
+                //     listing: "Foursquare",
+                //     image: require("../images/foursquare.png"),
+                //     username: l.Social_Platform.Username,
+                //     status: true,
+                //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                //     date: l.Social_Platform.Update_Date.split("T")[0]
+                //   }
+                // ],
+                // foursquareId: l.id,
+                // foursquareName: l.Social_Platform.Username,
+                // all_connections: [
+                //   ...this.state.all_connections,
+                //   { name: "Foursquare" }
+                // ]
               });
             }
 
-            if (l.Social_Platform.Platform == "Yelp") {
+
+            if (l.connect_type === "Yelp") {
               console.log("yes yelp");
-              var yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
-
-              Axios.get(
-                "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-                  yelpUrl.slice(25),
-                Yelpconfig
-              ).then(resp => {
-                console.log("hii");
-                console.log("yelpDetails", resp.data);
-
-                if (
-                  resp.data.categories &&
-                  resp.data.alias &&
-                  resp.data.display_phone &&
-                  resp.data.hours[0].open &&
-                  resp.data.location.address1 &&
-                  resp.data.location.city &&
-                  resp.data.location.country
-                ) {
-                  if (
-                    resp.data.categories.length > 0 &&
-                    resp.data.hours[0].open.length > 0
-                  ) {
-                    this.setState({
-                      yelpAlexa: true
-                    });
-                  }
-                }
-              });
               this.setState({
-                yelpIsLoggedIn: true
+                yelpIsLoggedIn: true,
+                // pdf_data: [
+                //   ...this.state.pdf_data,
+                //   {
+                //     listing: "Yelp",
+                //     image: require("../images/yelp.png"),
+                //     username: l.Social_Platform.Username,
+                //     status: true,
+                //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                //     date: l.Social_Platform.Update_Date.split("T")[0]
+                //   }
+                // ],
+                // yelpId: l.id,
+                // yelpName: l.Social_Platform.Username,
+                // all_connections: [
+                //   ...this.state.all_connections,
+                //   { name: "Yelp" }
+                // ]
               });
+              // Axios.get(
+              //   "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
+              //     l.Social_Platform.Other_info.split(",")[0]
+              //       .slice(7)
+              //       .slice(25),
+              //   Yelpconfig
+              // ).then(resp => {
+              //   console.log("yelpDetails", resp.data);
+              //   this.setState({ yelpDetails: resp.data });
+              // });
             }
 
-            if (l.Social_Platform.Platform == "Apple") {
+            if (l.connect_type == "Apple") {
               console.log("yes Apple");
-              var appleUrl = l.Social_Platform.Other_info.split(",")[0]
-                .slice(7)
-                .split("/")[6]
-                .slice(2);
-
-              Axios.get(
-                "https://itunes.apple.com/in/rss/customerreviews/id=" +
-                  appleUrl +
-                  "/sortBy=mostRecent/json"
-              ).then(res => {
-                console.log("apple data in json", res.data);
-              });
               this.setState({
-                appleIsLoggedIn: true
+                appleIsLoggedIn: true,
+               
               });
             }
+
+
+           
+            
           });
         }
-        this.setState({ loader: false });
       })
-      .catch(res => {
-        console.log("error in voice listing", res);
-        this.setState({ loader: false });
+      .catch(resp => {
+        console.log(resp);
       });
-  }
+
+      const dataOpt={
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      
+        ,"connect_type":"Yelp"
+      };
+
+
+      optimization_score(dataOpt)
+      .then(resp => {
+        console.log("voice", resp);
+      })
+      .catch(resp => {
+        console.log(resp);
+      });
+
+
+
+    }
 
   htmlcopy = e => {
     e.preventDefault();
@@ -719,8 +702,11 @@ console.log("this.state.allFaq",this.state.allFaq)
                         )}
                       </div>
                     </li>
+                          {/* Bing */}
 
-                    <li>
+
+
+                    {/* <li>
                       <div className="img-iconbox col-md-4">
                         <img
                           src={vl_img10}
@@ -732,7 +718,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                         <div className="vl_card_head">Microsoft Cortana</div>
                         <MDBBtn className="vl_btn_optimize">Optimize</MDBBtn>
                       </div>
-                    </li>
+                    </li> */}
 
                     <li>
                       <div className="img-iconbox col-md-4">

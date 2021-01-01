@@ -79,7 +79,7 @@ class YelpLogin extends Component {
               // Other_info: "{'URL':" + this.state.url + ",'data':''}"
 
 
-              secure_pin,
+              "secure_pin":"digimonk",
               "user_id":localStorage.getItem("UserId"),
               "location_id":localStorage.getItem("locationId"),
               "connect_unique_id":"",
@@ -94,7 +94,7 @@ class YelpLogin extends Component {
              
             };
             console.log("data",data)
-            add_social_account(data)
+            add_social_account(data, DjangoConfig)
               .then(resp => {
                 console.log(resp);
                 this.setState({ isUrl: true, loading: false });

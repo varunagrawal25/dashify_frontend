@@ -7,7 +7,7 @@ import add from "./assets/tw.png";
 import ArrowRightIcon from "@material-ui/icons/ArrowRight";
 import ArrowDownIcon from "@material-ui/icons/ArrowDropDown";
 import Axios from "axios";
-import { all_connection_of_one_location } from "./apis/social_platforms";
+import { all_connection_of_one_location, all_listing_overview } from "./apis/social_platforms";
 import {
   all_social_media_notifications,
   all_social_media_overview,
@@ -276,10 +276,59 @@ export default class Overview extends Component {
       fbtoken,
       fbPageId,
       googleToken;
+      const data = {"secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")};
 
-    const data = {
-      location_id: this.props.match.params.locationId
-    };
+
+      all_connection_of_one_location(data, DjangoConfig)
+      .then(resp => {
+        console.log("get all connections by id s", resp);
+        this.setState({ allListings: resp.data.social_media_list });
+
+        if (this.state.allListings) {
+          this.state.allListings.map(l => {
+            console.log("loop all")
+            if (l.connect_type == "Facebook") {
+              // fbtoken = l.Social_Platform.Token;
+              // fbPageId = l.Social_Platform.Other_info;
+              // fbData = l;
+
+              this.setState({
+                fbIsLoggedIn: true,
+                // pdf_data: [
+                //   ...this.state.pdf_data,
+                //   {
+                //     listing: "Facebook",
+                //     image: require("../images/facebook.png"),
+                //     username: fbData.Social_Platform.Username,
+                //     status: true,
+                //     link: "https://www.facebook.com/" + fbPageId,
+                //     date: fbData.Social_Platform.Update_Date.split("T")[0]
+                //   }
+                // ],
+                // fbId: fbData.id,
+                // fbName: fbData.Social_Platform.Username,
+                // all_connections: [
+                //   ...this.state.all_connections,
+                //   { name: "Facebook" }
+                // ]
+              });
+            }
+
+            if (l.connect_type === "Google") {
+              // googleToken = l.token;
+              // googleData = l;
+              this.setState({
+                googleIsLoggedIn: true,
+               
+              });
+              this.graph_google_customer_actions_function();
+
+             
+            }
+
+
+    const data = {"secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,
+    "location_id":localStorage.getItem("locationId")};
 
     const notification_query_data = {
       location_id: this.props.match.params.locationId
@@ -304,9 +353,9 @@ export default class Overview extends Component {
 
     this.social_media_overview_function();
 
-    this.graph_google_customer_actions_function();
+   
 
-    all_connection_of_one_location(data, DjangoConfig)
+    all_listing_overview(data)
       .then(response => {
         console.log("all connections", response);
         this.all_connection_of_one_location_function(response.data);
@@ -320,16 +369,35 @@ export default class Overview extends Component {
           all_connection_of_one_location_json
         );
       });
+  })
+
+
+}
+      
+    })
   }
 
-  graph_google_customer_actions_function = () => {
-    const graph_google_query_data = {
-      location_id: this.props.match.params.locationId,
-      duration: this.state.db_google_range
-    };
+  graph_google_customer_actions_function = e => 
+  {
+
+    var filter='';
+    if(e){
+      filter=e.target.value;
+    }
+    const graph_google_query_data = 
+    {
+    "secure_pin":"digimonk",
+    "user_id":localStorage.getItem("UserId") ,
+    "location_id":localStorage.getItem("locationId"),
+    "filter_type":filter?filter:"last week"
+  };
+
+
+
     this.setState({ loading: true });
     graph_google_customer_actions(graph_google_query_data)
       .then(res => {
+        console.log("graph",res)
         if (res.data) {
           this.setState({
             graph_google_customer_data: res.data,
@@ -358,84 +426,84 @@ export default class Overview extends Component {
       });
   };
   all_connection_of_one_location_function = response => {
-    if (response.Listing_details) {
+    if (response.overviews_analytics_data) {
       this.setState({
-        all_listing: response.Listing_details.all_listing,
-        live_listing: response.Listing_details.live_listing,
-        processing: response.Listing_details.processing,
-        unavailable: response.Listing_details.unavailable,
-        opted_out: response.Listing_details.opted_out
+        all_listing: response.overviews_analytics_data[0].All_listing,
+        live_listing: response.overviews_analytics_data[0].Live_listing,
+        processing: response.overviews_analytics_data[0].Processing,
+        unavailable: response.overviews_analytics_data[0].Unavilable,
+        opted_out: response.overviews_analytics_data[0].Opted_out
       });
     }
 
-    response.data.map(l => {
-      if (l.Social_Platform.Platform == "Facebook") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Facebook" }]
-        });
-      } else if (l.Social_Platform.Platform == "Google") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Google" }]
-        });
-      } else if (l.Social_Platform.Platform == "Yelp") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Yelp" }]
-        });
-      } else if (l.Social_Platform.Platform == "Foursquare") {
-        this.setState({
-          all_connections: [
-            ...this.state.all_connections,
-            { name: "Foursquare" }
-          ]
-        });
-      } else if (l.Social_Platform.Platform == "Dnb") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Dnb" }]
-        });
-      } else if (l.Social_Platform.Platform == "Apple") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Apple" }]
-        });
-      } else if (l.Social_Platform.Platform == "Instagram") {
-        this.setState({
-          all_connections: [
-            ...this.state.all_connections,
-            { name: "Instagram" }
-          ]
-        });
-      } else if (l.Social_Platform.Platform == "Citysearch") {
-        this.setState({
-          all_connections: [
-            ...this.state.all_connections,
-            { name: "Citysearch" }
-          ]
-        });
-      } else if (l.Social_Platform.Platform == "Here") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Here" }]
-        });
-      } else if (l.Social_Platform.Platform == "Zillow") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Zillow" }]
-        });
-      } else if (l.Social_Platform.Platform == "Avvo") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Avvo" }]
-        });
-      } else if (l.Social_Platform.Platform == "Zomato") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Zomato" }]
-        });
-      } else if (l.Social_Platform.Platform == "Tomtom") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Tomtom" }]
-        });
-      } else if (l.Social_Platform.Platform == "Linkedin") {
-        this.setState({
-          all_connections: [...this.state.all_connections, { name: "Linkedin" }]
-        });
-      }
-    });
+    // response.data.map(l => {
+    //   if (l.Social_Platform.Platform == "Facebook") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Facebook" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Google") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Google" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Yelp") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Yelp" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Foursquare") {
+    //     this.setState({
+    //       all_connections: [
+    //         ...this.state.all_connections,
+    //         { name: "Foursquare" }
+    //       ]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Dnb") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Dnb" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Apple") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Apple" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Instagram") {
+    //     this.setState({
+    //       all_connections: [
+    //         ...this.state.all_connections,
+    //         { name: "Instagram" }
+    //       ]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Citysearch") {
+    //     this.setState({
+    //       all_connections: [
+    //         ...this.state.all_connections,
+    //         { name: "Citysearch" }
+    //       ]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Here") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Here" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Zillow") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Zillow" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Avvo") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Avvo" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Zomato") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Zomato" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Tomtom") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Tomtom" }]
+    //     });
+    //   } else if (l.Social_Platform.Platform == "Linkedin") {
+    //     this.setState({
+    //       all_connections: [...this.state.all_connections, { name: "Linkedin" }]
+    //     });
+    //   }
+    // });
 
     this.setState({ loader: false });
   };
@@ -445,16 +513,9 @@ export default class Overview extends Component {
     const GoogleConfig = {
       headers: { Authorization: "Bearer " + this.state.google_token }
     };
-    // Axios.get(
-    //   `https://mybusiness.googleapis.com/v4/${localStorage.getItem("accountId")}/locations`,
-    //   GoogleConfig
-    // ).then(resp => {
-    //   console.log(resp.data);
-
-    // localStorage.setItem("locationIdover", resp.data.locations[0].name);
-
+   
     const reportInsights = {
-      // locationNames: [localStorage.getItem("locationIdover")],
+    
       locationNames: [this.state.locationIdGoogle],
       basicRequest: {
         metricRequests: [
@@ -542,10 +603,11 @@ export default class Overview extends Component {
     let data;
     if (all_listing != "-") {
       data = [
-        { value: parseInt(opted_out), label: "Opted out" },
+        { value: parseInt(all_listing), label: "All Listing" },
         { value: parseInt(live_listing), label: "Live Listing" },
         { value: parseInt(processing), label: "Processing" },
-        { value: parseInt(unavailable), label: "Unavailable" }
+        { value: parseInt(unavailable), label: "Unavailable" },
+        { value: parseInt(opted_out), label: "Opted out" },
       ];
     } else {
       data = [{ value: total_listing, label: "All listing" }];
@@ -640,15 +702,20 @@ export default class Overview extends Component {
     }
   };
 
-  social_media_overview_function = () => {
+  social_media_overview_function = e => {
     this.setState({ social_media_overview_loader: true });
+    var filter='';
+if(e){
+  filter=e.target.value;
+}
     const overview_query_data = {
-      location_id: this.props.match.params.locationId,
-      duration: this.state.db_social_range
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+      "filter_type":filter?filter:"last week"
     };
 
     all_social_media_overview(overview_query_data)
       .then(res => {
+        console.log(res)
         if (res.data) {
           this.setState({
             social_overview_data: res.data,
@@ -835,14 +902,16 @@ export default class Overview extends Component {
 
     let total_social_overview = [];
     let index = 0;
+
+    if(social_overview_data.social_overviews_analytics_data)
     social_overview_data &&
-      social_overview_data.Overview.map((data, i) => {
+      social_overview_data.social_overviews_analytics_data.map((data, i) => {
         if (i <= 3) {
           total_social_overview[i] = (
             <div class=" col-md-6 ">
               <div class="card social-10 ">
                 <div className="fb-socails">
-                  <img src={data.image} alt="" />
+                  <img src={data.icon} alt="" />
                 </div>
 
                 <div className="row card_jump">
@@ -1234,31 +1303,31 @@ export default class Overview extends Component {
                     <h3>Social Overview</h3>
 
                     <div className="camgianbox">
-                    <select  className="review_select_btn" >
+                    <select  className="review_select_btn"  onChange={this.social_media_overview_function}>
                               <option selected
-                                value= "week"
+                                value= "last week"
                               >
                                 Last week
                               </option>
                               <option
-                              value = "month"
+                              value = "last month"
                               >
                                 Last month
                               </option>
 
                               <option
-                              value= "3 months"
+                              value= "last 3 months"
                               >
                                 Last 3 month
                               </option>
 
                               <option
-                              value= "6 months"
+                              value= "last 6 months"
                               >
                                 Last 6 month
                               </option>
                               <option
-                              value = "year"
+                              value = "last year"
                               >
                                 Last year
                               </option>
@@ -1506,31 +1575,31 @@ export default class Overview extends Component {
                     <h3>Average Google customer Actions</h3>
 
                     <div className="camgianbox">
-                    <select  className="review_select_btn" >
+                    <select  className="review_select_btn" onChange={this.graph_google_customer_actions_function} >
                               <option selected
-                                value= "week"
+                                value= "last week"
                               >
                                 Last week
                               </option>
                               <option
-                              value = "month"
+                              value = "last month"
                               >
                                 Last month
                               </option>
 
                               <option
-                              value= "3 months"
+                              value= "last 3 months"
                               >
                                 Last 3 month
                               </option>
 
                               <option
-                              value= "6 months"
+                              value= "last 6 months"
                               >
                                 Last 6 month
                               </option>
                               <option
-                              value = "year"
+                              value = "last year"
                               >
                                 Last year
                               </option>

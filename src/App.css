@@ -767,6 +767,29 @@ img {
 .border-bottom {
   border-bottom: 1px solid #f0f0f0;
 }
+
+.connect_table_heading {
+  text-align: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 18px;
+  color: #000000;
+  margin: 20px 0px;
+}
+
+.connect_table_contant {
+  text-align: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #4f4f4f;
+  margin: 20px 0px;
+}
+
 /* .dataview {
   padding: 25px;
 } */
@@ -827,16 +850,17 @@ img {
 }
 
 .action button {
-  background: #025de4;
   border: 0px;
   color: #fff;
-  padding: 15px;
-  width: 100%;
+  padding: 10px 30px;
   border-radius: 5px;
-  font-size: 18px;
-  font-weight: 500;
-  display: block;
-  text-decoration: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: #f2f2f2;
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
 }
 
 .action button:hover {
@@ -15021,4 +15045,7 @@ span.valpromo {
   position: absolute;
   top: 27%;
   right: 50%;
+}
+.red {
+  color: red;
 }

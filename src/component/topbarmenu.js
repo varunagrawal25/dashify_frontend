@@ -114,7 +114,7 @@ console.log("user_id",data.user_id)
         this.setState({ loading_info: false });
       });
 
-    //for notifications
+    // for notifications
     all_location(data)
       .then(res => {
         console.log(res);
@@ -126,127 +126,127 @@ console.log("user_id",data.user_id)
         console.log("error in LocationManager");
       });
 
-    // fetching reviews from database
+    // // fetching reviews from database
 
-    var yelpUrl, citysearchUrl, fbtoken, fbPageId, googleToken;
+    // var yelpUrl, citysearchUrl, fbtoken, fbPageId, googleToken;
 
-    const data2 = {
-      location_id
-    };
+    // const data2 = {
+    //   location_id
+    // };
 
-    all_connection_of_one_location(data2, DjangoConfig).then(response => {
-      response.data.data.map(l => {
-        if (l.Social_Platform.Platform == "Facebook") {
-          fbtoken = l.Social_Platform.Token;
-          fbPageId = l.Social_Platform.Other_info;
-        }
-        if (l.Social_Platform.Platform == "Google") {
-          googleToken = l.Social_Platform.Token;
-        }
-        if (l.Social_Platform.Platform == "Yelp") {
-          yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
-        }
+    // all_connection_of_one_location(data2, DjangoConfig).then(response => {
+    //   response.data.data.map(l => {
+    //     if (l.Social_Platform.Platform == "Facebook") {
+    //       fbtoken = l.Social_Platform.Token;
+    //       fbPageId = l.Social_Platform.Other_info;
+    //     }
+    //     if (l.Social_Platform.Platform == "Google") {
+    //       googleToken = l.Social_Platform.Token;
+    //     }
+    //     if (l.Social_Platform.Platform == "Yelp") {
+    //       yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
+    //     }
 
-        if (l.Social_Platform.Platform == "Citysearch") {
-          citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
-            .slice(7)
-            .split("/")[4];
-        }
-      });
+    //     if (l.Social_Platform.Platform == "Citysearch") {
+    //       citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
+    //         .slice(7)
+    //         .split("/")[4];
+    //     }
+    //   });
 
-      const GoogleConfig = {
-        headers: { Authorization: "Bearer " + googleToken }
-      };
+    //   const GoogleConfig = {
+    //     headers: { Authorization: "Bearer " + googleToken }
+    //   };
 
-      // for facebook
-      if (fbtoken) {
-        Axios.get(
-          "https://graph.facebook.com/me/accounts/?access_token=" + fbtoken
-        ).then(res => {
-          var fbPageAccessToken;
-          for (let i = 0; i < res.data.data.length; i++) {
-            if (res.data.data[i].id == fbPageId) {
-              fbPageAccessToken = res.data.data[i].access_token;
-            }
-          }
-          Axios.get(
-            "https://graph.facebook.com/" +
-              fbPageId +
-              "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
-              fbPageAccessToken
-          ).then(res => {
-            this.setState({ fbReviews: res.data.data });
-          });
-          Axios.get(
-            "https://graph.facebook.com/" +
-              fbPageId +
-              "?fields=new_like_count,talking_about_count,unread_message_count,unread_notif_count,unseen_message_count&access_token=" +
-              fbPageAccessToken
-          ).then(resp => {
-            this.setState({ fb_notification: resp.data });
-          });
-        });
-      }
+    //   // for facebook
+    //   if (fbtoken) {
+    //     Axios.get(
+    //       "https://graph.facebook.com/me/accounts/?access_token=" + fbtoken
+    //     ).then(res => {
+    //       var fbPageAccessToken;
+    //       for (let i = 0; i < res.data.data.length; i++) {
+    //         if (res.data.data[i].id == fbPageId) {
+    //           fbPageAccessToken = res.data.data[i].access_token;
+    //         }
+    //       }
+    //       Axios.get(
+    //         "https://graph.facebook.com/" +
+    //           fbPageId +
+    //           "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
+    //           fbPageAccessToken
+    //       ).then(res => {
+    //         this.setState({ fbReviews: res.data.data });
+    //       });
+    //       Axios.get(
+    //         "https://graph.facebook.com/" +
+    //           fbPageId +
+    //           "?fields=new_like_count,talking_about_count,unread_message_count,unread_notif_count,unseen_message_count&access_token=" +
+    //           fbPageAccessToken
+    //       ).then(resp => {
+    //         this.setState({ fb_notification: resp.data });
+    //       });
+    //     });
+    //   }
 
-      // Google
-      if (googleToken) {
-        Axios.get(
-          "https://mybusiness.googleapis.com/v4/accounts/",
-          GoogleConfig
-        ).then(res => {
-          localStorage.setItem("accountId", res.data.accounts[0].name);
+    //   // Google
+    //   if (googleToken) {
+    //     Axios.get(
+    //       "https://mybusiness.googleapis.com/v4/accounts/",
+    //       GoogleConfig
+    //     ).then(res => {
+    //       localStorage.setItem("accountId", res.data.accounts[0].name);
 
-          Axios.get(
-            "https://mybusiness.googleapis.com/v4/" +
-              localStorage.getItem("accountId") +
-              "/locations",
-            GoogleConfig
-          ).then(resp => {
-            localStorage.setItem(
-              "locationIdGoogle",
-              resp.data.locations[0].name
-            );
+    //       Axios.get(
+    //         "https://mybusiness.googleapis.com/v4/" +
+    //           localStorage.getItem("accountId") +
+    //           "/locations",
+    //         GoogleConfig
+    //       ).then(resp => {
+    //         localStorage.setItem(
+    //           "locationIdGoogle",
+    //           resp.data.locations[0].name
+    //         );
 
-            Axios.get(
-              "https://mybusiness.googleapis.com/v4/" +
-                localStorage.getItem("locationIdGoogle") +
-                "/reviews",
-              GoogleConfig
-            ).then(respo => {
-              this.setState({ googleReviews: respo.data.reviews });
-            });
-          });
-        });
-      }
+    //         Axios.get(
+    //           "https://mybusiness.googleapis.com/v4/" +
+    //             localStorage.getItem("locationIdGoogle") +
+    //             "/reviews",
+    //           GoogleConfig
+    //         ).then(respo => {
+    //           this.setState({ googleReviews: respo.data.reviews });
+    //         });
+    //       });
+    //     });
+    //   }
 
-      // for yelp
-      if (yelpUrl) {
-        Axios.get(
-          "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-            yelpUrl.slice(25) +
-            "/reviews",
-          Yelpconfig
-        ).then(resp => {
-          this.setState({ yelpReviews: resp.data.reviews });
-        });
-      }
+    //   // for yelp
+    //   if (yelpUrl) {
+    //     Axios.get(
+    //       "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
+    //         yelpUrl.slice(25) +
+    //         "/reviews",
+    //       Yelpconfig
+    //     ).then(resp => {
+    //       this.setState({ yelpReviews: resp.data.reviews });
+    //     });
+    //   }
 
-      // citysearch
+    //   // citysearch
 
-      if (citysearchUrl) {
-        Axios.get(
-          "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
-            citysearchUrl +
-            "&publisher=test"
-        ).then(res => {
-          var XMLParser = require("react-xml-parser");
-          var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
-          this.setState({
-            citysearchReviews: xml.getElementsByTagName("review")
-          });
-        });
-      }
-    });
+    //   if (citysearchUrl) {
+    //     Axios.get(
+    //       "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
+    //         citysearchUrl +
+    //         "&publisher=test"
+    //     ).then(res => {
+    //       var XMLParser = require("react-xml-parser");
+    //       var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
+    //       this.setState({
+    //         citysearchReviews: xml.getElementsByTagName("review")
+    //       });
+    //     });
+    //   }
+    // });
   }
 
   onKeyDown(e) {

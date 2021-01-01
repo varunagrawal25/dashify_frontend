@@ -73,6 +73,7 @@ console.log("data55",data)
     const renderLocations = currentLocations.map((loc, index) => {
       return (
         <div className="listdata " key={loc.id}>
+          <hr/>
           <div className="row d-flex">
             <div className="col-md-3">
               <div className="authordata ">
@@ -117,7 +118,7 @@ console.log("data55",data)
               </div>
             </div>
           </div>
-       <hr/>
+       
         </div>
       );
     });
@@ -152,12 +153,34 @@ console.log("data55",data)
     return (
       <div style={{marginBottom:'30px'}}>
         {this.state.loader ? (
+          <div>
+            <MDBRow>
+            <MDBCol md='10'>
+            <div className="rightside_title">
+                        <h1>Location Manager</h1>
+                      </div>
+            </MDBCol>
+          
+          </MDBRow>
           <div className="rightside_title">
             <Spinner />
           </div>
+          </div>
         ) : (
           <div>
-           
+              {this.state.AllLocations.length == 0 ? (
+                <div>
+                <MDBRow>
+                <MDBCol md='10'>
+                <div className="rightside_title">
+                            <h1>Location Manager</h1>
+                          </div>
+                </MDBCol>
+              
+              </MDBRow>
+                <h4 className='connect_msg'>No Location added, Please add some loaction</h4>
+                </div>
+              ) : (<div>
 <MDBRow>
   <MDBCol md='10'>
   <div className="rightside_title">
@@ -175,10 +198,8 @@ console.log("data55",data)
                   </select>
   </MDBCol>
 </MDBRow>
-            
-            
-            <div className="tablediv">
-                    <div className="row">
+                <div className="tablediv">
+                   <div className="row">
                       <div className="col-md-3">
                         <div className="location_company_name">
                           Company Name
@@ -196,18 +217,11 @@ console.log("data55",data)
                         <div className="location_action">Action</div>
                       </div>
                     </div>
-              
-
-              {this.state.AllLocations.length == 0 ? (
-                // <Spinner />
-                <h4 className='connect_msg'>No Location added, Please add some loaction</h4>
-              ) : (
                 <div class="scrollbar" style={{height:'380px' ,marginRight:'0px'}}>
                 <div>{renderLocations}</div>
                 </div>
-              )}
-            </div>
-            <div className="pagination-main">
+        </div>
+        <div className="pagination-main">
               <div className="pagination">
                 <ul>
                   {currentPage > 1 ? (
@@ -236,9 +250,7 @@ console.log("data55",data)
 <li style={{marginTop:'5px'}}>
 {renderPageNumbers}
 </li>
-                  
-
-                  {currentPage < pageNumbers.length ? (
+ {currentPage < pageNumbers.length ? (
                     <li >
                       <button
                       className="next"
@@ -261,53 +273,14 @@ console.log("data55",data)
                       </button>
                     </li>
                   )}
-
-                  {/* <li className="itempage dropdown" >
-                    <a className="dropdown-select" data-toggle="dropdown"  style={{marginBottom:'250px'}}>
-                      {this.state.LocationsPerPage == 999999
-                        ? "All"
-                        : this.state.LocationsPerPage}{" "}
-                      Items/page{" "}
-                    </a>
-                    <ul className="dropdown-menu">
-                      <li
-                        onClick={() => this.setState({ LocationsPerPage: 3 })}
-                      >
-                        3 Items/page
-                      </li>
-                      <li
-                        onClick={() => this.setState({ LocationsPerPage: 10 })}
-                      >
-                        10 Items/page
-                      </li>
-                      <li
-                        onClick={() => this.setState({ LocationsPerPage: 20 })}
-                      >
-                        20 Items/page
-                      </li>
-                      <li
-                        onClick={() => this.setState({ LocationsPerPage: 50 })}
-                      >
-                        50 Items/page
-                      </li>
-                      <li
-                        onClick={() => this.setState({ LocationsPerPage: 99 })}
-                      >
-                        99 Items/page
-                      </li>
-                      <li
-                        onClick={() =>
-                          this.setState({ LocationsPerPage: 999999 })
-                        }
-                      >
-                        All Items/page
-                      </li>
-                    </ul>
-                  </li>
-                 */}
                 </ul>
               </div>
             </div>
+         
+             </div>
+             )}
+            
+           
           </div>
         )}
       </div>
