@@ -31,10 +31,10 @@ class ConnectedAccounts extends Component {
       });
     });
   };
-
+ 
   onSubmit = index => e => {
     e.preventDefault();
-    this.setState({ loading: true });
+    this.setState({ loader: true });
 
     const fb_data = JSON.parse(localStorage.getItem("fb_data"));
 

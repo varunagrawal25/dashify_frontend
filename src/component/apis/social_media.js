@@ -35,3 +35,7 @@ export const optimization_score = data => {
   return Axios.post(`${API}/admin/socialmedia_api/check_social_score`, data);
 };
 
+
+export const all_connected_icons = data => {
+  return Axios.post(`${API}/admin/socialmedia_api/get_connected_social_icon_listing`, data);
+};

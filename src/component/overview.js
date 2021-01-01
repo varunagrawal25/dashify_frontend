@@ -9,6 +9,7 @@ import ArrowDownIcon from "@material-ui/icons/ArrowDropDown";
 import Axios from "axios";
 import { all_connection_of_one_location, all_listing_overview } from "./apis/social_platforms";
 import {
+  all_connected_icons,
   all_social_media_notifications,
   all_social_media_overview,
   graph_google_customer_actions
@@ -24,7 +25,7 @@ import Spinner from "./common/Spinner";
 import Loader2 from "react-loader-spinner";
 import Rating from "react-rating";
 import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
-
+import { secure_pin } from "../config";
 let total_listing = 14;
 
 const Yelpconfig = {
@@ -72,6 +73,7 @@ export default class Overview extends Component {
     last_3_month: "",
     last_6_month: "",
     last_year: "",
+    AllConnectedIcons:[],
 
     all_connections: [],
 
@@ -163,9 +165,13 @@ export default class Overview extends Component {
     processing: "-",
     unavailable: "-",
     opted_out: "-",
-    social_media_overview_loader: false
+    social_media_overview_loader: false,
+    duration:"last month"
   };
   componentDidMount() {
+
+
+    this.get_all_icons_function()
     var today = new Date();
     var date =
       today.getFullYear() +
@@ -356,19 +362,43 @@ export default class Overview extends Component {
     })
   }
 
+
+  get_all_icons_function=e=>{
+
+    const data={
+    secure_pin,
+
+    "user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")}
+
+    console.log(data)
+
+    all_connected_icons(data) .then(res => {
+      console.log("graph",res)
+      var l=res.data.con_social_array.length /2;
+      this.setState({AllConnectedIcons: res.data.con_social_array.slice(0,l),
+      TempAllIcons:res.data.con_social_array
+    })
+
+
+    }).catch=(res)=>{
+
+    }
+  }
+
   graph_google_customer_actions_function = e => 
   {
 
     var filter='';
     if(e){
       filter=e.target.value;
+      this.setState({duration:filter})
     }
     const graph_google_query_data = 
     {
     "secure_pin":"digimonk",
     "user_id":localStorage.getItem("UserId") ,
     "location_id":localStorage.getItem("locationId"),
-    "filter_type":filter?filter:"last week"
+    "filter_type":filter?filter:"last month"
   };
 
 
@@ -554,6 +584,8 @@ export default class Overview extends Component {
   };
 
   barChartOptions = (phone, direction, website) => {
+    try{
+  
     let a1 = phone.filter(Boolean);
     let a2 = direction.filter(Boolean);
     let a3 = website.filter(Boolean);
@@ -598,6 +630,9 @@ export default class Overview extends Component {
         ]
       }
     };
+  }catch(e){
+
+  }
   };
 
   change_states = (name, db_range, range) => async e => {
@@ -655,6 +690,14 @@ if(e){
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
   };
+
+  IconsAllLess=type=>e=>{
+    console.log("ooo",type)
+    if(type==="All")
+    this.setState({AllConnectedIcons:this.state.TempAllIcons})
+    else if(type === "Less")
+    this.setState({AllConnectedIcons:this.state.AllConnectedIcons.slice(0, (this.state.TempAllIcons.length /2 ) )})
+  }
   render() {
     let {
       today_date,
@@ -751,16 +794,56 @@ if(e){
       processing,
       unavailable,
       opted_out,
-      social_media_overview_loader
+      social_media_overview_loader,
+      AllConnectedIcons
     } = this.state;
 
     console.log("this.state", this.state);
+    var AllIcons;
+
+    if(AllConnectedIcons){
+
+      AllIcons=AllConnectedIcons.map(i=>{
+        return(
+          <div className="google-mapd">
+            <img
+              src={i.icon}
+              alt="google"
+              height="65"
+              width="65"
+            />
+          </div>
+        )
+      })
+
+    }
 
     if (graph_google_customer_data) {
       var date = graph_google_customer_data.date;
        var phone = graph_google_customer_data.phone;
         var website = graph_google_customer_data.website;
         var direction = graph_google_customer_data.direction;
+
+        var dura= this.state.duration;
+
+        if(dura && date)
+
+        if(dura === 'last week')
+        {
+          date=date.slice(0,7);
+        }
+        else if(dura === "last month"){
+          date=date.slice(0,30);
+        }
+        else if(dura === "last 3 months"){
+          date=date.slice(0,90);
+        }
+        else if(dura === "last 6 months"){
+          date=date.slice(0,180);
+        }
+        else if(dura === "last year"){
+          date=date.slice(0,365);
+        }
 
         console.log("gra",phone);
         console.log("gra",website)
@@ -1161,22 +1244,11 @@ if(e){
                   <div className="recent-9">
                     <h3>Recent Notification</h3>
                     <div className="viewall-div">
-                      <a
-                        onClick={() =>
-                          view_notification_type1 == true
-                            ? this.setState({
-                                view_notification_type1: false
-                              })
-                            : this.setState({
-                                view_notification_type1: true
-                              })
-                        }
-                        className='view_less_all1' 
-                      >
+                     
                         {view_notification_type1 == false
-                          ? (<div>View All <ArrowRightIcon /></div>)
-                          : (<div>View Less <ArrowDownIcon /></div>)}
-                      </a>
+                          ? (<div >View All <ArrowRightIcon /></div>)
+                          : (<div >View Less <ArrowDownIcon /></div>)}
+                      
                       
                     </div>
                   </div>
@@ -1444,10 +1516,10 @@ if(e){
                                 })
                           }
                           className='view_less_all2'
-                        >
+                        >{AllIcons}
                           {view_notification_type2 == false
-                            ? (<div>View All <ArrowRightIcon /></div>)
-                            : (<div>View Less <ArrowDownIcon /></div>)}
+                            ? (<div onClick={this.IconsAllLess("All")}>View All <ArrowRightIcon /></div>)
+                            : (<div onClick={this.IconsAllLess("Less")}>View Less <ArrowDownIcon /></div>)}
                         </a>
                       </div>
                     </div>
@@ -1489,11 +1561,11 @@ if(e){
 
                     <div className="camgianbox">
                     <select  className="review_select_btn" onChange={this.graph_google_customer_actions_function} >
-                              <option selected
+                              {/* <option selected
                                 value= "last week"
                               >
                                 Last week
-                              </option>
+                              </option> */}
                               <option
                               value = "last month"
                               >
@@ -1593,9 +1665,9 @@ if(e){
                         </div>
                       ) : (
                         <Bar
-                          data={this.dataBar(date.slice(0,365), phone, direction, website)}
+                          data={this.dataBar(date, phone, direction, website)}
                           options={this.barChartOptions(
-                            direction,
+                            phone,
                             direction,
                             website
                           )}

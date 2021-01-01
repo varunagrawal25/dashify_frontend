@@ -280,34 +280,9 @@ export default class ViewListing extends Component {
                 console.log("Citysearch data", l);
                 this.setState({
                   citysearchIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Citysearch",
-                  //     image: require("../images/citysearch.jpg"),
-                  //     username: l.Social_Platform.Username,
-                  //     status: true,
-                  //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                  //     date: l.Social_Platform.Update_Date.split("T")[0]
-                  //   }
-                  // ],
-                  // citysearchId: l.id,
-                  // citysearchName: l.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Citysearch" }
-                  // ]
+                 
                 });
-                // let citysearchId = l.Social_Platform.Other_info.split(",")[0]
-                //   .slice(7)
-                //   .split("/")[4];
-                // Axios.get(
-                //   `https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/places/v2/detail?id=${citysearchId}&id_type=cs&client_ip=123.4.56.78&publisher=test&format=json`
-                // ).then(res => {
-                //   // console.log("citysearchDetails",res.data.locations[0])
-                //   if (res.data.locations)
-                //     this.setState({ citysearchDetails: res.data.locations[0] });
-                // });
+              
               }
 
               if (l.connect_type == "Zillow") {
@@ -450,7 +425,10 @@ export default class ViewListing extends Component {
                 ? this.setState({ state: s.name })
                 : ""
             );
-          });
+          })
+          .catch=(e)=>{
+
+          };
 
           business_categories(data).then(resp1 => {
             console.log("ll447",resp1.data.bussiness_category_array)
