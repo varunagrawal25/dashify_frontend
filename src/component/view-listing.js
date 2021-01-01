@@ -208,88 +208,30 @@ export default class ViewListing extends Component {
             this.state.allListings.map(l => {
               console.log("loop all")
               if (l.connect_type == "Facebook") {
-                // fbtoken = l.Social_Platform.Token;
-                // fbPageId = l.Social_Platform.Other_info;
-                // fbData = l;
+               
 
                 this.setState({
                   fbIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Facebook",
-                  //     image: require("../images/facebook.png"),
-                  //     username: fbData.Social_Platform.Username,
-                  //     status: true,
-                  //     link: "https://www.facebook.com/" + fbPageId,
-                  //     date: fbData.Social_Platform.Update_Date.split("T")[0]
-                  //   }
-                  // ],
-                  // fbId: fbData.id,
-                  // fbName: fbData.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Facebook" }
-                  // ]
+                  
                 });
               }
 
               if (l.connect_type === "Google") {
-                // googleToken = l.token;
-                // googleData = l;
+               
                 this.setState({
                   googleIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Google",
-                  //     image: require("../images/google.png"),
-                  //     username: googleData.Social_Platform.Username,
-                  //     status: true,
-                  //     date: googleData.Social_Platform.Update_Date.split("T")[0]
-                  //   }
-                  // // ],
-                  // googleId: googleData.id,
-                  // googleName: googleData.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Google" }
-                  // ]
+                 
                 });
 
-                // google_listing_detail(data).then(res => {
-                //   this.setState({
-                //     googleLocationDetail: res.other_info,
-                //     googleReviewsPresent: res.google_Reviews_Present
-                //   });
-                // });
+               
               }
 
               if (l.connect_type == "Linkedin") {
-                // linkedinToken = l.Social_Platform.Token;
-                // linkedinData = l;
-                // linkedin_page_id = l.Social_Platform.Other_info;
+               
 
                 this.setState({
                   linkedinIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Linkedin",
-                  //     image: require("../images/linkedin.png"),
-                  //     username: linkedinData.Social_Platform.Username,
-                  //     status: true,
-                  //     date: linkedinData.Social_Platform.Update_Date.split(
-                  //       "T"
-                  //     )[0]
-                  //   }
-                  // ],
-                  // linkedinId: linkedinData.id,
-                  // linkedinName: linkedinData.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Linkedin" }
-                  // ]
+                 
                 });
               }
 
@@ -297,23 +239,7 @@ export default class ViewListing extends Component {
                 console.log("yes four");
                 this.setState({
                   foursquareIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Foursquare",
-                  //     image: require("../images/foursquare.png"),
-                  //     username: l.Social_Platform.Username,
-                  //     status: true,
-                  //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                  //     date: l.Social_Platform.Update_Date.split("T")[0]
-                  //   }
-                  // ],
-                  // foursquareId: l.id,
-                  // foursquareName: l.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Foursquare" }
-                  // ]
+                 
                 });
               }
 
@@ -321,23 +247,7 @@ export default class ViewListing extends Component {
                 console.log("yes DNB");
                 this.setState({
                   dnbIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Dnb",
-                  //     image: require("../images/dnb.jpg"),
-                  //     username: l.Social_Platform.Username,
-                  //     status: true,
-                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                  //     date: l.Social_Platform.Update_Date.split("T")[0]
-                  //   }
-                  // ],
-                  // dnbId: l.id,
-                  // dnbName: l.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Dnb" }
-                  // ]
+                 
                 });
               }
 
@@ -345,26 +255,7 @@ export default class ViewListing extends Component {
                 console.log("yes Instagram");
                 this.setState({
                   instaIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Instagram",
-                  //     image: require("../images/instagram.png"),
-                  //     username: l.Social_Platform.Username,
-                  //     status: true,
-                  //     link:
-                  //       "https://www.instagram.com/" +
-                  //       l.Social_Platform.Other_info.split(",")[0].slice(7) +
-                  //       "/",
-                  //     date: l.Social_Platform.Update_Date.split("T")[0]
-                  //   }
-                  // ],
-                  // instaId: l.id,
-                  // instaName: l.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Instagram" }
-                  // ]
+                 
                 });
               }
 
@@ -372,57 +263,16 @@ export default class ViewListing extends Component {
                 console.log("yes yelp");
                 this.setState({
                   yelpIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Yelp",
-                  //     image: require("../images/yelp.png"),
-                  //     username: l.Social_Platform.Username,
-                  //     status: true,
-                  //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                  //     date: l.Social_Platform.Update_Date.split("T")[0]
-                  //   }
-                  // ],
-                  // yelpId: l.id,
-                  // yelpName: l.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Yelp" }
-                  // ]
+                 
                 });
-                // Axios.get(
-                //   "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-                //     l.Social_Platform.Other_info.split(",")[0]
-                //       .slice(7)
-                //       .slice(25),
-                //   Yelpconfig
-                // ).then(resp => {
-                //   console.log("yelpDetails", resp.data);
-                //   this.setState({ yelpDetails: resp.data });
-                // });
+               
               }
 
               if (l.connect_type == "Apple") {
                 console.log("yes Apple");
                 this.setState({
                   appleIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Apple",
-                  //     image: require("../images/apple.png"),
-                  //     username: l.Social_Platform.Username,
-                  //     status: true,
-                  //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                  //     date: l.Social_Platform.Update_Date.split("T")[0]
-                  //   }
-                  // ],
-                  // appleId: l.id,
-                  // appleName: l.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Apple" }
-                  // ]
+                
                 });
               }
 
@@ -430,34 +280,9 @@ export default class ViewListing extends Component {
                 console.log("Citysearch data", l);
                 this.setState({
                   citysearchIsLoggedIn: true,
-                  // pdf_data: [
-                  //   ...this.state.pdf_data,
-                  //   {
-                  //     listing: "Citysearch",
-                  //     image: require("../images/citysearch.jpg"),
-                  //     username: l.Social_Platform.Username,
-                  //     status: true,
-                  //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                  //     date: l.Social_Platform.Update_Date.split("T")[0]
-                  //   }
-                  // ],
-                  // citysearchId: l.id,
-                  // citysearchName: l.Social_Platform.Username,
-                  // all_connections: [
-                  //   ...this.state.all_connections,
-                  //   { name: "Citysearch" }
-                  // ]
+                 
                 });
-                // let citysearchId = l.Social_Platform.Other_info.split(",")[0]
-                //   .slice(7)
-                //   .split("/")[4];
-                // Axios.get(
-                //   `https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/places/v2/detail?id=${citysearchId}&id_type=cs&client_ip=123.4.56.78&publisher=test&format=json`
-                // ).then(res => {
-                //   // console.log("citysearchDetails",res.data.locations[0])
-                //   if (res.data.locations)
-                //     this.setState({ citysearchDetails: res.data.locations[0] });
-                // });
+              
               }
 
               if (l.connect_type == "Zillow") {
@@ -600,7 +425,10 @@ export default class ViewListing extends Component {
                 ? this.setState({ state: s.name })
                 : ""
             );
-          });
+          })
+          .catch=(e)=>{
+
+          };
 
           business_categories(data).then(resp1 => {
             console.log("ll447",resp1.data.bussiness_category_array)
@@ -691,7 +519,7 @@ export default class ViewListing extends Component {
       Username: response.profileObj.name,
       Email: response.profileObj.email,
       location_id: this.props.match.params.locationId,
-      googleImgUrl:response.profileObj.imageUrl,
+      googleImgUrl:response.profileObj.imageUrl?response.profileObj.imageUrl:"",
       googleIdf:response.profileObj.googleId,
       redirect_to: "/view-listing"
     };
@@ -1671,7 +1499,7 @@ export default class ViewListing extends Component {
                         ) : (
                           <div className="google_btnb">
                             <GoogleLogin
-                              for localhost
+                              //for localhost
                               clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
                              // for server
                             // clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"

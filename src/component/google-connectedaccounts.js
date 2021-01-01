@@ -61,7 +61,7 @@ class GoogleConnectedAccounts extends Component {
 
   onSubmit = index => e => {
     e.preventDefault();
-    this.setState({ loading: true });
+    this.setState({ loader: true });
 
     const g_data = this.state.google_props;
 
