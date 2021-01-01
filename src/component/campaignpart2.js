@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Loader from "react-loader-spinner";
 import Axios from "axios";
+import swal from "sweetalert";
 
 const DjangoConfig = {
   headers: {
@@ -126,25 +127,25 @@ export default class CampaignPart2 extends Component {
               )
                 .then(resp => {
                   if (resp.data.messgae == "Send All Email.") {
-                    alert("Sent succesfully");
+                    swal("Sent succesfully");
                   } else {
-                    alert("Server error");
+                    swal("Server error");
                   }
                   this.setState({ loading: false });
                 })
                 .catch(resp => {
                   console.log("email sending error", resp);
-                  alert("Server error");
+                  swal("Server error");
                   this.setState({ loading: false });
                 });
             } else {
-              alert("Server error");
+              swal("Server error");
               this.setState({ loading: false });
             }
           })
           .catch(resp => {
             console.log("email adding error", resp);
-            alert("Server error");
+            swal("Server error");
             this.setState({ loading: false });
           });
       } else {

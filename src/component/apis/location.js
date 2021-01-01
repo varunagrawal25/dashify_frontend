@@ -40,6 +40,11 @@ export const edit_location_operations_hours_by_id = (data) => {
     `${API}/admin/location_api/update_location_hours`, data);
 };
 
+export const All_payment_by_location = (data) => {
+  return Axios.post(
+    `${API}/admin/location_api/list_location_payment_method`,data );
+};
+
 export const edit_location_payment_by_id = (data) => {
   return Axios.post(
     `${API}/admin/location_api/update_location_payment_method`,data );
@@ -58,4 +63,14 @@ export const add_other_images_by_location_id = (data) => {
 export const delete_other_images_by_location_id = (data) => {
   return Axios.post(
     `${API}/admin/location_api/delete_other_images`, data );
+};
+
+export const Add_Promotional = (data) => {
+  return Axios.post(
+    `${API}/admin/promotion_api/add_promotion`, data );
+};
+
+export const All_Promotional_list = (data) => {
+  return Axios.post(
+    `${API}/admin/promotion_api/all_promotional_by_locationid`, data );
 };

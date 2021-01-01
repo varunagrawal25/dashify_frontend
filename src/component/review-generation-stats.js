@@ -235,9 +235,10 @@ export default class ReviewGenerationStats extends Component {
       fbPageId,
       googleToken,
       locationIdGoogle;
-    const data = {
-      location_id: this.props.match.params.locationId
-    };
+      const data = {
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      };
+  
 
     // Axios.post(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
@@ -248,41 +249,43 @@ export default class ReviewGenerationStats extends Component {
       .then(response => {
         console.log(response);
 
-        response.data.data.map(l => {
-          if (l.Social_Platform.Platform == "Facebook") {
+        response.data.social_media_list.map((l) => {
+          if (l.connect_type == "Facebook") {
             fbtoken = l.Social_Platform.Token;
+            console.log(fbtoken);
             fbPageId = l.Social_Platform.Other_info;
           }
 
-          if (l.Social_Platform.Platform == "Google") {
-            googleToken = l.Social_Platform.Token;
-            locationIdGoogle = l.Social_Platform.Other_info;
+          if (l.connect_type == "Google") {
+            console.log("yes goo");
+            this.setState({google_reviews:55})
+            // googleToken = l.Social_Platform.Token;
+            // console.log(googleToken);
+            // this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
+          }
+          if (l.connect_type == "Facebook") {
+            console.log("yes goo");
+            this.setState({fb_reviews:55})
+            // googleToken = l.Social_Platform.Token;
+            // console.log(googleToken);
+            // this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
           }
 
-          if (l.Social_Platform.Platform == "Foursquare") {
+          if (l.connect_type== "Foursquare") {
+            console.log("yes four");
+
             fourUrl = l.Social_Platform.Other_info.split(",")[0]
               .slice(7)
               .split("/")[5];
           }
 
-          if (l.Social_Platform.Platform == "Yelp") {
-            yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
+          if (l.connect_type == "Yelp") {
+            console.log("yes yelp");
+
+            // yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
           }
 
-          if (l.Social_Platform.Platform == "Apple") {
-            appleUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[6]
-              .slice(2);
-          }
-
-          if (l.Social_Platform.Platform == "Citysearch") {
-            citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[4];
-          }
         });
-
         const GoogleConfig = {
           headers: { Authorization: "Bearer " + googleToken }
         };

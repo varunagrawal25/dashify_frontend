@@ -5,6 +5,7 @@ import { Row, Col } from "react-bootstrap";
 import Axios from "axios";
 import { send_varification_link } from "../apis/user";
 import Loader from "react-loader-spinner";
+import swal from "sweetalert";
 
 class EmailConfirmation extends React.Component {
   constructor(props) {
@@ -30,17 +31,17 @@ componentDidMount(){
         .then(res => {
           console.log(res);
           // this.setState({ loading: false });
-          alert(
+          swal(
             "Email verification link has been sent to your inbox successfully"
           );
         })
         .catch(res => {
           console.log("not send");
           // this.setState({ loading: false });
-          alert("Something went wrong");
+          swal("Something went wrong");
         });
     } else {
-      alert("Username can not be empty");
+      swal("Username can not be empty");
     }
   }
 

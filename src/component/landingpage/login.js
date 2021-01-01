@@ -129,15 +129,15 @@ export default class Login extends Component {
 								res.data.get_details[0].last_name
 						);
 						await this.setState({ isSuccessLogin: true, loading: false });
-					} else if (res.data && res.data.message == "Wrong details!") {
+					} else if (res.data && res.data.message === "Wrong details!") {
 						swal("Either Email or password is wrong!");
 						this.setState({ loading: false });
-					} else if (res.data && res.data.message == "Account deactivated!") {
+					} else if (res.data && res.data.message === "Account deactivated!") {
 						this.setState({
 							loading: false,
 							wrong: "Account deactivated!"
 						});
-					} else if (res.data && res.data.message == "Email does not exist!") {
+					} else if (res.data && res.data.message === "Email does not exist!") {
 						this.setState({
 							Email_error: "Email does not exist!",
 							loading: false
@@ -210,11 +210,11 @@ export default class Login extends Component {
 
 		if (this.state.isSuccessLogin) {
 			// return <Redirect to="/dashboard" />;
-			window.location.assign("/dashboard");
+			window.location.assign("/dashboard#/location-manager");
 		}
 		if (this.state.isAlreadyLoginRememberme) {
 			// return <Redirect to="/dashboard" />;
-			window.location.assign("/dashboard");
+			window.location.assign("/dashboard#/location-manager");
 		}
 console.log("this.state.email_sent",this.state.email_sent)
 		return (

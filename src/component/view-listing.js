@@ -30,6 +30,8 @@ import ReactPDF, {
 import { LinkedIn } from "react-linkedin-login-oauth2";
 import { google_listing_detail } from "./apis/social_media";
 import { secure_pin } from "../config";
+import swal from "sweetalert";
+
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -174,8 +176,7 @@ export default class ViewListing extends Component {
   async componentDidMount() {
     if (this.props.match.params.locationId != "null") {
       const data = {
-        secure_pin,
-        location_id: this.props.match.params.locationId
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
       };
       console.log("78945",this.props.match.params.locationId)
       var googleToken,
@@ -200,381 +201,207 @@ export default class ViewListing extends Component {
 
       all_connection_of_one_location(data, DjangoConfig)
         .then(resp => {
-          console.log("get all connections", resp);
-          this.setState({ allListings: resp.data.data });
+          console.log("get all connections by id s", resp);
+          this.setState({ allListings: resp.data.social_media_list });
 
           if (this.state.allListings) {
             this.state.allListings.map(l => {
-              if (l.Social_Platform.Platform == "Facebook") {
-                fbtoken = l.Social_Platform.Token;
-                fbPageId = l.Social_Platform.Other_info;
-                fbData = l;
+              console.log("loop all")
+              if (l.connect_type == "Facebook") {
+               
 
                 this.setState({
                   fbIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Facebook",
-                      image: require("../images/facebook.png"),
-                      username: fbData.Social_Platform.Username,
-                      status: true,
-                      link: "https://www.facebook.com/" + fbPageId,
-                      date: fbData.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  fbId: fbData.id,
-                  fbName: fbData.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Facebook" }
-                  ]
+                  
                 });
               }
 
-              if (l.Social_Platform.Platform == "Google") {
-                googleToken = l.Social_Platform.Token;
-                googleData = l;
+              if (l.connect_type === "Google") {
+               
                 this.setState({
                   googleIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Google",
-                      image: require("../images/google.png"),
-                      username: googleData.Social_Platform.Username,
-                      status: true,
-                      date: googleData.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  googleId: googleData.id,
-                  googleName: googleData.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Google" }
-                  ]
+                 
                 });
 
-                google_listing_detail(data).then(res => {
-                  this.setState({
-                    googleLocationDetail: res.other_info,
-                    googleReviewsPresent: res.google_Reviews_Present
-                  });
-                });
+               
               }
 
-              if (l.Social_Platform.Platform == "Linkedin") {
-                linkedinToken = l.Social_Platform.Token;
-                linkedinData = l;
-                linkedin_page_id = l.Social_Platform.Other_info;
+              if (l.connect_type == "Linkedin") {
+               
 
                 this.setState({
                   linkedinIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Linkedin",
-                      image: require("../images/linkedin.png"),
-                      username: linkedinData.Social_Platform.Username,
-                      status: true,
-                      date: linkedinData.Social_Platform.Update_Date.split(
-                        "T"
-                      )[0]
-                    }
-                  ],
-                  linkedinId: linkedinData.id,
-                  linkedinName: linkedinData.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Linkedin" }
-                  ]
+                 
                 });
               }
 
-              if (l.Social_Platform.Platform == "Foursquare") {
+              if (l.connect_type == "Foursquare") {
                 console.log("yes four");
                 this.setState({
                   foursquareIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Foursquare",
-                      image: require("../images/foursquare.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  foursquareId: l.id,
-                  foursquareName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Foursquare" }
-                  ]
+                 
                 });
               }
 
-              if (l.Social_Platform.Platform == "Dnb") {
+              if (l.connect_type == "Dnb") {
                 console.log("yes DNB");
                 this.setState({
                   dnbIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Dnb",
-                      image: require("../images/dnb.jpg"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  dnbId: l.id,
-                  dnbName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Dnb" }
-                  ]
+                 
                 });
               }
 
-              if (l.Social_Platform.Platform == "Instagram") {
+              if (l.connect_type === "Instagram") {
                 console.log("yes Instagram");
                 this.setState({
                   instaIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Instagram",
-                      image: require("../images/instagram.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link:
-                        "https://www.instagram.com/" +
-                        l.Social_Platform.Other_info.split(",")[0].slice(7) +
-                        "/",
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  instaId: l.id,
-                  instaName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Instagram" }
-                  ]
+                 
                 });
               }
 
-              if (l.Social_Platform.Platform == "Yelp") {
+              if (l.connect_type === "Yelp") {
                 console.log("yes yelp");
                 this.setState({
                   yelpIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Yelp",
-                      image: require("../images/yelp.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  yelpId: l.id,
-                  yelpName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Yelp" }
-                  ]
+                 
                 });
-                Axios.get(
-                  "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-                    l.Social_Platform.Other_info.split(",")[0]
-                      .slice(7)
-                      .slice(25),
-                  Yelpconfig
-                ).then(resp => {
-                  console.log("yelpDetails", resp.data);
-                  this.setState({ yelpDetails: resp.data });
-                });
+               
               }
 
-              if (l.Social_Platform.Platform == "Apple") {
+              if (l.connect_type == "Apple") {
                 console.log("yes Apple");
                 this.setState({
                   appleIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Apple",
-                      image: require("../images/apple.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  appleId: l.id,
-                  appleName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Apple" }
-                  ]
+                
                 });
               }
 
-              if (l.Social_Platform.Platform == "Citysearch") {
+              if (l.connect_type == "Citysearch") {
                 console.log("Citysearch data", l);
                 this.setState({
                   citysearchIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Citysearch",
-                      image: require("../images/citysearch.jpg"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  citysearchId: l.id,
-                  citysearchName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Citysearch" }
-                  ]
+                 
                 });
-                let citysearchId = l.Social_Platform.Other_info.split(",")[0]
-                  .slice(7)
-                  .split("/")[4];
-                Axios.get(
-                  `https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/places/v2/detail?id=${citysearchId}&id_type=cs&client_ip=123.4.56.78&publisher=test&format=json`
-                ).then(res => {
-                  // console.log("citysearchDetails",res.data.locations[0])
-                  if (res.data.locations)
-                    this.setState({ citysearchDetails: res.data.locations[0] });
-                });
+              
               }
 
-              if (l.Social_Platform.Platform == "Zillow") {
+              if (l.connect_type == "Zillow") {
                 console.log("Zillow data", l);
                 this.setState({
                   zillowIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Zillow",
-                      image: require("../images/zillow.png"),
-                      username: l.Social_Platform.Username,
-                      status: true,
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  zillowId: l.id,
-                  zillowName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Zillow" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Zillow",
+                  //     image: require("../images/zillow.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true,
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // zillowId: l.id,
+                  // zillowName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Zillow" }
+                  // ]
                 });
               }
 
-              if (l.Social_Platform.Platform == "Tomtom") {
+              if (l.connect_type == "Tomtom") {
                 console.log("Tomtom data", l);
                 this.setState({
                   tomtomIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Tomtom",
-                      image: require("../images/tomtom.png"),
-                      username: l.Social_Platform.Username,
-                      status: true
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  tomtomId: l.id,
-                  tomtomName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Tomtom" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Tomtom",
+                  //     image: require("../images/tomtom.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     // date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // tomtomId: l.id,
+                  // tomtomName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Tomtom" }
+                  // ]
                 });
               }
 
-              if (l.Social_Platform.Platform == "Zomato") {
+              if (l.connect_type == "Zomato") {
                 console.log("Zomato data", l);
                 this.setState({
                   zomatoIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Zomato",
-                      image: require("../images/zomato.png"),
-                      username: l.Social_Platform.Username,
-                      status: true
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  zomatoId: l.id,
-                  zomatoName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Zomato" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Zomato",
+                  //     image: require("../images/zomato.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     // date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // zomatoId: l.id,
+                  // zomatoName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Zomato" }
+                  // ]
                 });
               }
 
-              if (l.Social_Platform.Platform == "Avvo") {
+              if (l.connect_type == "Avvo") {
                 console.log("Avvo data", l);
                 this.setState({
                   avvoIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Avvo",
-                      image: require("../images/avvo.png"),
-                      username: l.Social_Platform.Username,
-                      status: true
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  avvoId: l.id,
-                  avvoName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Avvo" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Avvo",
+                  //     image: require("../images/avvo.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     // date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // avvoId: l.id,
+                  // avvoName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Avvo" }
+                  // ]
                 });
               }
 
-              if (l.Social_Platform.Platform == "Here") {
+              if (l.connect_type == "Here") {
                 console.log("yes here");
                 this.setState({
                   hereIsLoggedIn: true,
-                  pdf_data: [
-                    ...this.state.pdf_data,
-                    {
-                      listing: "Here",
-                      image: require("../images/here.png"),
-                      username: l.Social_Platform.Username,
-                      status: true
-                      // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                      // date: l.Social_Platform.Update_Date.split("T")[0]
-                    }
-                  ],
-                  hereId: l.id,
-                  hereName: l.Social_Platform.Username,
-                  all_connections: [
-                    ...this.state.all_connections,
-                    { name: "Here" }
-                  ]
+                  // pdf_data: [
+                  //   ...this.state.pdf_data,
+                  //   {
+                  //     listing: "Here",
+                  //     image: require("../images/here.png"),
+                  //     username: l.Social_Platform.Username,
+                  //     status: true
+                  //     // link: l.Social_Platform.Other_info.split(",")[0].slice(7),
+                  //     // date: l.Social_Platform.Update_Date.split("T")[0]
+                  //   }
+                  // ],
+                  // hereId: l.id,
+                  // hereName: l.Social_Platform.Username,
+                  // all_connections: [
+                  //   ...this.state.all_connections,
+                  //   { name: "Here" }
+                  // ]
                 });
               }
             });
@@ -598,7 +425,10 @@ export default class ViewListing extends Component {
                 ? this.setState({ state: s.name })
                 : ""
             );
-          });
+          })
+          .catch=(e)=>{
+
+          };
 
           business_categories(data).then(resp1 => {
             console.log("ll447",resp1.data.bussiness_category_array)
@@ -649,7 +479,12 @@ export default class ViewListing extends Component {
     const fb_data = {
       location_id: this.props.match.params.locationId,
       Username: response.name,
-      Email: response.email
+      Email: response.email,
+      AccessToken: response.accessToken,
+      image:response.picture.data.url,
+      userId:response.userID
+
+
     };
 
     // Axios.get("https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=187396122554776&client_secret=bad0dbb6029a3530ca46048415abe95e&fb_exchange_token="+response.accessToken).then(async res => {
@@ -661,7 +496,7 @@ export default class ViewListing extends Component {
     //   // this.setState({ redirect_to_connectedaccounts: true });
     // }).catch(res => {
     //   console.log("google refresh token error",res)
-    //   alert("something went wrong")
+    //   swal("something went wrong")
     // })
 
     await localStorage.setItem("fb_token", response.accessToken);
@@ -684,6 +519,8 @@ export default class ViewListing extends Component {
       Username: response.profileObj.name,
       Email: response.profileObj.email,
       location_id: this.props.match.params.locationId,
+      googleImgUrl:response.profileObj.imageUrl?response.profileObj.imageUrl:"",
+      googleIdf:response.profileObj.googleId,
       redirect_to: "/view-listing"
     };
 
@@ -812,13 +649,20 @@ export default class ViewListing extends Component {
       linkedin_code: ""
       // linkedin_errorMessage: error.errorMessage
     });
-    alert("Linkedin : ", error.errorMessage);
+    swal("Linkedin : ", error.errorMessage);
   };
 
-  disconnectAccount = e => {
+  disconnectAccount = namefrom=> e => {
     console.log(e.target.name);
     var name = e.target.name;
-    const data = { location_connect_social_id: e.target.id };
+    const data = { 
+      "secure_pin":"digimonk",
+      "user_id":localStorage.getItem("UserId") ,
+      "location_id":localStorage.getItem("locationId"),
+      "connect_type":namefrom
+     };
+
+     console.log(data)
 
     remove_social_account(data, DjangoConfig)
       .then(resp => {
@@ -1368,7 +1212,8 @@ export default class ViewListing extends Component {
       pdf_data,
       googleLocationDetail,
       citysearchDetails,
-      yelpDetails
+      yelpDetails,
+      allListings
     } = this.state;
 
     const {
@@ -1476,7 +1321,7 @@ export default class ViewListing extends Component {
                         </div>
                         <div className="dolce-textbox">
                           <h4>
-                            {all_connections ? all_connections.length : "-"}
+                            {allListings ? allListings.length : "-"}
                           </h4>
                           <strong>Sync Listing</strong>
                           <p>Keyword that have moved up in the rank</p>
@@ -1489,8 +1334,8 @@ export default class ViewListing extends Component {
                         </div>
                         <div className="dolce-textbox">
                           <h4>
-                            {all_connections
-                              ? total_listings - all_connections.length
+                            {allListings
+                              ? total_listings - allListings.length
                               : "-"}
                           </h4>
                           <strong>Requiring Action</strong>
@@ -1617,22 +1462,23 @@ export default class ViewListing extends Component {
                 <div className="mt-30">
                   <h2 className="account-listing">Account</h2>
 
-                  {/* yelp */}
-                  <div className="account-api">
+
+                    {/* google */}
+                    <div className="account-api">
                     <div className="row d-flex">
                       <div className="col-md-3">
                         <div className="f-connect">
                           <div className="yelp-icon">
                             <img
-                              src={require("../images/yelp.png")}
-                              alt="Yelp"
+                              src={require("../images/google.png")}
+                              alt="Google"
                             />
                           </div>
                           <div className="yelp-text">
-                            {this.state.yelpIsLoggedIn ? (
+                            {this.state.googleIsLoggedIn ? (
                               <div>
                                 <p>Connected</p>
-                                <h4>{this.state.yelpName} </h4>
+                                <h4>{this.state.googleName} </h4>
                               </div>
                             ) : (
                               ""
@@ -1641,24 +1487,41 @@ export default class ViewListing extends Component {
                         </div>
                       </div>
                       <div className="col-md-3">
-                        {this.state.yelpIsLoggedIn ? (
+                        {this.state.googleIsLoggedIn ? (
                           <a
                             className="disconnect_btn"
-                            id={this.state.yelpId}
-                            name="yelpIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            id={this.state.googleId}
+                            name="googleIsLoggedIn"
+                            onClick={this.disconnectAccount("Google")}
                           >
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/yelplogin" className="connect_btn">
-                            Connect a account
-                          </a>
+                          <div className="google_btnb">
+                            <GoogleLogin
+                              //for localhost
+                              clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
+                             // for server
+                            // clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
+                              buttonText="Connect a account"
+                              class="connect_btn"
+                              scope="https://www.googleapis.com/auth/business.manage"
+                              onSuccess={this.responseGoogle}
+                              onFailure={this.responseErrorGoogle}
+                              cookiePolicy={"single_host_origin"}
+                              icon={false}
+
+                              //for refresh token
+                              // accessType="offline"
+                              // responseType="code"
+                              // pompt="consent"
+                            />
+                          </div>
                         )}
                       </div>
 
                       <div className="col-md-6">
-                        {this.state.yelpIsLoggedIn ? (
+                        {this.state.googleIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
                             <span>Syncing</span>
@@ -1675,67 +1538,10 @@ export default class ViewListing extends Component {
                     </div>
                   </div>
 
-                  {/* instagram */}
 
-                  <div className="account-api">
-                    <div className="row d-flex">
-                      <div className="col-md-3">
-                        <div className="f-connect">
-                          <div className="yelp-icon">
-                            <img
-                              src={require("../images/instagram.png")}
-                              alt="Instagram"
-                            />
-                          </div>
-                          <div className="yelp-text">
-                            {this.state.instaIsLoggedIn ? (
-                              <div>
-                                <p>Connected</p>
-                                <h4>{this.state.instaName} </h4>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        {this.state.instaIsLoggedIn ? (
-                          <a
-                            className="disconnect_btn"
-                            id={this.state.instaId}
-                            name="instaIsLoggedIn"
-                            onClick={this.disconnectAccount}
-                          >
-                            Disconnect
-                          </a>
-                        ) : (
-                          <a href="/instagramlogin" className="connect_btn">
-                            Connect a account
-                          </a>
-                        )}
-                      </div>
 
-                      <div className="col-md-6">
-                        {this.state.instaIsLoggedIn ? (
-                          <div className="refres_box enble_refresh">
-                            <i className="fa fa-link"></i>
-                            <span>Syncing</span>
-                          </div>
-                        ) : (
-                          <div className="refres_box disble_refresh">
-                            <i className="zmdi zmdi-close"></i>
-                            <span>
-                              Connect your account to sync the listing
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* fb */}
-                  <div className="account-api">
+                   {/* fb */}
+                   <div className="account-api">
                     <div className="row d-flex">
                       <div className="col-md-3">
                         <div className="f-connect">
@@ -1763,7 +1569,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.fbId}
                             name="fbIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Facebook")}
                           >
                             Disconnect
                           </a>
@@ -1771,7 +1577,7 @@ export default class ViewListing extends Component {
                           <FacebookLogin
                             // for server
                             // appId="3550574924973433"
-                            // for localhost
+                             //for localhost
                             appId="187396122554776"
                             // appId="3044182972316291"
                             autoLoad={false}
@@ -1803,6 +1609,185 @@ export default class ViewListing extends Component {
                     </div>
                   </div>
 
+
+                  {/* yelp */}
+                  <div className="account-api">
+                    <div className="row d-flex">
+                      <div className="col-md-3">
+                        <div className="f-connect">
+                          <div className="yelp-icon">
+                            <img
+                              src={require("../images/yelp.png")}
+                              alt="Yelp"
+                            />
+                          </div>
+                          <div className="yelp-text">
+                            {this.state.yelpIsLoggedIn ? (
+                              <div>
+                                <p>Connected</p>
+                                <h4>{this.state.yelpName} </h4>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-3">
+                        {this.state.yelpIsLoggedIn ? (
+                          <a
+                            className="disconnect_btn"
+                            id={this.state.yelpId}
+                            name="yelpIsLoggedIn"
+                            onClick={this.disconnectAccount("Yelp")}
+                          >
+                            Disconnect
+                          </a>
+                        ) : (
+                          <a href="/yelplogin" className="connect_btn">
+                            Connect a account
+                          </a>
+                        )}
+                      </div>
+
+                      <div className="col-md-6">
+                        {this.state.yelpIsLoggedIn ? (
+                          <div className="refres_box enble_refresh">
+                            <i className="fa fa-link"></i>
+                            <span>Syncing</span>
+                          </div>
+                        ) : (
+                          <div className="refres_box disble_refresh">
+                            <i className="zmdi zmdi-close"></i>
+                            <span>
+                              Connect your account to sync the listing
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+
+                   {/* foursquare */}
+                   <div className="account-api">
+                    <div className="row d-flex">
+                      <div className="col-md-3">
+                        <div className="f-connect">
+                          <div className="yelp-icon">
+                            <img
+                              src={require("../images/foursquare.png")}
+                              alt="Foursquare"
+                            />
+                          </div>
+                          <div className="yelp-text">
+                            {this.state.foursquareIsLoggedIn ? (
+                              <div>
+                                <p>Connected</p>
+                                <h4>{this.state.foursquareName} </h4>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-3">
+                        {this.state.foursquareIsLoggedIn ? (
+                          <a
+                            className="disconnect_btn"
+                            id={this.state.foursquareId}
+                            name="foursquareIsLoggedIn"
+                            onClick={this.disconnectAccount("Foursquare")}
+                          >
+                            Disconnect
+                          </a>
+                        ) : (
+                          <a href="/foursquarelogin" className="connect_btn">
+                            Connect a account
+                          </a>
+                        )}
+                      </div>
+
+                      <div className="col-md-6">
+                        {this.state.foursquareIsLoggedIn ? (
+                          <div className="refres_box enble_refresh">
+                            <i className="fa fa-link"></i>
+                            <span>Syncing</span>
+                          </div>
+                        ) : (
+                          <div className="refres_box disble_refresh">
+                            <i className="zmdi zmdi-close"></i>
+                            <span>
+                              Connect your account to sync the listing
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+
+                  {/* instagram */}
+
+                  <div className="account-api">
+                    <div className="row d-flex">
+                      <div className="col-md-3">
+                        <div className="f-connect">
+                          <div className="yelp-icon">
+                            <img
+                              src={require("../images/instagram.png")}
+                              alt="Instagram"
+                            />
+                          </div>
+                          <div className="yelp-text">
+                            {this.state.instaIsLoggedIn ? (
+                              <div>
+                                <p>Connected</p>
+                                <h4>{this.state.instaName} </h4>
+                              </div>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-md-3">
+                        {this.state.instaIsLoggedIn ? (
+                          <a
+                            className="disconnect_btn"
+                            id={this.state.instaId}
+                            name="instaIsLoggedIn"
+                            onClick={this.disconnectAccount("Instagram")}
+                          >
+                            Disconnect
+                          </a>
+                        ) : (
+                          <a href="/instagramlogin" className="connect_btn">
+                            Connect a account
+                          </a>
+                        )}
+                      </div>
+
+                      <div className="col-md-6">
+                        {this.state.instaIsLoggedIn ? (
+                          <div className="refres_box enble_refresh">
+                            <i className="fa fa-link"></i>
+                            <span>Syncing</span>
+                          </div>
+                        ) : (
+                          <div className="refres_box disble_refresh">
+                            <i className="zmdi zmdi-close"></i>
+                            <span>
+                              Connect your account to sync the listing
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                 
                   {/* linkedin */}
                   <div className="account-api">
                     <div className="row d-flex">
@@ -1832,7 +1817,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.linkedinId}
                             name="linkedinIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Linkedin")}
                           >
                             Disconnect
                           </a>
@@ -1906,7 +1891,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.avvoId}
                             name="avvoIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Avvo")}
                           >
                             Disconnect
                           </a>
@@ -1938,64 +1923,7 @@ export default class ViewListing extends Component {
                     </div>
                   </div>
 
-                  {/* foursquare */}
-                  <div className="account-api">
-                    <div className="row d-flex">
-                      <div className="col-md-3">
-                        <div className="f-connect">
-                          <div className="yelp-icon">
-                            <img
-                              src={require("../images/foursquare.png")}
-                              alt="Foursquare"
-                            />
-                          </div>
-                          <div className="yelp-text">
-                            {this.state.foursquareIsLoggedIn ? (
-                              <div>
-                                <p>Connected</p>
-                                <h4>{this.state.foursquareName} </h4>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        {this.state.foursquareIsLoggedIn ? (
-                          <a
-                            className="disconnect_btn"
-                            id={this.state.foursquareId}
-                            name="foursquareIsLoggedIn"
-                            onClick={this.disconnectAccount}
-                          >
-                            Disconnect
-                          </a>
-                        ) : (
-                          <a href="/foursquarelogin" className="connect_btn">
-                            Connect a account
-                          </a>
-                        )}
-                      </div>
-
-                      <div className="col-md-6">
-                        {this.state.foursquareIsLoggedIn ? (
-                          <div className="refres_box enble_refresh">
-                            <i className="fa fa-link"></i>
-                            <span>Syncing</span>
-                          </div>
-                        ) : (
-                          <div className="refres_box disble_refresh">
-                            <i className="zmdi zmdi-close"></i>
-                            <span>
-                              Connect your account to sync the listing
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
+                 
                   {/* DNB */}
                   <div className="account-api">
                     <div className="row d-flex">
@@ -2025,7 +1953,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.dnbId}
                             name="dnbIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Dnb")}
                           >
                             Disconnect
                           </a>
@@ -2054,80 +1982,7 @@ export default class ViewListing extends Component {
                     </div>
                   </div>
 
-                  {/* google */}
-                  <div className="account-api">
-                    <div className="row d-flex">
-                      <div className="col-md-3">
-                        <div className="f-connect">
-                          <div className="yelp-icon">
-                            <img
-                              src={require("../images/google.png")}
-                              alt="Google"
-                            />
-                          </div>
-                          <div className="yelp-text">
-                            {this.state.googleIsLoggedIn ? (
-                              <div>
-                                <p>Connected</p>
-                                <h4>{this.state.googleName} </h4>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="col-md-3">
-                        {this.state.googleIsLoggedIn ? (
-                          <a
-                            className="disconnect_btn"
-                            id={this.state.googleId}
-                            name="googleIsLoggedIn"
-                            onClick={this.disconnectAccount}
-                          >
-                            Disconnect
-                          </a>
-                        ) : (
-                          <div className="google_btnb">
-                            <GoogleLogin
-                              //for localhost
-                              //clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
-                              //for server
-                              clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
-                              buttonText="Connect a account"
-                              class="connect_btn"
-                              scope="https://www.googleapis.com/auth/business.manage"
-                              onSuccess={this.responseGoogle}
-                              onFailure={this.responseErrorGoogle}
-                              cookiePolicy={"single_host_origin"}
-                              icon={false}
-
-                              //for refresh token
-                              // accessType="offline"
-                              // responseType="code"
-                              // pompt="consent"
-                            />
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="col-md-6">
-                        {this.state.googleIsLoggedIn ? (
-                          <div className="refres_box enble_refresh">
-                            <i className="fa fa-link"></i>
-                            <span>Syncing</span>
-                          </div>
-                        ) : (
-                          <div className="refres_box disble_refresh">
-                            <i className="zmdi zmdi-close"></i>
-                            <span>
-                              Connect your account to sync the listing
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                
 
                   {/* apple */}
                   <div className="account-api">

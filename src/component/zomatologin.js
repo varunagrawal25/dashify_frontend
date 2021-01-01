@@ -3,6 +3,8 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
+import swal from "sweetalert";
+import {secure_pin} from "../config"
 
 const Zomatoconfig = {
   headers: {
@@ -68,14 +70,27 @@ class ZomatoLogin extends Component {
           // console.log("zomato checking data", res.data);
           if (res.data && res.data.name) {
             const data = {
-              location_id: localStorage.getItem("locationId"),
-              Platform: "Zomato",
-              Token: "",
-              Username: res.data.name,
-              Email: this.state.username,
-              Password: this.state.password,
-              Connect_status: "Connect",
-              Other_info: this.state.url
+              // location_id: localStorage.getItem("locationId"),
+              // Platform: "Zomato",
+              // Token: "",
+              // Username: res.data.name,
+              // Email: this.state.username,
+              // Password: this.state.password,
+              // Connect_status: "Connect",
+              // Other_info: this.state.url
+
+              secure_pin,
+              "user_id":localStorage.getItem("UserId"),
+              "location_id":localStorage.getItem("locationId"),
+              "connect_unique_id":"",
+              "token":"",
+              "username":"",
+              "password":this.state.password,
+              "first_name":"",
+              "last_name":"",
+              "email_id":this.state.username,
+              "connect_url": this.state.url,
+              "connect_type":"Zomato",
             };
 
             // Axios.post(
@@ -83,25 +98,25 @@ class ZomatoLogin extends Component {
             //   data,
             //   DjangoConfig
             // );
-            add_social_account(data, DjangoConfig)
+            add_social_account(data)
               .then(resp => {
                 console.log("zomato resp", resp.data);
                 this.setState({ isUrl: true, loading: false });
               })
               .catch(resp => {
-                alert("Invalid Zomato id");
+                swal("Invalid Zomato id");
                 console.log("Zomato resp", resp.data);
                 this.setState({
                   loading: false
                 });
               });
           } else {
-            alert("Invalid Zomato id");
+            swal("Invalid Zomato id");
             this.setState({ loading: false });
           }
         })
         .catch(res => {
-          alert("Invalid Zomato id");
+          swal("Invalid Zomato id");
           this.setState({ loading: false });
         });
     }
@@ -143,7 +158,7 @@ class ZomatoLogin extends Component {
               <p>
                 <label htmlFor="url">Zomato Restaurant Id</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="18740397"

@@ -767,6 +767,29 @@ img {
 .border-bottom {
   border-bottom: 1px solid #f0f0f0;
 }
+
+.connect_table_heading {
+  text-align: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 18px;
+  color: #000000;
+  margin: 20px 0px;
+}
+
+.connect_table_contant {
+  text-align: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #4f4f4f;
+  margin: 20px 0px;
+}
+
 /* .dataview {
   padding: 25px;
 } */
@@ -827,16 +850,17 @@ img {
 }
 
 .action button {
-  background: #025de4;
   border: 0px;
   color: #fff;
-  padding: 15px;
-  width: 100%;
+  padding: 10px 30px;
   border-radius: 5px;
-  font-size: 18px;
-  font-weight: 500;
-  display: block;
-  text-decoration: none;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 16px;
+  color: #f2f2f2;
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
 }
 
 .action button:hover {
@@ -10625,7 +10649,141 @@ ul.dropdown-menu.loginboxds li a:hover {
 /* surya css */
 
 /* varun css */
+/* additional promotional post start*/
+.ap_heading {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 33px;
+  color: #000000;
+}
 
+.ap_subhead1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #3f3f3f;
+}
+.ap_subhead2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 19px;
+  color: #3f3f3f;
+  margin-top: 5px;
+}
+
+.ap_image {
+  width: 60px;
+  height: 60px;
+  mix-blend-mode: normal;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 0px;
+  margin-left: 20px;
+  margin-bottom: 20px;
+}
+
+.ap_contant1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
+  color: rgba(63, 63, 63, 0.6);
+  margin-top: 19px;
+}
+.ap_contant2 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #3f3f3f;
+  margin-top: 10px;
+}
+.ap_textarea {
+  width: 100%;
+  padding: 20px;
+  background: #f7f9fc;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  border-radius: 5px;
+}
+.ap_textarea ::placeholder {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 12px;
+  color: rgba(63, 63, 63, 0.6);
+}
+
+.ap_image span {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: block;
+  text-align: center;
+  line-height: 77px;
+}
+
+.ap_image span input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  text-indent: -5000px;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.ap_image i {
+  font-size: 40px;
+  color: #5d80e2;
+  text-align: center;
+  cursor: pointer;
+  /* width: auto;
+  padding: 10px; */
+}
+.ap_check {
+  padding-left: 3px;
+}
+.cp_btn {
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
+  color: #ffffff;
+  width: 100%;
+  margin: 15px 0px;
+}
+
+.draft_btn {
+  color: #8264c6;
+  border: 1px solid #8264c6;
+  width: 100%;
+  margin: 15px 0px;
+}
+
+.cp_btn:hover {
+  background: linear-gradient(90.17deg, #73b6e5 0.17%, #5d80e2 99.89%);
+  color: #fff;
+}
+
+/* additional promotional post end*/
+.no_faq {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #3f3f3f;
+  margin-top: 10px;
+  text-align: center;
+}
 .connect_msg {
   text-align: center;
   font-size: 25px;
@@ -12260,7 +12418,7 @@ label img {
 .vl_btn_c3_delete {
   width: 83.18px;
   height: 30.45px;
-  background: #c94c4c;
+  background: #eb0558;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
   font-family: Roboto;
@@ -12699,6 +12857,17 @@ label img {
 
   color: #4f4f4f;
 }
+.billing_head {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 21px;
+  color: #4f4f4f;
+  margin-left: 9px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 .profile1 a {
   display: block;
   padding: 10px 0px;
@@ -12730,6 +12899,22 @@ label img {
   color: #4f4f4f;
   mix-blend-mode: normal;
   padding: 0px 10px;
+}
+.promo_input {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #4f4f4f;
+  padding: 10px 15px;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 92%;
+  margin: 20px 0px;
+  margin-left: 4%;
 }
 
 .profile4 {
@@ -14860,4 +15045,7 @@ span.valpromo {
   position: absolute;
   top: 27%;
   right: 50%;
+}
+.red {
+  color: red;
 }

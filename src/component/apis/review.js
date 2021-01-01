@@ -1,6 +1,6 @@
 // import { API } from "../../config";
 import Axios from "axios";
-const API = "http://52.14.16.129:8000/api";
+const API = "https://digimonk.net/dashify-ci";
 //const API = "https://dashify.biz/api";
 
 // review tracking page
@@ -16,3 +16,13 @@ export const rating_breakdown = data => {
 export const all_reviews = data => {
   return Axios.post(`${API}/review/all-reviews`, data);
 };
+
+
+export const review_analytics_by_location = data => {
+  return Axios.post(`${API}/admin/socialmedia_api/get_reviews_analytics_by_filter`, data);
+};
+
+export const overall_rating_review = data => {
+  return Axios.post(`${API}/admin/socialmedia_api/get_reviews_tracking`, data);
+};
+

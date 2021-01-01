@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
+import {overall_rating_review} from "./apis/review";
 import { location_by_id,business_categories,business_states } from "./apis/location";
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
@@ -15,6 +16,9 @@ import rev_track_twitter from './assets/rev_track_twitter.png'
 import rev_track_fb from './assets/rev_track_fb.png'
 import rev_track_snap from './assets/rev_track_snap.png'
 import rev_track_insta from './assets/rev_track_insta.png'
+import yelp from '../images/yelp.png'
+import google from '../images/google2.png'
+import foursquare from '../images/foursquare222.png'
 import ReactPDF, {
   Image,
   Font,
@@ -184,6 +188,18 @@ export default class ReviewTracking extends Component {
   state = {
     fbAccounts: [],
 
+
+
+    AvgRating:0,
+            TotalReviews:0,
+            RatingTotalReviews:0,
+            FiveStar:0,
+            FourStar:0,
+            ThreeStar:0,
+            TwoStar:0,
+            OneStar:0,
+            HelpfulReview:'',
+
     fbReviews: [],
     fb_overallrating: 0,
     zillowAvgRating: "",
@@ -269,8 +285,7 @@ export default class ReviewTracking extends Component {
     this.setState({ today });
 
     const data = {
-      secure_pin,
-      location_id: this.props.match.params.locationId
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
     };
 
 
@@ -282,690 +297,735 @@ export default class ReviewTracking extends Component {
     all_connection_of_one_location(data, DjangoConfig).then(response => {
         console.log(response);
 
-        response.data.data.map(l => {
-          if (l.Social_Platform.Platform == "Facebook") {
-            fbtoken = l.Social_Platform.Token;
-            console.log(fbtoken);
-            fbPageId = l.Social_Platform.Other_info;
-          }
+        // response.data.social_media_list.map(l => {
+        //   if (l.connect_type == "Facebook") {
+        //     fbtoken = l.Social_Platform.Token;
+        //     console.log(fbtoken);
+        //     fbPageId = l.Social_Platform.Other_info;
+        //   }
 
-          if (l.Social_Platform.Platform == "Google") {
-            console.log("yes goo");
-            googleToken = l.Social_Platform.Token;
-            googleData = l;
-            console.log(googleToken);
-          }
+        //   if (l.connect_type == "Google") {
+        //     console.log("yes goo");
+        //     googleToken = l.Social_Platform.Token;
+        //     googleData = l;
+        //     console.log(googleToken);
+        //   }
 
-          if (l.Social_Platform.Platform == "Foursquare") {
-            console.log("yes four");
-            console.log("foursquare platform", l.Social_Platform.Other_info);
+        //   if (l.connect_type == "Foursquare") {
+        //     console.log("yes four");
+        //     console.log("foursquare platform", l.Social_Platform.Other_info);
 
-            fourUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[5];
-          }
+        //     fourUrl = l.Social_Platform.Other_info.split(",")[0]
+        //       .slice(7)
+        //       .split("/")[5];
+        //   }
 
-          if (l.Social_Platform.Platform == "Instagram") {
-            console.log("yes instagram");
-            console.log(
-              "instagram id",
-              l.Social_Platform.Other_info.split(",")[0].slice(7)
-            );
-            instaUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
-          }
+        //   if (l.connect_type == "Instagram") {
+        //     console.log("yes instagram");
+        //     console.log(
+        //       "instagram id",
+        //       l.Social_Platform.Other_info.split(",")[0].slice(7)
+        //     );
+        //     instaUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
+        //   }
 
-          if (l.Social_Platform.Platform == "Yelp") {
-            console.log("yes yelp");
-            console.log(l.Social_Platform.Other_info.split(",")[0].slice(7));
-            yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
-          }
+        //   if (l.connect_type == "Yelp") {
+        //     console.log("yes yelp");
+        //     console.log(l.Social_Platform.Other_info.split(",")[0].slice(7));
+        //     yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
+        //   }
 
-          if (l.Social_Platform.Platform == "Apple") {
-            console.log("yes apple");
-            console.log(
-              "apple platform",
-              l.Social_Platform.Other_info.split(",")[0]
-                .slice(7)
-                .split("/")[6]
-                .slice(2)
-            );
+        //   if (l.connect_type == "Apple") {
+        //     console.log("yes apple");
+        //     console.log(
+        //       "apple platform",
+        //       l.Social_Platform.Other_info.split(",")[0]
+        //         .slice(7)
+        //         .split("/")[6]
+        //         .slice(2)
+        //     );
 
-            appleUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[6]
-              .slice(2);
-          }
+        //     appleUrl = l.Social_Platform.Other_info.split(",")[0]
+        //       .slice(7)
+        //       .split("/")[6]
+        //       .slice(2);
+        //   }
 
-          if (l.Social_Platform.Platform == "Citysearch") {
-            console.log("yes Citysearch");
-            console.log("Citysearch platform", l.Social_Platform.Other_info);
+        //   if (l.connect_type== "Citysearch") {
+        //     console.log("yes Citysearch");
+        //     console.log("Citysearch platform", l.Social_Platform.Other_info);
 
-            citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[4];
-          }
+        //     citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
+        //       .slice(7)
+        //       .split("/")[4];
+        //   }
 
-          if (l.Social_Platform.Platform == "Zillow") {
-            console.log("yes Zillow");
-            console.log("Zillow platform", l.Social_Platform.Other_info);
+        //   if (l.connect_type == "Zillow") {
+        //     console.log("yes Zillow");
+        //     console.log("Zillow platform", l.Social_Platform.Other_info);
 
-            zillowUrl = l.Social_Platform.Other_info;
-          }
+        //     zillowUrl = l.Social_Platform.Other_info;
+        //   }
 
-          if (l.Social_Platform.Platform == "Tomtom") {
-            console.log("yes Tomtom");
-            console.log("Tomtom platform", l.Social_Platform.Other_info);
+        //   if (l.connect_type == "Tomtom") {
+        //     console.log("yes Tomtom");
+        //     console.log("Tomtom platform", l.Social_Platform.Other_info);
 
-            tomtomUrl = l.Social_Platform.Other_info;
-          }
+        //     tomtomUrl = l.Social_Platform.Other_info;
+        //   }
 
-          if (l.Social_Platform.Platform == "Avvo") {
-            console.log("yes Avvo");
-            console.log("Avvo platform", l.Social_Platform.Other_info);
+        //   if (l.connect_type == "Avvo") {
+        //     console.log("yes Avvo");
+        //     console.log("Avvo platform", l.Social_Platform.Other_info);
 
-            avvoUrl = l.Social_Platform.Other_info;
-            avvoToken = l.Social_Platform.Token;
-          }
+        //     avvoUrl = l.Social_Platform.Other_info;
+        //     avvoToken = l.Social_Platform.Token;
+        //   }
 
-          if (l.Social_Platform.Platform == "Zomato") {
-            console.log("yes Zomato");
-            console.log("Zomato platform", l.Social_Platform.Other_info);
+        //   if (l.connect_type == "Zomato") {
+        //     console.log("yes Zomato");
+        //     console.log("Zomato platform", l.Social_Platform.Other_info);
 
-            zomatoUrl = l.Social_Platform.Other_info;
-          }
+        //     zomatoUrl = l.Social_Platform.Other_info;
+        //   }
+        // });
+        const data2={
+          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+
+          "filter_type":"last week"
+        }
+        console.log(data2,"data2")
+
+        Axios.post(
+          "https://digimonk.net/dashify-ci/admin/socialmedia_api/get_all_reviews_by_locationid",
+          data2
+        ).then(resp => {
+          console.log("digi",resp);
+          this.setState({AllReviews:resp.data.reviews_array});
+        })
+        .catch(res=>{
+
         });
+
+
+        const data3={
+          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+         "type":"all","filter_type":"last week"
+        }
+
+        overall_rating_review(data3).then(response => {
+          console.log("over",response);
+
+          this.setState({
+            AvgRating:response.data.overall_rating_array[0].Average_rating,
+            TotalReviews:response.data.overall_rating_array[0].Total_reviews,
+            RatingTotalReviews:response.data.rating_breakdown_array[0].Total_reviews,
+            FiveStar:response.data.rating_breakdown_array[0].five_star,
+            FourStar:response.data.rating_breakdown_array[0].four_star,
+            ThreeStar:response.data.rating_breakdown_array[0].three_star,
+            TwoStar:response.data.rating_breakdown_array[0].two_star,
+            OneStar:response.data.rating_breakdown_array[0].one_star,
+            HelpfulReview:response.data.most_helpful_reviews[0]
+          })
+
+        })
+        .catch(res=>{
+          
+        });
+
+  
 
         const GoogleConfig = {
           headers: { Authorization: "Bearer " + googleToken }
         };
 
         // for facebook
-        if (fbtoken) {
-          Axios.get(
-            "https://graph.facebook.com/me/accounts?fields=access_token,id,name,overall_star_rating,category,category_list,tasks&access_token=" +
-              fbtoken
-          ).then(res => {
-            console.log("facebook data", res.data);
+        // if (fbtoken) {
+        //   Axios.get(
+        //     "https://graph.facebook.com/me/accounts?fields=access_token,id,name,overall_star_rating,category,category_list,tasks&access_token=" +
+        //       fbtoken
+        //   ).then(res => {
+        //     console.log("facebook data", res.data);
             
-            if(res.data.data){
-              var fbPageAccessToken;
-              this.setState({ fbAccounts: res.data.data });
-            for (let i = 0; i < res.data.data.length; i++) {
-              if (res.data.data[i].id == fbPageId) {
-                fbPageAccessToken = res.data.data[i].access_token;
-              }
-            }
-            Axios.get(
-              "https://graph.facebook.com/" +
-                fbPageId +
-                "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
-                fbPageAccessToken
-            ).then(res => {
-              console.log("fb page data", res.data);
-              if(res.data.data){
+        //     if(res.data.data){
+        //       var fbPageAccessToken;
+        //       this.setState({ fbAccounts: res.data.data });
+        //     for (let i = 0; i < res.data.data.length; i++) {
+        //       if (res.data.data[i].id == fbPageId) {
+        //         fbPageAccessToken = res.data.data[i].access_token;
+        //       }
+        //     }
+        //     Axios.get(
+        //       "https://graph.facebook.com/" +
+        //         fbPageId +
+        //         "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
+        //         fbPageAccessToken
+        //     ).then(res => {
+        //       console.log("fb page data", res.data);
+        //       if(res.data.data){
                 
-              this.setState({
-                fbReviews: res.data.data,
-                active_listing: [...this.state.active_listing, "Facebook"]
-              });
-              this.fb_star_counting(res.data.data);
+        //       this.setState({
+        //         fbReviews: res.data.data,
+        //         active_listing: [...this.state.active_listing, "Facebook"]
+        //       });
+        //       this.fb_star_counting(res.data.data);
 
-              if (this.state.fbReviews.length != 0) {
-                this.setState({
-                  pdf_data1: [
-                    ...this.state.pdf_data1,
-                    {
-                      name: "Facebook",
-                      image: require("../images/facebook.png"),
-                      data: this.state.fbReviews
-                    }
-                  ]
-                });
-              }
-              }
-            });
-            }
-          });
-        }
+        //       if (this.state.fbReviews.length != 0) {
+        //         this.setState({
+        //           pdf_data1: [
+        //             ...this.state.pdf_data1,
+        //             {
+        //               name: "Facebook",
+        //               image: require("../images/facebook.png"),
+        //               data: this.state.fbReviews
+        //             }
+        //           ]
+        //         });
+        //       }
+        //       }
+        //     });
+        //     }
+        //   });
+        // }
 
-        //for yelp
-        if (yelpUrl) {
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-              yelpUrl.slice(25) +
-              "/reviews",
-            Yelpconfig
-          ).then(resp => {
-            console.log("yelp reviews",resp.data.reviews);
-            if(resp.data.reviews){
-              this.setState({
-                yelpReviews: resp.data.reviews, 
-                active_listing: [...this.state.active_listing, "Yelp"]
-              });
-              this.yelp_star_counting(resp.data.reviews);
+        // //for yelp
+        // if (yelpUrl) {
+        //   Axios.get(
+        //     "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
+        //       yelpUrl.slice(25) +
+        //       "/reviews",
+        //     Yelpconfig
+        //   ).then(resp => {
+        //     console.log("yelp reviews",resp.data.reviews);
+        //     if(resp.data.reviews){
+        //       this.setState({
+        //         yelpReviews: resp.data.reviews, 
+        //         active_listing: [...this.state.active_listing, "Yelp"]
+        //       });
+        //       this.yelp_star_counting(resp.data.reviews);
   
-              if (this.state.yelpReviews.length != 0) {
-                this.setState({
-                  pdf_data1: [
-                    ...this.state.pdf_data1,
-                    {
-                      name: "Yelp",
-                      image: require("../images/yelp.png"),
-                      data: this.state.yelpReviews
-                    }
-                  ]
-                });
-              }
-            } else {
-              this.setState({
-                active_listing: [...this.state.active_listing, "Yelp"]
-              });
-            }
-          });
+        //       if (this.state.yelpReviews.length != 0) {
+        //         this.setState({
+        //           pdf_data1: [
+        //             ...this.state.pdf_data1,
+        //             {
+        //               name: "Yelp",
+        //               image: require("../images/yelp.png"),
+        //               data: this.state.yelpReviews
+        //             }
+        //           ]
+        //         });
+        //       }
+        //     } else {
+        //       this.setState({
+        //         active_listing: [...this.state.active_listing, "Yelp"]
+        //       });
+        //     }
+        //   });
 
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-              yelpUrl.slice(25),
-            Yelpconfig
-          ).then(resp => {
-            console.log("yelp data",resp.data);
-            this.setState({ yelpDetails: resp.data });
-            if (resp.data.rating) {
-              this.setState({
-                pdf_data2: [
-                  ...this.state.pdf_data2,
-                  {
-                    name: "Yelp",
-                    image: require("../images/yelp.png"),
-                    data: resp.data.rating
-                  }
-                ]
-              });
-            }
-          });
-        }
-        // for google
+        //   Axios.get(
+        //     "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
+        //       yelpUrl.slice(25),
+        //     Yelpconfig
+        //   ).then(resp => {
+        //     console.log("yelp data",resp.data);
+        //     this.setState({ yelpDetails: resp.data });
+        //     if (resp.data.rating) {
+        //       this.setState({
+        //         pdf_data2: [
+        //           ...this.state.pdf_data2,
+        //           {
+        //             name: "Yelp",
+        //             image: require("../images/yelp.png"),
+        //             data: resp.data.rating
+        //           }
+        //         ]
+        //       });
+        //     }
+        //   });
+        // }
+        // // for google
 
-        if (googleToken) {
-          Axios.get(
-            "https://mybusiness.googleapis.com/v4/accounts/",
-            GoogleConfig
-          ).then(res => {
-            console.log("google account data",res.data);
+        // if (googleToken) {
+        //   Axios.get(
+        //     "https://mybusiness.googleapis.com/v4/accounts/",
+        //     GoogleConfig
+        //   ).then(res => {
+        //     console.log("google account data",res.data);
 
-            if(res.data.accounts[0]){
-          //     Axios.get(
-          //       "https://mybusiness.googleapis.com/v4/" +
-          //       res.data.accounts[0].name +
-          //         "/locations",
-          //       GoogleConfig
-          //     ).then(resp => {
-          //       console.log("google location data",resp.data);
+        //     if(res.data.accounts[0]){
+        //   //     Axios.get(
+        //   //       "https://mybusiness.googleapis.com/v4/" +
+        //   //       res.data.accounts[0].name +
+        //   //         "/locations",
+        //   //       GoogleConfig
+        //   //     ).then(resp => {
+        //   //       console.log("google location data",resp.data);
   
-          //       if(resp.data.locations[0]){
-                  Axios.get(`https://mybusiness.googleapis.com/v4/${googleData.Social_Platform.Other_info}/reviews`,
-                    GoogleConfig
-                  ).then(respo => {
-                    console.log("google reviews", respo.data);
+        //   //       if(resp.data.locations[0]){
+        //           Axios.get(`https://mybusiness.googleapis.com/v4/${googleData.Social_Platform.Other_info}/reviews`,
+        //             GoogleConfig
+        //           ).then(respo => {
+        //             console.log("google reviews", respo.data);
                     
-                    if(respo.data){
-                      this.setState({
-                        active_listing: [...this.state.active_listing, "Google"],
-                        googleReviews: respo.data
-                      });
-                      if (respo.data.averageRating) {
-                        this.setState({
-                          pdf_data2: [
-                            ...this.state.pdf_data2,
-                            {
-                              name: "Google",
-                              image: require("../images/google.png"),
-                              data: respo.data.averageRating
-                            }
-                          ]
-                        });
-                      }
+        //             if(respo.data){
+        //               this.setState({
+        //                 active_listing: [...this.state.active_listing, "Google"],
+        //                 googleReviews: respo.data
+        //               });
+        //               if (respo.data.averageRating) {
+        //                 this.setState({
+        //                   pdf_data2: [
+        //                     ...this.state.pdf_data2,
+        //                     {
+        //                       name: "Google",
+        //                       image: require("../images/google.png"),
+        //                       data: respo.data.averageRating
+        //                     }
+        //                   ]
+        //                 });
+        //               }
       
-                        if (
-                          this.state.googleReviews && this.state.googleReviews.reviews &&
-                          this.state.googleReviews.reviews.length != 0
-                        ) {
-                          this.setState({
-                            pdf_data1: [
-                              ...this.state.pdf_data1,
-                              {
-                                name: "Google",
-                                image: require("../images/google.png"),
-                                data: this.state.googleReviews.reviews
-                              }
-                            ]
-                          });
-                        }
+        //                 if (
+        //                   this.state.googleReviews && this.state.googleReviews.reviews &&
+        //                   this.state.googleReviews.reviews.length != 0
+        //                 ) {
+        //                   this.setState({
+        //                     pdf_data1: [
+        //                       ...this.state.pdf_data1,
+        //                       {
+        //                         name: "Google",
+        //                         image: require("../images/google.png"),
+        //                         data: this.state.googleReviews.reviews
+        //                       }
+        //                     ]
+        //                   });
+        //                 }
                
-                      this.google_star_counting(respo.data);
-                    } else {
-                      this.setState({
-                        active_listing: [...this.state.active_listing, "Google"]
-                      });
-                    }
-                  });
-          //       }
-          //     });
-            }
-          });
-        }
+        //               this.google_star_counting(respo.data);
+        //             } else {
+        //               this.setState({
+        //                 active_listing: [...this.state.active_listing, "Google"]
+        //               });
+        //             }
+        //           });
+        //   //       }
+        //   //     });
+        //     }
+        //   });
+        // }
 
-        // For foursquare
+        // // For foursquare
 
-        if (fourUrl) {
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v2/venues/" +
-              fourUrl +
-              "?client_id=44RU2431YG02H4E00RQTLKEUKIKINQSFO2JBHII2WHH32PXZ&client_secret=FWV2WOL40MQ5M1YZ5E2TKUWIQ4WYZ1QUJXOQ24VGRSXFA3IY&v=20180323"
-          ).then(res => {
-            console.log("foursquare data",res.data);
-            this.setState({
-              foursquareReviews: res.data.response.venue.tips.groups[0]?res.data.response.venue.tips.groups[0].items:[],
-              foursquareDetails: res.data.response.venue,
-              foursquareReviewCount: res.data.response.venue.tips.count,
-              active_listing: [...this.state.active_listing, "Foursquare"]
-            });
+        // if (fourUrl) {
+        //   Axios.get(
+        //     "https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v2/venues/" +
+        //       fourUrl +
+        //       "?client_id=44RU2431YG02H4E00RQTLKEUKIKINQSFO2JBHII2WHH32PXZ&client_secret=FWV2WOL40MQ5M1YZ5E2TKUWIQ4WYZ1QUJXOQ24VGRSXFA3IY&v=20180323"
+        //   ).then(res => {
+        //     console.log("foursquare data",res.data);
+        //     this.setState({
+        //       foursquareReviews: res.data.response.venue.tips.groups[0]?res.data.response.venue.tips.groups[0].items:[],
+        //       foursquareDetails: res.data.response.venue,
+        //       foursquareReviewCount: res.data.response.venue.tips.count,
+        //       active_listing: [...this.state.active_listing, "Foursquare"]
+        //     });
 
-            if (res.data.response.venue.rating) {
-              this.setState({
-                pdf_data2: [
-                  ...this.state.pdf_data2,
-                  {
-                    name: "Foursquare",
-                    image: require("../images/foursquare.png"),
-                    data: res.data.response.venue.rating
-                  }
-                ]
-              });
-            }
+        //     if (res.data.response.venue.rating) {
+        //       this.setState({
+        //         pdf_data2: [
+        //           ...this.state.pdf_data2,
+        //           {
+        //             name: "Foursquare",
+        //             image: require("../images/foursquare.png"),
+        //             data: res.data.response.venue.rating
+        //           }
+        //         ]
+        //       });
+        //     }
 
-            if (this.state.foursquareReviews.length != 0) {
-              this.setState({
-                pdf_data1: [
-                  ...this.state.pdf_data1,
-                  {
-                    name: "Foursquare",
-                    image: require("../images/foursquare.png"),
-                    data: this.state.foursquareReviews
-                  }
-                ]
-              });
-            }
+        //     if (this.state.foursquareReviews.length != 0) {
+        //       this.setState({
+        //         pdf_data1: [
+        //           ...this.state.pdf_data1,
+        //           {
+        //             name: "Foursquare",
+        //             image: require("../images/foursquare.png"),
+        //             data: this.state.foursquareReviews
+        //           }
+        //         ]
+        //       });
+        //     }
 
-            this.foursquare_star_counting(
-              res.data.response.venue.rating,
-              res.data.response.venue.tips.count
-            );
-          });
-        }
+        //     this.foursquare_star_counting(
+        //       res.data.response.venue.rating,
+        //       res.data.response.venue.tips.count
+        //     );
+        //   });
+        // }
 
-        // instagram
+        // // instagram
 
-        if (instaUrl) {
-          Axios.get("https://www.instagram.com/" + instaUrl + "/?__a=1").then(
-            res => {
-              console.log("instagram data in json", res.data);
-              // console.log(
-              //   "instagram data in json",
-              //   res.data.graphql.user.edge_owner_to_timeline_media.edges[0].node
-              //     .shortcode
-              // );
+        // if (instaUrl) {
+        //   Axios.get("https://www.instagram.com/" + instaUrl + "/?__a=1").then(
+        //     res => {
+        //       console.log("instagram data in json", res.data);
+        //       // console.log(
+        //       //   "instagram data in json",
+        //       //   res.data.graphql.user.edge_owner_to_timeline_media.edges[0].node
+        //       //     .shortcode
+        //       // );
 
-              res.data.graphql.user.edge_owner_to_timeline_media.edges.map(
-                (post, i) => {
-                  Axios.get(
-                    "https://www.instagram.com/p/" +
-                      post.node.shortcode +
-                      "/?__a=1"
-                  ).then(resp => {
-                    console.log(
-                      "instagram comment in json",
-                      resp.data.graphql.shortcode_media
-                        .edge_media_to_parent_comment
-                    );
-                    // console.log(
-                    //   "instagram comment in json",
-                    //   resp.data.graphql.shortcode_media
-                    //     .edge_media_to_parent_comment.edges[0].node.text
-                    // );
+        //       res.data.graphql.user.edge_owner_to_timeline_media.edges.map(
+        //         (post, i) => {
+        //           Axios.get(
+        //             "https://www.instagram.com/p/" +
+        //               post.node.shortcode +
+        //               "/?__a=1"
+        //           ).then(resp => {
+        //             console.log(
+        //               "instagram comment in json",
+        //               resp.data.graphql.shortcode_media
+        //                 .edge_media_to_parent_comment
+        //             );
+        //             // console.log(
+        //             //   "instagram comment in json",
+        //             //   resp.data.graphql.shortcode_media
+        //             //     .edge_media_to_parent_comment.edges[0].node.text
+        //             // );
 
-                    let a =
-                      resp.data.graphql.shortcode_media
-                        .edge_media_to_parent_comment.edges;
+        //             let a =
+        //               resp.data.graphql.shortcode_media
+        //                 .edge_media_to_parent_comment.edges;
 
-                    for (let i = 0; i < a.length; i++) {
-                      if (i < 6) {
-                        this.setState({
-                          instaComments: [
-                            ...this.state.instaComments,
-                            a[i].node
-                          ],
-                          active_listing: [
-                            ...this.state.active_listing,
-                            "Instagram"
-                          ]
-                        });
-                      } else {
-                        break;
-                      }
-                    }
-                  });
-                }
-              );
-            }
-          );
-        }
+        //             for (let i = 0; i < a.length; i++) {
+        //               if (i < 6) {
+        //                 this.setState({
+        //                   instaComments: [
+        //                     ...this.state.instaComments,
+        //                     a[i].node
+        //                   ],
+        //                   active_listing: [
+        //                     ...this.state.active_listing,
+        //                     "Instagram"
+        //                   ]
+        //                 });
+        //               } else {
+        //                 break;
+        //               }
+        //             }
+        //           });
+        //         }
+        //       );
+        //     }
+        //   );
+        // }
 
-        if (appleUrl) {
-          Axios.get(
-            "https://itunes.apple.com/in/rss/customerreviews/id=" +
-              appleUrl +
-              "/sortBy=mostRecent/json"
-          ).then(res => {
-            console.log("apple data in json", res.data.feed.entry);
+        // if (appleUrl) {
+        //   Axios.get(
+        //     "https://itunes.apple.com/in/rss/customerreviews/id=" +
+        //       appleUrl +
+        //       "/sortBy=mostRecent/json"
+        //   ).then(res => {
+        //     console.log("apple data in json", res.data.feed.entry);
 
-            if(res.data.feed.entry){
-              this.setState({
-                appleReviews: res.data.feed.entry,
-                appleDetails: res,
-                appleReviewCount: res.data.feed.entry.length,
-                active_listing: [...this.state.active_listing, "Apple"]
-              });
-              this.apple_star_counting(res.data.feed.entry);
+        //     if(res.data.feed.entry){
+        //       this.setState({
+        //         appleReviews: res.data.feed.entry,
+        //         appleDetails: res,
+        //         appleReviewCount: res.data.feed.entry.length,
+        //         active_listing: [...this.state.active_listing, "Apple"]
+        //       });
+        //       this.apple_star_counting(res.data.feed.entry);
   
-              if (this.state.appleReviews.length != 0) {
-                this.setState({
-                  pdf_data1: [
-                    ...this.state.pdf_data1,
-                    {
-                      name: "Apple",
-                      image: require("../images/apple.png"),
-                      data: this.state.appleReviews
-                    }
-                  ]
-                });
-              }
-            }
-          });
-        }
+        //       if (this.state.appleReviews.length != 0) {
+        //         this.setState({
+        //           pdf_data1: [
+        //             ...this.state.pdf_data1,
+        //             {
+        //               name: "Apple",
+        //               image: require("../images/apple.png"),
+        //               data: this.state.appleReviews
+        //             }
+        //           ]
+        //         });
+        //       }
+        //     }
+        //   });
+        // }
 
-        if (zillowUrl) {
-          Axios.get(
-            "https://www.zillow.com/webservice/ProReviews.htm?zws-id=X1-ZWz170sf100mbv_7lwvq&email=" +
-              zillowUrl +
-              "&count=10&output=json"
-          ).then(res => {
-            console.log("zillow data in json", res.data);
+        // if (zillowUrl) {
+        //   Axios.get(
+        //     "https://www.zillow.com/webservice/ProReviews.htm?zws-id=X1-ZWz170sf100mbv_7lwvq&email=" +
+        //       zillowUrl +
+        //       "&count=10&output=json"
+        //   ).then(res => {
+        //     console.log("zillow data in json", res.data);
 
-            if(res.data.response.results){
-              this.setState({
-                zillowReviews: res.data.response.results.proReviews.review,
-                zillowDetails: res.data,
-                zillowReviewCount: parseInt(
-                  res.data.response.results.proInfo.reviewCount
-                ),
-                zillowAvgRating: parseFloat(
-                  res.data.response.results.proInfo.avgRating
-                ),
-                active_listing: [...this.state.active_listing, "Zillow"]
-              });
+        //     if(res.data.response.results){
+        //       this.setState({
+        //         zillowReviews: res.data.response.results.proReviews.review,
+        //         zillowDetails: res.data,
+        //         zillowReviewCount: parseInt(
+        //           res.data.response.results.proInfo.reviewCount
+        //         ),
+        //         zillowAvgRating: parseFloat(
+        //           res.data.response.results.proInfo.avgRating
+        //         ),
+        //         active_listing: [...this.state.active_listing, "Zillow"]
+        //       });
   
-              if (res.data.response.results.proInfo.avgRating) {
-                this.setState({
-                  pdf_data2: [
-                    ...this.state.pdf_data2,
-                    {
-                      name: "Zillow",
-                      image: require("../images/zillow.png"),
-                      data: parseFloat(
-                        res.data.response.results.proInfo.avgRating
-                      )
-                    }
-                  ]
-                });
-              }
+        //       if (res.data.response.results.proInfo.avgRating) {
+        //         this.setState({
+        //           pdf_data2: [
+        //             ...this.state.pdf_data2,
+        //             {
+        //               name: "Zillow",
+        //               image: require("../images/zillow.png"),
+        //               data: parseFloat(
+        //                 res.data.response.results.proInfo.avgRating
+        //               )
+        //             }
+        //           ]
+        //         });
+        //       }
   
-              if (this.state.zillowReviews.length != 0) {
-                this.setState({
-                  pdf_data1: [
-                    ...this.state.pdf_data1,
-                    {
-                      name: "Zillow",
-                      image: require("../images/zillow.png"),
-                      data: this.state.zillowReviews
-                    }
-                  ]
-                });
-              }
-            }
-          });
-        }
+        //       if (this.state.zillowReviews.length != 0) {
+        //         this.setState({
+        //           pdf_data1: [
+        //             ...this.state.pdf_data1,
+        //             {
+        //               name: "Zillow",
+        //               image: require("../images/zillow.png"),
+        //               data: this.state.zillowReviews
+        //             }
+        //           ]
+        //         });
+        //       }
+        //     }
+        //   });
+        // }
 
-        if (tomtomUrl && tomtomUrl != "-") {
-          Axios.get(
-            "https://api.tomtom.com/search/2/poiDetails.json?key=IRUplE1TqUPstrlMA2N51xASusnsDsEd&id=" +
-              tomtomUrl
-          ).then(res => {
-            console.log("tomtom data in json", res.data);
+        // if (tomtomUrl && tomtomUrl != "-") {
+        //   Axios.get(
+        //     "https://api.tomtom.com/search/2/poiDetails.json?key=IRUplE1TqUPstrlMA2N51xASusnsDsEd&id=" +
+        //       tomtomUrl
+        //   ).then(res => {
+        //     console.log("tomtom data in json", res.data);
 
-            if(res.data.result){
-              this.setState({
-                tomtomReviews: res.data.result.reviews,
-                tomtomDetails: res.data,
-                tomtomReviewCount: res.data.result.rating
-                  ? parseInt(res.data.result.rating.totalRatings)
-                  : 0,
-                tomtomAvgRating: res.data.result.rating
-                  ? parseFloat(res.data.result.rating.value) / 2
-                  : res.data.result.rating,
-                active_listing: [...this.state.active_listing, "Tomtom"]
-              });
+        //     if(res.data.result){
+        //       this.setState({
+        //         tomtomReviews: res.data.result.reviews,
+        //         tomtomDetails: res.data,
+        //         tomtomReviewCount: res.data.result.rating
+        //           ? parseInt(res.data.result.rating.totalRatings)
+        //           : 0,
+        //         tomtomAvgRating: res.data.result.rating
+        //           ? parseFloat(res.data.result.rating.value) / 2
+        //           : res.data.result.rating,
+        //         active_listing: [...this.state.active_listing, "Tomtom"]
+        //       });
   
-              if (this.state.tomtomAvgRating) {
-                this.setState({
-                  pdf_data2: [
-                    ...this.state.pdf_data2,
-                    {
-                      name: "Tomtom",
-                      image: require("../images/tomtom.png"),
-                      data: this.state.tomtomAvgRating
-                    }
-                  ]
-                });
-              }
+        //       if (this.state.tomtomAvgRating) {
+        //         this.setState({
+        //           pdf_data2: [
+        //             ...this.state.pdf_data2,
+        //             {
+        //               name: "Tomtom",
+        //               image: require("../images/tomtom.png"),
+        //               data: this.state.tomtomAvgRating
+        //             }
+        //           ]
+        //         });
+        //       }
   
-              if (
-                this.state.tomtomReviews &&
-                this.state.tomtomReviews.length != 0
-              ) {
-                this.setState({
-                  pdf_data1: [
-                    ...this.state.pdf_data1,
-                    {
-                      name: "Tomtom",
-                      image: require("../images/tomtom.png"),
-                      data: this.state.tomtomReviews
-                    }
-                  ]
-                });
-              }
-            }
-          });
-        }
+        //       if (
+        //         this.state.tomtomReviews &&
+        //         this.state.tomtomReviews.length != 0
+        //       ) {
+        //         this.setState({
+        //           pdf_data1: [
+        //             ...this.state.pdf_data1,
+        //             {
+        //               name: "Tomtom",
+        //               image: require("../images/tomtom.png"),
+        //               data: this.state.tomtomReviews
+        //             }
+        //           ]
+        //         });
+        //       }
+        //     }
+        //   });
+        // }
 
-        if (avvoUrl && avvoToken) {
-          const AvvoConfig = {
-            headers: {
-              Authorization: "Bearer " + avvoToken
-            }
-          };
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/lawyers.json?id[]=" +
-              avvoUrl,
-            AvvoConfig
-          ).then(res => {
-            console.log("avvo lawyer data in json", res.data);
+        // if (avvoUrl && avvoToken) {
+        //   const AvvoConfig = {
+        //     headers: {
+        //       Authorization: "Bearer " + avvoToken
+        //     }
+        //   };
+        //   Axios.get(
+        //     "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/lawyers.json?id[]=" +
+        //       avvoUrl,
+        //     AvvoConfig
+        //   ).then(res => {
+        //     console.log("avvo lawyer data in json", res.data);
 
-            if(res.data.lawyers[0]){
-              this.setState({
-                avvoDetails: res.data.lawyers[0],
-                avvoReviewCount: parseInt(
-                  res.data.lawyers[0].client_review_count
-                ),
-                avvoAvgRating: parseFloat(res.data.lawyers[0].client_review_score)
-              });
+        //     if(res.data.lawyers[0]){
+        //       this.setState({
+        //         avvoDetails: res.data.lawyers[0],
+        //         avvoReviewCount: parseInt(
+        //           res.data.lawyers[0].client_review_count
+        //         ),
+        //         avvoAvgRating: parseFloat(res.data.lawyers[0].client_review_score)
+        //       });
   
-              if (this.state.avvoAvgRating) {
-                this.setState({
-                  pdf_data2: [
-                    ...this.state.pdf_data2,
-                    {
-                      name: "Avvo",
-                      image: require("../images/avvo.png"),
-                      data: this.state.avvoAvgRating
-                    }
-                  ]
-                });
-              }
-            }
-          });
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/reviews.json?lawyer_id[]=" +
-              avvoUrl +
-              "&per_page=50",
-            AvvoConfig
-          ).then(res => {
-            console.log("avvo reviews data in json", res.data);
-            if(res.data.reviews){
-              this.setState({
-                avvoReviews: res.data.reviews,
-                active_listing: [...this.state.active_listing, "Avvo"]
-              });
+        //       if (this.state.avvoAvgRating) {
+        //         this.setState({
+        //           pdf_data2: [
+        //             ...this.state.pdf_data2,
+        //             {
+        //               name: "Avvo",
+        //               image: require("../images/avvo.png"),
+        //               data: this.state.avvoAvgRating
+        //             }
+        //           ]
+        //         });
+        //       }
+        //     }
+        //   });
+        //   Axios.get(
+        //     "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/reviews.json?lawyer_id[]=" +
+        //       avvoUrl +
+        //       "&per_page=50",
+        //     AvvoConfig
+        //   ).then(res => {
+        //     console.log("avvo reviews data in json", res.data);
+        //     if(res.data.reviews){
+        //       this.setState({
+        //         avvoReviews: res.data.reviews,
+        //         active_listing: [...this.state.active_listing, "Avvo"]
+        //       });
   
-              if (this.state.avvoReviews.length != 0) {
-                this.setState({
-                  pdf_data1: [
-                    ...this.state.pdf_data1,
-                    {
-                      name: "Avvo",
-                      image: require("../images/avvo.png"),
-                      data: this.state.avvoReviews
-                    }
-                  ]
-                });
-              }
-            }
-          });
-        }
+        //       if (this.state.avvoReviews.length != 0) {
+        //         this.setState({
+        //           pdf_data1: [
+        //             ...this.state.pdf_data1,
+        //             {
+        //               name: "Avvo",
+        //               image: require("../images/avvo.png"),
+        //               data: this.state.avvoReviews
+        //             }
+        //           ]
+        //         });
+        //       }
+        //     }
+        //   });
+        // }
 
-        if (zomatoUrl) {
-          Axios.get(
-            "https://developers.zomato.com/api/v2.1/restaurant?res_id=" +
-              zomatoUrl,
-            Zomatoconfig
-          ).then(res => {
-            console.log("zomato data in json", res.data);
+        // if (zomatoUrl) {
+        //   Axios.get(
+        //     "https://developers.zomato.com/api/v2.1/restaurant?res_id=" +
+        //       zomatoUrl,
+        //     Zomatoconfig
+        //   ).then(res => {
+        //     console.log("zomato data in json", res.data);
 
-            this.setState({
-              zomatoDetails: res.data,
-              zomatoReviewCount: parseInt(res.data.all_reviews_count),
-              zomatoAvgRating: parseFloat(res.data.user_rating.aggregate_rating)
-            });
+        //     this.setState({
+        //       zomatoDetails: res.data,
+        //       zomatoReviewCount: parseInt(res.data.all_reviews_count),
+        //       zomatoAvgRating: parseFloat(res.data.user_rating.aggregate_rating)
+        //     });
 
-            if (this.state.zomatoAvgRating) {
-              this.setState({
-                pdf_data2: [
-                  ...this.state.pdf_data2,
-                  {
-                    name: "Zomato",
-                    image: require("../images/zomato.png"),
-                    data: this.state.zomatoAvgRating
-                  }
-                ]
-              });
-            }
-          });
+        //     if (this.state.zomatoAvgRating) {
+        //       this.setState({
+        //         pdf_data2: [
+        //           ...this.state.pdf_data2,
+        //           {
+        //             name: "Zomato",
+        //             image: require("../images/zomato.png"),
+        //             data: this.state.zomatoAvgRating
+        //           }
+        //         ]
+        //       });
+        //     }
+        //   });
 
-          Axios.get(
-            "https://developers.zomato.com/api/v2.1/reviews?res_id=" +
-              zomatoUrl,
-            Zomatoconfig
-          ).then(res => {
-            console.log("zomato reviews in json", res.data);
+        //   Axios.get(
+        //     "https://developers.zomato.com/api/v2.1/reviews?res_id=" +
+        //       zomatoUrl,
+        //     Zomatoconfig
+        //   ).then(res => {
+        //     console.log("zomato reviews in json", res.data);
 
-            if(res.data.user_reviews){
-              this.setState({
-                zomatoReviews: res.data.user_reviews,
-                active_listing: [...this.state.active_listing, "Zomato"]
-              });
+        //     if(res.data.user_reviews){
+        //       this.setState({
+        //         zomatoReviews: res.data.user_reviews,
+        //         active_listing: [...this.state.active_listing, "Zomato"]
+        //       });
   
-              if (this.state.zomatoReviews.length != 0) {
-                this.setState({
-                  pdf_data1: [
-                    ...this.state.pdf_data1,
-                    {
-                      name: "Zomato",
-                      image: require("../images/zomato.png"),
-                      data: this.state.zomatoReviews
-                    }
-                  ]
-                });
-              }
-            } else {
-              this.setState({
-                active_listing: [...this.state.active_listing, "Zomato"]
-              });
-            }
-          });
-        }
+        //       if (this.state.zomatoReviews.length != 0) {
+        //         this.setState({
+        //           pdf_data1: [
+        //             ...this.state.pdf_data1,
+        //             {
+        //               name: "Zomato",
+        //               image: require("../images/zomato.png"),
+        //               data: this.state.zomatoReviews
+        //             }
+        //           ]
+        //         });
+        //       }
+        //     } else {
+        //       this.setState({
+        //         active_listing: [...this.state.active_listing, "Zomato"]
+        //       });
+        //     }
+        //   });
+        // }
 
-        if (citysearchUrl) {
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
-              citysearchUrl +
-              "&publisher=test"
-          ).then(res => {
-            console.log("citysearchUrl response", res);
+        // if (citysearchUrl) {
+        //   Axios.get(
+        //     "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
+        //       citysearchUrl +
+        //       "&publisher=test"
+        //   ).then(res => {
+        //     console.log("citysearchUrl response", res);
 
-            var XMLParser = require("react-xml-parser");
-            var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
+        //     var XMLParser = require("react-xml-parser");
+        //     var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
 
-            if(xml.getElementsByTagName("review")){
+        //     if(xml.getElementsByTagName("review")){
               
-            this.setState({
-              citysearchReviews: xml.getElementsByTagName("review"),
-              citysearchDetails: xml,
-              citysearchReviewCount: xml.getElementsByTagName("review").length,
-              active_listing: [...this.state.active_listing, "Citysearch"]
-            });
+        //     this.setState({
+        //       citysearchReviews: xml.getElementsByTagName("review"),
+        //       citysearchDetails: xml,
+        //       citysearchReviewCount: xml.getElementsByTagName("review").length,
+        //       active_listing: [...this.state.active_listing, "Citysearch"]
+        //     });
 
-            if (this.state.citysearchReviews.length != 0) {
-              this.setState({
-                pdf_data1: [
-                  ...this.state.pdf_data1,
-                  {
-                    name: "Citysearch",
-                    image: require("../images/citysearch.jpg"),
-                    data: this.state.citysearchReviews
-                  }
-                ]
-              });
-            }
+        //     if (this.state.citysearchReviews.length != 0) {
+        //       this.setState({
+        //         pdf_data1: [
+        //           ...this.state.pdf_data1,
+        //           {
+        //             name: "Citysearch",
+        //             image: require("../images/citysearch.jpg"),
+        //             data: this.state.citysearchReviews
+        //           }
+        //         ]
+        //       });
+        //     }
 
-            this.citysearch_star_counting(xml.getElementsByTagName("review"));
-            } else {
-              this.setState({
-                citysearchDetails: xml,
-                active_listing: [...this.state.active_listing, "Citysearch"]
-              });
-            }
-          });
-        }
+        //     this.citysearch_star_counting(xml.getElementsByTagName("review"));
+        //     } else {
+        //       this.setState({
+        //         citysearchDetails: xml,
+        //         active_listing: [...this.state.active_listing, "Citysearch"]
+        //       });
+        //     }
+        //   });
+        // }
         this.setState({ loader: false });
       })
       .catch(res => {
@@ -988,6 +1048,8 @@ export default class ReviewTracking extends Component {
             ? this.setState({ state: s.name })
             : ""
         );
+      }).catch(res=>{
+      
       });
 
       business_categories(data).then(resp1 => {
@@ -996,32 +1058,10 @@ export default class ReviewTracking extends Component {
             ? this.setState({ category: b.name })
             : ""
         );
+      }).catch(res=>{
+      
       });
-    // location_by_id(data, DjangoConfig).then(resp => {
-    //   // this.setState({ state: "Loading....", category: "Loading...." });
-    //   // Axios.get(
-    //   //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/states",
-    //   //   DjangoConfig
-    //   // )
-    //   business_states(DjangoConfig).then(resp1 => {
-    //     resp1.data.status.map((s, i) =>
-    //       s.id == resp.data.location.State
-    //         ? this.setState({ state: s.State_name })
-    //         : ""
-    //     );
-    //   });
-
-    //   // Axios.get(
-    //   //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/business-categoryes",
-    //   //   DjangoConfig
-    //   // )
-    //   business_categories(data).then(resp1 => {
-    //     resp1.data.BusinessCategory.map((b, i) =>
-    //       b.id == resp.data.location.Business_category
-    //         ? this.setState({ category: b.Category_Name })
-    //         : ""
-    //     );
-    //   });
+    
 
       this.setState({
         name: resp.data.location_details[0].location_name,
@@ -1031,6 +1071,9 @@ export default class ReviewTracking extends Component {
         city: resp.data.location_details[0].city,
         postalCode: resp.data.location_details[0].zipcode
       });
+    })
+    .catch(res=>{
+
     });
   };
 
@@ -1406,9 +1449,152 @@ export default class ReviewTracking extends Component {
       });
     }
   };
+  Update_Overall_Breakdown=type=>e=>{
+    var filter=e.target.value;
+console.log("upd",filter)
+    if(type === "overall_rating" ){
+      console.log("overall");
+      const data3={
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+       "type":type,"filter_type":filter
+      }
+
+      overall_rating_review(data3).then(response => {
+        console.log("over",response);
+
+        this.setState({
+          AvgRating:response.data.overall_rating_array[0].Average_rating,
+          TotalReviews:response.data.overall_rating_array[0].Total_reviews,
+          // RatingTotalReviews:response.data.rating_breakdown_array[0].Total_reviews,
+          // FiveStar:response.data.rating_breakdown_array[0].five_star,
+          // FourStar:response.data.rating_breakdown_array[0].four_star,
+          // ThreeStar:response.data.rating_breakdown_array[0].three_star,
+          // TwoStar:response.data.rating_breakdown_array[0].two_star,
+          // OneStar:response.data.rating_breakdown_array[0].one_star,
+          // HelpfulReview:response.data.most_helpful_reviews[0]
+        })
+
+      })
+    }
+
+    
+    if(type === "rating_breakdown" ){
+      console.log("breakdown");
+
+      const data3={
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+       "type":type,"filter_type":filter
+      }
+
+      overall_rating_review(data3).then(response => {
+        console.log("over",response);
+
+        this.setState({
+          // AvgRating:response.data.overall_rating_array[0].Average_rating,
+          // TotalReviews:response.data.overall_rating_array[0].Total_reviews,
+          RatingTotalReviews:response.data.rating_breakdown_array[0].Total_reviews,
+          FiveStar:response.data.rating_breakdown_array[0].five_star,
+          FourStar:response.data.rating_breakdown_array[0].four_star,
+          ThreeStar:response.data.rating_breakdown_array[0].three_star,
+          TwoStar:response.data.rating_breakdown_array[0].two_star,
+          OneStar:response.data.rating_breakdown_array[0].one_star,
+          // HelpfulReview:response.data.most_helpful_reviews[0]
+        })
+
+      })
+
+
+    }
+  }
+
+  UpdateReviewsFilter=e=>{
+    var filter= e.target.value;
+    console.log(filter);
+    this.setState({AllReviews:[]})
+
+    const data2={
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+
+      "filter_type":filter
+    }
+    console.log(data2,"data2 reviews")
+
+    Axios.post(
+      "https://digimonk.net/dashify-ci/admin/socialmedia_api/get_all_reviews_by_locationid",
+      data2
+    ).then(resp => {
+      console.log("digi",resp);
+      this.setState({AllReviews:resp.data.reviews_array});
+    });
+
+
+  }
 
   render() {
     console.log("this.state", this.state);
+   
+
+    var finalFive=   parseInt((this.state.FiveStar/ this.state.RatingTotalReviews)*100); 
+    var finalFour= parseInt((this.state.FourStar/ this.state.RatingTotalReviews)*100); 
+    var finalThree= parseInt((this.state.ThreeStar/ this.state.RatingTotalReviews)*100); 
+    var finalTwo= parseInt((this.state.TwoStar/ this.state.RatingTotalReviews)*100); 
+    var finalOne= parseInt((this.state.OneStar/ this.state.RatingTotalReviews)*100); 
+    var HelpfulReview=this.state.HelpfulReview;
+    var HelpfulReviewName,HelpfulReviewText,HelpfulReviewRating,HelpfulReviewImg;
+    if(HelpfulReview){
+      HelpfulReviewName= HelpfulReview.name;
+      HelpfulReviewText=HelpfulReview.text;
+      HelpfulReviewRating=HelpfulReview.rating;
+      HelpfulReviewImg=HelpfulReview.url
+
+
+
+
+    }
+    var AllReviews=this.state.AllReviews;
+    var FinalReviews;
+    if (AllReviews){
+     FinalReviews= AllReviews.map((r)=>{
+      // const star = {
+      //   ONE: 1,
+      //   TWO: 2,
+      //   THREE: 3,
+      //   FOUR: 4,
+      //   FIVE: 5
+      // };
+      // console.log(star[r.rating])
+
+
+        return(<MDBRow  className='review_container' key={r.review_id}>
+        <MDBCol md='9'>
+          <MDBRow>
+          <MDBCol md="2">
+                  <img src={r.image_url ?r.image_url : review_img1} alt='review_icon' className='review_img' />
+                  </MDBCol>
+                  <MDBCol md="10" >
+                    <div className='review_heading2'> {r.name} </div>
+                    <div style={{marginTop:'5px'}}>
+                      
+                  
+                      <Rating name="size-small" defaultValue={parseInt(r.rating)} size="small" readOnly/></div>
+                    
+                    <div className='review_contant3'>
+                   {r.text}
+                    </div>
+                  </MDBCol>
+          </MDBRow>
+        </MDBCol>
+                  
+                  <MDBCol  >
+                    <div style={{marginLeft:'40px'}}>
+                    <span ><img src={clock} alt='review_icon' /></span>
+                     <span className='review_contant3' style={{marginLeft:'2%'}}> {r.time_created} </span>
+                    </div>
+                      
+                  </MDBCol>
+                </MDBRow>)
+      })
+    }
 
     let {
       fbAccounts,
@@ -2549,7 +2735,8 @@ export default class ReviewTracking extends Component {
     }
 
     console.log("active_listing", active_listing);
-
+    console.log("ll",FinalReviews)
+    console.log("llk",this.state.AllReviews)
     return (
       <div>
         
@@ -2564,21 +2751,21 @@ export default class ReviewTracking extends Component {
   Overall Rating
   </MDBCol>
   <MDBCol md='5'>
-<select className="review_select_btn">
-  <option>This week</option>
-  <option>This year</option>
+<select className="review_select_btn" onChange={this.Update_Overall_Breakdown("overall_rating")}>
+  <option value="last week">This week</option>
+  <option value="last year">This year</option>
 </select>
   </MDBCol>
 </MDBRow>
 <div className='review_spacing1'>
-    <span id='review_bold_rating'>4.8</span>
+    <span id='review_bold_rating'> {this.state.AvgRating} </span>
     <span id='review_normal_rating'>/5</span>
   </div>
   <div className='review_spacing1'>
-  <Rating name="half-rating-read" defaultValue={2.5} precision={0.5} readOnly />
+  <Rating name="half-rating-read" value={parseInt(this.state.AvgRating)}  readOnly />
   </div>
 <div className='review_spacing1 review_contant1'>
-12,1К Reviews
+{this.state.TotalReviews} Reviews
 </div>
             </MDBCol>
 
@@ -2589,40 +2776,41 @@ export default class ReviewTracking extends Component {
   Rating Breakdown
   </MDBCol>
   <MDBCol md='4'>
-<select className="review_select_btn">
-  <option>This week</option>
-  <option>This year</option>
+<select className="review_select_btn" onChange={this.Update_Overall_Breakdown("rating_breakdown")}>
+  <option value="last week">This week</option>
+  <option value="last year">This year</option>
 </select>
   </MDBCol>
 </MDBRow>
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>5 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress5 variant="determinate" value={50} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>85%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress5 variant="determinate" value={finalFive ?finalFive:0} /></MDBCol>
+   <MDBCol md='2' className='review_contant1'> {finalFive ? finalFive:0}%</MDBCol>
  </MDBRow>
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>4 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress4 variant="determinate" value={45} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>45%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress4 variant="determinate" value={finalFour ? finalFour :0} /></MDBCol>
+    <MDBCol md='2' className='review_contant1'>{finalFour ? finalFour :0}%</MDBCol>
  </MDBRow>
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>3 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress3 variant="determinate" value={70} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>70%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress3 variant="determinate" value={finalThree ? finalThree :0} /></MDBCol>
+    <MDBCol md='2' className='review_contant1'>{finalThree ?finalThree:0}%</MDBCol>
  </MDBRow>
 
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>2 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress2 variant="determinate" value={85} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>85%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress2 variant="determinate" value={finalTwo ?finalTwo:0} /></MDBCol>
+    <MDBCol md='2' className='review_contant1'>{finalTwo ? finalTwo:0}%</MDBCol>
  </MDBRow>
  <MDBRow className='review_spacing3'>
    <MDBCol md='2' className='review_contant1'>1 <img src={star_img} alt='' className='review_img_position'/> </MDBCol>
-   <MDBCol md='8'><BorderLinearProgress1 variant="determinate" value={50} /></MDBCol>
-   <MDBCol md='2' className='review_contant1'>50%</MDBCol>
+   <MDBCol md='8'><BorderLinearProgress1 variant="determinate" value={finalOne ? finalOne:0} /></MDBCol>
+    <MDBCol md='2' className='review_contant1'>{finalOne?finalOne:0}%</MDBCol>
  </MDBRow>
 </div>
             </MDBCol>
+
 
             <MDBCol  md='4' className='review_container'>
   <MDBRow>
@@ -2630,21 +2818,23 @@ export default class ReviewTracking extends Component {
   Most helpful Reviews
   </MDBCol>
 </MDBRow>
+{this.state.HelpfulReview?
+<div>
 <MDBRow className='review_spacing2'>
-  <MDBCol md='3' ><img src={review_img1} alt='' className='review_img1'/> </MDBCol>
+  <MDBCol md='3' ><img src={HelpfulReviewImg} alt='' className='review_img1'/> </MDBCol>
   <MDBCol md='9' style={{marginLeft:'-20px'}}>
-    <div className='review_heading2'>Mark Robinson</div>
-    <div style={{marginTop:'5px'}}><Rating name="size-small" defaultValue={2} size="small" readOnly/></div>
+    <div className='review_heading2'> {HelpfulReviewName} </div>
+    <div style={{marginTop:'5px'}}><Rating name="size-small" value={parseInt(HelpfulReviewRating)} size="small" readOnly/></div>
   </MDBCol>
 </MDBRow>
 <MDBRow className='review_spacing2'>
   <MDBCol md='12' className='review_contant2'>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor! Lorem ipsum dolor sit amet,
-   consectetur adipiscing elit, sed do eiusmod tempor!
+ {HelpfulReviewText}
   </MDBCol>
 </MDBRow>
-
+ </div>:<div className='no_faq' style={{marginTop:'70px'}}>No helpful review</div>}
             </MDBCol>
+           
             
 
           </MDBRow>
@@ -2654,24 +2844,31 @@ export default class ReviewTracking extends Component {
 <div className='review_heading3'>View all reviews</div>
             </MDBCol>
             <MDBCol md='5'>
-              <img src={rev_track_twitter} alt='' className='review_icon'/>
-              <img src={rev_track_fb} alt='' className='review_icon'/>
-              <img src={rev_track_insta} alt='' className='review_icon'/>
-              <img src={rev_track_snap} alt='' className='review_icon'/>
+            <img src={google} alt='' className='review_icon'/>
+            <img src={rev_track_fb} alt='' className='review_icon'/>
+              <img src={yelp} alt='' className='review_icon'/>
+              <img src={foursquare} alt='' className='review_icon'/>
+              
             <select className="review_select_btn" style={{float:'right'}}>
   <option>See more</option>
   <option>See less</option>
 </select>
             </MDBCol>
             <MDBCol md='4' >
-            <select className="review_select_btn" style={{float:'right'}}>
-  <option>This week</option>
-  <option>This year</option>
+            <select className="review_select_btn" style={{float:'right'}}  onChange={this.UpdateReviewsFilter} >
+  <option value="last week">This week</option>
+  <option value="last month">last month</option>
+  <option value="last 3 months">last 3 months</option>
+  <option value="last 6 months">last 6 months</option>
+  <option value="last year">This year</option>
+  <option value="all">Lifetime</option>
 </select>
             </MDBCol>
           </MDBRow>
 
-          <MDBRow  className='review_container'>
+          {FinalReviews?FinalReviews:<div className='no_faq' style={{marginTop:'40px',marginBottom:'40px'}}>No Review</div>}
+          
+          {/* <MDBRow  className='review_container'>
             <MDBCol md='9'>
               <MDBRow>
               <MDBCol md="2">
@@ -2721,7 +2918,7 @@ export default class ReviewTracking extends Component {
                         </div>
                           
                       </MDBCol>
-                    </MDBRow>
+                    </MDBRow> */}
         </MDBContainer>
       </div>
     );

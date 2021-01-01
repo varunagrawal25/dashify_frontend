@@ -4,6 +4,8 @@ import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import Spinner from "./common/Spinner";
+import swal from "sweetalert";
+import {secure_pin} from "../config"
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -22,29 +24,42 @@ class HereRelatedLocation extends Component {
     let here_data = JSON.parse(localStorage.getItem("here_data"));
 
     const data2 = {
-      location_id: localStorage.getItem("locationId"),
-      Platform: "Here",
-      Token: "",
-      Username: data.title,
-      Email: here_data.Username,
-      Password: here_data.password,
-      Connect_status: "Connect",
-      Other_info: data.href
-    };
+      // location_id: localStorage.getItem("locationId"),
+      // Platform: "Here",
+      // Token: "",
+      // Username: data.title,
+      // Email: here_data.Username,
+      // Password: here_data.password,
+      // Connect_status: "Connect",
+      // Other_info: data.href
 
+      secure_pin,
+              "user_id":localStorage.getItem("UserId"),
+              "location_id":localStorage.getItem("locationId"),
+              "connect_unique_id":"",
+              "token":"",
+              "username":"",
+              "password":here_data.password,
+              "first_name":"",
+              "last_name":"",
+              "email_id":here_data.Username,
+              "connect_url": data.href,
+              "connect_type":"Here",
+    };
+console.log("hd",data2)
     if (data.href) {
-      add_social_account(data2, DjangoConfig)
+      add_social_account(data2)
         .then(resp => {
           console.log("Here register response", resp.data);
           this.setState({ isUrl: true, loading: false });
         })
         .catch(resp => {
-          alert("Something went wrong");
+          swal("Something went wrong");
           console.log("Here error response", resp.data);
           this.setState({ loading: false });
         });
     } else {
-      alert("Something went wrong");
+      swal("Something went wrong");
     }
   };
 

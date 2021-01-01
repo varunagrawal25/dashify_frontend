@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
+import swal from "sweetalert";
 
 class TomtomLogin extends Component {
   state = {
@@ -101,7 +102,7 @@ class TomtomLogin extends Component {
           //   }
           // }
           // if (filtered_tomtom_data.length == 0) {
-          //   alert("No result found");
+          //   swal("No result found");
           //   this.setState({ loading: false, isId: false });
           // } else {
           //   this.setState({ loading: false, isId: true });
@@ -126,7 +127,7 @@ class TomtomLogin extends Component {
             );
             this.setState({ isId: true, loading: false });
           } else {
-            alert("No result found");
+            swal("No result found");
             this.setState({
               loading: false
             });

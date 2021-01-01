@@ -19,6 +19,8 @@ import Map from "./Map";
 import Cropper from "./utils/cropper";
 import { url_regex, phone_regex } from "./utils/regularexpressions";
 import { secure_pin } from "../config";
+import swal from "sweetalert";
+
 const DjangoConfig = {
   headers: {
     Authorization: "Token " + localStorage.getItem("UserToken")
@@ -140,18 +142,18 @@ console.log("data888",data)
               } else {
                 console.log("err78")
                 this.setState({ edit_details: false, loading_info: false });
-                alert("try again");
+                swal("try again");
               }
             })
             .catch(err => {
               this.setState({ edit_details: false, loading_info: false });
-              alert("try again");
+              swal("try again");
             });
           // window.location.reload(false);
         })
         .catch(res => {
           this.setState({ edit_details: false, loading_info: false });
-          alert("try again");
+          swal("try again");
         });
     }
   };
@@ -234,17 +236,17 @@ console.log("imgdata",data)
                 loading_image: false,
                 show_crop_function: false
               });
-              alert("try again0");
+              swal("try again0");
             }
           })
           .catch(err => {
             this.setState({ loading_image: false, show_crop_function: false });
-            alert("try again1");
+            swal("try again1");
           });
       })
       .catch(res => {
         this.setState({ loading_image: false, show_crop_function: false });
-        alert("try again2");
+        swal("try again2");
       });
   };
 
