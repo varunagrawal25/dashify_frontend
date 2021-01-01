@@ -158,11 +158,23 @@ class GoogleConnectedAccounts extends Component {
     return (
       <div>
          {this.state.loader ? (
-            <div style={{marginTop:'100px'}}>
+            <div >
+                 <MDBRow>
+          <MDBCol md='1'>
+          <img src={require("../images/google.png")} alt="Google" style={{height:'40px',width:'40px' ,marginTop:'25px'}}/>
+          </MDBCol>
+  <MDBCol md='11'>
+  <div className="rightside_title" style={{marginLeft:'-28px'}}>
+  
+  <h1>Google Locations</h1>
+            </div>
+  </MDBCol>
+ 
+  </MDBRow>
               <Spinner />
               </div>
           ) : this.state.all_pages.length == 0 ? (
-            <h4 className='connect_msg'>No Google Business Account Connected</h4>
+            <h4 className='connect_msg'>No Google Business Account To Connect</h4>
          
          ) : (
           <div>

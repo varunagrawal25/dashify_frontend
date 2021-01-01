@@ -129,7 +129,19 @@ class ConnectedAccounts extends Component {
     return (
       <div>
       {this.state.loader ? (
-         <div style={{marginTop:'100px'}}>
+         <div >
+           <MDBRow>
+       <MDBCol md='1'>
+       <img src={require("../images/facebook.png")} alt="Facebook" style={{height:'40px',width:'40px' ,marginTop:'25px'}}/>
+       </MDBCol>
+<MDBCol md='11'>
+<div className="rightside_title" style={{marginLeft:'-28px'}}>
+
+<h1>Facebook Pages</h1>
+         </div>
+</MDBCol>
+
+</MDBRow>
            <Spinner />
            </div>
        ) : this.state.all_pages.length == 0 ? (
