@@ -292,27 +292,11 @@ console.log("location44",data)
             }
 
 
-            if (l.connect_type == "Foursquare") {
+            if (l.connect_type === "Foursquare") {
               console.log("yes four");
               this.setState({
                 foursquareIsLoggedIn: true,
-                // pdf_data: [
-                //   ...this.state.pdf_data,
-                //   {
-                //     listing: "Foursquare",
-                //     image: require("../images/foursquare.png"),
-                //     username: l.Social_Platform.Username,
-                //     status: true,
-                //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                //     date: l.Social_Platform.Update_Date.split("T")[0]
-                //   }
-                // ],
-                // foursquareId: l.id,
-                // foursquareName: l.Social_Platform.Username,
-                // all_connections: [
-                //   ...this.state.all_connections,
-                //   { name: "Foursquare" }
-                // ]
+               
               });
             }
 
@@ -321,34 +305,9 @@ console.log("location44",data)
               console.log("yes yelp");
               this.setState({
                 yelpIsLoggedIn: true,
-                // pdf_data: [
-                //   ...this.state.pdf_data,
-                //   {
-                //     listing: "Yelp",
-                //     image: require("../images/yelp.png"),
-                //     username: l.Social_Platform.Username,
-                //     status: true,
-                //     link: l.Social_Platform.Other_info.split(",")[0].slice(7),
-                //     date: l.Social_Platform.Update_Date.split("T")[0]
-                //   }
-                // ],
-                // yelpId: l.id,
-                // yelpName: l.Social_Platform.Username,
-                // all_connections: [
-                //   ...this.state.all_connections,
-                //   { name: "Yelp" }
-                // ]
+               
               });
-              // Axios.get(
-              //   "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-              //     l.Social_Platform.Other_info.split(",")[0]
-              //       .slice(7)
-              //       .slice(25),
-              //   Yelpconfig
-              // ).then(resp => {
-              //   console.log("yelpDetails", resp.data);
-              //   this.setState({ yelpDetails: resp.data });
-              // });
+             
             }
 
             if (l.connect_type == "Apple") {
@@ -377,8 +336,63 @@ console.log("location44",data)
 
 
       optimization_score(dataOpt)
-      .then(resp => {
-        console.log("voice", resp);
+      .then(respon => {
+        console.log("voice", respon);
+        this.setState({
+          VoiceEnabled:respon.data.social_score
+
+        });
+
+
+
+        if (respon.data.social_score) {
+          respon.data.social_score.map(l => {
+            console.log("voise loop all")
+           
+
+            if (l.connect_type === "Google") {
+             
+              this.setState({
+                googleOptimized: l.all_status,
+             
+              });
+
+             
+            }
+
+
+            if (l.connect_type === "Foursquare") {
+              console.log("yes four");
+              this.setState({
+                fourBixby: l.all_status,
+               
+              });
+            }
+
+
+            if (l.connect_type === "Yelp") {
+              console.log("yes yelp");
+              this.setState({
+                yelpAlexa: l.all_status,
+               
+              });
+             
+            }
+
+            if (l.connect_type == "Apple") {
+              console.log("yes Apple");
+              this.setState({
+                appleOptimized: l.all_status,
+               
+              });
+            }
+
+
+           
+            
+          });
+        }
+
       })
       .catch(resp => {
         console.log(resp);
@@ -611,7 +625,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                       <div className="text-iconbox">
                         <div className="vl_card_head">Google Assistant</div>
                         {/* <MDBBtn className="vl_btn_optimize">Optimize</MDBBtn> */}
-                        {this.state.googleLoggedIn ? (
+                        {this.state.googleIsLoggedIn ? (
                           this.state.googleOptimized ? (
                             <a className="progressb">
                               <i className="zmdi zmdi-check-circle"></i>
@@ -657,7 +671,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                                 alt="attachment_icon"
                                 className="attachment"
                               />
-                              Optimizacion in progress
+                               Optimization in progress
                             </div>
                           ) : (
                             <p className="vl_link" style={{ color: "red" }}>can't optimise</p>
@@ -688,7 +702,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                                 alt="attachment_icon"
                                 className="attachment"
                               />
-                              Optimizacion in progress
+                             Optimization in progress
                             </div>
                           ) : (
                             <p className="vl_link" style={{ color: "red" }}>can't optimise</p>
@@ -739,7 +753,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                                 alt="attachment_icon"
                                 className="attachment"
                               />
-                              Optimizacion in progress
+                              Optimization in progress
                             </div>
                           ) : (
                             <p className="vl_link" style={{ color: "red" }}>can't optimize</p>

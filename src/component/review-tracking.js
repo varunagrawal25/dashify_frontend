@@ -32,6 +32,7 @@ import ReactPDF, {
 import { MDBCol, MDBContainer ,MDBRow} from "mdbreact";
 // import { display } from "html2canvas/dist/types/css/property-descriptors/display";
 import { secure_pin } from "../config";
+import { all_connected_icons } from "./apis/social_media";
 
 const BorderLinearProgress5 = withStyles((theme) => ({
   root: {
@@ -257,7 +258,41 @@ export default class ReviewTracking extends Component {
     pdf_data2: []
   };
 
+  
+ get_all_icons_function =e=>{
+
+  const data={
+  secure_pin,
+
+  "user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")}
+
+  console.log(data)
+
+  all_connected_icons(data) .then(res => {
+    console.log("graph",res)
+    var l=res.data.con_social_array.length /2;
+    this.setState({AllConnectedIcons: res.data.con_social_array.slice(0,l),
+    TempAllIcons:res.data.con_social_array
+  })
+
+
+  }).catch=(res)=>{
+
+  }
+}
+
+IconsAllLess=e=>{
+  var type=e.target.value;
+  console.log("ooo",type)
+  if(type==="All")
+  this.setState({AllConnectedIcons:this.state.TempAllIcons})
+  else if(type === "Less")
+  this.setState({AllConnectedIcons:this.state.AllConnectedIcons.slice(0, (this.state.TempAllIcons.length /2 ) )})
+}
+
   componentDidMount = () => {
+
+    this.get_all_icons_function()
     var yelpUrl,
       instaUrl,
       fourUrl,
@@ -1637,12 +1672,34 @@ console.log("upd",filter)
       zomatoDetails,
       zomatoReviewCount,
       zomatoReviews,
-      active_listing
+      active_listing,
+
+      AllConnectedIcons
     } = this.state;
 
     let total_count = star_5 + star_4 + star_3 + star_2 + star_1;
     var most_helpful_review;
     var google_reviews = this.state.googleReviews.reviews;
+
+
+    var AllIcons;
+
+    if(AllConnectedIcons){
+
+      AllIcons=AllConnectedIcons.map(i=>{
+        return(
+          <div className="google-mapd">
+            <img
+              src={i.icon}
+              alt="google"
+              height="65"
+              width="65"
+            />
+          </div>
+        )
+      })
+
+    }
 
     // <div className="whitebox" key={rev.reviewId}>
     //       <div className="view_author">
@@ -2758,7 +2815,7 @@ console.log("upd",filter)
   </MDBCol>
 </MDBRow>
 <div className='review_spacing1'>
-    <span id='review_bold_rating'> {this.state.AvgRating} </span>
+    <span id='review_bold_rating'> {this.state.AvgRating?this.state.AvgRating:0} </span>
     <span id='review_normal_rating'>/5</span>
   </div>
   <div className='review_spacing1'>
@@ -2844,14 +2901,17 @@ console.log("upd",filter)
 <div className='review_heading3'>View all reviews</div>
             </MDBCol>
             <MDBCol md='5'>
-            <img src={google} alt='' className='review_icon'/>
+            {/* <img src={google} alt='' className='review_icon'/>
             <img src={rev_track_fb} alt='' className='review_icon'/>
               <img src={yelp} alt='' className='review_icon'/>
-              <img src={foursquare} alt='' className='review_icon'/>
+              <img src={foursquare} alt='' className='review_icon'/> */}
+
+              {AllIcons}
               
-            <select className="review_select_btn" style={{float:'right'}}>
-  <option>See more</option>
-  <option>See less</option>
+            <select className="review_select_btn" style={{float:'right'}} onChange={this.IconsAllLess}>
+  
+  <option value="Less">See less</option>
+  <option value="All">See more</option>
 </select>
             </MDBCol>
             <MDBCol md='4' >
