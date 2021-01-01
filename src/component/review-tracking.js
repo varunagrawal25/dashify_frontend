@@ -2905,14 +2905,21 @@ console.log("upd",filter)
             <img src={rev_track_fb} alt='' className='review_icon'/>
               <img src={yelp} alt='' className='review_icon'/>
               <img src={foursquare} alt='' className='review_icon'/> */}
-
-              {AllIcons}
-              
-            <select className="review_select_btn" style={{float:'right'}} onChange={this.IconsAllLess}>
+<MDBRow>
+                          <MDBCol md='8' style={{display:'flex'}}>
+                          {AllIcons}
+                          </MDBCol>
+                          <MDBCol md='4' style={{padding:'0px'}}>
+                          <select className="review_select_btn" style={{float:'right'}} onChange={this.IconsAllLess}>
   
   <option value="Less">See less</option>
   <option value="All">See more</option>
 </select>
+                          </MDBCol>
+                        </MDBRow>
+              
+              
+          
             </MDBCol>
             <MDBCol md='4' >
             <select className="review_select_btn" style={{float:'right'}}  onChange={this.UpdateReviewsFilter} >
