@@ -20,7 +20,7 @@ import GoogleLogin from "react-google-login";
 import Spinner from "../common/Spinner";
 import { MDBRow, MDBCol, MDBBtn, MDBCard, MDBContainer } from "mdbreact";
 import Loader from "react-loader-spinner";
-
+import { secure_pin } from "../../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -46,11 +46,13 @@ export default class NewFaq extends Component {
 
     this.setState({ loader_new: true, show_err_newfaq: "" });
     var data = {
-      Location: this.props.locationId,
-      question: que,
-      answer: ans
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.locationId,
+      que: que,
+      ans: ans
     };
-    add_faq(data, DjangoConfig)
+    add_faq(data)
       .then(async resp => {
         await this.props.getNewAllFaq();
         await this.props.cancel();

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { all_connection_of_one_location } from "../apis/social_platforms";
+import {optimization_score} from '../apis/social_media'
 import {
   location_by_id,
   business_categories,
@@ -31,7 +32,7 @@ import vl_img9 from "../assets/vl_img9.png";
 import vl_img10 from "../assets/vl_img10.png";
 import vl_img11 from "../assets/vl_img11.png";
 import attachment from "../assets/attachment.png";
-
+import swal from "sweetalert";
 import NewFaq from "./newFaq";
 import UpdateFaq from "./updateFaq";
 import { secure_pin } from "../../config";
@@ -76,12 +77,14 @@ export default class VoiceListing extends Component {
   };
 
   deleteFaq = nameid => {
-    alert("You are going to delete this FAQ");
+    swal("You are going to delete this FAQ");
 
     console.log(" delete");
 
     var data = {
-      faq_id: nameid
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      faqid: nameid
     };
 
     // Axios.post(
@@ -89,17 +92,32 @@ export default class VoiceListing extends Component {
     //   data,
     //   DjangoConfig
     // )
-    delete_faq(data, DjangoConfig).then(resp => {
+    delete_faq(data).then(resp => {
       console.log(resp);
       // Axios.get(
       //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/voice-faq/get-all-faqs",
       //   DjangoConfig
       // )
-      all_faq(DjangoConfig).then(resp => {
-        console.log(resp);
-        this.setState({ allFaq: resp.data.all_faqs });
-      });
+      // all_faq(DjangoConfig).then(resp => {
+      //   console.log(resp);
+      //   this.setState({ allFaq: resp.data.all_faqs });
+      // });
     });
+    var datal = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
+      location_id: this.props.match.params.locationId
+    };
+
+    all_faq_by_location_id(datal)
+      .then(resp => {
+        console.log("all faq0", resp);
+        console.log("all faq1", resp.data);
+        this.setState({ allFaq: resp.data.faq_list });
+      })
+      .catch(err => {
+        console.log("err in getallFaq", err);
+      });
   };
 
   submitCancel = e => {
@@ -121,13 +139,16 @@ export default class VoiceListing extends Component {
     //   });
 
     var datal = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
       location_id: this.props.match.params.locationId
     };
 
-    all_faq_by_location_id(datal, DjangoConfig)
+    all_faq_by_location_id(datal)
       .then(resp => {
-        console.log("all faq", resp.data);
-        this.setState({ allFaq: resp.data.all_faqs });
+        console.log("all faq0", resp);
+        console.log("all faq1", resp.data);
+        this.setState({ allFaq: resp.data.faq_list });
       })
       .catch(err => {
         console.log("err in getallFaq", err);
@@ -145,15 +166,15 @@ export default class VoiceListing extends Component {
       this.state.allFaq.map(r => {
         dynadiv +=
           "<div class='faq'> <div class='faq-question'> <span class='faq-question-label'>Q.</span> <span class='faq-value'>" +
-          r.question +
+          r.que +
           "</span> </div><div> <span class='faq-answer-label'>A.</span> <span class='faq-value'>" +
-          r.answer +
+          r.ans +
           "</span> </div></div>";
         dynaJs +=
           '{"@type":"Question","name":"' +
-          r.question +
+          r.que +
           '","acceptedAnswer":{"@type":"Answer","text":"' +
-          r.answer +
+          r.ans +
           '"}},';
       });
 
@@ -175,10 +196,13 @@ export default class VoiceListing extends Component {
       secure_pin,
       location_id: this.props.match.params.locationId
     };
-    const data1={secure_pin,countryid:"1"}
+    
+console.log("location44",data)
+    if(this.props.match.params.locationId !=="null"){
     location_by_id(data).then(resp => {
       console.log("hi");
       this.setState({ state: "Loading....", category: "Loading...." });
+      const data1={secure_pin,countryid:resp.data.location_details[0].country}
       business_states(data1).then(resp1 => {
         resp1.data.all_states.map((s, i) =>
         s.id == resp.data.location_details[0].state
@@ -215,170 +239,168 @@ export default class VoiceListing extends Component {
         loader: false
       });
     });
-
+  }
     var datal = {
+      secure_pin,
+      user_id: localStorage.getItem("UserId"),
       location_id: this.props.match.params.locationId
     };
 
-    all_faq_by_location_id(datal, DjangoConfig).then(resp => {
+    all_faq_by_location_id(datal).then(resp => {
       console.log("all faq", resp);
-      this.setState({ allFaq: resp.data.all_faqs });
+      this.setState({ allFaq: resp.data.faq_list });
     });
 
-    const Yelpconfig = {
-      headers: {
-        Authorization:
-          "bearer _1cVnrrkqmG_dwNUdtorVxarkzItJM7AWM700rkRxM7aPdDfxJECcdaN00ADjSkrStF1pX4sdGCspYeSjU7VGkpjWYoMsC2_filBf5d5J5GMRTgXws_W6qusNMhYX3Yx",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "http://localhost"
-      }
-    };
+    // const Yelpconfig = {
+    //   headers: {
+    //     Authorization:
+    //       "bearer _1cVnrrkqmG_dwNUdtorVxarkzItJM7AWM700rkRxM7aPdDfxJECcdaN00ADjSkrStF1pX4sdGCspYeSjU7VGkpjWYoMsC2_filBf5d5J5GMRTgXws_W6qusNMhYX3Yx",
+    //     "Content-Type": "application/json",
+    //     "Access-Control-Allow-Origin": "http://localhost"
+    //   }
+    // };
 
-    all_connection_of_one_location(data, DjangoConfig)
+    const dataVoice = {
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+    };
+   
+    all_connection_of_one_location(dataVoice, DjangoConfig)
       .then(resp => {
-        console.log("get all connections", resp);
-        this.setState({ allListings: resp.data.data });
+        console.log("get all connections by id s", resp);
+        this.setState({ allListings: resp.data.social_media_list });
 
         if (this.state.allListings) {
           this.state.allListings.map(l => {
-            if (l.Social_Platform.Platform == "Google") {
-              const GoogleConfig = {
-                headers: { Authorization: "Bearer " + l.Social_Platform.Token }
-              };
+            console.log("loop all")
+            if (l.connect_type == "Facebook") {
+              
 
-              let locationIdGoogle = l.Social_Platform.Other_info;
-
-              Axios.get(
-                "https://mybusiness.googleapis.com/v4/" + locationIdGoogle,
-                GoogleConfig
-              ).then(res => {
-                console.log("google location details", res.data);
-                this.setState({ googleLoggedIn: true });
-
-                if (
-                  res.data.primaryCategory &&
-                  res.data.regularHours &&
-                  res.data.regularHours.periods &&
-                  res.data.websiteUrl &&
-                  res.data.locationName &&
-                  res.data.address &&
-                  res.data.primaryPhone
-                ) {
-                  if (
-                    res.data.primaryCategory.categoryId &&
-                    res.data.regularHours.periods.length > 0 &&
-                    res.data.address.regionCode &&
-                    res.data.address.postalCode &&
-                    res.data.address.locality &&
-                    res.data.address.administrativeArea
-                  ) {
-                    this.setState({
-                      googleOptimized: true
-                    });
-                  }
-                }
+              this.setState({
+                fbIsLoggedIn: true,
+          
               });
             }
 
-            if (l.Social_Platform.Platform == "Foursquare") {
+            if (l.connect_type === "Google") {
+             
+              this.setState({
+                googleIsLoggedIn: true,
+             
+              });
+
+             
+            }
+
+
+            if (l.connect_type === "Foursquare") {
               console.log("yes four");
-              var fourUrl = l.Social_Platform.Other_info.split(",")[0]
-                .slice(7)
-                .split("/")[5];
-              Axios.get(
-                "https://cors-anywhere.herokuapp.com/https://api.foursquare.com/v2/venues/" +
-                  fourUrl +
-                  "?client_id=44RU2431YG02H4E00RQTLKEUKIKINQSFO2JBHII2WHH32PXZ&client_secret=FWV2WOL40MQ5M1YZ5E2TKUWIQ4WYZ1QUJXOQ24VGRSXFA3IY&v=20180323"
-              ).then(res => {
-                console.log("foursquare data", res.data.response.venue);
-                var fouro = res.data.response.venue;
-                if (
-                  fouro.categories &&
-                  fouro.hours &&
-                  fouro.hours.dayData &&
-                  fouro.name &&
-                  fouro.location.city &&
-                  fouro.location.country &&
-                  fouro.location.state
-                ) {
-                  if (
-                    fouro.categories.length > 0 &&
-                    fouro.hours.dayData.length > 0
-                  ) {
-                    this.setState({
-                      fourBixby: true
-                    });
-                  }
-                }
-              });
               this.setState({
-                foursquareIsLoggedIn: true
+                foursquareIsLoggedIn: true,
+               
               });
             }
 
-            if (l.Social_Platform.Platform == "Yelp") {
+
+            if (l.connect_type === "Yelp") {
               console.log("yes yelp");
-              var yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
-
-              Axios.get(
-                "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-                  yelpUrl.slice(25),
-                Yelpconfig
-              ).then(resp => {
-                console.log("hii");
-                console.log("yelpDetails", resp.data);
-
-                if (
-                  resp.data.categories &&
-                  resp.data.alias &&
-                  resp.data.display_phone &&
-                  resp.data.hours[0].open &&
-                  resp.data.location.address1 &&
-                  resp.data.location.city &&
-                  resp.data.location.country
-                ) {
-                  if (
-                    resp.data.categories.length > 0 &&
-                    resp.data.hours[0].open.length > 0
-                  ) {
-                    this.setState({
-                      yelpAlexa: true
-                    });
-                  }
-                }
-              });
               this.setState({
-                yelpIsLoggedIn: true
+                yelpIsLoggedIn: true,
+               
               });
+             
             }
 
-            if (l.Social_Platform.Platform == "Apple") {
+            if (l.connect_type == "Apple") {
               console.log("yes Apple");
-              var appleUrl = l.Social_Platform.Other_info.split(",")[0]
-                .slice(7)
-                .split("/")[6]
-                .slice(2);
-
-              Axios.get(
-                "https://itunes.apple.com/in/rss/customerreviews/id=" +
-                  appleUrl +
-                  "/sortBy=mostRecent/json"
-              ).then(res => {
-                console.log("apple data in json", res.data);
-              });
               this.setState({
-                appleIsLoggedIn: true
+                appleIsLoggedIn: true,
+               
               });
             }
+
+
+           
+            
           });
         }
-        this.setState({ loader: false });
       })
-      .catch(res => {
-        console.log("error in voice listing", res);
-        this.setState({ loader: false });
+      .catch(resp => {
+        console.log(resp);
       });
-  }
+
+      const dataOpt={
+        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      
+        ,"connect_type":"Yelp"
+      };
+
+
+      optimization_score(dataOpt)
+      .then(respon => {
+        console.log("voice", respon);
+        this.setState({
+          VoiceEnabled:respon.data.social_score
+
+        });
+
+
+
+        if (respon.data.social_score) {
+          respon.data.social_score.map(l => {
+            console.log("voise loop all")
+           
+
+            if (l.connect_type === "Google") {
+             
+              this.setState({
+                googleOptimized: l.all_status,
+             
+              });
+
+             
+            }
+
+
+            if (l.connect_type === "Foursquare") {
+              console.log("yes four");
+              this.setState({
+                fourBixby: l.all_status,
+               
+              });
+            }
+
+
+            if (l.connect_type === "Yelp") {
+              console.log("yes yelp");
+              this.setState({
+                yelpAlexa: l.all_status,
+               
+              });
+             
+            }
+
+            if (l.connect_type == "Apple") {
+              console.log("yes Apple");
+              this.setState({
+                appleOptimized: l.all_status,
+               
+              });
+            }
+
+
+           
+            
+          });
+        }
+
+      })
+      .catch(resp => {
+        console.log(resp);
+      });
+
+
+
+    }
 
   htmlcopy = e => {
     e.preventDefault();
@@ -394,7 +416,7 @@ export default class VoiceListing extends Component {
 
   responseErrorGoogle = response => {
     console.log(response);
-    alert("try again");
+    swal("try again");
   };
 
   responseGoogle = async response => {
@@ -417,11 +439,13 @@ export default class VoiceListing extends Component {
   render() {
     if (this.state.otherImage) {
       var otherIma = this.state.otherImage.map((img, i) => (
-        <img src={img.Image} className="vl_img" />
+        <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+        img.image
+      } className="vl_img" />
       ));
     }
-
-    if (this.state.allFaq.map) {
+console.log("this.state.allFaq",this.state.allFaq)
+    if (this.state.allFaq) {
       var AllFaq = this.state.allFaq.map(r => {
         var nameid = r.id;
 
@@ -485,15 +509,24 @@ export default class VoiceListing extends Component {
            ):(<>
               <MDBRow>
               <MDBCol md="7" className="offset-md-1">
-                <div className="vl_c3_subhead"> {r.question}</div>
-                <div className="vl_contant">{r.answer}</div>
+                <div className="vl_c3_subhead"> {r.que}</div>
+                <div className="vl_contant">{r.ans}</div>
               </MDBCol>
-              <MDBCol md="2" className="offset-md-2">
+              <MDBCol md="1" >
                 <MDBBtn
                   onClick={() => this.editFaq(nameid)}
                   className="vl_btn_c3_edit"
+                  style={{marginLeft:'70px'}}
                 >
                   Edit
+                </MDBBtn>
+              </MDBCol>
+              <MDBCol md="1" className="offset-md-1">
+                <MDBBtn
+                  onClick={() => this.deleteFaq(nameid)}
+                  className="vl_btn_c3_delete"
+                >
+                  Delete
                 </MDBBtn>
               </MDBCol>
             </MDBRow>
@@ -508,10 +541,18 @@ export default class VoiceListing extends Component {
     return (
       <div>
         {this.props.match.params.locationId != "null" ? (
+        
+          <div>
+            {this.state.loader ? (
+          <div className="rightside_title">
+            <h1>Voice Listing</h1>
+            <Spinner />
+          </div>
+        ) : (
           <div>
             <MDBContainer>
-              <div className="setting-10">
-                <h3>Voice Listing</h3>
+              <div className="rightside_title">
+                <h1>Voice Listing</h1>
               </div>
               <MDBRow className="voice_container">
                 <MDBCol sm="12" md="5" lg="5">
@@ -522,7 +563,7 @@ export default class VoiceListing extends Component {
                         // alt="vl_img1"
                         src={
                           this.state.logo
-                            ? "https://dashify.biz" + this.state.logo
+                            ? "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + this.state.logo
                             : require("../../images/Logo2.png")
                         }
                         className="responsive"
@@ -560,7 +601,9 @@ export default class VoiceListing extends Component {
                   <MDBRow>
                     {this.state.otherImage
                       ? this.state.otherImage.map((img, i) => (
-                          <img src={img.Image} className="vl_img" />
+                        <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                        img.image
+                      } className="vl_img" />
                         ))
                       : ""}
                   </MDBRow>
@@ -582,7 +625,7 @@ export default class VoiceListing extends Component {
                       <div className="text-iconbox">
                         <div className="vl_card_head">Google Assistant</div>
                         {/* <MDBBtn className="vl_btn_optimize">Optimize</MDBBtn> */}
-                        {this.state.googleLoggedIn ? (
+                        {this.state.googleIsLoggedIn ? (
                           this.state.googleOptimized ? (
                             <a className="progressb">
                               <i className="zmdi zmdi-check-circle"></i>
@@ -628,7 +671,7 @@ export default class VoiceListing extends Component {
                                 alt="attachment_icon"
                                 className="attachment"
                               />
-                              Optimizacion in progress
+                               Optimization in progress
                             </div>
                           ) : (
                             <p className="vl_link" style={{ color: "red" }}>can't optimise</p>
@@ -659,7 +702,7 @@ export default class VoiceListing extends Component {
                                 alt="attachment_icon"
                                 className="attachment"
                               />
-                              Optimizacion in progress
+                             Optimization in progress
                             </div>
                           ) : (
                             <p className="vl_link" style={{ color: "red" }}>can't optimise</p>
@@ -674,8 +717,11 @@ export default class VoiceListing extends Component {
                         )}
                       </div>
                     </li>
+                          {/* Bing */}
 
-                    <li>
+
+
+                    {/* <li>
                       <div className="img-iconbox col-md-4">
                         <img
                           src={vl_img10}
@@ -687,7 +733,7 @@ export default class VoiceListing extends Component {
                         <div className="vl_card_head">Microsoft Cortana</div>
                         <MDBBtn className="vl_btn_optimize">Optimize</MDBBtn>
                       </div>
-                    </li>
+                    </li> */}
 
                     <li>
                       <div className="img-iconbox col-md-4">
@@ -707,7 +753,7 @@ export default class VoiceListing extends Component {
                                 alt="attachment_icon"
                                 className="attachment"
                               />
-                              Optimizacion in progress
+                              Optimization in progress
                             </div>
                           ) : (
                             <p className="vl_link" style={{ color: "red" }}>can't optimize</p>
@@ -871,14 +917,17 @@ export default class VoiceListing extends Component {
                   ""
                 )}
 
-                {AllFaq}
+                <div>
+                {this.state.allFaq.length>0?(AllFaq):<div className='no_faq'>No FAQ to show</div>}
+                </div>
               </div>
             </MDBContainer>
+          </div>)}
           </div>
         ) : (
           <MDBContainer>
-            <div className="setting-10">
-              <h3>Voice Listing</h3>
+            <div className="rightside_title">
+              <h1>Voice Listing</h1>
             </div>
             <div >
               <h4 className='connect_msg'>Connect Location first</h4>

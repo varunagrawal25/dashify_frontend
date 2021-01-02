@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { all_connection_of_one_location } from "./apis/social_platforms";
+import {review_analytics_by_location} from "./apis/review"
 import Chart from "react-google-charts";
 import Spinner from "./common/Spinner";
 import Column_chart from "./charts/Column_chart";
@@ -92,7 +93,7 @@ export default class ReviewAnalytics extends Component {
       zomatoUrl;
 
     const data = {
-      location_id: this.props.match.params.locationId,
+      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
     };
 
     // Axios.post(
@@ -104,598 +105,646 @@ export default class ReviewAnalytics extends Component {
       .then((response) => {
         console.log(response);
 
-        this.setState({ loader: false });
-        response.data.data.map((l) => {
-          if (l.Social_Platform.Platform == "Facebook") {
-            fbtoken = l.Social_Platform.Token;
-            console.log(fbtoken);
-            fbPageId = l.Social_Platform.Other_info;
+        this.setState({ loader: false,all_connections:response.data.social_media_list });
+        response.data.social_media_list.map((l) => {
+          if (l.connect_type == "Facebook") {
+            // fbtoken = l.Social_Platform.Token;
+            // console.log(fbtoken);
+            // fbPageId = l.Social_Platform.Other_info;
           }
 
-          if (l.Social_Platform.Platform == "Google") {
+          if (l.connect_type == "Google") {
             console.log("yes goo");
-            googleToken = l.Social_Platform.Token;
-            console.log(googleToken);
-            this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
+            // googleToken = l.Social_Platform.Token;
+            // console.log(googleToken);
+            // this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
           }
 
-          if (l.Social_Platform.Platform == "Foursquare") {
+          if (l.connect_type== "Foursquare") {
             console.log("yes four");
 
-            fourUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[5];
+            // fourUrl = l.Social_Platform.Other_info.split(",")[0]
+            //   .slice(7)
+            //   .split("/")[5];
           }
 
-          if (l.Social_Platform.Platform == "Yelp") {
+          if (l.connect_type == "Yelp") {
             console.log("yes yelp");
 
-            yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
+            // yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
           }
 
-          if (l.Social_Platform.Platform == "Apple") {
-            appleUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[6]
-              .slice(2);
+          if (l.connect_type == "Apple") {
+            // appleUrl = l.Social_Platform.Other_info.split(",")[0]
+            //   .slice(7)
+            //   .split("/")[6]
+            //   .slice(2);
           }
 
-          if (l.Social_Platform.Platform == "Citysearch") {
-            citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[4];
+          if (l.connect_type == "Citysearch") {
+            // citysearchUrl = l.Social_Platform.Other_info.split(",")[0]
+            //   .slice(7)
+            //   .split("/")[4];
           }
-          if (l.Social_Platform.Platform == "Here") {
-            hereUrl = l.Social_Platform.Other_info;
+          if (l.connect_type == "Here") {
+            // hereUrl = l.Social_Platform.Other_info;
           }
-          if (l.Social_Platform.Platform == "Zillow") {
-            zillowUrl = l.Social_Platform.Other_info;
+          if (l.connect_type == "Zillow") {
+            // zillowUrl = l.Social_Platform.Other_info;
           }
-          if (l.Social_Platform.Platform == "Tomtom") {
-            tomtomUrl = l.Social_Platform.Other_info;
+          if (l.connect_type == "Tomtom") {
+            // tomtomUrl = l.Social_Platform.Other_info;
           }
-          if (l.Social_Platform.Platform == "Avvo") {
-            avvoUrl = l.Social_Platform.Other_info;
-            avvoToken = l.Social_Platform.Token;
+          if (l.connect_type == "Avvo") {
+            // avvoUrl = l.Social_Platform.Other_info;
+            // avvoToken = l.Social_Platform.Token;
           }
-          if (l.Social_Platform.Platform == "Zomato") {
-            zomatoUrl = l.Social_Platform.Other_info;
+          if (l.connect_type == "Zomato") {
+            // zomatoUrl = l.Social_Platform.Other_info;
           }
         });
 
-        // for facebook
-        if (fbtoken) {
-          Axios.get(
-            "https://graph.facebook.com/me/accounts?fields=access_token,id,name,overall_star_rating,category,category_list,tasks&access_token=" +
-              fbtoken
-          ).then((resp) => {
-            this.setState({ fbAccounts: resp.data.data });
-            var fbPageAccessToken, index;
-            for (let i = 0; i < resp.data.data.length; i++) {
-              if (resp.data.data[i].id == fbPageId) {
-                fbPageAccessToken = resp.data.data[i].access_token;
-                index = i;
-              }
-            }
-            Axios.get(
-              "https://graph.facebook.com/" +
-                fbPageId +
-                "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
-                fbPageAccessToken
-            ).then((res) => {
-              console.log("facebook reviews", res.data.data);
-              this.setState({
-                fbReviews: res.data.data.length,
-                fb_average_rating: resp.data.data[index].overall_star_rating,
-              });
-              let fb_new_reviews = 0;
-              for (let j = 0; j < res.data.data.length; j++) {
-                let create_time1 = res.data.data[j].created_time;
-                if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
-                  if (
-                    parseInt(create_time1.slice(5, 7)) ==
-                    today.getMonth() + 1
-                  ) {
-                    if (
-                      parseInt(create_time1.slice(8, 10)) == today.getDate()
-                    ) {
-                      fb_new_reviews++;
-                    }
-                  }
-                }
-              }
-              this.setState({ fb_new_reviews });
-              this.setState({
-                all_connections: [
-                  ...this.state.all_connections,
-                  { name: "Facebook" },
-                ],
-              });
-            });
-          });
-        }
-
-        //for yelp
-
-        if (yelpUrl) {
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-              yelpUrl.slice(25) +
-              "/reviews",
-            Yelpconfig
-          ).then((resp) => {
-            console.log("yelp reviews", resp.data);
-            this.setState({ yelpReviews: resp.data.reviews });
-
-            let yelp_new_reviews = 0;
-            for (let j = 0; j < resp.data.reviews.length; j++) {
-              let create_time1 = resp.data.reviews[j].time_created;
-              if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
-                if (
-                  parseInt(create_time1.slice(5, 7)) ==
-                  today.getMonth() + 1
-                ) {
-                  if (parseInt(create_time1.slice(8, 10)) == today.getDate()) {
-                    yelp_new_reviews++;
-                  }
-                }
-              }
-            }
-            this.setState({ yelp_new_reviews });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Yelp" },
-              ],
-            });
-          });
-
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-              yelpUrl.slice(25),
-            Yelpconfig
-          ).then((resp) => {
-            console.log("hii");
-            console.log("yelp details", resp.data);
-            this.setState({ yelpDetails: resp.data });
-          });
-        }
-
-        // for google
-
-        const GoogleConfig = {
-          headers: { Authorization: "Bearer " + googleToken },
+        const data2={
+          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,
+          "location_id":localStorage.getItem("locationId"),
+          "filter_type":"last year"
         };
 
-        if (googleToken) {
-          Axios.get(
-            "https://mybusiness.googleapis.com/v4/accounts/",
-            GoogleConfig
-          ).then((res) => {
-            console.log(res.data);
-            localStorage.setItem("accountId", res.data.accounts[0].name);
+        review_analytics_by_location(data2).then((response) => {
+          console.log("ana",response);
 
-            // Axios.get(
-            //   "https://mybusiness.googleapis.com/v4/" +
-            //     localStorage.getItem("accountId") +
-            //     "/locations",
-            //   GoogleConfig
-            // ).then(resp => {
-            //   console.log(resp.data);
+          this.setState({
 
-            //   localStorage.setItem(
-            //     "locationIdGoogle",
-            //     resp.data.locations[0].name
-            //   );
-            Axios.get(
-              "https://mybusiness.googleapis.com/v4/" +
-                this.state.locationIdGoogle +
-                "/reviews",
-              GoogleConfig
-            ).then((respo) => {
-              console.log("google reviews", respo.data);
-              this.setState({ googleReviews: respo.data });
-              let google_new_reviews = 0;
-              if (respo.data.reviews) {
-                for (let j = 0; j < respo.data.reviews.length; j++) {
-                  let create_time1 = respo.data.reviews[j].updateTime;
-                  if (
-                    parseInt(create_time1.slice(0, 4)) == today.getFullYear()
-                  ) {
-                    if (
-                      parseInt(create_time1.slice(5, 7)) ==
-                      today.getMonth() + 1
-                    ) {
-                      if (
-                        parseInt(create_time1.slice(8, 10)) == today.getDate()
-                      ) {
-                        google_new_reviews++;
-                      }
-                    }
-                  }
-                }
-              }
-              this.setState({ google_new_reviews });
-              this.setState({
-                all_connections: [
-                  ...this.state.all_connections,
-                  { name: "Google" },
-                ],
-              });
-            });
-            // });
-          });
-        }
+            TotalReview:response.data.analytics_data[0].total_reviews,
+            NewReview:response.data.analytics_data[0].new_reviews,
+            AvgRating:response.data.analytics_data[0].average_rating,
+            ReviewResponseRate:response.data.analytics_data[0].review_response_rate,
 
-        // For foursquare
+           AllAnalytics:response.data.reviews_data,
+           Consolidate:response.data.consolidated_data
 
-        //   var fourUrl=localStorage.getItem('fourUrl');
+          })
+        })
+        .catch((error)=>console.log(error))
 
-        if (fourUrl) {
-          Axios.get(
-            "https://api.foursquare.com/v2/venues/" +
-              fourUrl +
-              "?client_id=44RU2431YG02H4E00RQTLKEUKIKINQSFO2JBHII2WHH32PXZ&client_secret=FWV2WOL40MQ5M1YZ5E2TKUWIQ4WYZ1QUJXOQ24VGRSXFA3IY&v=20180323"
-          ).then((res) => {
-            console.log("foursquare data", res.data.response.venue);
-            this.setState({
-              foursquareReviews: res.data.response.venue.tips.groups[0]
-                ? res.data.response.venue.tips.groups[0].items
-                : [],
-              foursquareDetails: res.data.response.venue,
-              foursquareReviewCount: res.data.response.venue.tips.count,
-            });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Foursquare" },
-              ],
-            });
-          });
-        }
+  //       // for facebook
+  //       if (fbtoken) {
+  //         Axios.get(
+  //           "https://graph.facebook.com/me/accounts?fields=access_token,id,name,overall_star_rating,category,category_list,tasks&access_token=" +
+  //             fbtoken
+  //         ).then((resp) => {
+  //           this.setState({ fbAccounts: resp.data.data });
+  //           var fbPageAccessToken, index;
+  //           for (let i = 0; i < resp.data.data.length; i++) {
+  //             if (resp.data.data[i].id == fbPageId) {
+  //               fbPageAccessToken = resp.data.data[i].access_token;
+  //               index = i;
+  //             }
+  //           }
+  //           Axios.get(
+  //             "https://graph.facebook.com/" +
+  //               fbPageId +
+  //               "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
+  //               fbPageAccessToken
+  //           ).then((res) => {
+  //             console.log("facebook reviews", res.data.data);
+  //             this.setState({
+  //               fbReviews: res.data.data.length,
+  //               fb_average_rating: resp.data.data[index].overall_star_rating,
+  //             });
+  //             let fb_new_reviews = 0;
+  //             for (let j = 0; j < res.data.data.length; j++) {
+  //               let create_time1 = res.data.data[j].created_time;
+  //               if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
+  //                 if (
+  //                   parseInt(create_time1.slice(5, 7)) ==
+  //                   today.getMonth() + 1
+  //                 ) {
+  //                   if (
+  //                     parseInt(create_time1.slice(8, 10)) == today.getDate()
+  //                   ) {
+  //                     fb_new_reviews++;
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //             this.setState({ fb_new_reviews });
+  //             this.setState({
+  //               all_connections: [
+  //                 ...this.state.all_connections,
+  //                 { name: "Facebook" },
+  //               ],
+  //             });
+  //           });
+  //         });
+  //       }
 
-        if (appleUrl) {
-          Axios.get(
-            "https://itunes.apple.com/in/rss/customerreviews/id=" +
-              appleUrl +
-              "/sortBy=mostRecent/json"
-          ).then((res) => {
-            console.log("apple data", res.data);
+  //       //for yelp
 
-            let appleRating = 0;
-            let appleReviews = res.data.feed.entry;
+  //       if (yelpUrl) {
+  //         Axios.get(
+  //           "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
+  //             yelpUrl.slice(25) +
+  //             "/reviews",
+  //           Yelpconfig
+  //         ).then((resp) => {
+  //           console.log("yelp reviews", resp.data);
+  //           this.setState({ yelpReviews: resp.data.reviews });
 
-            for (let i = 0; i < appleReviews.length; i++) {
-              appleRating += parseInt(appleReviews[i]["im:rating"].label);
-            }
-            appleRating = parseInt(
-              (appleRating / appleReviews.length).toString().slice(0, 3)
-            );
-            this.setState({
-              appleRating,
-              appleReviewCount: res.data.feed.entry.length,
-            });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Apple" },
-              ],
-            });
-          });
-        }
+  //           let yelp_new_reviews = 0;
+  //           for (let j = 0; j < resp.data.reviews.length; j++) {
+  //             let create_time1 = resp.data.reviews[j].time_created;
+  //             if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
+  //               if (
+  //                 parseInt(create_time1.slice(5, 7)) ==
+  //                 today.getMonth() + 1
+  //               ) {
+  //                 if (parseInt(create_time1.slice(8, 10)) == today.getDate()) {
+  //                   yelp_new_reviews++;
+  //                 }
+  //               }
+  //             }
+  //           }
+  //           this.setState({ yelp_new_reviews });
+  //           this.setState({
+  //             all_connections: [
+  //               ...this.state.all_connections,
+  //               { name: "Yelp" },
+  //             ],
+  //           });
+  //         });
 
-        if (citysearchUrl) {
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
-              citysearchUrl +
-              "&publisher=test"
-          ).then((res) => {
-            var XMLParser = require("react-xml-parser");
-            var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
-            console.log("citysearch details", xml);
-            console.log(
-              "citysearch reviews",
-              xml.getElementsByTagName("review")
-            );
+  //         Axios.get(
+  //           "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
+  //             yelpUrl.slice(25),
+  //           Yelpconfig
+  //         ).then((resp) => {
+  //           console.log("hii");
+  //           console.log("yelp details", resp.data);
+  //           this.setState({ yelpDetails: resp.data });
+  //         });
+  //       }
 
-            let citysearchReviews = xml.getElementsByTagName("review");
-            var citysearchRating = 0;
-            var citysearchNewReviews = 0;
-            for (let i = 0; i < citysearchReviews.length; i++) {
-              citysearchRating +=
-                parseInt(citysearchReviews[i].children[5].value) / 2;
+  //       // for google
 
-              let create_time1 = citysearchReviews[i].children[6].value;
-              if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
-                if (
-                  parseInt(create_time1.slice(5, 7)) ==
-                  today.getMonth() + 1
-                ) {
-                  if (parseInt(create_time1.slice(8, 10)) == today.getDate()) {
-                    citysearchNewReviews++;
-                  }
-                }
-              }
-            }
-            citysearchRating = parseInt(
-              (citysearchRating / citysearchReviews.length)
-                .toString()
-                .slice(0, 3)
-            );
-            this.setState({
-              citysearchNewReviews,
-              citysearchRating,
-              citysearchReviewCount: xml.getElementsByTagName("review").length,
-            });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Citysearch" },
-              ],
-            });
-          });
-        }
+  //       const GoogleConfig = {
+  //         headers: { Authorization: "Bearer " + googleToken },
+  //       };
 
-        //Here
+  //       if (googleToken) {
+  //         Axios.get(
+  //           "https://mybusiness.googleapis.com/v4/accounts/",
+  //           GoogleConfig
+  //         ).then((res) => {
+  //           console.log(res.data);
+  //           localStorage.setItem("accountId", res.data.accounts[0].name);
 
-        if (hereUrl) {
-          Axios.get(hereUrl).then((res) => {
-            console.log("Here data", res.data);
+         
+  //           Axios.get(
+  //             "https://mybusiness.googleapis.com/v4/" +
+  //               this.state.locationIdGoogle +
+  //               "/reviews",
+  //             GoogleConfig
+  //           ).then((respo) => {
+  //             console.log("google reviews", respo.data);
+  //             this.setState({ googleReviews: respo.data });
+  //             let google_new_reviews = 0;
+  //             if (respo.data.reviews) {
+  //               for (let j = 0; j < respo.data.reviews.length; j++) {
+  //                 let create_time1 = respo.data.reviews[j].updateTime;
+  //                 if (
+  //                   parseInt(create_time1.slice(0, 4)) == today.getFullYear()
+  //                 ) {
+  //                   if (
+  //                     parseInt(create_time1.slice(5, 7)) ==
+  //                     today.getMonth() + 1
+  //                   ) {
+  //                     if (
+  //                       parseInt(create_time1.slice(8, 10)) == today.getDate()
+  //                     ) {
+  //                       google_new_reviews++;
+  //                     }
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //             this.setState({ google_new_reviews });
+  //             this.setState({
+  //               all_connections: [
+  //                 ...this.state.all_connections,
+  //                 { name: "Google" },
+  //               ],
+  //             });
+  //           });
+  //           // });
+  //         });
+  //       }
 
-            let hereRating =
-              res.data.media.ratings.items.length >= 1
-                ? res.data.media.ratings.items[0].average
-                : "-";
-            let hereReviews =
-              res.data.media.ratings.items.length >= 1
-                ? res.data.media.ratings.items[0].count
-                : "-";
-            this.setState({
-              hereRating,
-              hereReviews: hereReviews,
-            });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Here" },
-              ],
-            });
-          });
-        }
+  //       // For foursquare
 
-        // zillow
+  //       //   var fourUrl=localStorage.getItem('fourUrl');
 
-        if (zillowUrl) {
-          Axios.get(
-            "https://www.zillow.com/webservice/ProReviews.htm?zws-id=X1-ZWz170sf100mbv_7lwvq&email=" +
-              zillowUrl +
-              "&count=10&output=json"
-          ).then((res) => {
-            console.log("zillow data", res.data);
+  //       if (fourUrl) {
+  //         Axios.get(
+  //           "https://api.foursquare.com/v2/venues/" +
+  //             fourUrl +
+  //             "?client_id=44RU2431YG02H4E00RQTLKEUKIKINQSFO2JBHII2WHH32PXZ&client_secret=FWV2WOL40MQ5M1YZ5E2TKUWIQ4WYZ1QUJXOQ24VGRSXFA3IY&v=20180323"
+  //         ).then((res) => {
+  //           console.log("foursquare data", res.data.response.venue);
+  //           this.setState({
+  //             foursquareReviews: res.data.response.venue.tips.groups[0]
+  //               ? res.data.response.venue.tips.groups[0].items
+  //               : [],
+  //             foursquareDetails: res.data.response.venue,
+  //             foursquareReviewCount: res.data.response.venue.tips.count,
+  //           });
+  //           this.setState({
+  //             all_connections: [
+  //               ...this.state.all_connections,
+  //               { name: "Foursquare" },
+  //             ],
+  //           });
+  //         });
+  //       }
 
-            let zillowRating = res.data.response.results.proInfo.avgRating
-              ? parseFloat(res.data.response.results.proInfo.avgRating)
-              : 0;
-            let zillowReviews = parseInt(
-              res.data.response.results.proInfo.reviewCount
-            );
-            this.setState({
-              zillowRating,
-              zillowReviews,
-            });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Zillow" },
-              ],
-            });
-          });
-        }
+  //       if (appleUrl) {
+  //         Axios.get(
+  //           "https://itunes.apple.com/in/rss/customerreviews/id=" +
+  //             appleUrl +
+  //             "/sortBy=mostRecent/json"
+  //         ).then((res) => {
+  //           console.log("apple data", res.data);
 
-        // tomtom
+  //           let appleRating = 0;
+  //           let appleReviews = res.data.feed.entry;
 
-        if (tomtomUrl) {
-          if (tomtomUrl == "-") {
-            this.setState({
-              tomtomRating: 0,
-              tomtomReviews: 0,
-              tomtomNewReviews: 0,
-            });
-          } else {
-            Axios.get(
-              "https://api.tomtom.com/search/2/poiDetails.json?key=IRUplE1TqUPstrlMA2N51xASusnsDsEd&id=" +
-                tomtomUrl
-            ).then((res) => {
-              console.log("tomtom data", res.data);
+  //           for (let i = 0; i < appleReviews.length; i++) {
+  //             appleRating += parseInt(appleReviews[i]["im:rating"].label);
+  //           }
+  //           appleRating = parseInt(
+  //             (appleRating / appleReviews.length).toString().slice(0, 3)
+  //           );
+  //           this.setState({
+  //             appleRating,
+  //             appleReviewCount: res.data.feed.entry.length,
+  //           });
+  //           this.setState({
+  //             all_connections: [
+  //               ...this.state.all_connections,
+  //               { name: "Apple" },
+  //             ],
+  //           });
+  //         });
+  //       }
 
-              let tomtomRating = res.data.result.rating
-                ? parseFloat(res.data.result.rating.value) / 2
-                : 0;
+  //       if (citysearchUrl) {
+  //         Axios.get(
+  //           "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
+  //             citysearchUrl +
+  //             "&publisher=test"
+  //         ).then((res) => {
+  //           var XMLParser = require("react-xml-parser");
+  //           var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
+  //           console.log("citysearch details", xml);
+  //           console.log(
+  //             "citysearch reviews",
+  //             xml.getElementsByTagName("review")
+  //           );
 
-              let tomtomReviews = parseInt(res.data.result.rating.totalRatings);
+  //           let citysearchReviews = xml.getElementsByTagName("review");
+  //           var citysearchRating = 0;
+  //           var citysearchNewReviews = 0;
+  //           for (let i = 0; i < citysearchReviews.length; i++) {
+  //             citysearchRating +=
+  //               parseInt(citysearchReviews[i].children[5].value) / 2;
 
-              var tomtomNewReviews = 0;
-              for (let i = 0; i < res.data.result.reviews.length; i++) {
-                let create_time1 = res.data.result.reviews[i];
-                if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
-                  if (
-                    parseInt(create_time1.slice(5, 7)) ==
-                    today.getMonth() + 1
-                  ) {
-                    if (
-                      parseInt(create_time1.slice(8, 10)) == today.getDate()
-                    ) {
-                      tomtomNewReviews++;
-                    }
-                  }
-                }
-              }
-              this.setState({
-                tomtomRating,
-                tomtomReviews,
-                tomtomNewReviews,
-              });
-              this.setState({
-                all_connections: [
-                  ...this.state.all_connections,
-                  { name: "Tomtom" },
-                ],
-              });
-            });
-          }
-        }
+  //             let create_time1 = citysearchReviews[i].children[6].value;
+  //             if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
+  //               if (
+  //                 parseInt(create_time1.slice(5, 7)) ==
+  //                 today.getMonth() + 1
+  //               ) {
+  //                 if (parseInt(create_time1.slice(8, 10)) == today.getDate()) {
+  //                   citysearchNewReviews++;
+  //                 }
+  //               }
+  //             }
+  //           }
+  //           citysearchRating = parseInt(
+  //             (citysearchRating / citysearchReviews.length)
+  //               .toString()
+  //               .slice(0, 3)
+  //           );
+  //           this.setState({
+  //             citysearchNewReviews,
+  //             citysearchRating,
+  //             citysearchReviewCount: xml.getElementsByTagName("review").length,
+  //           });
+  //           this.setState({
+  //             all_connections: [
+  //               ...this.state.all_connections,
+  //               { name: "Citysearch" },
+  //             ],
+  //           });
+  //         });
+  //       }
 
-        // avvo
+  //       //Here
 
-        if (avvoUrl && avvoToken) {
-          const AvvoConfig = {
-            headers: {
-              Authorization: "Bearer " + avvoToken,
-            },
-          };
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/lawyers.json?id[]=" +
-              avvoUrl,
-            AvvoConfig
-          ).then((res) => {
-            console.log("avvo lawyer data in json", res.data);
+  //       if (hereUrl) {
+  //         Axios.get(hereUrl).then((res) => {
+  //           console.log("Here data", res.data);
 
-            let avvoRating = parseFloat(
-              res.data.lawyers[0].client_review_score
-            );
-            let avvoReviews = parseInt(res.data.lawyers[0].client_review_count);
-            this.setState({
-              avvoRating,
-              avvoReviews,
-            });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Avvo" },
-              ],
-            });
-          });
-        }
+  //           let hereRating =
+  //             res.data.media.ratings.items.length >= 1
+  //               ? res.data.media.ratings.items[0].average
+  //               : "-";
+  //           let hereReviews =
+  //             res.data.media.ratings.items.length >= 1
+  //               ? res.data.media.ratings.items[0].count
+  //               : "-";
+  //           this.setState({
+  //             hereRating,
+  //             hereReviews: hereReviews,
+  //           });
+  //           this.setState({
+  //             all_connections: [
+  //               ...this.state.all_connections,
+  //               { name: "Here" },
+  //             ],
+  //           });
+  //         });
+  //       }
 
-        // zomato
+  //       // zillow
 
-        if (zomatoUrl) {
-          Axios.get(
-            "https://developers.zomato.com/api/v2.1/restaurant?res_id=" +
-              zomatoUrl,
-            Zomatoconfig
-          ).then((res) => {
-            console.log("zomato data", res.data);
+  //       if (zillowUrl) {
+  //         Axios.get(
+  //           "https://www.zillow.com/webservice/ProReviews.htm?zws-id=X1-ZWz170sf100mbv_7lwvq&email=" +
+  //             zillowUrl +
+  //             "&count=10&output=json"
+  //         ).then((res) => {
+  //           console.log("zillow data", res.data);
 
-            let zomatoRating = res.data.user_rating.aggregate_rating
-              ? parseFloat(res.data.user_rating.aggregate_rating)
-              : 0;
-            let zomatoReviews = parseInt(res.data.all_reviews_count);
-            this.setState({
-              zomatoRating,
-              zomatoReviews,
-            });
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Zomato" },
-              ],
-            });
-          });
-        }
-      })
-      .catch((res) => {
-        console.log("error in review analytics", res);
-        this.setState({
-          loader: false,
-        });
+  //           let zillowRating = res.data.response.results.proInfo.avgRating
+  //             ? parseFloat(res.data.response.results.proInfo.avgRating)
+  //             : 0;
+  //           let zillowReviews = parseInt(
+  //             res.data.response.results.proInfo.reviewCount
+  //           );
+  //           this.setState({
+  //             zillowRating,
+  //             zillowReviews,
+  //           });
+  //           this.setState({
+  //             all_connections: [
+  //               ...this.state.all_connections,
+  //               { name: "Zillow" },
+  //             ],
+  //           });
+  //         });
+  //       }
+
+  //       // tomtom
+
+  //       if (tomtomUrl) {
+  //         if (tomtomUrl == "-") {
+  //           this.setState({
+  //             tomtomRating: 0,
+  //             tomtomReviews: 0,
+  //             tomtomNewReviews: 0,
+  //           });
+  //         } else {
+  //           Axios.get(
+  //             "https://api.tomtom.com/search/2/poiDetails.json?key=IRUplE1TqUPstrlMA2N51xASusnsDsEd&id=" +
+  //               tomtomUrl
+  //           ).then((res) => {
+  //             console.log("tomtom data", res.data);
+
+  //             let tomtomRating = res.data.result.rating
+  //               ? parseFloat(res.data.result.rating.value) / 2
+  //               : 0;
+
+  //             let tomtomReviews = parseInt(res.data.result.rating.totalRatings);
+
+  //             var tomtomNewReviews = 0;
+  //             for (let i = 0; i < res.data.result.reviews.length; i++) {
+  //               let create_time1 = res.data.result.reviews[i];
+  //               if (parseInt(create_time1.slice(0, 4)) == today.getFullYear()) {
+  //                 if (
+  //                   parseInt(create_time1.slice(5, 7)) ==
+  //                   today.getMonth() + 1
+  //                 ) {
+  //                   if (
+  //                     parseInt(create_time1.slice(8, 10)) == today.getDate()
+  //                   ) {
+  //                     tomtomNewReviews++;
+  //                   }
+  //                 }
+  //               }
+  //             }
+  //             this.setState({
+  //               tomtomRating,
+  //               tomtomReviews,
+  //               tomtomNewReviews,
+  //             });
+  //             this.setState({
+  //               all_connections: [
+  //                 ...this.state.all_connections,
+  //                 { name: "Tomtom" },
+  //               ],
+  //             });
+  //           });
+  //         }
+  //       }
+
+  //       // avvo
+
+  //       if (avvoUrl && avvoToken) {
+  //         const AvvoConfig = {
+  //           headers: {
+  //             Authorization: "Bearer " + avvoToken,
+  //           },
+  //         };
+  //         Axios.get(
+  //           "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/lawyers.json?id[]=" +
+  //             avvoUrl,
+  //           AvvoConfig
+  //         ).then((res) => {
+  //           console.log("avvo lawyer data in json", res.data);
+
+  //           let avvoRating = parseFloat(
+  //             res.data.lawyers[0].client_review_score
+  //           );
+  //           let avvoReviews = parseInt(res.data.lawyers[0].client_review_count);
+  //           this.setState({
+  //             avvoRating,
+  //             avvoReviews,
+  //           });
+  //           this.setState({
+  //             all_connections: [
+  //               ...this.state.all_connections,
+  //               { name: "Avvo" },
+  //             ],
+  //           });
+  //         });
+  //       }
+
+  //       // zomato
+
+  //       if (zomatoUrl) {
+  //         Axios.get(
+  //           "https://developers.zomato.com/api/v2.1/restaurant?res_id=" +
+  //             zomatoUrl,
+  //           Zomatoconfig
+  //         ).then((res) => {
+  //           console.log("zomato data", res.data);
+
+  //           let zomatoRating = res.data.user_rating.aggregate_rating
+  //             ? parseFloat(res.data.user_rating.aggregate_rating)
+  //             : 0;
+  //           let zomatoReviews = parseInt(res.data.all_reviews_count);
+  //           this.setState({
+  //             zomatoRating,
+  //             zomatoReviews,
+  //           });
+  //           this.setState({
+  //             all_connections: [
+  //               ...this.state.all_connections,
+  //               { name: "Zomato" },
+  //             ],
+  //           });
+  //         });
+  //       }
+  //     })
+  //     .catch((res) => {
+  //       console.log("error in review analytics", res);
+  //       this.setState({
+  //         loader: false,
+  //       });
       });
   }
 
   render() {
     console.log("states", this.state);
 
-    let { all_connections } = this.state;
-
-    var total_new_reviews =
-      (this.state.fb_new_reviews == "-" ? 0 : this.state.fb_new_reviews) +
-      (this.state.google_new_reviews == "-"
-        ? 0
-        : this.state.google_new_reviews) +
-      (this.state.yelp_new_reviews == "-" ? 0 : this.state.yelp_new_reviews) +
-      (this.state.citysearchNewReviews == "-"
-        ? 0
-        : this.state.citysearchNewReviews) +
-      (this.state.tomtomNewReviews == "-" ? 0 : this.state.tomtomNewReviews);
+    let { all_connections, TotalReview,NewReview,AvgRating,ReviewResponseRate,AllAnalytics, Consolidate } = this.state;
+    
+    if(AllAnalytics)
+    AllAnalytics.push(Consolidate[0])
+    
+    // var total_new_reviews =
+    //   (this.state.fb_new_reviews == "-" ? 0 : this.state.fb_new_reviews) +
+    //   (this.state.google_new_reviews == "-"
+    //     ? 0
+    //     : this.state.google_new_reviews) +
+    //   (this.state.yelp_new_reviews == "-" ? 0 : this.state.yelp_new_reviews) +
+    //   (this.state.citysearchNewReviews == "-"
+    //     ? 0
+    //     : this.state.citysearchNewReviews) +
+    //   (this.state.tomtomNewReviews == "-" ? 0 : this.state.tomtomNewReviews);
 
     //rating calculation
-    var overAllRating = 0,
-      overAllReviewCount = 0;
+    // var overAllRating = 0,
+    //   overAllReviewCount = 0;
 
-    let a = 0;
-    a =
-      a +
-      (this.state.yelpDetails.rating > 0 ? 1 : 0) +
-      (this.state.googleReviews.averageRating > 0 ? 1 : 0) +
-      (this.state.foursquareDetails.rating > 0 ? 1 : 0) +
-      (this.state.fb_average_rating > 0 ? 1 : 0) +
-      (this.state.appleRating > 0 ? 1 : 0) +
-      (this.state.citysearchRating > 0 ? 1 : 0) +
-      (this.state.hereRating > 0 ? 1 : 0) +
-      (this.state.zillowRating > 0 ? 1 : 0) +
-      (this.state.tomtomRating > 0 ? 1 : 0) +
-      (this.state.avvoRating > 0 ? 1 : 0) +
-      (this.state.zomatoRating > 0 ? 1 : 0);
+    // let a = 0;
+    // a =
+    //   a +
+    //   (this.state.yelpDetails.rating > 0 ? 1 : 0) +
+    //   (this.state.googleReviews.averageRating > 0 ? 1 : 0) +
+    //   (this.state.foursquareDetails.rating > 0 ? 1 : 0) +
+    //   (this.state.fb_average_rating > 0 ? 1 : 0) +
+    //   (this.state.appleRating > 0 ? 1 : 0) +
+    //   (this.state.citysearchRating > 0 ? 1 : 0) +
+    //   (this.state.hereRating > 0 ? 1 : 0) +
+    //   (this.state.zillowRating > 0 ? 1 : 0) +
+    //   (this.state.tomtomRating > 0 ? 1 : 0) +
+    //   (this.state.avvoRating > 0 ? 1 : 0) +
+    //   (this.state.zomatoRating > 0 ? 1 : 0);
 
-    overAllRating =
-      (this.state.yelpDetails.rating ? this.state.yelpDetails.rating : 0) +
-      (this.state.googleReviews.averageRating
-        ? this.state.googleReviews.averageRating
-        : 0) +
-      (this.state.foursquareDetails.rating
-        ? this.state.foursquareDetails.rating / 2
-        : 0) +
-      (this.state.fb_average_rating ? this.state.fb_average_rating : 0) +
-      (this.state.appleRating && this.state.appleRating != "-"
-        ? this.state.appleRating
-        : 0) +
-      (this.state.citysearchRating && this.state.citysearchRating != "-"
-        ? this.state.citysearchRating
-        : 0) +
-      (this.state.hereRating != "-" ? this.state.hereRating : 0) +
-      (this.state.zillowRating != "-" ? this.state.zillowRating : 0) +
-      (this.state.tomtomRating != "-" ? this.state.tomtomRating : 0) +
-      (this.state.avvoRating != "-" ? this.state.avvoRating : 0) +
-      (this.state.zomatoRating != "-" ? this.state.zomatoRating : 0);
+    // overAllRating =
+    //   (this.state.yelpDetails.rating ? this.state.yelpDetails.rating : 0) +
+    //   (this.state.googleReviews.averageRating
+    //     ? this.state.googleReviews.averageRating
+    //     : 0) +
+    //   (this.state.foursquareDetails.rating
+    //     ? this.state.foursquareDetails.rating / 2
+    //     : 0) +
+    //   (this.state.fb_average_rating ? this.state.fb_average_rating : 0) +
+    //   (this.state.appleRating && this.state.appleRating != "-"
+    //     ? this.state.appleRating
+    //     : 0) +
+    //   (this.state.citysearchRating && this.state.citysearchRating != "-"
+    //     ? this.state.citysearchRating
+    //     : 0) +
+    //   (this.state.hereRating != "-" ? this.state.hereRating : 0) +
+    //   (this.state.zillowRating != "-" ? this.state.zillowRating : 0) +
+    //   (this.state.tomtomRating != "-" ? this.state.tomtomRating : 0) +
+    //   (this.state.avvoRating != "-" ? this.state.avvoRating : 0) +
+    //   (this.state.zomatoRating != "-" ? this.state.zomatoRating : 0);
 
-    // console.log("all rating",this.state.yelpDetails.rating,this.state.googleReviews.averageRating,this.state.foursquareDetails.rating,this.state.fb_average_rating,this.state.appleRating,this.state.citysearchRating,this.state.hereRating,this.state.zillowRating,this.state.tomtomRating,this.state.avvoRating,this.state.zomatoRating)
+    // // console.log("all rating",this.state.yelpDetails.rating,this.state.googleReviews.averageRating,this.state.foursquareDetails.rating,this.state.fb_average_rating,this.state.appleRating,this.state.citysearchRating,this.state.hereRating,this.state.zillowRating,this.state.tomtomRating,this.state.avvoRating,this.state.zomatoRating)
 
-    overAllRating = a == 0 ? "-" : overAllRating / a;
+    // overAllRating = a == 0 ? "-" : overAllRating / a;
 
-    overAllReviewCount =
-      (this.state.fbReviews ? this.state.fbReviews : 0) +
-      (this.state.yelpDetails.review_count
-        ? this.state.yelpDetails.review_count
-        : 0) +
-      (this.state.googleReviews.totalReviewCount
-        ? this.state.googleReviews.totalReviewCount
-        : 0) +
-      (this.state.foursquareReviewCount == "-"
-        ? 0
-        : this.state.foursquareReviewCount) +
-      (this.state.appleReviewCount == "-" ? 0 : this.state.appleReviewCount) +
-      (this.state.citysearchReviewCount == "-"
-        ? 0
-        : this.state.citysearchReviewCount) +
-      (this.state.hereReviews == "-" ? 0 : this.state.hereReviews) +
-      (this.state.zillowReviews == "-" ? 0 : this.state.zillowReviews) +
-      (this.state.tomtomReviews == "-" ? 0 : this.state.tomtomReviews) +
-      (this.state.avvoReviews == "-" ? 0 : this.state.avvoReviews) +
-      (this.state.zomatoReviews == "-" ? 0 : this.state.zomatoReviews);
+    // overAllReviewCount =
+    //   (this.state.fbReviews ? this.state.fbReviews : 0) +
+    //   (this.state.yelpDetails.review_count
+    //     ? this.state.yelpDetails.review_count
+    //     : 0) +
+    //   (this.state.googleReviews.totalReviewCount
+    //     ? this.state.googleReviews.totalReviewCount
+    //     : 0) +
+    //   (this.state.foursquareReviewCount == "-"
+    //     ? 0
+    //     : this.state.foursquareReviewCount) +
+    //   (this.state.appleReviewCount == "-" ? 0 : this.state.appleReviewCount) +
+    //   (this.state.citysearchReviewCount == "-"
+    //     ? 0
+    //     : this.state.citysearchReviewCount) +
+    //   (this.state.hereReviews == "-" ? 0 : this.state.hereReviews) +
+    //   (this.state.zillowReviews == "-" ? 0 : this.state.zillowReviews) +
+    //   (this.state.tomtomReviews == "-" ? 0 : this.state.tomtomReviews) +
+    //   (this.state.avvoReviews == "-" ? 0 : this.state.avvoReviews) +
+    //   (this.state.zomatoReviews == "-" ? 0 : this.state.zomatoReviews);
 
-    console.log(overAllReviewCount);
+    // console.log(overAllReviewCount);
 
     // if (this.state.foursquareReviewCount) {
+      var columnDataGraph=[ 
+        [
+        "Site",
+        "Average Rating",
+        { role: "style" },
+        {
+          sourceColumn: 0,
+          role: "annotation",
+          type: "string",
+          calc: "stringify",
+        },
+      ],
+     
+    ]
+
+    var pieGraphData=[];
+    if(AllAnalytics){
+      
+      AllAnalytics.map(a=>{
+        var temp={
+           value: a.total_reviews, label:a.connect_type 
+        };
+        var temp2=  [
+          a.connect_type,
+         a.avg_rating,
+          "#085bff",
+          null,
+        ]
+        pieGraphData.push(temp);
+        columnDataGraph.push(temp2);
+      })
+    }
+    console.log(pieGraphData)
       var pieData  = [
         { value: this.state.googleReviews.totalReviewCount, label:"Google" },
         { value:this.state.fbReviews, label:"Facebook" },
@@ -751,7 +800,10 @@ export default class ReviewAnalytics extends Component {
     //   ],
     // ];
     // }
+
 console.log('vc',pieData)
+
+
     var columnData = [
       [
         "Site",
@@ -865,6 +917,7 @@ console.log("colcheck",columnData)
 
         {this.state.loader ? (
           <div className="rightside_title">
+            <h1>Review Analytics</h1>
             <Spinner />
           </div>
         ) : (
@@ -875,10 +928,12 @@ console.log("colcheck",columnData)
 
             <MDBRow>
               <MDBCol md="8">
-                <div className="analytics_btnx">
+                
+                {all_connections.length != 0 ? (
+                  <div>
+                    <div className="analytics_btnx">
                   Sitewise Distribution Of Ratings
                 </div>
-                {all_connections.length != 0 ? (
                   <div  className="whitechart">
                     {/* <Column_chart /> */}
                   {/* <ReactApexChart 
@@ -900,7 +955,7 @@ console.log("colcheck",columnData)
                     height={"300px"}
                     chartType="ColumnChart"
                     loader={<div>Loading Chart</div>}
-                    data={columnData}
+                    data={columnDataGraph}
                     options={{
                       // title: "Sitewise Distribution Of Ratings",
                       bar: { groupWidth: "40%" },
@@ -913,16 +968,19 @@ console.log("colcheck",columnData)
                     rootProps={{ "data-testid": "6" }}
                   />
                   </div>
+                </div>
                 ) : (
                   ""
                 )}
               </MDBCol>
 
               <MDBCol md="4">
-                <div className="analytics_btnx">
+                
+                {all_connections.length != 0 ? (
+                  <div>
+                  <div className="analytics_btnx">
                   Sitewise Distribution Reviews
                 </div>
-                {all_connections.length != 0 ? (
                   <div className="whitechart" style={{padding:'28px 45px'}}>
                     <DonutChart
                       legend={false}
@@ -937,7 +995,7 @@ console.log("colcheck",columnData)
                       }
                       colors={["#8264C6", "#634A9B", "#EB05B8", "#3380cc","red","blue","green","orange"]}
                       strokeColor={"false"}
-                      data={pieData}
+                      data={pieGraphData}
                       rootProps={{ "data-testid": "1" }}
                     />
                     {/* <Chart
@@ -954,7 +1012,8 @@ console.log("colcheck",columnData)
                       rootProps={{ "data-testid": "1" }}
                     /> */}
                   </div>
-                ) : (
+                  </div>
+                   ) : (
                   ""
                 )}
               </MDBCol>
@@ -1009,7 +1068,7 @@ console.log("colcheck",columnData)
                               </div>
                             </div>
                             <div className="icon-text">
-                              {overAllReviewCount ? overAllReviewCount : "-"}
+                              {TotalReview ? TotalReview : "0"}
                               <div className="dropdown parsent">
                                 <a
                                   href="#"
@@ -1039,7 +1098,7 @@ console.log("colcheck",columnData)
                               </div>
                             </div>
                             <div className="icon-text">
-                              {total_new_reviews == 0 ? "-" : total_new_reviews}
+                              {NewReview ? NewReview:0}
                               <div className="dropdown parsent">
                                 <a
                                   href="#"
@@ -1069,9 +1128,9 @@ console.log("colcheck",columnData)
                               </div>
                             </div>
                             <div className="icon-text">
-                              {overAllRating != 0
-                                ? overAllRating.toString().slice(0, 4)
-                                : "-"}
+                              {AvgRating
+                                ? AvgRating
+                                : "0"}
                               <div className="dropdown parsent">
                                 <a
                                   href="#"
@@ -1101,7 +1160,7 @@ console.log("colcheck",columnData)
                               </div>
                             </div>
                             <div className="icon-text">
-                              {/* 84 */}-
+                              {/* 84 */} {ReviewResponseRate?ReviewResponseRate:0}
                               <div className="dropdown parsent">
                                 <a
                                   href="#"
@@ -1134,7 +1193,7 @@ console.log("colcheck",columnData)
                     
       columns={[
         {
-          title: 'Review Sites (5)', field: 'review_sites',
+          title: 'Review Sites (5)', field: 'connect_type',
           cellStyle: {
             backgroundColor: '#E4F2FF',
             border:'none',
@@ -1154,29 +1213,32 @@ console.log("colcheck",columnData)
         { title: 'Rencency', field: 'rencency' },
         { title: 'Base Rating', field: 'base_rating' },
       ]}
-      data={[
-        { review_sites: 'Consolidated',
-         avg_rating: overAllRating != 0? (overAllRating.toString().slice(0, 4) + " " + " "+ 66): "-", 
-         total_reviews: overAllReviewCount ? overAllReviewCount : "-", 
-         new_reviews: total_new_reviews == 0 ? "-" : total_new_reviews ,
-          rencency:1 + "  " +'day',
-          base_rating:'nmb jhg'},
-        { review_sites: 'Google',
-         avg_rating: this.state.googleReviews.averageRating? this.state.googleReviews.averageRating: "-", 
-          total_reviews: this.state.googleReviews.totalReviewCount ? this.state.googleReviews.totalReviewCount : "-",
-          total_reviews_percentage:this.state.googleReviews.totalReviewCount? this.state.googleReviews.totalReviewCount: "-",
-           new_reviews: this.state.google_new_reviews ,
-           rencency:1 + 'hkgh',
-           base_rating:'nmb jhg'},
-        { review_sites: 'Facebook',
-         avg_rating: this.state.fbAccounts[0]? this.state.fb_average_rating: "-",
-          total_reviews:this.state.fbReviews? this.state.fbReviews : "-", 
-          new_reviews: this.state.fb_new_reviews ,
-          rencency:1 + 'hkgh',
-          base_rating:'nmb jhg'},
+      data={AllAnalytics}
+        
+        
+      //   [
+      //   { review_sites: 'Consolidated',
+      //    avg_rating: overAllRating != 0? (overAllRating.toString().slice(0, 4) + " " + " "+ 66): "-", 
+      //    total_reviews: overAllReviewCount ? overAllReviewCount : "-", 
+      //    new_reviews: total_new_reviews == 0 ? "-" : total_new_reviews ,
+      //     rencency:1 + "  " +'day',
+      //     base_rating:'nmb jhg'},
+      //   { review_sites: 'Google',
+      //    avg_rating: this.state.googleReviews.averageRating? this.state.googleReviews.averageRating: "-", 
+      //     total_reviews: this.state.googleReviews.totalReviewCount ? this.state.googleReviews.totalReviewCount : "-",
+      //     total_reviews_percentage:this.state.googleReviews.totalReviewCount? this.state.googleReviews.totalReviewCount: "-",
+      //      new_reviews: this.state.google_new_reviews ,
+      //      rencency:1 + 'hkgh',
+      //      base_rating:'nmb jhg'},
+      //   { review_sites: 'Facebook',
+      //    avg_rating: this.state.fbAccounts[0]? this.state.fb_average_rating: "-",
+      //     total_reviews:this.state.fbReviews? this.state.fbReviews : "-", 
+      //     new_reviews: this.state.fb_new_reviews ,
+      //     rencency:1 + 'hkgh',
+      //     base_rating:'nmb jhg'},
         
        
-      ]}
+      // ]}
       options={{
         disableGutters:true,
         varient:false,
@@ -1215,7 +1277,7 @@ opacity: '0.6',
             ) : (
               <div className=" mt-30">
                 
-                    <h4 className='connect_msg'>Connect some listings to see Review Analytics</h4>
+                    <h4 className='connect_msg'>Connect Some Listings To See Review Analytics</h4>
                 
               </div>
             )}

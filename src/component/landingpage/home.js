@@ -512,6 +512,7 @@ import Footer from "./footer";
 import Navbar from "./navbar";
 import { account_activate } from "../apis/user";
 import { secure_pin } from "../../config";
+import swal from "sweetalert";
 
 export default class Home extends Component {
   componentDidMount = () => {
@@ -531,7 +532,7 @@ console.log("qq1",data)
       account_activate(data)
         .then(res => {
           console.log("account activation", res);
-          alert(res.data.message);
+          swal(res.data.message);
         })
         .catch(res => console.log("not active"));
     }

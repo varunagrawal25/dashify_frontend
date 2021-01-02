@@ -125,7 +125,7 @@ export default class AddLocation extends Component {
       loadCountryCategories: false,
       loadStateCategories: false,
       loadCityCategories: false,
-      applyAll: false,
+      applyAll: "0",
       isSuccess: false,
 
       location_name_error: "",
@@ -229,6 +229,39 @@ export default class AddLocation extends Component {
     if (p_visa) {
       payment.push({payment_name: "Visa"})
     }
+
+    if (this.state.BusinessCoverImage == "") {
+      this.setState({ BusinessCoverImage: "" });
+    }
+    if (this.state.BusinessLogo == "") {
+      this.setState({ BusinessLogo : "" });
+    }
+
+    if (this.state.address2 == "") {
+      this.setState({ address2: "0" });
+    }
+    if (this.state.additionalCategories == "") {
+      this.setState({ additionalCategories: "0" });
+    }
+    if (this.state.businessTagline == "") {
+      this.setState({ businessTagline: "0" });
+    }
+    if (this.state.instagramProfile == "") {
+      this.setState({
+        instagramProfile: "0"
+      });
+    } 
+    if (this.state.twitterProfile == "") {
+      this.setState({
+        twitterProfile: "0"
+      });
+    } 
+    if (this.state.facebookProfile == "") {
+      this.setState({
+        facebookProfile: "0"
+      });
+      
+    } 
     var franchise, donot;
     // if (this.state.FranchiseLocation) {
     //   franchise = "true";
@@ -253,17 +286,22 @@ export default class AddLocation extends Component {
     // "more_bussiness_images_array":[{"bussiness_image":"base64image1"},{"bussiness_image":"base64image2"}]}
     
 const data = {
-secure_pin,user_id: localStorage.getItem("UserId"), stor_code: this.state.storeCode, bussiness_logo:this.state.BusinessLogo,
+secure_pin,user_id: localStorage.getItem("UserId"), stor_code: this.state.storeCode, 
+bussiness_logo:this.state.BusinessLogo?this.state.BusinessLogo:"",
+
 bussiness_cate : this.state.category, location_name:this.state.location_name , address1:  this.state.address1 ,
- address2 :  this.state.address1 , country :this.state.country , state : this.state.state , city:this.state.city , 
+ address2 : this.state.address2 ,additional_cate:this.state.additionalCategories , country :this.state.country , state : this.state.state , city:this.state.city , 
  zipcode : this.state.zipCode ,phone_no :this.state.phone ,website :this.state.website ,
   franchiese_locaiton :this.state.Franchise_Location ,do_not_publish_my_address:  this.state.Do_not_publish_my_address ,
   bussiness_owner_name:this.state.ownerName , bussiness_owner_email :this.state.ownerEmail ,
   bussiness_tagline : this.state.businessTagline ,year_of_incorporation :this.state.yearOfIncorp ,
   about_bussiness : this.state.about,facebook_profile: this.state.facebookProfile ,
   instagram_profile: this.state.instagramProfile ,twitter_profile:this.state.twitterProfile ,
-  bussiness_cover_image: this.state.BusinessCoverImage,payment_method_array: payment, 
-  more_bussiness_images_array :  this.state.otherImage, open_hours_apply_all : "0" ,
+  
+  bussiness_cover_image: this.state.BusinessCoverImage?this.state.BusinessCoverImage:'',
+  
+  payment_method_array: payment, 
+  more_bussiness_images_array :  this.state.otherImage, open_hours_apply_all : this.state.applyAll ,
    open_hours_array :[{day:"Monday",open_status:this.state.monday,start_time1: this.state.mondayStart1,
    end_time1:this.state.mondayEnd1,start_time2:this.state.mondayStart2,end_time2:this.state.mondayEnd2},
    {day:"Tuesday",open_status:this.state.tuesday,start_time1: this.state.tuesdayStart1,end_time1:this.state.tuesdayEnd1,
@@ -378,41 +416,41 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
 
     let error_present = false;
 
-    if (data.Location_name == "") {
+    if (data.bussiness_owner_name == "") {
+      this.setState({ ownerName_error: "*Owner name can not be empty" });
+      error_present = true;
+    }
+    if (data.about_bussiness == "") {
+      this.setState({about_error: "*Enter about your business" });
+      error_present = true;
+    }
+    if (data.location_name == "") {
       this.setState({ location_name_error: "*Location can not be empty" });
       error_present = true;
     }
-    if (data.Store_Code == "") {
+    if (data.stor_code == "") {
       this.setState({ storeCode_error: "*Store Code can not be empty" });
       error_present = true;
     }
-    if (data.Business_category == "") {
+    if (data.bussiness_cate == "") {
       this.setState({ category_error: "*Please select Business category" });
       error_present = true;
     }
-    if (data.Additional_catugory == "") {
-      this.setState({
-        additionalCategories_error: "*Additional categories can not be empty"
-      });
-      error_present = true;
-    }
-    if (data.Address_1 == "") {
+   
+    if (data.address1 == "") {
       this.setState({ address1_error: "*Address can not be empty" });
       error_present = true;
     }
-    if (data.Address_2 == "") {
-      this.setState({ address2_error: "*Address 2 can not be empty" });
-      error_present = true;
-    }
-    if (data.City == "") {
+   
+    if (data.city == "") {
       this.setState({ city_error: "*City can not be empty" });
       error_present = true;
     }
-    if (data.State == "") {
+    if (data.state == "") {
       this.setState({ state_error: "*Please select your state" });
       error_present = true;
     }
-    if (data.Country == "") {
+    if (data.country == "") {
       this.setState({ country_error: "*Please select your country" });
       error_present = true;
     }
@@ -456,14 +494,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
     // if (data.open_houre == "") {
     //   this.setState({ hours_error: "*password can not be empty" });
     // }
-    if (data.About_Business == "") {
-      this.setState({ about_error: "*Enter about your business" });
-      error_present = true;
-    }
-    if (data.Business_Owner_Name == "") {
-      this.setState({ ownerName_error: "*Owner name can not be empty" });
-      error_present = true;
-    }
+   
     if (data.bussiness_owner_email == "") {
       this.setState({ ownerEmail_error: "*Owner email can not be empty" });
       error_present = true;
@@ -492,18 +523,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
         error_present = true;
       }
     }
-    if (data.Business_Tagline == "") {
-      this.setState({
-        businessTagline_error: "*Business Tagline can not be empty"
-      });
-      error_present = true;
-    }
-    if (data.instagram_profile == "") {
-      this.setState({
-        instagramProfile_error: "*Instagram Profile can not be empty"
-      });
-      error_present = true;
-    } else {
+    if( data.instagram_profile !="0") {
       const result = url_regex(data.instagram_profile);
       if (result == null) {
         this.setState({
@@ -512,12 +532,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
         error_present = true;
       }
     }
-    if (data.twitter_profile == "") {
-      this.setState({
-        twitterProfile_error: "*Twitter Profile can not be empty"
-      });
-      error_present = true;
-    } else {
+    if (data.twitter_profile != "0") {
       const result = url_regex(data.twitter_profile);
       if (result == null) {
         this.setState({
@@ -526,12 +541,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
         error_present = true;
       }
     }
-    if (data.facebook_profile == "") {
-      this.setState({
-        facebookProfile_error: "*Facebook Profile can not be empty"
-      });
-      error_present = true;
-    } else {
+    if (data.facebook_profile != "0") {
       const result = url_regex(data.facebook_profile);
       if (result == null) {
         this.setState({
@@ -540,12 +550,15 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
         error_present = true;
       }
     }
-    if (data.payment_method_array == "") {
-      this.setState({
-        paymentMethod_error: "*Payment method can not be empty"
-      });
-      error_present = true;
-    }
+    
+    // if (data.payment_method_array.length == 0) {
+    //   this.setState({
+    //     paymentMethod: "0"
+    //   });
+     
+    // }
+  
+   
     return error_present;
   };
 
@@ -576,7 +589,27 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
   };
 
   Other_images = async () => {
-    let otherImage = [{bussiness_image : this.state.other_image0},{bussiness_image : this.state.other_image1},{bussiness_image : this.state.other_image2}];
+
+    let otherImage=[];
+    if(this.state.other_image0){
+      otherImage.push({bussiness_image : this.state.other_image0})
+
+
+    }
+
+    if(this.state.other_image1){
+      otherImage.push({bussiness_image : this.state.other_image1})
+
+
+    }
+
+    if(this.state.other_image2){
+      otherImage.push({bussiness_image : this.state.other_image2})
+
+
+    }
+    console.log("func other ",otherImage)
+   // let otherImage = [{bussiness_image : this.state.other_image0},{bussiness_image : this.state.other_image1},{bussiness_image : this.state.other_image2}];
     await this.setState({ otherImage: otherImage });
   };
 
@@ -635,7 +668,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
 
     if (event.target.checked && isValid) {
       this.setState({
-        applyAll: true,
+        applyAll: "1",
 
         tuesday: this.state.monday,
         tuesdayStart1: this.state.mondayStart1,
@@ -675,7 +708,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
       });
     } else {
       this.setState({
-        applyAll: false,
+        applyAll: "0",
 
         tuesday: "",
         tuesdayStart1: "",
@@ -809,7 +842,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
 
   render() {
     if (this.state.isSuccess) {
-      return <Redirect to="/" />;
+      return <Redirect to="/location-manager" />;
     }
     let {
       businessCategories,
@@ -923,13 +956,14 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
   <MDBCol md='8'>
   <MDBRow>
                           <MDBCol md='6' className="form-group">
-                          <label>Store Code</label>
+                          <label>Store Code <span className="red">*</span></label>
                               <input
                                 type="text"
                                 name="storeCode"
                                 onChange={this.changeHandler}
                                 placeholder="Please enter store code"
                                 className="form-control"
+                                required
                               />
                               <div class='err_msg'>
                                 {storeCode_error}
@@ -946,6 +980,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                 onChange={this.changeHandler}
                                 placeholder="Enter Location Name"
                                 className="form-control"
+                                required
                               />
                               <div class='err_msg'>
                                 {location_name_error}
@@ -993,9 +1028,9 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                 onChange={this.changeHandler}
                                 className="form-control"
                               ></textarea>
-                              <div class='err_msg'>
+                              {/* <div class='err_msg'>
                                 {additionalCategories_error}
-                              </div>
+                              </div> */}
                           </MDBCol>
                         </MDBRow>
   </MDBCol>
@@ -1030,7 +1065,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                           <div className="col-md-4">
                             <div className="form-group">
                               <label>
-                                address 1 <span>*</span>
+                                address 1 <span className="red">*</span>
                               </label>
                               <input
                                 type="text"
@@ -1061,44 +1096,11 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                             </div>
                           </div>
 
+                          
                           <div className="col-md-4">
                             <div className="form-group">
                               <label>
-                                City <span>*</span>
-                              </label>
-                             
-                              <select
-                                  name="city"
-                                  onChange={this.changeHandler}
-                                  id="city"
-                                  required
-                                  className="form-control"
-                                >
-                                  <option value="0" disabled="">
-                                    {this.state.state_selected_id == "" ||
-                                    loadCityCategories
-                                      ? "Select State first"
-                                      : "Select City"}
-                                  </option>
-                                  {cityCategories.map((c, i) =>
-                                    this.state.state_selected_id == c.state_id ? (
-                                      <option key={`stste-${i}`} value={c.id}>
-                                        {c.name}
-                                      </option>
-                                    ) : (
-                                      ""
-                                    )
-                                  )}
-                                </select>
-                                
-                              <div class='err_msg'>{city_error}</div>
-                            </div>
-                          </div>
-
-                          <div className="col-md-4">
-                            <div className="form-group">
-                              <label>
-                                Country <span>*</span>
+                                Country <span className="red">*</span>
                               </label>
                              
                               <div>
@@ -1130,7 +1132,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                           <div className="col-md-4">
                             <div className="form-group">
                               <label>
-                                State <span>*</span>
+                                State <span className="red">*</span>
                               </label>
                             
 
@@ -1165,11 +1167,44 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                               </div>
                             </div>
                           </div>
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label>
+                                City <span className="red">*</span>
+                              </label>
+                             
+                              <select
+                                  name="city"
+                                  onChange={this.changeHandler}
+                                  id="city"
+                                  required
+                                  className="form-control"
+                                >
+                                  <option value="0" disabled="">
+                                    {this.state.state_selected_id == "" ||
+                                    loadCityCategories
+                                      ? "Select State first"
+                                      : "Select City"}
+                                  </option>
+                                  { cityCategories?cityCategories.map((c, i) =>
+                                    this.state.state_selected_id == c.state_id ? (
+                                      <option key={`stste-${i}`} value={c.id}>
+                                        {c.name}
+                                      </option>
+                                    ) : (
+                                      ""
+                                    )
+                                  ):""}
+                                </select>
+                                
+                              <div class='err_msg'>{city_error}</div>
+                            </div>
+                          </div>
 
                           <div className="col-md-4">
                             <div className="form-group">
                               <label>
-                                Zipcode <span>*</span>
+                                Zipcode <span className="red">*</span>
                               </label>
                               <input
                                 type="text"
@@ -1188,7 +1223,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
 
                           <div className="col-md-4">
                             <div className="form-group">
-                              <label>Phone</label>
+                              <label>Phone <span className="red">*</span></label>
                               <input
                                 type="tel"
                                 name="phone"
@@ -1202,7 +1237,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
 
                           <div className="col-md-4">
                             <div className="form-group">
-                              <label>Website</label>
+                              <label>Website <span className="red">*</span></label>
                               <input
                                 name="website"
                                 onChange={this.changeHandler}
@@ -1268,14 +1303,14 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                     <div className="promotional-box border-bottom">
                       <div className="stepone-loaction">
                         <h4>
-                          <span>step 2</span> Business and Operational
+                          <span>step 2</span> Business And Operational
                           Information
                         </h4>
 
                         <div className="row addlocationboxs">
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label>Business Owner Name</label>
+                              <label>Business Owner Name <span className="red">*</span></label>
                               <input
                                 name="ownerName"
                                 onChange={this.changeHandler}
@@ -1289,7 +1324,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                               </div>
                             </div>
                             <div className="form-group">
-                              <label>Owner Email</label>
+                              <label>Owner Email <span className="red">*</span></label>
                               <input
                                 name="ownerEmail"
                                 onChange={this.changeHandler}
@@ -1318,7 +1353,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                             </div>
 
                             <div className="form-group">
-                              <label>Year of Incorporation</label>
+                              <label>Year of Incorporation <span className="red">*</span></label>
                               <input
                                 name="yearOfIncorp"
                                 onChange={this.changeHandler}
@@ -1334,7 +1369,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
 
                             <div className="form-group">
                               <label>
-                                About The Business <span>*</span>
+                                About The Business <span className="red">*</span>
                               </label>
                               <textarea
                                 name="about"
@@ -1497,7 +1532,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                   </MDBRow>
 
                                  
-                                  {applyAll && !applyAllError ? (
+                                  {applyAll=="1" && !applyAllError ? (
                                     ""
                                   ) : (
                                     <div>

@@ -3,6 +3,8 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
+import swal from "sweetalert";
+import {secure_pin} from "../config"
 
 class InstagramLogin extends Component {
   state = {
@@ -54,41 +56,72 @@ class InstagramLogin extends Component {
       const instagramUrl = this.state.url;
       // localStorage.setItem('instagramUrl', instagramUrl);
       const data = {
-        location_id: localStorage.getItem("locationId"),
-        Platform: "Instagram",
-        Token: "",
-        Username: this.state.url,
-        Email: this.state.username,
-        Password: "",
-        Connect_status: "Connect",
-        Other_info: "{'URL':" + this.state.url + ",'data':''}"
+        // secure_pin,
+        // location_id: localStorage.getItem("locationId"),
+        // Platform: "Instagram",
+        // Token: "",
+        // Username: this.state.url,
+        // Email: this.state.username,
+        // Password: "",
+        // Connect_status: "Connect",
+        // Other_info: "{'URL':" + this.state.url + ",'data':''}"
+
+        secure_pin,
+        "user_id":localStorage.getItem("UserId"),
+        "location_id":localStorage.getItem("locationId"),
+        "connect_unique_id":"",
+        "token":"",
+        "username":this.state.url,
+        "password":this.state.password,
+        "first_name":"",
+        "last_name":"",
+        "email_id":this.state.username,
+        "connect_url": "",
+        "connect_type":"Instagram",
       };
 
-      Axios.get("https://www.instagram.com/" + this.state.url + "/?__a=1")
-        .then(res => {
-          if (res.data.graphql.user) {
-            add_social_account(data, DjangoConfig)
-              .then(resp => {
-                console.log(resp);
-                this.setState({ isUrl: true, loading: false });
-              })
-              .catch(resp => {
-                console.log(resp);
-                alert("Invalid username or password");
-                this.setState({
-                  wrong: "Invalid or Not authorised",
-                  loading: false
-                });
-              });
-          } else {
-            alert("Invalid username or password");
-            this.setState({ loading: false });
-          }
-        })
-        .catch(resp => {
-          alert("Invalid username or password");
-          this.setState({ loading: false });
+
+
+console.log("instadata",data)
+      // Axios.get("https://www.instagram.com/" + this.state.url + "/?__a=1")
+      //   .then(res => {
+      //     if (res.data.graphql.user) {
+      //       add_social_account(data)
+      //         .then(resp => {
+      //           console.log(resp);
+      //           this.setState({ isUrl: true, loading: false });
+      //         })
+      //         .catch(resp => {
+      //           console.log(resp);
+      //           swal("Invalid username or password");
+      //           this.setState({
+      //             wrong: "Invalid or Not authorised",
+      //             loading: false
+      //           });
+      //         });
+      //     } else {
+      //       swal("Invalid username or password");
+      //       this.setState({ loading: false });
+      //     }
+      //   })
+      //   .catch(resp => {
+      //     swal("Invalid username or password");
+      //     this.setState({ loading: false });
+      //   });
+
+      add_social_account(data, DjangoConfig)
+      .then(resp => {
+        console.log(resp);
+        this.setState({ isUrl: true, loading: false });
+      })
+      .catch(resp => {
+        console.log(resp);
+        this.setState({
+          wrong: "Invalid or Not authorised",
+          loading: false
         });
+      });
+   
     }
   };
 

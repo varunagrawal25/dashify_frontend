@@ -11,7 +11,7 @@ export default class SideBar extends Component {
             <div className="left_nav">
               <ul className="left_content">
                 <li>
-                  <NavLink
+                  <NavLink 
                     selected
                     to={
                       "/locations/" +
@@ -47,7 +47,7 @@ export default class SideBar extends Component {
                 <li>
                   <NavLink to="/support">
                     <img src={require("./assets/uservoice.png")} alt="" />
-                    <span>Suport</span>
+                    <span>Support</span>
                   </NavLink>
                 </li>
                 <li>
@@ -57,7 +57,7 @@ export default class SideBar extends Component {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to="/setting-main/setting-accounts">
+                  <NavLink to="/setting-main/setting-accounts/my-profile">
                     <img src={require("./assets/settingsfuture.png")} alt="" />
                     <span>Settings</span>
                   </NavLink>

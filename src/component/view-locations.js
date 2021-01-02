@@ -7,7 +7,8 @@ import {
   edit_location_payment_by_id,
   update_images_by_location_id,
   add_other_images_by_location_id,
-  delete_other_images_by_location_id
+  delete_other_images_by_location_id,
+  All_payment_by_location
 } from "./apis/location";
 import Spinner from "./common/Spinner";
 import Loader from "react-loader-spinner";
@@ -221,12 +222,113 @@ export default class LocationManager extends Component {
     var locationId = this.props.match.params.locationId;
     const data = {
       secure_pin,
-      location_id: locationId
+      location_id: locationId,
+      user_id: localStorage.getItem("UserId"),
     };
+    // p_amex: p_amex,
+    // p_android: p_android,
+    // p_apple: p_apple,
+    // p_cash: p_cash,
+    // p_check: p_check,
+    // p_crypto: p_crypto,
+    // p_diners: p_diners,
+    // p_financing: p_financing,
+    // p_invoices: p_invoices,
+    // p_maestro: p_maestro,
+    // p_paypal: p_paypal,
+    // p_discover: p_discover,
+    // p_samsung: p_samsung,
+    // p_traveler: p_traveler,
+    // p_visa: p_visa
+    All_payment_by_location(data)
+      .then(resp => {
+        console.log(resp.data.payment_method_array.payment_name)
+        resp.data.payment_method_array.map(p =>
+          {
+            console.log('p7',p)
+          if(p.payment_name=="Amex"){
+            this.setState({p_amex:true})
+          }
+
+          if(p.payment_name=="Android"){
+            this.setState({p_android:true})
+          }
+
+          if(p.payment_name=="Apple"){
+            this.setState({p_apple:true})
+          }
+
+          if(p.payment_name=="Cash"){
+            this.setState({p_cash:true})
+          }
+
+          if(p.payment_name=="Check"){
+            this.setState({p_check:true})
+          }
+
+          if(p.payment_name=="Crypto"){
+            this.setState({p_crypto:true})
+          }
+
+          if(p.payment_name=="Diners"){
+            this.setState({p_diners:true})
+          }
+
+          if(p.payment_name=="Discover"){
+            this.setState({p_discover:true})
+          }
+
+          if(p.payment_name=="Financing"){
+            this.setState({p_financing:true})
+          }
+
+          if(p.payment_name=="Invoices"){
+            this.setState({p_invoices:true})
+          }
+
+          if(p.payment_name=="Maestro"){
+            this.setState({p_maestro:true})
+          }
+
+          if(p.payment_name=="Paypal"){
+            this.setState({p_paypal:true})
+          }
+
+          if(p.payment_name=="Traveler"){
+            this.setState({p_traveler:true})
+          }
+
+          if(p.payment_name=="Visa"){
+            this.setState({p_visa:true})
+          }
+
+          if(p.payment_name=="Samsung"){
+            this.setState({p_samsung:true})
+          }
+          }
+          )
+         
+      }).catch(err => {
+        console.log("err",err)
+        swal("Something went wrong")
+      });
 console.log("data255",data)
     location_by_id(data)
     .then(resp => {
-      
+      const data2={secure_pin}
+console.log("jj",data2)
+      business_categories(data2).then(resp1 => {
+        console.log("jj",resp1)
+        resp1.data.bussiness_category_array.map((b, i) =>
+        b.id == resp.data.location_details[0].bussiness_cate
+        ? this.setState({ category: b.name })
+        : ""
+        );
+        
+      }).catch(err => {
+        console.log("err",err)
+        this.setState({category: "Loading..."})
+      });
       console.log("location_by_id0", resp);
       console.log("location_by_id1", resp.data);
       console.log("location_by_id2", resp.data.location_details);
@@ -282,18 +384,12 @@ console.log("data255",data)
         })
       console.log("name88",this.state.name)
 console.log("name88",resp.data.location_details[0].location_name)
-const data={secure_pin}
-      business_categories(data).then(resp1 => {
-        resp1.data.bussiness_category_array.map((b, i) =>
-          b.id == resp.data.location_details[0].bussiness_cate
-            ? this.setState({ category: b.Category_Name })
-            : ""
-        );
-      });
+
     }).catch(err => {
       console.log("err",err)
       this.setState({loader:false})
     })
+    
   };
 
   editDetailsButton = event => {
@@ -353,7 +449,7 @@ const data={secure_pin}
         location_id: locationId,
         user_id: localStorage.getItem("UserId"),
         stor_code: storeCode_edit,
-        bussiness_cate:"1",
+        bussiness_cate:this.state.category,
         location_name:this.state.name,
         address1: address_edit,
         address2 :"ind",
@@ -395,7 +491,7 @@ const data={secure_pin}
         location_id: locationId,
         user_id: localStorage.getItem("UserId"),
         stor_code: storeCode_edit,
-        bussiness_cate:"1",
+        bussiness_cate:this.state.category,
         location_name:this.state.name,
         address1: address_edit,
         address2 :"ind",
@@ -474,6 +570,7 @@ console.log("tt25",data)
   updatePaymentButton = event => {
     event.preventDefault();
     var locationId = this.props.match.params.locationId;
+    console.log("p_visa1",this.state.p_visa)
     let {
       p_amex,
       p_android,
@@ -575,22 +672,21 @@ console.log("tt25",data)
         console.log("paycheck",resp);
         this.setState({
           paymentEdit: false,
-          p_amex: false,
-          p_android: false,
-          p_apple: false,
-          p_cash: false,
-          p_check: false,
-          p_crypto: false,
-          p_diners: false,
-          p_discover: false,
-          p_financing: false,
-          p_invoices: false,
-          p_maestro: false,
-          p_paypal: false,
-          p_discover: false,
-          p_samsung: false,
-          p_traveler: false,
-          p_visa: false
+          p_amex: p_amex,
+          p_android: p_android,
+          p_apple: p_apple,
+          p_cash: p_cash,
+          p_check: p_check,
+          p_crypto: p_crypto,
+          p_diners: p_diners,
+          p_financing: p_financing,
+          p_invoices: p_invoices,
+          p_maestro: p_maestro,
+          p_paypal: p_paypal,
+          p_discover: p_discover,
+          p_samsung: p_samsung,
+          p_traveler: p_traveler,
+          p_visa: p_visa
         });
         const data1 = {
           secure_pin,
@@ -1024,7 +1120,7 @@ console.log("timecheck2",isValid)
         location_id: locationId,
         user_id: localStorage.getItem("UserId"),
         open_hours_apply_all:this.state.applyAll,
-        
+        type:'regular',
         open_hours_array: [ {
          day: "Monday",
           open_status: this.state.monday,
@@ -1170,49 +1266,59 @@ console.log("timecheck2",isValid)
     return isError;
   };
 
-  addSpecialHourButton = async event => {
-    event.preventDefault();
+  // addSpecialHourButton = async event => {
+  //   event.preventDefault();
 
-    let isError = await this.specialHourError();
+  //   let isError = await this.specialHourError();
 
-    if (!isError) {
-      let i = 0;
-      let i2 = this.state.LocationDetails.Df_location_poen_hour.length - 7;
-      console.log("monday", this.state.monday_day_s, i);
+  //   if (!isError) {
+  //     let i = 0;
+  //     let i2 = this.state.LocationDetails.Df_location_poen_hour.length - 7;
+  //     console.log("monday", this.state.monday_day_s, i);
 
-      if (this.state.monday_day_s) {
-        await this.setState(prevState => ({
-          special_hour_data: {
-            ...prevState.special_hour_data,
-            [i]: {
-              date: this.state.monday_day_s,
-              day: "Special",
-              Type: `Special-${i2}`,
-              open_status: this.state.monday_s,
-              start_time1: this.state.mondayStart1_s,
-              end_time1: this.state.mondayEnd1_s,
-              start_time2: this.state.mondayStart2_s,
-              end_time2: this.state.mondayEnd2_s
-            }
-          }
-        }));
-        i++;
-      }
+  //     if (this.state.monday_day_s) {
+  //       await this.setState(prevState => ({
+  //         special_hour_data: {
+  //           ...prevState.special_hour_data,
+  //           [i]: {
+  //             date: this.state.monday_day_s,
+  //             day: "Special",
+  //             Type: `Special-${i2}`,
+  //             open_status: this.state.monday_s,
+  //             start_time1: this.state.mondayStart1_s,
+  //             end_time1: this.state.mondayEnd1_s,
+  //             start_time2: this.state.mondayStart2_s,
+  //             end_time2: this.state.mondayEnd2_s
+  //           }
+  //         }
+  //       }));
+  //       i++;
+  //     }
 
-      this.addSpecialHourToDb();
-    }
-  };
+  //     this.addSpecialHourToDb();
+  //   }
+  // };
 
-  addSpecialHourToDb = () => {
+  addSpecialHourButton = () => {
     // event.preventDefault();
     console.log("special");
     var locationId = this.props.match.params.locationId;
 
     const data = {
-      Location_id: locationId,
-      open_houre: this.state.special_hour_data
+      secure_pin,
+        location_id: locationId,
+        user_id: localStorage.getItem("UserId"),
+      type: "special", 
+      open_hours_array: [ {
+        special_date: this.state.monday_day_s,
+        open_status: this.state.monday_s,
+        start_time1: this.state.mondayStart1_s,
+        end_time1: this.state.mondayEnd1_s,
+        start_time2: this.state.mondayStart2_s,
+        end_time2: this.state.mondayEnd2_s
+               }]
     };
-
+console.log("happyh",data)
     this.setState({ specialTimeLoading: true });
 
     edit_location_operations_hours_by_id(data)
@@ -1307,13 +1413,13 @@ console.log("timecheck2",isValid)
             })
             .catch(resp1 => {
               console.log(resp1);
-              alert("uploading image failedc");
+              swal("uploading image failedc");
               this.setState({ logoLoading: false, coverImageLoading: false });
             });
         })
         .catch(resp => {
           console.log(resp);
-          alert("uploading image failed");
+          swal("uploading image failed");
           this.setState({ logoLoading: false, coverImageLoading: false });
         });
     };
@@ -1328,15 +1434,19 @@ console.log("timecheck2",isValid)
       //   this.setState({ BusinessLogoUpdate: e.target.result });
 
       var locationId = this.props.match.params.locationId;
-
+      // {"secure_pin":"digimonk","user_id":"10","location_id":"38",
+      // "more_bussiness_images_array":[{"bussiness_image":"base64image1"},{"bussiness_image":"base64image2"}]}
       const data = {
+        secure_pin,
+        user_id: localStorage.getItem("UserId"),
         location_id: locationId,
-        other_image: { 0: e.target.result }
+        
+        more_bussiness_images_array: [{ bussiness_image: e.target.result }]
       };
-
+console.log("kkl",data)
       this.setState({ otherImagesLoading: true });
 
-      add_other_images_by_location_id(data, DjangoConfig)
+      add_other_images_by_location_id(data)
         .then(resp => {
           const data1 = {
             location_id: locationId,
@@ -1351,13 +1461,13 @@ console.log("timecheck2",isValid)
             })
             .catch(resp1 => {
               console.log(resp1);
-              alert("uploading image failed");
+              swal("uploading image failed");
               this.setState({ otherImagesLoading: false });
             });
         })
         .catch(resp => {
           console.log(resp);
-          alert("uploading image failed");
+          swal("uploading image failed");
           this.setState({ otherImagesLoading: false });
         });
     };
@@ -1366,11 +1476,13 @@ console.log("timecheck2",isValid)
   delete_other_image = image_id => {
     var locationId = this.props.match.params.locationId;
     const data = {
+      secure_pin,
+      location_id:locationId,
       image_id: image_id
     };
     console.log("image_id", image_id);
     this.setState({ otherImagesLoading: true });
-    delete_other_images_by_location_id(data, DjangoConfig)
+    delete_other_images_by_location_id(data)
       .then(res => {
         const data1 = {
           location_id: locationId,
@@ -1385,12 +1497,12 @@ console.log("timecheck2",isValid)
           })
           .catch(resp1 => {
             console.log(resp1);
-            alert("deleting image failed");
+            swal("deleting image failed");
             this.setState({ otherImagesLoading: false });
           });
       })
       .catch(res => {
-        alert("deleting image failed");
+        swal("deleting image failed");
         this.setState({ otherImagesLoading: false });
         console.log(res);
       });
@@ -1507,11 +1619,11 @@ const data={secure_pin}
     regularHours2 = (
       <div className="vl_gap4">
         {this.state.hours.map(h =>
-          h.day == "Special" ? (
+          h.type == "special" ? (
             <div className="daybox" key={h.id}>
               {/* <div className="daytype">{h.day}</div> */}
               <div className="daytype">
-                {h.date
+                {h.special_date
                   .split("-")
                   .reverse()
                   .join("-")}
@@ -1701,8 +1813,8 @@ const data={secure_pin}
 
     return (
       <div className="main_content">
-        <div className="setting-10">
-            <h3>Business Information</h3>
+        <div className="rightside_title">
+            <h1>Business Information</h1>
           </div>
         {this.props.match.params.locationId != "null" ? (
           this.state.loader ? (
@@ -1834,7 +1946,34 @@ const data={secure_pin}
                                         />
                                       </MDBCol>
                                     </MDBRow>
+                                    <MDBRow className="uploadauthor">
+                                      <MDBCol md="6">
+                                        <div className="author_namebox">
+                                          Category :
+                                        </div>
+                                      </MDBCol>
 
+                                      <MDBCol md="6">
+                                      <select
+                                    name="category"
+                                    onChange={this.changeHandler}
+                                    className="form-control"
+                                    id="primaryCategory"
+                                  >
+                                    <option value="0" disabled="">
+                                      Select Category
+                                    </option>
+                                    {this.state.businessCategories.map((b, i) => (
+                                      <option
+                                        key={`business-${i}`}
+                                        value={b.id}
+                                      >
+                                        {b.name}
+                                      </option>
+                                    ))}
+                                  </select>
+                                      </MDBCol>
+                                    </MDBRow>
                                     <MDBRow className="uploadauthor">
                                       <MDBCol md="6">
                                         <div className="author_namebox">
@@ -1987,9 +2126,10 @@ const data={secure_pin}
                                     <MDBCol md="6">
                                       <div className="storetext">
                                         {
-                                          (this.state.city,
-                                          this.state.state,
-                                          this.state.postalCode)
+                                          this.state.address
+                                          // (this.state.city,
+                                          // this.state.state,
+                                          // this.state.postalCode)
                                         }
                                       </div>
                                     </MDBCol>
@@ -2155,7 +2295,7 @@ const data={secure_pin}
                                         </MDBCol>
                                       </MDBRow>
 
-                                      <MDBRow className="uploadauthor">
+                                      {/* <MDBRow className="uploadauthor">
                                         <MDBCol md="6">
                                           <div className="author_namebox">
                                             Website :
@@ -2172,6 +2312,7 @@ const data={secure_pin}
                                           />
                                         </MDBCol>
                                       </MDBRow>
+ */}
 
                                       <MDBRow className="uploadauthor">
                                         <MDBCol md="6">
@@ -2476,12 +2617,13 @@ const data={secure_pin}
                                     </MDBCol>
                                   </MDBRow>
 
-                                  <MDBRow className="uploadauthor">
+                                  {/* <MDBRow className="uploadauthor">
                                     <MDBCol md="6">
                                       <div className="author_namebox">
                                         Website :
                                       </div>
                                     </MDBCol>
+
 
                                     <MDBCol md="6">
                                       <div className="storetext">
@@ -2489,6 +2631,7 @@ const data={secure_pin}
                                       </div>
                                     </MDBCol>
                                   </MDBRow>
+                                */}
                                 </MDBCol>
                               </MDBRow>
                             </div>
@@ -3538,15 +3681,15 @@ const data={secure_pin}
                     <MDBCol md="10" className="vl_box_head">
                       Payment Method
                     </MDBCol>
-
+                    {this.state.paymentEdit ? null : 
                     <MDBCol md="2">
                       <button
                         className="pay_last_btn"
                         onClick={this.editPaymentButton}
                       >
-                        {this.state.paymentEdit ? "Cancel" : "Edit"}
+                        Edit
                       </button>
-                    </MDBCol>
+                    </MDBCol>}
                   </MDBRow>
 
                   {this.state.paymentLoading ? (
@@ -3563,9 +3706,12 @@ const data={secure_pin}
                     <div className="mathedbox">
                       <form onSubmit={this.editDetailsHandler}>
                       <MDBRow>
+      
+        {this.state.p_visa?
 <MDBCol md='2' >
   <div className='payment_box ' >
 <input
+checked
       name="p_visa"
       type="checkbox"
       onChange={this.checkBoxHandler}
@@ -3582,7 +3728,45 @@ const data={secure_pin}
     </div>
     
 </MDBCol>
-
+:<MDBCol md='2' >
+<div className='payment_box ' >
+<input
+    name="p_visa"
+    type="checkbox"
+    onChange={this.checkBoxHandler}
+    value="true"
+    id="myCheckbox1"
+  /> 
+  <label className='payment_label' for="myCheckbox1">
+  <img
+    src={require("../images/p-visa.png")}
+    alt="Visa"
+    className='payment_img'
+  />
+  </label>
+  </div>
+  
+</MDBCol>}
+{this.state.p_maestro?<MDBCol md='2' >
+  <div className='payment_box'>
+<input
+checked
+      name="p_maestro"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox2"
+      /> 
+      <label className='payment_label' for="myCheckbox2">
+    <img
+      src={require("../images/p-maestro.png")}
+      alt="Maestro"
+      className='payment_img'
+    />
+    </label>
+    </div>
+</MDBCol>
+   :
 <MDBCol md='2' >
   <div className='payment_box'>
 <input
@@ -3601,7 +3785,26 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
+  }
+{this.state.p_amex?
+  <MDBCol md='2'>
+<div  className='payment_box '> 
+<input checked
+      name="p_amex"
+      type="checkbox"
+      onChange={this.checkBoxHandler}
+      value="true"
+      id="myCheckbox3"
+      /> 
+      <label className='payment_label' for="myCheckbox3">
+    <img
+      src={require("../images/p-amex.png")}
+      alt="Amex"
+    />
+    </label>
+    </div>
+</MDBCol>
+ :
 <MDBCol md='2'>
 <div  className='payment_box '> 
 <input
@@ -3619,7 +3822,26 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
+  }
+  {this.state.p_cash?<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+checked
+      name="p_cash"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox4"
+      /> 
+      <label className='payment_label' for="myCheckbox4">
+    <img
+      src={require("../images/p-cash.png")}
+      alt="Cash"
+    />
+    </label>
+    </div>
+</MDBCol>
+ :
 <MDBCol md='2'>
 <div  className='payment_box '> 
 <input
@@ -3637,7 +3859,26 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
+  }
+  {this.state.p_crypto?<MDBCol md='2'>
+<div  className='payment_box '> 
+<input
+checked
+      name="p_crypto"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox5"
+      /> 
+      <label className='payment_label' for="myCheckbox5">
+    <img
+      src={require("../images/p-crypto.png")}
+      alt="Crypto"
+    />
+    </label>
+    </div>
+</MDBCol>:
+ 
 <MDBCol md='2'>
 <div  className='payment_box '> 
 <input
@@ -3655,7 +3896,25 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
+  }
+  {this.state.p_diners?<MDBCol md='2'>
+<div  className='payment_box '> 
+<input checked
+      name="p_diners"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox6"
+      /> 
+      <label className='payment_label' for="myCheckbox6">
+    <img
+      src={require("../images/p-diners.png")}
+      alt="Diners"
+    />
+    </label>
+    </div>
+</MDBCol>
+ :
 <MDBCol md='2'>
 <div  className='payment_box '> 
 <input
@@ -3673,7 +3932,25 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
+  }
+  {this.state.p_discover?<MDBCol md='2'>
+<div  className='payment_box '> 
+<input checked
+      name="p_discover"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox7"
+      /> 
+      <label className='payment_label' for="myCheckbox7">
+    <img
+      src={require("../images/p-discover.png")}
+      alt="Discover"
+    />
+    </label>
+    </div>
+</MDBCol>
+ :
 <MDBCol md='2'>
 <div  className='payment_box '> 
 <input
@@ -3691,8 +3968,24 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
-<MDBCol md='2'>
+  }
+  {this.state.p_apple?<MDBCol md='2'>
+<div  className='payment_box '> 
+<input checked
+      name="p_apple"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox8"
+      /> 
+      <label className='payment_label' for="myCheckbox8">
+    <img
+      src={require("../images/p-apple.png")}
+      alt="Apple"
+    />
+    </label>
+    </div>
+</MDBCol>:<MDBCol md='2'>
 <div  className='payment_box '> 
 <input
       name="p_apple"
@@ -3709,8 +4002,25 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
-<MDBCol md='2'>
+ 
+ }
+{this.state.p_samsung?<MDBCol md='2'>
+<div  className='payment_box '>
+<input checked
+      name="p_samsung"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox9"
+      /> 
+      <label className='payment_label' for="myCheckbox9">
+    <img
+      src={require("../images/p-samsung.png")}
+      alt="Samsung"
+    />
+    </label>
+    </div>
+</MDBCol>:<MDBCol md='2'>
 <div  className='payment_box '>
 <input
       name="p_samsung"
@@ -3727,10 +4037,12 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
+ 
+ }
+{this.state.p_paypal?
 <MDBCol md='2'>
 <div  className='payment_box '>
-<input
+<input checked
       name="p_paypal"
       onChange={this.checkBoxHandler}
       value="true"
@@ -3745,7 +4057,42 @@ const data={secure_pin}
     </label>
     </div> 
 </MDBCol>
-
+ :<MDBCol md='2'>
+ <div  className='payment_box '>
+ <input
+       name="p_paypal"
+       onChange={this.checkBoxHandler}
+       value="true"
+       type="checkbox"
+       id="myCheckbox10"
+       /> 
+       <label className='payment_label' for="myCheckbox10">
+     <img
+       src={require("../images/p-paypal.png")}
+       alt="Paypal"
+     /> 
+     </label>
+     </div> 
+ </MDBCol>
+  } 
+  {this.state.p_android?<MDBCol md='2'>
+<div  className='payment_box '> 
+<input checked
+      name="p_android"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox11"
+      /> 
+      <label className='payment_label' for="myCheckbox11">
+    <img
+      src={require("../images/p-android.png")}
+      alt="Android"
+    />
+    </label>
+    </div>
+</MDBCol>:
+ 
 <MDBCol md='2'>
 <div  className='payment_box '> 
 <input
@@ -3763,8 +4110,24 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
-<MDBCol md='2'>
+  }
+{this.state.p_invoices?<MDBCol md='2'>
+<div  className='payment_box '> 
+<input checked
+      name="p_invoices"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox12"
+      /> 
+      <label className='payment_label' for="myCheckbox12">
+    <img
+      src={require("../images/p-invoices.png")}
+      alt="Invoices"
+    />
+    </label>
+    </div>
+</MDBCol>:<MDBCol md='2'>
 <div  className='payment_box '> 
 <input
       name="p_invoices"
@@ -3781,7 +4144,26 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
+  
+  }
+  {this.state.p_traveler?<MDBCol md='2'>
+<div  className='payment_box '>
+<input checked
+      name="p_traveler"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox13"
+      /> 
+      <label className='payment_label' for="myCheckbox13">
+    <img
+      src={require("../images/p-traveler.png")}
+      alt="Traveler's Check"
+    />
+    </label>
+    </div>
+</MDBCol>
+ :
 <MDBCol md='2'>
 <div  className='payment_box '>
 <input
@@ -3799,8 +4181,25 @@ const data={secure_pin}
     </label>
     </div>
 </MDBCol>
-
-<MDBCol md='2'>
+  }
+{this.state.p_financing?<MDBCol md='2'>
+<div  className='payment_box '> 
+<input checked
+      name="p_financing"
+      onChange={this.checkBoxHandler}
+      value="true"
+      type="checkbox"
+      id="myCheckbox14"
+      /> 
+      <label className='payment_label' for="myCheckbox14">
+    <img
+      src={require("../images/p-financing.png")}
+      alt="Financing"
+    />
+    
+    </label>
+    </div>
+</MDBCol>:<MDBCol md='2'>
 <div  className='payment_box '> 
 <input
       name="p_financing"
@@ -3814,13 +4213,25 @@ const data={secure_pin}
       src={require("../images/p-financing.png")}
       alt="Financing"
     />
+    
     </label>
     </div>
 </MDBCol>
+ }
 </MDBRow>                 
                         
                         <MDBRow>
-                          <MDBCol className="offset-md-10">
+                        {this.state.paymentEdit ?
+                        <MDBCol md="2" className="offset-md-8">
+                      <button
+                        className="pay_last_btn"
+                        onClick={this.editPaymentButton}
+                      >
+                         Cancel 
+                      </button>
+                    </MDBCol>
+                    : null}
+                          <MDBCol md='2'>
                             <button
                               type="submit"
                               className="last_btn"
@@ -3933,10 +4344,8 @@ const data={secure_pin}
                             </MDBCol>
                             {this.state.otherImages.map((n, i) => (
                               <MDBCol md="2" className="plush_new">
-                                <img
-                                  src={
-                                    "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
-                                    this.state.otherImages[i].image
+                                <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                    n.image
                                   }
                                   alt=""
                                   style={{
@@ -4019,7 +4428,7 @@ const data={secure_pin}
         ) : (
           
             <div >
-              <h4 className='connect_msg'>Connect Location first</h4>
+              <h4 className='connect_msg'>Connect Location First</h4>
             </div>
         )}
       </div>

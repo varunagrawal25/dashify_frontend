@@ -3,8 +3,38 @@ import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import paypal from "./assets/paypal.png";
 import mastercard from "./assets/mastercard.png";
 import ProfileSettingSidebar from "./setting-sidebar";
-
+import SettingCardUpdate from './setting-cardUpdate';
+import {card_billing} from "./apis/user";
+import {secure_pin} from "../config"
 export default class SettingBilling extends Component {
+  state = {
+    updateCard:false,
+    cardnum:'',
+    expiry:'',
+    name:'',
+    CVV:'',
+    address:'',
+    city:'',
+    country:'',
+    zipcode:''
+  }
+  changeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+  cardUpdate = () => {
+    console.log("states", this.state);
+    this.setState({ updateCard:true });
+  };
+  updateCardBtn = () =>{
+    const data={secure_pin,user_id: localStorage.getItem("UserId"),card_number:this.state.cardnum, name_of_card:this.state.name,
+      ex_date:this.state.expiry,code:this.state.cvv,address:this.state.address,city:this.state.city,
+    state:'mp',country:this.state.country,zipcode:this.state.zipcode}
+    card_billing(data)
+    .then(resp => {
+      
+    })
+  }
+ 
   render() {
     return (
       <div>
@@ -17,8 +47,126 @@ export default class SettingBilling extends Component {
             <MDBCol md="3">
               <ProfileSettingSidebar />
             </MDBCol>
+            {this.state.updateCard?
+          <MDBCol md="9">
+              <div className="profile_container">
+                <div className="billing_head"> Update your card</div>
+                <MDBRow>
+                  <MDBCol md="6" className="profileSpacing">
+                    <MDBRow>
+                      <MDBCol md="5">
+                        <div className="profile3">Card Number</div>
+                      </MDBCol>
+                      <MDBCol md="7">
+                        <input
+                          className="profile4"
+                          placeholder="9999 9999 9999 9999 "
+                          name="cardnum"
+                          onChange={this.changeHandler}
+                        />
+                      </MDBCol>
+                    </MDBRow>
+                  </MDBCol>
 
-            <MDBCol md="9">
+                  <MDBCol md="6 " className="profileSpacing">
+                    <MDBRow>
+                      <MDBCol md="5">
+                        <div className="profile3">Expiry date</div>
+                      </MDBCol>
+                      <MDBCol md="7">
+                        <input className="profile5" placeholder="MM/YY"  name="expiry"
+                                onChange={this.changeHandler}/>
+                      </MDBCol>
+                    </MDBRow>
+                  </MDBCol>
+
+                  <MDBCol md="6" className="profileSpacing">
+                    <MDBRow>
+                      <MDBCol md="5">
+                        <div className="profile3">Name of card</div>
+                      </MDBCol>
+                      <MDBCol md="7">
+                        <input className="profile4" placeholder="Jhon Doe"  name="name"
+                                onChange={this.changeHandler}/>
+                      </MDBCol>
+                    </MDBRow>
+                  </MDBCol>
+
+                  <MDBCol md="6 " className="profileSpacing">
+                    <MDBRow>
+                      <MDBCol md="5">
+                        <div className="profile3">Security code</div>
+                      </MDBCol>
+                      <MDBCol md="7">
+                        <input className="profile5" placeholder="CVV"  name="cvv"
+                                onChange={this.changeHandler}/>
+                      </MDBCol>
+                    </MDBRow>
+                  </MDBCol>
+                </MDBRow>
+                <div className="billing_head">Billing Address</div>
+                <MDBRow>
+                  <MDBCol md="10" className="profileSpacing">
+                    <MDBRow>
+                      <MDBCol md="3">
+                        <div className="profile3">Address</div>
+                      </MDBCol>
+                      <MDBCol md="7">
+                        <input
+                          className="profile4"
+                          placeholder="123 St. Jones street"
+                          name="address"
+                          onChange={this.changeHandler}
+                        />
+                      </MDBCol>
+                    </MDBRow>
+                  </MDBCol>
+
+                  <MDBCol md="10" className="profileSpacing">
+                    <MDBRow>
+                      <MDBCol md="3">
+                        <div className="profile3">City</div>
+                      </MDBCol>
+                      <MDBCol md="7">
+                        <input className="profile4" placeholder="Denver"  name="city"
+                                onChange={this.changeHandler} />
+                      </MDBCol>
+                    </MDBRow>
+                  </MDBCol>
+
+                  <MDBCol md="10" className="profileSpacing">
+                    <MDBRow>
+                      <MDBCol md="3">
+                        <div className="profile3">Country</div>
+                      </MDBCol>
+                      <MDBCol md="7">
+                        <input
+                          className="profile4"
+                          placeholder="United States Of America"
+                          name="country"
+                          onChange={this.changeHandler}
+                        />
+                      </MDBCol>
+                    </MDBRow>
+                  </MDBCol>
+
+                  <MDBCol md="10" className="profileSpacing">
+                    <MDBRow>
+                      <MDBCol md="3">
+                        <div className="profile3">ZipCode</div>
+                      </MDBCol>
+                      <MDBCol md="7">
+                        <input className="profile4" placeholder="1323123"  name="zipCode"
+                                onChange={this.changeHandler}/>
+                      </MDBCol>
+                    </MDBRow>
+                  </MDBCol>
+                </MDBRow>
+                <MDBBtn id="profile_update_card" onClick={this.updateCardBtn}>Update Card</MDBBtn>
+              </div>
+          
+            </MDBCol>:
+             <MDBCol md="9">
               <div className="user_container ">
                 <MDBRow>
                   <MDBCol md="3" id="user7">
@@ -30,6 +178,7 @@ export default class SettingBilling extends Component {
                   <MDBCol md="3">
                     <MDBBtn id="user_save">Save</MDBBtn>
                   </MDBCol>
+                 
                 </MDBRow>
                 <MDBRow>
                   <MDBCol md="3" id="user_payment_container">
@@ -73,13 +222,17 @@ export default class SettingBilling extends Component {
                     <img src={paypal} />
                   </MDBCol>
                   <MDBCol md="2">
-                    <MDBBtn className="add_more">+</MDBBtn>
+                    <MDBBtn className="add_more" onClick={this.cardUpdate}>+</MDBBtn>
                   </MDBCol>
                 </MDBRow>
               </div>
             </MDBCol>
+          }
+           
           </MDBRow>
+         
         </MDBContainer>
+        
       </div>
     );
   }

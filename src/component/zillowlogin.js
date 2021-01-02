@@ -3,6 +3,8 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
+import swal from "sweetalert";
+import {secure_pin} from "../config"
 
 class ZillowLogin extends Component {
   state = {
@@ -63,20 +65,33 @@ class ZillowLogin extends Component {
             res.data.message.text == "Request successfully processed"
           ) {
             const data = {
-              location_id: localStorage.getItem("locationId"),
-              Platform: "Zillow",
-              Token: "",
-              Username:
-                res.data.response &&
-                res.data.response.results &&
-                res.data.response.results.proInfo &&
-                res.data.response.results.proInfo.businessName
-                  ? res.data.response.results.proInfo.businessName
-                  : this.state.username,
-              Email: this.state.username,
-              Password: this.state.password,
-              Connect_status: "Connect",
-              Other_info: this.state.url
+              // location_id: localStorage.getItem("locationId"),
+              // Platform: "Zillow",
+              // Token: "",
+              // Username:
+              //   res.data.response &&
+              //   res.data.response.results &&
+              //   res.data.response.results.proInfo &&
+              //   res.data.response.results.proInfo.businessName
+              //     ? res.data.response.results.proInfo.businessName
+              //     : this.state.username,
+              // Email: this.state.username,
+              // Password: this.state.password,
+              // Connect_status: "Connect",
+              // Other_info: this.state.url
+
+              secure_pin,
+              "user_id":localStorage.getItem("UserId"),
+              "location_id":localStorage.getItem("locationId"),
+              "connect_unique_id":"",
+              "token":"",
+              "username":"",
+              "password":this.state.password,
+              "first_name":"",
+              "last_name":"",
+              "email_id":this.state.username,
+              "connect_url": this.state.url,
+              "connect_type":"Zillow",
             };
 
             // Axios.post(
@@ -90,7 +105,7 @@ class ZillowLogin extends Component {
                 this.setState({ isUrl: true, loading: false });
               })
               .catch(resp => {
-                alert("Invalid Zillow Email");
+                swal("Invalid Zillow Email");
                 console.log("zillow resp", resp.data);
                 this.setState({
                   // wrong: "Invalid Zillow Email",
@@ -98,14 +113,14 @@ class ZillowLogin extends Component {
                 });
               });
           } else {
-            alert("Invalid Zillow Email");
+            swal("Invalid Zillow Email");
             this.setState({
               loading: false
             });
           }
         })
         .catch(res => {
-          alert("Invalid Zillow Email");
+          swal("Invalid Zillow Email");
           this.setState({ loading: false });
         });
     }
@@ -147,7 +162,7 @@ class ZillowLogin extends Component {
               <p>
                 <label htmlFor="url">Zillow Email</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="example@gmail.com"

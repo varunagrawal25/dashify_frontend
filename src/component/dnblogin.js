@@ -3,7 +3,8 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
-
+import swal from "sweetalert";
+import {secure_pin} from "../config"
 const DnbConfig = {
   headers: {
     "x-dnb-user": "P200000D5647887A34E4067B86A78E31",
@@ -59,7 +60,7 @@ class DnbLogin extends Component {
       })
       .catch(resp => {
         console.log("DNB authentication error", resp.data);
-        alert("Admin side error");
+        swal("Admin side error");
       });
   };
 
@@ -115,16 +116,29 @@ class DnbLogin extends Component {
             resp.data.MatchResponse.TransactionResult.ResultText == "Success"
           ) {
             const data = {
-              location_id: localStorage.getItem("locationId"),
-              Platform: "Dnb",
-              Token: this.state.token,
-              Username:
-                resp.data.MatchResponse.MatchResponseDetail.MatchCandidate[0]
-                  .OrganizationPrimaryName.OrganizationName.$,
-              Email: this.state.username,
-              Password: this.state.password,
-              Connect_status: "Connect",
-              Other_info: this.state.url
+              // location_id: localStorage.getItem("locationId"),
+              // Platform: "Dnb",
+              // Token: this.state.token,
+              // Username:
+              //   resp.data.MatchResponse.MatchResponseDetail.MatchCandidate[0]
+              //     .OrganizationPrimaryName.OrganizationName.$,
+              // Email: this.state.username,
+              // Password: this.state.password,
+              // Connect_status: "Connect",
+              // Other_info: this.state.url
+
+              secure_pin,
+              "user_id":localStorage.getItem("UserId"),
+              "location_id":localStorage.getItem("locationId"),
+              "connect_unique_id":"",
+              "token":"",
+              "username":"",
+              "password":this.state.password,
+              "first_name":"",
+              "last_name":"",
+              "email_id":this.state.username,
+              "connect_url": this.state.url,
+              "connect_type":"Dnb",
             };
             add_social_account(data, DjangoConfig)
               .then(resp => {
@@ -191,7 +205,7 @@ class DnbLogin extends Component {
               <p>
                 <label htmlFor="url">Company DUNS Number</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="804735132"

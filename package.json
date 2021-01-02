@@ -34,6 +34,8 @@
     "react-chartjs-2": "^2.10.0",
     "react-circular-progressbar": "^2.0.3",
     "react-cropper-image-editor": "^1.0.10",
+    "react-datepicker": "^3.3.0",
+    "react-datetime-picker": "^3.0.4",
     "react-dom": "^16.13.1",
     "react-donut-chart": "^1.1.8",
     "react-easy-crop": "^3.2.0",
@@ -63,6 +65,7 @@
     "reactstrap": "^8.5.1",
     "styled-components": "^5.1.1",
     "sweetalert": "^2.1.2",
+    "tabs": "^0.2.0",
     "xml2js": "^0.4.23",
     "yasabe-api": "0.0.5"
   },

@@ -4,6 +4,8 @@ import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import Spinner from "./common/Spinner";
+import swal from "sweetalert";
+import {secure_pin} from "../config"
 
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -20,8 +22,8 @@ class TomtomRelatedLocation extends Component {
     this.setState({ loading: true });
 
     let tomtom_data = JSON.parse(localStorage.getItem("tomtom_data"));
-    console.log("tomtom data", data);
-
+    console.log("tomtom data0", data);
+    console.log("tomtom data1", tomtom_data);
     const data2 = {
       location_id: localStorage.getItem("locationId"),
       Platform: "Tomtom",
@@ -31,6 +33,19 @@ class TomtomRelatedLocation extends Component {
       Password: tomtom_data.password,
       Connect_status: "Connect",
       Other_info: data.dataSources ? data.dataSources.poiDetails[0].id : "-"
+
+      // secure_pin,
+      //         "user_id":localStorage.getItem("UserId"),
+      //         "location_id":localStorage.getItem("locationId"),
+      //         "connect_unique_id":"",
+      //         "token":"",
+      //         "username":"",
+      //         "password":tomtom_data.password,
+      //         "first_name":"",
+      //         "last_name":"",
+      //         "email_id":tomtom_data.Username,
+      //         "connect_url": this.state.url,
+      //         "connect_type":"Tomtom",
     };
 
     // Axios.post(
@@ -44,7 +59,7 @@ class TomtomRelatedLocation extends Component {
         this.setState({ isUrl: true, loading: false });
       })
       .catch(resp => {
-        alert("Something went wrong");
+        swal("Something went wrong");
         console.log("Tomtom error response", resp.data);
         this.setState({ loading: false });
       });

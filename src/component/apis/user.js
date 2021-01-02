@@ -46,6 +46,10 @@ export const send_varification_link = (data) => {
 	return Axios.post(`${API}/admin/account_api/resend_activation_link`, data);
 };
 
+export const card_billing = (data) => {
+	return Axios.post(`${API}/admin/account_api/user_card_billing_update`, data);
+};
+
 export const logout = () => {
 	return Axios.post(`${API}/account/logout`);
 };

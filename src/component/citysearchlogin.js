@@ -3,7 +3,8 @@ import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
-
+import swal from "sweetalert";
+import {secure_pin} from "../config"
 class CitySearchLogin extends Component {
   state = {
     url: "",
@@ -52,55 +53,115 @@ class CitySearchLogin extends Component {
         headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
       };
 
-      const citysearchUrl = this.state.url.split("/")[4];
-      localStorage.setItem("citysearchUrl", citysearchUrl);
+      const data = {
+        // location_id: localStorage.getItem("locationId"),
+        // Platform: "Citysearch",
+        // Token: "",
+        // Username: res.data.locations
+        //   ? res.data.locations[0].name
+        //   : this.state.username,
+        // Email: this.state.username,
+        // Password: "",
+        // Connect_status: "Connect",
+        // Other_info: "{'URL':" + this.state.url + ",'data':''}"
 
-      Axios.get(
-        "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/places/v2/detail?id=" +
-          this.state.url.split("/")[4] +
-          "&id_type=cs&client_ip=123.4.56.78&publisher=test&format=json"
-      )
-        .then(res => {
-          if (res.data) {
-            console.log("citysearch response", res.data);
-            const data = {
-              location_id: localStorage.getItem("locationId"),
-              Platform: "Citysearch",
-              Token: "",
-              Username: res.data.locations
-                ? res.data.locations[0].name
-                : this.state.username,
-              Email: this.state.username,
-              Password: "",
-              Connect_status: "Connect",
-              Other_info: "{'URL':" + this.state.url + ",'data':''}"
-            };
+        secure_pin,
+        "user_id":localStorage.getItem("UserId"),
+        "location_id":localStorage.getItem("locationId"),
+        "connect_unique_id":"",
+        "token":"",
+        "username":"",
+        "password":"",
+        "first_name":"",
+        "last_name":"",
+        "email_id":this.state.username,
+        "connect_url": this.state.url,
+        "connect_type":"Citysearch",
+      };
 
-            // Axios.post(
-            //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/social-platforms/add-account",
-            //   data,
-            //   DjangoConfig
-            // )
-            add_social_account(data, DjangoConfig)
-              .then(resp => {
-                console.log("citysearch resp", resp);
-                this.setState({ isUrl: true, loading: false });
-              })
-              .catch(resp => {
-                alert("Invalid username or password");
-                console.log("citysearch resp", resp);
-                this.setState({
-                  wrong: "Invalid or Not authorised",
-                  loading: false
-                });
-              });
-          } else {
-            alert("Invalid username or password");
-            this.setState({ loading: false });
-          }
+      // Axios.post(
+      //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/social-platforms/add-account",
+      //   data,
+      //   DjangoConfig
+      // )
+      console.log("kk",data)
+      add_social_account(data)
+        .then(resp => {
+          console.log("citysearch resp", resp);
+          this.setState({ isUrl: true, loading: false });
         })
+        .catch(resp => {
+          swal("Invalid username or password");
+          console.log("citysearch resp", resp);
+          this.setState({
+            wrong: "Invalid or Not authorised",
+            loading: false
+          });
+        })
+
+      // const citysearchUrl = this.state.url.split("/")[4];
+      // localStorage.setItem("citysearchUrl", citysearchUrl);
+
+      // Axios.get(
+      //   "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/places/v2/detail?id=" +
+      //     this.state.url.split("/")[4] +
+      //     "&id_type=cs&client_ip=123.4.56.78&publisher=test&format=json"
+      // )
+      //   .then(res => {
+      //     if (res.data) {
+      //       console.log("citysearch response", res.data);
+      //       const data = {
+      //         // location_id: localStorage.getItem("locationId"),
+      //         // Platform: "Citysearch",
+      //         // Token: "",
+      //         // Username: res.data.locations
+      //         //   ? res.data.locations[0].name
+      //         //   : this.state.username,
+      //         // Email: this.state.username,
+      //         // Password: "",
+      //         // Connect_status: "Connect",
+      //         // Other_info: "{'URL':" + this.state.url + ",'data':''}"
+
+      //         secure_pin,
+      //         "user_id":localStorage.getItem("UserId"),
+      //         "location_id":localStorage.getItem("locationId"),
+      //         "connect_unique_id":"",
+      //         "token":"",
+      //         "username":"",
+      //         "password":"",
+      //         "first_name":"",
+      //         "last_name":"",
+      //         "email_id":this.state.username,
+      //         "connect_url": this.state.url,
+      //         "connect_type":"Citysearch",
+      //       };
+
+      //       // Axios.post(
+      //       //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/social-platforms/add-account",
+      //       //   data,
+      //       //   DjangoConfig
+      //       // )
+      //       console.log("kk",data)
+      //       add_social_account(data)
+      //         .then(resp => {
+      //           console.log("citysearch resp", resp);
+      //           this.setState({ isUrl: true, loading: false });
+      //         })
+      //         .catch(resp => {
+      //           swal("Invalid username or password");
+      //           console.log("citysearch resp", resp);
+      //           this.setState({
+      //             wrong: "Invalid or Not authorised",
+      //             loading: false
+      //           });
+      //         });
+      //     } else {
+      //       swal("Invalid username or password");
+      //       this.setState({ loading: false });
+      //     }
+      //   })
         .catch(res => {
-          alert("Invalid username or password");
+          swal("Invalid username or password");
           this.setState({ loading: false });
         });
     }
@@ -142,7 +203,7 @@ class CitySearchLogin extends Component {
               <p>
                 <label htmlFor="url">Citysearch Listing Url</label>
                 <input
-                  type="text"
+                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="http://www.citysearch.com/profile/656716190/midland_tx/rogers_ford_sales_inc.html"

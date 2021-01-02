@@ -52,47 +52,8 @@ export default class ReviewGenerationCampaign extends Component {
     // )
     all_connection_of_one_location(data, DjangoConfig).then(response => {
       var googleToken, appleUrl;
-      response.data.data.map(l => {
-        if (l.Social_Platform.Platform == "Google") {
-          googleToken = l.Social_Platform.Token;
-        }
-        if (l.Social_Platform.Platform == "Apple") {
-          appleUrl = l.Social_Platform.Other_info.split(",")[0]
-            .slice(7)
-            .split("/")[6]
-            .slice(2);
-          this.setState({
-            appleId: appleUrl
-          });
-        }
-      });
-
-      const GoogleConfig = {
-        headers: { Authorization: "Bearer " + googleToken }
-      };
-
-      if (googleToken) {
-        Axios.get(
-          "https://mybusiness.googleapis.com/v4/accounts/",
-          GoogleConfig
-        ).then(res => {
-          localStorage.setItem("accountId", res.data.accounts[0].name);
-          Axios.get(
-            "https://mybusiness.googleapis.com/v4/" +
-              localStorage.getItem("accountId") +
-              "/locations",
-            GoogleConfig
-          ).then(async resp => {
-            localStorage.setItem(
-              "locationIdGoogle",
-              resp.data.locations[0].name
-            );
-            this.setState({
-              google_placeid: resp.data.locations[0].locationKey.placeId
-            });
-          });
-        });
-      }
+      this.setState({})
+      
     });
   };
 
