@@ -231,10 +231,10 @@ export default class AddLocation extends Component {
     }
 
     if (this.state.BusinessCoverImage == "") {
-      this.setState({ BusinessCoverImage: "0" });
+      this.setState({ BusinessCoverImage: "" });
     }
     if (this.state.BusinessLogo == "") {
-      this.setState({ BusinessLogo : "0" });
+      this.setState({ BusinessLogo : "" });
     }
 
     if (this.state.address2 == "") {
@@ -286,7 +286,9 @@ export default class AddLocation extends Component {
     // "more_bussiness_images_array":[{"bussiness_image":"base64image1"},{"bussiness_image":"base64image2"}]}
     
 const data = {
-secure_pin,user_id: localStorage.getItem("UserId"), stor_code: this.state.storeCode, bussiness_logo:this.state.BusinessLogo,
+secure_pin,user_id: localStorage.getItem("UserId"), stor_code: this.state.storeCode, 
+bussiness_logo:this.state.BusinessLogo?this.state.BusinessLogo:"",
+
 bussiness_cate : this.state.category, location_name:this.state.location_name , address1:  this.state.address1 ,
  address2 : this.state.address2 ,additional_cate:this.state.additionalCategories , country :this.state.country , state : this.state.state , city:this.state.city , 
  zipcode : this.state.zipCode ,phone_no :this.state.phone ,website :this.state.website ,
@@ -295,7 +297,10 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
   bussiness_tagline : this.state.businessTagline ,year_of_incorporation :this.state.yearOfIncorp ,
   about_bussiness : this.state.about,facebook_profile: this.state.facebookProfile ,
   instagram_profile: this.state.instagramProfile ,twitter_profile:this.state.twitterProfile ,
-  bussiness_cover_image: this.state.BusinessCoverImage,payment_method_array: payment, 
+  
+  bussiness_cover_image: this.state.BusinessCoverImage?this.state.BusinessCoverImage:'',
+  
+  payment_method_array: payment, 
   more_bussiness_images_array :  this.state.otherImage, open_hours_apply_all : this.state.applyAll ,
    open_hours_array :[{day:"Monday",open_status:this.state.monday,start_time1: this.state.mondayStart1,
    end_time1:this.state.mondayEnd1,start_time2:this.state.mondayStart2,end_time2:this.state.mondayEnd2},
@@ -584,7 +589,27 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
   };
 
   Other_images = async () => {
-    let otherImage = [{bussiness_image : this.state.other_image0},{bussiness_image : this.state.other_image1},{bussiness_image : this.state.other_image2}];
+
+    let otherImage=[];
+    if(this.state.other_image0){
+      otherImage.push({bussiness_image : this.state.other_image0})
+
+
+    }
+
+    if(this.state.other_image1){
+      otherImage.push({bussiness_image : this.state.other_image1})
+
+
+    }
+
+    if(this.state.other_image2){
+      otherImage.push({bussiness_image : this.state.other_image2})
+
+
+    }
+    console.log("func other ",otherImage)
+   // let otherImage = [{bussiness_image : this.state.other_image0},{bussiness_image : this.state.other_image1},{bussiness_image : this.state.other_image2}];
     await this.setState({ otherImage: otherImage });
   };
 
@@ -817,7 +842,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
 
   render() {
     if (this.state.isSuccess) {
-      return <Redirect to="/" />;
+      return <Redirect to="/location-manager" />;
     }
     let {
       businessCategories,
@@ -1161,7 +1186,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                       ? "Select State first"
                                       : "Select City"}
                                   </option>
-                                  {cityCategories.map((c, i) =>
+                                  { cityCategories?cityCategories.map((c, i) =>
                                     this.state.state_selected_id == c.state_id ? (
                                       <option key={`stste-${i}`} value={c.id}>
                                         {c.name}
@@ -1169,7 +1194,7 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
                                     ) : (
                                       ""
                                     )
-                                  )}
+                                  ):""}
                                 </select>
                                 
                               <div class='err_msg'>{city_error}</div>
