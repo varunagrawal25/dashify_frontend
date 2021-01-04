@@ -465,7 +465,7 @@ export default class ReviewGenerationCampaign extends Component {
                         <span>Ratings Email And SMS</span>
                       </div>
                       <div className="closebox">
-                        <i className="zmdi zmdi-close"></i> Close section
+                        <i className="zmdi zmdi-close"></i> Close Section
                       </div>
                     </li>
                   </ul>
@@ -838,7 +838,7 @@ Apple AppStore
                 <div className="step2 mt-30">
                   <div className="formbox">
                     <div className="raitingemail">
-                      <h3>Raiting Email And SMS templete</h3>
+                      <h3>Raiting Email And SMS Template</h3>
                       <div className="raitingcolor">
                         <p>
                           Hi (name) <br />
@@ -923,7 +923,7 @@ Apple AppStore
 </MDBCol>
 <MDBCol md='4' style={{padding:'0px'}}>
   <MDBBtn className='write_review_btn'>
-    Write a review
+    Write A Review
   </MDBBtn>
 </MDBCol>
  </MDBRow>
@@ -939,7 +939,7 @@ Google Map
 </MDBCol>
 <MDBCol md='4' style={{padding:'0px'}}>
   <MDBBtn className='write_review_btn'>
-    Write a review
+    Write A Review
   </MDBBtn>
 </MDBCol>
  </MDBRow>

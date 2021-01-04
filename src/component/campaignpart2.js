@@ -471,7 +471,7 @@ export default class CampaignPart2 extends Component {
             noValidate
           >
             <div className="rightside_title">
-              <h1>Enter campaign details</h1>
+              <h1>Enter Campaign Details</h1>
             </div>
             <div className="row">
               <div className="col-md-8">
@@ -480,10 +480,10 @@ export default class CampaignPart2 extends Component {
                     <li>
                       <div className="step-sms">
                         <a href="#">Step 02</a>
-                        <span>Ralting Email And SMS template</span>
+                        <span>Ralting Email And SMS Template</span>
                       </div>
                       <div className="closebox">
-                        <i className="zmdi zmdi-close"></i> Close section
+                        <i className="zmdi zmdi-close"></i> Close Section
                       </div>
                     </li>
                   </ul>
@@ -503,7 +503,7 @@ export default class CampaignPart2 extends Component {
                       </div>
                         <div className="col-md-6 camp_margin1">
                           <div >
-                          <div className='camp_subhead1'>Customer first name</div>
+                          <div className='camp_subhead1'>Customer First Name</div>
                           <input
                             type="text"
                             className="form-control"
@@ -514,7 +514,7 @@ export default class CampaignPart2 extends Component {
                         </div>
                         <div className="col-md-6 camp_margin2">
                           <div>
-                          <div className='camp_subhead1'>Customer Email / Phone number</div>
+                          <div className='camp_subhead1'>Customer Email / Phone Number</div>
                           <input
                             type="text"
                             className="form-control"
@@ -525,7 +525,7 @@ export default class CampaignPart2 extends Component {
                         </div>
                         <div className="col-md-6 camp_margin2">
                           <div >
-                          <div className='camp_subhead1'>Customer last name</div>
+                          <div className='camp_subhead1'>Customer Last Name</div>
                           <input
                             type="text"
                             className="form-control"
@@ -538,7 +538,7 @@ export default class CampaignPart2 extends Component {
                       <div className="col-md-12">
                           <button onClick={this.add_customer_function} className="add_button" 
                           style={{float:'right',marginTop:'50px' ,marginBottom:'5px'}}>
-                            Add another Customer
+                            Add Another Customer
                           </button>
                       </div>
                     </div>
@@ -546,10 +546,10 @@ export default class CampaignPart2 extends Component {
                 </div>
 
                     <div className="row" style={{marginTop:'40px'}}>
-                    <div className="col-md-2 "/>
-                      <div className="col-md-5 ">
+                    <div className="col-md-1 "/>
+                      <div className="col-md-6 ">
                         <button className="gen_btn" >
-                          Create a new review generation
+                          Create A New Review Generation
                         </button>
                       </div>
                       <div className="col-md-5" style={{ textAlign: "center" }}>

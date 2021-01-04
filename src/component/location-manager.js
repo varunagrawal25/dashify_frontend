@@ -113,7 +113,7 @@ console.log("data55",data)
                     localStorage.setItem("locationName", loc.location_name);
                   }}
                 >
-                  View listing
+                  View Listing
                 </a>
               </div>
             </div>
@@ -178,7 +178,7 @@ console.log("data55",data)
                 </MDBCol>
               
               </MDBRow>
-                <h4 className='connect_msg'>No Location added, Please add some loaction</h4>
+                <h4 className='connect_msg'>No Location Added, Please Add A Loaction</h4>
                 </div>
               ) : (<div>
 <MDBRow>
@@ -189,12 +189,12 @@ console.log("data55",data)
   </MDBCol>
   <MDBCol md='2'>
   <select onChange={this.itemsPerPage} className="review_select_btn items_select" >
-                    <option value="5">5 Items/page</option>
-                    <option value="10">10 Items/page</option>
-                    <option value="20">20 Items/page</option>
-                    <option value="50">50 Items/page</option>
-                    <option value="99">99 Items/page</option>
-                    <option value="999999">All Items</option>
+                    <option value="5">5 locations/page</option>
+                    <option value="10">10 locations/page</option>
+                    <option value="20">20 locations/page</option>
+                    <option value="50">50 locations/page</option>
+                    <option value="99">99 locations/page</option>
+                    <option value="999999">All locations</option>
                   </select>
   </MDBCol>
 </MDBRow>

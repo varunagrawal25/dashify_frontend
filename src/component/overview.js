@@ -1294,29 +1294,29 @@ if(e){
                               <option selected
                                 value= "last week"
                               >
-                                Last week
+                                Last Week
                               </option>
                               <option
                               value = "last month"
                               >
-                                Last month
+                                Last Month
                               </option>
 
                               <option
                               value= "last 3 months"
                               >
-                                Last 3 month
+                                Last 3 Months
                               </option>
 
                               <option
                               value= "last 6 months"
                               >
-                                Last 6 month
+                                Last 6 Months
                               </option>
                               <option
                               value = "last year"
                               >
-                                Last year
+                                Last Year
                               </option>
                             </select>
                      
@@ -1438,8 +1438,8 @@ if(e){
                           </MDBCol>
                           <MDBCol md='4' style={{padding:'0px'}}>
                           {view_notification_type2 == false
-                            ? (<div onClick={this.IconsAllLess("All")}>View All <ArrowRightIcon /></div>)
-                            : (<div onClick={this.IconsAllLess("Less")}>View Less <ArrowDownIcon /></div>)}
+                            ? (<div onClick={this.IconsAllLess("All")} style={{textDecoration:'none'}}>View All <ArrowRightIcon /></div>)
+                            : (<div onClick={this.IconsAllLess("Less")} style={{textDecoration:'none'}}>View Less <ArrowDownIcon /></div>)}
                           </MDBCol>
                         </MDBRow>
                           
@@ -1481,7 +1481,7 @@ if(e){
                 </div>
                 <div class="col-md-8">
                   <div className="recent-9">
-                    <h3>Average Google customer Actions</h3>
+                    <h3>Average Google Customer Actions</h3>
 
                     <div className="camgianbox">
                     <select  className="review_select_btn" onChange={this.graph_google_customer_actions_function} >
@@ -1493,24 +1493,24 @@ if(e){
                               <option
                               value = "last month"
                               >
-                                Last month
+                                Last Month
                               </option>
 
                               <option
                               value= "last 3 months"
                               >
-                                Last 3 month
+                                Last 3 Months
                               </option>
 
                               <option
                               value= "last 6 months"
                               >
-                                Last 6 month
+                                Last 6 Months
                               </option>
                               <option
                               value = "last year"
                               >
-                                Last year
+                                Last Year
                               </option>
                             </select>
                       {/* <div className="dropdown">

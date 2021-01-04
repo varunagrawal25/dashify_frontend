@@ -32,18 +32,18 @@ export default class RankingAnalytics extends Component {
                 <option selected value="week">
                   This Week
                 </option>
-                <option value="month">This month</option>
-                <option value="year">This year</option>
+                <option value="month">This Month</option>
+                <option value="year">This Year</option>
               </select>
             </MDBCol>
 
             <MDBCol md="2" className="no_left_padding">
               <select className="ranking_keyword_btn" >
                 <option selected value="Add new keyword" className='ranking_keyword_btn_options'>
-                  Add new keyword
+                  Add New Keyword
                 </option>
-                <option value="Add new keyword" className='ranking_keyword_btn_options'>Add new keyword</option>
-                <option value="Add new keyword" className='ranking_keyword_btn_options'>Add new keyword</option>
+                <option value="Add new keyword" className='ranking_keyword_btn_options'>Keyword1</option>
+                <option value="Add new keyword" className='ranking_keyword_btn_options'>Keyword2</option>
               </select>
             </MDBCol>
           </MDBRow>

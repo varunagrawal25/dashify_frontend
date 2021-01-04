@@ -395,7 +395,7 @@ img {
   right: 100%;
   bottom: 0;
   background: #0562ed;
-  height: 4px;
+  height: 2px;
   -webkit-transition-property: right;
   transition-property: right;
   -webkit-transition-duration: 0.3s;
@@ -418,7 +418,7 @@ img {
   right: 0;
   bottom: 0;
   background: #0562ed;
-  height: 4px;
+  height: 2px;
   transition-property: right;
   transition-duration: 0.3s;
   transition-timing-function: ease-out;
@@ -6748,7 +6748,7 @@ ul.socialicon-new li {
 }
 
 .pay_last_btn {
-  background: #00c27a;
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
   color: #fff;
   padding: 6px 15px;
   border-radius: 5px;
@@ -6761,7 +6761,7 @@ ul.socialicon-new li {
 }
 
 .pay_last_btn:hover {
-  background: #02ad6e;
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
 }
 .paymentbox ul li img {
   height: 40px;
@@ -12270,7 +12270,7 @@ label img {
 #vl_btn_edit {
   width: 83.18px;
   height: 30.45px;
-  background: #00c27a;
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
   font-family: Roboto;
@@ -12403,7 +12403,7 @@ label img {
 .vl_btn_c3_edit {
   width: 83.18px;
   height: 30.45px;
-  background: #00c27a;
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
   font-family: Roboto;
@@ -12733,6 +12733,7 @@ label img {
   border: none;
   color: #5d80e2;
   background: transparent;
+  outline: none;
 }
 
 .review_heading1 {
@@ -12905,17 +12906,34 @@ label img {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
-  line-height: 21px;
+  font-size: 15px;
+  line-height: 17px;
   color: #4f4f4f;
   padding: 10px 15px;
-  background: #ffffff;
+  background: #f7f9fc;
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-sizing: border-box;
   border-radius: 5px;
-  width: 92%;
+  width: 94%;
   margin: 20px 0px;
-  margin-left: 4%;
+  margin-left: 3%;
+}
+
+.promo_input ::placeholder {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 17px;
+  color: #4f4f4f;
+  padding: 10px 15px;
+  background: #f7f9fc;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-sizing: border-box;
+  border-radius: 5px;
+  width: 94%;
+  margin: 20px 0px;
+  margin-left: 3%;
 }
 
 .profile4 {
