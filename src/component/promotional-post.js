@@ -4,7 +4,7 @@ import es_img1 from "./assets/es_img1.png";
 import edit from "./assets/edit.png";
 import delete_icon from "./assets/delete_icon.png";
 import { Checkbox } from '@material-ui/core';
-import {Add_Promotional ,All_Promotional_list} from "./apis/location";
+import {Add_Promotional ,All_Promotional_list, Delete_Promotional_by_id, Promotional_by_id} from "./apis/location";
 import { secure_pin } from "../config";
 import cross_img from "./assets/cross_img.png";
 import attach from "./assets/attach.png"
@@ -51,6 +51,7 @@ componentDidMount = () =>{
   }
   All_Promotional_list(data)
   .then(resp => {
+    console.log(resp)
      this.setState({
       promo_list: resp.data.promotional_details,
     })
@@ -76,6 +77,7 @@ draftClicked = () => {
     }
     Add_Promotional(data)
     .then(resp => {
+      console.log(resp)
       
     })
       console.log(data)
@@ -97,6 +99,7 @@ draftClicked = () => {
     }
     Add_Promotional(data)
     .then(resp => {
+      console.log(resp)
       
     })
       console.log(data)
@@ -116,6 +119,7 @@ draftClicked = () => {
     }
     Add_Promotional(data)
     .then(resp => {
+      console.log(resp)
       
     })
       console.log(data)
@@ -134,6 +138,7 @@ draftClicked = () => {
     }
     Add_Promotional(data)
     .then(resp => {
+      console.log(resp)
       
     })
       console.log(data)
@@ -163,6 +168,7 @@ confirmPost = () => {
     }
     Add_Promotional(data)
     .then(resp => {
+      console.log(resp)
       
     })
       console.log(data)
@@ -184,6 +190,7 @@ confirmPost = () => {
     }
     Add_Promotional(data)
     .then(resp => {
+      console.log(resp)
       
     })
       console.log(data)
@@ -203,6 +210,7 @@ confirmPost = () => {
     }
     Add_Promotional(data)
     .then(resp => {
+      console.log(resp)
       
     })
       console.log(data)
@@ -221,6 +229,7 @@ confirmPost = () => {
     }
     Add_Promotional(data)
     .then(resp => {
+      console.log(resp)
       
     })
       console.log(data)
@@ -336,8 +345,48 @@ if(image_id){
   //       console.log(res);
   //     });
   // };
+  EditPost = (id)=>e=>{
+console.log(id);
+const data={
+  "secure_pin":"digimonk",
+  "user_id":localStorage.getItem("UserId"),
+  "promotional_id":id}
+
+Promotional_by_id(data)
+
+.then(resp => {
+  console.log(resp)
+  
+})
+
+.catch(resp=>{
+
+})
+  }
+
+  DeletePost= (id)=>e=>{
+    console.log(id);
+    const data={
+      "secure_pin":"digimonk",
+      "user_id":localStorage.getItem("UserId"),
+      "promotional_id":id}
+
+
+    Delete_Promotional_by_id(data)
+
+    .then(resp => {
+      console.log(resp)
+      
+    })
+
+    .catch(resp=>{
+
+    })
+      }
+
+
   render() {
-    console.log("kkk",this.state.type);
+    console.log("state",this.state);
     var OtherImages=this.state.otherImages;
 
     var AllImg;
@@ -549,8 +598,8 @@ Status
                   <div className="pp_contant2">{d.details}</div>
                   
                   <div className="pp_contant2">
-                    <img src={edit} alt="" className="es_icon" data-toggle="modal" data-target="#myModal"/>
-                    <img src={delete_icon} alt="" className="es_icon" />
+                    <img src={edit} onClick={this.EditPost(d.id)} alt="" className="es_icon" data-toggle="modal" data-target="#myModal"/>
+                    <img src={delete_icon} onClick={this.DeletePost(d.id)} alt="" className="es_icon" />
                   </div>
                 </MDBCol>
                

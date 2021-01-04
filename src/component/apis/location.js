@@ -74,3 +74,18 @@ export const All_Promotional_list = (data) => {
   return Axios.post(
     `${API}/admin/promotion_api/all_promotional_by_locationid`, data );
 };
+
+export const Promotional_by_id = (data) => {
+  return Axios.post(
+    `${API}/admin/promotion_api/get_promotional_by_id`, data );
+};
+
+export const Update_Promotional_by_id = (data) => {
+  return Axios.post(
+    `${API}/admin/promotion_api/update_promotion`, data );
+};
+
+export const Delete_Promotional_by_id = (data) => {
+  return Axios.post(
+    `${API}/admin/promotion_api/delete_promotional`, data );
+};
