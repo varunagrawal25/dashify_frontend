@@ -716,8 +716,8 @@ export default class ReviewGenerationStats extends Component {
                   <option selected value="week">
                     This Week
                   </option>
-                  <option value="month">This month</option>
-                  <option value="year">This year</option>
+                  <option value="month">This Month</option>
+                  <option value="year">This Year</option>
                 </select>
               </MDBCol>
               <MDBCol md="3" style={{ marginTop: "25px" }}>
@@ -729,7 +729,7 @@ export default class ReviewGenerationStats extends Component {
                   }
                   id="btn_review_gen"
                 >
-                  Create a new campaign
+                  Create A New Campaign
                 </MDBBtn>
               </MDBCol>
             </MDBRow>
@@ -806,7 +806,7 @@ export default class ReviewGenerationStats extends Component {
                       </MDBCol>
                     </MDBRow>
                   ) : (
-                    <h4 className='connect_msg1'>Connect some listings to see this chart</h4>
+                    <h4 className='connect_msg1'>Connect Some Listings To See This Chart</h4>
                   )}
               </MDBCol>
               <MDBCol md="8">
@@ -857,7 +857,7 @@ export default class ReviewGenerationStats extends Component {
                         ) : (
                           <div className="viewallreview traffic-chartbox">
                             <h4 className='connect_msg1'>
-                              Facebook and Google listing must be connected
+                              Facebook And Google Listing Must Be Connected
                             </h4>
                           </div>
                         )}
@@ -871,7 +871,7 @@ export default class ReviewGenerationStats extends Component {
             <div style={{ paddingRight: "13px" }}>
               <MDBRow className="review_container">
                 <MDBCol md="2" className="rev_gen_contant4">
-                  Campaign list
+                  Campaign List
                 </MDBCol>
                 <MDBCol md="10">
                   <MDBRow>
@@ -930,7 +930,7 @@ export default class ReviewGenerationStats extends Component {
                               </MDBCol> */}
                             </MDBRow>
                             <MDBRow className="rev_gen_contant2">
-                              Overal Rating
+                              Overall Rating
                             </MDBRow>
                           </MDBCol>
                         </MDBRow>
@@ -961,7 +961,7 @@ export default class ReviewGenerationStats extends Component {
                               </MDBCol> */}
                             </MDBRow>
                             <MDBRow className="rev_gen_contant2">
-                              Number of reviews
+                              Number Of Reviews
                             </MDBRow>
                           </MDBCol>
                         </MDBRow>
@@ -999,7 +999,7 @@ export default class ReviewGenerationStats extends Component {
                               </MDBCol> */}
                             </MDBRow>
                             <MDBRow className="rev_gen_contant2">
-                              Invites sent
+                              Invite Sent
                             </MDBRow>
                           </MDBCol>
                         </MDBRow>

@@ -574,7 +574,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                       <div id="vl_heading">{this.state.name}</div>
                       <div className="vl_contant">{this.state.category}</div>
                       <div className="vl_subhead" style={{ marginTop: "10%" }}>
-                        ADDRESS AND CONTACT
+                      Address And Contact
                       </div>
                       <div className="vl_contant">
                         {this.state.address} {this.state.state}{" "}
@@ -595,7 +595,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                 </MDBCol>
                 <MDBCol xs="12" md="7" lg="7">
                   <div className="vl_subhead" id="buss_desc">
-                    BUSINESS DESCRIPTION
+                    Business Description
                   </div>
                   <div className="vl_contant">{this.state.about}</div>
                   <MDBRow>

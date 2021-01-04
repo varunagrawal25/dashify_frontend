@@ -375,7 +375,7 @@ console.log("imgdata",data)
                       >
                   <MDBRow className='user_rowspace'>
                     <MDBCol md="4">
-                      <div className="user2">Company name</div>
+                      <div className="user2">Company Name</div>
                       </MDBCol>
                       <MDBCol md="8">
                     
@@ -398,7 +398,7 @@ console.log("imgdata",data)
                       </MDBRow>
                       <MDBRow className='user_rowspace'>
                       <MDBCol md="4">
-                      <div className="user2">phone_no</div>
+                      <div className="user2">Phone No.</div>
                       </MDBCol>
                       <MDBCol md="8">
                    
@@ -484,7 +484,7 @@ console.log("imgdata",data)
                   </div>
                   <MDBRow>
                     <MDBCol md="4" >
-                      <div className="user2">Company name</div>
+                      <div className="user2">Company Name</div>
                     </MDBCol>
                     <MDBCol md="8">
                       {Company_name ? (
@@ -496,7 +496,7 @@ console.log("imgdata",data)
                     </MDBRow>
                     <MDBRow>                   
                      <MDBCol md="4">
-                      <div className="user2">phone_no</div>
+                      <div className="user2">Phone No.</div>
                     </MDBCol>
                     <MDBCol md="8">
                       {phone_no ? (

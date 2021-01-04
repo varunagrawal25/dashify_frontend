@@ -2809,8 +2809,8 @@ console.log("upd",filter)
   </MDBCol>
   <MDBCol md='5'>
 <select className="review_select_btn" onChange={this.Update_Overall_Breakdown("overall_rating")}>
-  <option value="last week">This week</option>
-  <option value="last year">This year</option>
+  <option value="last week">This Week</option>
+  <option value="last year">This Year</option>
 </select>
   </MDBCol>
 </MDBRow>
@@ -2834,8 +2834,8 @@ console.log("upd",filter)
   </MDBCol>
   <MDBCol md='4'>
 <select className="review_select_btn" onChange={this.Update_Overall_Breakdown("rating_breakdown")}>
-  <option value="last week">This week</option>
-  <option value="last year">This year</option>
+  <option value="last week">This Week</option>
+  <option value="last year">This Year</option>
 </select>
   </MDBCol>
 </MDBRow>
@@ -2872,7 +2872,7 @@ console.log("upd",filter)
             <MDBCol  md='4' className='review_container'>
   <MDBRow>
   <MDBCol md='12' className='review_heading1'>
-  Most helpful Reviews
+  Most Helpful Reviews
   </MDBCol>
 </MDBRow>
 {this.state.HelpfulReview?
@@ -2889,7 +2889,7 @@ console.log("upd",filter)
  {HelpfulReviewText}
   </MDBCol>
 </MDBRow>
- </div>:<div className='no_faq' style={{marginTop:'70px'}}>No helpful review</div>}
+ </div>:<div className='no_faq' style={{marginTop:'70px'}}>No Helpful Review</div>}
             </MDBCol>
            
             
@@ -2898,7 +2898,7 @@ console.log("upd",filter)
 
           <MDBRow className='review_container'>
             <MDBCol md='3'>
-<div className='review_heading3'>View all reviews</div>
+<div className='review_heading3'>View All Reviews</div>
             </MDBCol>
             <MDBCol md='5'>
             {/* <img src={google} alt='' className='review_icon'/>
@@ -2912,8 +2912,8 @@ console.log("upd",filter)
                           <MDBCol md='4' style={{padding:'0px'}}>
                           <select className="review_select_btn" style={{float:'right'}} onChange={this.IconsAllLess}>
   
-  <option value="Less">See less</option>
-  <option value="All">See more</option>
+  <option value="Less">See Less</option>
+  <option value="All">See More</option>
 </select>
                           </MDBCol>
                         </MDBRow>
@@ -2923,11 +2923,11 @@ console.log("upd",filter)
             </MDBCol>
             <MDBCol md='4' >
             <select className="review_select_btn" style={{float:'right'}}  onChange={this.UpdateReviewsFilter} >
-  <option value="last week">This week</option>
-  <option value="last month">last month</option>
-  <option value="last 3 months">last 3 months</option>
-  <option value="last 6 months">last 6 months</option>
-  <option value="last year">This year</option>
+  <option value="last week">Last Week</option>
+  <option value="last month">Last Month</option>
+  <option value="last 3 months">Last 3 Months</option>
+  <option value="last 6 months">Last 6 Months</option>
+  <option value="last year">Last Year</option>
   <option value="all">Lifetime</option>
 </select>
             </MDBCol>

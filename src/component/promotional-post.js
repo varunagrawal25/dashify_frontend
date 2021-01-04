@@ -266,54 +266,41 @@ changeHandler = event => {
     })
   }
 };
+
+
   onUploadOtherImage = event => {
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = e => {
         console.log(e.target.result);
-        this.setState({ otherImages: e.target.result });
+
+        var ob={"promotional_image":e.target.result}
+        this.setState({ otherImages: this.state.otherImages.concat(ob) });
 
       var locationId = this.props.match.params.locationId;
-      // {"secure_pin":"digimonk","user_id":"10","location_id":"38",
-      // "more_bussiness_images_array":[{"bussiness_image":"base64image1"},{"bussiness_image":"base64image2"}]}
-      // const data = {
-      //   secure_pin,
-      //   user_id: localStorage.getItem("UserId"),
-      //   location_id: locationId,
-        
-      //   more_bussiness_images_array: [{ bussiness_image: e.target.result }]
-      // };
-// console.log("kkl",data)
+    
       this.setState({ otherImagesLoading: true });
     
 
-      // add_other_images_by_location_id(data)
-      //   .then(resp => {
-      //     const data1 = {
-      //       location_id: locationId,
-      //       secure_pin
-      //     };
-      //     location_by_id(data1)
-      //       .then(resp1 => {
-      //         this.setState({
-      //           otherImages: resp1.data.location_images,
-      //           otherImagesLoading: false
-      //         });
-      //       })
-      //       .catch(resp1 => {
-      //         console.log(resp1);
-      //         swal("uploading image failed");
-      //         this.setState({ otherImagesLoading: false });
-      //       });
-      //   })
-      //   .catch(resp => {
-      //     console.log(resp);
-      //     swal("uploading image failed");
-      //     this.setState({ otherImagesLoading: false });
-      //   });
+     
     };
   };
+
+  delete_other_images= image_id => {
+
+console.log(image_id);
+
+if(image_id){
+
+// var a=this.state.otherImages;
+// a.splice(image_id,1);
+
+
+//          this.setState({otherImages:a});
+
+}
+  }
 
   // delete_other_image = image_id => {
   //   var locationId = this.props.match.params.locationId;
@@ -350,7 +337,47 @@ changeHandler = event => {
   //     });
   // };
   render() {
-    console.log("kkk",this.state.type)
+    console.log("kkk",this.state.type);
+    var OtherImages=this.state.otherImages;
+
+    var AllImg;
+    if(OtherImages){
+      var ii=-1;
+     AllImg= OtherImages.map(o=>{
+
+      ii=ii+1;
+       return( <MDBCol md="2" className="ap_image">
+       <img src={o.promotional_image}
+         alt=""
+         style={{
+           height: "60px",
+           width: "60px",
+           borderRadius: "10px"
+         }}
+       />
+{/*        
+       <div className="get-image1"
+        onClick={console.log(ii) }
+        
+        >
+                                  <img
+                                    src={cross_img}
+                                    alt=""
+                                    style={{
+                                      height: "10px",
+                                      width: "10px",
+                                      backgroundColor: "red",
+                                      borderRadius: "50%",
+                                      padding: "2px",
+                                      marginTop: "-3px"
+                                    }}
+                                    
+                                  />
+                                </div> */}
+                                
+                                </MDBCol>)
+     })
+    }
     return (
       <div>
         <MDBContainer id="overview-10" style={{marginBottom:'60px'}}>
@@ -366,29 +393,29 @@ changeHandler = event => {
                               <option selected
                                 value= "week"
                               >
-                                Last week
+                                Last Week
                               </option>
                               <option
                               value = "month"
                               >
-                                Last month
+                                Last Month
                               </option>
 
                               <option
                               value= "3 months"
                               >
-                                Last 3 month
+                                Last 3 Months
                               </option>
 
                               <option
                               value= "6 months"
                               >
-                                Last 6 month
+                                Last 6 Months
                               </option>
                               <option
                               value = "year"
                               >
-                                Last year
+                                Last Year
                               </option>
                             </select>
 </div>
@@ -399,7 +426,7 @@ changeHandler = event => {
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
 <div className='pp_contant1'>15</div>
-<div className='pp_contant2'>Total active post</div>
+<div className='pp_contant2'>Total Active Post</div>
   </MDBCol>
 
   <MDBCol md='3'>
@@ -414,7 +441,7 @@ changeHandler = event => {
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
 <div className='pp_contant1'>21</div>
-<div className='pp_contant2'>Total post views</div>
+<div className='pp_contant2'>Total Post Views</div>
   </MDBCol>
 
   <MDBCol md='3'>
@@ -429,7 +456,7 @@ changeHandler = event => {
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
 <div className='pp_contant1'>06</div>
-<div className='pp_contant2'>Total post clicks</div>
+<div className='pp_contant2'>Total Post Clicks</div>
   </MDBCol>
 
   <MDBCol md='3'>
@@ -444,7 +471,7 @@ changeHandler = event => {
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
 <div className='pp_contant1'>12</div>
-<div className='pp_contant2'>Scheduled posts</div>
+<div className='pp_contant2'>Scheduled Posts</div>
   </MDBCol>
 
   <MDBCol md='3'>
@@ -459,7 +486,7 @@ changeHandler = event => {
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
 <div className='pp_contant1'>09</div>
-<div className='pp_contant2'>Expirit posts</div>
+<div className='pp_contant2'>Expiry Posts</div>
   </MDBCol>
 
   <MDBCol md='3'>
@@ -596,11 +623,14 @@ N/A
 </MDBRow> */}
 
 </div>
-               :<div className='no_faq' style={{marginTop:'40px',marginBottom:'40px'}}>No promotional post to show</div>}
+               :<div className='no_faq' style={{marginTop:'40px',marginBottom:'40px'}}>No Promotional Post To Show</div>}
                 </div>
               </MDBCol>
               <MDBCol md='4' className='review_container'>
-                <MDBBtn className='pp_create_np' data-toggle="modal" data-target="#myModal">Create a new post</MDBBtn>
+                <MDBBtn className='pp_create_np' data-toggle="modal" data-target="#myModal">Create A New Post</MDBBtn>
+                
+                
+                
                 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -617,12 +647,13 @@ N/A
 									</button>
         </div>
         <div class="modal-body" >
+          
           <div className="breadcrumb-menu" style={{margin:'0px' ,marginBottom:'30px'}}>
           <ul class="nav nav-tabs nav-justified ">
-    <li ><a data-toggle="tab" href="#promo_post" className='active' onClick={ () => {this.setState({type:"promotional"})}}> Promotional post</a></li>
-    <li ><a data-toggle="tab" href="#post_event" onClick={ () => {this.setState({type:"event"})}}>Post an event</a></li>
-    <li><a data-toggle="tab" href="#add_cta" onClick={ () => {this.setState({type:"cta"})}}>Add a CTA</a></li>
-    <li><a data-toggle="tab" href="#expiry" onClick={ () => {this.setState({type:"report"})}}>Report this post after expairy</a></li>
+    <li ><a data-toggle="tab" href="#promo_post" className='active' onClick={ () => {this.setState({type:"promotional"})}}> Promotional Post</a></li>
+    <li ><a data-toggle="tab" href="#post_event" onClick={ () => {this.setState({type:"event"})}}>Post An Event</a></li>
+    <li><a data-toggle="tab" href="#add_cta" onClick={ () => {this.setState({type:"cta"})}}>Add A CTA</a></li>
+    <li><a data-toggle="tab" href="#expiry" onClick={ () => {this.setState({type:"report"})}}>Report This Post After Expiry</a></li>
   </ul>
           </div>
     
@@ -631,7 +662,7 @@ N/A
     <div id="promo_post" class="tab-pane fade  active" style={{opacity:'1'}}>
     {/* <MDBRow>
            <MDBCol md='8' className='ap_subhead1'>
-           Write your post
+           Write Your Post
            </MDBCol>
            <MDBCol md='4' className='ap_subhead2'>
            100-150 Characters
@@ -652,7 +683,7 @@ N/A
                               </span>
                             </MDBCol>
                             {/* {this.state.otherImages.map(n => ( */}
-                              <MDBCol md="2" className="ap_image">
+                              {/* <MDBCol md="2" className="ap_image">
                                 <img src={this.state.otherImages}
                                   alt=""
                                   style={{
@@ -661,6 +692,8 @@ N/A
                                     borderRadius: "10px"
                                   }}
                                 />
+                                </MDBCol> */}
+                                {AllImg}
 
                                 {/* <div className="get-image1">
                                   <img
@@ -679,60 +712,60 @@ N/A
                                     }
                                   />
                                 </div> */}
-                              </MDBCol>
+                              
                             {/* ))} */}
                           </MDBRow>
                          
            </MDBCol>
-           <MDBCol md='4' className='ap_contant1'>
+           {/* <MDBCol md='4' className='ap_contant1'>
              <span><img src={attach} /></span>
-           Attatch a document
-           </MDBCol>
+           Attach A Document
+           </MDBCol> */}
          </MDBRow>
          <MDBRow>
            
-         <input   className="promo_input"  placeholder="Offer title " type='text' 
+         <input   className="promo_input"  placeholder="Offer Title " type='text' 
           value={this.state.offer_title}  name="offer_title"  onChange={this.changeHandler}/>
          </MDBRow>
          <MDBRow>
          <MDBCol md='6'>
-         <input   className="promo_input"  placeholder="Start date " type='date' 
-         value={this.state.promo_start_date}  name="promo_start_date"  onChange={this.changeHandler}/>
+         <input   className="promo_input"  placeholder="Start Date " type='date'  style={{marginLeft:'0px'}} 
+         value={this.state.promo_start_date}  name="promo_start_date"  onChange={this.changeHandler} />
          </MDBCol>
          <MDBCol md='6'>
-         <input   className="promo_input"  placeholder="Start time " type='time' 
+         <input   className="promo_input"  placeholder="Start Time " type='time'  style={{ marginRight:'0px'}}
          value={this.state.promo_start_time}  name="promo_start_time"  onChange={this.changeHandler}/>
          </MDBCol>
          </MDBRow>
 
          <MDBRow>
          <MDBCol md='6'>
-         <input   className="promo_input"  placeholder="End date " type='date' 
+         <input   className="promo_input"  placeholder="End Date " type='date'  style={{marginLeft:'0px'}} 
          value={this.state.promo_end_date}  name="promo_end_date"  onChange={this.changeHandler}/>
          </MDBCol>
          <MDBCol md='6'>
-         <input   className="promo_input"  placeholder="End time " type='time' 
+         <input   className="promo_input"  placeholder="End Time " type='time'  style={{ marginRight:'0px'}}
          value={this.state.promo_end_time}  name="promo_end_time"  onChange={this.changeHandler}/>
          </MDBCol>
          </MDBRow>
-        <div className='ap_subhead1'>Add more details (optional)</div>
+        <div className='ap_subhead1'>Add More Details (Optional)</div>
 
          <MDBRow>
-         <textarea rows="3"   className="promo_input"  placeholder="Offer details " type='text'
+         <textarea rows="3"   className="promo_input"  placeholder="Offer Details " type='text'
          value={this.state.offer_details}  name="offer_details"  onChange={this.changeHandler} />
          </MDBRow>
 
          <MDBRow>
-         <input   className="promo_input"  placeholder="Coupon code (optional) " type='text' 
+         <input   className="promo_input"  placeholder="Coupon Code (Optional) " type='text' 
          value={this.state.coupon_code}  name="coupon_code"  onChange={this.changeHandler}/>
          </MDBRow>
          <MDBRow>
-         <input   className="promo_input"  placeholder="Link to redeem offer (optional) " type='text' 
+         <input   className="promo_input"  placeholder="Link To Redeem Offer (Optional) " type='text' 
          value={this.state.redeem_offer}  name="redeem_offer"  onChange={this.changeHandler}/>
          </MDBRow>
 
          <MDBRow>
-         <input   className="promo_input"  placeholder="Terms & Conditions  (optional) " type='text' 
+         <input   className="promo_input"  placeholder="Terms & Conditions  (Optional) " type='text' 
          value={this.state.terms}  name="terms"  onChange={this.changeHandler}/>
          </MDBRow>
     </div>
@@ -740,7 +773,7 @@ N/A
     <div id="post_event" class="tab-pane fade">
     {/* <MDBRow>
            <MDBCol md='8' className='ap_subhead1'>
-           Write your post
+           Write Your Post
            </MDBCol>
            <MDBCol md='4' className='ap_subhead2'>
            100-150 Characters
@@ -762,7 +795,7 @@ N/A
                               </span>
                             </MDBCol>
                             {/* {this.state.otherImages.map(n => ( */}
-                              <MDBCol md="2" className="ap_image">
+                              {/* <MDBCol md="2" className="ap_image">
                                 <img src={this.state.otherImages}
                                   alt=""
                                   style={{
@@ -770,7 +803,9 @@ N/A
                                     width: "60px",
                                     borderRadius: "10px"
                                   }}
-                                />
+                                /> </MDBCol> */}
+
+                                {AllImg}
 
                                 {/* <div className="get-image1">
                                   <img
@@ -790,46 +825,46 @@ N/A
                                   />
                                 </div>
                               */}
-                              </MDBCol>
+                             
                             {/* ))} */}
                           </MDBRow>
                          
            </MDBCol>
-           <MDBCol md='4' className='ap_contant1'>
+           {/* <MDBCol md='4' className='ap_contant1'>
              <span><img src={attach} /></span>
-           Attatch a document
-           </MDBCol>
+           Attach a document
+           </MDBCol> */}
          </MDBRow>
          <MDBRow>
            
-         <input   className="promo_input"  placeholder="Event title " type='text' 
+         <input   className="promo_input"  placeholder="Event Title " type='text' 
           value={this.state.event_title}  name="event_title"  onChange={this.changeHandler}/>
          </MDBRow>
          <MDBRow>
          <MDBCol md='6'>
-         <input   className="promo_input"  placeholder="Start date " type='date' 
+         <input   className="promo_input"  placeholder="Start Date " type='date'  style={{marginLeft:'0px'}} 
          value={this.state.event_start_date}  name="event_start_date"  onChange={this.changeHandler}/>
          </MDBCol>
          <MDBCol md='6'>
-         <input   className="promo_input"  placeholder="Start time " type='time' 
+         <input   className="promo_input"  placeholder="Start time " type='time'  style={{ marginRight:'0px'}}
          value={this.state.event_start_time}  name="event_start_time"  onChange={this.changeHandler}/>
          </MDBCol>
          </MDBRow>
 
          <MDBRow>
          <MDBCol md='6'>
-         <input   className="promo_input"  placeholder="End date " type='date' 
+         <input   className="promo_input"  placeholder="End Date " type='date'  style={{marginLeft:'0px'}} 
          value={this.state.event_end_date}  name="event_end_date"  onChange={this.changeHandler}/>
          </MDBCol>
          <MDBCol md='6'>
-         <input   className="promo_input"  placeholder="End time " type='time' 
+         <input   className="promo_input"  placeholder="End Time " type='time'  style={{ marginRight:'0px'}}
          value={this.state.event_end_time}  name="event_end_time"  onChange={this.changeHandler}/>
          </MDBCol>
          </MDBRow>
-        <div className='ap_subhead1'>Add more details (optional)</div>
+        <div className='ap_subhead1'>Add More Details (Optional)</div>
 
          <MDBRow>
-         <textarea rows="3"   className="promo_input"  placeholder="Event details " type='text'
+         <textarea rows="3"   className="promo_input"  placeholder="Event Details " type='text'
          value={this.state.event_details}  name="event_details"  onChange={this.changeHandler} />
          </MDBRow>
 
@@ -839,7 +874,7 @@ N/A
     <div id="add_cta" class="tab-pane fade">
     <MDBRow>
            <MDBCol md='8' className='ap_subhead1'>
-           Write your post
+           Write Your Post
            </MDBCol>
            <MDBCol md='4' className='ap_subhead2'>
            100-150 Characters
@@ -863,7 +898,7 @@ N/A
                               </span>
                             </MDBCol>
                             {/* {this.state.otherImages.map(n => ( */}
-                              <MDBCol md="2" className="ap_image">
+                              {/* <MDBCol md="2" className="ap_image">
                                 <img src={this.state.otherImages}
                                   alt=""
                                   style={{
@@ -872,7 +907,7 @@ N/A
                                     borderRadius: "10px"
                                   }}
                                 />
-
+ </MDBCol> */}
                                 {/* <div className="get-image1">
                                   <img
                                     src={cross_img}
@@ -891,19 +926,21 @@ N/A
                                   />
                                 </div>
                              */}
-                             </MDBCol>
+
+                             {AllImg}
+                            
                             {/* ))} */}
                           </MDBRow>
                          
            </MDBCol>
-           <MDBCol md='4' className='ap_contant1'>
+           {/* <MDBCol md='4' className='ap_contant1'>
              <span><img src={attach} /></span>
-           Attatch a document
-           </MDBCol>
+           Attach A Document
+           </MDBCol> */}
          </MDBRow>
            
       <MDBRow>
-        <MDBCol md='4'>
+        <MDBCol md='5'>
         <select className="promo_input" value={this.state.cta_drop}  name="cta_drop"  onChange={this.changeHandler}>
          <option>Choose CTA</option>
          <option>Book</option>
@@ -914,7 +951,7 @@ N/A
          <option>Get Offer</option>
        </select>
         </MDBCol>
-        <MDBCol md='8'>
+        <MDBCol md='7'>
         <input   className="promo_input"  placeholder="https://www.example.com" type='url' 
          value={this.state.cta_url}  name="cta_url"  onChange={this.changeHandler}
          />
@@ -927,7 +964,7 @@ N/A
     <div id="expiry" class="tab-pane fade">
     <MDBRow>
            <MDBCol md='8' className='ap_subhead1'>
-           Write your post
+           Write Your Post
            </MDBCol>
            <MDBCol md='4' className='ap_subhead2'>
            100-150 Characters
@@ -952,7 +989,7 @@ N/A
                               </span>
                             </MDBCol>
                             {/* {this.state.otherImages.map(n => ( */}
-                              <MDBCol md="2" className="ap_image">
+                              {/* <MDBCol md="2" className="ap_image">
                                 <img src={this.state.otherImages}
                                   alt=""
                                   style={{
@@ -961,6 +998,9 @@ N/A
                                     borderRadius: "10px"
                                   }}
                                 />
+                                </MDBCol> */}
+
+                                {AllImg}
 
                                 {/* <div className="get-image1">
                                   <img
@@ -980,15 +1020,15 @@ N/A
                                   />
                                 </div>
                               */}
-                              </MDBCol>
+                              
                             {/* ))} */}
                           </MDBRow>
                          
            </MDBCol>
-           <MDBCol md='4' className='ap_contant1'>
+           {/* <MDBCol md='4' className='ap_contant1'>
              <span><img src={attach} /></span>
-           Attatch a document
-           </MDBCol>
+           Attach A Document
+           </MDBCol> */}
          </MDBRow>
         
     </div>
@@ -996,7 +1036,7 @@ N/A
   </div>
          
          {/* <MDBRow>
-           <MDBCol md='12'>
+           <MDBCol md='8'>
            <textarea rows='6' className='ap_textarea' placeholder='Enter your post content here...'/>
            </MDBCol>
          </MDBRow>
@@ -1032,7 +1072,7 @@ N/A
          <MDBRow style={{marginTop:'15px'}}>
           <MDBCol md='6'>
             <MDBBtn className="draft_btn"  onClick={this.draftClicked}>
-            Save as Draft
+            Save As Draft
             </MDBBtn>
           </MDBCol>
 

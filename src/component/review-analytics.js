@@ -1037,8 +1037,8 @@ console.log("colcheck",columnData)
                       <div className="col-md-10 analytics_btnx">Analytics</div>
                       <div className="col-md-2  ">
                       <select className='review_select_btn ra_drop'>
-                            <option selected >Last six months</option>
-                            <option >Last  year</option>
+                            <option selected >Last 6 Months</option>
+                            <option >Last  Year</option>
                                 </select>
                         {/* <a
                           href="#"
@@ -1153,7 +1153,7 @@ console.log("colcheck",columnData)
 
                         <div className="col-md-3">
                           <div className="totl-listing">
-                            <h3>Review Response rate</h3>
+                            <h3>Review Response Rate</h3>
                             <div className="icon">
                               <div className="icon-comment">
                                 <i className="zmdi zmdi-share"></i>

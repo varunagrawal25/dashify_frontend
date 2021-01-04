@@ -1448,7 +1448,7 @@ export default class ViewListing extends Component {
                           />
                         </div>
                         <div className="dolce-text">
-                          <h4>ADDRESS AND CONTACT</h4>
+                          <h4>Address And Contact</h4>
                           <p>
                             {this.state.address}
                             <br />

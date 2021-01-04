@@ -2198,7 +2198,7 @@ const data={secure_pin}
                                 <MDBRow className="uploadauthor">
                                   <MDBCol md="12">
                                     <div className="author_namebox">
-                                      About the business :
+                                      About The Business :
                                     </div>
                                   </MDBCol>
 
@@ -2219,7 +2219,7 @@ const data={secure_pin}
                                       <MDBRow className="uploadauthor">
                                         <MDBCol md="6">
                                           <div className="author_namebox">
-                                            Owner name :
+                                            Owner Name :
                                           </div>
                                         </MDBCol>
 
@@ -2239,7 +2239,7 @@ const data={secure_pin}
                                       <MDBRow className="uploadauthor">
                                         <MDBCol md="6">
                                           <div className="author_namebox">
-                                            Owner email :
+                                            Owner Email :
                                           </div>
                                         </MDBCol>
 
@@ -2258,7 +2258,7 @@ const data={secure_pin}
                                       <MDBRow className="uploadauthor">
                                         <MDBCol md="6">
                                           <div className="author_namebox">
-                                            Bussiness tagline :
+                                            Business Tagline :
                                           </div>
                                         </MDBCol>
 
@@ -2278,7 +2278,7 @@ const data={secure_pin}
                                       <MDBRow className="uploadauthor">
                                         <MDBCol md="6">
                                           <div className="author_namebox">
-                                            Year of incorporation :
+                                            Year Of Incorporation :
                                           </div>
                                         </MDBCol>
 
@@ -2547,7 +2547,7 @@ const data={secure_pin}
                             </MDBCol>
                           </MDBRow>
                           <div className="pt-15">
-                            <h3>About the business</h3>
+                            <h3>About The Business</h3>
                             <p style={{height:'129px'}}>{this.state.about}</p>
                             <div className="detailbox">
                               {/* <div className="uploadauthor">
@@ -2562,7 +2562,7 @@ const data={secure_pin}
                                   <MDBRow className="uploadauthor">
                                     <MDBCol md="6">
                                       <div className="author_namebox">
-                                        Owner name :
+                                        Owner Name :
                                       </div>
                                     </MDBCol>
 
@@ -2576,7 +2576,7 @@ const data={secure_pin}
                                   <MDBRow className="uploadauthor">
                                     <MDBCol md="6">
                                       <div className="author_namebox">
-                                        Owner email :
+                                        Owner Email :
                                       </div>
                                     </MDBCol>
 
@@ -2590,7 +2590,7 @@ const data={secure_pin}
                                   <MDBRow className="uploadauthor">
                                     <MDBCol md="6">
                                       <div className="author_namebox">
-                                        Bussiness tagline :
+                                        Business Tagline :
                                       </div>
                                     </MDBCol>
 
@@ -2606,7 +2606,7 @@ const data={secure_pin}
                                   <MDBRow className="uploadauthor">
                                     <MDBCol md="6">
                                       <div className="author_namebox">
-                                        Year of incorporation :
+                                        Year Of Incorporation :
                                       </div>
                                     </MDBCol>
 
@@ -3661,7 +3661,7 @@ const data={secure_pin}
                                   className="last_btn"
                                   onClick={this.editSpecialHourButton}
                                 >
-                                  Add a special Hour
+                                  Add A Special Hour
                                 </a>
                               </div>
 
@@ -4256,7 +4256,7 @@ checked
                 <div className="row">
                   <div className="col-md-4">
                     <div className="business-cover vl_box_head">
-                      Business covers image
+                      Business Cover Image
                       <div>
                         {this.state.coverImageLoading ? (
                           <div style={{ textAlign: "center" }}>
@@ -4301,7 +4301,7 @@ checked
                           <div className="plush_new">
                             <span>
                               <i className="zmdi zmdi-plus"></i>
-                              Attatch a image
+                              Attach A Image
                               <input
                                 type="file"
                                 name="bussiness_cover_image"
@@ -4317,7 +4317,7 @@ checked
                   </div>
                   <div className="col-md-8">
                     <div className="business-cover ">
-                      <div className="vl_box_head">Sharred Business Images</div>
+                      <div className="vl_box_head">Shared Business Images</div>
                       {this.state.otherImagesLoading ? (
                         <div style={{ textAlign: "center" }}>
                           <Loader
@@ -4334,7 +4334,7 @@ checked
                             <MDBCol md="2" className="plush_new">
                               <span>
                                 <i className="zmdi zmdi-plus"></i>
-                                Attatch a image
+                                Attach A Image
                                 <input
                                   type="file"
                                   name="otherImage"
@@ -4378,7 +4378,7 @@ checked
                                   <div className="plush_new">
                                     <span>
                                       <i className="zmdi zmdi-plus"></i>
-                                      Attatch a image
+                                      Attach A Image
                                       <input
                                         type="file"
                                         name="otherImage"

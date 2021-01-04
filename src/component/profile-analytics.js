@@ -878,8 +878,8 @@ g_website_visit
                     </MDBCol>
 
                     <MDBCol md="6" className="profile_ana_contant1">
-                      Connect your Facebook profile to get profile analytics for
-                      your Facebook listing
+                      Connect your facebook profile to get profile analytics for
+                      your facebook listing
                     </MDBCol>
                     <MDBCol md="4">
                       <FacebookLogin
@@ -946,8 +946,8 @@ g_website_visit
                     </MDBCol>
 
                     <MDBCol md="6" className="profile_ana_contant1">
-                      Connect your Google profile to get profile analytics for
-                      your Google listing
+                      Connect your google profile to get profile analytics for
+                      your google listing
                     </MDBCol>
                     <MDBCol md="4">
                       <GoogleLogin
@@ -998,29 +998,29 @@ g_website_visit
                               <option selected
                                 value= "last week"
                               >
-                                Last week
+                                Last Week
                               </option>
                               <option
                               value = "last month"
                               >
-                                Last month
+                                Last Month
                               </option>
 
                               <option
                               value= "last 3 months"
                               >
-                                Last 3 month
+                                Last 3 Month
                               </option>
 
                               <option
                               value= "last 6 months"
                               >
-                                Last 6 month
+                                Last 6 Month
                               </option>
                               <option
                               value = "last year"
                               >
-                                Last year
+                                Last Year
                               </option>
                             </select>
                           </div>
@@ -1056,7 +1056,7 @@ g_website_visit
                             {
                             c_total_profile_views?c_total_profile_views:"0"}
                             </p>
-                            <p className="analytic-17">Total profile view</p>
+                            <p className="analytic-17">Total Profile View</p>
                           </div>
                           <div className="col-md-3 ">
                             {parseInt(gviews_per)  >
@@ -1130,7 +1130,7 @@ g_website_visit
                               {" "}
                               {c_phone_calls?c_phone_calls:"0"}
                             </p>
-                            <p className="analytic-17">Phone calls</p>
+                            <p className="analytic-17">Phone Calls</p>
                           </div>
                           <div className="col-md-3  ">
                           {parseInt(gcalls_per)  >
@@ -1167,7 +1167,7 @@ g_website_visit
                               {" "}
                               {c_direct_request?c_direct_request:"0"}
                             </p>
-                            <p className="analytic-17">Direction request</p>
+                            <p className="analytic-17">Direction Request</p>
                           </div>
                           <div className="col-md-3  ">
                           {parseInt(condirection_per)  >
@@ -1204,7 +1204,7 @@ g_website_visit
                               {" "}
                               {c_buttons_clicks?c_buttons_clicks:"0"}
                             </p>
-                            <p className="analytic-17">Button clicks</p>
+                            <p className="analytic-17">Button Clicks</p>
                           </div>
                           <div className="col-md-3  ">
                           {parseInt(conclicks_per)  >
@@ -1237,11 +1237,11 @@ g_website_visit
                           <thead className="head_font">
                             <tr>
                               <th scope="col">Profiles 02</th>
-                              <th scope="col">Profiles views</th>
-                              <th scope="col">Website views</th>
-                              <th scope="col">Phone calls</th>
+                              <th scope="col">Profiles Views</th>
+                              <th scope="col">Website Views</th>
+                              <th scope="col">Phone Calls</th>
                               <th scope="col">Direction Request</th>
-                              <th scope="col">Button clicks</th>
+                              <th scope="col">Button Clicks</th>
                             </tr>
                           </thead>
                           <tbody>
