@@ -805,7 +805,7 @@ N/A
                                   }}
                                 /> </MDBCol> */}
 
-                                {AllImg}
+                                {AllImg} 
 
                                 {/* <div className="get-image1">
                                   <img
