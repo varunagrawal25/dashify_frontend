@@ -1210,7 +1210,7 @@ console.log("colcheck",columnData)
         { title: 'Avg. Rating', field: 'avg_rating' },
         { title: 'Total Reviews', field: 'total_reviews' },
         { title: 'New Reviews', field: 'new_reviews'},
-        { title: 'Rencency', field: 'rencency' },
+        { title: 'Recency', field: 'rencency' },
         { title: 'Base Rating', field: 'base_rating' },
       ]}
       data={AllAnalytics}

@@ -9,6 +9,7 @@ import { secure_pin } from "../config";
 import cross_img from "./assets/cross_img.png";
 import attach from "./assets/attach.png"
 import swal from "sweetalert";
+import Moment from 'moment';
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 export default class promotional_post extends Component {
@@ -59,14 +60,19 @@ console.log("ppk",this.state.promo_list)
 }
 draftClicked = () => {
   if(this.state.type=="promotional"){
+    // this.setState({
+    //   promo_start_date: Moment(this.state.promo_start_date).format('DD-MM-YYYY'),
+      
+    // })
+    console.log("kkoo",this.state.promo_start_date)
     const data = {
       secure_pin,
       user_id: localStorage.getItem("UserId"),
       location_id: this.props.match.params.locationId,
       submit_type:this.state.type,
       title:this.state.offer_title,
-      start_date:this.state.promo_start_date + this.state.promo_start_time,
-      end_date:this.state.promo_end_date + this.state.promo_end_time,
+      start_date:this.state.promo_start_date + "T" + this.state.promo_start_time,
+      end_date:this.state.promo_end_date + "T" + this.state.promo_end_time,
       details:this.state.offer_details,
       redeem_offer:this.state.redeem_offer,
       coupon_code:this.state.coupon_code,
@@ -89,8 +95,8 @@ draftClicked = () => {
       submit_type:this.state.type,
       save_status:"draft",
       attached_images: this.state.otherImages,
-      start_date:this.state.event_start_date + this.state.event_start_time,
-      end_date:this.state.event_end_date + this.state.event_end_time,
+      start_date:this.state.event_start_date + "T" + this.state.event_start_time,
+      end_date:this.state.event_end_date + "T" + this.state.event_end_time,
       title:this.state.event_title,
       details:this.state.event_details,
       
@@ -152,8 +158,8 @@ confirmPost = () => {
       location_id: this.props.match.params.locationId,
       submit_type:this.state.type,
       title:this.state.offer_title,
-      start_date:this.state.promo_start_date + this.state.promo_start_time,
-      end_date:this.state.promo_end_date + this.state.promo_end_time,
+      start_date:this.state.promo_start_date + "T" + this.state.promo_start_time,
+      end_date:this.state.promo_end_date + "T" + this.state.promo_end_time,
       details:this.state.offer_details,
       redeem_offer:this.state.redeem_offer,
       coupon_code:this.state.coupon_code,
@@ -176,8 +182,8 @@ confirmPost = () => {
       submit_type:this.state.type,
       save_status:"active",
       attached_images: this.state.otherImages,
-      start_date:this.state.event_start_date + this.state.event_start_time,
-      end_date:this.state.event_end_date + this.state.event_end_time,
+      start_date:this.state.event_start_date + "T" + this.state.event_start_time,
+      end_date:this.state.event_end_date + "T" + this.state.event_end_time,
       title:this.state.event_title,
       details:this.state.event_details,
       

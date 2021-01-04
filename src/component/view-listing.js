@@ -16,6 +16,8 @@ import {
   business_states
 } from "./apis/location";
 // import qs from "querystring";
+import { CircularProgressbar , buildStyles} from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 import qs from "qs";
 import Spinner from "./common/Spinner";
 import ReactPDF, {
@@ -738,12 +740,13 @@ export default class ViewListing extends Component {
     }
 
     let scorePercentage = ~~((googleScore / maxScore) * 100);
+    console.log("scorePercentage",scorePercentage)
     return (
       <div className="bing-box">
         <div className="google-top">
           <img src={require("../images/google-new.png")} alt="" />
 
-          <div className="progress" data-percentage={scorePercentage}>
+          <div className="progress" data-percentage={50}>
             <span className="progress-left">
               <span className="progress-bar"></span>
             </span>
@@ -752,7 +755,7 @@ export default class ViewListing extends Component {
             </span>
             <div className="progress-value">
               <div>
-                {scorePercentage}%
+                {50}%
                 <br />
                 <span>score</span>
               </div>
@@ -807,7 +810,7 @@ export default class ViewListing extends Component {
                   : "-"}
               </div>
             </li>
-            <h3>Detailed breakdown</h3>
+            <h3>Detailed Breakdown</h3>
             <ul className="breack-bing">
               <li>
                 <span>Categories</span>
@@ -966,7 +969,7 @@ export default class ViewListing extends Component {
                   : "-"}
               </div>
             </li>
-            <h3>Detailed breakdown</h3>
+            <h3>Detailed Breakdown</h3>
             <ul className="breack-bing">
               <li>
                 <span>Categories</span>
@@ -1118,7 +1121,7 @@ export default class ViewListing extends Component {
                 {data.phone ? data.phone : "-"}
               </div>
             </li>
-            <h3>Detailed breakdown</h3>
+            <h3>Detailed Breakdown</h3>
             <ul className="breack-bing">
               <li>
                 <span>Categories</span>
@@ -1268,12 +1271,12 @@ export default class ViewListing extends Component {
           <img src={s.icon} alt="" width="65px" height="65px" />
 
           <div className="progress" data-percentage={s.score}>
-            <span className="progress-left">
+            {/* <span className="progress-left">
               <span className="progress-bar"></span>
             </span>
             <span className="progress-right">
               <span className="progress-bar"></span>
-            </span>
+            </span> */}
             <div className="progress-value">
               <div>
                 {s.score}%
@@ -1282,6 +1285,14 @@ export default class ViewListing extends Component {
               </div>
             </div>
           </div>
+      
+       {/* <div style={{width:'93px',height:'93px'}}><CircularProgressbar value={s.score}
+        text={`${s.score}%`} 
+        styles={buildStyles({
+          pathColor: '#8264C6 ',
+    textColor: '#8264C6',
+        })}/></div> */}
+       
         </div>
 
         <div className="bing-detils">
@@ -1331,7 +1342,7 @@ export default class ViewListing extends Component {
                   : "-"}
               </div>
             </li> */}
-            <h3>Detailed breakdown</h3>
+            <h3>Detailed Breakdown</h3>
             <ul className="breack-bing">
               <li>
                 <span>Categories</span>
@@ -1679,7 +1690,7 @@ export default class ViewListing extends Component {
                              // clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
                              // for server
                              clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
-                              buttonText="Connect a account"
+                              buttonText="Connect A Account"
                               class="connect_btn"
                               scope="https://www.googleapis.com/auth/business.manage"
                               onSuccess={this.responseGoogle}
@@ -1762,7 +1773,7 @@ export default class ViewListing extends Component {
                             // fields="name,email,picture,pages_read_engagement,pages_read_user_content,Page Public Metadata Access"
                             onClick={this.componentClicked}
                             callback={this.responseFacebook}
-                            textButton="Connect a account"
+                            textButton="Connect A Account"
                             cssClass="connect_btn"
                           />
                         )}
@@ -1822,7 +1833,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/yelplogin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -1881,7 +1892,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/foursquarelogin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -1941,7 +1952,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/instagramlogin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -2008,9 +2019,9 @@ export default class ViewListing extends Component {
                               redirectUri="http://localhost:3000/linkedin"
                               redirectPath="/linkedin"
                               className="connect_btn"
-                              children="Connect a account"
+                              children="Connect A Account"
                             ></LinkedIn>
-                            {/* <a className="connect_btn">Connect a account</a> */}
+                            {/* <a className="connect_btn">Connect A Account</a> */}
                             {/* {!linkedin_code && <div>No code</div>}
                       {linkedin_code && <div>Code: {linkedin_code}</div>}
                       {linkedin_errorMessage && (
@@ -2077,7 +2088,7 @@ export default class ViewListing extends Component {
                             href="http://www.avvo.com/oauth2/sessions/new?client_id=5qnw8y28j4m1ey1s29wprg668&client_secret=8dou5mll9h4z0k2i4ow752e8b&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Favvologin&response_type=code_and_token"
                             className="connect_btn"
                           >
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -2136,7 +2147,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/dnblogin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -2196,7 +2207,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/applelogin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -2254,7 +2265,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/citysearchlogin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -2312,7 +2323,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/zillowlogin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -2370,7 +2381,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/tomtomlogin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -2428,7 +2439,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/zomatologin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
@@ -2486,7 +2497,7 @@ export default class ViewListing extends Component {
                           </a>
                         ) : (
                           <a href="/herelogin" className="connect_btn">
-                            Connect a account
+                            Connect A Account
                           </a>
                         )}
                       </div>
