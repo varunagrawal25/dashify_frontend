@@ -5,6 +5,7 @@ import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import Spinner from "./common/Spinner";
 import { MDBCol, MDBRow } from "mdbreact";
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -49,7 +50,7 @@ class ConnectedAccounts extends Component {
       // Other_info: this.state.all_pages[index].id,
 
 
-      "secure_pin":"digimonk",
+      secure_pin,
       "user_id":localStorage.getItem("UserId"),
       "location_id":fb_data.location_id,
       "facebook_id":fb_data.userId,

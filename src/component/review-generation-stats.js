@@ -9,7 +9,7 @@ import rev_gen_img1 from "./assets/rev_gen_img1.png";
 import rev_gen_img2 from "./assets/rev_gen_img2.png";
 import rev_gen_img3 from "./assets/rev_gen_img3.png";
 import rev_gen_img4 from "./assets/rev_gen_img4.png";
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -236,7 +236,7 @@ export default class ReviewGenerationStats extends Component {
       googleToken,
       locationIdGoogle;
       const data = {
-        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+        secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
       };
   
 

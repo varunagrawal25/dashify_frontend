@@ -327,7 +327,7 @@ console.log("jj",data2)
         
       }).catch(err => {
         console.log("err",err)
-        this.setState({category: "Loading..."})
+        this.setState({category: "-"})
       });
       console.log("location_by_id0", resp);
       console.log("location_by_id1", resp.data);
@@ -337,7 +337,7 @@ console.log("jj",data2)
         location: resp.data.location_details[0],
         name: resp.data.location_details[0].location_name,
         storeCode: resp.data.location_details[0].stor_code,
-        category: "Loading.....",
+        category: resp.data.location_details[0].bussiness_cate,
         category_id: "",
         address: resp.data.location_details[0].address1,
         website: resp.data.location_details[0].website,
@@ -1957,8 +1957,7 @@ const data={secure_pin}
                                       <select
                                     name="category"
                                     onChange={this.changeHandler}
-                                    className="form-control"
-                                    id="primaryCategory"
+                                    className="vl_edit_input"
                                   >
                                     <option value="0" disabled="">
                                       Select Category
@@ -1966,7 +1965,7 @@ const data={secure_pin}
                                     {this.state.businessCategories.map((b, i) => (
                                       <option
                                         key={`business-${i}`}
-                                        value={b.id}
+                                        value={b.name}
                                       >
                                         {b.name}
                                       </option>
@@ -3456,7 +3455,7 @@ const data={secure_pin}
                               </MDBCol>
                             </MDBRow>
                                     </div>)}
-
+ 
                             
                           </div>
 

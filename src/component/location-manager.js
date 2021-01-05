@@ -221,6 +221,7 @@ console.log("data55",data)
                 <div>{renderLocations}</div>
                 </div>
         </div>
+        {renderLocations?
         <div className="pagination-main">
               <div className="pagination">
                 <ul>
@@ -276,7 +277,7 @@ console.log("data55",data)
                 </ul>
               </div>
             </div>
-         
+         :null}
              </div>
              )}
             

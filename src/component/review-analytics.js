@@ -10,7 +10,7 @@ import { MDBCol, MDBRow } from "mdbreact";
 import DonutChart from "react-donut-chart";
 import MaterialTable from 'material-table';
 import ReactApexChart from 'react-apexcharts'
-
+import { secure_pin } from "../config";
 const Yelpconfig = {
   headers: {
     Authorization:
@@ -93,7 +93,7 @@ export default class ReviewAnalytics extends Component {
       zomatoUrl;
 
     const data = {
-      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
     };
 
     // Axios.post(
@@ -165,7 +165,7 @@ export default class ReviewAnalytics extends Component {
         });
 
         const data2={
-          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,
+          secure_pin,"user_id":localStorage.getItem("UserId") ,
           "location_id":localStorage.getItem("locationId"),
           "filter_type":"last year"
         };
