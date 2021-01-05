@@ -252,7 +252,7 @@ export default class ReviewTracking extends Component {
     category: "",
     state: "",
     today: "",
-
+    showalert:true,
     active_listing: [],
     pdf_data1: [],
     pdf_data2: []
@@ -320,7 +320,7 @@ IconsAllLess=e=>{
     this.setState({ today });
 
     const data = {
-      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
     };
 
 
@@ -425,7 +425,7 @@ IconsAllLess=e=>{
         //   }
         // });
         const data2={
-          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+          secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
 
           "filter_type":"last week"
         }
@@ -441,10 +441,20 @@ IconsAllLess=e=>{
         .catch(res=>{
 
         });
-
-
+        console.log("this.state.AllReviews", this.state.AllReviews)
+        if(this.state.AllReviews[0]){
+          this.setState({
+            showalert:false
+          })
+          
+        }
+        else{
+          this.setState({
+            showalert:true
+          })
+        }
         const data3={
-          "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+          secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
          "type":"all","filter_type":"last week"
         }
 
@@ -1490,7 +1500,7 @@ console.log("upd",filter)
     if(type === "overall_rating" ){
       console.log("overall");
       const data3={
-        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+        secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
        "type":type,"filter_type":filter
       }
 
@@ -1517,7 +1527,7 @@ console.log("upd",filter)
       console.log("breakdown");
 
       const data3={
-        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+        secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
        "type":type,"filter_type":filter
       }
 
@@ -1548,7 +1558,7 @@ console.log("upd",filter)
     this.setState({AllReviews:[]})
 
     const data2={
-      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
 
       "filter_type":filter
     }
@@ -1560,9 +1570,19 @@ console.log("upd",filter)
     ).then(resp => {
       console.log("digi",resp);
       this.setState({AllReviews:resp.data.reviews_array});
+      if(resp.data.reviews_array[0]){
+        this.setState({
+          showalert:false
+        })
+        console.log(resp.data.reviews_array[0])
+      }
+      else{
+        this.setState({
+          showalert:true
+        })
+      }
     });
-
-
+    
   }
 
   render() {
@@ -1587,6 +1607,7 @@ console.log("upd",filter)
 
     }
     var AllReviews=this.state.AllReviews;
+    
     var FinalReviews;
     if (AllReviews){
      FinalReviews= AllReviews.map((r)=>{
@@ -1598,7 +1619,7 @@ console.log("upd",filter)
       //   FIVE: 5
       // };
       // console.log(star[r.rating])
-
+console.log("this.state.AllReviews" ,this.state.AllReviews)
 
         return(<MDBRow  className='review_container' key={r.review_id}>
         <MDBCol md='9'>
@@ -2793,6 +2814,7 @@ console.log("upd",filter)
 
     console.log("active_listing", active_listing);
     console.log("ll",FinalReviews)
+    console.log("llkk",this.state.showalert)
     console.log("llk",this.state.AllReviews)
     return (
       <div>
@@ -2933,8 +2955,8 @@ console.log("upd",filter)
             </MDBCol>
           </MDBRow>
 
-          {FinalReviews?FinalReviews:<div className='no_faq' style={{marginTop:'40px',marginBottom:'40px'}}>No Review</div>}
-          
+          {!this.state.showalert?null:<div className='no_faq' style={{marginTop:'40px',marginBottom:'40px'}}>No Review</div>}
+          {FinalReviews?FinalReviews:null}
           {/* <MDBRow  className='review_container'>
             <MDBCol md='9'>
               <MDBRow>

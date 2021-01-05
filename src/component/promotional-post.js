@@ -10,11 +10,13 @@ import cross_img from "./assets/cross_img.png";
 import attach from "./assets/attach.png"
 import swal from "sweetalert";
 import Moment from 'moment';
+import Spinner from "./common/Spinner";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 export default class promotional_post extends Component {
 
 state={
+  loading:false,
   otherImages: [],
   otherImagesLoading: false,
   offer_title:'',
@@ -57,9 +59,11 @@ componentDidMount = () =>{
     console.log(resp)
      this.setState({
       promo_list: resp.data.promotional_details,
-    })
+    }).
 console.log("ppk",this.state.promo_list)
-  })
+  }).catch(resp=>{
+    console.log(resp)
+        })
 }
 draftClicked = () => {
   if(this.state.type=="promotional"){
@@ -83,11 +87,21 @@ draftClicked = () => {
       save_status:"draft",
       attached_images: this.state.otherImages,
     }
+    this.setState({
+      loading:true
+    })
     Add_Promotional(data)
+   
     .then(resp => {
       console.log(resp)
+      this.setState({
+        loading:false
+      })
       
-    })
+    }).catch(resp=>{
+      console.log(resp)
+          })
+   
       console.log(data)
   }
 
@@ -105,11 +119,19 @@ draftClicked = () => {
       details:this.state.event_details,
       
     }
+    this.setState({
+      loading:true
+    })
     Add_Promotional(data)
     .then(resp => {
       console.log(resp)
-      
-    })
+      this.setState({
+        loading:false
+      })
+    }).catch(resp=>{
+      console.log(resp)
+          })
+   
       console.log(data)
   }
   if(this.state.type=="cta"){
@@ -129,7 +151,9 @@ draftClicked = () => {
     .then(resp => {
       console.log(resp)
       
-    })
+    }).catch(resp=>{
+      console.log(resp)
+          })
       console.log(data)
   }
 
@@ -148,12 +172,14 @@ draftClicked = () => {
     .then(resp => {
       console.log(resp)
       
-    })
+    }).catch(resp=>{
+      console.log(resp)
+          })
       console.log(data)
   }
  
 }
-// {"secure_pin":"digimonk","user_id":"10","location_id":"45","submit_type":"promotional","title":"test promotional",
+// {secure_pin,"user_id":"10","location_id":"45","submit_type":"promotional","title":"test promotional",
 // "start_date":"11-12-2020 13:25","end_date":"11-12-2020 13:25","details":"this is testing promotional........",
 // "coupon_code":"CDFE1123","redeem_offer":"24","terms_condi":"testing terms conditionsssssss....","save_status":"draft",
 // "attached_images":[{"promotional_image":"data:image/png;base64"},{"promotional_image":"data:image/png;base64"}]}
@@ -174,11 +200,19 @@ confirmPost = () => {
       save_status:"active",
       attached_images: this.state.otherImages,
     }
+    this.setState({
+      loading:true
+    })
     Add_Promotional(data)
     .then(resp => {
       console.log(resp)
-      
-    })
+      this.setState({
+        loading:false
+      })
+    }).catch(resp=>{
+      console.log(resp)
+          })
+  
       console.log(data)
   }
 
@@ -196,11 +230,19 @@ confirmPost = () => {
       details:this.state.event_details,
       
     }
+    this.setState({
+      loading:true
+    })
     Add_Promotional(data)
     .then(resp => {
       console.log(resp)
-      
-    })
+      this.setState({
+        loading:false
+      })
+    }).catch(resp=>{
+      console.log(resp)
+          })
+    
       console.log(data)
   }
   if(this.state.type=="cta"){
@@ -220,7 +262,9 @@ confirmPost = () => {
     .then(resp => {
       console.log(resp)
       
-    })
+    }).catch(resp=>{
+      console.log(resp)
+          })
       console.log(data)
   }
 
@@ -239,7 +283,9 @@ confirmPost = () => {
     .then(resp => {
       console.log(resp)
       
-    })
+    }).catch(resp=>{
+      console.log(resp)
+          })
       console.log(data)
   }
  
@@ -367,7 +413,7 @@ if(image_id){
   EditPost = (id)=>e=>{
 console.log(id);
 const data={
-  "secure_pin":"digimonk",
+  secure_pin,
   "user_id":localStorage.getItem("UserId"),
   "promotional_id":id}
 
@@ -389,6 +435,7 @@ Promotional_by_id(data)
       event_end_time:edte[1],
       event_title:promodata.promotional_details[0].title,
       event_details:promodata.promotional_details[0].details,
+      save_status:promodata.promotional_details[0].save_status,
       cta_post:'',
       expiry_post:'',
       cta_drop:'',
@@ -414,6 +461,7 @@ Promotional_by_id(data)
       redeem_offer:promodata.promotional_details[0].redeem_offer,
       coupon_code:promodata.promotional_details[0].coupon_code,
       terms:promodata.promotional_details[0].terms_condi,
+      save_status:promodata.promotional_details[0].save_status,
       cta_post:'',
       cta_drop:'',
       cta_url:'',
@@ -427,14 +475,19 @@ Promotional_by_id(data)
 })
 
 .catch(resp=>{
-
-})
+  console.log(resp)
+      })
   }
 
   DeletePost= (id)=>e=>{
     console.log(id);
+    swal("Are You Sure TO Delete This Post?", {
+      dangerMode: true,
+      buttons: true,
+    });
+    if(!swal.close()){
     const data={
-      "secure_pin":"digimonk",
+      secure_pin,
       "user_id":localStorage.getItem("UserId"),
       "promotional_id":id}
 
@@ -447,10 +500,10 @@ Promotional_by_id(data)
     })
 
     .catch(resp=>{
-
+console.log(resp)
     })
       }
-
+    }
 
   render() {
     console.log("state",this.state);
@@ -661,7 +714,7 @@ Status
                   />
                 </MDBCol>
                 <MDBCol md="9">
-                <div className="pp_contant2">{d.start_date}</div>
+                <div className="pp_contant2">{d.date}</div>
                   <div className="pp_contant3">{d.title}</div>
                   <div className="pp_contant2">{d.details}</div>
                   
@@ -767,14 +820,21 @@ N/A
         <div class="modal-body" >
           
           <div className="breadcrumb-menu" style={{margin:'0px' ,marginBottom:'30px'}}>
-          <ul class="nav nav-tabs nav-justified ">
-    <li ><a data-toggle="tab" href="#promo_post" className='active' onClick={ () => {this.setState({type:"promotional"})}}> Promotional Post</a></li>
-    <li ><a data-toggle="tab" href="#post_event" onClick={ () => {this.setState({type:"event"})}}>Post An Event</a></li>
-    {/* <li><a data-toggle="tab" href="#add_cta" onClick={ () => {this.setState({type:"cta"})}}>Add A CTA</a></li>
-    <li><a data-toggle="tab" href="#expiry" onClick={ () => {this.setState({type:"report"})}}>Report This Post After Expiry</a></li> */}
+            {/* <MDBRow className="nav nav-tabs nav-justified">
+              <MDBCol md='6' className="underline-from-left">
+              <a data-toggle="tab" href="#promo_post" className='active' onClick={ () => {this.setState({type:"promotional"})}}> Promotional Post</a>
+              </MDBCol>
+
+              <MDBCol md='6' className="underline-from-left">
+              <a data-toggle="tab" href="#post_event" onClick={ () => {this.setState({type:"event"})}}>Post An Event</a>
+              </MDBCol>
+            </MDBRow> */}
+          <ul class="nav nav-tabs nav-justified">
+    <li className="underline-from-left" ><a data-toggle="tab" href="#promo_post" className='active' onClick={ () => {this.setState({type:"promotional"})}}> Promotional Post</a></li>
+    <li className="underline-from-left" style={{marginLeft:'55px'}}><a data-toggle="tab" href="#post_event" onClick={ () => {this.setState({type:"event"})}}>Post An Event</a></li>
   </ul>
           </div>
-    
+    {this.state.loading?<Spinner/>:
           <div class="scrollbar" style={{height:'415px'}}>
     <div class="overflow">
   <div class="tab-content">
@@ -812,8 +872,9 @@ N/A
          </MDBRow>
          <MDBRow>
            
-         <input   className="promo_input"  placeholder="Offer Title " type='text' 
+         <input   className="promo_input"  placeholder="Offer Title " type='text' required
            name="offer_title"  onChange={this.changeHandler}/>
+           
          </MDBRow>
          <MDBRow>
          <MDBCol md='6'>
@@ -896,7 +957,7 @@ N/A
          </MDBRow>
          <MDBRow>
            
-         <input   className="promo_input"  placeholder="Event Title " type='text' 
+         <input   className="promo_input"  placeholder="Event Title " type='text' required
             name="event_title"  onChange={this.changeHandler}/>
          </MDBRow>
          <MDBRow>
@@ -974,13 +1035,13 @@ N/A
          :null}
          <MDBRow style={{marginTop:'15px'}}>
           <MDBCol md='6'>
-            <MDBBtn className="draft_btn"  onClick={this.draftClicked}>
+            <MDBBtn className="draft_btn"  onClick={this.draftClicked}  data-dismiss="modal">
             Save As Draft
             </MDBBtn>
           </MDBCol>
 
           <MDBCol md='6'>
-            <MDBBtn className="cp_btn" onClick={this.confirmPost}> 
+            <MDBBtn className="cp_btn" onClick={this.confirmPost}  data-dismiss="modal"> 
             Confirm Post
             </MDBBtn>
           </MDBCol>
@@ -989,6 +1050,7 @@ N/A
         </div>
         
         </div>
+        }
         </div>
      </div>
       
@@ -1015,10 +1077,8 @@ N/A
           
             {this.state.type == "promotional"?
             <div>
-            <div className="breadcrumb-menu" style={{margin:'0px' ,marginBottom:'30px'}}>
-            <ul class="nav nav-tabs nav-justified ">
-             <li ><a  className='active' >Promotional Post</a></li>
-             </ul>
+            <div style={{margin:'0px' ,marginBottom:'30px'}} className="ap_subhead0">
+            Promotional Post
     </div>
     <div class="scrollbar" style={{height:'415px'}}>
     <div class="overflow">
@@ -1044,7 +1104,7 @@ N/A
          </MDBRow>
          <MDBRow>
            
-         <input   className="promo_input"  placeholder="Offer Title " type='text' 
+         <input   className="promo_input"  placeholder="Offer Title " type='text' required
           value={this.state.offer_title}  name="offer_title"  onChange={this.changeHandler}/>
          </MDBRow>
          <MDBRow>
@@ -1127,14 +1187,15 @@ N/A
          :null}
          <MDBRow style={{marginTop:'15px'}}>
           <MDBCol md='6'>
-            <MDBBtn className="draft_btn"  onClick={this.draftClicked}>
+            {this.state.save_status == "draft"?
+            <MDBBtn className="draft_btn"  onClick={this.draftClicked}  data-dismiss="modal">
             Save As Draft
-            </MDBBtn>
+            </MDBBtn>:null}
           </MDBCol>
 
           <MDBCol md='6'>
-            <MDBBtn className="cp_btn" onClick={this.confirmPost}> 
-            Confirm Post
+            <MDBBtn className="cp_btn" onClick={this.confirmPost}  data-dismiss="modal"> 
+            Update Post
             </MDBBtn>
           </MDBCol>
         </MDBRow>
@@ -1149,11 +1210,11 @@ N/A
 
 {this.state.type == "event"?
 <div>
-<div className="breadcrumb-menu" style={{margin:'0px' ,marginBottom:'30px'}}>
-          <ul class="nav nav-tabs nav-justified ">
-   <li ><a  className='active'>Post An Event</a></li>
-   </ul>
+<div style={{margin:'0px' ,marginBottom:'30px'}} className="ap_subhead0">
+Post An Event
     </div>
+
+   
     <div class="scrollbar" style={{height:'415px'}}>
     <div class="overflow">
     <div >
@@ -1181,7 +1242,7 @@ N/A
          <MDBRow>
            
          <input   className="promo_input"  placeholder="Event Title " type='text' 
-          value={this.state.event_title}  name="event_title"  onChange={this.changeHandler}/>
+          value={this.state.event_title}  name="event_title"  onChange={this.changeHandler} required/>
          </MDBRow>
          <MDBRow>
          <MDBCol md='6'>
@@ -1251,14 +1312,15 @@ N/A
          :null}
          <MDBRow style={{marginTop:'15px'}}>
           <MDBCol md='6'>
-            <MDBBtn className="draft_btn"  onClick={this.draftClicked}>
+          {this.state.save_status == "draft"?
+            <MDBBtn className="draft_btn"  onClick={this.draftClicked}  data-dismiss="modal">
             Save As Draft
-            </MDBBtn>
+            </MDBBtn>:null}
           </MDBCol>
 
           <MDBCol md='6'>
-            <MDBBtn className="cp_btn" onClick={this.confirmPost}> 
-            Confirm Post
+            <MDBBtn className="cp_btn" onClick={this.confirmPost}  data-dismiss="modal"> 
+            Update Post
             </MDBBtn>
           </MDBCol>
         </MDBRow>
