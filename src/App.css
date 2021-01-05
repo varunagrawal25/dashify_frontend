@@ -10659,12 +10659,19 @@ ul.dropdown-menu.loginboxds li a:hover {
   line-height: 33px;
   color: #000000;
 }
-
+.ap_subhead0 {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 21px;
+  color: #0562ed;
+}
 .ap_subhead1 {
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 17px;
   line-height: 21px;
   color: #3f3f3f;
 }
@@ -10703,7 +10710,7 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
-  font-size: 18px;
+  font-size: 15px;
   line-height: 21px;
   color: #3f3f3f;
   margin-top: 10px;
@@ -12127,6 +12134,23 @@ label img {
   color: #3e435d;
 }
 /* voice listing css */
+.vl_cps {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+  color: #8264c6;
+}
+
+.vl_cpt {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  color: #8264c6;
+}
 .vl_gap1 {
   padding-top: 5px 10px;
   margin: 10px 0px;
@@ -12906,8 +12930,8 @@ label img {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 15px;
-  line-height: 17px;
+  font-size: 14px;
+  line-height: 16px;
   color: #4f4f4f;
   padding: 10px 15px;
   background: #f7f9fc;
@@ -12923,8 +12947,8 @@ label img {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
-  font-size: 15px;
-  line-height: 17px;
+  font-size: 14px;
+  line-height: 16px;
   color: #4f4f4f;
   padding: 10px 15px;
   background: #f7f9fc;

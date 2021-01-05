@@ -16,7 +16,7 @@ import {
   business_states
 } from "./apis/location";
 // import qs from "querystring";
-import { CircularProgressbar , buildStyles} from 'react-circular-progressbar';
+import { CircularProgressbar ,CircularProgressbarWithChildren, buildStyles} from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import qs from "qs";
 import Spinner from "./common/Spinner";
@@ -182,7 +182,7 @@ export default class ViewListing extends Component {
 
 
       const dataOpt={
-        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+        secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
       
         
       };
@@ -200,7 +200,7 @@ export default class ViewListing extends Component {
 
 
       const data = {
-        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+        secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
       };
       console.log("78945",this.props.match.params.locationId)
       var googleToken,
@@ -607,7 +607,7 @@ export default class ViewListing extends Component {
         this.props.history.push({
           pathname: `/linkedin-connectedaccounts/${resp.data.access_token}/view-listing/${this.props.match.params.locationId}`
         });
-        // {"secure_pin":"digimonk","user_id":"11","location_id":"11","connect_unique_id":"asdfasd12121212",
+        // {secure_pin,"user_id":"11","location_id":"11","connect_unique_id":"asdfasd12121212",
         // "token":"sdfass222","username":"digimonk","first_name":"ram","last_name":"gautam",
         // "email_id":"ram.gautam@digimonk.in",
         // "other_info":"{'student':{ 'name':'Harrysdf', 'country':'United State', 'ContactNo':'1231212'}}",
@@ -687,7 +687,7 @@ export default class ViewListing extends Component {
     console.log(e.target.name);
     var name = e.target.name;
     const data = { 
-      "secure_pin":"digimonk",
+      secure_pin,
       "user_id":localStorage.getItem("UserId") ,
       "location_id":localStorage.getItem("locationId"),
       "connect_type":namefrom
@@ -746,21 +746,17 @@ export default class ViewListing extends Component {
         <div className="google-top">
           <img src={require("../images/google-new.png")} alt="" />
 
-          <div className="progress" data-percentage={50}>
-            <span className="progress-left">
-              <span className="progress-bar"></span>
-            </span>
-            <span className="progress-right">
-              <span className="progress-bar"></span>
-            </span>
-            <div className="progress-value">
-              <div>
-                {50}%
-                <br />
-                <span>score</span>
-              </div>
-            </div>
-          </div>
+          <div style={{width:'93px',height:'93px'}}>
+         <CircularProgressbarWithChildren value={scorePercentage}
+        styles={buildStyles({
+          pathColor: '#8264C6 ',
+    textColor: '#8264C6',
+        })}>
+          <div className='vl_cps'>{scorePercentage}%</div>
+          <div className='vl_cpt' >Score</div>
+          </CircularProgressbarWithChildren>
+        </div>
+       
         </div>
 
         <div className="bing-detils">
@@ -911,21 +907,17 @@ export default class ViewListing extends Component {
             />
           </div>
 
-          <div className="progress" data-percentage={scorePercentage}>
-            <span className="progress-left">
-              <span className="progress-bar"></span>
-            </span>
-            <span className="progress-right">
-              <span className="progress-bar"></span>
-            </span>
-            <div className="progress-value">
-              <div>
-                {scorePercentage}%
-                <br />
-                <span>score</span>
-              </div>
-            </div>
-          </div>
+          <div style={{width:'93px',height:'93px'}}>
+         <CircularProgressbarWithChildren value={scorePercentage}
+        styles={buildStyles({
+          pathColor: '#8264C6 ',
+    textColor: '#8264C6',
+        })}>
+          <div className='vl_cps'>{scorePercentage}%</div>
+          <div className='vl_cpt' >Score</div>
+          </CircularProgressbarWithChildren>
+        </div>
+       
         </div>
 
         <div className="bing-detils">
@@ -1065,21 +1057,17 @@ export default class ViewListing extends Component {
         <div className="google-top">
           <img src={require("../images/yelp-new.png")} alt="" />
 
-          <div className="progress" data-percentage={scorePercentage}>
-            <span className="progress-left">
-              <span className="progress-bar"></span>
-            </span>
-            <span className="progress-right">
-              <span className="progress-bar"></span>
-            </span>
-            <div className="progress-value">
-              <div>
-                {scorePercentage}%
-                <br />
-                <span>score</span>
-              </div>
-            </div>
-          </div>
+          <div style={{width:'93px',height:'93px'}}>
+         <CircularProgressbarWithChildren value={scorePercentage}
+        styles={buildStyles({
+          pathColor: '#8264C6 ',
+    textColor: '#8264C6',
+        })}>
+          <div className='vl_cps'>{scorePercentage}%</div>
+          <div className='vl_cpt' >Score</div>
+          </CircularProgressbarWithChildren>
+        </div>
+       
         </div>
 
         <div className="bing-detils">
@@ -1270,28 +1258,19 @@ export default class ViewListing extends Component {
         <div className="google-top">
           <img src={s.icon} alt="" width="65px" height="65px" />
 
-          <div className="progress" data-percentage={s.score}>
-            {/* <span className="progress-left">
-              <span className="progress-bar"></span>
-            </span>
-            <span className="progress-right">
-              <span className="progress-bar"></span>
-            </span> */}
-            <div className="progress-value">
-              <div>
-                {s.score}%
-                <br />
-                <span>score</span>
-              </div>
-            </div>
-          </div>
+       
+         
       
-       {/* <div style={{width:'93px',height:'93px'}}><CircularProgressbar value={s.score}
-        text={`${s.score}%`} 
+       <div style={{width:'93px',height:'93px'}}>
+         <CircularProgressbarWithChildren value={s.score}
         styles={buildStyles({
           pathColor: '#8264C6 ',
     textColor: '#8264C6',
-        })}/></div> */}
+        })}>
+          <div className='vl_cps'>{s.score}%</div>
+          <div className='vl_cpt' >Score</div>
+          </CircularProgressbarWithChildren>
+        </div>
        
         </div>
 

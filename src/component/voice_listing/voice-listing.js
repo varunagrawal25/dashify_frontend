@@ -201,7 +201,7 @@ console.log("location44",data)
     if(this.props.match.params.locationId !=="null"){
     location_by_id(data).then(resp => {
       console.log("hi");
-      this.setState({ state: "Loading....", category: "Loading...." });
+      this.setState({ state: "Loading....", category:  resp.data.location_details[0].bussiness_cate});
       const data1={secure_pin,countryid:resp.data.location_details[0].country}
       business_states(data1).then(resp1 => {
         resp1.data.all_states.map((s, i) =>
@@ -261,7 +261,7 @@ console.log("location44",data)
     // };
 
     const dataVoice = {
-      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
     };
    
     all_connection_of_one_location(dataVoice, DjangoConfig)
@@ -329,7 +329,7 @@ console.log("location44",data)
       });
 
       const dataOpt={
-        "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+        secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
       
         ,"connect_type":"Yelp"
       };
@@ -580,7 +580,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                         {this.state.address} {this.state.state}{" "}
                         {this.state.postalCode}
                         <br />
-                        {this.state.phone ? `P : ${this.state.phone}` : ""}
+                        {this.state.phone ? `Ph : ${this.state.phone}` : ""}
                       </div>
                       <MDBBtn
                         id="vl_btn_edit"

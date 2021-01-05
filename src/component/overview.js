@@ -282,7 +282,7 @@ export default class Overview extends Component {
       fbtoken,
       fbPageId,
       googleToken;
-      const data = {"secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")};
+      const data = {secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")};
 
 
       all_connection_of_one_location(data, DjangoConfig)
@@ -313,7 +313,7 @@ export default class Overview extends Component {
             }
 
 
-    const data = {"secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,
+    const data = {secure_pin,"user_id":localStorage.getItem("UserId") ,
     "location_id":localStorage.getItem("locationId")};
 
     const notification_query_data = {
@@ -396,7 +396,7 @@ export default class Overview extends Component {
     }
     const graph_google_query_data = 
     {
-    "secure_pin":"digimonk",
+    secure_pin,
     "user_id":localStorage.getItem("UserId") ,
     "location_id":localStorage.getItem("locationId"),
     "filter_type":filter?filter:"last month"
@@ -657,7 +657,7 @@ if(e){
   filter=e.target.value;
 }
     const overview_query_data = {
-      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
       "filter_type":filter?filter:"last week"
     };
 
@@ -872,7 +872,7 @@ if(e){
             <MDBCol md="4" style={{ marginTop: "2px" }}>
               <MDBRow>
                 <MDBCol md="6" style={{ padding: "0px" }}>
-                  <a href={data.link} className="btn-primary ">
+                  <a href={data.link} className="btn-primary " style={{textDecoration:'none'}}>
                     Comment
                   </a>
                 </MDBCol>
@@ -916,7 +916,7 @@ if(e){
                     <div className="col-sm-4 social-11">
                       <h6>{data.values[i2]}</h6>
                       {/* <p>+10,03% </p>  */}
-                      <a class="link-social" role="button">
+                      <a class="link-social" role="button" style={{textDecoration:'none'}}>
                         {data2}
                       </a>
                     </div>
@@ -987,7 +987,7 @@ if(e){
             ? (total_listing_images = [
                 ...total_listing_images,
                 <li>
-                  <a data-toggle="modal" data-target="#myModal">
+                  <a data-toggle="modal" data-target="#myModal" style={{textDecoration:'none'}}>
                     <div className="google-mapd">
                       <img
                         src={require("../images/instagram.png")}
@@ -1421,7 +1421,7 @@ if(e){
                       )}
 
                       <div className="viewall-div">
-                        <a
+                        <a style={{textDecoration:'none'}}
                           onClick={() =>
                             view_notification_type2 == true
                               ? this.setState({

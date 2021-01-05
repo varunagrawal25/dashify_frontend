@@ -254,7 +254,7 @@ loader:false
   fliterUpdate=e=>{
     console.log(e.target.value)
     const data2={
-      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
 
       ,"filter_type":e.target.value
     }
@@ -266,7 +266,7 @@ loader:false
     var yelpUrl, fourUrl, fbtoken, fbPageId, googleToken;
 
     const data2={
-      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
 
       ,"filter_type":"last week"
     }
@@ -287,7 +287,7 @@ loader:false
     this.setState({ today });
 
     const dat2 = {
-      "secure_pin":"digimonk","user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
     };
     
 

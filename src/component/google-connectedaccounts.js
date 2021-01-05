@@ -4,7 +4,7 @@ import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import Spinner from "./common/Spinner";
 import { MDBCol, MDBRow } from "mdbreact";
-
+import { secure_pin } from "../config";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -76,7 +76,7 @@ class GoogleConnectedAccounts extends Component {
       // Other_info: this.state.all_pages[index].name,
 
 
-      "secure_pin":"digimonk",
+      secure_pin,
       "user_id":localStorage.getItem("UserId"),
       "location_id":g_data.location_id,
       "google_id":g_data.googleIdf?g_data.googleIdf:"",

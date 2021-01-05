@@ -79,7 +79,7 @@ class YelpLogin extends Component {
               // Other_info: "{'URL':" + this.state.url + ",'data':''}"
 
 
-              "secure_pin":"digimonk",
+              secure_pin,
               "user_id":localStorage.getItem("UserId"),
               "location_id":localStorage.getItem("locationId"),
               "connect_unique_id":"",
