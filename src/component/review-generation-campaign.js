@@ -4,6 +4,7 @@ import { all_connection_of_one_location } from "./apis/social_platforms";
 import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
+import { secure_pin } from "../config";
 
 const DjangoConfig = {
   headers: {
@@ -43,18 +44,18 @@ export default class ReviewGenerationCampaign extends Component {
 
   componentDidMount = () => {
     const data = {
-      location_id: this.props.match.params.locationId
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
     };
     // Axios.post(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
     //   data,
     //   DjangoConfig
     // )
-    all_connection_of_one_location(data, DjangoConfig).then(response => {
-      var googleToken, appleUrl;
-      this.setState({})
+    // all_connection_of_one_location(data, DjangoConfig).then(response => {
+    //   var googleToken, appleUrl;
+    //   this.setState({})
       
-    });
+    // });
   };
 
   submitHandler = event => {
@@ -380,6 +381,7 @@ export default class ReviewGenerationCampaign extends Component {
       wrong,
       loading
     } = this.state;
+    console.log(this.state)
 
     return (
       <div>
@@ -479,10 +481,11 @@ export default class ReviewGenerationCampaign extends Component {
                             type="text"
                             className="form-control"
                             placeholder="Compaing name"
-                            name="campaign_name"
-                            onChange={this.changeHandler}
+                            name="FromEmail"
+                            //onChange={this.changeHandler}
                             // value={campaign_name}
-                            required
+                            value="reviews@dashify.biz"
+                            readOnly
                           />
                           <div style={{ color: "red" }}>
                             {campaign_name_error}
@@ -497,7 +500,7 @@ export default class ReviewGenerationCampaign extends Component {
                             type="text"
                             className="form-control"
                             placeholder="David"
-                            name="campaign_name"
+                            name="ReplyTo"
                             onChange={this.changeHandler}
                             // value={campaign_name}
                             required
@@ -513,10 +516,10 @@ export default class ReviewGenerationCampaign extends Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="info@ossismedia.co"
-                            name="campaign_name"
+                            placeholder="Your Experiece matters"
+                            name="EmailSubject"
                             onChange={this.changeHandler}
-                            // value={campaign_name}
+                            value={email_subject}
                             required
                           />
                           <div style={{ color: "red" }}>
@@ -531,8 +534,8 @@ export default class ReviewGenerationCampaign extends Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Anderson"
-                            name="campaign_name"
+                            placeholder="You visited last time"
+                            name="email_heading"
                             onChange={this.changeHandler}
                             // value={campaign_name}
                             required
