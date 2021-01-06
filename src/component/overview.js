@@ -374,8 +374,10 @@ export default class Overview extends Component {
     console.log(data)
 
     all_connected_icons(data) .then(res => {
-      console.log("graph",res)
-      var l=res.data.con_social_array.length /2;
+      console.log("graph",res);
+      var l=3;
+      if(res.data.con_social_array.length>3)
+       l=res.data.con_social_array.length /2;
       this.setState({AllConnectedIcons: res.data.con_social_array.slice(0,l),
       TempAllIcons:res.data.con_social_array
     })
@@ -697,7 +699,7 @@ if(e){
     if(type==="All")
     this.setState({AllConnectedIcons:this.state.TempAllIcons})
     else if(type === "Less")
-    this.setState({AllConnectedIcons:this.state.AllConnectedIcons.slice(0, (this.state.TempAllIcons.length /2 ) )})
+    this.setState({AllConnectedIcons:this.state.AllConnectedIcons.slice(0, ( this.state.TempAllIcons.length>3? this.state.TempAllIcons.length /2 :3 ) )})
   }
   render() {
     let {

@@ -89,3 +89,8 @@ export const Delete_Promotional_by_id = (data) => {
   return Axios.post(
     `${API}/admin/promotion_api/delete_promotional`, data );
 };
+
+export const Promotional_Analytics = (data) => {
+  return Axios.post(
+    `${API}/admin/promotion_api/get_promotional_post_by_filter`, data );
+};

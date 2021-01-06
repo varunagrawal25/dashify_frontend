@@ -124,7 +124,7 @@ class YelpLogin extends Component {
       return (
         <Redirect
           to={
-            "/dashboard#/locations/" +
+            "/locations/" +
             localStorage.getItem("locationId") +
             "/view-listing"
           }
