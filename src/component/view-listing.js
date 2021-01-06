@@ -1930,9 +1930,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/instagramlogin" className="connect_btn">
+                          <Link to="/common-login/instagram" className="connect_btn">
                             Connect A Account
-                          </a>
+                          </Link>
                         )}
                       </div>
 
@@ -2063,12 +2063,15 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a
-                            href="http://www.avvo.com/oauth2/sessions/new?client_id=5qnw8y28j4m1ey1s29wprg668&client_secret=8dou5mll9h4z0k2i4ow752e8b&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Favvologin&response_type=code_and_token"
-                            className="connect_btn"
-                          >
+                          // <a
+                          //   href="http://www.avvo.com/oauth2/sessions/new?client_id=5qnw8y28j4m1ey1s29wprg668&client_secret=8dou5mll9h4z0k2i4ow752e8b&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Favvologin&response_type=code_and_token"
+                          //   className="connect_btn"
+                          // >
+                          //   Connect A Account
+                          // </a>
+                          <Link to="/common-login/avvo" className="connect_btn">
                             Connect A Account
-                          </a>
+                          </Link>
                         )}
                       </div>
 
@@ -2125,9 +2128,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/dnblogin" className="connect_btn">
+                          <Link to="/common-login/dnb" className="connect_btn">
                             Connect A Account
-                          </a>
+                          </Link>
                         )}
                       </div>
 
@@ -2185,9 +2188,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/applelogin" className="connect_btn">
-                            Connect A Account
-                          </a>
+                          <Link to="/common-login/apple" className="connect_btn">
+                          Connect A Account
+                        </Link>
                         )}
                       </div>
 
@@ -2243,9 +2246,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/citysearchlogin" className="connect_btn">
-                            Connect A Account
-                          </a>
+                          <Link to="/common-login/citysearch" className="connect_btn">
+                          Connect A Account
+                        </Link>
                         )}
                       </div>
 
@@ -2301,9 +2304,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/zillowlogin" className="connect_btn">
+                          <Link to="/common-login/zillow" className="connect_btn">
                             Connect A Account
-                          </a>
+                          </Link>
                         )}
                       </div>
 
@@ -2359,9 +2362,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/tomtomlogin" className="connect_btn">
+                          <Link to="/common-login/tomtom" className="connect_btn">
                             Connect A Account
-                          </a>
+                          </Link>
                         )}
                       </div>
 
@@ -2417,9 +2420,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/zomatologin" className="connect_btn">
-                            Connect A Account
-                          </a>
+                          <Link to="/common-login/zomato" className="connect_btn">
+                          Connect A Account
+                        </Link>
                         )}
                       </div>
 
@@ -2475,9 +2478,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/herelogin" className="connect_btn">
+                          <Link to="/common-login/here" className="connect_btn">
                             Connect A Account
-                          </a>
+                          </Link>
                         )}
                       </div>
 

@@ -114,12 +114,12 @@ class AppleLogin extends Component {
     if (this.state.isId) {
       return (
         <Redirect
-          to={
-            "/dashboard#/locations/" +
-            localStorage.getItem("locationId") +
-            "/view-listing"
-          }
-        />
+        to={
+          "/locations/" +
+          localStorage.getItem("locationId") +
+          "/view-listing"
+        }
+      />
       );
     }
 

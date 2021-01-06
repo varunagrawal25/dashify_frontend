@@ -118,12 +118,12 @@ class FourSquareLogin extends Component {
     if (this.state.isUrl) {
       return (
         <Redirect
-          to={
-            "/dashboard#/locations/" +
-            localStorage.getItem("locationId") +
-            "/view-listing"
-          }
-        />
+        to={
+          "/locations/" +
+          localStorage.getItem("locationId") +
+          "/view-listing"
+        }
+      />
       );
     }
 

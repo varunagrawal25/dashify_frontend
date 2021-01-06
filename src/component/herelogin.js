@@ -136,7 +136,13 @@ class HereLogin extends Component {
 
   render() {
     if (this.state.isId) {
-      return <Redirect to={"/dashboard#/here-related-location"} />;
+      return  <Redirect
+      to={
+        "/locations/" +
+        localStorage.getItem("locationId") +
+        "/view-listing"
+      }
+    />;
     }
 
     return (
