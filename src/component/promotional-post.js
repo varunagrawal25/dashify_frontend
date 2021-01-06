@@ -35,7 +35,6 @@ state={
   event_title:'',
   event_details:'',
   cta_post:'',
-  expiry_post:'',
   cta_drop:'',
   cta_url:'',
   type:"promotional",
@@ -45,8 +44,22 @@ state={
   show_active_status:'',
   promo_list:[],
   expiry_post:false,
-  add_cta:false
+  add_cta:false,
+  eshow_err:false,
+  pshow_err:false,
+  pt_err:"",
+  psd_err:"",
+  ped_err:"",
+  pd_err:"",
+  et_err:"",
+  esd_err:"",
+  eed_err:"",
+  ed_err:"",
+  get_expiry_post:false,
+  get_add_cta:false,
+
 }
+
 componentDidMount = () =>{
  
   const data = {
@@ -65,12 +78,126 @@ console.log("ppk",this.state.promo_list)
     console.log(resp)
         })
 }
+
 draftClicked = () => {
+  if(this.state.offer_title == ''){
+    this.setState({
+      pshow_err:true,
+      pt_err:"Title can not be empty",
+    })
+  }
+  else{
+   this.setState({
+    pshow_err:false,
+    pt_err:""
+   })
+  }
+  if(this.state.promo_start_date  ==  '')
+  {
+    this.setState({
+      pshow_err:true,
+      psd_err:"Start date can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     pshow_err:false,
+     psd_err:""
+    })
+   }
+  if( this.state.promo_end_date ==  '')
+  {
+    this.setState({
+      pshow_err:true,
+      ped_err:"End date can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     pshow_err:false,
+     ped_err:""
+    })
+   }
+  if( this.state.offer_details ==  '')
+  {
+    this.setState({
+      pshow_err:true,
+      pd_err:"Detail can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     pshow_err:false,
+     pd_err:""
+    })
+   }
+
+  if(this.state.event_title == ''){
+    this.setState({
+      eshow_err:true,
+      et_err:"Title can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     eshow_err:false,
+     et_err:""
+    })
+   }
+  if(this.state.event_start_date  ==  '')
+  {
+    this.setState({
+      eshow_err:true,
+      esd_err:"Start date can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     eshow_err:false,
+     esd_err:""
+    })
+   }
+  if( this.state.event_end_date ==  '')
+  {
+    this.setState({
+      eshow_err:true,
+      eed_err:"End date can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     eshow_err:false,
+     eed_err:""
+    })
+   }
+  if( this.state.event_details ==  '')
+  {
+    this.setState({
+      eshow_err:true,
+      ed_err:"Detail can not be empty",
+    })
+  }
+
+  else{
+    this.setState({
+     eshow_err:false,
+     ed_err:""
+    })
+   }
+  if(!this.state.pshow_err){
   if(this.state.type=="promotional"){
     // this.setState({
     //   promo_start_date: Moment(this.state.promo_start_date).format('DD-MM-YYYY'),
       
     // })
+    console.log("332244",this.state.promo_start_time)
+    if(!this.state.promo_start_time){
+      this.setState({
+        promo_start_time :"00:00"
+      })
+      console.log("hi5")
+    }
+    console.log("332244",this.state.promo_start_time)
     console.log("kkoo",this.state.promo_start_date)
     const data = {
       secure_pin,
@@ -86,7 +213,13 @@ draftClicked = () => {
       terms_condi:this.state.terms,
       save_status:"draft",
       attached_images: this.state.otherImages,
+      category:this.state.cta_drop,
+      link:this.state.cta_url,
+      report_expire:this.state.expiry_post,
+      cta:this.state.add_cta,
     }
+    console.log(this.state.promo_start_time)
+    console.log(data.start_date)
     this.setState({
       loading:true
     })
@@ -104,7 +237,8 @@ draftClicked = () => {
    
       console.log(data)
   }
-
+  }
+  if(!this.state.eshow_err){
   if(this.state.type=="event"){
     const data = {
       secure_pin,
@@ -117,7 +251,10 @@ draftClicked = () => {
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
       title:this.state.event_title,
       details:this.state.event_details,
-      
+      category:this.state.cta_drop,
+      link:this.state.cta_url,
+      report_expire:this.state.expiry_post,
+      cta:this.state.add_cta,
     }
     this.setState({
       loading:true
@@ -133,57 +270,119 @@ draftClicked = () => {
           })
    
       console.log(data)
-  }
-  if(this.state.type=="cta"){
-    const data = {
-      secure_pin,
-      user_id: localStorage.getItem("UserId"),
-      location_id: this.props.match.params.locationId,
-      submit_type:this.state.type,
-      save_status:"draft",
-      attached_images: this.state.otherImages,
-      details:this.state.cta_post,
-      category:this.state.cta_drop,
-      link:this.state.cta_url,
-      
-    }
-    Add_Promotional(data)
-    .then(resp => {
-      console.log(resp)
-      
-    }).catch(resp=>{
-      console.log(resp)
-          })
-      console.log(data)
-  }
-
-  if(this.state.type=="report"){
-    const data = {
-      secure_pin,
-      user_id: localStorage.getItem("UserId"),
-      location_id: this.props.match.params.locationId,
-      submit_type:this.state.type,
-      save_status:"draft",
-      attached_images: this.state.otherImages,
-      details:this.state.expiry_post,
-      
-    }
-    Add_Promotional(data)
-    .then(resp => {
-      console.log(resp)
-      
-    }).catch(resp=>{
-      console.log(resp)
-          })
-      console.log(data)
-  }
- 
+  }}
+  
 }
 // {secure_pin,"user_id":"10","location_id":"45","submit_type":"promotional","title":"test promotional",
 // "start_date":"11-12-2020 13:25","end_date":"11-12-2020 13:25","details":"this is testing promotional........",
 // "coupon_code":"CDFE1123","redeem_offer":"24","terms_condi":"testing terms conditionsssssss....","save_status":"draft",
 // "attached_images":[{"promotional_image":"data:image/png;base64"},{"promotional_image":"data:image/png;base64"}]}
 confirmPost = () => {
+  if(this.state.offer_title == ''){
+    this.setState({
+      pshow_err:true,
+      pt_err:"Title can not be empty",
+    })
+  }
+  else{
+   this.setState({
+    pshow_err:false,
+    pt_err:""
+   })
+  }
+  if(this.state.promo_start_date  ==  '')
+  {
+    this.setState({
+      pshow_err:true,
+      psd_err:"Start date can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     pshow_err:false,
+     psd_err:""
+    })
+   }
+  if( this.state.promo_end_date ==  '')
+  {
+    this.setState({
+      pshow_err:true,
+      ped_err:"End date can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     pshow_err:false,
+     ped_err:""
+    })
+   }
+  if( this.state.offer_details ==  '')
+  {
+    this.setState({
+      pshow_err:true,
+      pd_err:"Detail can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     pshow_err:false,
+     pd_err:""
+    })
+   }
+
+  if(this.state.event_title == ''){
+    this.setState({
+      eshow_err:true,
+      et_err:"Title can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     eshow_err:false,
+     et_err:""
+    })
+   }
+  if(this.state.event_start_date  ==  '')
+  {
+    this.setState({
+      eshow_err:true,
+      esd_err:"Start date can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     eshow_err:false,
+     esd_err:""
+    })
+   }
+  if( this.state.event_end_date ==  '')
+  {
+    this.setState({
+      eshow_err:true,
+      eed_err:"End date can not be empty",
+    })
+  }
+  else{
+    this.setState({
+     eshow_err:false,
+     eed_err:""
+    })
+   }
+  if( this.state.event_details ==  '')
+  {
+    this.setState({
+      eshow_err:true,
+      ed_err:"Detail can not be empty",
+    })
+  }
+
+  else{
+    this.setState({
+     eshow_err:false,
+     ed_err:""
+    })
+   }
+   if(!this.state.pshow_err){
   if(this.state.type=="promotional"){
     const data = {
       secure_pin,
@@ -199,7 +398,13 @@ confirmPost = () => {
       terms_condi:this.state.terms,
       save_status:"active",
       attached_images: this.state.otherImages,
+      category:this.state.cta_drop,
+      link:this.state.cta_url,
+      report_expire:this.state.expiry_post,
+      cta:this.state.add_cta,
     }
+    console.log("laa7",this.state.add_cta)
+    console.log("laa8",this.state.expiry_post)
     this.setState({
       loading:true
     })
@@ -214,8 +419,8 @@ confirmPost = () => {
           })
   
       console.log(data)
-  }
-
+  }}
+  if(!this.state.eshow_err){
   if(this.state.type=="event"){
     const data = {
       secure_pin,
@@ -228,6 +433,10 @@ confirmPost = () => {
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
       title:this.state.event_title,
       details:this.state.event_details,
+      category:this.state.cta_drop,
+      link:this.state.cta_url,
+      report_expire:this.state.expiry_post,
+      cta:this.state.add_cta,
       
     }
     this.setState({
@@ -244,50 +453,7 @@ confirmPost = () => {
           })
     
       console.log(data)
-  }
-  if(this.state.type=="cta"){
-    const data = {
-      secure_pin,
-      user_id: localStorage.getItem("UserId"),
-      location_id: this.props.match.params.locationId,
-      submit_type:this.state.type,
-      save_status:"active",
-      attached_images: this.state.otherImages,
-      details:this.state.cta_post,
-      category:this.state.cta_drop,
-      link:this.state.cta_url,
-      
-    }
-    Add_Promotional(data)
-    .then(resp => {
-      console.log(resp)
-      
-    }).catch(resp=>{
-      console.log(resp)
-          })
-      console.log(data)
-  }
-
-  if(this.state.type=="report"){
-    const data = {
-      secure_pin,
-      user_id: localStorage.getItem("UserId"),
-      location_id: this.props.match.params.locationId,
-      submit_type:this.state.type,
-      save_status:"active",
-      attached_images: this.state.otherImages,
-      details:this.state.expiry_post,
-      
-    }
-    Add_Promotional(data)
-    .then(resp => {
-      console.log(resp)
-      
-    }).catch(resp=>{
-      console.log(resp)
-          })
-      console.log(data)
-  }
+  }}
  
 }
 changeHandler = event => {
@@ -303,10 +469,21 @@ changeHandler = event => {
       add_cta:!this.state.add_cta
     })
   }
+  if (event.target.name == "get_expiry_post") {
+    this.setState({
+      expiry_post:!this.state.get_expiry_post
+    })
+  }
+  if (event.target.name == "get_add_cta") {
+    this.setState({
+      add_cta:!this.state.get_add_cta
+    })
+  }
   if (event.target.name == "offer_title") {
     this.setState({
       offer_title:event.target.value
     })
+    
   }
   if (event.target.name == "start_date") {
     this.setState({
@@ -436,16 +613,15 @@ Promotional_by_id(data)
       event_title:promodata.promotional_details[0].title,
       event_details:promodata.promotional_details[0].details,
       save_status:promodata.promotional_details[0].save_status,
-      cta_post:'',
-      expiry_post:'',
-      cta_drop:'',
-      cta_url:'',
-      expiry_post:false,
-      add_cta:false
+      cta_drop:promodata.promotional_details[0].category,
+      cta_url:promodata.promotional_details[0].link,
+      get_expiry_post:promodata.promotional_details[0].report_expire,
+      get_add_cta:promodata.promotional_details[0].cta
     
     
     })
     console.log("laa2",this.state.event_title)
+    console.log("laa3",this.state.add_cta)
   }
   if(promodata.promotional_details[0].submit_type == "promotional"){
     var pdts = promodata.promotional_details[0].start_date.split('T')
@@ -462,15 +638,15 @@ Promotional_by_id(data)
       coupon_code:promodata.promotional_details[0].coupon_code,
       terms:promodata.promotional_details[0].terms_condi,
       save_status:promodata.promotional_details[0].save_status,
-      cta_post:'',
-      cta_drop:'',
-      cta_url:'',
-      expiry_post:false,
-      add_cta:false
+      cta_drop:promodata.promotional_details[0].category,
+      cta_url:promodata.promotional_details[0].link,
+      get_expiry_post:promodata.promotional_details[0].report_expire,
+      get_add_cta:promodata.promotional_details[0].cta
     
     
     })
-    console.log("laa2",this.state.promo_start_date)
+    console.log("laa4",this.state.get_expiry_post)
+    
   }
 })
 
@@ -834,11 +1010,14 @@ N/A
     <li className="underline-from-left" style={{marginLeft:'55px'}}><a data-toggle="tab" href="#post_event" onClick={ () => {this.setState({type:"event"})}}>Post An Event</a></li>
   </ul>
           </div>
-    {this.state.loading?<Spinner/>:
+    
           <div class="scrollbar" style={{height:'415px'}}>
     <div class="overflow">
   <div class="tab-content">
-    <div id="promo_post" class="tab-pane fade  active" style={{opacity:'1'}}>
+
+  <div id="promo_post" class="tab-pane fade  active" style={{opacity:'1',minHeight: '350px'}}>
+  {this.state.loading?<Spinner/>:
+    <div >
     {/* <MDBRow>
            <MDBCol md='8' className='ap_subhead1'>
            Write Your Post
@@ -872,14 +1051,19 @@ N/A
          </MDBRow>
          <MDBRow>
            
-         <input   className="promo_input"  placeholder="Offer Title " type='text' required
+         <input   className="promo_input"  placeholder="Offer Title " type='text' 
            name="offer_title"  onChange={this.changeHandler}/>
-           
+           <div class='err_msg_promo'>
+                               {this.state.pt_err}
+                              </div>
          </MDBRow>
          <MDBRow>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="Start Date " type='date'  style={{marginLeft:'0px'}} 
           name="promo_start_date"  onChange={this.changeHandler} />
+          <div class='err_msg_promo' style={{marginLeft:'0px'}}>
+                               {this.state.psd_err}
+                              </div>
          </MDBCol>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="Start Time " type='time'  style={{ marginRight:'0px'}}
@@ -891,6 +1075,9 @@ N/A
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="End Date " type='date'  style={{marginLeft:'0px'}} 
            name="promo_end_date"  onChange={this.changeHandler}/>
+           <div class='err_msg_promo' style={{marginLeft:'0px'}}>
+                               {this.state.ped_err}
+                              </div>
          </MDBCol>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="End Time " type='time'  style={{ marginRight:'0px'}}
@@ -902,6 +1089,9 @@ N/A
          <MDBRow>
          <textarea rows="3"   className="promo_input"  placeholder="Offer Details " type='text'
           name="offer_details"  onChange={this.changeHandler} />
+          <div class='err_msg_promo'>
+                               {this.state.pd_err}
+                              </div>
          </MDBRow>
 
          <MDBRow>
@@ -917,9 +1107,47 @@ N/A
          <input   className="promo_input"  placeholder="Terms & Conditions  (Optional) " type='text' 
            name="terms"  onChange={this.changeHandler}/>
          </MDBRow>
+         <MDBRow style={{marginTop:'15px'}}>
+           <MDBCol md='1' className='ap_check'  >
+             <Checkbox onChange={this.changeHandler} name="add_cta"/>
+           </MDBCol>
+           <MDBCol md='5' className='ap_contant2'>
+           Add A CTA
+           </MDBCol>
+          
+           <MDBCol md='1' className='ap_check' >
+             <Checkbox onChange={this.changeHandler} name="expiry_post"/>
+           </MDBCol>
+           <MDBCol md='5' className='ap_contant2'>
+           Report This Post After Expiry 
+           </MDBCol>
+         </MDBRow>
+         {this.state.add_cta?
+         <MDBRow>
+         <MDBCol md='5'>
+         <select className="promo_input"  name="cta_drop"  onChange={this.changeHandler}>
+          <option>Choose CTA</option>
+          <option>Book</option>
+          <option>Order</option>
+          <option>Shop</option>
+          <option>Learn More</option>
+          <option>Sign Up</option>
+          <option>Get Offer</option>
+        </select>
+         </MDBCol>
+         <MDBCol md='7'>
+         <input   className="promo_input"  placeholder="https://www.example.com" type='url' 
+            name="cta_url"  onChange={this.changeHandler}
+          />
+         </MDBCol>
+       </MDBRow>
+         :null}
     </div>
-   
-    <div id="post_event" class="tab-pane fade">
+   }
+   </div>
+   <div id="post_event" class="tab-pane fade" style={{minHeight: '350px'}}>
+   {this.state.loading?<Spinner/>:
+    <div >
     {/* <MDBRow>
            <MDBCol md='8' className='ap_subhead1'>
            Write Your Post
@@ -957,13 +1185,19 @@ N/A
          </MDBRow>
          <MDBRow>
            
-         <input   className="promo_input"  placeholder="Event Title " type='text' required
+         <input   className="promo_input"  placeholder="Event Title " type='text' 
             name="event_title"  onChange={this.changeHandler}/>
+            <div class='err_msg_promo'>
+                               {this.state.et_err}
+                              </div>
          </MDBRow>
          <MDBRow>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="Start Date " type='date'  style={{marginLeft:'0px'}} 
            name="event_start_date"  onChange={this.changeHandler}/>
+           <div class='err_msg_promo' style={{marginLeft:'0px'}}>
+                               {this.state.esd_err}
+                              </div>
          </MDBCol>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="Start time " type='time'  style={{ marginRight:'0px'}}
@@ -975,6 +1209,9 @@ N/A
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="End Date " type='date'  style={{marginLeft:'0px'}} 
            name="event_end_date"  onChange={this.changeHandler}/>
+           <div class='err_msg_promo' style={{marginLeft:'0px'}}>
+                               {this.state.eed_err}
+                              </div>
          </MDBCol>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="End Time " type='time'  style={{ marginRight:'0px'}}
@@ -986,18 +1223,11 @@ N/A
          <MDBRow>
          <textarea rows="3"   className="promo_input"  placeholder="Event Details " type='text'
           name="event_details"  onChange={this.changeHandler} />
+          <div class='err_msg_promo'>
+                               {this.state.ed_err}
+                              </div>
          </MDBRow>
 
-         
-    </div>
-   
-  </div>
-         
-         {/* <MDBRow>
-           <MDBCol md='8'>
-           <textarea rows='6' className='ap_textarea' placeholder='Enter your post content here...'/>
-           </MDBCol>
-         </MDBRow> */}
          <MDBRow style={{marginTop:'15px'}}>
            <MDBCol md='1' className='ap_check'  >
              <Checkbox onChange={this.changeHandler} name="add_cta"/>
@@ -1016,7 +1246,7 @@ N/A
          {this.state.add_cta?
          <MDBRow>
          <MDBCol md='5'>
-         <select className="promo_input" value={this.state.cta_drop}  name="cta_drop"  onChange={this.changeHandler}>
+         <select className="promo_input"  name="cta_drop"  onChange={this.changeHandler}>
           <option>Choose CTA</option>
           <option>Book</option>
           <option>Order</option>
@@ -1033,15 +1263,27 @@ N/A
          </MDBCol>
        </MDBRow>
          :null}
+    </div>
+  }
+   </div>
+   
+  </div>
+         
+         {/* <MDBRow>
+           <MDBCol md='8'>
+           <textarea rows='6' className='ap_textarea' placeholder='Enter your post content here...'/>
+           </MDBCol>
+         </MDBRow> */}
+        
          <MDBRow style={{marginTop:'15px'}}>
           <MDBCol md='6'>
-            <MDBBtn className="draft_btn"  onClick={this.draftClicked}  data-dismiss="modal">
+            <MDBBtn className="draft_btn"  onClick={this.draftClicked} >
             Save As Draft
             </MDBBtn>
           </MDBCol>
 
           <MDBCol md='6'>
-            <MDBBtn className="cp_btn" onClick={this.confirmPost}  data-dismiss="modal"> 
+            <MDBBtn className="cp_btn" onClick={this.confirmPost}> 
             Confirm Post
             </MDBBtn>
           </MDBCol>
@@ -1050,7 +1292,7 @@ N/A
         </div>
         
         </div>
-        }
+        
         </div>
      </div>
       
@@ -1104,7 +1346,7 @@ N/A
          </MDBRow>
          <MDBRow>
            
-         <input   className="promo_input"  placeholder="Offer Title " type='text' required
+         <input   className="promo_input"  placeholder="Offer Title " type='text' 
           value={this.state.offer_title}  name="offer_title"  onChange={this.changeHandler}/>
          </MDBRow>
          <MDBRow>
@@ -1152,20 +1394,20 @@ N/A
    
          <MDBRow style={{marginTop:'15px'}}>
            <MDBCol md='1' className='ap_check'  >
-             <Checkbox onChange={this.changeHandler} name="add_cta"/>
+             <Checkbox onChange={this.changeHandler} name="get_add_cta" checked={this.state.get_add_cta}/>
            </MDBCol>
            <MDBCol md='5' className='ap_contant2'>
            Add A CTA
            </MDBCol>
           
            <MDBCol md='1' className='ap_check' >
-             <Checkbox onChange={this.changeHandler} name="expiry_post"/>
+             <Checkbox onChange={this.changeHandler} name="get_expiry_post" checked={this.state.get_expiry_post}/>
            </MDBCol>
            <MDBCol md='5' className='ap_contant2'>
            Report This Post After Expiry 
            </MDBCol>
          </MDBRow>
-         {this.state.add_cta?
+         {this.state.get_add_cta?
          <MDBRow>
          <MDBCol md='5'>
          <select className="promo_input" value={this.state.cta_drop}  name="cta_drop"  onChange={this.changeHandler}>
@@ -1188,13 +1430,13 @@ N/A
          <MDBRow style={{marginTop:'15px'}}>
           <MDBCol md='6'>
             {this.state.save_status == "draft"?
-            <MDBBtn className="draft_btn"  onClick={this.draftClicked}  data-dismiss="modal">
+            <MDBBtn className="draft_btn"  onClick={this.draftClicked} >
             Save As Draft
             </MDBBtn>:null}
           </MDBCol>
 
           <MDBCol md='6'>
-            <MDBBtn className="cp_btn" onClick={this.confirmPost}  data-dismiss="modal"> 
+            <MDBBtn className="cp_btn" onClick={this.confirmPost}> 
             Update Post
             </MDBBtn>
           </MDBCol>
@@ -1242,7 +1484,8 @@ Post An Event
          <MDBRow>
            
          <input   className="promo_input"  placeholder="Event Title " type='text' 
-          value={this.state.event_title}  name="event_title"  onChange={this.changeHandler} required/>
+          value={this.state.event_title}  name="event_title"  onChange={this.changeHandler} />
+         
          </MDBRow>
          <MDBRow>
          <MDBCol md='6'>
@@ -1277,20 +1520,20 @@ Post An Event
    
          <MDBRow style={{marginTop:'15px'}}>
            <MDBCol md='1' className='ap_check'  >
-             <Checkbox onChange={this.changeHandler} name="add_cta"/>
+             <Checkbox onChange={this.changeHandler} name="get_add_cta" checked={this.state.get_add_cta} />
            </MDBCol>
            <MDBCol md='5' className='ap_contant2'>
            Add A CTA
            </MDBCol>
           
            <MDBCol md='1' className='ap_check' >
-             <Checkbox onChange={this.changeHandler} name="expiry_post"/>
+             <Checkbox onChange={this.changeHandler} name="get_expiry_post" checked={this.state.get_expiry_post}/>
            </MDBCol>
            <MDBCol md='5' className='ap_contant2'>
            Report This Post After Expiry 
            </MDBCol>
          </MDBRow>
-         {this.state.add_cta?
+         {this.state.get_add_cta?
          <MDBRow>
          <MDBCol md='5'>
          <select className="promo_input" value={this.state.cta_drop}  name="cta_drop"  onChange={this.changeHandler}>
@@ -1313,13 +1556,13 @@ Post An Event
          <MDBRow style={{marginTop:'15px'}}>
           <MDBCol md='6'>
           {this.state.save_status == "draft"?
-            <MDBBtn className="draft_btn"  onClick={this.draftClicked}  data-dismiss="modal">
+            <MDBBtn className="draft_btn"  onClick={this.draftClicked} >
             Save As Draft
             </MDBBtn>:null}
           </MDBCol>
 
           <MDBCol md='6'>
-            <MDBBtn className="cp_btn" onClick={this.confirmPost}  data-dismiss="modal"> 
+            <MDBBtn className="cp_btn" onClick={this.confirmPost} > 
             Update Post
             </MDBBtn>
           </MDBCol>

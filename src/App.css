@@ -10674,6 +10674,7 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-size: 17px;
   line-height: 21px;
   color: #3f3f3f;
+  margin-top: 12px;
 }
 .ap_subhead2 {
   font-family: Roboto;
@@ -12111,6 +12112,16 @@ label img {
   font-weight: normal;
   font-size: 12px;
   line-height: 15px;
+}
+.err_msg_promo {
+  color: red;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  margin-left: 17px;
+  margin-top: -10px;
 }
 
 .err_msg_user {
