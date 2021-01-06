@@ -1811,9 +1811,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/yelplogin" className="connect_btn">
+                          <Link to="/common-login/yelp" className="connect_btn">
                             Connect A Account
-                          </a>
+                          </Link>
                         )}
                       </div>
 
@@ -1870,9 +1870,9 @@ export default class ViewListing extends Component {
                             Disconnect
                           </a>
                         ) : (
-                          <a href="/foursquarelogin" className="connect_btn">
+                          <Link to="/common-login/foursquare" className="connect_btn">
                             Connect A Account
-                          </a>
+                          </Link>
                         )}
                       </div>
 

@@ -41,6 +41,7 @@ import LinkedinConnectedAccounts from "./linkedin-connectedaccounts";
 import HereRelatedLocation from "./here-related-location";
 import TomtomRelatedLocation from "./tomtom-related-location";
 import PageNotFound from "./page-not-found";
+import CommonLogin from "./CommonLogin";
 
 export default class MainApp extends Component {
   render() {
@@ -264,6 +265,10 @@ export default class MainApp extends Component {
                   path="/locations/:locationId/review-generation-campaign"
                   render={props => <ReviewGenerationCampaign {...props} />}
                 />
+                <Route
+                 exact
+                path="/common-login/:name"
+                component={CommonLogin} />
                 {/* <Route
                   
                   path="/review-generation-campaign-step-2"

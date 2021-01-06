@@ -4,7 +4,7 @@ import es_img1 from "./assets/es_img1.png";
 import edit from "./assets/edit.png";
 import delete_icon from "./assets/delete_icon.png";
 import { Checkbox } from '@material-ui/core';
-import {Add_Promotional ,All_Promotional_list, Delete_Promotional_by_id, Promotional_by_id} from "./apis/location";
+import {Add_Promotional ,All_Promotional_list, Delete_Promotional_by_id, Promotional_Analytics, Promotional_by_id} from "./apis/location";
 import { secure_pin } from "../config";
 import cross_img from "./assets/cross_img.png";
 import attach from "./assets/attach.png"
@@ -58,6 +58,43 @@ state={
   get_expiry_post:false,
   get_add_cta:false,
 
+
+
+  ActivePost:0,
+             ExpirePost:0,
+            PostClicks: 0,
+            PostViews: 0,
+            SchedulePosts: 0,
+             
+}
+
+UpdateFilter =e=>{
+  console.log(e.target.value);
+  var filter=e.target.value;
+
+  const data2={ secure_pin,
+    user_id: localStorage.getItem("UserId"),
+location_id: this.props.match.params.locationId,
+"filter_type":filter}
+
+
+  Promotional_Analytics(data2)
+  .then(resp => {
+    console.log(resp)
+     this.setState({
+       ActivePost:resp.data.avtive_posts,
+       ExpirePost:resp.data.expire_posts,
+      PostClicks: resp.data.post_clicks,
+      PostViews: resp.data.post_views,
+      SchedulePosts: resp.data.schedule_posts,
+       
+      
+    }).
+console.log("ppk",this.state)
+  }).catch(resp=>{
+    console.log(resp)
+    
+        })
 }
 
 componentDidMount = () =>{
@@ -77,6 +114,28 @@ console.log("ppk",this.state.promo_list)
   }).catch(resp=>{
     console.log(resp)
         })
+
+        const data2={ secure_pin,
+          user_id: localStorage.getItem("UserId"),
+    location_id: this.props.match.params.locationId,
+    "filter_type":"last week"}
+
+        Promotional_Analytics(data2)
+        .then(resp => {
+          console.log(resp)
+           this.setState({
+             ActivePost:resp.data.avtive_posts,
+             ExpirePost:resp.data.expire_posts,
+            PostClicks: resp.data.post_clicks,
+            PostViews: resp.data.post_views,
+            SchedulePosts: resp.data.schedule_posts,
+             
+            
+          }).
+      console.log("ppk",this.state)
+        }).catch(resp=>{
+          console.log(resp)
+              })
 }
 
 draftClicked = () => {
@@ -681,9 +740,31 @@ console.log(resp)
       }
     }
 
+    filterSearch=e=>{
+      console.log(e.target.value)
+      var fil =e.target.value;
+      var data = this.state.promo_list;
+      console.log(data,"data")
+      const lowercasedFilter = fil.toLowerCase();
+    const filteredData = data.filter(item => {
+      return Object.keys(item).some(key =>
+        item[key].toLowerCase().includes(lowercasedFilter)
+      )})
+      console.log(filteredData)
+
+    }
+
   render() {
     console.log("state",this.state);
     var OtherImages=this.state.otherImages;
+
+    var {
+     ActivePost,
+     PostClicks,
+     PostViews,
+     SchedulePosts,
+     ExpirePost }= this.state
+
 
     var AllImg;
     if(OtherImages){
@@ -734,34 +815,13 @@ console.log(resp)
               <MDBCol md='4' className='review_container'>
 <div style={{textAlign:'center',marginBottom:'25px'}}> 
 <img src={require("./assets/calender.png")}  alt="" className='calender_icon' />
-<select  className="review_select_btn" >
-                              <option selected
-                                value= "week"
-                              >
-                                Last Week
-                              </option>
-                              <option
-                              value = "month"
-                              >
-                                Last Month
-                              </option>
-
-                              <option
-                              value= "3 months"
-                              >
-                                Last 3 Months
-                              </option>
-
-                              <option
-                              value= "6 months"
-                              >
-                                Last 6 Months
-                              </option>
-                              <option
-                              value = "year"
-                              >
-                                Last Year
-                              </option>
+<select  className="review_select_btn" onChange={this.UpdateFilter} >
+<option value="last week">Last Week</option>
+  <option value="last month">Last Month</option>
+  <option value="last 3 months">Last 3 Months</option>
+  <option value="last 6 months">Last 6 Months</option>
+  <option value="last year">Last Year</option>
+  <option value="all">Lifetime</option>
                             </select>
 </div>
 <MDBRow className='pp_margin1' >
@@ -770,7 +830,7 @@ console.log(resp)
   </MDBCol>
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
-<div className='pp_contant1'>15</div>
+<div className='pp_contant1'>{ActivePost}</div>
 <div className='pp_contant2'>Total Active Post</div>
   </MDBCol>
 
@@ -785,7 +845,7 @@ console.log(resp)
   </MDBCol>
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
-<div className='pp_contant1'>21</div>
+<div className='pp_contant1'>{PostViews}</div>
 <div className='pp_contant2'>Total Post Views</div>
   </MDBCol>
 
@@ -800,7 +860,7 @@ console.log(resp)
   </MDBCol>
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
-<div className='pp_contant1'>06</div>
+<div className='pp_contant1'>{PostClicks}</div>
 <div className='pp_contant2'>Total Post Clicks</div>
   </MDBCol>
 
@@ -815,7 +875,7 @@ console.log(resp)
   </MDBCol>
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
-<div className='pp_contant1'>12</div>
+<div className='pp_contant1'>{SchedulePosts}</div>
 <div className='pp_contant2'>Scheduled Posts</div>
   </MDBCol>
 
@@ -830,7 +890,7 @@ console.log(resp)
   </MDBCol>
 
   <MDBCol md='7' style={{paddingRight:'0px'}}>
-<div className='pp_contant1'>09</div>
+<div className='pp_contant1'>{ExpirePost} </div>
 <div className='pp_contant2'>Expiry Posts</div>
   </MDBCol>
 
@@ -846,11 +906,7 @@ console.log(resp)
   <MDBCol md='7' >
   <input className="searchbox-div"
                              type="text"
-                             onChange={e =>
-                               this.setState({
-                                 search: e.target.value.split(" ")
-                               })
-                            }
+                             onChange={this.filterSearch }
                             placeholder="Search Google Posts"
                            />
   </MDBCol>
