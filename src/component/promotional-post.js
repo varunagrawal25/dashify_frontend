@@ -1123,21 +1123,21 @@ N/A
          </MDBCol>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="Start Time " type='time'  style={{ marginRight:'0px'}}
-         name="promo_start_time"  onChange={this.changeHandler}/>
+         name="promo_start_time"  onChange={this.changeHandler} defaultValue="00:00"/>
          </MDBCol>
          </MDBRow>
 
          <MDBRow>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="End Date " type='date'  style={{marginLeft:'0px'}} 
-           name="promo_end_date"  onChange={this.changeHandler}/>
+           name="promo_end_date"  onChange={this.changeHandler} />
            <div class='err_msg_promo' style={{marginLeft:'0px'}}>
                                {this.state.ped_err}
                               </div>
          </MDBCol>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="End Time " type='time'  style={{ marginRight:'0px'}}
-           name="promo_end_time"  onChange={this.changeHandler}/>
+           name="promo_end_time"  onChange={this.changeHandler} defaultValue="00:00"/>
          </MDBCol>
          </MDBRow>
         <div className='ap_subhead1'>Add More Details (Optional)</div>
@@ -1264,7 +1264,7 @@ N/A
          <MDBRow>
          <MDBCol md='6'>
          <input   className="promo_input"  placeholder="End Date " type='date'  style={{marginLeft:'0px'}} 
-           name="event_end_date"  onChange={this.changeHandler}/>
+           name="event_end_date"  onChange={this.changeHandler} />
            <div class='err_msg_promo' style={{marginLeft:'0px'}}>
                                {this.state.eed_err}
                               </div>

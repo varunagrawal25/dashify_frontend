@@ -2303,7 +2303,7 @@ fieldset.rating.star > label:before {
 .breadcrumb-menu ul li > ul {
   display: none;
   position: absolute;
-  width: 215px;
+  width: 230px;
   top: 100%;
   left: -1px;
   z-index: 1;
@@ -12111,6 +12111,14 @@ label img {
   font-style: normal;
   font-weight: normal;
   font-size: 12px;
+  line-height: 15px;
+}
+.err_msg_oh {
+  color: red;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 10px;
   line-height: 15px;
 }
 .err_msg_promo {
