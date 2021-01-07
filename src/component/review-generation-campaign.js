@@ -74,7 +74,11 @@ export default class ReviewGenerationCampaign extends Component {
       review_by_google,
       review_by_apple,
       google_placeid,
-      appleId
+      appleId,
+
+      ReplyTo,
+      email_subject,
+      EmailHeading
     } = this.state;
 
     var isError = false;
@@ -90,21 +94,21 @@ export default class ReviewGenerationCampaign extends Component {
 
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
-    if (!campaign_name) {
-      this.setState({
-        campaign_name_error: "Enter your Campaign name",
-        wrong: "Above fields are empty or invalid"
-      });
-      isError = true;
-    }
+    // if (!campaign_name) {
+    //   this.setState({
+    //     campaign_name_error: "Enter your Campaign name",
+    //     wrong: "Above fields are empty or invalid"
+    //   });
+    //   isError = true;
+    // }
 
-    if (!emailReg.test(email_from) || email_from == "") {
-      this.setState({
-        email_from_error: "Enter valid email",
-        wrong: "Above fields are empty or invalid"
-      });
-      isError = true;
-    }
+    // if (!emailReg.test(email_from) || email_from == "") {
+    //   this.setState({
+    //     email_from_error: "Enter valid email",
+    //     wrong: "Above fields are empty or invalid"
+    //   });
+    //   isError = true;
+    // }
 
     if (!emailReg.test(email_replyto) || email_replyto == "") {
       this.setState({
