@@ -58,6 +58,16 @@ state={
   esd_err:"",
   eed_err:"",
   ed_err:"",
+  meshow_err:false,
+  mpshow_err:false,
+  mpt_err:"",
+  mpsd_err:"",
+  mped_err:"",
+  mpd_err:"",
+  met_err:"",
+  mesd_err:"",
+  meed_err:"",
+  med_err:"",
   get_expiry_post:false,
   get_add_cta:false,
 
@@ -281,8 +291,8 @@ draftClicked = () => {
       report_expire:this.state.expiry_post,
       cta:this.state.add_cta,
     }
-    console.log(this.state.promo_start_time)
-    console.log(data.start_date)
+    console.log("li",this.state.otherImages)
+    console.log("ui",data.attached_images)
     this.setState({
       loading:true
     })
@@ -305,6 +315,25 @@ draftClicked = () => {
         icon: "success",
         button: "Ok",
       });
+
+this.setState({
+  offer_title:'',
+  promo_start_date:'',
+  promo_end_date:'',
+  promo_start_time:'',
+  promo_end_time:'',
+  event_start_date:'',
+  event_end_date:'',
+  event_start_time:'',
+  event_end_time:'',
+  offer_details:'',
+  redeem_offer:'',
+  coupon_code:'',
+  terms:'',
+  event_title:'',
+  event_details:'',
+})
+
       All_Promotional_list(data)
       .then(resp => {
         console.log(resp)
@@ -362,6 +391,24 @@ draftClicked = () => {
         icon: "success",
         button: "Ok",
       });
+      this.setState({
+        offer_title:'',
+        promo_start_date:'',
+        promo_end_date:'',
+        promo_start_time:'',
+        promo_end_time:'',
+        event_start_date:'',
+        event_end_date:'',
+        event_start_time:'',
+        event_end_time:'',
+        offer_details:'',
+        redeem_offer:'',
+        coupon_code:'',
+        terms:'',
+        event_title:'',
+        event_details:'',
+      })
+      
       All_Promotional_list(data)
       .then(resp => {
         console.log(resp)
@@ -539,6 +586,24 @@ confirmPost = () => {
         icon: "success",
         button: "Ok",
       });
+      this.setState({
+        offer_title:'',
+        promo_start_date:'',
+        promo_end_date:'',
+        promo_start_time:'',
+        promo_end_time:'',
+        event_start_date:'',
+        event_end_date:'',
+        event_start_time:'',
+        event_end_time:'',
+        offer_details:'',
+        redeem_offer:'',
+        coupon_code:'',
+        terms:'',
+        event_title:'',
+        event_details:'',
+      })
+      
       All_Promotional_list(data)
       .then(resp => {
         console.log(resp)
@@ -595,6 +660,24 @@ confirmPost = () => {
         icon: "success",
         button: "Ok",
       });
+      this.setState({
+        offer_title:'',
+        promo_start_date:'',
+        promo_end_date:'',
+        promo_start_time:'',
+        promo_end_time:'',
+        event_start_date:'',
+        event_end_date:'',
+        event_start_time:'',
+        event_end_time:'',
+        offer_details:'',
+        redeem_offer:'',
+        coupon_code:'',
+        terms:'',
+        event_title:'',
+        event_details:'',
+      })
+      
       All_Promotional_list(data)
       .then(resp => {
         console.log(resp)
@@ -617,109 +700,109 @@ confirmPost = () => {
 editDraftPost = () => {
   if(this.state.offer_title == ''){
     this.setState({
-      pshow_err:true,
-      pt_err:"Title can not be empty",
+      mpshow_err:true,
+      mpt_err:"Title can not be empty",
     })
   }
   else{
    this.setState({
-    pshow_err:false,
-    pt_err:""
+    mpshow_err:false,
+    mpt_err:""
    })
   }
   if(this.state.promo_start_date  ==  '')
   {
     this.setState({
-      pshow_err:true,
-      psd_err:"Start date can not be empty",
+      mpshow_err:true,
+      mpsd_err:"Start date can not be empty",
     })
   }
   else{
     this.setState({
-     pshow_err:false,
-     psd_err:""
+     mpshow_err:false,
+     mpsd_err:""
     })
    }
   if( this.state.promo_end_date ==  '')
   {
     this.setState({
-      pshow_err:true,
-      ped_err:"End date can not be empty",
+      mpshow_err:true,
+      mped_err:"End date can not be empty",
     })
   }
   else{
     this.setState({
-     pshow_err:false,
-     ped_err:""
+     mpshow_err:false,
+     mped_err:""
     })
    }
   if( this.state.offer_details ==  '')
   {
     this.setState({
-      pshow_err:true,
-      pd_err:"Detail can not be empty",
+      mpshow_err:true,
+      mpd_err:"Detail can not be empty",
     })
   }
   else{
     this.setState({
-     pshow_err:false,
-     pd_err:""
+     mpshow_err:false,
+     mpd_err:""
     })
    }
 
   if(this.state.event_title == ''){
     this.setState({
-      eshow_err:true,
-      et_err:"Title can not be empty",
+      meshow_err:true,
+      met_err:"Title can not be empty",
     })
   }
   else{
     this.setState({
-     eshow_err:false,
-     et_err:""
+     meshow_err:false,
+     met_err:""
     })
    }
   if(this.state.event_start_date  ==  '')
   {
     this.setState({
-      eshow_err:true,
-      esd_err:"Start date can not be empty",
+      meshow_err:true,
+      mesd_err:"Start date can not be empty",
     })
   }
   else{
     this.setState({
-     eshow_err:false,
-     esd_err:""
+     meshow_err:false,
+     mesd_err:""
     })
    }
   if( this.state.event_end_date ==  '')
   {
     this.setState({
-      eshow_err:true,
-      eed_err:"End date can not be empty",
+      meshow_err:true,
+      meed_err:"End date can not be empty",
     })
   }
   else{
     this.setState({
-     eshow_err:false,
-     eed_err:""
+     meshow_err:false,
+     meed_err:""
     })
    }
   if( this.state.event_details ==  '')
   {
     this.setState({
-      eshow_err:true,
-      ed_err:"Detail can not be empty",
+      meshow_err:true,
+      med_err:"Detail can not be empty",
     })
   }
 
   else{
     this.setState({
-     eshow_err:false,
-     ed_err:""
+     meshow_err:false,
+     med_err:""
     })
    }
-   if(!this.state.pshow_err && !(this.state.offer_title == "" || this.state.offer_details == "" || this.state.promo_end_date == ""
+   if(!this.state.mpshow_err && !(this.state.offer_title == "" || this.state.offer_details == "" || this.state.promo_end_date == ""
   || this.state.promo_start_date == "")){
   if(this.state.type=="promotional"){
     // {"secure_pin":"digimonk","user_id":"10","promotional_id":"87","location_id":"45",
@@ -744,8 +827,8 @@ editDraftPost = () => {
       attached_images: this.state.otherImages,
       category:this.state.cta_drop,
       link:this.state.cta_url,
-      report_expire:this.state.expiry_post,
-      cta:this.state.add_cta,
+      report_expire:this.state.get_expiry_post,
+      cta:this.state.get_add_cta,
     }
     console.log("laa78",this.state.add_cta)
     console.log("laa87",this.state.expiry_post)
@@ -802,8 +885,8 @@ editDraftPost = () => {
       details:this.state.event_details,
       category:this.state.cta_drop,
       link:this.state.cta_url,
-      report_expire:this.state.expiry_post,
-      cta:this.state.add_cta,
+      report_expire:this.state.get_expiry_post,
+      cta:this.state.get_add_cta,
       
     }
     this.setState({
@@ -849,109 +932,109 @@ editDraftPost = () => {
 editConfirmPost = () => {
   if(this.state.offer_title == ''){
     this.setState({
-      pshow_err:true,
-      pt_err:"Title can not be empty",
+      mpshow_err:true,
+      mpt_err:"Title can not be empty",
     })
   }
   else{
    this.setState({
-    pshow_err:false,
-    pt_err:""
+    mpshow_err:false,
+    mpt_err:""
    })
   }
   if(this.state.promo_start_date  ==  '')
   {
     this.setState({
-      pshow_err:true,
+      mpshow_err:true,
       psd_err:"Start date can not be empty",
     })
   }
   else{
     this.setState({
-     pshow_err:false,
-     psd_err:""
+     mpshow_err:false,
+     mpsd_err:""
     })
    }
   if( this.state.promo_end_date ==  '')
   {
     this.setState({
-      pshow_err:true,
-      ped_err:"End date can not be empty",
+      mpshow_err:true,
+      mped_err:"End date can not be empty",
     })
   }
   else{
     this.setState({
-     pshow_err:false,
-     ped_err:""
+     mpshow_err:false,
+     mped_err:""
     })
    }
   if( this.state.offer_details ==  '')
   {
     this.setState({
-      pshow_err:true,
-      pd_err:"Detail can not be empty",
+      mpshow_err:true,
+      mpd_err:"Detail can not be empty",
     })
   }
   else{
     this.setState({
-     pshow_err:false,
-     pd_err:""
+     mpshow_err:false,
+     mpd_err:""
     })
    }
 
   if(this.state.event_title == ''){
     this.setState({
-      eshow_err:true,
-      et_err:"Title can not be empty",
+      meshow_err:true,
+      met_err:"Title can not be empty",
     })
   }
   else{
     this.setState({
-     eshow_err:false,
-     et_err:""
+     meshow_err:false,
+     met_err:""
     })
    }
   if(this.state.event_start_date  ==  '')
   {
     this.setState({
-      eshow_err:true,
-      esd_err:"Start date can not be empty",
+      meshow_err:true,
+      mesd_err:"Start date can not be empty",
     })
   }
   else{
     this.setState({
-     eshow_err:false,
-     esd_err:""
+     meshow_err:false,
+     mesd_err:""
     })
    }
   if( this.state.event_end_date ==  '')
   {
     this.setState({
-      eshow_err:true,
-      eed_err:"End date can not be empty",
+      meshow_err:true,
+      meed_err:"End date can not be empty",
     })
   }
   else{
     this.setState({
-     eshow_err:false,
-     eed_err:""
+     meshow_err:false,
+     meed_err:""
     })
    }
   if( this.state.event_details ==  '')
   {
     this.setState({
-      eshow_err:true,
-      ed_err:"Detail can not be empty",
+      meshow_err:true,
+      med_err:"Detail can not be empty",
     })
   }
 
   else{
     this.setState({
-     eshow_err:false,
-     ed_err:""
+     meshow_err:false,
+     med_err:""
     })
    }
-   if(!this.state.pshow_err && !(this.state.offer_title == "" || this.state.offer_details == "" || this.state.promo_end_date == ""
+   if(!this.state.mpshow_err && !(this.state.offer_title == "" || this.state.offer_details == "" || this.state.promo_end_date == ""
   || this.state.promo_start_date == "")){
   if(this.state.type=="promotional"){
     // {"secure_pin":"digimonk","user_id":"10","promotional_id":"87","location_id":"45",
@@ -976,8 +1059,8 @@ editConfirmPost = () => {
       attached_images: this.state.otherImages,
       category:this.state.cta_drop,
       link:this.state.cta_url,
-      report_expire:this.state.expiry_post,
-      cta:this.state.add_cta,
+      report_expire:this.state.get_expiry_post,
+      cta:this.state.get_add_cta,
     }
     console.log("laa78",this.state.add_cta)
     console.log("laa87",this.state.expiry_post)
@@ -1034,8 +1117,8 @@ editConfirmPost = () => {
       details:this.state.event_details,
       category:this.state.cta_drop,
       link:this.state.cta_url,
-      report_expire:this.state.expiry_post,
-      cta:this.state.add_cta,
+      report_expire:this.state.get_expiry_post,
+      cta:this.state.get_add_cta,
       
     }
     this.setState({
@@ -1142,11 +1225,40 @@ changeHandler = event => {
 
   onUploadOtherImage = event => {
     let files = event.target.files;
+    console.log("1i",files)
+    
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
+    console.log("2i",files[0].name)
+//     var sizeOf = require('image-size');
+//     sizeOf(files[0].name, function (err, dimensions) {
+//       console.log(sizeOf)
+//       console.log("ggd",dimensions);
+//     });
+    
+//     var fs = require('fs');
+// var fileStream = fs.createReadStream('path/to/image.jpg');
+ 
+// var createImageSizeStream = require('image-size-stream');
+// var size = createImageSizeStream();
+// size
+// .on('size', function(dimensions) {
+//   console.log(dimensions);
+//   fileStream.destroy();
+// })
+// .on('error', function(err) {
+//   throw err;
+// });
     reader.onload = e => {
         console.log(e.target.result);
+        // var sizeOf = require('image-size');
 
+        // var pixels = require('image-pixels')
+        // // load single source
+        // var {data, width, height} =  pixels('e.target.result')
+        // console.log("data",data)
+        // console.log("width",width)
+        // console.log("height",height)
         var ob={"promotional_image":e.target.result}
         this.setState({ otherImages: this.state.otherImages.concat(ob) });
 
@@ -1238,7 +1350,8 @@ Promotional_by_id(data)
       cta_url:promodata.promotional_details[0].link,
       get_expiry_post:promodata.promotional_details[0].report_expire,
       get_add_cta:promodata.promotional_details[0].cta,
-    promo_id:promodata.promotional_details[0].id
+    promo_id:promodata.promotional_details[0].id,
+    otherImages:promodata.promotional_details[0].attached_images[0],
     
     })
     if(this.state.get_add_cta=="0"){
@@ -2069,7 +2182,7 @@ N/A
          <input   className="promo_input"  placeholder="Offer Title " type='text' 
           value={this.state.offer_title}  name="offer_title"  onChange={this.changeHandler}/>
           <div class='err_msg_promo'>
-                               {this.state.pt_err}
+                               {this.state.mpt_err}
                               </div>
          </MDBRow>
          <MDBRow>
@@ -2077,7 +2190,7 @@ N/A
          <input   className="promo_input"  placeholder="Start Date " type='date'  style={{marginLeft:'0px'}} 
          value={this.state.promo_start_date}  name="promo_start_date"  onChange={this.changeHandler} />
          <div class='err_msg_promo'>
-                               {this.state.psd_err}
+                               {this.state.mpsd_err}
                               </div>
          </MDBCol>
          <MDBCol md='6'>
@@ -2091,7 +2204,7 @@ N/A
          <input   className="promo_input"  placeholder="End Date " type='date'  style={{marginLeft:'0px'}} 
          value={this.state.promo_end_date}  name="promo_end_date"  onChange={this.changeHandler}/>
          <div class='err_msg_promo'>
-                               {this.state.ped_err}
+                               {this.state.mped_err}
                               </div>
          </MDBCol>
          <MDBCol md='6'>
@@ -2105,7 +2218,7 @@ N/A
          <textarea rows="3"   className="promo_input"  placeholder="Offer Details " type='text'
          value={this.state.offer_details}  name="offer_details"  onChange={this.changeHandler} />
          <div class='err_msg_promo'>
-                               {this.state.pd_err}
+                               {this.state.mpd_err}
                               </div>
          </MDBRow>
 
@@ -2234,7 +2347,7 @@ Post An Event
          <input   className="promo_input"  placeholder="Event Title " type='text' 
           value={this.state.event_title}  name="event_title"  onChange={this.changeHandler} />
           <div class='err_msg_promo'>
-                               {this.state.et_err}
+                               {this.state.met_err}
                               </div>
          
          </MDBRow>
@@ -2243,7 +2356,7 @@ Post An Event
          <input   className="promo_input"  placeholder="Start Date " type='date'  style={{marginLeft:'0px'}} 
          value={this.state.event_start_date}  name="event_start_date"  onChange={this.changeHandler}/>
          <div class='err_msg_promo'>
-                               {this.state.esd_err}
+                               {this.state.mesd_err}
                               </div>
          </MDBCol>
          <MDBCol md='6'>
@@ -2257,7 +2370,7 @@ Post An Event
          <input   className="promo_input"  placeholder="End Date " type='date'  style={{marginLeft:'0px'}} 
          value={this.state.event_end_date}  name="event_end_date"  onChange={this.changeHandler}/>
          <div class='err_msg_promo'>
-                               {this.state.eed_err}
+                               {this.state.meed_err}
                               </div>
          </MDBCol>
          <MDBCol md='6'>
@@ -2271,7 +2384,7 @@ Post An Event
          <textarea rows="3"   className="promo_input"  placeholder="Event Details " type='text'
          value={this.state.event_details}  name="event_details"  onChange={this.changeHandler} />
          <div class='err_msg_promo'>
-                               {this.state.ed_err}
+                               {this.state.med_err}
                               </div>
          </MDBRow>
 
