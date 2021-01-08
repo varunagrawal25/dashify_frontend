@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Loader from "react-loader-spinner";
 import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
 import { secure_pin } from "../config";
+import CampaignPart2 from "./campaignpart2";
+import { Add_Campaign,List_Connected_Url } from "./apis/review";
 
 const DjangoConfig = {
   headers: {
@@ -39,12 +41,26 @@ export default class ReviewGenerationCampaign extends Component {
     email_content_error: "",
     sms_content_error: "",
     wrong: "",
-    loading: false
+    loading: false,
+    Step:1,
+    isEmail:true,
+    isSms:false
   };
 
   componentDidMount = () => {
     const data = {
-      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+
+
+      // "campaign_type_email":"email","campaign_type_sms":"sms","sender_email":"sender@email.com",
+      // "reply_email":"reply_email@email.com","subject":"testing subject",
+      // "heading":"testing heading","email_content":"email content testing adkd ",
+      // "sms_content":"sms content testing",
+      // "recipient_array":[
+      //   {"name":"name 1","email":"respiemail@recipient.com","phone":"1231231231"},{"name":"name 2","email":"respiemail2@recipient.com","phone":"2233114433"}
+      // ],
+      //   "email_social_array":[{"name":"Foursquare","connect_url":"www.yelp.com"},{"name":"Google","connect_url":"www.yelp.com"}],
+      //   "sms_social_array":[{"name":"Foursquare","connect_url":"www.yelp.com"},{"name":"Google","connect_url":"www.yelp.com"}]
     };
     // Axios.post(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
@@ -56,10 +72,30 @@ export default class ReviewGenerationCampaign extends Component {
     //   this.setState({})
       
     // });
+
+    List_Connected_Url(data).then(resp => {
+      console.log("list",resp)
+
+    }).catch(resp => {
+
+    })
+
+    Add_Campaign (data).then(resp => {
+      console.log(resp)
+
+    }).catch(resp => {
+
+    })
   };
+  step_2_1 =e=>{
+    this.setState({
+      Step: 1
+    })
+  }
 
   submitHandler = event => {
     event.preventDefault();
+    this.setState({ Step: 2 });
 
     var {
       campaign_name,
@@ -360,6 +396,12 @@ export default class ReviewGenerationCampaign extends Component {
     }
   };
 
+  closePopUP=e=>{
+    this.props.history.push({
+      pathname: `/locations/`+localStorage.getItem('locationId')+`/review-generation-stats`
+    });
+  }
+
   render() {
     const {
       campaign_name,
@@ -383,7 +425,11 @@ export default class ReviewGenerationCampaign extends Component {
       email_content_error,
       sms_content_error,
       wrong,
-      loading
+      loading,
+
+      Step,
+      isEmail,
+      isSms
     } = this.state;
     console.log(this.state)
 
@@ -452,17 +498,33 @@ export default class ReviewGenerationCampaign extends Component {
               </MDBCol>
             </MDBRow>
             </div> */}
+
+            
+<input type="checkbox"  name="isEmail" checked={isEmail}   onChange={this.checkBoxHandler}
+            /> Email 
+
+            
+<input type="checkbox"  name="isSms" checked={isSms}   onChange={this.checkBoxHandler}
+            /> Sms 
+
+{ (Step === 1) ?
         <div className="main_content">
           <form
             className="needs-validation"
             onSubmit={this.submitHandler}
             noValidate
           >
+
+
+
             <div className="rightside_title">
               <h1>Enter Campaign Details </h1>
             </div>
             <div className="row">
+             
+            
               <div className="col-md-8">
+              {isEmail?  <div>
                 <div className="step2">
                   <ul>
                     <li>
@@ -470,7 +532,7 @@ export default class ReviewGenerationCampaign extends Component {
                         <a href="#">Step 01</a>
                         <span>Ratings Email And SMS</span>
                       </div>
-                      <div className="closebox">
+                      <div className="closebox" onClick={this.closePopUP}>
                         <i className="zmdi zmdi-close"></i> Close Section
                       </div>
                     </li>
@@ -627,86 +689,12 @@ Apple AppStore
   </MDBCol>
 </MDBRow>
                
+</div>
+               :""}
 
-                {/* <div className=" mt-30">
-                  <div className="light-blue">
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="text-style">
-                          <h3>Choose Review Sites</h3>
-                          <p>the vocabulary, and the questions</p>
-
-                          <div className="googlebox">
-                            <div className='row'>
-                            {google_placeid ? (
-                              <div className="col-md-5">
-                                <div className="google">
-                                  <img src={require("../images/google.png")} />
-                                  <h3>Google Map</h3>
-                                  <label className="container-checkbox">
-                                    <input
-                                      name="review_by_google"
-                                      type="checkbox"
-                                      onChange={this.checkBoxHandler}
-                                    />
-                                    <span className="checkmark zmdi"></span>
-                                  </label>
-                                </div>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-
-                            {appleId ? (
-                              <div className="col-md-5">
-                                <div className="google">
-                                  <img src={require("../images/apple.png")} />
-                                  <h3>Apple AppStore</h3>
-                                  <label className="container-checkbox">
-                                    <input
-                                      name="review_by_apple"
-                                      type="checkbox"
-                                      onChange={this.checkBoxHandler}
-                                    />
-                                    <span className="checkmark zmdi"></span>
-                                  </label>
-                                </div>
-                              </div>
-                            ) : (
-                              ""
-                            )}
-                            <div className="col-md-2">
-                              <a className="add_btn add_bt">
-                                <i
-                                  className="zmdi zmdi-plus"
-                                  onClick={this.add_customWebsite_function}
-                                ></i>
-                              </a>
-                            </div>
-                          </div>
-                          </div>
-
-                          <div className="" style={{ marginTop: 20 }}>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                {this.add_customWebsiteName()}
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                {this.add_customWebsiteUrl()}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-
-                <div className="mt-30 review_sites_container2">
+              {isSms ?   <div className="mt-30 review_sites_container2">
                   <div className="camp_subhead2">
-                  SMS Contant
+                  SMS Content
                   </div>
                     <textarea
                       className="camp_textarea " rows="4" 
@@ -718,13 +706,19 @@ Apple AppStore
                     ></textarea>
                     <div style={{ color: "red" }}>{sms_content_error}</div>
                   </div>
+
+                  :""}
                 <MDBRow>
                   <MDBCol md='2' className='offset-md-10'>
-                  <Link to="/locations/:locationId/campaignpart2/:campaign_id">
-                  <MDBBtn className='next_btn'>
+                  {/* <Link to="/locations/:locationId/campaignpart2/:campaign_id"> */}
+
+           {(isEmail || isSms )?       
+                  <MDBBtn className='next_btn' onClick={this.submitHandler}>
                   Next
-  </MDBBtn>
-  </Link>
+               </MDBBtn>
+
+               :""}
+  
                   </MDBCol>
                 </MDBRow>
                 <div className="btnbox_button mt-30">
@@ -745,104 +739,10 @@ Apple AppStore
                   </button> */}
                 </div>
               </div>
-
+              
               <div className="col-md-4">
-                <div className="step2">
-                  {/*<div className="ratingemail">
-                    <h2>Rating Email And SMS Template</h2>
-                  </div>*/}
-
-                  <div className="formbox">
-                    <div className="exclamation">!</div>
-                    <div className='camp_contant2'>
-                    Business vocabulary and commonly used phrases 
-                    are also detailed in the texts, and all this information ?
-                    </div>
-
-                      {/* <p>
-                        <h3>Hi (name)</h3>
-                        <b>{email_heading}</b>
-                      </p> */}
-                    <div className="sms-newtext">
-                      <p>Business vocabulary and commonly used 
-                        phrases are also detailed in the texts, 
-                        and all this information - including.</p>
-                      {review_by_google ? (
-                        <div className="apibox">
-                          <img
-                            src={require("../images/googlemap.png")}
-                            alt="Google Map"
-                            height={100}
-                            width={100}
-                          />
-                          <p>Google</p>
-
-                          <button>Review</button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      {review_by_apple ? (
-                        <div className="apibox">
-                          <img
-                            src={require("../images/apple.png")}
-                            alt="Apple"
-                            height={100}
-                            width={100}
-                          />
-                          <p>Apple</p>
-
-                          <button>Review</button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      {all_site_name[0] && all_site_url[0] ? (
-                        <div className="apibox">
-                          <img
-                            src={require("../images/t-logo.jpg")}
-                            alt="Review"
-                            height={100}
-                            width={100}
-                          />
-                          <p>{all_site_name[0]}</p>
-
-                          <button>Review</button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      {all_site_name[1] && all_site_url[1] ? (
-                        <div className="apibox">
-                          <img
-                            src={require("../images/t-logo.jpg")}
-                            alt="Review"
-                            height={100}
-                            width={100}
-                          />
-                          <p>{all_site_name[1]}</p>
-
-                          <button>Review</button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    <div className="toggle-switch">
-                      <label className="switch">
-                        <input type="checkbox" className="switch-input" />
-                        <span
-                          className="switch-label"
-                          data-on="On"
-                          data-off="Off"
-                        ></span>
-                        <span className="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="step2 mt-30">
+               
+              {isEmail?  <div className="step2 mt-30">
                   <div className="formbox">
                     <div className="raitingemail">
                       <h3>Raiting Email And SMS Template</h3>
@@ -954,8 +854,8 @@ Google Map
                     </div>
                   </div>
                 </div>
-
-                <div className="step2 mt-30">
+              :""}
+              {isSms?  <div className="step2 mt-30">
                   <div className="formbox">
                     <div className="raitingemail">
                       <div className="raitingcolor">
@@ -965,12 +865,120 @@ Google Map
                     </div>
                   </div>
                 </div>
+
+                :""}
+
+
+                <div className="step2">
+                  {/*<div className="ratingemail">
+                    <h2>Rating Email And SMS Template</h2>
+                  </div>*/}
+                   <div className="formbox">
+                    <div className="exclamation">!</div>
+                    <div className='camp_contant2'>
+                    Business vocabulary and commonly used phrases 
+                    are also detailed in the texts, and all this information ?
+                    </div>
+
+                      {/* <p>
+                        <h3>Hi (name)</h3>
+                        <b>{email_heading}</b>
+                      </p> */}
+                    <div className="sms-newtext">
+                      <p>Business vocabulary and commonly used 
+                        phrases are also detailed in the texts, 
+                        and all this information - including.</p>
+                      {review_by_google ? (
+                        <div className="apibox">
+                          <img
+                            src={require("../images/googlemap.png")}
+                            alt="Google Map"
+                            height={100}
+                            width={100}
+                          />
+                          <p>Google</p>
+
+                          <button>Review</button>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {review_by_apple ? (
+                        <div className="apibox">
+                          <img
+                            src={require("../images/apple.png")}
+                            alt="Apple"
+                            height={100}
+                            width={100}
+                          />
+                          <p>Apple</p>
+
+                          <button>Review</button>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {all_site_name[0] && all_site_url[0] ? (
+                        <div className="apibox">
+                          <img
+                            src={require("../images/t-logo.jpg")}
+                            alt="Review"
+                            height={100}
+                            width={100}
+                          />
+                          <p>{all_site_name[0]}</p>
+
+                          <button>Review</button>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                      {all_site_name[1] && all_site_url[1] ? (
+                        <div className="apibox">
+                          <img
+                            src={require("../images/t-logo.jpg")}
+                            alt="Review"
+                            height={100}
+                            width={100}
+                          />
+                          <p>{all_site_name[1]}</p>
+
+                          <button>Review</button>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                    <div className="toggle-switch">
+                      <label className="switch">
+                        <input type="checkbox" className="switch-input" />
+                        <span
+                          className="switch-label"
+                          data-on="On"
+                          data-off="Off"
+                        ></span>
+                        <span className="switch-handle"></span>
+                      </label>
+                    </div>
+                  </div>
+
+                 
+                </div>
+
               </div>
             </div>
 
             {/* For email and phone no */}
           </form>
         </div>
+
+        :""}
+
+
+        { (Step === 2) ?
+
+        <CampaignPart2  step_2_1={this.step_2_1} />
+        :""}
 
         {/* </div> */}
       </div>
