@@ -26,3 +26,12 @@ export const overall_rating_review = data => {
   return Axios.post(`${API}/admin/socialmedia_api/get_reviews_tracking`, data);
 };
 
+export const Add_Campaign = data => {
+  return Axios.post(`${API}admin/socialmedia_api/add_campaign`, data);
+};
+
+export const List_Connected_Url = data => {
+  return Axios.post(`${API}admin/socialmedia_api/list_connected_social_campaign`, data);
+};
+
+

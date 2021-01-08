@@ -20,11 +20,14 @@ export default class CampaignPart2 extends Component {
     sendto_contact: { 0: "" },
     add_customer: 1,
     wrong: "",
-    loading: false
+    loading: false,
+    CustomerLoop:[1],
+
+    FinalCustomers:[{}]
   };
 
   componentDidMount = () => {
-    console.log("promotional data", this.props.location.state);
+    //console.log("promotional data", this.props.location.state);
   };
 
   submitHandler = event => {
@@ -161,37 +164,7 @@ export default class CampaignPart2 extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  // check_email_or_phone = event => {
-  //   let email_error = false;
-  //   let phone_error = false;
-
-  //   this.setState({ email_replyto_error: "" });
-
-  //   this.setState({ [event.target.name]: event.target.value });
-
-  //   var email = event.target.value,
-  //     emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-  //   if (!emailReg.test(email) || email == "") {
-  //     email_error = true;
-  //   }
-
-  //   //validate phone
-  //   var phone = event.target.value,
-  //     intRegex = /[0-9 -()+]+$/;
-  //   if (phone.length < 6 || !intRegex.test(phone)) {
-  //     phone_error = true;
-  //   }
-  //   if (phone_error && email_error) {
-  //     this.setState({ email_replyto_error: "Invalid email / Phone No." });
-  //   }
-
-  //   console.log(
-  //     "email_error phone_error email_replyto",
-  //     email_error,
-  //     phone_error,
-  //     event.target.value
-  //   );
-  // };
+ 
 
   add_fname = () => {
     var fname = [];
@@ -419,6 +392,8 @@ export default class CampaignPart2 extends Component {
   add_customer_function = event => {
     event.preventDefault();
     console.log("add customer button clicked");
+    this.setState({FinalCustomers:this.state.FinalCustomers.concat({})})
+
 
     this.setState(prevState => ({
       sendto_fname: {
@@ -448,7 +423,93 @@ export default class CampaignPart2 extends Component {
     this.setState({ add_customer: this.state.add_customer + 1 });
   };
 
+  removeCustomer =(i)=>e=>{
+    console.log(i);
+    var a= this.state.FinalCustomers;
+    delete a[i]
+    this.setState({FinalCustomers:a})
+
+  }
+
+  AddCustomer =(index,type)=>e=>{
+    console.log(index, e.target.value);
+
+    var old = this.state.FinalCustomers;
+    var newd={}
+    if(type === "first"){
+
+      var middle={
+        "fname":e.target.value
+     
+    }
+    console.log(newd)
+
+    Object.assign(newd, old[index], middle);
+    console.log(newd)
+    old[index]=newd;
+    console.log("old",old)
+
+   
+   
+
+  }
+  else if(type === "last"){
+
+    var middle={
+      "lname":e.target.value
+   
+  }
+  console.log(newd)
+
+  Object.assign(newd, old[index], middle);
+  console.log(newd)
+  old[index]=newd;
+  console.log("old",old)
+
+  }
+
+  else if (type=== "email"){
+
+    var middle={
+      "email":e.target.value
+   
+  }
+  console.log(newd)
+
+  Object.assign(newd, old[index], middle);
+  console.log(newd)
+  old[index]=newd;
+  console.log("old",old)
+
+  }
+  else if (type=== "phone"){
+
+    var middle={
+      "phone":e.target.value
+   
+  }
+  console.log(newd)
+
+  Object.assign(newd, old[index], middle);
+  console.log(newd)
+  old[index]=newd;
+  console.log("old",old)
+
+  }
+  
+
+
+  this.setState({FinalCustomers:old})
+   
+   
+
+   
+
+  }
+  
+
   render() {
+    console.log(this.state)
     const {
       campaign_name,
       email_sendto_error,
@@ -459,8 +520,72 @@ export default class CampaignPart2 extends Component {
       sendto_email,
       add_customer,
       wrong,
-      loading
+      loading,
+      CustomerLoop,
+      FinalCustomers
     } = this.state;
+
+
+    var l;
+    l=FinalCustomers.map( (r,index)=>{
+
+      return  <div className="formbox"> 
+     <button onClick={this.removeCustomer(index)}> x</button>
+                    <div className="row">
+                   
+                        <div className="col-md-6 camp_margin1">
+                          <div >
+                          <div className='camp_subhead1'>Customer First Name</div>
+                          <input
+                            type="text"
+                            className="form-control"
+                           placeholder="Enter first name"
+                            onChange={this.AddCustomer(index,"first")}
+                          />
+                          </div>
+                        </div>
+                        <div className="col-md-6 camp_margin2">
+                          <div >
+                          <div className='camp_subhead1'>Customer Last Name</div>
+                          <input
+                            type="text"
+                            className="form-control"
+                            
+                            onChange={this.AddCustomer(index,"last")}
+                          />
+                          </div>
+                        </div>
+                       
+                       
+                        <div className="col-md-6 camp_margin2">
+                          <div>
+                          <div className='camp_subhead1'>Customer Email </div>
+                          <input
+                            type="text"
+                            className="form-control"
+                           
+                            onChange={this.AddCustomer(index,"email")}
+                          />
+                          </div>
+                        </div>
+                        <div className="col-md-6 camp_margin2">
+                          <div>
+                          <div className='camp_subhead1'> Phone Number</div>
+                          <input
+                            type="text"
+                            className="form-control"
+                           
+                            onChange={this.AddCustomer(index,"phone")}
+                          />
+                          </div>
+                        </div>
+                      
+                  
+                    
+                    </div>
+                  </div>
+
+})
 
     return (
       <div>
@@ -482,67 +607,22 @@ export default class CampaignPart2 extends Component {
                         <a href="#">Step 02</a>
                         <span>Ralting Email And SMS Template</span>
                       </div>
-                      <div className="closebox">
+                      <div className="closebox" onClick ={this.props.step_2_1}>
                         <i className="zmdi zmdi-close"></i> Close Section
                       </div>
                     </li>
                   </ul>
 
-                  <div className="formbox">
-                    <div className="row">
-                    <div className="col-md-6 camp_margin1">
-                        <div >
-                          <div className='camp_subhead1'>From Email</div>
-                          <input
-                            type="email"
-                            className="form-control"
-                            value="mohit.chack@digimonk.in"
-                            readonly
-                          />
-                        </div>
-                      </div>
-                        <div className="col-md-6 camp_margin1">
-                          <div >
-                          <div className='camp_subhead1'>Customer First Name</div>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value="David"
-                            readonly
-                          />
-                          </div>
-                        </div>
-                        <div className="col-md-6 camp_margin2">
-                          <div>
-                          <div className='camp_subhead1'>Customer Email / Phone Number</div>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value="info@oasismedia.co"
-                            readonly
-                          />
-                          </div>
-                        </div>
-                        <div className="col-md-6 camp_margin2">
-                          <div >
-                          <div className='camp_subhead1'>Customer Last Name</div>
-                          <input
-                            type="text"
-                            className="form-control"
-                            value="Anderson"
-                            readonly
-                          />
-                          </div>
-                        </div>
-                  
-                      <div className="col-md-12">
+                  {l}
+
+                  <div className="col-md-12">
                           <button onClick={this.add_customer_function} className="add_button" 
                           style={{float:'right',marginTop:'50px' ,marginBottom:'5px'}}>
                             Add Another Customer
                           </button>
                       </div>
-                    </div>
-                  </div>
+
+                  
                 </div>
 
                     <div className="row" style={{marginTop:'40px'}}>
