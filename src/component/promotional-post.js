@@ -1351,7 +1351,6 @@ Promotional_by_id(data)
       get_expiry_post:promodata.promotional_details[0].report_expire,
       get_add_cta:promodata.promotional_details[0].cta,
     promo_id:promodata.promotional_details[0].id,
-    otherImages:promodata.promotional_details[0].attached_images[0],
     
     })
     if(this.state.get_add_cta=="0"){
@@ -1490,6 +1489,7 @@ console.log(resp)
   render() {
    
     console.log("promol",this.state.promo_list)
+    console.log("promol",this.state.promo_list[0])
     console.log("state",this.state);
     var OtherImages=this.state.otherImages;
 
@@ -1674,6 +1674,7 @@ Status
   <MDBRow>
                 <MDBCol md="3" style={{padding:'0px'}}>
                   <img
+                  // src={"https://digimonk.net/dashify-ci/assets/upload/images/promotional-image/" + d.promotional_gallery[0].image_name}
                     src={es_img1}
                     alt="es_img1"
                     className="pp_img"

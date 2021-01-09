@@ -529,8 +529,9 @@ export default class CampaignPart2 extends Component {
     var l;
     l=FinalCustomers.map( (r,index)=>{
 
-      return  <div className="formbox"> 
-     <button onClick={this.removeCustomer(index)}> x</button>
+      return  <div style={{background:'#fff' , marginBottom:'20px'}}>
+        <div className="formbox"> 
+       <button onClick={this.removeCustomer(index)} className='campaignClose'> x</button>
                     <div className="row">
                    
                         <div className="col-md-6 camp_margin1">
@@ -544,7 +545,7 @@ export default class CampaignPart2 extends Component {
                           />
                           </div>
                         </div>
-                        <div className="col-md-6 camp_margin2">
+                        <div className="col-md-6 camp_margin1">
                           <div >
                           <div className='camp_subhead1'>Customer Last Name</div>
                           <input
@@ -555,8 +556,7 @@ export default class CampaignPart2 extends Component {
                           />
                           </div>
                         </div>
-                       
-                       
+                    
                         <div className="col-md-6 camp_margin2">
                           <div>
                           <div className='camp_subhead1'>Customer Email </div>
@@ -580,11 +580,9 @@ export default class CampaignPart2 extends Component {
                           </div>
                         </div>
                       
-                  
-                    
                     </div>
                   </div>
-
+</div>
 })
 
     return (
@@ -598,41 +596,43 @@ export default class CampaignPart2 extends Component {
             <div className="rightside_title">
               <h1>Enter Campaign Details</h1>
             </div>
-            <div className="row">
+            <div className="row" >
               <div className="col-md-8">
-                <div className="step2">
+                <div className="step2"  style={{borderRadius:'15px 15px 0px 0px',boxShadow:'none'}}>
                   <ul>
                     <li>
                       <div className="step-sms">
                         <a href="#">Step 02</a>
-                        <span>Ralting Email And SMS Template</span>
+                        <span>Rating Email And SMS Template</span>
                       </div>
                       <div className="closebox" onClick ={this.props.step_2_1}>
                         <i className="zmdi zmdi-close"></i> Close Section
                       </div>
                     </li>
                   </ul>
-
-                  {l}
-
-                  <div className="col-md-12">
-                          <button onClick={this.add_customer_function} className="add_button" 
-                          style={{float:'right',marginTop:'50px' ,marginBottom:'5px'}}>
+                  </div>
+                  <div>
+                  <div > 
+{l}
+<div className='add_another_back'>
+<div className="col-md-5 offset-md-7 " style={{marginTop:'30px',paddingRight:'0px',paddingLeft:'47px'}}>
+                          <button onClick={this.add_customer_function} className="add_button">
                             Add Another Customer
                           </button>
                       </div>
+</div>
 
-                  
-                </div>
+</div>
+  </div>
 
                     <div className="row" style={{marginTop:'40px'}}>
-                    <div className="col-md-1 "/>
+                   
                       <div className="col-md-6 ">
                         <button className="gen_btn" >
                           Create A New Review Generation
                         </button>
                       </div>
-                      <div className="col-md-5" style={{ textAlign: "center" }}>
+                      <div className="col-md-5" style={{ textAlign: "center" ,paddingRight:'8px'}}>
                         {loading ? (
                           <Loader
                             type="Oval"
