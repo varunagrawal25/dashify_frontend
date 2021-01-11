@@ -510,6 +510,7 @@ export default class CampaignPart2 extends Component {
 
   render() {
     console.log(this.state)
+    console.log("props",this.props);
     const {
       campaign_name,
       email_sendto_error,
