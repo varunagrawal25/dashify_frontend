@@ -39,7 +39,8 @@ state={
   cta_post:'',
   cta_drop:'',
   post_schedule_drop:"Post Now",
-  post_shedule_date:'',
+  get_post_schedule_drop:"",
+  post_schedule_date:'',
   cta_url:'',
   type:"promotional",
   promo_id:'',
@@ -510,17 +511,8 @@ this.setState({
 }
 
 confirmPost = () => {
-  // if(this.state.post_schedule_drop === "Post Now"){
-  //   this.setState({
-  //     active_status:'active'
-  //   })
-  // }
-  // else if(this.state.post_schedule_drop === "Schedule Post"){
-  //   this.setState({
-  //     active_status:'schedule'
-  //   })
-  // }
-  if(this.state.post_schedule_drop=="Schedule Post" && this.state.post_shedule_date == ''){
+  
+  if(this.state.post_schedule_drop=="Schedule Post" && this.state.post_schedule_date == ''){
     
     this.setState({
       pshow_err:true,
@@ -659,6 +651,7 @@ confirmPost = () => {
       link:this.state.cta_url,
       report_expire:this.state.expiry_post,
       cta:this.state.add_cta,
+      schedule_date:this.state.post_schedule_date
     }
     console.log("laa7",this.state.add_cta)
     console.log("laa8",this.state.expiry_post)
@@ -699,6 +692,7 @@ confirmPost = () => {
         terms:'',
         event_title:'',
         event_details:'',
+        post_schedule_date:''
       })
       
       All_Promotional_list(data)
@@ -735,6 +729,7 @@ confirmPost = () => {
       link:this.state.cta_url,
       report_expire:this.state.expiry_post,
       cta:this.state.add_cta,
+      schedule_date:this.state.post_schedule_date
       
     }
     this.setState({
@@ -773,6 +768,7 @@ confirmPost = () => {
         terms:'',
         event_title:'',
         event_details:'',
+        post_schedule_date:'',
       })
       
       All_Promotional_list(data)
@@ -931,6 +927,7 @@ editDraftPost = () => {
       link:this.state.cta_url,
       report_expire:this.state.get_expiry_post,
       cta:this.state.get_add_cta,
+      schedule_date:this.state.post_schedule_date
     }
     console.log("laa78",this.state.add_cta)
     console.log("laa87",this.state.expiry_post)
@@ -989,6 +986,7 @@ editDraftPost = () => {
       link:this.state.cta_url,
       report_expire:this.state.get_expiry_post,
       cta:this.state.get_add_cta,
+      schedule_date:this.state.post_schedule_date
       
     }
     this.setState({
@@ -1032,16 +1030,7 @@ editDraftPost = () => {
 }
 
 editConfirmPost = () => {
-  // if(this.state.post_schedule_drop === "Post Now"){
-  //   this.setState({
-  //     active_status:'active'
-  //   })
-  // }
-  // else if(this.state.post_schedule_drop === "Schedule Post"){
-  //   this.setState({
-  //     active_status:'schedule'
-  //   })
-  // }
+
   if(this.state.offer_title == ''){
     this.setState({
       mpshow_err:true,
@@ -1173,6 +1162,7 @@ editConfirmPost = () => {
       link:this.state.cta_url,
       report_expire:this.state.get_expiry_post,
       cta:this.state.get_add_cta,
+      schedule_date:this.state.post_schedule_date
     }
     console.log("laa78",this.state.add_cta)
     console.log("laa87",this.state.expiry_post)
@@ -1231,6 +1221,7 @@ editConfirmPost = () => {
       link:this.state.cta_url,
       report_expire:this.state.get_expiry_post,
       cta:this.state.get_add_cta,
+      schedule_date:this.state.post_schedule_date
       
     }
     this.setState({
@@ -1402,8 +1393,15 @@ Promotional_by_id(data)
       get_expiry_post:promodata.promotional_details[0].report_expire,
       get_add_cta:promodata.promotional_details[0].cta,
     promo_id:promodata.promotional_details[0].id,
+    post_schedule_date:promodata.promotional_details[0].schedule_date
     
     })
+    if(promodata.promotional_details[0].schedule_date){
+      this.setState({
+        get_post_schedule_drop:"Schedule Post"
+      })
+    }
+    console.log("schedule_date" ,this.state.post_schedule_date)
     if(this.state.get_add_cta=="0"){
       this.setState({
         get_add_cta:false
@@ -1446,10 +1444,16 @@ Promotional_by_id(data)
       cta_url:promodata.promotional_details[0].link,
       get_expiry_post:promodata.promotional_details[0].report_expire,
       get_add_cta:promodata.promotional_details[0].cta,
-      promo_id:promodata.promotional_details[0].id
+      promo_id:promodata.promotional_details[0].id,
+      post_schedule_date:promodata.promotional_details[0].schedule_date
     
     
     })
+    if(promodata.promotional_details[0].schedule_date){
+      this.setState({
+        get_post_schedule_drop:"Schedule Post"
+      })
+    }
     if(this.state.get_add_cta=="0"){
       this.setState({
         get_add_cta:false
@@ -1501,7 +1505,21 @@ Promotional_by_id(data)
 
     .then(resp => {
       console.log(resp)
-      
+      const data = {
+        secure_pin,
+        user_id: localStorage.getItem("UserId"),
+        location_id: this.props.match.params.locationId
+      }
+      All_Promotional_list(data)
+      .then(resp => {
+        console.log(resp)
+         this.setState({
+          promo_list: resp.data.promotional_details,
+        }).
+    console.log("ppk",this.state.promo_list)
+      }).catch(resp=>{
+        console.log(resp)
+            })
     })
 
     .catch(resp=>{
@@ -1758,7 +1776,7 @@ Status
 <MDBCol md='6' >
   {d.save_status=="active"?<MDBBtn className='pp_status_active'>Active</MDBBtn>:null}
   {d.save_status=="draft"?<MDBBtn className='pp_status_draft'>Draft</MDBBtn>:null}
-  {d.save_status=="schedule"?<MDBBtn className='pp_status_draft'>Schedule</MDBBtn>:null}
+  {d.save_status=="schedule"?<MDBBtn className='pp_status_schedule'>Schedule</MDBBtn>:null}
 </MDBCol>
     </MDBRow>
   </MDBCol>
@@ -1990,14 +2008,14 @@ N/A
 
 <MDBRow>
          <MDBCol md='6'>
-         <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
-          <option selected>Post Now</option>
-          <option>Schedule Post</option>
-        </select>
+        <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
+        <option selected>Post Now</option>
+        <option>Schedule Post</option>
+      </select>
          </MDBCol>
         {this.state.post_schedule_drop == "Schedule Post"?
          <MDBCol md='6'>
-         <input type="date"  className="promo_input"  name="post_shedule_date"  onChange={this.changeHandler} />
+         <input type="date"  className="promo_input"  name="post_schedule_date"  onChange={this.changeHandler} />
          <div class='err_msg_promo'>
          {this.state.schDate_err}
         </div>
@@ -2158,14 +2176,14 @@ N/A
 
 <MDBRow>
          <MDBCol md='6'>
-         <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
-          <option selected>Post Now</option>
-          <option>Schedule Post</option>
-        </select>
+        <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
+        <option selected>Post Now</option>
+        <option>Schedule Post</option>
+      </select>
          </MDBCol>
         {this.state.post_schedule_drop == "Schedule Post"?
          <MDBCol md='6'>
-         <input type="date"  className="promo_input"  name="post_shedule_date"  onChange={this.changeHandler} />
+         <input type="date"  className="promo_input"  name="post_schedule_date"  onChange={this.changeHandler} />
          <div class='err_msg_promo'>
          {this.state.schDate_err}
         </div>
@@ -2367,14 +2385,20 @@ N/A
          {this.state.save_status=='active'?null:
 <MDBRow>
          <MDBCol md='6'>
-         <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
-          <option selected>Post Now</option>
-          <option>Schedule Post</option>
-        </select>
+         {this.state.post_schedule_date?
+         <select className="promo_input"  name="get_post_schedule_drop"  onChange={this.changeHandler}>
+          <option>Post Now</option>
+          <option selected>Schedule Post</option>
+        </select>:
+        <select className="promo_input"  name="get_post_schedule_drop"  onChange={this.changeHandler}>
+        <option selected>Post Now</option>
+        <option>Schedule Post</option>
+      </select>}
          </MDBCol>
-        {this.state.post_schedule_drop == "Schedule Post"?
+        {this.state.get_post_schedule_drop == "Schedule Post"?
          <MDBCol md='6'>
-         <input type="date"  className="promo_input"  name="post_shedule_date"  onChange={this.changeHandler} />
+         <input type="date"  className="promo_input"  name="post_schedule_date" value={this.state.post_schedule_date} 
+         onChange={this.changeHandler} />
          <div class='err_msg_promo'>
          {this.state.schDate_err}
         </div>
@@ -2539,14 +2563,20 @@ Post An Event
          {this.state.save_status=='active'?null:
 <MDBRow>
          <MDBCol md='6'>
-         <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
-          <option selected>Post Now</option>
-          <option>Schedule Post</option>
-        </select>
+         {this.state.post_schedule_date?
+         <select className="promo_input"  name="get_post_schedule_drop"  onChange={this.changeHandler}>
+          <option>Post Now</option>
+          <option selected>Schedule Post</option>
+        </select>:
+        <select className="promo_input"  name="get_post_schedule_drop"  onChange={this.changeHandler}>
+        <option selected>Post Now</option>
+        <option>Schedule Post</option>
+      </select>}
          </MDBCol>
-        {this.state.post_schedule_drop == "Schedule Post"?
+        {this.state.get_post_schedule_drop == "Schedule Post"?
          <MDBCol md='6'>
-         <input type="date"  className="promo_input"  name="post_shedule_date"  onChange={this.changeHandler} />
+         <input type="date"  className="promo_input"  name="post_schedule_date" value={this.state.post_schedule_date} 
+         onChange={this.changeHandler} />
          <div class='err_msg_promo'>
          {this.state.schDate_err}
         </div>

@@ -1405,6 +1405,34 @@ img {
   mix-blend-mode: normal;
 }
 
+.pp_status_draft {
+  background: #ffdd33;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #ffffff;
+  padding: 7px 15px;
+  mix-blend-mode: normal;
+}
+
+.pp_status_schedule {
+  background:#ff7b00 ;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: #ffffff;
+  padding: 7px 15px;
+  mix-blend-mode: normal;
+}
+
 .pp_create_np {
   background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
   border-radius: 5px;

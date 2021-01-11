@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
+import { add_social_account } from "./apis/social_platforms";
 import swal from "sweetalert";
+import {secure_pin} from "../config"
 
 class HereLogin extends Component {
   state = {
@@ -21,12 +23,12 @@ class HereLogin extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    this.setState({
-      username_error: "",
-      password_error: "",
-      id_error: "",
-      wrong: ""
-    });
+    // this.setState({
+    //   username_error: "",
+    //   password_error: "",
+    //   id_error: "",
+    //   wrong: ""
+    // });
 
     let isError = false;
 
@@ -45,7 +47,7 @@ class HereLogin extends Component {
       console.log("i am in console");
       isError = true;
     }
-
+console.log("isError",isError)
     // const DjangoConfig = {
     //   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
     // };
@@ -60,6 +62,31 @@ class HereLogin extends Component {
     //   Connect_status: "Connect",
     //   Other_info: "{'URL':" + this.state.id + ",'data':''}"
     // };
+    const data={
+    secure_pin,
+    "user_id":localStorage.getItem("UserId"),
+    "location_id":localStorage.getItem("locationId"),
+    "connect_unique_id":"",
+    "token":"",
+    "username":"",
+    "password":this.state.password,
+    "first_name":"",
+    "last_name":"",
+    "email_id":this.state.Username,
+    "connect_url": this.state.id,
+    "connect_type":"Here",
+};
+
+add_social_account(data)
+.then(resp => {
+console.log("Here register response", resp.data);
+this.setState({ isUrl: true, loading: false });
+})
+.catch(resp => {
+swal("Something went wrong");
+console.log("Here error response", resp.data);
+this.setState({ loading: false });
+});
     let link = this.state.id;
 
     let lat = "";
@@ -89,11 +116,7 @@ class HereLogin extends Component {
       }
     }
 
-    const here_data = {
-      Username: this.state.username,
-      password: this.state.password
-    };
-
+  
     if (isError == false && valid_place_name && lat && long) {
       this.setState({ loading: true });
       Axios.get(
@@ -111,7 +134,7 @@ class HereLogin extends Component {
             "here_locations",
             JSON.stringify(resp.data)
           );
-          await localStorage.setItem("here_data", JSON.stringify(here_data));
+         
 
           this.setState({ isId: true, loading: false });
         })
@@ -133,6 +156,7 @@ class HereLogin extends Component {
     //     });
     // }
   };
+
 
   render() {
     if (this.state.isId) {

@@ -283,7 +283,7 @@ export default class ViewListing extends Component {
                  
                 });
               }
-
+              console.log("dnv",l.connect_type)
               if (l.connect_type === "Instagram") {
                 console.log("yes Instagram");
                 this.setState({
@@ -701,13 +701,15 @@ export default class ViewListing extends Component {
       "connect_type":namefrom
      };
 
-     console.log(data)
+     console.log("data",data)
 
     remove_social_account(data, DjangoConfig)
       .then(resp => {
         console.log(resp);
 
         this.setState({ [name]: false });
+
+        console.log("Citysearch",this.state.citysearchIsLoggedIn)
       })
       .catch(resp => {
         console.log(resp);
@@ -2192,7 +2194,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.appleId}
                             name="appleIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Apple")}
                           >
                             Disconnect
                           </a>
@@ -2250,7 +2252,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.citysearchId}
                             name="citysearchIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Citysearch")}
                           >
                             Disconnect
                           </a>
@@ -2308,7 +2310,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.yelpId}
                             name="zillowIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Zillow")}
                           >
                             Disconnect
                           </a>
@@ -2366,7 +2368,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.tomtomId}
                             name="tomtomIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Tomtom")}
                           >
                             Disconnect
                           </a>
@@ -2424,7 +2426,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.zomatoId}
                             name="zomatoIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Zomato")}
                           >
                             Disconnect
                           </a>
@@ -2482,7 +2484,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.hereId}
                             name="hereIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Here")}
                           >
                             Disconnect
                           </a>

@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
+import { add_social_account } from "./apis/social_platforms";
 import swal from "sweetalert";
+import {secure_pin} from "../config"
 
 class TomtomLogin extends Component {
   state = {
@@ -68,11 +70,37 @@ class TomtomLogin extends Component {
       console.log("i am in console");
       isError = true;
     }
+const data={ secure_pin,
+  "user_id":localStorage.getItem("UserId"),
+  "location_id":localStorage.getItem("locationId"),
+  "connect_unique_id":"",
+  "token":"",
+  "username":"",
+  "password":this.state.password,
+  "first_name":"",
+  "last_name":"",
+  "email_id":this.state.Username,
+  "connect_url": "",
+  "connect_type":"Tomtom",
+};
 
-    const tomtom_data = {
-      Username: this.state.username,
-      password: this.state.password
-    };
+// Axios.post(
+//   "https://cors-anywhere.herokuapp.com/https://dashify.biz/social-platforms/add-account",
+//   data2,
+//   DjangoConfig
+// )
+add_social_account(data)
+.then(resp => {
+console.log("Tomtom register response", resp.data);
+this.setState({ isUrl: true, loading: false });
+swal("Successfully Connected");
+})
+.catch(resp => {
+swal("Something went wrong");
+console.log("Tomtom error response", resp.data);
+this.setState({ loading: false });
+});
+   
 
     if (isError == false) {
       this.setState({ loading: true });
@@ -92,39 +120,13 @@ class TomtomLogin extends Component {
         .then(async res => {
           console.log("tomtom response data", res.data);
 
-          // let filtered_tomtom_data = [];
-          // for (let i = 0; i < res.data.results.length; i++) {
-          //   if (res.data.results[i].poi.name) {
-          //     filtered_tomtom_data = [
-          //       ...filtered_tomtom_data,
-          //       res.data.results[i]
-          //     ];
-          //   }
-          // }
-          // if (filtered_tomtom_data.length == 0) {
-          //   swal("No result found");
-          //   this.setState({ loading: false, isId: false });
-          // } else {
-          //   this.setState({ loading: false, isId: true });
-          //   await localStorage.setItem(
-          //     "tomtom_locations",
-          //     JSON.stringify(filtered_tomtom_data)
-          //   );
-          //   await localStorage.setItem(
-          //     "tomtom_data",
-          //     JSON.stringify(tomtom_data)
-          //   );
-          // }
 
           if (res.data.results.length >= 1) {
             await localStorage.setItem(
               "tomtom_locations",
               JSON.stringify(res.data)
             );
-            await localStorage.setItem(
-              "tomtom_data",
-              JSON.stringify(tomtom_data)
-            );
+           
             this.setState({ isId: true, loading: false });
           } else {
             swal("No result found");

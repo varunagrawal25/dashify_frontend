@@ -25,27 +25,27 @@ class TomtomRelatedLocation extends Component {
     console.log("tomtom data0", data);
     console.log("tomtom data1", tomtom_data);
     const data2 = {
-      location_id: localStorage.getItem("locationId"),
-      Platform: "Tomtom",
-      Token: "",
-      Username: data.poi.name,
-      Email: tomtom_data.Username,
-      Password: tomtom_data.password,
-      Connect_status: "Connect",
-      Other_info: data.dataSources ? data.dataSources.poiDetails[0].id : "-"
+      // location_id: localStorage.getItem("locationId"),
+      // Platform: "Tomtom",
+      // Token: "",
+      // Username: data.poi.name,
+      // Email: tomtom_data.Username,
+      // Password: tomtom_data.password,
+      // Connect_status: "Connect",
+      // Other_info: data.dataSources ? data.dataSources.poiDetails[0].id : "-"
 
-      // secure_pin,
-      //         "user_id":localStorage.getItem("UserId"),
-      //         "location_id":localStorage.getItem("locationId"),
-      //         "connect_unique_id":"",
-      //         "token":"",
-      //         "username":"",
-      //         "password":tomtom_data.password,
-      //         "first_name":"",
-      //         "last_name":"",
-      //         "email_id":tomtom_data.Username,
-      //         "connect_url": this.state.url,
-      //         "connect_type":"Tomtom",
+      secure_pin,
+              "user_id":localStorage.getItem("UserId"),
+              "location_id":localStorage.getItem("locationId"),
+              "connect_unique_id":"",
+              "token":"",
+              "username":"",
+              "password":tomtom_data.password,
+              "first_name":"",
+              "last_name":"",
+              "email_id":tomtom_data.Username,
+              "connect_url": this.state.url,
+              "connect_type":"Tomtom",
     };
 
     // Axios.post(
@@ -53,10 +53,11 @@ class TomtomRelatedLocation extends Component {
     //   data2,
     //   DjangoConfig
     // )
-    add_social_account(data2, DjangoConfig)
+    add_social_account(data2)
       .then(resp => {
         console.log("Tomtom register response", resp.data);
         this.setState({ isUrl: true, loading: false });
+        swal("Successfully Connected");
       })
       .catch(resp => {
         swal("Something went wrong");
