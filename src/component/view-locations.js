@@ -1177,7 +1177,8 @@ console.log("timecheck2",isValid)
       console.log("json data",JSON.stringify(data))
       edit_location_operations_hours_by_id(data)
         .then(resp => {
-          console.log(resp);
+          console.log( "ohk",resp);
+          console.log( "ohk",resp);
           this.setState({ hourEdit: false });
           // window.location_details[0].reload(false);
 
@@ -2708,6 +2709,7 @@ const data={secure_pin}
                                   name="monday"
                                   onChange={this.changeHandler}
                                   className="vl_edit_input"
+                                  value={this.state.hours[6].open_status}
                                 >
                                   <option>Select hours</option>
                                   <option value="OPEN">OPEN</option>
@@ -2728,7 +2730,7 @@ const data={secure_pin}
                                           onChange={this.changeHandler}
                                           type="time"
                                           className="vl_edit_input"
-                                          defaultValue="12:00 AM"
+                                          value={this.state.hours[6].start_time1}
                                         />
                                         {mondayStart1_error}
 
@@ -2737,7 +2739,7 @@ const data={secure_pin}
                                           onChange={this.changeHandler}
                                           type="time"
                                           className="vl_edit_input"
-                                          defaultValue="12:00 AM"
+                                          value={this.state.hours[6].end_time1}
                                         />
                                         {mondayEnd1_error}
                                       </p>{" "}

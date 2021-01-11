@@ -7,6 +7,7 @@ import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
 import { secure_pin } from "../config";
 import CampaignPart2 from "./campaignpart2";
 import { Add_Campaign,List_Connected_Url } from "./apis/review";
+import { Checkbox } from "@material-ui/core";
 
 const DjangoConfig = {
   headers: {
@@ -500,13 +501,25 @@ export default class ReviewGenerationCampaign extends Component {
             </MDBRow>
             </div> */}
 
-            
-<input type="checkbox"  name="isEmail" checked={isEmail}   onChange={this.checkBoxHandler}
+{/* <MDBRow style={{marginTop:'15px'}}>
+           
+           <MDBCol md='1' className='ap_contant2' style={{marginLeft:'4px',padding:'0px'}}>
+           <Checkbox  name="isEmail" checked={isEmail}   onChange={this.checkBoxHandler} />
+           Email 
+           </MDBCol>
+          
+           
+           <MDBCol md='2' className='ap_contant2'>
+           <Checkbox  name="isSms" checked={isSms}   onChange={this.checkBoxHandler}/>
+           Sms 
+           </MDBCol>
+         </MDBRow> */}
+{/* <input type="checkbox"  name="isEmail" checked={isEmail}   onChange={this.checkBoxHandler}
             /> Email 
 
             
 <input type="checkbox"  name="isSms" checked={isSms}   onChange={this.checkBoxHandler}
-            /> Sms 
+            /> Sms  */}
 
 { (Step === 1) ?
         <div className="main_content">
@@ -521,23 +534,45 @@ export default class ReviewGenerationCampaign extends Component {
             <div className="rightside_title">
               <h1>Enter Campaign Details </h1>
             </div>
-            <div className="row">
-             
-            
+            <MDBRow >
+           
+           <MDBCol md='1' className='ap_contant2' style={{marginLeft:'4px',padding:'0px'}}>
+           <Checkbox  name="isEmail" checked={isEmail}   onChange={this.checkBoxHandler} />
+           Email 
+           </MDBCol>
+          
+           
+           <MDBCol md='2' className='ap_contant2'>
+           <Checkbox  name="isSms" checked={isSms}   onChange={this.checkBoxHandler}/>
+           Sms 
+           </MDBCol>
+         </MDBRow>
+       {isEmail || isSms ?  <div className="row">
               <div className="col-md-8">
-              {isEmail?  <div>
-                <div className="step2">
-                  <ul>
+               <div>
+                <div className="step2" style={{borderRadius:'15px 15px 0px 0px',boxShadow:'none'}}>
+                   
+         <ul>
                     <li>
                       <div className="step-sms">
-                        <a href="#">Step 01</a>
+                        <a>Step 01</a>
                         <span>Ratings Email And SMS</span>
                       </div>
                       <div className="closebox" onClick={this.closePopUP}>
                         <i className="zmdi zmdi-close"></i> Close Section
                       </div>
                     </li>
-                  </ul>
+                  </ul> 
+                  </div>
+                  </div>
+                  </div>
+                  </div>:null}
+         {isEmail?
+            <div className="row">
+              <div className="col-md-8">
+               <div>
+                <div className="step2"   style={{borderRadius:'0px 0px 15px 15px',boxShadow:'none'}}>
+                   
                   <div className="formbox">
 
                     <div className="row">
@@ -691,59 +726,10 @@ Apple AppStore
 </MDBRow>
                
 </div>
-               :""}
-
-              {isSms ?   <div className="mt-30 review_sites_container2">
-                  <div className="camp_subhead2">
-                  SMS Content
-                  </div>
-                    <textarea
-                      className="camp_textarea " rows="4" 
-                      // placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley"
-                      name="sms_content"
-                      onChange={this.changeHandler}
-                      value={sms_content}
-                      required
-                    ></textarea>
-                    <div style={{ color: "red" }}>{sms_content_error}</div>
-                  </div>
-
-                  :""}
-                <MDBRow>
-                  <MDBCol md='2' className='offset-md-10'>
-                  {/* <Link to="/locations/:locationId/campaignpart2/:campaign_id"> */}
-
-           {(isEmail || isSms )?       
-                  <MDBBtn className='next_btn' onClick={this.submitHandler}>
-                  Next
-               </MDBBtn>
-
-               :""}
-  
-                  </MDBCol>
-                </MDBRow>
-                <div className="btnbox_button mt-30">
-                  {loading ? (
-                    <Loader
-                      type="Oval"
-                      color="#00BFFF"
-                      height={25}
-                      width={25}
-                      // timeout={3000} //3 secs
-                    />
-                  ) : (
-                    <div style={{ color: "red" }}>{wrong}</div>
-                  )}
-
-                  {/* <button type="submit" className="continue">
-                    Continue
-                  </button> */}
-                </div>
-              </div>
-              
-              <div className="col-md-4">
                
-              {isEmail?  <div className="step2 mt-30">
+              </div>
+              <div className="col-md-4" style={{marginTop:'-66px'}}>
+               <div className="step2 ">
                   <div className="formbox">
                     <div className="raitingemail">
                       <h3>Raiting Email And SMS Template</h3>
@@ -855,120 +841,183 @@ Google Map
                     </div>
                   </div>
                 </div>
-              :""}
-              {isSms?  <div className="step2 mt-30">
-                  <div className="formbox">
-                    <div className="raitingemail">
-                      <div className="raitingcolor">
-                        Hi (Customer Name) <br />
-                        <p>{sms_content}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                :""}
-
-
-                <div className="step2">
-                  {/*<div className="ratingemail">
-                    <h2>Rating Email And SMS Template</h2>
-                  </div>*/}
-                   <div className="formbox">
-                    <div className="exclamation">!</div>
-                    <div className='camp_contant2'>
-                    Business vocabulary and commonly used phrases 
-                    are also detailed in the texts, and all this information ?
-                    </div>
-
-                      {/* <p>
-                        <h3>Hi (name)</h3>
-                        <b>{email_heading}</b>
-                      </p> */}
-                    <div className="sms-newtext">
-                      <p>Business vocabulary and commonly used 
-                        phrases are also detailed in the texts, 
-                        and all this information - including.</p>
-                      {review_by_google ? (
-                        <div className="apibox">
-                          <img
-                            src={require("../images/googlemap.png")}
-                            alt="Google Map"
-                            height={100}
-                            width={100}
-                          />
-                          <p>Google</p>
-
-                          <button>Review</button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      {review_by_apple ? (
-                        <div className="apibox">
-                          <img
-                            src={require("../images/apple.png")}
-                            alt="Apple"
-                            height={100}
-                            width={100}
-                          />
-                          <p>Apple</p>
-
-                          <button>Review</button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      {all_site_name[0] && all_site_url[0] ? (
-                        <div className="apibox">
-                          <img
-                            src={require("../images/t-logo.jpg")}
-                            alt="Review"
-                            height={100}
-                            width={100}
-                          />
-                          <p>{all_site_name[0]}</p>
-
-                          <button>Review</button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                      {all_site_name[1] && all_site_url[1] ? (
-                        <div className="apibox">
-                          <img
-                            src={require("../images/t-logo.jpg")}
-                            alt="Review"
-                            height={100}
-                            width={100}
-                          />
-                          <p>{all_site_name[1]}</p>
-
-                          <button>Review</button>
-                        </div>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                    <div className="toggle-switch">
-                      <label className="switch">
-                        <input type="checkbox" className="switch-input" />
-                        <span
-                          className="switch-label"
-                          data-on="On"
-                          data-off="Off"
-                        ></span>
-                        <span className="switch-handle"></span>
-                      </label>
-                    </div>
-                  </div>
-
-                 
-                </div>
-
+             
               </div>
             </div>
+  :null}
+            {isSms ? 
+            <div className="row">
+             <div className="col-md-8">
+              <div className=" review_sites_container2"  style={{borderRadius:'0px 0px 15px 15px',boxShadow:'none'}}>
+                 <div className="camp_subhead2">
+                 SMS Content
+                 </div>
+                   <textarea
+                     className="camp_textarea " rows="4" 
+                     // placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley"
+                     name="sms_content"
+                     onChange={this.changeHandler}
+                     value={sms_content}
+                     required
+                   ></textarea>
+                   <div style={{ color: "red" }}>{sms_content_error}</div>
+                 </div>
 
+             </div>
+             
+             <div className="col-md-4" style={{marginTop:'-66px'}}>
+              <div className="step2 ">
+                 <div className="formbox">
+                   <div className="raitingemail">
+                     <div className="raitingcolor">
+                       Hi (Customer Name) <br />
+                       <p>{sms_content}</p>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+ :null}
+
+ <div className="row">
+   <div className="col-md-8">
+   {!isEmail && !isSms?
+<div >
+<h4 className='connect_msg'>Please Select Email Or Sms </h4>
+</div>:null}
+   <MDBRow>
+                 <MDBCol md='2' className='offset-md-10'>
+                 {/* <Link to="/locations/:locationId/campaignpart2/:campaign_id"> */}
+
+          {(isEmail || isSms )?       
+                 <MDBBtn className='next_btn' onClick={this.submitHandler}>
+                 Next
+              </MDBBtn>
+
+              :""}
+ 
+                 </MDBCol>
+               </MDBRow>
+               <div className="btnbox_button mt-30">
+                 {loading ? (
+                   <Loader
+                     type="Oval"
+                     color="#00BFFF"
+                     height={25}
+                     width={25}
+                     // timeout={3000} //3 secs
+                   />
+                 ) : (
+                   <div style={{ color: "red" }}>{wrong}</div>
+                 )}
+
+                 {/* <button type="submit" className="continue">
+                   Continue
+                 </button> */}
+               </div>
+            
+     </div>
+   <div className="col-md-4">
+   <div className="step2" style={{marginTop:'20px'}}>
+                 {/*<div className="ratingemail">
+                   <h2>Rating Email And SMS Template</h2>
+                 </div>*/}
+                  <div className="formbox">
+                   <div className="exclamation">!</div>
+                   <div className='camp_contant2'>
+                   Business vocabulary and commonly used phrases 
+                   are also detailed in the texts, and all this information ?
+                   </div>
+
+                     {/* <p>
+                       <h3>Hi (name)</h3>
+                       <b>{email_heading}</b>
+                     </p> */}
+                   <div className="sms-newtext">
+                     <p>Business vocabulary and commonly used 
+                       phrases are also detailed in the texts, 
+                       and all this information - including.</p>
+                     {review_by_google ? (
+                       <div className="apibox">
+                         <img
+                           src={require("../images/googlemap.png")}
+                           alt="Google Map"
+                           height={100}
+                           width={100}
+                         />
+                         <p>Google</p>
+
+                         <button>Review</button>
+                       </div>
+                     ) : (
+                       ""
+                     )}
+                     {review_by_apple ? (
+                       <div className="apibox">
+                         <img
+                           src={require("../images/apple.png")}
+                           alt="Apple"
+                           height={100}
+                           width={100}
+                         />
+                         <p>Apple</p>
+
+                         <button>Review</button>
+                       </div>
+                     ) : (
+                       ""
+                     )}
+                     {all_site_name[0] && all_site_url[0] ? (
+                       <div className="apibox">
+                         <img
+                           src={require("../images/t-logo.jpg")}
+                           alt="Review"
+                           height={100}
+                           width={100}
+                         />
+                         <p>{all_site_name[0]}</p>
+
+                         <button>Review</button>
+                       </div>
+                     ) : (
+                       ""
+                     )}
+                     {all_site_name[1] && all_site_url[1] ? (
+                       <div className="apibox">
+                         <img
+                           src={require("../images/t-logo.jpg")}
+                           alt="Review"
+                           height={100}
+                           width={100}
+                         />
+                         <p>{all_site_name[1]}</p>
+
+                         <button>Review</button>
+                       </div>
+                     ) : (
+                       ""
+                     )}
+                   </div>
+                   <div className="toggle-switch">
+                     <label className="switch">
+                       <input type="checkbox" className="switch-input" />
+                       <span
+                         className="switch-label"
+                         data-on="On"
+                         data-off="Off"
+                       ></span>
+                       <span className="switch-handle"></span>
+                     </label>
+                   </div>
+                 </div>
+
+                
+               </div>
+  
+   </div>
+  
+ </div>
             {/* For email and phone no */}
           </form>
         </div>
