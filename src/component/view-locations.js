@@ -315,6 +315,7 @@ export default class LocationManager extends Component {
 console.log("data255",data)
     location_by_id(data)
     .then(resp => {
+      console.log("jj5588",resp)
       const data2={secure_pin}
 console.log("jj",data2)
       business_categories(data2).then(resp1 => {
@@ -2269,7 +2270,8 @@ const data={secure_pin}
                                             className="vl_edit_input"
                                             placeholder="Enter Business Tagline"
                                             value={
-                                              this.state.businessTagline_edit
+                                              this.state.businessTagline_edit && this.state.businessTagline_edit !== "0"
+                                              ?this.state.businessTagline_edit: null
                                             }
                                           />
                                         </MDBCol>
@@ -2328,8 +2330,8 @@ const data={secure_pin}
                                             type="url"
                                             className="vl_edit_input"
                                             placeholder="Enter Facbook Profile"
-                                            value={
-                                              this.state.facebookProfile_edit
+                                            value={ this.state.facebookProfile_edit && this.state.facebookProfile_edit !== "0"
+                                              ?this.state.facebookProfile_edit: null
                                             }
                                           />
                                         </MDBCol>
@@ -2349,8 +2351,8 @@ const data={secure_pin}
                                             type="url"
                                             className="vl_edit_input"
                                             placeholder="Enter Instagram Profile"
-                                            value={
-                                              this.state.instagramProfile_edit
+                                            value={this.state.instagramProfile_edit && this.state.instagramProfile_edit !== "0"
+                                              ?this.state.instagramProfile_edit: null
                                             }
                                           />
                                         </MDBCol>
@@ -2370,8 +2372,8 @@ const data={secure_pin}
                                             onChange={this.changeHandler}
                                             className="vl_edit_input"
                                             placeholder="Enter twitter Profile"
-                                            value={
-                                              this.state.twitterProfile_edit
+                                            value={this.state.twitterProfile_edit && this.state.twitterProfile_edit !== "0"
+                                              ?this.state.twitterProfile_edit: null
                                             }
                                           />
                                         </MDBCol>
@@ -2597,7 +2599,8 @@ const data={secure_pin}
                                     <MDBCol md="6">
                                       <div className="storetext">
                                         {/* {this.state.city}, */}
-                                        {this.state.businessTagline}
+                                        {this.state.businessTagline && this.state.businessTagline !== "0"
+                                        ?this.state.businessTagline: "-"}
                                         {/* {this.state.postalCode} */}
                                       </div>
                                     </MDBCol>

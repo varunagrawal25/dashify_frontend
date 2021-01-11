@@ -130,7 +130,7 @@ export default class ViewListing extends Component {
     zomatoName: "",
     avvoName: "",
     LastSyncDate:'',
-
+    LastSyncTime:'',
     fbToken: "",
     // instaToken: "",
 
@@ -230,7 +230,15 @@ export default class ViewListing extends Component {
 
           if (this.state.allListings) {
             this.state.allListings.map(l => {
-              this.setState({LastSyncDate:l.update_date})
+              var date_split=l.update_date.split(' ')
+              const months = ["JAN", "FEB", "MAR","APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+              let current_datetime = new Date(date_split[0])
+              let formatted_date = current_datetime.getDate() + "-" + months[current_datetime.getMonth()] + "-" + current_datetime.getFullYear()
+              console.log("778",formatted_date)
+              this.setState({LastSyncDate:formatted_date,
+                LastSyncTime:date_split[1]
+              })
+              
               console.log("loop all")
               if (l.connect_type == "Facebook") {
                
@@ -1235,7 +1243,8 @@ export default class ViewListing extends Component {
       yelpDetails,
       allListings,
       SocialScore,
-      LastSyncDate
+      LastSyncDate,
+      LastSyncTime
     } = this.state;
 
     const {
@@ -2503,7 +2512,7 @@ export default class ViewListing extends Component {
                   </div>
 
                   <div className="listing-lastupdate">
-                    <p>Last Update {LastSyncDate}</p>
+                    <p>Last Update On {LastSyncDate} At {LastSyncTime}</p>
                     <PDFDownloadLink
                       document={this.Quixote(pdf_data)}
                       fileName="connected_listing_report.pdf"

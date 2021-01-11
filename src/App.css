@@ -12124,6 +12124,7 @@ label img {
   font-weight: normal;
   font-size: 12px;
   line-height: 15px;
+  text-transform: capitalize;
 }
 .err_msg_oh {
   color: red;
@@ -12132,6 +12133,7 @@ label img {
   font-weight: normal;
   font-size: 10px;
   line-height: 15px;
+  text-transform: capitalize;
 }
 .err_msg_promo {
   color: red;
@@ -12142,6 +12144,7 @@ label img {
   line-height: 15px;
   margin-left: 17px;
   margin-top: -10px;
+  text-transform: capitalize;
 }
 
 .err_msg_user {
@@ -12152,6 +12155,7 @@ label img {
   font-size: 12px;
   line-height: 15px;
   padding-left: 15px;
+  text-transform: capitalize;
 }
 #contact_social {
   font-family: Montserrat;

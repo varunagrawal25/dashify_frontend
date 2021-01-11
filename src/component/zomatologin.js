@@ -45,16 +45,16 @@ class ZomatoLogin extends Component {
 
     if (this.state.username == "") {
       this.setState({
-        username_error: "Enter your Email"
+        username_error: "Enter Your Email"
       });
       isError = true;
     }
     if (this.state.password == "") {
-      this.setState({ password_error: "Enter your password" });
+      this.setState({ password_error: "Enter Your Password" });
       isError = true;
     }
     if (this.state.url == "") {
-      this.setState({ url_error: "Enter your restaurant id" });
+      this.setState({ url_error: "Enter Your Restaurant Id" });
       console.log("i am in console");
       isError = true;
     }
@@ -158,7 +158,6 @@ class ZomatoLogin extends Component {
               <p>
                 <label htmlFor="url">Zomato Restaurant Id</label>
                 <input
-                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="18740397"

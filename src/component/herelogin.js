@@ -168,7 +168,7 @@ class HereLogin extends Component {
               <p>
                 <label htmlFor="url">Here Listing Url</label>
                 <input
-                  type="text"
+                  type="url"
                   id="id"
                   value={this.state.id}
                   placeholder="https://wego.here.com/india/mumbai/hotel/taj-mahal-tower,-mumbai--356te7g9-4ff5b2b3f342414b81436cb645af1ac3?x=ep&map=18.9224,72.8335,15,normal"

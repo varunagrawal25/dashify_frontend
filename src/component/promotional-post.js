@@ -38,18 +38,18 @@ state={
   event_details:'',
   cta_post:'',
   cta_drop:'',
+  post_schedule_drop:"Post Now",
+  post_shedule_date:'',
   cta_url:'',
   type:"promotional",
   promo_id:'',
-  show_date:'',
-  show_details:'',
-  show_title:'',
-  show_active_status:'',
+  active_status:'active',
   promo_list:[],
   expiry_post:false,
   add_cta:false,
   eshow_err:false,
   pshow_err:false,
+  schDate_err:"",
   pt_err:"",
   psd_err:"",
   ped_err:"",
@@ -70,7 +70,7 @@ state={
   med_err:"",
   get_expiry_post:false,
   get_add_cta:false,
-
+save_status:null,
 
 
   ActivePost:0,
@@ -150,8 +150,89 @@ console.log("ppk",this.state.promo_list)
           console.log(resp)
               })
 }
+changeHandler = event => {
+  this.setState({ [event.target.name]: event.target.value });
+  console.log(event.target.name)
+  console.log(event.target.value)
+  if (event.target.name == "post_schedule_drop") {
+    this.setState({
+      post_schedule_drop:event.target.value
+    })
+   
+  }
+  console.log("bhai",this.state.post_schedule_drop)
+  console.log("bhai1",this.state.active_status)
+  if(event.target.value == "Schedule Post"){
+    this.setState({
+      active_status:'schedule'
+    })
+  }
+  else if(event.target.value == "Post Now"){
+    this.setState({
+      active_status:'active'
+    })
+  }
+  if (event.target.name == "expiry_post") {
+    this.setState({
+      expiry_post:!this.state.expiry_post
+    })
+  }
+  if (event.target.name == "add_cta") {
+    this.setState({
+      add_cta:!this.state.add_cta
+    })
+  }
+  if (event.target.name == "get_expiry_post") {
+    this.setState({
+      get_expiry_post:!this.state.get_expiry_post
+    })
+  }
+  if (event.target.name == "get_add_cta") {
+    this.setState({
+      get_add_cta:!this.state.get_add_cta
+    })
+  }
+  if (event.target.name == "offer_title") {
+    this.setState({
+      offer_title:event.target.value
+    })
+    
+  }
+  if (event.target.name == "start_date") {
+    this.setState({
+      start_date:event.target.value
+    })
+  }
+  if (event.target.name == "offer_details") {
+    this.setState({
+      offer_details:event.target.value
+    })
+  }
+  if (event.target.name == "end_date") {
+    this.setState({
+      end_date:event.target.value
+    })
+  }
+  if (event.target.name == "redeem_offer") {
+    this.setState({
+      redeem_offer:event.target.value
+    })
+  }
+  if (event.target.name == "coupon_code") {
+    this.setState({
+      coupon_code:event.target.value
+    })
+  }
+
+  if (event.target.name == "terms") {
+    this.setState({
+      terms:event.target.value
+    })
+  }
+};
 
 draftClicked = () => {
+  
   if(this.state.offer_title == ''){
     this.setState({
       pshow_err:true,
@@ -284,7 +365,7 @@ draftClicked = () => {
       redeem_offer:this.state.redeem_offer,
       coupon_code:this.state.coupon_code,
       terms_condi:this.state.terms,
-      save_status:"draft",
+      save_status:'draft',
       attached_images: this.state.otherImages,
       category:this.state.cta_drop,
       link:this.state.cta_url,
@@ -360,7 +441,7 @@ this.setState({
       user_id: localStorage.getItem("UserId"),
       location_id: this.props.match.params.locationId,
       submit_type:this.state.type,
-      save_status:"draft",
+      save_status:'draft',
       attached_images: this.state.otherImages,
       start_date:this.state.event_start_date + "T" + this.state.event_start_time,
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
@@ -427,11 +508,31 @@ this.setState({
   }}
   
 }
-// {secure_pin,"user_id":"10","location_id":"45","submit_type":"promotional","title":"test promotional",
-// "start_date":"11-12-2020 13:25","end_date":"11-12-2020 13:25","details":"this is testing promotional........",
-// "coupon_code":"CDFE1123","redeem_offer":"24","terms_condi":"testing terms conditionsssssss....","save_status":"draft",
-// "attached_images":[{"promotional_image":"data:image/png;base64"},{"promotional_image":"data:image/png;base64"}]}
+
 confirmPost = () => {
+  // if(this.state.post_schedule_drop === "Post Now"){
+  //   this.setState({
+  //     active_status:'active'
+  //   })
+  // }
+  // else if(this.state.post_schedule_drop === "Schedule Post"){
+  //   this.setState({
+  //     active_status:'schedule'
+  //   })
+  // }
+  if(this.state.post_schedule_drop=="Schedule Post" && this.state.post_shedule_date == ''){
+    
+    this.setState({
+      pshow_err:true,
+      schDate_err:"Scheduled Date can not be empty",
+    })
+  }
+  else{
+   this.setState({
+    pshow_err:false,
+    schDate_err:""
+   })
+  }
   if(this.state.offer_title == ''){
     this.setState({
       pshow_err:true,
@@ -536,6 +637,7 @@ confirmPost = () => {
      ed_err:""
     })
    }
+   console.log("this.state.active_status",this.state.active_status)
    if(!this.state.pshow_err && !(this.state.offer_title == "" || this.state.offer_details == "" || this.state.promo_end_date == ""
   || this.state.promo_start_date == "")){
   if(this.state.type=="promotional"){
@@ -551,7 +653,7 @@ confirmPost = () => {
       redeem_offer:this.state.redeem_offer,
       coupon_code:this.state.coupon_code,
       terms_condi:this.state.terms,
-      save_status:"active",
+      save_status:this.state.active_status,
       attached_images: this.state.otherImages,
       category:this.state.cta_drop,
       link:this.state.cta_url,
@@ -580,12 +682,7 @@ confirmPost = () => {
         icon: "success",
         button: "Ok",
       });
-      swal({
-        title: "Post Added Successfully",
-        // text: "Post added ",
-        icon: "success",
-        button: "Ok",
-      });
+     
       this.setState({
         offer_title:'',
         promo_start_date:'',
@@ -628,7 +725,7 @@ confirmPost = () => {
       user_id: localStorage.getItem("UserId"),
       location_id: this.props.match.params.locationId,
       submit_type:this.state.type,
-      save_status:"active",
+      save_status:this.state.active_status,
       attached_images: this.state.otherImages,
       start_date:this.state.event_start_date + "T" + this.state.event_start_time,
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
@@ -698,6 +795,11 @@ confirmPost = () => {
 }
 
 editDraftPost = () => {
+  
+    this.setState({
+      active_status:'draft'
+    })
+  
   if(this.state.offer_title == ''){
     this.setState({
       mpshow_err:true,
@@ -823,7 +925,7 @@ editDraftPost = () => {
       redeem_offer:this.state.redeem_offer,
       coupon_code:this.state.coupon_code,
       terms_condi:this.state.terms,
-      save_status:"draft",
+      save_status:this.state.active_status,
       attached_images: this.state.otherImages,
       category:this.state.cta_drop,
       link:this.state.cta_url,
@@ -877,7 +979,7 @@ editDraftPost = () => {
       location_id: this.props.match.params.locationId,
       promotional_id:this.state.promo_id,
       submit_type:this.state.type,
-      save_status:"draft",
+      save_status:this.state.active_status,
       attached_images: this.state.otherImages,
       start_date:this.state.event_start_date + "T" + this.state.event_start_time,
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
@@ -930,6 +1032,16 @@ editDraftPost = () => {
 }
 
 editConfirmPost = () => {
+  // if(this.state.post_schedule_drop === "Post Now"){
+  //   this.setState({
+  //     active_status:'active'
+  //   })
+  // }
+  // else if(this.state.post_schedule_drop === "Schedule Post"){
+  //   this.setState({
+  //     active_status:'schedule'
+  //   })
+  // }
   if(this.state.offer_title == ''){
     this.setState({
       mpshow_err:true,
@@ -1055,7 +1167,7 @@ editConfirmPost = () => {
       redeem_offer:this.state.redeem_offer,
       coupon_code:this.state.coupon_code,
       terms_condi:this.state.terms,
-      save_status:"active",
+      save_status:this.state.active_status,
       attached_images: this.state.otherImages,
       category:this.state.cta_drop,
       link:this.state.cta_url,
@@ -1109,7 +1221,7 @@ editConfirmPost = () => {
       location_id: this.props.match.params.locationId,
       promotional_id:this.state.promo_id,
       submit_type:this.state.type,
-      save_status:"active",
+      save_status:this.state.active_status,
       attached_images: this.state.otherImages,
       start_date:this.state.event_start_date + "T" + this.state.event_start_time,
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
@@ -1160,67 +1272,6 @@ editConfirmPost = () => {
   }}
  
 }
-changeHandler = event => {
-  this.setState({ [event.target.name]: event.target.value });
-  console.log(event.target.name)
-  if (event.target.name == "expiry_post") {
-    this.setState({
-      expiry_post:!this.state.expiry_post
-    })
-  }
-  if (event.target.name == "add_cta") {
-    this.setState({
-      add_cta:!this.state.add_cta
-    })
-  }
-  if (event.target.name == "get_expiry_post") {
-    this.setState({
-      get_expiry_post:!this.state.get_expiry_post
-    })
-  }
-  if (event.target.name == "get_add_cta") {
-    this.setState({
-      get_add_cta:!this.state.get_add_cta
-    })
-  }
-  if (event.target.name == "offer_title") {
-    this.setState({
-      offer_title:event.target.value
-    })
-    
-  }
-  if (event.target.name == "start_date") {
-    this.setState({
-      start_date:event.target.value
-    })
-  }
-  if (event.target.name == "offer_details") {
-    this.setState({
-      offer_details:event.target.value
-    })
-  }
-  if (event.target.name == "end_date") {
-    this.setState({
-      end_date:event.target.value
-    })
-  }
-  if (event.target.name == "redeem_offer") {
-    this.setState({
-      redeem_offer:event.target.value
-    })
-  }
-  if (event.target.name == "coupon_code") {
-    this.setState({
-      coupon_code:event.target.value
-    })
-  }
-
-  if (event.target.name == "terms") {
-    this.setState({
-      terms:event.target.value
-    })
-  }
-};
 
 
   onUploadOtherImage = event => {
@@ -1707,6 +1758,7 @@ Status
 <MDBCol md='6' >
   {d.save_status=="active"?<MDBBtn className='pp_status_active'>Active</MDBBtn>:null}
   {d.save_status=="draft"?<MDBBtn className='pp_status_draft'>Draft</MDBBtn>:null}
+  {d.save_status=="schedule"?<MDBBtn className='pp_status_draft'>Schedule</MDBBtn>:null}
 </MDBCol>
     </MDBRow>
   </MDBCol>
@@ -1934,6 +1986,25 @@ N/A
          </MDBCol>
        </MDBRow>
          :null}
+
+
+<MDBRow>
+         <MDBCol md='6'>
+         <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
+          <option selected>Post Now</option>
+          <option>Schedule Post</option>
+        </select>
+         </MDBCol>
+        {this.state.post_schedule_drop == "Schedule Post"?
+         <MDBCol md='6'>
+         <input type="date"  className="promo_input"  name="post_shedule_date"  onChange={this.changeHandler} />
+         <div class='err_msg_promo'>
+         {this.state.schDate_err}
+        </div>
+         </MDBCol>
+        :null}
+       </MDBRow>
+        
           {this.state.offer_title == "" || this.state.offer_details == "" || this.state.promo_end_date == ""
          || this.state.promo_start_date == ""?
           <MDBRow style={{marginTop:'15px'}}>
@@ -2083,6 +2154,26 @@ N/A
          </MDBCol>
        </MDBRow>
          :null}
+
+
+<MDBRow>
+         <MDBCol md='6'>
+         <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
+          <option selected>Post Now</option>
+          <option>Schedule Post</option>
+        </select>
+         </MDBCol>
+        {this.state.post_schedule_drop == "Schedule Post"?
+         <MDBCol md='6'>
+         <input type="date"  className="promo_input"  name="post_shedule_date"  onChange={this.changeHandler} />
+         <div class='err_msg_promo'>
+         {this.state.schDate_err}
+        </div>
+         </MDBCol>
+        :null}
+       </MDBRow>
+        
+
           {this.state.event_title == "" || this.state.event_details == "" || this.state.event_end_date == ""
          || this.state.event_start_date == ""?<MDBRow style={{marginTop:'15px'}}>
           <MDBCol md='6'>
@@ -2273,6 +2364,24 @@ N/A
          </MDBCol>
        </MDBRow>
          :null}
+         {this.state.save_status=='active'?null:
+<MDBRow>
+         <MDBCol md='6'>
+         <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
+          <option selected>Post Now</option>
+          <option>Schedule Post</option>
+        </select>
+         </MDBCol>
+        {this.state.post_schedule_drop == "Schedule Post"?
+         <MDBCol md='6'>
+         <input type="date"  className="promo_input"  name="post_shedule_date"  onChange={this.changeHandler} />
+         <div class='err_msg_promo'>
+         {this.state.schDate_err}
+        </div>
+         </MDBCol>
+        :null}
+       </MDBRow>}
+        
          {this.state.offer_title == "" || this.state.offer_details == "" || this.state.promo_end_date == ""
          || this.state.promo_start_date == ""?
          <MDBRow style={{marginTop:'15px'}}>
@@ -2427,6 +2536,24 @@ Post An Event
          </MDBCol>
        </MDBRow>
          :null}
+         {this.state.save_status=='active'?null:
+<MDBRow>
+         <MDBCol md='6'>
+         <select className="promo_input"  name="post_schedule_drop"  onChange={this.changeHandler}>
+          <option selected>Post Now</option>
+          <option>Schedule Post</option>
+        </select>
+         </MDBCol>
+        {this.state.post_schedule_drop == "Schedule Post"?
+         <MDBCol md='6'>
+         <input type="date"  className="promo_input"  name="post_shedule_date"  onChange={this.changeHandler} />
+         <div class='err_msg_promo'>
+         {this.state.schDate_err}
+        </div>
+         </MDBCol>
+        :null}
+       </MDBRow>}
+        
         {this.state.event_title == "" || this.state.event_details == "" || this.state.event_end_date == ""
          || this.state.event_start_date == ""?
          <MDBRow style={{marginTop:'15px'}}>

@@ -146,7 +146,7 @@ class AppleLogin extends Component {
               <p>
                 <label htmlFor="url">Apple Listing Url</label>
                 <input
-                  type="text"
+                  type="url"
                   id="id"
                   value={this.state.id}
                   placeholder="https://apps.apple.com/us/app/ullu/id1435281792"

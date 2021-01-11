@@ -40,31 +40,31 @@ class TomtomLogin extends Component {
 
     if (this.state.username == "") {
       this.setState({
-        username_error: "Enter your Email"
+        username_error: "Enter Your Email"
       });
       isError = true;
     }
     if (this.state.password == "") {
-      this.setState({ password_error: "Enter your password" });
+      this.setState({ password_error: "Enter Your Password" });
       isError = true;
     }
     if (this.state.businessName == "") {
-      this.setState({ businessName_error: "Enter your business name" });
+      this.setState({ businessName_error: "Enter Your Business Name" });
       console.log("i am in console");
       isError = true;
     }
     if (this.state.city == "") {
-      this.setState({ city_error: "Enter your city" });
+      this.setState({ city_error: "Enter Your City" });
       console.log("i am in console");
       isError = true;
     }
     if (this.state.state == "") {
-      this.setState({ state_error: "Enter your state" });
+      this.setState({ state_error: "Enter Your State" });
       console.log("i am in console");
       isError = true;
     }
     if (this.state.country == "") {
-      this.setState({ country_error: "Enter your country" });
+      this.setState({ country_error: "Enter Your Country" });
       console.log("i am in console");
       isError = true;
     }
