@@ -76,6 +76,7 @@ export default class ReviewGenerationCampaign extends Component {
 
     List_Connected_Url(data).then(resp => {
       console.log("list",resp)
+      this.setState({AllIcons:resp.data})
 
     }).catch(resp => {
 
@@ -1026,7 +1027,7 @@ Google Map
 
         { (Step === 2) ?
 
-        <CampaignPart2  step_2_1={this.step_2_1} />
+        <CampaignPart2  step_2_1={this.step_2_1}  isEmail={isEmail} isSms={isSms} />
         :""}
 
         {/* </div> */}
