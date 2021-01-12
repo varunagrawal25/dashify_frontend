@@ -33,16 +33,16 @@ class ZillowLogin extends Component {
 
     if (this.state.username == "") {
       this.setState({
-        username_error: "Enter your Email"
+        username_error: "Enter Your Email"
       });
       isError = true;
     }
     if (this.state.password == "") {
-      this.setState({ password_error: "Enter your password" });
+      this.setState({ password_error: "Enter Your Password" });
       isError = true;
     }
     if (this.state.url == "") {
-      this.setState({ url_error: "Enter Url" });
+      this.setState({ url_error: "Enter Zillow Email" });
       console.log("i am in console");
       isError = true;
     }
@@ -162,7 +162,6 @@ class ZillowLogin extends Component {
               <p>
                 <label htmlFor="url">Zillow Email</label>
                 <input
-                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="example@gmail.com"

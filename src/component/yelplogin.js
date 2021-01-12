@@ -41,12 +41,12 @@ class YelpLogin extends Component {
 
     if (this.state.username == "") {
       this.setState({
-        username_error: "Enter your Email"
+        username_error: "Enter Your Email"
       });
       isError = true;
     }
     if (this.state.password == "") {
-      this.setState({ password_error: "Enter your password" });
+      this.setState({ password_error: "Enter Your Password" });
       isError = true;
     }
     if (this.state.url == "") {

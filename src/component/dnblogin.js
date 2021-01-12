@@ -140,10 +140,12 @@ class DnbLogin extends Component {
               "connect_url": this.state.url,
               "connect_type":"Dnb",
             };
+            console.log("data1",data)
             add_social_account(data, DjangoConfig)
               .then(resp => {
                 console.log("add social account", resp.data);
                 this.setState({ isUrl: true, loading: false });
+                swal("Successfully Connected");
               })
               .catch(resp => {
                 console.log("add social account error", resp);
@@ -151,6 +153,7 @@ class DnbLogin extends Component {
                   wrong: "Something went wrong",
                   loading: false
                 });
+                swal("Invalid Username Or Password");
               });
           } else {
             this.setState({
@@ -205,7 +208,6 @@ class DnbLogin extends Component {
               <p>
                 <label htmlFor="url">Company DUNS Number</label>
                 <input
-                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="804735132"

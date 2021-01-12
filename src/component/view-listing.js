@@ -130,7 +130,7 @@ export default class ViewListing extends Component {
     zomatoName: "",
     avvoName: "",
     LastSyncDate:'',
-
+    LastSyncTime:'',
     fbToken: "",
     // instaToken: "",
 
@@ -230,7 +230,15 @@ export default class ViewListing extends Component {
 
           if (this.state.allListings) {
             this.state.allListings.map(l => {
-              this.setState({LastSyncDate:l.update_date})
+              var date_split=l.update_date.split(' ')
+              const months = ["JAN", "FEB", "MAR","APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+              let current_datetime = new Date(date_split[0])
+              let formatted_date = current_datetime.getDate() + "-" + months[current_datetime.getMonth()] + "-" + current_datetime.getFullYear()
+              console.log("778",formatted_date)
+              this.setState({LastSyncDate:formatted_date,
+                LastSyncTime:date_split[1]
+              })
+              
               console.log("loop all")
               if (l.connect_type == "Facebook") {
                
@@ -275,7 +283,7 @@ export default class ViewListing extends Component {
                  
                 });
               }
-
+              console.log("dnv",l.connect_type)
               if (l.connect_type === "Instagram") {
                 console.log("yes Instagram");
                 this.setState({
@@ -693,13 +701,15 @@ export default class ViewListing extends Component {
       "connect_type":namefrom
      };
 
-     console.log(data)
+     console.log("data",data)
 
     remove_social_account(data, DjangoConfig)
       .then(resp => {
         console.log(resp);
 
         this.setState({ [name]: false });
+
+        console.log("Citysearch",this.state.citysearchIsLoggedIn)
       })
       .catch(resp => {
         console.log(resp);
@@ -1235,7 +1245,8 @@ export default class ViewListing extends Component {
       yelpDetails,
       allListings,
       SocialScore,
-      LastSyncDate
+      LastSyncDate,
+      LastSyncTime
     } = this.state;
 
     const {
@@ -2183,7 +2194,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.appleId}
                             name="appleIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Apple")}
                           >
                             Disconnect
                           </a>
@@ -2241,7 +2252,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.citysearchId}
                             name="citysearchIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Citysearch")}
                           >
                             Disconnect
                           </a>
@@ -2299,7 +2310,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.yelpId}
                             name="zillowIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Zillow")}
                           >
                             Disconnect
                           </a>
@@ -2357,7 +2368,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.tomtomId}
                             name="tomtomIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Tomtom")}
                           >
                             Disconnect
                           </a>
@@ -2415,7 +2426,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.zomatoId}
                             name="zomatoIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Zomato")}
                           >
                             Disconnect
                           </a>
@@ -2473,7 +2484,7 @@ export default class ViewListing extends Component {
                             className="disconnect_btn"
                             id={this.state.hereId}
                             name="hereIsLoggedIn"
-                            onClick={this.disconnectAccount}
+                            onClick={this.disconnectAccount("Here")}
                           >
                             Disconnect
                           </a>
@@ -2503,7 +2514,7 @@ export default class ViewListing extends Component {
                   </div>
 
                   <div className="listing-lastupdate">
-                    <p>Last Update {LastSyncDate}</p>
+                    <p>Last Update On {LastSyncDate} At {LastSyncTime}</p>
                     <PDFDownloadLink
                       document={this.Quixote(pdf_data)}
                       fileName="connected_listing_report.pdf"

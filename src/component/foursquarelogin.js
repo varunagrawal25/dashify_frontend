@@ -93,9 +93,10 @@ class FourSquareLogin extends Component {
               .then(resp => {
                 console.log(resp);
                 this.setState({ isUrl: true, loading: false });
+                swal("Successfully Connected");
               })
               .catch(resp => {
-                swal("Invalid username or password");
+                swal("Invalid Username Or Password");
                 console.log(resp);
                 this.setState({
                   wrong: "Invalid or Not authorised",
@@ -108,7 +109,7 @@ class FourSquareLogin extends Component {
           }
         })
         .catch(res => {
-          swal("Invalid username or password");
+          swal("Invalid Username Or Password");
           this.setState({ loading: false });
         });
     }

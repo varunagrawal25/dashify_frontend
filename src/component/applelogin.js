@@ -4,7 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 import Axios from "axios";
 import { add_social_account } from "./apis/social_platforms";
 import swal from "sweetalert";
-
+import {secure_pin} from "../config"
 class AppleLogin extends Component {
   state = {
     id: "",
@@ -65,14 +65,27 @@ class AppleLogin extends Component {
           .then(res => {
             if (res.data && res.data.feed && res.data.feed.entry) {
               const data = {
-                location_id: localStorage.getItem("locationId"),
-                Platform: "Apple",
-                Token: "",
-                Username: this.state.id.split("/")[5],
-                Email: this.state.username,
-                Password: "",
-                Connect_status: "Connect",
-                Other_info: "{'URL':" + this.state.id + ",'data':''}"
+                // location_id: localStorage.getItem("locationId"),
+                // Platform: "Apple",
+                // Token: "",
+                // Username: this.state.id.split("/")[5],
+                // Email: this.state.username,
+                // Password: "",
+                // Connect_status: "Connect",
+                // Other_info: "{'URL':" + this.state.id + ",'data':''}"
+
+                secure_pin,
+              "user_id":localStorage.getItem("UserId"),
+              "location_id":localStorage.getItem("locationId"),
+              "connect_unique_id":"",
+              "token":"",
+              "username":"",
+              "password":this.state.password,
+              "first_name":"",
+              "last_name":"",
+              "email_id":this.state.username,
+              "connect_url": this.state.id.split("/")[5],
+              "connect_type":"Apple",
               };
 
               // console.log("apple esponse", res.data);
@@ -146,9 +159,9 @@ class AppleLogin extends Component {
               <p>
                 <label htmlFor="url">Apple Listing Url</label>
                 <input
-                  type="text"
+                  type="url"
                   id="id"
-                  value={this.state.id}
+                  // value={this.state.id}
                   placeholder="https://apps.apple.com/us/app/ullu/id1435281792"
                   onChange={e => this.setState({ id: e.target.value })}
                 />

@@ -63,21 +63,21 @@ class AvvoLogin extends Component {
 
     if (isError == false) {
       this.setState({ loading: true });
-      const AvvoConfig = {
-        headers: {
-          Authorization:
-            "Bearer " + this.props.location.hash.split("#access_token=")[1]
-        }
-      };
-      Axios.get(
-        "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/lawyers.json?id[]=" +
-          this.state.url,
-        AvvoConfig
-      )
-        .then(res => {
-          console.log("Avvo checking data", res.data);
-          if (res.data.lawyers.length != 0) {
-            let resp_data = res.data.lawyers[0];
+      // const AvvoConfig = {
+      //   headers: {
+      //     Authorization:
+      //       "Bearer " + this.props.location.hash.split("#access_token=")[1]
+      //   }
+      // };
+      // Axios.get(
+      //   "https://cors-anywhere.herokuapp.com/https://api.avvo.com/api/4/lawyers.json?id[]=" +
+      //     this.state.url,
+      //   AvvoConfig
+      // )
+      //   .then(res => {
+      //     console.log("Avvo checking data", res.data);
+      //     if (res.data.lawyers.length != 0) {
+      //       let resp_data = res.data.lawyers[0];
             const data = {
               // location_id: localStorage.getItem("locationId"),
               // Platform: "Avvo",
@@ -121,12 +121,9 @@ class AvvoLogin extends Component {
               loading: false
             });
           }
-        })
-        .catch(res => {
-          swal("Invalid Avvo's Lawyer Id");
-          this.setState({ loading: false });
-        });
-    }
+       
+       
+    
   };
 
   render() {
@@ -164,7 +161,6 @@ class AvvoLogin extends Component {
               <p>
                 <label htmlFor="url">Avvo's Lawyer Id</label>
                 <input
-                  type="url"
                   id="url"
                   value={this.state.url}
                   placeholder="1441968"
