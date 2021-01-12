@@ -1490,42 +1490,75 @@ Promotional_by_id(data)
 
   DeletePost= (id)=>e=>{
     console.log(id);
-    swal("Are You Sure TO Delete This Post?", {
-      dangerMode: true,
+
+    swal({
+      title: "Are You Sure TO Delete This Post?",
+      text: "",
+      icon: "warning",
       buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        const data={
+          secure_pin,
+          "user_id":localStorage.getItem("UserId"),
+          "promotional_id":id}
+    
+    
+        Delete_Promotional_by_id(data)
+    
+        .then(resp => {
+          console.log(resp)
+          const data = {
+            secure_pin,
+            user_id: localStorage.getItem("UserId"),
+            location_id: this.props.match.params.locationId
+          }
+          All_Promotional_list(data)
+          .then(resp => {
+            console.log(resp)
+             this.setState({
+              promo_list: resp.data.promotional_details,
+            }).
+        console.log("ppk",this.state.promo_list)
+          }).catch(resp=>{
+            console.log(resp)
+                })
+        })
+    
+        .catch(resp=>{
+    console.log(resp)
+        });
+      } 
     });
-    if(!swal.close()){
-    const data={
-      secure_pin,
-      "user_id":localStorage.getItem("UserId"),
-      "promotional_id":id}
-
-
-    Delete_Promotional_by_id(data)
-
-    .then(resp => {
-      console.log(resp)
-      const data = {
-        secure_pin,
-        user_id: localStorage.getItem("UserId"),
-        location_id: this.props.match.params.locationId
-      }
-      All_Promotional_list(data)
-      .then(resp => {
-        console.log(resp)
-         this.setState({
-          promo_list: resp.data.promotional_details,
-        }).
-    console.log("ppk",this.state.promo_list)
-      }).catch(resp=>{
-        console.log(resp)
-            })
-    })
-
-    .catch(resp=>{
-console.log(resp)
-    })
-      }
+    // swal("Are You Sure TO Delete This Post?", {
+    //   buttons: {
+        
+    //   buttons: "Cancel",
+    //   dangerMode: "Delete",
+      
+    //   },
+    // })
+    // .then((value) => {
+    //   switch (value) {
+     
+    //     case "dangerMode":
+          
+    //       break;
+     
+        
+     
+    //     default:
+          
+    //     break;
+    //   }
+    // });
+    // swal("Are You Sure TO Delete This Post?", {
+    //   dangerMode: true,
+    //   buttons: true,
+    // });
+   
     }
 
     filterSearch=e=>{
