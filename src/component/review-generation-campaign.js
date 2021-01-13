@@ -463,6 +463,8 @@ export default class ReviewGenerationCampaign extends Component {
   }
 
   render() {
+
+   
     const {
       campaign_name,
       email_from,
@@ -499,50 +501,105 @@ export default class ReviewGenerationCampaign extends Component {
     } = this.state;
     console.log(this.state)
 
-
+    let sms_pre
+    if(!isEmail){
+      sms_pre={marginTop:'-66px'}
+    }
     var ListIcons, CheckedSocial, ListRadio;
 
     if(AllIcons){
     
       ListIcons=AllIcons.map(l=>{
 
-      return(             <MDBCol md='5' style={{marginLeft:'-15px'}}>
-      <div className='review_sites_container ' >
-                            <input
-                                  type="checkbox"
-                                 onClick ={this.addSocialEmail(l.name, l.connect_url,l.icon)}
-                                  value="true"
-                                  id={l.name}
-                                /> 
-                                <label for={l.name}>
-  <MDBRow > 
-  <MDBCol md='4' className='no_right_padding'>
-  <img src={l.icon} className='camp_icon' />
-  </MDBCol>
-  <MDBCol md='8' className='review_sites_contant'>
-  {l.name}
-  </MDBCol>
-   </MDBRow>
-   </label>
-   </div>
-   </MDBCol>)
-    })
+      return(   
+        <MDBCol md='5' style={{margin:'10px 0px', marginLeft:'-15px',marginRight:'10px'}}>
+    <div className='review_sites_container ' >
+                          <input
+                                type="checkbox"
+                                onClick ={this.addSocialEmail(l.name, l.connect_url,l.icon)}
+                                value="true"
+                                id={l.name}
+                                style={{display:"none"}}
+                              /> 
+                              <label for={l.name} style={{display:'block'}}>
+<MDBRow > 
+<MDBCol md='4'  className='no_right_padding'>
+<img src={l.icon} className='camp_icon' />
+</MDBCol>
+<MDBCol md='8' className='review_sites_contant' style={{paddingLeft:'6px'}}>
+{l.name}
+</MDBCol>
+ </MDBRow>
+ </label>
+ </div>
+ </MDBCol>
+        
+  //          <MDBCol md='5' style={{marginLeft:'-15px'}}>
+  //     <div className='review_sites_container ' >
+  //                           <input
+  //                                 type="checkbox"
+                                  
+  //                                onClick ={this.addSocialEmail(l.name, l.connect_url,l.icon)}
+  //                                 value="true"
+  //                                 id={l.name}
+  //                                 style={{display:"none"}}
+  //                               /> 
+  //                               <label for={l.name}>
+  // <MDBRow > 
+  // <MDBCol md='4' className='no_right_padding'>
+  // <img src={l.icon} className='camp_icon' />
+  // </MDBCol>
+  // <MDBCol md='8' className='review_sites_contant'>
+  // {l.name}
+  // </MDBCol>
+  //  </MDBRow>
+  //  </label>
+  //  </div>
+  //  </MDBCol>
+  )
+    
+  })
 
     ListRadio=AllIcons.map(l=>{
 
-      return(            
-      <div className='' >
-                            <input
-                                  type="radio"
-                                 onClick ={this.addSocialSms(l.name, l.connect_url)}
-                                  value="true"
-                                  id={'sms'+l.name}
-                                /> 
-                                <label for={'sms'+l.name}>
-                                {l.name}
+      return(  
+        <MDBCol md='5' style={{margin:'10px 0px', marginLeft:'-15px',marginRight:'10px'}}>
+        <div className='review_sites_container ' >
+                              <input
+                                    type="radio"
+                                    name="sms"
+                                    onClick ={this.addSocialSms(l.name, l.connect_url)}
+                                     value="true"
+                                     id={'sms'+l.name}
+                                    style={{display:"none"}}
+                                  /> 
+                                  <label for={'sms'+l.name} style={{display:'block'}}>
+    <MDBRow > 
+    <MDBCol md='4'  className='no_right_padding'>
+    <img src={l.icon} className='camp_icon' />
+    </MDBCol>
+    <MDBCol md='8' className='review_sites_contant' style={{paddingLeft:'6px'}}>
+    {l.name}
+    </MDBCol>
+     </MDBRow>
+     </label>
+     </div>
+     </MDBCol>          
  
-   </label>
-   </div>
+//      <div className='' >
+//                             <input
+//                                   type="radio"
+//                                  onClick ={this.addSocialSms(l.name, l.connect_url)}
+//                                   value="true"
+//                                   id={'sms'+l.name}
+//                                 /> 
+//                                 <label for={'sms'+l.name}>
+//                                 {l.name}
+//                                 </label>
+
+// <input type="radio" name="sms" value={l.name} />{l.name}
+//    </div>
+   
    )
     })
 
@@ -730,7 +787,7 @@ Write A Review
                   {ListIcons?ListIcons:<div>NO Listing connected</div>}
                  
    {hidePlus?             
-  <MDBCol md='2'>
+  <MDBCol md='2' style={{margin:'11px 0px'}}>
     <MDBBtn className="camp_add_btn ">
                                 <i
                                   className="zmdi zmdi-plus"
@@ -739,13 +796,22 @@ Write A Review
                              </MDBBtn>
   </MDBCol>:""}
 
-  {!hidePlus?             
-  <MDBCol md='2'>
-    <button onClick={this.addSocialFunc} className='campaignClose'> x</button>
-    <input type="text" name="hideName" placeholder="Enter Name" onChange={this.changeHandler} /> <input type="url" name="hideUrl" placeholder="Enter Url" onChange={this.changeHandler} />
-  </MDBCol>:""}
+  
 </MDBRow>
-               
+{!hidePlus?     
+     <div className='hidePlus_box'>
+       <button onClick={this.addSocialFunc} className='campaignClose' style={{marginTop:'-25px'}}>x</button>
+ <MDBRow>
+   
+   <MDBCol md='6' style={{paddingLeft:'0px'}}>
+    <input type="text" name="hideName" className='form-control' placeholder="Enter Name" onChange={this.changeHandler}  /> 
+  </MDBCol>
+  <MDBCol md='6'>
+    <input type="url" name="hideUrl" className='form-control' placeholder="Enter Url" onChange={this.changeHandler} />
+  </MDBCol>
+ </MDBRow>
+ </div>   
+  :""}          
 </div>
                
               </div>
@@ -885,12 +951,19 @@ Google Map
                    ></textarea>
                    <div style={{ color: "red" }}>{sms_content_error}</div>
                  </div>
-
+                 <MDBRow className='blue_container'>
+                  <MDBCol md='12' className='camp_heading'>
+                  Choose Any One Review Site
+                  </MDBCol>
+                  <MDBCol md='12' className='camp_contant1'>
+                  the vocabulary, and the questions
+                  </MDBCol>
                  {ListRadio}
+                 </MDBRow>
 
              </div>
              
-             <div className="col-md-4" style={{marginTop:'-66px'}}>
+             <div className="col-md-4" style={sms_pre}>
               <div className="step2 ">
                  <div className="formbox">
                    <div className="raitingemail">
@@ -902,6 +975,7 @@ Google Map
                  </div>
                </div>
              </div>
+         
            </div>
  :null}
 
