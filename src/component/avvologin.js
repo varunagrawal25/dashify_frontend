@@ -101,7 +101,7 @@ class AvvoLogin extends Component {
               "connect_url": this.state.url,
               "connect_type":"Avvo",
             };
-
+console.log("avvo data",data)
             add_social_account(data, DjangoConfig)
               .then(resp => {
                 console.log("Avvo resp", resp.data);
