@@ -10,18 +10,10 @@ import rev_gen_img2 from "./assets/rev_gen_img2.png";
 import rev_gen_img3 from "./assets/rev_gen_img3.png";
 import rev_gen_img4 from "./assets/rev_gen_img4.png";
 import { secure_pin } from "../config";
-const DjangoConfig = {
-  headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
-};
+import { Review_Generation_Stats } from "./apis/review";
+import DonutChart from "react-donut-chart/lib/dist/DonutChart";
+ import PromotionalPostSorry from "./promotional-post-sorry";
 
-const Yelpconfig = {
-  headers: {
-    Authorization:
-      "bearer XkjWF9GSy19xRS_yytCtISMaViqsPuXGmQiTzzAdcRHHNJmISD9bnHisRb8tgF5H7xVuMnbcybxOvEHHM7o91yTFKcGO7KrERhOSMS9NtRiPQNq9tCxMl61oD10pXnYx",
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "http://localhost"
-  }
-};
 
 export default class ReviewGenerationStats extends Component {
   state = {
@@ -52,429 +44,491 @@ export default class ReviewGenerationStats extends Component {
     dailyClicked: false,
     monthlyClicked: true,
     yearlyClicked: false,
-    campaign_count: "-"
+    campaign_count: "-",
+    AtleastOne:false
   };
 
   componentDidMount = () => {
+
+
+    // const data = {
+    //   secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+    // };
+   
+    // all_connection_of_one_location(data, {})
+    //   .then(resp => {
+    //     console.log("get all connections by id s", resp);
+    //     this.setState({ all_connections: resp.data.social_media_list });
+
+    //     this.state.all_connections.map(l => {
+    //     if (l.connect_type == "Facebook") {
+               
+
+    //       this.setState({
+    //         fbIsLoggedIn: true,
+            
+    //       });
+    //     }
+
+    //     if (l.connect_type === "Google") {
+         
+    //       this.setState({
+    //         googleIsLoggedIn: true,
+           
+    //       });
+    //     }
+    //   })
+    const data2={
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+
+      ,"filter_type":"last week"
+    }
+
+    Review_Generation_Stats(data2).then(resp=>{
+      console.log("lo",resp);
+      this.setState({loader:false, 
+        TotalCampaign:resp.data.campaign_list[0].total_campaign,
+        OverallRating:resp.data.campaign_list[0].Overall_rating,
+        NumberOfReviews:resp.data.campaign_list[0].total_reviewer,
+        InvitesSent:resp.data.campaign_list[0].invites_sent,
+
+        TrafficChart:resp.data.traffic_chart,
+        GraphChart:resp.data.graph_data1,
+        GraphChartCampaign:resp.data.graph_data2
+
+      
+      })
+
+
+      })
+    .catch(resp=>{
+      console.log(resp);
+      this.setState({loader:false})
+    })
+
+
+  // }).catch(resp=>{
+
+  // })
     var today = new Date();
 
-    var day0 = today;
-    var day1 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 1
-    );
+    // var day0 = today;
+    // var day1 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 1
+    // );
 
-    var day2 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 2
-    );
+    // var day2 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 2
+    // );
 
-    var day3 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 3
-    );
+    // var day3 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 3
+    // );
 
-    var day4 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 4
-    );
+    // var day4 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 4
+    // );
 
-    var day5 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 5
-    );
+    // var day5 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 5
+    // );
 
-    var day6 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 6
-    );
+    // var day6 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 6
+    // );
 
-    var day7 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 7
-    );
+    // var day7 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 7
+    // );
 
-    var day8 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 8
-    );
+    // var day8 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 8
+    // );
 
-    var day9 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 9
-    );
+    // var day9 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 9
+    // );
 
-    var month0 = today;
+    // var month0 = today;
 
-    var month1 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 30
-    );
+    // var month1 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 30
+    // );
 
-    var month2 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 60
-    );
+    // var month2 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 60
+    // );
 
-    var month3 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 90
-    );
+    // var month3 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 90
+    // );
 
-    var month4 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 120
-    );
+    // var month4 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 120
+    // );
 
-    var month5 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 150
-    );
+    // var month5 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 150
+    // );
 
-    var month6 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 180
-    );
+    // var month6 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 180
+    // );
 
-    var month7 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 210
-    );
+    // var month7 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 210
+    // );
 
-    var month8 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 240
-    );
+    // var month8 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 240
+    // );
 
-    var month9 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 270
-    );
+    // var month9 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 270
+    // );
 
-    var month10 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 300
-    );
+    // var month10 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 300
+    // );
 
-    var month11 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 330
-    );
+    // var month11 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 330
+    // );
 
-    var month12 = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate() - 360
-    );
+    // var month12 = new Date(
+    //   today.getFullYear(),
+    //   today.getMonth(),
+    //   today.getDate() - 360
+    // );
 
-    this.setState({
-      today,
-      days: [day0, day1, day2, day3, day4, day5, day6, day7, day8, day9]
-    });
+    // this.setState({
+    //   today,
+    //   days: [day0, day1, day2, day3, day4, day5, day6, day7, day8, day9]
+    // });
 
-    this.setState({
-      months: [
-        month0,
-        month1,
-        month2,
-        month3,
-        month4,
-        month5,
-        month6,
-        month7,
-        month8,
-        month9,
-        month10,
-        month11
-      ]
-    });
+    // this.setState({
+    //   months: [
+    //     month0,
+    //     month1,
+    //     month2,
+    //     month3,
+    //     month4,
+    //     month5,
+    //     month6,
+    //     month7,
+    //     month8,
+    //     month9,
+    //     month10,
+    //     month11
+    //   ]
+    // });
 
-    var year0 = today.getFullYear();
+    // var year0 = today.getFullYear();
 
-    this.setState({
-      years: [
-        year0,
-        year0 - 1,
-        year0 - 2,
-        year0 - 3,
-        year0 - 4,
-        year0 - 5,
-        year0 - 6,
-        year0 - 7,
-        year0 - 8,
-        year0 - 9,
-        year0 - 10
-      ]
-    });
+    // this.setState({
+    //   years: [
+    //     year0,
+    //     year0 - 1,
+    //     year0 - 2,
+    //     year0 - 3,
+    //     year0 - 4,
+    //     year0 - 5,
+    //     year0 - 6,
+    //     year0 - 7,
+    //     year0 - 8,
+    //     year0 - 9,
+    //     year0 - 10
+    //   ]
+    // });
 
-    var yelpUrl,
-      fourUrl,
-      appleUrl,
-      citysearchUrl,
-      fbtoken,
-      fbPageId,
-      googleToken,
-      locationIdGoogle;
-      const data = {
-        secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
-      };
+    // var yelpUrl,
+    //   fourUrl,
+    //   appleUrl,
+    //   citysearchUrl,
+    //   fbtoken,
+    //   fbPageId,
+    //   googleToken,
+    //   locationIdGoogle;
+    //   const data = {
+    //     secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+    //   };
   
 
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
-    //   data,
+    // // Axios.post(
+    // //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
+    // //   data,
+    // //   DjangoConfig
+    // // )
+    // all_connection_of_one_location(data, DjangoConfig)
+    //   .then(response => {
+    //     console.log(response);
+
+    //     response.data.social_media_list.map((l) => {
+    //       if (l.connect_type == "Facebook") {
+    //         fbtoken = l.Social_Platform.Token;
+    //         console.log(fbtoken);
+    //         fbPageId = l.Social_Platform.Other_info;
+    //       }
+
+    //       if (l.connect_type == "Google") {
+    //         console.log("yes goo");
+    //         this.setState({google_reviews:55})
+    //         // googleToken = l.Social_Platform.Token;
+    //         // console.log(googleToken);
+    //         // this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
+    //       }
+    //       if (l.connect_type == "Facebook") {
+    //         console.log("yes goo");
+    //         this.setState({fb_reviews:55})
+    //         // googleToken = l.Social_Platform.Token;
+    //         // console.log(googleToken);
+    //         // this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
+    //       }
+
+    //       if (l.connect_type== "Foursquare") {
+    //         console.log("yes four");
+
+    //         fourUrl = l.Social_Platform.Other_info.split(",")[0]
+    //           .slice(7)
+    //           .split("/")[5];
+    //       }
+
+    //       if (l.connect_type == "Yelp") {
+    //         console.log("yes yelp");
+
+    //         // yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
+    //       }
+
+    //     });
+    //     const GoogleConfig = {
+    //       headers: { Authorization: "Bearer " + googleToken }
+    //     };
+
+    //     // for facebook
+    //     if (fbtoken) {
+    //       Axios.get(
+    //         "https://graph.facebook.com/me/accounts?fields=access_token,id,name,overall_star_rating,category,category_list,tasks&access_token=" +
+    //           fbtoken
+    //       ).then(res => {
+    //         console.log("facebook data", res.data);
+    //         var fbPageAccessToken, index;
+    //         for (let i = 0; i < res.data.data.length; i++) {
+    //           if (res.data.data[i].id == fbPageId) {
+    //             fbPageAccessToken = res.data.data[i].access_token;
+    //             index = i;
+    //           }
+    //         }
+    //         Axios.get(
+    //           "https://graph.facebook.com/" +
+    //             fbPageId +
+    //             "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
+    //             fbPageAccessToken
+    //         ).then(resp => {
+    //           console.log("facebook page data", resp.data.data);
+    //           this.setState({
+    //             fb_reviews: resp.data.data,
+    //             fb_all_reviews: resp.data.data.length,
+    //             fb_average_rating: res.data.data[index].overall_star_rating,
+    //             isFbLoggedIn: true
+    //           });
+    //           this.setState({
+    //             all_connections: [
+    //               ...this.state.all_connections,
+    //               { name: "Facebook" }
+    //             ]
+    //           });
+
+    //           this.monthlyLineGraph();
+    //         });
+    //       });
+    //     }
+
+    //     // for yelp
+    //     if (yelpUrl) {
+    //       Axios.get(
+    //         "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
+    //           yelpUrl.slice(25),
+    //         Yelpconfig
+    //       ).then(resp => {
+    //         console.log("yelpDetails", resp.data);
+    //         this.setState({
+    //           yelp_all_reviews: resp.data.review_count,
+    //           yelp_average_rating: resp.data.rating
+    //         });
+    //         this.setState({
+    //           all_connections: [...this.state.all_connections, { name: "Yelp" }]
+    //         });
+    //       });
+    //     }
+
+    //     // for google
+    //     if (googleToken) {
+    //       Axios.get(
+    //         "https://mybusiness.googleapis.com/v4/accounts/",
+    //         GoogleConfig
+    //       ).then(res => {
+    //         console.log(res.data);
+    //         localStorage.setItem("accountId", res.data.accounts[0].name);
+
+    //         Axios.get(
+    //           "https://mybusiness.googleapis.com/v4/" +
+    //             locationIdGoogle +
+    //             "/reviews",
+    //           GoogleConfig
+    //         ).then(respo => {
+    //           console.log("google reviews", respo.data);
+    //           this.setState({
+    //             google_reviews: respo.data.reviews ? respo.data.reviews : "",
+    //             google_all_reviews: respo.data.reviews
+    //               ? respo.data.reviews.length
+    //               : 0,
+    //             google_average_rating: respo.data.averageRating
+    //               ? respo.data.averageRating
+    //               : 0,
+    //             isGoogleLoggedIn: true
+    //           });
+    //           this.monthlyLineGraph();
+    //           this.setState({
+    //             all_connections: [
+    //               ...this.state.all_connections,
+    //               { name: "Google" }
+    //             ]
+    //           });
+    //         });
+    //       });
+    //     }
+
+    //     // For foursquare
+    //     if (fourUrl) {
+    //       Axios.get(
+    //         "https://api.foursquare.com/v2/venues/" +
+    //           fourUrl +
+    //           "?client_id=TEUSFAUY42IR0HGTPSWO1GFLC5WHX3PIBKVICAQRZQA0MTD1&client_secret=CYBQFK0YRBPFE54NARAEJCG2NLBARIU2OOIJNE0AZOHWZTXU&v=20180323"
+    //       ).then(res => {
+    //         console.log("foursquare", res.data);
+    //         if (res.data && res.data.response && res.data.response.venue) {
+    //           this.setState({
+    //             foursquare_average_rating: res.data.response.venue.rating
+    //               ? res.data.response.venue.rating / 2
+    //               : 0,
+    //             foursquare_all_reviews: res.data.response.venue.tips.count
+    //           });
+    //         }
+    //         this.setState({
+    //           all_connections: [
+    //             ...this.state.all_connections,
+    //             { name: "Foursquare" }
+    //           ]
+    //         });
+    //       });
+    //     }
+
+    //     // apple
+    //     // if (appleUrl) {
+    //     //   Axios.get(
+    //     //     "https://itunes.apple.com/in/rss/customerreviews/id=" +
+    //     //       appleUrl +
+    //     //       "/sortBy=mostRecent/json"
+    //     //   ).then(res => {
+    //     //     console.log("apple data in json", res);
+
+    //     //     this.setState({
+    //     //       appleReviews: res.data.feed.entry,
+    //     //       appleDetails: res,
+    //     //       appleReviewCount: res.data.feed.entry.length
+    //     //     });
+    //     //     this.setState({
+    //     //      all_connections: [...this.state.all_connections, { name: "Apple" }]
+    //     //      });
+    //     //   });
+    //     // }
+
+    //     // citysearch
+    //     // if (citysearchUrl) {
+    //     //   console.log("inside citysearchUrl");
+    //     //   Axios.get(
+    //     //     "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
+    //     //       citysearchUrl +
+    //     //       "&publisher=test"
+    //     //   ).then(res => {
+    //     //     console.log("citysearchUrl response", res);
+
+    //     //     var XMLParser = require("react-xml-parser");
+    //     //     var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
+    //     //     console.log(xml);
+    //     //     console.log(xml.getElementsByTagName("review"));
+    //     //     this.setState({
+    //     //       citysearchReviews: xml.getElementsByTagName("review"),
+    //     //       citysearchDetails: xml,
+    //     //       citysearchReviewCount: xml.getElementsByTagName("review").length
+    //     //     });
+    //     //     this.setState({
+    //     //        all_connections: [...this.state.all_connections, { name: "Citysearch" }]
+    //     //      });
+    //     //     this.citysearch_star_counting(xml.getElementsByTagName("review"));
+    //     //   });
+    //     // }
+
+    //     this.setState({ loader: false });
+    //   })
+    //   .catch(res => {
+    //     console.log("error in review generation stats", res);
+    //     this.setState({ loader: false });
+    //   });
+
+    // Axios.get(
+    //   "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/campaign/get-all-campaign",
     //   DjangoConfig
-    // )
-    all_connection_of_one_location(data, DjangoConfig)
-      .then(response => {
-        console.log(response);
-
-        response.data.social_media_list.map((l) => {
-          if (l.connect_type == "Facebook") {
-            fbtoken = l.Social_Platform.Token;
-            console.log(fbtoken);
-            fbPageId = l.Social_Platform.Other_info;
-          }
-
-          if (l.connect_type == "Google") {
-            console.log("yes goo");
-            this.setState({google_reviews:55})
-            // googleToken = l.Social_Platform.Token;
-            // console.log(googleToken);
-            // this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
-          }
-          if (l.connect_type == "Facebook") {
-            console.log("yes goo");
-            this.setState({fb_reviews:55})
-            // googleToken = l.Social_Platform.Token;
-            // console.log(googleToken);
-            // this.setState({ locationIdGoogle: l.Social_Platform.Other_info });
-          }
-
-          if (l.connect_type== "Foursquare") {
-            console.log("yes four");
-
-            fourUrl = l.Social_Platform.Other_info.split(",")[0]
-              .slice(7)
-              .split("/")[5];
-          }
-
-          if (l.connect_type == "Yelp") {
-            console.log("yes yelp");
-
-            // yelpUrl = l.Social_Platform.Other_info.split(",")[0].slice(7);
-          }
-
-        });
-        const GoogleConfig = {
-          headers: { Authorization: "Bearer " + googleToken }
-        };
-
-        // for facebook
-        if (fbtoken) {
-          Axios.get(
-            "https://graph.facebook.com/me/accounts?fields=access_token,id,name,overall_star_rating,category,category_list,tasks&access_token=" +
-              fbtoken
-          ).then(res => {
-            console.log("facebook data", res.data);
-            var fbPageAccessToken, index;
-            for (let i = 0; i < res.data.data.length; i++) {
-              if (res.data.data[i].id == fbPageId) {
-                fbPageAccessToken = res.data.data[i].access_token;
-                index = i;
-              }
-            }
-            Axios.get(
-              "https://graph.facebook.com/" +
-                fbPageId +
-                "/ratings?fields=has_rating,review_text,created_time,has_review,rating,recommendation_type&access_token=" +
-                fbPageAccessToken
-            ).then(resp => {
-              console.log("facebook page data", resp.data.data);
-              this.setState({
-                fb_reviews: resp.data.data,
-                fb_all_reviews: resp.data.data.length,
-                fb_average_rating: res.data.data[index].overall_star_rating,
-                isFbLoggedIn: true
-              });
-              this.setState({
-                all_connections: [
-                  ...this.state.all_connections,
-                  { name: "Facebook" }
-                ]
-              });
-
-              this.monthlyLineGraph();
-            });
-          });
-        }
-
-        // for yelp
-        if (yelpUrl) {
-          Axios.get(
-            "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/" +
-              yelpUrl.slice(25),
-            Yelpconfig
-          ).then(resp => {
-            console.log("yelpDetails", resp.data);
-            this.setState({
-              yelp_all_reviews: resp.data.review_count,
-              yelp_average_rating: resp.data.rating
-            });
-            this.setState({
-              all_connections: [...this.state.all_connections, { name: "Yelp" }]
-            });
-          });
-        }
-
-        // for google
-        if (googleToken) {
-          Axios.get(
-            "https://mybusiness.googleapis.com/v4/accounts/",
-            GoogleConfig
-          ).then(res => {
-            console.log(res.data);
-            localStorage.setItem("accountId", res.data.accounts[0].name);
-
-            Axios.get(
-              "https://mybusiness.googleapis.com/v4/" +
-                locationIdGoogle +
-                "/reviews",
-              GoogleConfig
-            ).then(respo => {
-              console.log("google reviews", respo.data);
-              this.setState({
-                google_reviews: respo.data.reviews ? respo.data.reviews : "",
-                google_all_reviews: respo.data.reviews
-                  ? respo.data.reviews.length
-                  : 0,
-                google_average_rating: respo.data.averageRating
-                  ? respo.data.averageRating
-                  : 0,
-                isGoogleLoggedIn: true
-              });
-              this.monthlyLineGraph();
-              this.setState({
-                all_connections: [
-                  ...this.state.all_connections,
-                  { name: "Google" }
-                ]
-              });
-            });
-          });
-        }
-
-        // For foursquare
-        if (fourUrl) {
-          Axios.get(
-            "https://api.foursquare.com/v2/venues/" +
-              fourUrl +
-              "?client_id=TEUSFAUY42IR0HGTPSWO1GFLC5WHX3PIBKVICAQRZQA0MTD1&client_secret=CYBQFK0YRBPFE54NARAEJCG2NLBARIU2OOIJNE0AZOHWZTXU&v=20180323"
-          ).then(res => {
-            console.log("foursquare", res.data);
-            if (res.data && res.data.response && res.data.response.venue) {
-              this.setState({
-                foursquare_average_rating: res.data.response.venue.rating
-                  ? res.data.response.venue.rating / 2
-                  : 0,
-                foursquare_all_reviews: res.data.response.venue.tips.count
-              });
-            }
-            this.setState({
-              all_connections: [
-                ...this.state.all_connections,
-                { name: "Foursquare" }
-              ]
-            });
-          });
-        }
-
-        // apple
-        // if (appleUrl) {
-        //   Axios.get(
-        //     "https://itunes.apple.com/in/rss/customerreviews/id=" +
-        //       appleUrl +
-        //       "/sortBy=mostRecent/json"
-        //   ).then(res => {
-        //     console.log("apple data in json", res);
-
-        //     this.setState({
-        //       appleReviews: res.data.feed.entry,
-        //       appleDetails: res,
-        //       appleReviewCount: res.data.feed.entry.length
-        //     });
-        //     this.setState({
-        //      all_connections: [...this.state.all_connections, { name: "Apple" }]
-        //      });
-        //   });
-        // }
-
-        // citysearch
-        // if (citysearchUrl) {
-        //   console.log("inside citysearchUrl");
-        //   Axios.get(
-        //     "https://cors-anywhere.herokuapp.com/https://api.citygridmedia.com/content/reviews/v2/search/where?listing_id=" +
-        //       citysearchUrl +
-        //       "&publisher=test"
-        //   ).then(res => {
-        //     console.log("citysearchUrl response", res);
-
-        //     var XMLParser = require("react-xml-parser");
-        //     var xml = new XMLParser().parseFromString(res.data); // Assume xmlText contains the example XML
-        //     console.log(xml);
-        //     console.log(xml.getElementsByTagName("review"));
-        //     this.setState({
-        //       citysearchReviews: xml.getElementsByTagName("review"),
-        //       citysearchDetails: xml,
-        //       citysearchReviewCount: xml.getElementsByTagName("review").length
-        //     });
-        //     this.setState({
-        //        all_connections: [...this.state.all_connections, { name: "Citysearch" }]
-        //      });
-        //     this.citysearch_star_counting(xml.getElementsByTagName("review"));
-        //   });
-        // }
-
-        this.setState({ loader: false });
-      })
-      .catch(res => {
-        console.log("error in review generation stats", res);
-        this.setState({ loader: false });
-      });
-
-    Axios.get(
-      "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/campaign/get-all-campaign",
-      DjangoConfig
-    ).then(res => {
-      let all_campaign = res.data.all_campaign;
-      let campaign_count = 0;
-      all_campaign.map(data => {
-        if (data.BusinessLocation == this.props.match.params.locationId) {
-          campaign_count++;
-        }
-      });
-      this.setState({ campaign_count });
-    });
+    // ).then(res => {
+    //   let all_campaign = res.data.all_campaign;
+    //   let campaign_count = 0;
+    //   all_campaign.map(data => {
+    //     if (data.BusinessLocation == this.props.match.params.locationId) {
+    //       campaign_count++;
+    //     }
+    //   });
+    //   this.setState({ campaign_count });
+    // });
   };
 
   dailyLineGraph = () => {
@@ -633,6 +687,39 @@ export default class ReviewGenerationStats extends Component {
       yearlyClicked: true
     });
   };
+
+  filterUpdate=e=>{
+    this.setState({loader:true})
+    const data2={
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+
+      ,"filter_type":e.target.value
+    }
+
+    Review_Generation_Stats(data2).then(resp=>{
+      console.log("lo",resp);
+      this.setState({loader:false, 
+        TotalCampaign:resp.data.campaign_list[0].total_campaign,
+        OverallRating:resp.data.campaign_list[0].Overall_rating,
+        NumberOfReviews:resp.data.campaign_list[0].total_reviewer,
+        InvitesSent:resp.data.campaign_list[0].invites_sent,
+
+        TrafficChart:resp.data.traffic_chart,
+        GraphChart:resp.data.graph_data1,
+        GraphChartCampaign:resp.data.graph_data2
+
+      
+      })
+
+
+      })
+    .catch(resp=>{
+      console.log(resp);
+      this.setState({loader:false})
+    })
+
+
+  }
   render() {
     let {
       fb_reviews,
@@ -655,12 +742,74 @@ export default class ReviewGenerationStats extends Component {
       yearlyClicked,
 
       all_connections,
-      isFbLoggedIn,
-      isGoogleLoggedIn,
-      campaign_count
+      fbIsLoggedIn,
+      googleIsLoggedIn,
+      campaign_count,
+
+      TotalCampaign,
+        OverallRating,
+        NumberOfReviews,
+        InvitesSent,
+
+        TrafficChart,
+        GraphChart,
+        GraphChartCampaign,
+        AtleastOne
     } = this.state;
 
     console.log("this.state", this.state);
+
+    var GraphData=  [
+      ["x", "Reviews", "Compaign"]
+     
+    
+    
+      ]
+
+      if(GraphChart || GraphChartCampaign){
+        if(GraphChart.length>GraphChartCampaign.length){
+
+          GraphChart.map(g=>{
+
+            GraphChartCampaign.map(c=>{
+              
+              (g.filter_date === c.filter_date) ? 
+
+              GraphData.push([g.filter_date, parseInt(g.total),parseInt(c.total)])
+              :
+              GraphData.push([g.filter_date, parseInt(g.total),0])
+
+
+            })
+
+            
+          })
+
+        }
+
+        else{
+
+          GraphChartCampaign.map(g=>{
+
+            GraphChart.map(c=>{
+              
+              (g.filter_date === c.filter_date) ? 
+
+              GraphData.push([g.filter_date, parseInt(g.total),parseInt(c.total)])
+              :
+              GraphData.push([g.filter_date, parseInt(g.total),0])
+
+
+            })
+
+            
+          })
+
+        }
+       
+      }
+
+      console.log("dada",GraphData)
 
     let a = 0;
     a =
@@ -685,12 +834,37 @@ export default class ReviewGenerationStats extends Component {
             foursquare_average_rating) /
           a;
 
+
+          var pieGraphData=[], TrafficData;
+          if(TrafficChart){
+            
+          TrafficData=  TrafficChart.map(a=>{
+              var temp={
+                title: a.social_name, value: a.percent
+                // , color: "#ffb92d"
+                 //value: a.total_reviews, label:a.connect_type 
+              };
+             
+              pieGraphData.push(temp);
+
+              return(<div>
+                <div className="pie_contant">{a.social_name}</div>
+                <div id="fb_perc">
+                  {a.percent
+                    ? a.percent
+                    : "-"}
+                </div>
+              </div>)
+              
+            })
+          }
+          console.log(pieGraphData)
     const dataMock = [
-      { title: "Google", value: google_all_reviews, color: "#ffb92d" },
-      { title: "Facebook", value: fb_all_reviews, color: "#0460ea" },
+      { title: "Google", value: 55, color: "#ffb92d" },
+      { title: "Facebook", value: 24, color: "#0460ea" },
       {
         title: "Other sites",
-        value: foursquare_all_reviews + yelp_all_reviews,
+        value: 11,
         color: "#04e38a"
       }
       // { title: "Foursquare", value: foursquare_all_reviews, color: "#04e38a" }
@@ -702,6 +876,7 @@ export default class ReviewGenerationStats extends Component {
             <Spinner />
           </div>
         ) : (
+          (AtleastOne)?
           <MDBContainer>
             <MDBRow>
               <MDBCol md="7" className="setting-10">
@@ -712,12 +887,14 @@ export default class ReviewGenerationStats extends Component {
                 <select
                   className="review_select_btn"
                   style={{ marginTop: "35px" }}
+                  onChange={this.filterUpdate}
                 >
-                  <option selected value="week">
-                    This Week
-                  </option>
-                  <option value="month">This Month</option>
-                  <option value="year">This Year</option>
+                 <option value="last week">Last Week</option>
+  <option value="last month">Last Month</option>
+  <option value="last 3 months">Last 3 Months</option>
+  <option value="last 6 months">Last 6 Months</option>
+  <option value="last year">Last Year</option>
+  <option value="all">Lifetime</option>
                 </select>
               </MDBCol>
               <MDBCol md="3" style={{ marginTop: "25px" }}>
@@ -739,28 +916,49 @@ export default class ReviewGenerationStats extends Component {
                   <MDBRow>
                     <div id="traffic_chart">Traffic Chart</div>
                   </MDBRow>
-                  {all_connections.length != 0 ? (
+                  {pieGraphData ? (
                     <MDBRow>
                       <MDBCol md="8">
-                        {all_reviews != 0 ? (
+                        {/* {all_reviews != 0 ? ( */}
                           <div className="text-center mt-30">
                             {/* <img src={require("../images/pie-chart-2.jpg")} /> */}
                             {/* pie chart */}
-                            <PieChart
+                            {/* <PieChart
                               data={dataMock}
                               lineWidth={23}
                               rounded
                               //   style={{ height: "220px" }}
-                            />
+                            /> */}
                             {/* pie chart */}
+
+
+                            <DonutChart
+                      legend={false}
+                      height={200}
+                      width={200}
+                      loader={<div>Loading Chart</div>}
+                      outerRadius={0.95}
+                      innerRadius={0.6}
+                      // clickToggle={false}
+                      formatValues={(values, total) =>
+                        `${parseInt((values / total) * 100)}%`
+                      }
+                      colors={["#8264C6", "#634A9B", "#EB05B8", "#3380cc","red","blue","green","orange"]}
+                      strokeColor={"false"}
+                      data={pieGraphData}
+                      rootProps={{ "data-testid": "1" }}
+                    />
                           </div>
-                        ) : (
+                         
+                        {/* ) : (
                           ""
-                        )}
+                        )} */}
                       </MDBCol>
 
                       <MDBCol md="4">
-                        <div>
+
+                        {TrafficData}
+                        {/* <div>
                           <div className="pie_contant">Facebook</div>
                           <div id="fb_perc">
                             {all_reviews == 0
@@ -802,11 +1000,11 @@ export default class ReviewGenerationStats extends Component {
                                   .toString()
                                   .slice(0, 4) + "%"}
                           </div>
-                        </div>
+                        </div> */}
                       </MDBCol>
                     </MDBRow>
                   ) : (
-                    <h4 className='connect_msg1'>Connect Some Listings To See This Chart</h4>
+                    <h4 className='connect_msg1'>No data available</h4>
                   )}
               </MDBCol>
               <MDBCol md="8">
@@ -831,15 +1029,16 @@ export default class ReviewGenerationStats extends Component {
                     <a  onClick={this.yearlyLineGraph}
     className={yearlyClicked ? "review_period_active" : "review_period"}>Yearly</a>
                       </MDBCol>
-                  </MDBRow>
+                  </MDBRow> 
                       <div>
-                        {isGoogleLoggedIn && isFbLoggedIn ? (
+                        {GraphData  ? (
                           <Chart
                             width={"600px"}
                             height={"400px"}
                             chartType="LineChart"
                             loader={<div>Loading Chart...</div>}
-                            data={this.state.google_fb_dataPoints}
+                            data= {GraphData
+                            }
                             options={{
                               hAxis: {
                                 title: "Day"
@@ -847,17 +1046,17 @@ export default class ReviewGenerationStats extends Component {
                               vAxis: {
                                 title: "Reviews"
                               },
-                              series: {
-                                0: { curveType: "function" },
-                                1: { curveType: "function" }
-                              }
+                              // series: {
+                              //   0: { curveType: "function" },
+                              //   1: { curveType: "function" }
+                              // }
                             }}
                             rootProps={{ "data-testid": "2" }}
                           />
                         ) : (
                           <div className="viewallreview traffic-chartbox">
                             <h4 className='connect_msg1'>
-                              Facebook And Google Listing Must Be Connected
+                              No data Available
                             </h4>
                           </div>
                         )}
@@ -889,7 +1088,7 @@ export default class ReviewGenerationStats extends Component {
                           <MDBCol md="9">
                             <MDBRow>
                               <MDBCol md="5" className="rev_gen_contant1">
-                                {campaign_count}
+                                {TotalCampaign}
                               </MDBCol>
                               {/* <MDBCol md="6" className="rev_gen_contant3">
                                 <span>+</span>
@@ -918,10 +1117,9 @@ export default class ReviewGenerationStats extends Component {
                           <MDBCol md="9">
                             <MDBRow>
                               <MDBCol md="5" className="rev_gen_contant1">
-                                {all_connections.length != 0
-                                  ? average_rating != 0
-                                    ? average_rating.toString().slice(0, 4)
-                                    : 0
+                                {OverallRating
+                                  ? OverallRating
+                                    
                                   : "-"}
                               </MDBCol>
                               {/* <MDBCol md="6" className="rev_gen_contant3">
@@ -951,8 +1149,8 @@ export default class ReviewGenerationStats extends Component {
                           <MDBCol md="9">
                             <MDBRow>
                               <MDBCol md="5" className="rev_gen_contant1">
-                                {all_connections.length != 0
-                                  ? all_reviews
+                                {NumberOfReviews
+                                  ? NumberOfReviews
                                   : "-"}
                               </MDBCol>
                               {/* <MDBCol md="6" className="rev_gen_contant3">
@@ -982,7 +1180,7 @@ export default class ReviewGenerationStats extends Component {
                           <MDBCol md="9">
                             <MDBRow>
                               <MDBCol md="5" className="rev_gen_contant1">
-                                -{" "}
+                                {InvitesSent}
                                 <span>
                                   <i className="zmdi zmdi-email"></i>
                                 </span>
@@ -1010,6 +1208,9 @@ export default class ReviewGenerationStats extends Component {
               </MDBRow>
             </div>
           </MDBContainer>
+        :
+        <PromotionalPostSorry />
+        
         )}
       </div>
     );
