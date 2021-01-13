@@ -796,13 +796,22 @@ Write A Review
                              </MDBBtn>
   </MDBCol>:""}
 
-  {!hidePlus?             
-  <MDBCol md='2'>
-    <button onClick={this.addSocialFunc} className='campaignClose'> x</button>
-    <input type="text" name="hideName" placeholder="Enter Name" onChange={this.changeHandler} /> <input type="url" name="hideUrl" placeholder="Enter Url" onChange={this.changeHandler} />
-  </MDBCol>:""}
+  
 </MDBRow>
-               
+{!hidePlus?     
+     <div className='hidePlus_box'>
+       <button onClick={this.addSocialFunc} className='campaignClose' style={{marginTop:'-25px'}}>x</button>
+ <MDBRow>
+   
+   <MDBCol md='6' style={{paddingLeft:'0px'}}>
+    <input type="text" name="hideName" className='form-control' placeholder="Enter Name" onChange={this.changeHandler}  /> 
+  </MDBCol>
+  <MDBCol md='6'>
+    <input type="url" name="hideUrl" className='form-control' placeholder="Enter Url" onChange={this.changeHandler} />
+  </MDBCol>
+ </MDBRow>
+ </div>   
+  :""}          
 </div>
                
               </div>

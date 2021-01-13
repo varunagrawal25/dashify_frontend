@@ -9,7 +9,7 @@ import down_arrow from "./assets/down_arrow_icon.png";
 import left_arrow from "./assets/left_arrow.png";
 import right_arrow from "./assets/right_arrow.png";
 import MaterialTable from 'material-table';
-
+import MultiTextInput from "./MultiTextInput"
 export default class RankingAnalytics extends Component {
   render() {
     return (
@@ -38,16 +38,63 @@ export default class RankingAnalytics extends Component {
             </MDBCol>
 
             <MDBCol md="2" className="no_left_padding">
-              <select className="ranking_keyword_btn" >
-                <option selected value="Add new keyword" className='ranking_keyword_btn_options'>
+              <MDBBtn className="ranking_keyword_btn" data-toggle="modal" data-target="#myModalkey">
                   Add New Keyword
-                </option>
-                <option value="Add new keyword" className='ranking_keyword_btn_options'>Keyword1</option>
-                <option value="Add new keyword" className='ranking_keyword_btn_options'>Keyword2</option>
-              </select>
+                </MDBBtn>
             </MDBCol>
           </MDBRow>
+          <div class="modal fade" id="myModalkey" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+      <div className="modal-header modal_header">
+                <h4 className="modal-title modal_header_heading" style={{marginLeft:'0px'}}>Add New Keywords</h4>
+                <button
+                  type="button"
+                  className="modal_header_icon"
+                  data-dismiss="modal"
+                >
+                  &times;
+                </button>
+              </div>
 
+        
+        <div class="modal-body" >
+<MDBRow className='raModal_head'>
+  Enter keywords that you would like for us to monitor your rankings for
+</MDBRow>
+<MDBRow>
+
+</MDBRow>
+
+<div  className='ra_db'>
+  <MDBRow >
+    <MDBCol md='8' className='raModal_contant'>
+      Or, upload csv containing keywords.<br/>
+    <span style={{color:'#5d80e2'}}>Check Sample</span>
+    </MDBCol>
+    <MDBCol md='4'>
+      <MDBBtn>
+        <input type='file' title='Upload file'/>
+      </MDBBtn>
+    </MDBCol>
+  </MDBRow>
+</div>
+<MDBRow>
+  <MDBCol md='3'>
+  <MDBBtn className="cp_btn" > 
+           Submit Keywords
+            </MDBBtn>
+  </MDBCol>
+  <MDBCol md='3'>
+  <MDBBtn style={{margin:'15px 0px',border:'none'}} > 
+           Cancel
+            </MDBBtn>
+  </MDBCol>
+</MDBRow>
+          </div>
+          </div>
+          </div>
+          </div>
           <MDBRow>
             <MDBCol md="8">
               <div className="review_container"></div>
