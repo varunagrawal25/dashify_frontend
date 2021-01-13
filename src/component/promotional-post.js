@@ -120,7 +120,7 @@ componentDidMount = () =>{
   }
   All_Promotional_list(data)
   .then(resp => {
-    console.log(resp)
+    console.log("hh",resp)
      this.setState({
       promo_list: resp.data.promotional_details,
     }).
@@ -1301,7 +1301,22 @@ editConfirmPost = () => {
         // console.log("data",data)
         // console.log("width",width)
         // console.log("height",height)
+
+
+          // image.onload = function () {
+          //           var height = this.height;
+          //           var width = this.width;
+          //           if (height > 100 || width > 100) {
+          //               alert("Height and Width must not exceed 100px.");
+          //               return false;
+          //           }
+          //           alert("Uploaded image has valid Height and Width.");
+          //           return true;
+          //       };
+
+
         var ob={"promotional_image":e.target.result}
+
         this.setState({ otherImages: this.state.otherImages.concat(ob) });
 
       var locationId = this.props.match.params.locationId;
@@ -1592,7 +1607,10 @@ Promotional_by_id(data)
    
     console.log("promol",this.state.promo_list)
     console.log("promol",this.state.promo_list[0])
+   console.log("promol img",this.state.promo_list[0])
     console.log("state",this.state);
+    var pi = this.state.promo_list[0]
+    console.log("kk",pi)
     var OtherImages=this.state.otherImages;
 
     var {

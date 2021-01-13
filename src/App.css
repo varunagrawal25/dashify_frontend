@@ -14670,6 +14670,32 @@ ul.main-listfive li {
   padding: 5px 15px;
 }
 
+.ra_db{
+  margin: 10px 0px;
+  border: dashed;
+  border-color: lightgray;
+  padding: 30px 10px;
+  border-width: 1px;
+}
+.raModal_head{
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18px;
+  margin-top: 5px;
+  margin-left: 0px;
+  color: #000000;
+}
+
+.raModal_contant{
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 14px;
+  font-weight: 400;
+  color: #4f4f4f;
+}
 .career_block {
   padding: 0px 15%;
 }
@@ -14677,7 +14703,14 @@ ul.main-listfive li {
 .pricing_block {
   padding: 0px 12%;
 }
-
+.hidePlus_box{
+  background: #ffffff;
+  border: 1px solid #fbf6f6;
+  box-sizing: border-box;
+  height: 80px;
+  border-radius: 10px;
+  padding: 24px;
+}
 .table_col1 {
   font-family: Roboto;
   font-style: normal;

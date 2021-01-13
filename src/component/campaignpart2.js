@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import Loader from "react-loader-spinner";
 import Axios from "axios";
 import swal from "sweetalert";
-
+import { Add_Campaign } from "./apis/review";
+import {secure_pin} from "../config"
 const DjangoConfig = {
   headers: {
     Authorization: "Token " + localStorage.getItem("UserToken")
@@ -23,140 +24,179 @@ export default class CampaignPart2 extends Component {
     loading: false,
     CustomerLoop:[1],
 
-    FinalCustomers:[{}]
+    FinalCustomers:[{}],
+    isCsv:false,
+    CsvFile:''
   };
 
   componentDidMount = () => {
     //console.log("promotional data", this.props.location.state);
+
+  
+
   };
 
   submitHandler = event => {
     event.preventDefault();
+    var { isEmail, isSms, FinalEmailSocial,FinalSmsSocial,ReplyTo,
+      EmailSubject,
+      email_heading,
+      email_content,
+      sms_content}= this.props;
+    const data = {
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
 
-    var {
-      email_sendto_error,
-      contact_sendto_error,
-      fname_sendto_error,
-      sendto_fname,
-      sendto_lname,
-      sendto_email,
-      sendto_contact
-    } = this.state;
 
-    this.setState({ wrong: "" });
+      "campaign_type_email":isEmail?"email":"",
+      "campaign_type_sms":isSms?"sms":"",
+      "sender_email":"",
+      "reply_email":ReplyTo,
+      "subject":EmailSubject,
+      "heading":email_heading,
+      "email_content":email_content,
+      "sms_content":sms_content,
+      "recipient_array":this.state.FinalCustomers,
 
-    let isError = false;
+        "email_social_array":FinalEmailSocial,
+        "sms_social_array":FinalSmsSocial,
 
-    if (JSON.stringify(email_sendto_error).includes("Invalid Email")) {
-      isError = true;
-    } else if (
-      JSON.stringify(contact_sendto_error).includes("Invalid Phone No.")
-    ) {
-      isError = true;
-    }
+        "import_csv":this.state.isCsv,
+        "csv_file":this.state.CsvFile
+    
+    };
+    console.log(data)
+    Add_Campaign(data).then(resp => {
+      console.log(resp)
+     
+    })
+    .catch(resp => {
+      
+    })
 
-    if (!isError) {
-      var emails,
-        names,
-        contact,
-        send_limit = 0;
+    // var {
+    //   email_sendto_error,
+    //   contact_sendto_error,
+    //   fname_sendto_error,
+    //   sendto_fname,
+    //   sendto_lname,
+    //   sendto_email,
+    //   sendto_contact
+    // } = this.state;
 
-      Object.values(sendto_email).map((value, i) => {
-        if (value) {
-          emails = { ...emails, [i]: value };
-        } else {
-          this.setState(prevState => ({
-            email_sendto_error: {
-              ...prevState.email_sendto_error,
-              [i]: "Email can not be empty"
-            }
-          }));
-          isError = true;
-        }
-      });
-      Object.values(sendto_fname).map((value, i) => {
-        if (value) {
-          names = { ...names, [i]: value + " " + sendto_lname[i] };
-          send_limit = i + 1;
-        } else {
-          this.setState(prevState => ({
-            fname_sendto_error: {
-              ...prevState.fname_sendto_error,
-              [i]: "First name can not be empty"
-            }
-          }));
-          isError = true;
-        }
-      });
+    // this.setState({ wrong: "" });
 
-      Object.values(sendto_contact).map((value, i) => {
-        if (value) {
-          contact = { ...contact, [i]: value };
-        } else {
-          this.setState(prevState => ({
-            contact_sendto_error: {
-              ...prevState.contact_sendto_error,
-              [i]: "Phone No. can not be empty"
-            }
-          }));
-          isError = true;
-        }
-      });
+    // let isError = false;
 
-      if (!isError) {
-        const email_adding_data = {
-          camp_id: this.props.match.params.campaign_id,
-          emails,
-          names,
-          contact
-        };
-        this.setState({ loading: true });
+    // if (JSON.stringify(email_sendto_error).includes("Invalid Email")) {
+    //   isError = true;
+    // } else if (
+    //   JSON.stringify(contact_sendto_error).includes("Invalid Phone No.")
+    // ) {
+    //   isError = true;
+    // }
 
-        Axios.post(
-          "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/campaign/add-emails-in-campaign",
-          email_adding_data,
-          DjangoConfig
-        )
-          .then(resp => {
-            if (resp.data.messgae == "Email add in database successfully.") {
-              const data = {
-                camp_id: this.props.match.params.campaign_id,
-                send_limit
-              };
-              Axios.post(
-                "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/campaign/send-emaills",
-                data,
-                DjangoConfig
-              )
-                .then(resp => {
-                  if (resp.data.messgae == "Send All Email.") {
-                    swal("Sent succesfully");
-                  } else {
-                    swal("Server error");
-                  }
-                  this.setState({ loading: false });
-                })
-                .catch(resp => {
-                  console.log("email sending error", resp);
-                  swal("Server error");
-                  this.setState({ loading: false });
-                });
-            } else {
-              swal("Server error");
-              this.setState({ loading: false });
-            }
-          })
-          .catch(resp => {
-            console.log("email adding error", resp);
-            swal("Server error");
-            this.setState({ loading: false });
-          });
-      } else {
-        this.setState({ wrong: "Remove above errors" });
-      }
-    } else {
-      this.setState({ wrong: "Remove above errors" });
-    }
+    // if (!isError) {
+    //   var emails,
+    //     names,
+    //     contact,
+    //     send_limit = 0;
+
+    //   Object.values(sendto_email).map((value, i) => {
+    //     if (value) {
+    //       emails = { ...emails, [i]: value };
+    //     } else {
+    //       this.setState(prevState => ({
+    //         email_sendto_error: {
+    //           ...prevState.email_sendto_error,
+    //           [i]: "Email can not be empty"
+    //         }
+    //       }));
+    //       isError = true;
+    //     }
+    //   });
+    //   Object.values(sendto_fname).map((value, i) => {
+    //     if (value) {
+    //       names = { ...names, [i]: value + " " + sendto_lname[i] };
+    //       send_limit = i + 1;
+    //     } else {
+    //       this.setState(prevState => ({
+    //         fname_sendto_error: {
+    //           ...prevState.fname_sendto_error,
+    //           [i]: "First name can not be empty"
+    //         }
+    //       }));
+    //       isError = true;
+    //     }
+    //   });
+
+    //   Object.values(sendto_contact).map((value, i) => {
+    //     if (value) {
+    //       contact = { ...contact, [i]: value };
+    //     } else {
+    //       this.setState(prevState => ({
+    //         contact_sendto_error: {
+    //           ...prevState.contact_sendto_error,
+    //           [i]: "Phone No. can not be empty"
+    //         }
+    //       }));
+    //       isError = true;
+    //     }
+    //   });
+
+    //   if (!isError) {
+    //     const email_adding_data = {
+    //       camp_id: this.props.match.params.campaign_id,
+    //       emails,
+    //       names,
+    //       contact
+    //     };
+    //     this.setState({ loading: true });
+
+    //     Axios.post(
+    //       "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/campaign/add-emails-in-campaign",
+    //       email_adding_data,
+    //       DjangoConfig
+    //     )
+    //       .then(resp => {
+    //         if (resp.data.messgae == "Email add in database successfully.") {
+    //           const data = {
+    //             camp_id: this.props.match.params.campaign_id,
+    //             send_limit
+    //           };
+    //           Axios.post(
+    //             "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/campaign/send-emaills",
+    //             data,
+    //             DjangoConfig
+    //           )
+    //             .then(resp => {
+    //               if (resp.data.messgae == "Send All Email.") {
+    //                 swal("Sent succesfully");
+    //               } else {
+    //                 swal("Server error");
+    //               }
+    //               this.setState({ loading: false });
+    //             })
+    //             .catch(resp => {
+    //               console.log("email sending error", resp);
+    //               swal("Server error");
+    //               this.setState({ loading: false });
+    //             });
+    //         } else {
+    //           swal("Server error");
+    //           this.setState({ loading: false });
+    //         }
+    //       })
+    //       .catch(resp => {
+    //         console.log("email adding error", resp);
+    //         swal("Server error");
+    //         this.setState({ loading: false });
+    //       });
+    //   } else {
+    //     this.setState({ wrong: "Remove above errors" });
+    //   }
+    // } else {
+    //   this.setState({ wrong: "Remove above errors" });
+    // }
   };
 
   changeHandler = event => {
@@ -166,228 +206,228 @@ export default class CampaignPart2 extends Component {
 
  
 
-  add_fname = () => {
-    var fname = [];
-    for (let i = 0; i < this.state.add_customer; i++) {
-      fname.push(
-        <div>
-          <div className="col-md-12 mb-30">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter Name"
-              name={i}
-              onChange={this.customer_fname_function}
-              value={this.state.sendto_fname[i]}
-              required
-            />
-            <div class='err_msg'>
-              {this.state.fname_sendto_error[i]}
-            </div>
-          </div>
-          {/* <div className="col-md-2">
-            <button onClick="" className="btn">
-              Cancel
-            </button>
-          </div> */}
-        </div>
-      );
-    }
-    console.log(fname);
-    return fname;
-  };
+  // add_fname = () => {
+  //   var fname = [];
+  //   for (let i = 0; i < this.state.add_customer; i++) {
+  //     fname.push(
+  //       <div>
+  //         <div className="col-md-12 mb-30">
+  //           <input
+  //             type="text"
+  //             className="form-control"
+  //             placeholder="Enter Name"
+  //             name={i}
+  //             onChange={this.customer_fname_function}
+  //             value={this.state.sendto_fname[i]}
+  //             required
+  //           />
+  //           <div class='err_msg'>
+  //             {this.state.fname_sendto_error[i]}
+  //           </div>
+  //         </div>
+  //         {/* <div className="col-md-2">
+  //           <button onClick="" className="btn">
+  //             Cancel
+  //           </button>
+  //         </div> */}
+  //       </div>
+  //     );
+  //   }
+  //   console.log(fname);
+  //   return fname;
+  // };
 
-  add_lname = () => {
-    var lname = [];
-    for (let i = 0; i < this.state.add_customer; i++) {
-      lname.push(
-        <div>
-          <div className="col-md-12 mb-30">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Enter last name"
-              name={i}
-              onChange={this.customer_lname_function}
-              value={this.state.sendto_lname[i]}
-              required
-            />
-            {/* <div class='err_msg'>
-              {this.state.lname_sendto_error[i]}
-            </div> */}
-          </div>
-          {/* <div className="col-md-2">
-            <button onClick="" className="btn">
-              Cancel
-            </button>
-          </div> */}
-        </div>
-      );
-    }
-    console.log(lname);
-    return lname;
-  };
+  // add_lname = () => {
+  //   var lname = [];
+  //   for (let i = 0; i < this.state.add_customer; i++) {
+  //     lname.push(
+  //       <div>
+  //         <div className="col-md-12 mb-30">
+  //           <input
+  //             type="text"
+  //             className="form-control"
+  //             placeholder="Enter last name"
+  //             name={i}
+  //             onChange={this.customer_lname_function}
+  //             value={this.state.sendto_lname[i]}
+  //             required
+  //           />
+  //           {/* <div class='err_msg'>
+  //             {this.state.lname_sendto_error[i]}
+  //           </div> */}
+  //         </div>
+  //         {/* <div className="col-md-2">
+  //           <button onClick="" className="btn">
+  //             Cancel
+  //           </button>
+  //         </div> */}
+  //       </div>
+  //     );
+  //   }
+  //   console.log(lname);
+  //   return lname;
+  // };
 
-  add_phone = () => {
-    var phone = [];
-    for (let i = 0; i < this.state.add_customer; i++) {
-      phone.push(
-        <div>
-          <div className="col-md-12 mb-30">
-            <input
-              type="number"
-              className="form-control"
-              placeholder="Enter mobile no."
-              name={i}
-              onChange={this.customer_contact_function}
-              value={this.state.sendto_contact[i]}
-              required
-            />
-            <div class='err_msg'>
-              {this.state.contact_sendto_error[i]}
-            </div>
-          </div>
-          {/* <div className="col-md-2">
-            <button onClick="" className="btn">
-              Cancel
-            </button>
-          </div> */}
-        </div>
-      );
-    }
+  // add_phone = () => {
+  //   var phone = [];
+  //   for (let i = 0; i < this.state.add_customer; i++) {
+  //     phone.push(
+  //       <div>
+  //         <div className="col-md-12 mb-30">
+  //           <input
+  //             type="number"
+  //             className="form-control"
+  //             placeholder="Enter mobile no."
+  //             name={i}
+  //             onChange={this.customer_contact_function}
+  //             value={this.state.sendto_contact[i]}
+  //             required
+  //           />
+  //           <div class='err_msg'>
+  //             {this.state.contact_sendto_error[i]}
+  //           </div>
+  //         </div>
+  //         {/* <div className="col-md-2">
+  //           <button onClick="" className="btn">
+  //             Cancel
+  //           </button>
+  //         </div> */}
+  //       </div>
+  //     );
+  //   }
 
-    console.log(phone);
-    return phone;
-  };
+  //   console.log(phone);
+  //   return phone;
+  // };
 
-  add_email = () => {
-    var email = [];
-    for (let i = 0; i < this.state.add_customer; i++) {
-      email.push(
-        <div>
-          <div className="col-md-12 mb-30">
-            <input
-              type="email"
-              className="form-control"
-              placeholder="Enter Email Address"
-              name={i}
-              onChange={this.customer_email_function}
-              value={this.state.sendto_email[i]}
-              required
-            />
-            <div class='err_msg'>
-              {this.state.email_sendto_error[i]}
-            </div>
-          </div>
-          {/* <div className="col-md-2">
-            <button onClick="" className="btn">
-              Cancel
-            </button>
-          </div> */}
-        </div>
-      );
-    }
-    console.log(email);
-    return email;
-  };
+  // add_email = () => {
+  //   var email = [];
+  //   for (let i = 0; i < this.state.add_customer; i++) {
+  //     email.push(
+  //       <div>
+  //         <div className="col-md-12 mb-30">
+  //           <input
+  //             type="email"
+  //             className="form-control"
+  //             placeholder="Enter Email Address"
+  //             name={i}
+  //             onChange={this.customer_email_function}
+  //             value={this.state.sendto_email[i]}
+  //             required
+  //           />
+  //           <div class='err_msg'>
+  //             {this.state.email_sendto_error[i]}
+  //           </div>
+  //         </div>
+  //         {/* <div className="col-md-2">
+  //           <button onClick="" className="btn">
+  //             Cancel
+  //           </button>
+  //         </div> */}
+  //       </div>
+  //     );
+  //   }
+  //   console.log(email);
+  //   return email;
+  // };
 
-  customer_email_function = event => {
-    event.persist();
+  // customer_email_function = event => {
+  //   event.persist();
 
-    this.setState(prevState => ({
-      email_sendto_error: {
-        ...prevState.email_sendto_error,
-        [event.target.name]: ""
-      }
-    }));
+  //   this.setState(prevState => ({
+  //     email_sendto_error: {
+  //       ...prevState.email_sendto_error,
+  //       [event.target.name]: ""
+  //     }
+  //   }));
 
-    var email = event.target.value,
-      emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
-    if (!emailReg.test(email) || email == "") {
-      this.setState(prevState => ({
-        email_sendto_error: {
-          ...prevState.email_sendto_error,
-          [event.target.name]: "Invalid Email"
-        }
-      }));
-    }
+  //   var email = event.target.value,
+  //     emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+  //   if (!emailReg.test(email) || email == "") {
+  //     this.setState(prevState => ({
+  //       email_sendto_error: {
+  //         ...prevState.email_sendto_error,
+  //         [event.target.name]: "Invalid Email"
+  //       }
+  //     }));
+  //   }
 
-    this.setState(prevState => ({
-      sendto_email: {
-        ...prevState.sendto_email,
-        [event.target.name]: event.target.value
-      }
-    }));
-    console.log("state", this.state);
-  };
+  //   this.setState(prevState => ({
+  //     sendto_email: {
+  //       ...prevState.sendto_email,
+  //       [event.target.name]: event.target.value
+  //     }
+  //   }));
+  //   console.log("state", this.state);
+  // };
 
-  customer_contact_function = event => {
-    event.persist();
+  // customer_contact_function = event => {
+  //   event.persist();
 
-    this.setState(prevState => ({
-      contact_sendto_error: {
-        ...prevState.contact_sendto_error,
-        [event.target.name]: ""
-      }
-    }));
+  //   this.setState(prevState => ({
+  //     contact_sendto_error: {
+  //       ...prevState.contact_sendto_error,
+  //       [event.target.name]: ""
+  //     }
+  //   }));
 
-    var contact = event.target.value;
-    // intRegex = /[0-9 -()+]+$/;
-    if (contact.length != 10) {
-      this.setState(prevState => ({
-        contact_sendto_error: {
-          ...prevState.contact_sendto_error,
-          [event.target.name]: "Invalid Phone No."
-        }
-      }));
-    }
+  //   var contact = event.target.value;
+  //   // intRegex = /[0-9 -()+]+$/;
+  //   if (contact.length != 10) {
+  //     this.setState(prevState => ({
+  //       contact_sendto_error: {
+  //         ...prevState.contact_sendto_error,
+  //         [event.target.name]: "Invalid Phone No."
+  //       }
+  //     }));
+  //   }
 
-    this.setState(prevState => ({
-      sendto_contact: {
-        ...prevState.sendto_contact,
-        [event.target.name]: event.target.value
-      }
-    }));
-    console.log("state", this.state);
-  };
+  //   this.setState(prevState => ({
+  //     sendto_contact: {
+  //       ...prevState.sendto_contact,
+  //       [event.target.name]: event.target.value
+  //     }
+  //   }));
+  //   console.log("state", this.state);
+  // };
 
-  customer_fname_function = event => {
-    event.persist();
+  // customer_fname_function = event => {
+  //   event.persist();
 
-    this.setState(prevState => ({
-      fname_sendto_error: {
-        ...prevState.fname_sendto_error,
-        [event.target.name]: ""
-      }
-    }));
+  //   this.setState(prevState => ({
+  //     fname_sendto_error: {
+  //       ...prevState.fname_sendto_error,
+  //       [event.target.name]: ""
+  //     }
+  //   }));
 
-    this.setState(prevState => ({
-      sendto_fname: {
-        ...prevState.sendto_fname,
-        [event.target.name]: event.target.value
-      }
-    }));
-    console.log("state", this.state);
-  };
+  //   this.setState(prevState => ({
+  //     sendto_fname: {
+  //       ...prevState.sendto_fname,
+  //       [event.target.name]: event.target.value
+  //     }
+  //   }));
+  //   console.log("state", this.state);
+  // };
 
-  customer_lname_function = event => {
-    event.persist();
+  // customer_lname_function = event => {
+  //   event.persist();
 
-    // this.setState(prevState => ({
-    //   lname_sendto_error: {
-    //     ...prevState.lname_sendto_error,
-    //     [event.target.name]: ""
-    //   }
-    // }));
+  //   // this.setState(prevState => ({
+  //   //   lname_sendto_error: {
+  //   //     ...prevState.lname_sendto_error,
+  //   //     [event.target.name]: ""
+  //   //   }
+  //   // }));
 
-    this.setState(prevState => ({
-      sendto_lname: {
-        ...prevState.sendto_lname,
-        [event.target.name]: event.target.value
-      }
-    }));
-    console.log("state", this.state);
-  };
+  //   this.setState(prevState => ({
+  //     sendto_lname: {
+  //       ...prevState.sendto_lname,
+  //       [event.target.name]: event.target.value
+  //     }
+  //   }));
+  //   console.log("state", this.state);
+  // };
 
   add_customer_function = event => {
     event.preventDefault();
@@ -505,6 +545,16 @@ export default class CampaignPart2 extends Component {
 
    
 
+  }
+  onUploadCsv=event=>{
+    let files = event.target.files;
+    let reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = e => {
+      this.setState({ CsvFile: e.target.result, isCsv:true });
+
+      console.log(e.target.result)
+    };
   }
   
 
@@ -668,7 +718,7 @@ export default class CampaignPart2 extends Component {
                       </div>
                       <div className="uploadbox">
                           <button className="upload_btn">Upload CSV</button>
-                          <input type="file" />
+                          <input type="file" onChange={this.onUploadCsv} />
                         </div>
                     </div>
                   </div>
