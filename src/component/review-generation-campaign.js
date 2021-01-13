@@ -22,13 +22,13 @@ export default class ReviewGenerationCampaign extends Component {
     email_replyto: "",
     all_site_name: {},
     all_site_url: {},
-    email_subject: "your feedback is important to us",
+    email_subject: "",
     email_heading:
-      "Thank you for trusting us, we hope our service will help you",
+      "",
     email_content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a gallery",
+      "",
     sms_content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a gallery",
+      "",
     review_by_google: false,
     review_by_apple: false,
     active_social_platform: 0,
@@ -45,7 +45,9 @@ export default class ReviewGenerationCampaign extends Component {
     loading: false,
     Step:1,
     isEmail:true,
-    isSms:false
+    isSms:false,
+    FinalEmailSocial:[],
+    hidePlus:true
   };
 
   componentDidMount = () => {
@@ -76,7 +78,7 @@ export default class ReviewGenerationCampaign extends Component {
 
     List_Connected_Url(data).then(resp => {
       console.log("list",resp)
-      this.setState({AllIcons:resp.data})
+      this.setState({AllIcons:resp.data.con_social_array})
 
     }).catch(resp => {
 
@@ -404,6 +406,62 @@ export default class ReviewGenerationCampaign extends Component {
     });
   }
 
+  addSocialEmail =(name, url,icon)=>e=>{
+
+    if(e.target.checked){
+
+    var obj= {
+      name:name,
+      connect_url:url,
+      icon:icon
+    }
+    var new2;
+
+    this.setState({
+      FinalEmailSocial:this.state.FinalEmailSocial.concat(obj)
+    })
+
+  }
+  else{
+    console.log("deleted");
+    new2 = this.state.FinalEmailSocial.filter(item => item.name !== name);
+   // console.log(new2,this.state.FinalEmailSocial.filter(i=> {return i.name !== name}))
+
+   this.setState({
+    FinalEmailSocial:new2
+  })
+  console.log(this.state.FinalEmailSocial)
+  }
+
+  }
+
+
+
+
+  addSocialSms =(name, url)=>e=>{
+
+  
+
+    var obj= {
+      name:name,
+      connect_url:url,
+     
+    }
+   
+
+    this.setState({
+      FinalSmsSocial:[obj]
+    })
+
+  
+ 
+
+  }
+
+  addSocialFunc=e=>{
+    this.setState({hidePlus:!this.state.hidePlus});
+  }
+
   render() {
     const {
       campaign_name,
@@ -431,95 +489,90 @@ export default class ReviewGenerationCampaign extends Component {
 
       Step,
       isEmail,
-      isSms
+      isSms,
+      AllIcons,
+      FinalEmailSocial,
+      FinalSmsSocial,
+      EmailSubject,
+      ReplyTo,
+      hidePlus
     } = this.state;
     console.log(this.state)
 
+
+    var ListIcons, CheckedSocial, ListRadio;
+
+    if(AllIcons){
+    
+      ListIcons=AllIcons.map(l=>{
+
+      return(             <MDBCol md='5' style={{marginLeft:'-15px'}}>
+      <div className='review_sites_container ' >
+                            <input
+                                  type="checkbox"
+                                 onClick ={this.addSocialEmail(l.name, l.connect_url,l.icon)}
+                                  value="true"
+                                  id={l.name}
+                                /> 
+                                <label for={l.name}>
+  <MDBRow > 
+  <MDBCol md='4' className='no_right_padding'>
+  <img src={l.icon} className='camp_icon' />
+  </MDBCol>
+  <MDBCol md='8' className='review_sites_contant'>
+  {l.name}
+  </MDBCol>
+   </MDBRow>
+   </label>
+   </div>
+   </MDBCol>)
+    })
+
+    ListRadio=AllIcons.map(l=>{
+
+      return(            
+      <div className='' >
+                            <input
+                                  type="radio"
+                                 onClick ={this.addSocialSms(l.name, l.connect_url)}
+                                  value="true"
+                                  id={'sms'+l.name}
+                                /> 
+                                <label for={'sms'+l.name}>
+                                {l.name}
+ 
+   </label>
+   </div>
+   )
+    })
+
+  }
+
+  if(FinalEmailSocial){
+
+    CheckedSocial=FinalEmailSocial.map(c=>{
+
+      return(<div className="raitingcolor">
+      <MDBRow > 
+<MDBCol md='3'>
+<img src={c.icon} className='camp_icon' />
+</MDBCol>
+<MDBCol md='5' className='review_sites_contant'>
+{c.name}
+</MDBCol>
+<MDBCol md='4' style={{padding:'0px'}}>
+<MDBBtn className='write_review_btn'>
+Write A Review
+</MDBBtn>
+</MDBCol>
+</MDBRow>
+        </div>)
+
+    })
+  }
     return (
       <div>
-        {/* <div className="content-page"> */}
-        {/* <div className="container " id="overview-10">
-            <div className="profanalytic">
-              <h3>Enter Campaign Details </h3>
-            </div>
-            <MDBRow>
-              <MDBCol md='8' className='review_container'>
-<MDBRow>
-  <MDBCol md='1' className='step'>
-  Step 01
-  </MDBCol>
-  <MDBCol md='8' className='camp_heading'>
-  Ralting Email And SMS templete
-  </MDBCol>
-  <MDBCol md='3' className="closebox">
-    <i className="zmdi zmdi-close"></i> Close section
-  </MDBCol>
-</MDBRow>
-<MDBRow>
-  <MDBCol md='6'>
-    <div className='camp_subhead1'>
-    From Email
-    </div>
-    <div>
-    <input
-                            type="email"
-                            className="form-control"
-                            placeholder="mohit.chack@digimonk.in"
-                            name="email_from"
-                            onChange={this.changeHandler}
-                            value={email_from}
-                            required
-                          />
-                          <div style={{ color: "red" }}>{email_from_error}</div>
-    </div>
-  </MDBCol>
-  <MDBCol md='6'>
-    <div className='camp_subhead1'>
-    Customer first name
-    </div>
-    <div>
-    <input
-                            type="email"
-                            className="form-control"
-                            placeholder="david"
-                            name="email_from"
-                            onChange={this.changeHandler}
-                            value={email_from}
-                            required
-                          />
-                          <div style={{ color: "red" }}>{email_from_error}</div>
-    </div>
-  </MDBCol>
-</MDBRow>
-              </MDBCol>
-
-              <MDBCol md='4'>
-<div className='review_container'>
-
-</div>
-              </MDBCol>
-            </MDBRow>
-            </div> */}
-
-{/* <MDBRow style={{marginTop:'15px'}}>
-           
-           <MDBCol md='1' className='ap_contant2' style={{marginLeft:'4px',padding:'0px'}}>
-           <Checkbox  name="isEmail" checked={isEmail}   onChange={this.checkBoxHandler} />
-           Email 
-           </MDBCol>
-          
-           
-           <MDBCol md='2' className='ap_contant2'>
-           <Checkbox  name="isSms" checked={isSms}   onChange={this.checkBoxHandler}/>
-           Sms 
-           </MDBCol>
-         </MDBRow> */}
-{/* <input type="checkbox"  name="isEmail" checked={isEmail}   onChange={this.checkBoxHandler}
-            /> Email 
-
-            
-<input type="checkbox"  name="isSms" checked={isSms}   onChange={this.checkBoxHandler}
-            /> Sms  */}
+      
 
 { (Step === 1) ?
         <div className="main_content">
@@ -601,10 +654,10 @@ export default class ReviewGenerationCampaign extends Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="David"
+                            placeholder="abc@dashify.biz"
                             name="ReplyTo"
                             onChange={this.changeHandler}
-                            // value={campaign_name}
+                           value={ReplyTo}
                             required
                           />
                           <div style={{ color: "red" }}>
@@ -621,7 +674,8 @@ export default class ReviewGenerationCampaign extends Component {
                             placeholder="Your Experiece matters"
                             name="EmailSubject"
                             onChange={this.changeHandler}
-                            value={email_subject}
+                            value={EmailSubject}
+
                             required
                           />
                           <div style={{ color: "red" }}>
@@ -639,7 +693,7 @@ export default class ReviewGenerationCampaign extends Component {
                             placeholder="You visited last time"
                             name="email_heading"
                             onChange={this.changeHandler}
-                            // value={campaign_name}
+                            value={email_heading}
                             required
                           />
                           <div style={{ color: "red" }}>
@@ -654,7 +708,7 @@ export default class ReviewGenerationCampaign extends Component {
                   </div>
                     <textarea
                       className="camp_textarea " rows="4" 
-                      // placeholder="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley"
+                      placeholder="Enter here"
                       name="email_content"
                       onChange={this.changeHandler}
                       value={email_content}
@@ -672,57 +726,24 @@ export default class ReviewGenerationCampaign extends Component {
                   <MDBCol md='12' className='camp_contant1'>
                   the vocabulary, and the questions
                   </MDBCol>
-                 
-                  <MDBCol md='5' style={{marginLeft:'-15px'}}>
-    <div className='review_sites_container ' >
-                          <input
-                                type="checkbox"
-                                // onChange={this.checkBoxHandler}
-                                value="true"
-                                id="myCheckbox1"
-                              /> 
-                              <label for="myCheckbox1">
-<MDBRow > 
-<MDBCol md='4' className='no_right_padding'>
-<img src={require("./assets/google_map.png")} className='camp_icon' />
-</MDBCol>
-<MDBCol md='8' className='review_sites_contant'>
-Google Map
-</MDBCol>
- </MDBRow>
- </label>
- </div>
- </MDBCol>
 
- <MDBCol md='5' >
-    <div className='review_sites_container ' >
-                          <input
-                                type="checkbox"
-                                // onChange={}
-                                value="true"
-                                id="myCheckbox2"
-                              /> 
-                              <label for="myCheckbox2">
-<MDBRow > 
-<MDBCol md='4'  className='no_right_padding'>
-<img src={require("./assets/apple_appstore.png")} className='camp_icon' />
-</MDBCol>
-<MDBCol md='8' className='review_sites_contant' style={{paddingLeft:'6px'}}>
-Apple AppStore
-</MDBCol>
- </MDBRow>
- </label>
- </div>
- </MDBCol>
- 
+                  {ListIcons?ListIcons:<div>NO Listing connected</div>}
+                 
+   {hidePlus?             
   <MDBCol md='2'>
     <MDBBtn className="camp_add_btn ">
                                 <i
                                   className="zmdi zmdi-plus"
-                                  onClick={this.add_customWebsite_function}
+                                  onClick={this.addSocialFunc}
                                 ></i>
                              </MDBBtn>
-  </MDBCol>
+  </MDBCol>:""}
+
+  {!hidePlus?             
+  <MDBCol md='2'>
+    <button onClick={this.addSocialFunc} className='campaignClose'> x</button>
+    <input type="text" name="hideName" placeholder="Enter Name" onChange={this.changeHandler} /> <input type="url" name="hideUrl" placeholder="Enter Url" onChange={this.changeHandler} />
+  </MDBCol>:""}
 </MDBRow>
                
 </div>
@@ -740,9 +761,9 @@ Apple AppStore
                         </p>
                       </div>
                       
-                      <div className="raitingcolor">
+                  {email_content?    <div className="raitingcolor">
                         <p>{email_content}</p>
-                        {review_by_google ? (
+                        {/* {review_by_google ? (
                           <div>
                             <br />
                             <img
@@ -805,9 +826,11 @@ Apple AppStore
                           </div>
                         ) : (
                           ""
-                        )}
+                        )} */}
                       </div>
-                      <div className="raitingcolor">
+              :""}
+                      {CheckedSocial}
+                      {/* <div className="raitingcolor">
                       <MDBRow > 
 <MDBCol md='3'>
 <img src={require("./assets/apple_appstore.png")} className='camp_icon' />
@@ -837,7 +860,7 @@ Google Map
   </MDBBtn>
 </MDBCol>
  </MDBRow>
-                        </div>
+                        </div> */}
                     </div>
                   </div>
                 </div>
@@ -862,6 +885,8 @@ Google Map
                    ></textarea>
                    <div style={{ color: "red" }}>{sms_content_error}</div>
                  </div>
+
+                 {ListRadio}
 
              </div>
              
@@ -1027,7 +1052,18 @@ Google Map
 
         { (Step === 2) ?
 
-        <CampaignPart2  step_2_1={this.step_2_1}  isEmail={isEmail} isSms={isSms} />
+        <CampaignPart2 
+         step_2_1={this.step_2_1}
+           isEmail={isEmail}
+            isSms={isSms}
+            FinalEmailSocial={FinalEmailSocial}
+            FinalSmsSocial={FinalSmsSocial}
+            ReplyTo ={ReplyTo}
+EmailSubject={EmailSubject}
+email_heading={email_heading}
+email_content={email_content}
+sms_content={sms_content}
+            />
         :""}
 
         {/* </div> */}
