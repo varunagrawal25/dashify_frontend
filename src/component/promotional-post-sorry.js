@@ -7,14 +7,14 @@ export default class PromotionalPostSorry extends Component {
         {/* <div className="content-page"> */}
 
         <div className="main_content">
-          <div className="rightside_title">
+          {/* <div className="rightside_title">
             <h1>Review Generation Stats </h1>
-          </div>
+          </div> */}
           <div className="mb-30">
             <div className="row">
               <div className="col-md-12">
                 <div className="analytics-whice">
-                  <div className="box-space ">
+                  {/* <div className="box-space ">
                     <h2 className="analytics_btnx">
                       Campaign list
                       <div className="camgianbox">
@@ -42,13 +42,13 @@ export default class PromotionalPostSorry extends Component {
                         </a>
                       </div>
                     </h2>
-                  </div>
+                  </div> */}
                   <div className="promotional-box text-center selectedbx">
                     <img src={require("../images/campain-img.jpg")} />
                     <h2>Sorry!</h2>
                     <p>
                       No Review Campaigns Available for the selected time
-                      Pericod
+                      Period
                     </p>
                   </div>
                 </div>

@@ -45,7 +45,7 @@ export default class ReviewGenerationStats extends Component {
     monthlyClicked: true,
     yearlyClicked: false,
     campaign_count: "-",
-    AtleastOne:false
+    AtleastOne:true
   };
 
   componentDidMount = () => {
@@ -720,6 +720,8 @@ export default class ReviewGenerationStats extends Component {
 
 
   }
+
+  
   render() {
     let {
       fb_reviews,
@@ -859,24 +861,20 @@ export default class ReviewGenerationStats extends Component {
             })
           }
           console.log(pieGraphData)
-    const dataMock = [
-      { title: "Google", value: 55, color: "#ffb92d" },
-      { title: "Facebook", value: 24, color: "#0460ea" },
-      {
-        title: "Other sites",
-        value: 11,
-        color: "#04e38a"
-      }
-      // { title: "Foursquare", value: foursquare_all_reviews, color: "#04e38a" }
-    ];
+    // const dataMock = [
+    //   { title: "Google", value: 55, color: "#ffb92d" },
+    //   { title: "Facebook", value: 24, color: "#0460ea" },
+    //   {
+    //     title: "Other sites",
+    //     value: 11,
+    //     color: "#04e38a"
+    //   }
+    //   // { title: "Foursquare", value: foursquare_all_reviews, color: "#04e38a" }
+    // ];
     return (
       <div>
-        {this.state.loader ? (
-          <div className="rightside_title">
-            <Spinner />
-          </div>
-        ) : (
-          (AtleastOne)?
+       
+          
           <MDBContainer>
             <MDBRow>
               <MDBCol md="7" className="setting-10">
@@ -910,6 +908,15 @@ export default class ReviewGenerationStats extends Component {
                 </MDBBtn>
               </MDBCol>
             </MDBRow>
+
+            {this.state.loader ? (
+          <div className="rightside_title">
+            <Spinner />
+          </div>
+        ) : (
+            (TotalCampaign === 0)?
+          <PromotionalPostSorry />
+          :<div>
             <MDBRow>
               <MDBCol md="4" className="review_container">
                 
@@ -931,7 +938,7 @@ export default class ReviewGenerationStats extends Component {
                             /> */}
                             {/* pie chart */}
 
-
+                            <div className="whitechart" style={{padding:'28px 45px'}}>
                             <DonutChart
                       legend={false}
                       height={200}
@@ -940,14 +947,15 @@ export default class ReviewGenerationStats extends Component {
                       outerRadius={0.95}
                       innerRadius={0.6}
                       // clickToggle={false}
-                      formatValues={(values, total) =>
-                        `${parseInt((values / total) * 100)}%`
+                      formatValues={(values) =>
+                        `${parseInt((values))}%`
                       }
                       colors={["#8264C6", "#634A9B", "#EB05B8", "#3380cc","red","blue","green","orange"]}
                       strokeColor={"false"}
                       data={pieGraphData}
                       rootProps={{ "data-testid": "1" }}
                     />
+                    </div>
                           </div>
                          
                         {/* ) : (
@@ -1009,7 +1017,7 @@ export default class ReviewGenerationStats extends Component {
               </MDBCol>
               <MDBCol md="8">
                 <div className="review_container">
-                  <MDBRow>
+                  {/* <MDBRow>
                     <MDBCol md='1'>
                     <a onClick={this.dailyLineGraph}
     className={dailyClicked ? "review_period_active" : "review_period"}>Daily</a>
@@ -1029,7 +1037,7 @@ export default class ReviewGenerationStats extends Component {
                     <a  onClick={this.yearlyLineGraph}
     className={yearlyClicked ? "review_period_active" : "review_period"}>Yearly</a>
                       </MDBCol>
-                  </MDBRow> 
+                  </MDBRow>  */}
                       <div>
                         {GraphData  ? (
                           <Chart
@@ -1185,12 +1193,12 @@ export default class ReviewGenerationStats extends Component {
                                   <i className="zmdi zmdi-email"></i>
                                 </span>
                               </MDBCol>
-                              <MDBCol md="5" className="rev_gen_contant1">
+                              {/* <MDBCol md="5" className="rev_gen_contant1">
                                 -{" "}
                                 <span>
                                   <i className="zmdi zmdi-comment-more"></i>
                                 </span>
-                              </MDBCol>
+                              </MDBCol> */}
                               {/* <MDBCol md="6" className="rev_gen_contant3">
                                 <span>+</span>
                                 <span>01.03%</span>
@@ -1207,11 +1215,13 @@ export default class ReviewGenerationStats extends Component {
                 </MDBCol>
               </MDBRow>
             </div>
+          
+            </div>)}
           </MDBContainer>
-        :
-        <PromotionalPostSorry />
         
-        )}
+        
+        
+        
       </div>
     );
   }

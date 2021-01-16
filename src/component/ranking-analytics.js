@@ -6,12 +6,121 @@ import ranking_analytics_img3 from "./assets/ranking_analytics_img3.png";
 import ranking_analytics_img4 from "./assets/ranking_analytics_img4.png";
 import up_arrow from "./assets/up_arrow.png";
 import down_arrow from "./assets/down_arrow_icon.png";
-import left_arrow from "./assets/left_arrow.png";
+import left_arrow from "./assets/left_arrow.png"; 
 import right_arrow from "./assets/right_arrow.png";
 import MaterialTable from 'material-table';
-import MultiTextInput from "./MultiTextInput"
+// import MultipleValueTextInput from 'react-multivalue-text-input';
+// import { WithContext as ReactTags } from 'react-tag-input';
+import { InputTag } from "./MultiTextInput";
+import { Add_Keyword ,Get_Keywords} from "./apis/keyword";
+
+import { secure_pin } from "../config";
+const KeyCodes = {
+  comma: 188,
+  enter: 13,
+};
+// const delimiters = [KeyCodes.comma, KeyCodes.enter];
 export default class RankingAnalytics extends Component {
+
+  constructor(props) {
+    super(props)
+
+    this.handler = this.handler.bind(this)
+    this.state={
+      tags:[]
+    }
+  }
+
+  handler(tag) {
+    console.log("hand",tag)
+    this.setState({
+      tags: tag
+    })
+  }
+
+  submit=e=>{
+    console.log("sub", this.state.tags);
+
+    if(this.state.tags){
+    var keyword_array=[];
+    var arra=this.state.tags;
+
+    arra.map(a=>{
+      keyword_array.push(
+        {
+          "keyword_name":a
+        }
+      )
+    })
+   console.log( keyword_array)
+
+    const data=
+    {
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+      "keyword_array":keyword_array,
+      "import_csv":false,"csv_file":"base64"}
+
+    Add_Keyword(data).then(resp=>{
+      console.log( resp);
+      const data=
+      {
+        secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+      }
+      Get_Keywords(data).then(resp=>{
+        console.log( resp)
+        this.setState({
+          AllKey:resp.data.keyword_list
+        })
+      })
+      .catch(resp=>{
+  
+      })
+
+    })
+    .catch(resp=>{
+
+    })
+
+  }
+  }
+
+  componentDidMount(){
+    const data=
+    {
+      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
+    }
+    Get_Keywords(data).then(resp=>{
+      console.log( resp)
+      this.setState({
+        AllKey:resp.data.keyword_list
+      })
+    })
+    .catch(resp=>{
+
+    })
+  }
+   
   render() {
+
+    var  {AllKey } = this.state;
+    var AllKeywords=[];
+    if(AllKey){
+     AllKey.map(k=>{
+
+     var temp=   { keyword: k.keyword,
+        google_local_rank:'No Match', 
+        google_organic_rank: 'No Match', 
+        bing_search_rank: 'No Match' ,
+        yahoo_search_rank:'No Match'}
+
+        AllKeywords.push(temp)
+      
+      }
+      )
+    }
+    // console.log("inp", InputTag.relo)
+
+    console.log("inp", this.state.tags)
     return (
       <div>
         <MDBContainer id='rankana'>
@@ -51,7 +160,7 @@ export default class RankingAnalytics extends Component {
                 <button
                   type="button"
                   className="modal_header_icon"
-                  data-dismiss="modal"
+                  data-dismiss="modal" 
                 >
                   &times;
                 </button>
@@ -61,8 +170,16 @@ export default class RankingAnalytics extends Component {
         <div class="modal-body" >
 <MDBRow className='raModal_head'>
   Enter keywords that you would like for us to monitor your rankings for
-</MDBRow>
-<MDBRow>
+<InputTag  handler={this.handler}/>
+  {/* <ReactTags 
+  tags={tags}
+                   suggestions={suggestions}
+                   handleDelete={this.handleDelete} 
+                   handleAddition={this.handleAddition}
+                   handleDrag={this.handleDrag}
+                    delimiters={delimiters} />    */}
+</MDBRow> 
+<MDBRow> 
 
 </MDBRow>
 
@@ -81,7 +198,7 @@ export default class RankingAnalytics extends Component {
 </div>
 <MDBRow>
   <MDBCol md='3'>
-  <MDBBtn className="cp_btn" > 
+  <MDBBtn className="cp_btn"  onClick={this.submit}> 
            Submit Keywords
             </MDBBtn>
   </MDBCol>
@@ -269,26 +386,28 @@ export default class RankingAnalytics extends Component {
         { title: 'Bing Search Rank', field: 'bing_search_rank'},
         { title: 'Yahoo Search Rank', field: 'yahoo_search_rank' },
       ]}
-      data={[
-        { keyword: 'Italian Pizza Midtown',
-        google_local_rank:'No Match', 
-        google_organic_rank: 'No Match', 
-        bing_search_rank: 'No Match' ,
-        yahoo_search_rank:'No Match'},
-      
-        { keyword: 'Marinara Pizza Midtown',
-        google_local_rank:'No Match', 
-        google_organic_rank: 'No Match', 
-        bing_search_rank: 'No Match' ,
-        yahoo_search_rank:'No Match'},
 
-        { keyword: 'Pizza King Dhanamandi',
-        google_local_rank:'No Match', 
-        google_organic_rank: 'No Match', 
-        bing_search_rank: 'No Match' ,
-        yahoo_search_rank:'No Match'},
+      data={AllKeywords?AllKeywords:[]}
+      // data={[
+      //   { keyword: 'Italian Pizza Midtown',
+      //   google_local_rank:'No Match', 
+      //   google_organic_rank: 'No Match', 
+      //   bing_search_rank: 'No Match' ,
+      //   yahoo_search_rank:'No Match'},
+      
+      //   { keyword: 'Marinara Pizza Midtown',
+      //   google_local_rank:'No Match', 
+      //   google_organic_rank: 'No Match', 
+      //   bing_search_rank: 'No Match' ,
+      //   yahoo_search_rank:'No Match'},
+
+      //   { keyword: 'Pizza King Dhanamandi',
+      //   google_local_rank:'No Match', 
+      //   google_organic_rank: 'No Match', 
+      //   bing_search_rank: 'No Match' ,
+      //   yahoo_search_rank:'No Match'},
        
-      ]}
+      // ]}
       options={{
         disableGutters:true,
         varient:false,

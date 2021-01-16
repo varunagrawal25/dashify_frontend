@@ -1,3 +1,65 @@
+import React, { Component } from "react";
+export class InputTag extends React.Component {
+    constructor() {
+      super();
+      
+      this.state = {
+        tags: [
+          
+        ]
+      };
+
+    
+    
+       
+ 
+    
+    }
+    
+    removeTag =async (i) => {
+      const newTags = [ ...this.state.tags ];
+      newTags.splice(i, 1);
+      await this.setState({ tags: newTags });
+      this.props.handler(this.state.tags)
+    }
+  
+    inputKeyDown =async ( e) => {
+      const val = e.target.value;
+      if (e.key === 'Enter' && val) {
+        if (this.state.tags.find(tag => tag.toLowerCase() === val.toLowerCase())) {
+          return;
+        }
+       await this.setState({ tags: [...this.state.tags, val]});
+        this.tagInput.value = null;
+      } else if (e.key === 'Backspace' && !val) {
+      await  this.removeTag(this.state.tags.length - 1);
+      }
+      this.props.handler(this.state.tags)
+    }
+   
+  
+    render() {
+      const { tags } = this.state;
+  
+      return (
+        <div className="input-tag">
+          <ul className="input-tag__tags">
+            { tags.map((tag, i) => (
+              <li key={tag}>
+                {tag}
+                <button type="button" onClick={() => { this.removeTag(i); }}>+</button>
+              </li>
+            ))}
+            <li className="input-tag__tags__input"><input type="text" onKeyDown={this.inputKeyDown} ref={c => { this.tagInput = c; }} /></li>
+          </ul>
+        </div>
+      );
+    }
+  }
+  
+  
+  
+
 // import * as React from 'react';
 // import { ReactMultiEmail, isEmail } from 'react-multi-email';
 // import 'react-multi-email/style.css';
