@@ -85,7 +85,9 @@ export default class ReviewGenerationStats extends Component {
     }
 
     Review_Generation_Stats(data2).then(resp=>{
-      console.log("lo",resp);
+      console.log("lo",resp); 
+
+      if(resp.data.status === '1')
       this.setState({loader:false, 
         TotalCampaign:resp.data.campaign_list[0].total_campaign,
         OverallRating:resp.data.campaign_list[0].Overall_rating,
@@ -98,6 +100,9 @@ export default class ReviewGenerationStats extends Component {
 
       
       })
+      else{
+        this.setState({loader:false})
+      }
 
 
       })
@@ -762,7 +767,7 @@ export default class ReviewGenerationStats extends Component {
     console.log("this.state", this.state);
 
     var GraphData=  [
-      ["x", "Reviews", "Compaign"]
+      
      
     
     
@@ -772,6 +777,7 @@ export default class ReviewGenerationStats extends Component {
         if(GraphChart.length>GraphChartCampaign.length){
 
           GraphChart.map(g=>{
+            GraphData.push(["x", "Reviews", "Compaign"])
 
             GraphChartCampaign.map(c=>{
               
@@ -792,6 +798,7 @@ export default class ReviewGenerationStats extends Component {
         else{
 
           GraphChartCampaign.map(g=>{
+            GraphData.push(["x",  "Compaign","Reviews"])
 
             GraphChart.map(c=>{
               

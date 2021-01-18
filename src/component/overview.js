@@ -836,7 +836,7 @@ if(e){
           date=date.slice(0,7);
         }
         else if(dura === "last month"){
-          date=date.slice(0,47);
+          date=date.slice(0,30);
         }
         else if(dura === "last 3 months"){
           date=date.slice(0,90);

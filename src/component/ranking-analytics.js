@@ -15,6 +15,7 @@ import { InputTag } from "./MultiTextInput";
 import { Add_Keyword ,Get_Keywords} from "./apis/keyword";
 
 import { secure_pin } from "../config";
+import { Link } from "react-router-dom";
 const KeyCodes = {
   comma: 188,
   enter: 13,
@@ -27,7 +28,9 @@ export default class RankingAnalytics extends Component {
 
     this.handler = this.handler.bind(this)
     this.state={
-      tags:[]
+      tags:[],
+      CsvFile:'',
+      isCsv:false
     }
   }
 
@@ -56,10 +59,14 @@ export default class RankingAnalytics extends Component {
 
     const data=
     {
-      secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
+      secure_pin,
+      "user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
       "keyword_array":keyword_array,
-      "import_csv":false,"csv_file":"base64"}
 
+      "import_csv":this.state.isCsv,
+      "csv_file":this.state.CsvFile
+    }
+    console.log("data",data)
     Add_Keyword(data).then(resp=>{
       console.log( resp);
       const data=
@@ -99,8 +106,20 @@ export default class RankingAnalytics extends Component {
 
     })
   }
+
+  onUploadCsv=event=>{
+    let files = event.target.files;
+    let reader = new FileReader();
+    reader.readAsDataURL(files[0]);
+    reader.onload = e => {
+      this.setState({ CsvFile: (e.target.result), isCsv:true });
+
+      console.log((e.target.result))
+    };
+  }
    
   render() {
+    console.log(this.state)
 
     var  {AllKey } = this.state;
     var AllKeywords=[];
@@ -190,11 +209,11 @@ export default class RankingAnalytics extends Component {
   <MDBRow >
     <MDBCol md='8' className='raModal_contant'>
       Or, upload csv containing keywords.<br/>
-    <span style={{color:'#5d80e2'}}>Check Sample</span>
+    <span style={{color:'#5d80e2'}}> <a href="/csv/keyword.csv" target="_blank" rel="noopener noreferrer" download> Check Sample</a></span>
     </MDBCol>
     <MDBCol md='4'>
       <MDBBtn>
-        <input type='file' title='Upload file'/>
+        <input type='file' title='Upload file' onChange={this.onUploadCsv}/>
       </MDBBtn>
     </MDBCol>
   </MDBRow>

@@ -106,10 +106,10 @@ export default class ReviewGenerationCampaign extends Component {
     var {
       campaign_name,
       email_from,
-      email_replyto,
+      ReplyTo,
       all_site_name,
       all_site_url,
-      email_subject,
+      EmailSubject,
       email_heading,
       email_content,
       sms_content,
@@ -170,7 +170,7 @@ export default class ReviewGenerationCampaign extends Component {
       });
       isError = true;
     }
-    if (!email_replyto && this.state.isEmail) {
+    if (!ReplyTo && this.state.isEmail) {
       this.setState({
         reply_to_error: "Reply to can not be empty",
         wrong: "Above fields are empty or invalid"
@@ -178,7 +178,7 @@ export default class ReviewGenerationCampaign extends Component {
       isError = true;
     }
 
-    if (!emailReg.test(email_replyto) && this.state.isEmail) {
+    if (!emailReg.test(ReplyTo) && this.state.isEmail) {
       this.setState({
         reply_to_error: "Enter valid email",
         wrong: "Above fields are empty or invalid"
@@ -201,7 +201,7 @@ export default class ReviewGenerationCampaign extends Component {
       isError = true;
     }
 
-    if (!email_subject && this.state.isEmail) {
+    if (!EmailSubject && this.state.isEmail) {
       this.setState({
         email_sub_error: "Email Subject can not be empty",
         wrong: "Above fields are empty or invalid"
@@ -215,7 +215,7 @@ export default class ReviewGenerationCampaign extends Component {
       });
       isError = true;
     }
-if(emailReg.test(email_replyto) && email_subject && email_heading && email_content){
+if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
   isError = false
 }
     if(!isError){
@@ -228,94 +228,94 @@ if(emailReg.test(email_replyto) && email_subject && email_heading && email_conte
 
       this.setState({ loading: true });
 
-      Object.values(all_site_url).map((value, i) => {
-        if (i == 0) {
-          additional_link_image1 =
-            '<br /><img src="https://img.techpowerup.org/200624/t-logo.jpg" alt="Review" height=100 width=100 /><p>' +
-            all_site_name[i] +
-            "</p><br /><button><a href=" +
-            all_site_url[i] +
-            ">Review</a></button>";
-        }
-        if (i == 1) {
-          additional_link_image2 =
-            "<br /><h1>" +
-            all_site_name[i] +
-            "</h1><br /><button><a href=" +
-            all_site_url[i] +
-            ">Review</a></button>";
-        }
-      });
+      // Object.values(all_site_url).map((value, i) => {
+      //   if (i == 0) {
+      //     additional_link_image1 =
+      //       '<br /><img src="https://img.techpowerup.org/200624/t-logo.jpg" alt="Review" height=100 width=100 /><p>' +
+      //       all_site_name[i] +
+      //       "</p><br /><button><a href=" +
+      //       all_site_url[i] +
+      //       ">Review</a></button>";
+      //   }
+      //   if (i == 1) {
+      //     additional_link_image2 =
+      //       "<br /><h1>" +
+      //       all_site_name[i] +
+      //       "</h1><br /><button><a href=" +
+      //       all_site_url[i] +
+      //       ">Review</a></button>";
+      //   }
+      // });
 
-      var message_content;
+      // var message_content;
 
-      const google_link =
-        "https://search.google.com/local/writereview?placeid=" + google_placeid;
-      const apple_link =
-        "https://apps.apple.com/us/app/appname/id" +
-        appleId +
-        "?action=write-review";
-      console.log("google_link", google_link);
-      const google_link_image =
-        '<br /><img src="https://img.techpowerup.org/200617/googlemap.png" alt="Google Map" height=100 width=100 /><p>Google</p><br /><button><a href=' +
-        google_link +
-        ">Review</a></button>";
+      // const google_link =
+      //   "https://search.google.com/local/writereview?placeid=" + google_placeid;
+      // const apple_link =
+      //   "https://apps.apple.com/us/app/appname/id" +
+      //   appleId +
+      //   "?action=write-review";
+      // console.log("google_link", google_link);
+      // const google_link_image =
+      //   '<br /><img src="https://img.techpowerup.org/200617/googlemap.png" alt="Google Map" height=100 width=100 /><p>Google</p><br /><button><a href=' +
+      //   google_link +
+      //   ">Review</a></button>";
 
-      const apple_link_image =
-        '<br /><img src="https://img.techpowerup.org/200623/apple.png" alt="Apple" height=100 width=100 /><p>Apple</p><br /><button><a href=' +
-        apple_link +
-        ">Review</a></button>";
+      // const apple_link_image =
+      //   '<br /><img src="https://img.techpowerup.org/200623/apple.png" alt="Apple" height=100 width=100 /><p>Apple</p><br /><button><a href=' +
+      //   apple_link +
+      //   ">Review</a></button>";
 
-      message_content =
-        '<div style="background-color: lightgrey;padding: 25px;margin: 20px;"><div style="background-color: white;padding: 25px;margin: 20px;"><p>Hi,</p><b>' +
-        email_heading +
-        "</b></div><br /><div background-color: white;padding: 25px;margin: 20px;><p>" +
-        email_content +
-        "</p>";
+      // message_content =
+      //   '<div style="background-color: lightgrey;padding: 25px;margin: 20px;"><div style="background-color: white;padding: 25px;margin: 20px;"><p>Hi,</p><b>' +
+      //   email_heading +
+      //   "</b></div><br /><div background-color: white;padding: 25px;margin: 20px;><p>" +
+      //   email_content +
+      //   "</p>";
 
-      if (review_by_google) {
-        message_content += google_link_image;
-      }
-      if (review_by_apple) {
-        message_content += apple_link_image;
-      }
-      message_content +=
-        additional_link_image1 + additional_link_image2 + "</div></div>";
+      // if (review_by_google) {
+      //   message_content += google_link_image;
+      // }
+      // if (review_by_apple) {
+      //   message_content += apple_link_image;
+      // }
+      // message_content +=
+      //   additional_link_image1 + additional_link_image2 + "</div></div>";
 
-      const campaign_data = {
-        Title: campaign_name,
-        Sent_from: email_from,
-        replay_to: email_replyto,
-        message: message_content,
-        sms_message: sms_content,
-        location_id: this.props.match.params.locationId,
-        Image: "",
-        Extera_data: "",
-        Head: email_heading,
-        Subject: email_subject
-      };
+      // const campaign_data = {
+      //   Title: campaign_name,
+      //   Sent_from: email_from,
+      //   replay_to: email_replyto,
+      //   message: message_content,
+      //   sms_message: sms_content,
+      //   location_id: this.props.match.params.locationId,
+      //   Image: "",
+      //   Extera_data: "",
+      //   Head: email_heading,
+      //   Subject: email_subject
+      // };
 
-      Axios.post(
-        "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/campaign/add-campaign",
-        campaign_data,
-        DjangoConfig
-      )
-        .then(resp => {
-          console.log("Campaign added", resp.data);
-          if (resp.data.message == "Campaign create successfully.") {
-            this.setState({ loading: false });
-            this.props.history.push({
-              pathname: `campaignpart2/${resp.data.campain_id}`
-            });
-          } else {
-            console.log("Campaign adding error", resp);
-            this.setState({ wrong: "Something went wrong", loading: false });
-          }
-        })
-        .catch(resp => {
-          console.log("Campaign adding error", resp);
-          this.setState({ wrong: "Server error", loading: false });
-        });
+      // Axios.post(
+      //   "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/campaign/add-campaign",
+      //   campaign_data,
+      //   DjangoConfig
+      // )
+      //   .then(resp => {
+      //     console.log("Campaign added", resp.data);
+      //     if (resp.data.message == "Campaign create successfully.") {
+      //       this.setState({ loading: false });
+      //       this.props.history.push({
+      //         pathname: `campaignpart2/${resp.data.campain_id}`
+      //       });
+      //     } else {
+      //       console.log("Campaign adding error", resp);
+      //       this.setState({ wrong: "Something went wrong", loading: false });
+      //     }
+      //   })
+      //   .catch(resp => {
+      //     console.log("Campaign adding error", resp);
+      //     this.setState({ wrong: "Server error", loading: false });
+      //   });
     }
   };
 
@@ -766,9 +766,9 @@ Write A Review
                             type="text"
                             className="form-control"
                             placeholder="abc@dashify.biz"
-                            name="email_replyto"
+                            name="ReplyTo"
                             onChange={this.changeHandler}
-                           value={email_replyto}
+                           value={ReplyTo}
                             required
                           />
                           <div className="err_msg">
@@ -783,9 +783,9 @@ Write A Review
                             type="text"
                             className="form-control"
                             placeholder="Your Experiece matters"
-                            name="email_subject"
+                            name="EmailSubject"
                             onChange={this.changeHandler}
-                            value={email_subject}
+                            value={EmailSubject}
 
                             required
                           />

@@ -4,6 +4,7 @@ import Axios from "axios";
 import swal from "sweetalert";
 import { Add_Campaign } from "./apis/review";
 import {secure_pin} from "../config"
+import { isEmail } from "react-multi-email";
 const DjangoConfig = {
   headers: {
     Authorization: "Token " + localStorage.getItem("UserToken")
@@ -546,6 +547,7 @@ export default class CampaignPart2 extends Component {
    
 
   }
+  
   onUploadCsv=event=>{
     let files = event.target.files;
     let reader = new FileReader();
@@ -573,8 +575,11 @@ export default class CampaignPart2 extends Component {
       wrong,
       loading,
       CustomerLoop,
-      FinalCustomers
+      FinalCustomers,
+     
     } = this.state;
+    var { isEmail,
+      isSms}= this.props
 
 
     var l;
@@ -608,7 +613,7 @@ export default class CampaignPart2 extends Component {
                           </div>
                         </div>
                     
-                        <div className="col-md-6 camp_margin2">
+                       {isEmail? <div className="col-md-6 camp_margin2">
                           <div>
                           <div className='camp_subhead1'>Customer Email </div>
                           <input
@@ -619,7 +624,8 @@ export default class CampaignPart2 extends Component {
                           />
                           </div>
                         </div>
-                        <div className="col-md-6 camp_margin2">
+                        :""}
+                        {isSms ?<div className="col-md-6 camp_margin2">
                           <div>
                           <div className='camp_subhead1'> Phone Number</div>
                           <input
@@ -630,6 +636,7 @@ export default class CampaignPart2 extends Component {
                           />
                           </div>
                         </div>
+                        :""}
                       
                     </div>
                   </div>
@@ -712,9 +719,10 @@ export default class CampaignPart2 extends Component {
                         <img src={require("./assets/csv.png")} alt="csv" />
                       </div>
                       <div >
-                        <button className="download_btn">
+                      <a className="download_btn" href="/csv/emailsms.csv" target="_blank" rel="noopener noreferrer" download>
                           Download Simple
-                        </button>
+                     
+                        </a>
                       </div>
                       <div className="uploadbox">
                           <button className="upload_btn">Upload CSV</button>

@@ -118,7 +118,7 @@ console.log("instadata",data)
               <p>
                 <label htmlFor="password">User Email</label>
                 <input
-                  type="password"
+                  type="email"
                   name="userEmail"
                   onChange={e => this.setState({ userEmail: e.target.value })}
                 />
