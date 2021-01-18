@@ -13,6 +13,7 @@ import swal from "sweetalert";
 import Moment from 'moment';
 import Spinner from "./common/Spinner";
 import Axios from "axios";
+import Cropper from "./utils/cropper";
 // import DatePicker from "react-datepicker";
 // import "react-datepicker/dist/react-datepicker.css";
 export default class promotional_post extends Component {
@@ -1602,6 +1603,20 @@ Promotional_by_id(data)
       // console.log(filteredData)
 
     }
+    uploadUserImage=image=>{
+      console.log("image", image);
+      
+      var ob={"promotional_image":image}
+
+      this.setState({ otherImages: this.state.otherImages.concat(ob) });
+
+   // var locationId = this.props.match.params.locationId;
+  
+    this.setState({ otherImagesLoading: true , CropperActive:false});
+
+    }
+
+    OnImgClick=e=>{this.setState({CropperActive:true})}
 
   render() {
    
@@ -1907,6 +1922,8 @@ N/A
         </div>
         
         <div class="modal-body" >
+       {this.state.CropperActive? <Cropper uploadUserImage={this.uploadUserImage} />
+          :""}
           
           <div className="breadcrumb-menu" style={{margin:'0px' ,marginBottom:'30px'}}>
             {/* <MDBRow className="nav nav-tabs nav-justified">
@@ -1945,12 +1962,12 @@ N/A
            <MDBRow >
                             <MDBCol md="2" className="ap_image">
                               <span>
-                                <i className="zmdi zmdi-plus"></i>
-                                <input
+                                <i className="zmdi zmdi-plus" onClick={this.OnImgClick}></i>
+                                {/* <input
                                   type="file"
                                   name="otherImages"
                                   onChange={this.onUploadOtherImage}
-                                />
+                                /> */}
                               </span>
                             </MDBCol>
                                 {AllImg}
