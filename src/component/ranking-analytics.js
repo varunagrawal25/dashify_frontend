@@ -168,9 +168,10 @@ export default class RankingAnalytics extends Component {
 
         
         <div class="modal-body" >
+          <div>
 <MDBRow className='raModal_head'>
   Enter keywords that you would like for us to monitor your rankings for
-<InputTag  handler={this.handler}/>
+
   {/* <ReactTags 
   tags={tags}
                    suggestions={suggestions}
@@ -179,6 +180,8 @@ export default class RankingAnalytics extends Component {
                    handleDrag={this.handleDrag}
                     delimiters={delimiters} />    */}
 </MDBRow> 
+<div><InputTag  handler={this.handler}/></div>
+</div>
 <MDBRow> 
 
 </MDBRow>

@@ -23,12 +23,9 @@ export default class ReviewGenerationCampaign extends Component {
     all_site_name: {},
     all_site_url: {},
     email_subject: "",
-    email_heading:
-      "",
-    email_content:
-      "",
-    sms_content:
-      "",
+    email_heading: "",
+    email_content: "",
+    sms_content:"",
     review_by_google: false,
     review_by_apple: false,
     active_social_platform: 0,
@@ -38,15 +35,20 @@ export default class ReviewGenerationCampaign extends Component {
     appleId: "",
     campaign_name_error: "",
     email_from_error: "",
-    email_replyto_error: "",
+    reply_to_error: "",
+    email_sub_error: "",
+    email_head_error:"",
     email_content_error: "",
     sms_content_error: "",
+    sms_review_sites_error:"",
+    email_review_sites_error:"",
     wrong: "",
     loading: false,
     Step:1,
     isEmail:true,
     isSms:false,
     FinalEmailSocial:[],
+    FinalSmsSocial:[],
     hidePlus:true
   };
 
@@ -99,7 +101,7 @@ export default class ReviewGenerationCampaign extends Component {
 
   submitHandler = event => {
     event.preventDefault();
-    this.setState({ Step: 2 });
+    
 
     var {
       campaign_name,
@@ -117,7 +119,7 @@ export default class ReviewGenerationCampaign extends Component {
       appleId,
 
       ReplyTo,
-      email_subject,
+      
       EmailHeading
     } = this.state;
 
@@ -126,9 +128,13 @@ export default class ReviewGenerationCampaign extends Component {
     this.setState({
       campaign_name_error: "",
       email_from_error: "",
-      email_replyto_error: "",
+      reply_to_error: "",
+      email_sub_error: "",
+      email_head_error:"",
       email_content_error: "",
       sms_content_error: "",
+      sms_review_sites_error:"",
+      email_review_sites_error:"",
       wrong: ""
     });
 
@@ -149,28 +155,71 @@ export default class ReviewGenerationCampaign extends Component {
     //   });
     //   isError = true;
     // }
-
-    if (!emailReg.test(email_replyto) || email_replyto == "") {
+    
+    if (this.state.FinalSmsSocial.length<1 && this.state.isSms) {
       this.setState({
-        email_replyto_error: "Enter valid email",
+        sms_review_sites_error: "Please choose any one review site",
+        wrong: "Above fields are empty or invalid"
+      });
+      isError = true;
+    }
+    if (this.state.FinalEmailSocial.length<1 && this.state.isEmail) {
+      this.setState({
+        email_review_sites_error: "Please choose atleast one review site",
+        wrong: "Above fields are empty or invalid"
+      });
+      isError = true;
+    }
+    if (!email_replyto && this.state.isEmail) {
+      this.setState({
+        reply_to_error: "Reply to can not be empty",
         wrong: "Above fields are empty or invalid"
       });
       isError = true;
     }
 
-    if (!email_content) {
+    if (!emailReg.test(email_replyto) && this.state.isEmail) {
+      this.setState({
+        reply_to_error: "Enter valid email",
+        wrong: "Above fields are empty or invalid"
+      });
+      isError = true;
+    }
+
+    if (!email_content && this.state.isEmail) {
       this.setState({
         email_content_error: "Email content can not be empty",
         wrong: "Above fields are empty or invalid"
       });
       isError = true;
     }
-    if (!sms_content) {
+    if (!sms_content && this.state.isSms) {
       this.setState({
         sms_content_error: "SMS content can not be empty",
         wrong: "Above fields are empty or invalid"
       });
       isError = true;
+    }
+
+    if (!email_subject && this.state.isEmail) {
+      this.setState({
+        email_sub_error: "Email Subject can not be empty",
+        wrong: "Above fields are empty or invalid"
+      });
+      isError = true;
+    }
+    if (!email_heading && this.state.isEmail) {
+      this.setState({
+        email_head_error: "Email Heading can not be empty",
+        wrong: "Above fields are empty or invalid"
+      });
+      isError = true;
+    }
+if(emailReg.test(email_replyto) && email_subject && email_heading && email_content){
+  isError = false
+}
+    if(!isError){
+      this.setState({ Step: 2 });
     }
 
     if (!isError) {
@@ -482,10 +531,15 @@ export default class ReviewGenerationCampaign extends Component {
       google_placeid,
       appleId,
       campaign_name_error,
+      reply_to_error,
+      email_sub_error,
+      email_head_error,
       email_from_error,
       email_replyto_error,
       email_content_error,
       sms_content_error,
+      email_review_sites_error,
+      sms_review_sites_error,
       wrong,
       loading,
 
@@ -699,9 +753,9 @@ Write A Review
                             value="reviews@dashify.biz"
                             readOnly
                           />
-                          <div style={{ color: "red" }}>
+                          {/* <div className="err_msg">
                             {campaign_name_error}
-                          </div>
+                          </div> */}
                         </div>
                       </div>
 
@@ -712,13 +766,13 @@ Write A Review
                             type="text"
                             className="form-control"
                             placeholder="abc@dashify.biz"
-                            name="ReplyTo"
+                            name="email_replyto"
                             onChange={this.changeHandler}
-                           value={ReplyTo}
+                           value={email_replyto}
                             required
                           />
-                          <div style={{ color: "red" }}>
-                            {campaign_name_error}
+                          <div className="err_msg">
+                            {reply_to_error}
                           </div>
                         </div>
                       </div>
@@ -729,14 +783,14 @@ Write A Review
                             type="text"
                             className="form-control"
                             placeholder="Your Experiece matters"
-                            name="EmailSubject"
+                            name="email_subject"
                             onChange={this.changeHandler}
-                            value={EmailSubject}
+                            value={email_subject}
 
                             required
                           />
-                          <div style={{ color: "red" }}>
-                            {campaign_name_error}
+                          <div className="err_msg">
+                            {email_sub_error}
                           </div>
                         </div>
                       </div>
@@ -753,8 +807,8 @@ Write A Review
                             value={email_heading}
                             required
                           />
-                          <div style={{ color: "red" }}>
-                            {campaign_name_error}
+                          <div className="err_msg">
+                            {email_head_error}
                           </div>
                         </div>
                       </div>
@@ -771,19 +825,21 @@ Write A Review
                       value={email_content}
                       required
                     ></textarea>
-                    <div style={{ color: "red" }}>{email_content_error}</div>
+                    <div className="err_msg">{email_content_error}</div>
                   </div>
                   </div>
                 </div>
 
                 <MDBRow className='blue_container'>
+                
                   <MDBCol md='12' className='camp_heading'>
                   Choose Review Sites
                   </MDBCol>
                   <MDBCol md='12' className='camp_contant1'>
                   the vocabulary, and the questions
                   </MDBCol>
-
+                  <div class="scrollbar" style={{height:'90px',width:'100%',background:'none'}}>
+    <MDBRow class="overflow">
                   {ListIcons?ListIcons:<div>NO Listing connected</div>}
                  
    {hidePlus?             
@@ -795,8 +851,9 @@ Write A Review
                                 ></i>
                              </MDBBtn>
   </MDBCol>:""}
-
-  
+</MDBRow>
+</div>
+<div className="err_msg">{email_review_sites_error}</div>
 </MDBRow>
 {!hidePlus?     
      <div className='hidePlus_box'>
@@ -949,7 +1006,7 @@ Google Map
                      value={sms_content}
                      required
                    ></textarea>
-                   <div style={{ color: "red" }}>{sms_content_error}</div>
+                   <div className="err_msg">{sms_content_error}</div>
                  </div>
                  <MDBRow className='blue_container'>
                   <MDBCol md='12' className='camp_heading'>
@@ -958,7 +1015,12 @@ Google Map
                   <MDBCol md='12' className='camp_contant1'>
                   the vocabulary, and the questions
                   </MDBCol>
+                  <div class="scrollbar" style={{height:'90px',width:'100%',background:'none'}}>
+    <MDBRow class="overflow">
                  {ListRadio}
+                 </MDBRow>
+                 </div>
+                 <div className="err_msg">{sms_review_sites_error}</div>
                  </MDBRow>
 
              </div>
@@ -1008,7 +1070,7 @@ Google Map
                      // timeout={3000} //3 secs
                    />
                  ) : (
-                   <div style={{ color: "red" }}>{wrong}</div>
+                   <div className="err_msg">{wrong}</div>
                  )}
 
                  {/* <button type="submit" className="continue">

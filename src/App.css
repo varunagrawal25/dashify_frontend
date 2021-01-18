@@ -19,7 +19,7 @@ ul.searctbox {
   display: flex;
   align-items: center;
   width: 50%;
-} 
+}
 
 li.menubar {
   text-align: left;
@@ -510,6 +510,7 @@ img {
   color: #eb0558;
   font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .closebox i {
@@ -1420,7 +1421,7 @@ img {
 }
 
 .pp_status_schedule {
-  background:#ff7b00 ;
+  background: #ff7b00;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
   font-family: Roboto;
@@ -14670,26 +14671,26 @@ ul.main-listfive li {
   padding: 5px 15px;
 }
 
-.ra_db{
+.ra_db {
   margin: 10px 0px;
   border: dashed;
   border-color: lightgray;
   padding: 30px 10px;
   border-width: 1px;
 }
-.raModal_head{
+.raModal_head {
   font-family: Roboto;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
   font-weight: 400;
   line-height: 18px;
-  margin-top: 5px;
+  margin: 5px 0px;
   margin-left: 0px;
   color: #000000;
 }
 
-.raModal_contant{
+.raModal_contant {
   font-family: Roboto;
   font-style: normal;
   font-size: 14px;
@@ -14703,7 +14704,7 @@ ul.main-listfive li {
 .pricing_block {
   padding: 0px 12%;
 }
-.hidePlus_box{
+.hidePlus_box {
   background: #ffffff;
   border: 1px solid #fbf6f6;
   box-sizing: border-box;
@@ -15190,7 +15191,6 @@ span.valpromo {
   color: red;
 }
 
-
 .input-tag {
   background: white;
   border: 1px solid #d6d6d6;
@@ -15203,6 +15203,7 @@ span.valpromo {
 .input-tag input {
   border: none;
   width: 100%;
+  padding-left: 8px;
 }
 
 .input-tag__tags {
@@ -15215,15 +15216,15 @@ span.valpromo {
 
 .input-tag__tags li {
   align-items: center;
-  background: #85A3BF;
+  background: #dfe2eb;
   border-radius: 2px;
-  color: white;
+  color: #4f4f4f;
   display: flex;
   font-weight: 300;
   list-style: none;
   margin-bottom: 5px;
   margin-right: 5px;
-  padding: 5px 10px;
+  padding: 2px 10px;
 }
 
 .input-tag__tags li button {
