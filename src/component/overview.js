@@ -418,9 +418,9 @@ export default class Overview extends Component {
           });
         } else {
           this.setState({
-            graph_google_customer_data: graph_google_customer_actions_json(
-              this.state.db_google_range
-            ),
+            // graph_google_customer_data: graph_google_customer_actions_json(
+            //   this.state.db_google_range
+            // ),
             isGoogleLoggedIn: true,
             loading: false
           });
@@ -429,9 +429,9 @@ export default class Overview extends Component {
       .catch(err => {
         console.log("graph google err", err);
         this.setState({
-          graph_google_customer_data: graph_google_customer_actions_json(
-            this.state.db_google_range
-          ),
+          // graph_google_customer_data: graph_google_customer_actions_json(
+          //   this.state.db_google_range
+          // ),
           isGoogleLoggedIn: true,
           loading: false
         });
@@ -836,7 +836,7 @@ if(e){
           date=date.slice(0,7);
         }
         else if(dura === "last month"){
-          date=date.slice(0,30);
+          date=date.slice(0,47);
         }
         else if(dura === "last 3 months"){
           date=date.slice(0,90);

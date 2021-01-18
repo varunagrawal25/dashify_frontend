@@ -13,7 +13,7 @@ export default class PromotionalPostSorry extends Component {
           <div className="mb-30">
             <div className="row">
               <div className="col-md-12">
-                <div className="analytics-whice">
+                <div className="analytics-whice mt-30">
                   {/* <div className="box-space ">
                     <h2 className="analytics_btnx">
                       Campaign list

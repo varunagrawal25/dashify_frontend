@@ -7,8 +7,8 @@ export default class User_profile extends Component {
     // cropper
     src: null,
     crop: {
-      unit: "%",
-      width: 30,
+      unit: "px",
+     
       aspect: 1 / 1
     }
   };
@@ -25,6 +25,8 @@ export default class User_profile extends Component {
             src={src}
             crop={crop}
             ruleOfThirds
+            minWidth={300}
+            minHeight={300}
             onImageLoaded={this.onImageLoaded}
             onComplete={this.onCropComplete}
             onChange={this.onCropChange}

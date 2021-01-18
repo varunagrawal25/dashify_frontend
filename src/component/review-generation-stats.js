@@ -914,6 +914,7 @@ export default class ReviewGenerationStats extends Component {
             <Spinner />
           </div>
         ) : (
+          
             (TotalCampaign === 0)?
           <PromotionalPostSorry />
           :<div>
@@ -1096,7 +1097,7 @@ export default class ReviewGenerationStats extends Component {
                           <MDBCol md="9">
                             <MDBRow>
                               <MDBCol md="5" className="rev_gen_contant1">
-                                {TotalCampaign}
+                                {TotalCampaign?TotalCampaign:"-"}
                               </MDBCol>
                               {/* <MDBCol md="6" className="rev_gen_contant3">
                                 <span>+</span>
