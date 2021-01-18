@@ -14685,7 +14685,7 @@ ul.main-listfive li {
   font-size: 16px;
   font-weight: 400;
   line-height: 18px;
-  margin-top: 5px;
+  margin: 5px 0px;
   margin-left: 0px;
   color: #000000;
 }
@@ -15191,7 +15191,6 @@ span.valpromo {
   color: red;
 }
 
-
 .input-tag {
   background: white;
   border: 1px solid #d6d6d6;
@@ -15204,6 +15203,7 @@ span.valpromo {
 .input-tag input {
   border: none;
   width: 100%;
+  padding-left: 8px;
 }
 
 .input-tag__tags {
@@ -15216,15 +15216,15 @@ span.valpromo {
 
 .input-tag__tags li {
   align-items: center;
-  background: #85A3BF;
+  background: #dfe2eb;
   border-radius: 2px;
-  color: white;
+  color: #4f4f4f;
   display: flex;
   font-weight: 300;
   list-style: none;
   margin-bottom: 5px;
   margin-right: 5px;
-  padding: 5px 10px;
+  padding: 2px 10px;
 }
 
 .input-tag__tags li button {
