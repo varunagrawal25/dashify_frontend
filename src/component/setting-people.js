@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
 import ProfileSettingSidebar from "./setting-sidebar";
+import { Link } from "react-router-dom";
 // import Datatable from './Datatable'
 
 export default class Profile_setting extends Component {
@@ -39,7 +40,8 @@ export default class Profile_setting extends Component {
                   People
                 </MDBCol>
                 <MDBCol md="4">
-                  <MDBBtn id="profile_new_btn">+ Invite New User</MDBBtn>
+                 <Link to="/setting-main/setting-people/invite-new-user"> <MDBBtn id="profile_new_btn">+ Invite New User</MDBBtn>
+                 </Link>
                 </MDBCol>
                 <MDBCol md="4">
                   <MDBBtn id="profile_add_btn">Add Using CSV</MDBBtn>

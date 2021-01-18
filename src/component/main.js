@@ -42,6 +42,7 @@ import HereRelatedLocation from "./here-related-location";
 import TomtomRelatedLocation from "./tomtom-related-location";
 import PageNotFound from "./page-not-found";
 import CommonLogin from "./CommonLogin";
+import InviteNewUser from "./InviteNewUser";
 
 export default class MainApp extends Component {
   render() {
@@ -254,6 +255,12 @@ export default class MainApp extends Component {
                   exact
                   path="/locations/:locationId/overview"
                   render={props => <Overview {...props} />}
+                />
+
+                <Route
+                  exact
+                  path="/setting-main/setting-people/invite-new-user"
+                  render={props => <InviteNewUser {...props} />}
                 />
                 <Route
                   exact

@@ -75,6 +75,31 @@ export default class ReviewAnalytics extends Component {
     zomatoReviews: "-",
   };
 
+
+  fliterUpdate=e=>{
+    const data2={
+      secure_pin,"user_id":localStorage.getItem("UserId") ,
+      "location_id":localStorage.getItem("locationId"),
+      "filter_type":e.target.value
+    };
+
+    review_analytics_by_location(data2).then((response) => {
+      console.log("ana",response);
+
+      this.setState({
+
+        TotalReview:response.data.analytics_data[0].total_reviews,
+        NewReview:response.data.analytics_data[0].new_reviews,
+        AvgRating:response.data.analytics_data[0].average_rating,
+        ReviewResponseRate:response.data.analytics_data[0].review_response_rate,
+
+       AllAnalytics:response.data.reviews_data,
+       Consolidate:response.data.consolidated_data
+
+      })
+    })
+    .catch((error)=>console.log(error))
+  }
   componentDidMount() {
     var today = new Date();
     this.setState({ today });
@@ -167,7 +192,7 @@ export default class ReviewAnalytics extends Component {
         const data2={
           secure_pin,"user_id":localStorage.getItem("UserId") ,
           "location_id":localStorage.getItem("locationId"),
-          "filter_type":"last year"
+          "filter_type":"last week"
         };
 
         review_analytics_by_location(data2).then((response) => {
@@ -1036,24 +1061,43 @@ console.log("colcheck",columnData)
                     <div className="box-space row">
                       <div className="col-md-10 analytics_btnx">Analytics</div>
                       <div className="col-md-2  ">
-                      <select className='review_select_btn ra_drop'>
-                            <option selected >Last 6 Months</option>
-                            <option >Last  Year</option>
-                                </select>
-                        {/* <a
-                          href="#"
-                          className="last_btn dropdown-toggle"
-                          data-toggle="dropdown"
-                        >
-                          <i className="zmdi zmdi-calendar"></i>
-                          Last six month
-                        </a>
-                        <div className="dropdown-menu">
-                          <ul>
-                            <li>Last three month</li>
-                            <li>Last nine month</li>
-                          </ul>
-                        </div> */}
+                      <select className='review_select_btn ra_drop' onChange={this.fliterUpdate} >
+                    
+                              <option selected
+                                value= "last week"
+                              >
+                                Last Week
+                              </option>
+                              <option
+                              value = "last month"
+                              >
+                                Last Month
+                              </option>
+
+                              <option
+                              value= "last 3 months"
+                              >
+                                Last 3 Month
+                              </option>
+
+                              <option
+                              value= "last 6 months"
+                              >
+                                Last 6 Month
+                              </option>
+                              <option
+                              value = "last year"
+                              >
+                                Last Year
+                              </option>
+
+                              <option
+                              value = "all"
+                              >
+                                Lifetime
+                              </option>
+                         </select>
+                        
                       </div>
                     </div>
 

@@ -214,7 +214,7 @@ export default class RankingAnalytics extends Component {
           </div>
           <MDBRow>
             <MDBCol md="8">
-              <div className="review_container"></div>
+              <div className="review_container"> Not enough data for Graph</div>
             </MDBCol>
             <MDBCol md="4">
               <MDBRow>
@@ -299,7 +299,7 @@ export default class RankingAnalytics extends Component {
                     className="ranking_analytics_img"
                   />{" "}
                 </div>
-                <div className="ranking_analytics_contant5">03</div>
+                <div className="ranking_analytics_contant5"> -</div>
                 <div className="ranking_analytics_contant6">
                   Rising Keywords
                 </div>
@@ -317,7 +317,7 @@ export default class RankingAnalytics extends Component {
                     className="ranking_analytics_img"
                   />{" "}
                 </div>
-                <div className="ranking_analytics_contant5">07</div>
+                <div className="ranking_analytics_contant5"> -</div>
                 <div className="ranking_analytics_contant6">
                   Declining Keywords
                 </div>
@@ -335,7 +335,7 @@ export default class RankingAnalytics extends Component {
                     className="ranking_analytics_img"
                   />{" "}
                 </div>
-                <div className="ranking_analytics_contant5">25</div>
+                <div className="ranking_analytics_contant5"> -</div>
                 <div className="ranking_analytics_contant6">Ranking Top 25</div>
                 <div className="ranking_analytics_contant7">
                   Keyword that have moved up in the rank
@@ -351,7 +351,7 @@ export default class RankingAnalytics extends Component {
                     className="ranking_analytics_img"
                   />{" "}
                 </div>
-                <div className="ranking_analytics_contant5">50</div>
+                <div className="ranking_analytics_contant5"> - </div>
                 <div className="ranking_analytics_contant6">Ranking Top 50</div>
                 <div className="ranking_analytics_contant7">
                   Keyword that have moved up in the rank
