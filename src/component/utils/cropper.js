@@ -8,7 +8,7 @@ export default class User_profile extends Component {
     src: null,
     crop: {
       unit: "px",
-     
+      width: 300,
       aspect: 1 / 1
     }
   };
