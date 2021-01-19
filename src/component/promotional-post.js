@@ -138,12 +138,20 @@ console.log("ppk",this.state.promo_list)
         Promotional_Analytics(data2)
         .then(resp => {
           console.log(resp)
+          if(resp.data.message !== 'No data ')
            this.setState({
              ActivePost:resp.data.avtive_posts,
              ExpirePost:resp.data.expire_posts,
             PostClicks: resp.data.post_clicks,
             PostViews: resp.data.post_views,
             SchedulePosts: resp.data.schedule_posts,
+
+            ActivePostPer:resp.data.avtive_posts_per,
+            ExpirePostPer:resp.data.expire_posts_per,
+            PostClicksPer: resp.data.post_clicks_per,
+            PostViewsPer: resp.data.post_views_per,
+            SchedulePostsPer: resp.data.schedule_posts_per,
+
              
             
           }).
@@ -1633,7 +1641,13 @@ Promotional_by_id(data)
      PostClicks,
      PostViews,
      SchedulePosts,
-     ExpirePost }= this.state
+     ExpirePost,
+     ActivePostPer,
+     PostClicksPer,
+     PostViewsPer,
+     SchedulePostsPer,
+     ExpirePostPer,
+     }= this.state
 
 
     var AllImg;
@@ -1705,7 +1719,10 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-<div className='pp_contant_green'>+01.03%</div>
+     {ActivePostPer >=0? <div className='pp_contant_green'>+ {ActivePostPer} %</div>:
+     <div className='pp_contant_red'>- {ActivePostPer} %</div>
+     }
+
   </MDBCol>
 </MDBRow>
 
@@ -1720,7 +1737,10 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-<div className='pp_contant_green'>+01.03%</div>
+  {PostViewsPer >=0? <div className='pp_contant_green'>+ {PostViewsPer} %</div>:
+     <div className='pp_contant_red'>- {PostViewsPer} %</div>
+     }
+
   </MDBCol>
 </MDBRow>
 
@@ -1735,7 +1755,9 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-<div className='pp_contant_red'>-01.03%</div>
+  {PostClicksPer >=0? <div className='pp_contant_green'>+ {PostClicksPer} %</div>:
+     <div className='pp_contant_red'>- {PostClicksPer} %</div>
+     }
   </MDBCol>
 </MDBRow>
 
@@ -1750,7 +1772,9 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-{/* <div className='pp_contant_green'>+01.03%</div> */}
+  {SchedulePostsPer >=0? <div className='pp_contant_green'>+ {SchedulePostsPer} %</div>:
+     <div className='pp_contant_red'>- {SchedulePostsPer} %</div>
+     }
   </MDBCol>
 </MDBRow>
 
@@ -1765,7 +1789,9 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-{/* <div className='pp_contant_green'>+01.03%</div> */}
+  {ExpirePostPer >=0? <div className='pp_contant_green'>+ {ExpirePostPer} %</div>:
+     <div className='pp_contant_red'>- {ExpirePostPer} %</div>
+     }
   </MDBCol>
 </MDBRow>
               </MDBCol>
