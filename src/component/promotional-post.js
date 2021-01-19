@@ -20,7 +20,10 @@ export default class promotional_post extends Component {
 
 state={
   loading:false,
-  otherImages: [],
+  otherImages_event:[],
+  otherImages_promo:[],
+  otherImages_event_get:[],
+  otherImages_promo_get:[],
   otherImagesLoading: false,
   offer_title:'',
   promo_start_date:'',
@@ -47,6 +50,7 @@ state={
   promo_id:'',
   active_status:'active',
   promo_list:[],
+  promo_list_img:[],
   expiry_post:false,
   add_cta:false,
   eshow_err:false,
@@ -376,14 +380,12 @@ draftClicked = () => {
       coupon_code:this.state.coupon_code,
       terms_condi:this.state.terms,
       save_status:'draft',
-      attached_images: this.state.otherImages,
+      attached_images: this.state.otherImages_promo,
       category:this.state.cta_drop,
       link:this.state.cta_url,
       report_expire:this.state.expiry_post,
       cta:this.state.add_cta,
     }
-    console.log("li",this.state.otherImages)
-    console.log("ui",data.attached_images)
     this.setState({
       loading:true
     })
@@ -423,6 +425,7 @@ this.setState({
   terms:'',
   event_title:'',
   event_details:'',
+  otherImages_promo:[]
 })
 
       All_Promotional_list(data)
@@ -452,7 +455,7 @@ this.setState({
       location_id: this.props.match.params.locationId,
       submit_type:this.state.type,
       save_status:'draft',
-      attached_images: this.state.otherImages,
+      attached_images: this.state.otherImages_event,
       start_date:this.state.event_start_date + "T" + this.state.event_start_time,
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
       title:this.state.event_title,
@@ -498,6 +501,7 @@ this.setState({
         terms:'',
         event_title:'',
         event_details:'',
+        otherImages_event:[],
       })
       
       All_Promotional_list(data)
@@ -638,7 +642,7 @@ confirmPost = () => {
      ed_err:""
     })
    }
-   console.log("this.state.active_status",this.state.active_status)
+   console.log("this.state.otherImages_promo",this.state.otherImages_promo)
    if(!this.state.pshow_err && !(this.state.offer_title == "" || this.state.offer_details == "" || this.state.promo_end_date == ""
   || this.state.promo_start_date == "")){
   if(this.state.type=="promotional"){
@@ -655,7 +659,7 @@ confirmPost = () => {
       coupon_code:this.state.coupon_code,
       terms_condi:this.state.terms,
       save_status:this.state.active_status,
-      attached_images: this.state.otherImages,
+      attached_images: this.state.otherImages_promo,
       category:this.state.cta_drop,
       link:this.state.cta_url,
       report_expire:this.state.expiry_post,
@@ -667,6 +671,7 @@ confirmPost = () => {
     this.setState({
       loading:true
     })
+    console.log("datap1",data)
     Add_Promotional(data)
     .then(resp => {
       console.log("redt",resp)
@@ -701,7 +706,8 @@ confirmPost = () => {
         terms:'',
         event_title:'',
         event_details:'',
-        post_schedule_date:''
+        post_schedule_date:'',
+        otherImages_promo:[],
       })
       
       All_Promotional_list(data)
@@ -729,7 +735,7 @@ confirmPost = () => {
       location_id: this.props.match.params.locationId,
       submit_type:this.state.type,
       save_status:this.state.active_status,
-      attached_images: this.state.otherImages,
+      attached_images: this.state.otherImages_event,
       start_date:this.state.event_start_date + "T" + this.state.event_start_time,
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
       title:this.state.event_title,
@@ -778,6 +784,7 @@ confirmPost = () => {
         event_title:'',
         event_details:'',
         post_schedule_date:'',
+        otherImages_event:[],
       })
       
       All_Promotional_list(data)
@@ -931,7 +938,7 @@ editDraftPost = () => {
       coupon_code:this.state.coupon_code,
       terms_condi:this.state.terms,
       save_status:this.state.active_status,
-      attached_images: this.state.otherImages,
+      attached_images: this.state.otherImages_promo_get,
       category:this.state.cta_drop,
       link:this.state.cta_url,
       report_expire:this.state.get_expiry_post,
@@ -986,7 +993,7 @@ editDraftPost = () => {
       promotional_id:this.state.promo_id,
       submit_type:this.state.type,
       save_status:this.state.active_status,
-      attached_images: this.state.otherImages,
+      attached_images: this.state.otherImages_event_get,
       start_date:this.state.event_start_date + "T" + this.state.event_start_time,
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
       title:this.state.event_title,
@@ -1166,7 +1173,7 @@ editConfirmPost = () => {
       coupon_code:this.state.coupon_code,
       terms_condi:this.state.terms,
       save_status:this.state.active_status,
-      attached_images: this.state.otherImages,
+      attached_images: this.state.otherImages_promo_get,
       category:this.state.cta_drop,
       link:this.state.cta_url,
       report_expire:this.state.get_expiry_post,
@@ -1221,7 +1228,7 @@ editConfirmPost = () => {
       promotional_id:this.state.promo_id,
       submit_type:this.state.type,
       save_status:this.state.active_status,
-      attached_images: this.state.otherImages,
+      attached_images: this.state.otherImages_event_get,
       start_date:this.state.event_start_date + "T" + this.state.event_start_time,
       end_date:this.state.event_end_date + "T" + this.state.event_end_time,
       title:this.state.event_title,
@@ -1274,68 +1281,52 @@ editConfirmPost = () => {
 }
 
 
-  onUploadOtherImage = event => {
-    let files = event.target.files;
-    console.log("1i",files)
+//   onUploadOtherImage_promo = event => {
+//     let files = event.target.files;
+//     console.log("1i",files)
     
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    console.log("2i",files[0].name)
-//     var sizeOf = require('image-size');
-//     sizeOf(files[0].name, function (err, dimensions) {
-//       console.log(sizeOf)
-//       console.log("ggd",dimensions);
-//     });
+//     let reader = new FileReader();
+//     reader.readAsDataURL(files[0]);
+//     console.log("2i",files[0].name)
+
+//     reader.onload = e => {
+//         console.log(e.target.result);
+      
+//         var ob={"promotional_image":e.target.result}
+
+       
+// if(this.state.type="promotional"){
+//   this.setState({ otherImages_promo: this.state.otherImages_promo.concat(ob) });
+// }
+//       var locationId = this.props.match.params.locationId;
     
-//     var fs = require('fs');
-// var fileStream = fs.createReadStream('path/to/image.jpg');
- 
-// var createImageSizeStream = require('image-size-stream');
-// var size = createImageSizeStream();
-// size
-// .on('size', function(dimensions) {
-//   console.log(dimensions);
-//   fileStream.destroy();
-// })
-// .on('error', function(err) {
-//   throw err;
-// });
-    reader.onload = e => {
-        console.log(e.target.result);
-        // var sizeOf = require('image-size');
-
-        // var pixels = require('image-pixels')
-        // // load single source
-        // var {data, width, height} =  pixels('e.target.result')
-        // console.log("data",data)
-        // console.log("width",width)
-        // console.log("height",height)
-
-
-          // image.onload = function () {
-          //           var height = this.height;
-          //           var width = this.width;
-          //           if (height > 100 || width > 100) {
-          //               alert("Height and Width must not exceed 100px.");
-          //               return false;
-          //           }
-          //           alert("Uploaded image has valid Height and Width.");
-          //           return true;
-          //       };
-
-
-        var ob={"promotional_image":e.target.result}
-
-        this.setState({ otherImages: this.state.otherImages.concat(ob) });
-
-      var locationId = this.props.match.params.locationId;
+//       this.setState({ otherImagesLoading: true });
     
-      this.setState({ otherImagesLoading: true });
-    
+//     };
+//   };
 
-     
-    };
-  };
+//   onUploadOtherImage_event = event => {
+//     let files = event.target.files;
+//     console.log("1i",files)
+    
+//     let reader = new FileReader();
+//     reader.readAsDataURL(files[0]);
+//     console.log("2i",files[0].name)
+
+//     reader.onload = e => {
+//         console.log(e.target.result);
+      
+//         var ob={"promotional_image":e.target.result}
+// if(this.state.type="event"){
+//   this.setState({ otherImages_event: this.state.otherImages_event.concat(ob) });
+// }   
+
+//       var locationId = this.props.match.params.locationId;
+    
+//       this.setState({ otherImagesLoading: true });
+    
+//     };
+//   };
 
   delete_other_images= image_id => {
 
@@ -1417,8 +1408,8 @@ Promotional_by_id(data)
       get_expiry_post:promodata.promotional_details[0].report_expire,
       get_add_cta:promodata.promotional_details[0].cta,
     promo_id:promodata.promotional_details[0].id,
-    post_schedule_date:promodata.promotional_details[0].schedule_date
-    
+    post_schedule_date:promodata.promotional_details[0].schedule_date,
+    otherImages_event_get:promodata.promotional_gallery
     })
     if(promodata.promotional_details[0].schedule_date){
       this.setState({
@@ -1469,7 +1460,8 @@ Promotional_by_id(data)
       get_expiry_post:promodata.promotional_details[0].report_expire,
       get_add_cta:promodata.promotional_details[0].cta,
       promo_id:promodata.promotional_details[0].id,
-      post_schedule_date:promodata.promotional_details[0].schedule_date
+      post_schedule_date:promodata.promotional_details[0].schedule_date,
+      otherImages_promo_get:promodata.promotional_gallery
     
     
     })
@@ -1611,20 +1603,68 @@ Promotional_by_id(data)
       // console.log(filteredData)
 
     }
-    uploadUserImage=image=>{
+    uploadUserImage_event=image=>{
       console.log("image", image);
       
       var ob={"promotional_image":image}
 
-      this.setState({ otherImages: this.state.otherImages.concat(ob) });
-
+      
+        this.setState({ otherImages_event: this.state.otherImages_event.concat(ob) });
+      
    // var locationId = this.props.match.params.locationId;
   
-    this.setState({ otherImagesLoading: true , CropperActive:false});
+    this.setState({ otherImagesLoading: true, CropperActive_event:false , CropperActive_promo:false});
 
     }
 
-    OnImgClick=e=>{this.setState({CropperActive:true})}
+    uploadUserImage_promo=image=>{
+      console.log("image", image);
+      
+      var ob={"promotional_image":image}
+             
+    
+        this.setState({ otherImages_promo: this.state.otherImages_promo.concat(ob) });
+
+   // var locationId = this.props.match.params.locationId;
+  
+    this.setState({ otherImagesLoading: true, CropperActive_event:false , CropperActive_promo:false});
+
+    }
+
+    uploadUserImage_event_get=image=>{
+      console.log("image", image);
+      
+      var ob={"promotional_image":image}
+
+      
+        this.setState({ otherImages_event_get: this.state.otherImages_event_get.concat(ob) });
+      
+
+   // var locationId = this.props.match.params.locationId;
+  
+    this.setState({ otherImagesLoading: true, CropperActive_event_get:false , CropperActive_promo_get:false});
+
+    }
+
+    uploadUserImage_promo_get=image=>{
+      console.log("image", image);
+      
+      var ob={"promotional_image":image}
+             
+    
+        this.setState({ otherImages_promo_get: this.state.otherImages_promo_get.concat(ob) });
+  
+    this.setState({ otherImagesLoading: true, CropperActive_event_get:false , CropperActive_promo_get:false});
+
+    }
+
+    OnImgClick_promo=e=>{this.setState({CropperActive_promo:true})}
+
+    OnImgClick_event=e=>{this.setState({CropperActive_event:true})}
+
+    OnImgClick_promo_get=e=>{this.setState({CropperActive_promo_get:true})}
+
+    OnImgClick_event_get=e=>{this.setState({CropperActive_event_get:true})}
 
   render() {
    
@@ -1634,8 +1674,10 @@ Promotional_by_id(data)
     console.log("state",this.state);
     var pi = this.state.promo_list[0]
     console.log("kk",pi)
-    var OtherImages=this.state.otherImages;
-
+    var otherImages_promo=this.state.otherImages_promo;
+    var otherImages_event=this.state.otherImages_event;
+    var otherImages_promo_get=this.state.otherImages_promo_get;
+    var otherImages_event_get=this.state.otherImages_event_get;
     var {
      ActivePost,
      PostClicks,
@@ -1650,10 +1692,14 @@ Promotional_by_id(data)
      }= this.state
 
 
-    var AllImg;
-    if(OtherImages){
+    var AllImg_event;
+    var AllImg_promo;
+    var AllImg_event_get;
+    var AllImg_promo_get;
+
+    if(otherImages_event_get){
       var ii=-1;
-     AllImg= OtherImages.map(o=>{
+     AllImg_event_get= otherImages_event_get.map(o=>{
 
       ii=ii+1;
        return( <MDBCol md="2" className="ap_image">
@@ -1665,29 +1711,63 @@ Promotional_by_id(data)
            borderRadius: "10px"
          }}
        />
-{/*        
-       <div className="get-image1"
-        onClick={console.log(ii) }
-        
-        >
-                                  <img
-                                    src={cross_img}
-                                    alt=""
-                                    style={{
-                                      height: "10px",
-                                      width: "10px",
-                                      backgroundColor: "red",
-                                      borderRadius: "50%",
-                                      padding: "2px",
-                                      marginTop: "-3px"
-                                    }}
-                                    
-                                  />
-                                </div> */}
-                                
-                                </MDBCol>)
+  </MDBCol>)
      })
     }
+    if(otherImages_promo_get){
+      var ii=-1;
+     AllImg_promo_get= otherImages_promo_get.map(o=>{
+
+      ii=ii+1;
+       return( <MDBCol md="2" className="ap_image">
+       <img src={o.promotional_image}
+         alt=""
+         style={{
+           height: "60px",
+           width: "60px",
+           borderRadius: "10px"
+         }}
+       />
+  </MDBCol>)
+     })
+    }
+    if(otherImages_event){
+      var ii=-1;
+     AllImg_event= otherImages_event.map(o=>{
+
+      ii=ii+1;
+       return( <MDBCol md="2" className="ap_image">
+       <img src={o.promotional_image}
+         alt=""
+         style={{
+           height: "60px",
+           width: "60px",
+           borderRadius: "10px"
+         }}
+       />
+  </MDBCol>)
+     })
+    }
+
+    if(otherImages_promo){
+      var ii=-1;
+     AllImg_promo= otherImages_promo.map(o=>{
+
+      ii=ii+1;
+       return( <MDBCol md="2" className="ap_image">
+       <img src={o.promotional_image}
+         alt=""
+         style={{
+           height: "60px",
+           width: "60px",
+           borderRadius: "10px"
+         }}
+       />
+ </MDBCol>)
+     })
+    }
+    console.log("1ll",AllImg_promo)
+    console.log("1ll",AllImg_event)
     return (
       <div>
         <MDBContainer id="overview-10" style={{marginBottom:'60px'}}>
@@ -1948,8 +2028,7 @@ N/A
         </div>
         
         <div class="modal-body" >
-       {this.state.CropperActive? <Cropper uploadUserImage={this.uploadUserImage} />
-          :""}
+       
           
           <div className="breadcrumb-menu" style={{margin:'0px' ,marginBottom:'30px'}}>
             {/* <MDBRow className="nav nav-tabs nav-justified">
@@ -1970,7 +2049,8 @@ N/A
           <div class="scrollbar" style={{height:'415px'}}>
     <div class="overflow">
   <div class="tab-content">
-
+  {this.state.CropperActive_promo ? <Cropper uploadUserImage={this.uploadUserImage_promo} />
+          :
   <div id="promo_post" class="tab-pane fade  active" style={{opacity:'1',minHeight: '350px'}}>
   {this.state.loading?<Spinner/>:
     <div >
@@ -1987,8 +2067,8 @@ N/A
            <MDBCol md='8'>
            <MDBRow >
                             <MDBCol md="2" className="ap_image">
-                              <span>
-                                <i className="zmdi zmdi-plus" onClick={this.OnImgClick}></i>
+                              <span> 
+                              <i className="zmdi zmdi-plus" onClick={this.OnImgClick_promo}></i>
                                 {/* <input
                                   type="file"
                                   name="otherImages"
@@ -1996,7 +2076,7 @@ N/A
                                 /> */}
                               </span>
                             </MDBCol>
-                                {AllImg}
+                                {AllImg_promo}
                           </MDBRow>
                          
            </MDBCol>
@@ -2148,7 +2228,11 @@ N/A
     </div>
    }
    </div>
-   <div id="post_event" class="tab-pane fade" style={{minHeight: '350px'}}>
+ 
+  }
+ {this.state.CropperActive_event  ? <Cropper uploadUserImage={this.uploadUserImage_event} />
+          :
+ <div id="post_event" class="tab-pane fade" style={{opacity:'1',minHeight: '350px'}}>
    {this.state.loading?<Spinner/>:
     <div >
     {/* <MDBRow>
@@ -2166,17 +2250,17 @@ N/A
            <MDBRow >
                             <MDBCol md="2" className="ap_image">
                               <span>
-                                <i className="zmdi zmdi-plus"></i>
-                                <input
+                              <i className="zmdi zmdi-plus" onClick={this.OnImgClick_event}></i>
+                                {/* <input
                                   type="file"
                                   name="otherImages"
                                   onChange={this.onUploadOtherImage}
-                                />
+                                /> */}
                               </span>
                             </MDBCol>
                             
 
-                                {AllImg} 
+                                {AllImg_event} 
 
                           </MDBRow>
                          
@@ -2315,7 +2399,7 @@ N/A
     </div>
   }
    </div>
-   
+  }
   </div>
          
          {/* <MDBRow>
@@ -2360,7 +2444,11 @@ N/A
             Promotional Post
     </div>
     <div class="scrollbar" style={{height:'415px'}}>
-    <div class="overflow">
+      <div class="overflow">
+      {this.state.CropperActive_promo_get  ? <Cropper uploadUserImage={this.uploadUserImage_promo_get} />
+          :
+    <div >
+    
     <div  >
 
          <MDBRow style={{marginTop:'15px'}}> 
@@ -2368,15 +2456,15 @@ N/A
            <MDBRow >
                             <MDBCol md="2" className="ap_image">
                               <span>
-                                <i className="zmdi zmdi-plus"></i>
-                                <input
+                              <i className="zmdi zmdi-plus" onClick={this.OnImgClick_promo_get}></i>
+                                {/* <input
                                   type="file"
                                   name="otherImages"
                                   onChange={this.onUploadOtherImage}
-                                />
+                                /> */}
                               </span>
                             </MDBCol>
-                                {AllImg}
+                                {AllImg_promo_get}
                           </MDBRow>
                          
            </MDBCol>
@@ -2532,9 +2620,9 @@ N/A
         </MDBRow>}
    
         </div>
-        
+  }
         </div>
-       
+       </div>
           </div>
              :null
             }
@@ -2547,24 +2635,27 @@ Post An Event
 
    
     <div class="scrollbar" style={{height:'415px'}}>
-    <div class="overflow">
+      <div class="overflow">
+    {this.state.CropperActive_event_get  ? <Cropper uploadUserImage={this.uploadUserImage_event_get} />
+          :
+    <div >
     <div >
          <MDBRow style={{marginTop:'15px'}}> 
            <MDBCol md='8'>
            <MDBRow >
                             <MDBCol md="2" className="ap_image">
                               <span>
-                                <i className="zmdi zmdi-plus"></i>
-                                <input
+                                <i className="zmdi zmdi-plus" onClick={this.OnImgClick_event_get}></i>
+                                {/* <input
                                   type="file"
                                   name="otherImages"
                                   onChange={this.onUploadOtherImage}
-                                />
+                                /> */}
                               </span>
                             </MDBCol>
                             
 
-                                {AllImg} 
+                                {AllImg_event_get} 
 
                           </MDBRow>
                          
@@ -2709,9 +2800,9 @@ Post An Event
         </MDBRow>}
    
         </div>
-        
+  }
         </div>
-       
+</div>
     </div>
              :null
             }
