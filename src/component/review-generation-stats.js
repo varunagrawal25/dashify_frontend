@@ -1190,9 +1190,9 @@ export default class ReviewGenerationStats extends Component {
                             <MDBRow>
                               <MDBCol md="5" className="rev_gen_contant1">
                                 {InvitesSent}
-                                <span>
+                                {/* <span>
                                   <i className="zmdi zmdi-email"></i>
-                                </span>
+                                </span> */}
                               </MDBCol>
                               {/* <MDBCol md="5" className="rev_gen_contant1">
                                 -{" "}

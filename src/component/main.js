@@ -43,6 +43,7 @@ import TomtomRelatedLocation from "./tomtom-related-location";
 import PageNotFound from "./page-not-found";
 import CommonLogin from "./CommonLogin";
 import InviteNewUser from "./InviteNewUser";
+import SettingAgency from "./setting-agency";
 
 export default class MainApp extends Component {
   render() {
@@ -357,10 +358,15 @@ export default class MainApp extends Component {
                 />
                 <Route
                   exact
+                  path="/setting-main/setting-agency/dashboard"
+                  component={SettingAgency}
+                />
+                
+<Route
+                  exact
                   path="/setting-main/setting-billing"
                   component={SettingBilling}
                 />
-
                 <Route
                   exact
                   path="/setting-main/setting-email"

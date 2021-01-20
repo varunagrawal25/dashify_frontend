@@ -377,6 +377,7 @@ img {
   -webkit-box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
   box-shadow: 0 0 35px 0 rgba(154, 161, 171, 0.15);
   padding-left: 25px;
+  border-radius: 10px 10px 0px 0px;
 }
 
 .underline-from-left {
@@ -9952,7 +9953,7 @@ img {
 .setting-14 {
   background: #ffffff;
   box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.12);
-  border-radius: 0px 10px 10px 10px;
+  border-radius: 0px 0px 10px 10px;
 }
 
 .btn.btn-profile-10 {
@@ -10690,6 +10691,20 @@ ul.dropdown-menu.loginboxds li a:hover {
 /* surya css */
 
 /* varun css */
+
+.invite_head {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 22px;
+}
+
+.invite_subHead {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+}
 /* additional promotional post start*/
 .ap_heading {
   font-family: Roboto;
@@ -12983,9 +12998,9 @@ label img {
 .profile3 {
   font-family: Roboto;
   font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 30px;
   color: #4f4f4f;
   mix-blend-mode: normal;
   padding: 0px 10px;
@@ -13027,8 +13042,8 @@ label img {
 .profile4 {
   font-family: Roboto;
   font-style: normal;
-  font-weight: normal;
-  font-size: 18px;
+  font-weight: 400;
+  font-size: 16px;
   line-height: 21px;
   color: #4f4f4f;
   padding: 10px 15px;
@@ -15197,13 +15212,15 @@ span.valpromo {
   border-radius: 2px;
   display: flex;
   flex-wrap: wrap;
-  padding: 5px 5px 0;
+  padding: 5px;
+  height: 100px;
 }
 
 .input-tag input {
   border: none;
   width: 100%;
   padding-left: 8px;
+  outline: none;
 }
 
 .input-tag__tags {

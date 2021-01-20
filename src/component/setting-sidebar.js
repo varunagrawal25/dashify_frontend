@@ -18,11 +18,11 @@ export default class ProfileSettingSidebar extends Component {
          
             <NavLink to="/setting-main/setting-email">Email Setting</NavLink>
             <NavLink to="/setting-main/setting-people">People</NavLink>
-            <NavLink  to="/setting-main/setting-billing">Biling </NavLink>
+            <NavLink  to="/setting-main/setting-billing">Billing </NavLink>
             
             <NavLink to="/c">Integrations</NavLink>
             
-            <NavLink to="/d">Agency Setting</NavLink>
+            <NavLink  to="/setting-main/setting-agency/dashboard">Agency Setting</NavLink>
          
          
         </div>
