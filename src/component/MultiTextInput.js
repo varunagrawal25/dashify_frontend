@@ -43,6 +43,10 @@ export class InputTag extends React.Component {
   
       return (
         <div className="input-tag">
+          <ul className="input-tag__tags" style={{marginBottom:'10px'}}>
+          <li className="input-tag__tags__input"><input type="text" onKeyDown={this.inputKeyDown} 
+            ref={c => { this.tagInput = c; }} placeholder="Type Here And Press Enter To Add The Keyword,Click Submit To Start Tracking " /></li>
+            </ul>
           <ul className="input-tag__tags">
             { tags.map((tag, i) => (
               <li key={tag}>
@@ -50,8 +54,9 @@ export class InputTag extends React.Component {
                 <button type="button" onClick={() => { this.removeTag(i); }}>+</button>
               </li>
             ))}
-            <li className="input-tag__tags__input"><input type="text" onKeyDown={this.inputKeyDown} ref={c => { this.tagInput = c; }} /></li>
+            
           </ul>
+          
         </div>
       );
     }

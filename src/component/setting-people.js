@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import { Get_All_Invites_By_User } from "./apis/invite";
 // import Datatable from './Datatable'
 import { secure_pin } from "../config";
+import Datatable from './Datatable'
+
 export default class Profile_setting extends Component {
 
   componentDidMount(){
@@ -66,117 +68,7 @@ export default class Profile_setting extends Component {
               <MDBRow>
                 <MDBCol>
                   <div className="profile_container">
-                    <MDBTable Hover className="peopel-table">
-                      <MDBTableHead>
-                        <tr>
-                          <th>
-                            <input
-                              type="checkbox"
-                              class="input-check"
-                              id="defaultUnchecked"
-                            />
-                          </th>
-                          <th>Name</th>
-                          <th>Email</th>
-                          <th>Role</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </MDBTableHead>
-                      <MDBTableBody>
-                        <tr>
-                          <td>
-                            <input
-                              type="checkbox"
-                              class="input-check"
-                              id="defaultUnchecked2"
-                            />
-                          </td>
-                          <td>
-                            <img
-                              className="people-img"
-                              src={require("../component/assets/img_avatar.png")}
-                              alt=""
-                            />{" "}
-                            Dennis Brinn
-                          </td>
-                          <td>info@oasismedia.com</td>
-                          <td>Admin</td>
-                          <td>
-                            <span class="active-b">Active</span>{" "}
-                          </td>
-                          <td align="center">
-                            <div class="dropdown">
-                              <button
-                                class="doted"
-                                type="button"
-                                data-toggle="dropdown"
-                              >
-                                <i className="fa fa-ellipsis-h"></i>
-                              </button>
-                              <ul class="dropdown-menu">
-                                <li>
-                                  <a href="#">
-                                    <i className="fa fa-edit"></i> Edit
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <i className="fa fa-trash"></i> Delect
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>
-                            <input
-                              type="checkbox"
-                              class="input-check"
-                              id="defaultUnchecked3"
-                            />
-                          </td>
-                          <td>
-                            <img
-                              className="people-img"
-                              src={require("../component/assets/img_avatar.png")}
-                              alt=""
-                            />{" "}
-                            Dennis Brinn
-                          </td>
-                          <td>info@oasismedia.com</td>
-                          <td>Admin</td>
-                          <td>
-                            <span class="disable-b">Disable</span>{" "}
-                          </td>
-                          <td align="center">
-                            <div class="dropdown">
-                              <button
-                                class="doted"
-                                type="button"
-                                data-toggle="dropdown"
-                              >
-                                <i className="fa fa-ellipsis-h"></i>
-                              </button>
-                              <ul class="dropdown-menu">
-                                <li>
-                                  <a href="#">
-                                    <i className="fa fa-edit"></i> Edit
-                                  </a>
-                                </li>
-                                <li>
-                                  <a href="#">
-                                    <i className="fa fa-trash"></i> Delect
-                                  </a>
-                                </li>
-                              </ul>
-                            </div>
-                          </td>
-                        </tr>
-                      </MDBTableBody>
-                    </MDBTable>
+                    <Datatable/>
                   </div>
                 </MDBCol>
               </MDBRow>

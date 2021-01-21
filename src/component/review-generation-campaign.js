@@ -720,7 +720,9 @@ Write A Review
                     <li>
                       <div className="step-sms">
                         <a>Step 01</a>
-                        <span>Ratings Email And SMS</span>
+                        {isEmail?<span>Ratings Email</span>:null}
+                        {isSms?<span>Ratings SMS</span>:null}
+                        {isEmail && isSms?<span>Ratings Email And SMS</span>:null}
                       </div>
                       <div className="closebox" onClick={this.closePopUP}>
                         <i className="zmdi zmdi-close"></i> Close Section

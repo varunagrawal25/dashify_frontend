@@ -46,6 +46,8 @@ import InviteNewUser from "./InviteNewUser";
 import BulkAddUser from "./BulkAddUser";
 import { get_login_user_info } from "./apis/user";
 import { secure_pin } from "../config";
+import SettingAgency from "./setting-agency";
+
 export default class MainApp extends Component {
 
   state={
@@ -398,10 +400,15 @@ export default class MainApp extends Component {
                 />
                 <Route
                   exact
+                  path="/setting-main/setting-agency/dashboard"
+                  component={SettingAgency}
+                />
+                
+<Route
+                  exact
                   path="/setting-main/setting-billing"
                   component={SettingBilling}
                 />
-
                 <Route
                   exact
                   path="/setting-main/setting-email"

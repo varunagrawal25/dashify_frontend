@@ -63,9 +63,11 @@ export default function WithMultipleCheckboxes() {
   return (
     <>
       <MDBDataTableV5
-        hover
+      style={{opacity:'1'}}
+        hover 
         data={datatable}
-        searching={false}
+        searching={true}
+        sortable={true}
         scrollY={true}
         paging={false}
         paginationLabel={false}
