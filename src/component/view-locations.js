@@ -1527,6 +1527,9 @@ const data={secure_pin}
 
   render() {
     console.log("kk",this.state.hours);
+    console.log("prop",this.props)
+
+    let {role } = this.props
 
     let {
       mondayStart1_error,
@@ -2067,12 +2070,12 @@ const data={secure_pin}
                                 {this.state.name}
                               </MDBCol>
                               <MDBCol md="3">
-                                <button
+                               {role !=='clientRead'? <button
                                   className="last_btn"
                                   onClick={this.editDetailsButton2}
                                 >
                                   Edit
-                                </button>
+                                </button> :""}
                               </MDBCol>
                             </MDBRow>
                             <div className="uploadphoto pt-15">
@@ -2540,12 +2543,12 @@ const data={secure_pin}
                               {this.state.name}
                             </MDBCol>
                             <MDBCol md="3">
-                              <button
+                            {role !=='clientRead'?   <button
                                 className="last_btn"
                                 onClick={this.editDetailsButton}
                               >
                                 Edit
-                              </button>
+                              </button> :""}
                             </MDBCol>
                           </MDBRow>
                           <div className="pt-15">
@@ -3493,12 +3496,12 @@ const data={secure_pin}
                               Operations Hours
                             </MDBCol>
                             <MDBCol md="3">
-                              <button
+                             {role !== 'clientRead' ?  <button
                                 className="last_btn"
                                 onClick={this.editHourButton}
                               >
                                 Edit
-                              </button>
+                              </button> :""}
                             </MDBCol>
                           </MDBRow>
 
@@ -3663,7 +3666,7 @@ const data={secure_pin}
                               <div className="add-a-spacial box-space">
                                 <a
                                   className="last_btn"
-                                  onClick={this.editSpecialHourButton}
+                                  onClick={role !== 'clientRead'? this.editSpecialHourButton:""}
                                 >
                                   Add A Special Hour
                                 </a>
@@ -3687,12 +3690,12 @@ const data={secure_pin}
                     </MDBCol>
                     {this.state.paymentEdit ? null : 
                     <MDBCol md="2">
-                      <button
+                      {role !=='clientRead'?  <button
                         className="pay_last_btn"
                         onClick={this.editPaymentButton}
                       >
                         Edit
-                      </button>
+                      </button> :""}
                     </MDBCol>}
                   </MDBRow>
 
@@ -4303,7 +4306,8 @@ checked
                           </div>
                         ) : (
                           <div className="plush_new">
-                            <span>
+                           
+                           {role !== 'clientRead'? <span>
                               <i className="zmdi zmdi-plus"></i>
                               Attach A Image
                               <input
@@ -4314,6 +4318,14 @@ checked
                                 )}
                               />
                             </span>
+                            :
+                            <span>
+                              <i className="zmdi zmdi-plus"></i>
+                              Attach A Image
+                             
+                             
+                            </span>
+                                }
                           </div>
                         )}
                       </div>
@@ -4336,7 +4348,7 @@ checked
                         <div style={{ marginTop: "5px" }}>
                           <MDBRow>
                             <MDBCol md="2" className="plush_new">
-                              <span>
+                            {role !== 'clientRead'? <span>
                                 <i className="zmdi zmdi-plus"></i>
                                 Attach A Image
                                 <input
@@ -4345,6 +4357,14 @@ checked
                                   onChange={this.onUploadOtherImage}
                                 />
                               </span>
+                               :
+                               <span>
+                                 <i className="zmdi zmdi-plus"></i>
+                                 Attach A Image
+                                
+                                
+                               </span>
+                                   }
                             </MDBCol>
                             {this.state.otherImages.map((n, i) => (
                               <MDBCol md="2" className="plush_new">
@@ -4359,7 +4379,7 @@ checked
                                   }}
                                 />
 
-                                <div className="get-image1">
+                             { role !== 'clientRead'?   <div className="get-image1">
                                   <img
                                     src={cross_img}
                                     alt=""
@@ -4375,6 +4395,23 @@ checked
                                     }
                                   />
                                 </div>
+                                :
+                                <div className="get-image1">
+                                  <img
+                                    src={cross_img}
+                                    alt=""
+                                    style={{
+                                      height: "10px",
+                                      width: "10px",
+                                      backgroundColor: "red",
+                                      borderRadius: "50%",
+                                      padding: "2px"
+                                    }}
+                                   
+                                  />
+                                </div>
+                                
+                                }
                               </MDBCol>
                             ))}
                           </MDBRow>

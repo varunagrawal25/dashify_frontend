@@ -84,6 +84,11 @@ save_status:null,
             PostClicks: 0,
             PostViews: 0,
             SchedulePosts: 0,
+            ActivePostPer:0,
+            PostClicksPer:0,
+            PostViewsPer:0,
+            SchedulePostsPer:0,
+            ExpirePostPer:0,
              
 }
 

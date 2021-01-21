@@ -53,7 +53,7 @@ export default class Topbarmenu extends Component {
 
   change = (id, name) => e => {
     // console.log("event target value", e.target.value);
-    console.log(this.state);
+   
 
     // this.setState({ changev: true, locationid: e });
 
@@ -82,7 +82,7 @@ export default class Topbarmenu extends Component {
   };
 
   componentDidMount() {
-    console.log("tool");
+  
 
     const DjangoConfig1 = {
       headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
@@ -92,7 +92,7 @@ export default class Topbarmenu extends Component {
       // user_id:"11",
       secure_pin
     };
-console.log("user_id",data.user_id)
+
     // for getting user details
     let data3 = { user_id: localStorage.getItem("UserId"),secure_pin };
     get_login_user_info(data3)
@@ -117,8 +117,7 @@ console.log("user_id",data.user_id)
     // for notifications
     all_location(data)
       .then(res => {
-        console.log(res);
-        console.log("963",res.data.all_location);
+        
 
         this.setState({ AllLocations: res.data.all_location });
       })
@@ -199,7 +198,7 @@ console.log("user_id",data.user_id)
     let loc_name = localStorage.getItem("locationName");
     // var defaultSelected=(this.state.AllLocations)?this.state.AllLocations.id:0;
 
-    console.log("options", options);
+  
 
     // if(this.state.changev){
     //    return <Redirect to={"dashboard#/locations/"+this.state.locationid+"/view-location"} />
@@ -406,7 +405,7 @@ console.log("user_id",data.user_id)
 
     //notification
 
-    console.log("this.state in topbarmenu", this.state);
+  
 
     return (
       <div className='maindiv'>
@@ -421,13 +420,12 @@ console.log("user_id",data.user_id)
             <MDBCol md='6' >
           
 <div className="md-form vertically_center">
-{/* <SelectSearch options={locations} value={locations.value} className="searcdd" name="language" 
-placeholder={loc_name ? loc_name : "Search"}  /> */}
+
                         <input
                           type="text"
                           name=""
                           onChange={e =>{
-                            console.log(e.target.value)
+                           
                             this.setState({ search: e.target.value.split(" ") })
                           }
                           }

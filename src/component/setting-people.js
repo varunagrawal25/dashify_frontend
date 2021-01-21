@@ -3,9 +3,23 @@ import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
 import ProfileSettingSidebar from "./setting-sidebar";
 import { Link } from "react-router-dom";
+import { Get_All_Invites_By_User } from "./apis/invite";
 // import Datatable from './Datatable'
-
+import { secure_pin } from "../config";
 export default class Profile_setting extends Component {
+
+  componentDidMount(){
+
+    const data ={
+      secure_pin,"user_id":localStorage.getItem("UserId") 
+    }
+    Get_All_Invites_By_User(data).then(res=>{
+      console.log(res)
+
+    }).catch(res=>{
+
+    })
+  }
   render() {
     return (
       <div>
@@ -44,7 +58,8 @@ export default class Profile_setting extends Component {
                  </Link>
                 </MDBCol>
                 <MDBCol md="4">
-                  <MDBBtn id="profile_add_btn">Add Using CSV</MDBBtn>
+                <Link to="/setting-main/setting-people/bulk-user"> <MDBBtn id="profile_add_btn">Add Using CSV</MDBBtn>
+                </Link>
                 </MDBCol>
               </MDBRow>
 
