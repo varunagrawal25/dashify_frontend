@@ -22,7 +22,7 @@ export default class ProfileSettingSidebar extends Component {
             
             <NavLink to="/c">Integrations</NavLink>
             
-            <NavLink  to="/setting-main/setting-agency/dashboard">Agency Setting</NavLink>
+            <NavLink  to="/setting-main/setting-agency">Agency Setting</NavLink>
          
          
         </div>

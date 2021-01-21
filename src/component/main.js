@@ -400,7 +400,7 @@ export default class MainApp extends Component {
                 />
                 <Route
                   exact
-                  path="/setting-main/setting-agency/dashboard"
+                  path="/setting-main/setting-agency"
                   component={SettingAgency}
                 />
                 
