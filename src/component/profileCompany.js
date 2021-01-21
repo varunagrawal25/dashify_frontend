@@ -6,7 +6,9 @@ import avtar_img from "./assets/img_avatar.png";
 import { get_login_user_info ,update_user_image} from "./apis/user";
 import swal from "sweetalert";
 import {secure_pin} from '../config'
-
+import { MDBCol, MDBRow ,MDBBtn} from 'mdbreact';
+import { AssessmentTwoTone } from '@material-ui/icons';
+import file_icon from './assets/file_icon.png'
 export default class profileCompany extends Component {
     state = {
         user_info: {},
@@ -96,94 +98,166 @@ export default class profileCompany extends Component {
       render() {
         let userEmail = localStorage.getItem("UserEmail");
         return (
-            <div>
-                 <div className="row setting-14">
-                <div class="col-md-4 avatar  ">
-
-                {this.state.loading_image ? (
-                <div style={{ textAlign: "center" }}>
-                  <Loader
-                    type="Oval"
-                    color="#00BFFF"
-                    height={30}
-                    width={30}
-                    // timeout={3000} //3 secs
+          <div >
+            
+          <MDBRow className="setting-14" style={{padding:'3% 6%'}}>
+          <div className="agencycontant2">Voice Search Assistant:</div>
+          
+            <MDBCol md="12" className="profileSpacing">
+              <MDBRow>
+                <MDBCol md="6">
+                  <div className="profile3">Email:</div>
+                </MDBCol>
+                <MDBCol md="6">
+               
+                  <input
+                  type="email"
+                    className="profile4"
+                    placeholder="info@oasismedia.co"
+                    value={this.state.email}
+                    readOnly
+                    name="address"
+                    onChange={this.changeHandler}
+                    style={{width:'100%'}}
                   />
-                </div>
-              ) : this.state.show_crop_function ? (
-                <Cropper uploadUserImage={this.uploadUserImage} />
-              ) : (
-                <div>
-                    <img
-                    src={
-                      this.state.user_info && this.state.user_info.user_image
-                        ? "https://digimonk.net/dashify-ci/assets/upload/images/profile-type-image/" +
-                          this.state.user_info.user_image
-                        : avtar_img
-                    }
-                    alt=""
-                  />
-                  
-                  <div className="get-image">
-                    <img
-                      src={edit}
-                      alt=""
-                      style={{ height: "20px", width: "20px" }}
-                      onClick={this.show_crop_function}
-                    />
-                    {/* <input type="file" onChange={this.show_crop_function} /> */}
-                  </div>
-                </div>
-              )}
-                  
-                  {/* <img src={avtar_img} alt="" /> */}
+                </MDBCol>
+              </MDBRow>
+            </MDBCol>
 
-                  <p>
-                    {this.state.company_name} 
-                  </p>
-                </div>
+            <MDBCol md="12" className="profileSpacing">
+              <MDBRow>
+                <MDBCol md="6">
+                  <div className="profile3">Support Email:</div>
+                </MDBCol>
+                <MDBCol md="6">
+                  <input type="email"
+                    className="profile4"
+                    placeholder="info@oasismedia.co" 
+                    style={{width:'100%'}}
+                      name="city"
+                          onChange={this.changeHandler} />
+                </MDBCol>
+              </MDBRow>
+            </MDBCol>
+            <div className="agencycontant2">Company Assets:</div>
+            
+<MDBRow >
+  <MDBCol md='2' ><img style={{width:'85px',height:'85px'}} src={file_icon}/> </MDBCol>
+  <MDBCol md='8' className="profile3">
+  Logo represens company’s branding on the Platform. Please upload your business logo here.
+  </MDBCol>
+  <MDBCol md='2'></MDBCol>
+</MDBRow>
+<MDBRow>
+  <MDBCol md='2' style={{textAlign:'center' ,marginTop:'10px'}}><img style={{width:'45px',height:'45px',}} src={file_icon}/> </MDBCol>
+  <MDBCol md='8' className="profile3">
+  Fav Icon denotes company’s branding on the Web. Please upload a 64x64px (.ico / .jpeg / .png) 
+  </MDBCol>
+  <MDBCol md='2'></MDBCol>
+</MDBRow>
+            
+<div className="agencycontant2">Workspace:</div>
+            <MDBRow >
+            <MDBCol md='6'  className="profile3" style={{marginTop:'45px',marginLeft:'-98px'}} >voicesearchassistant.synup.com </MDBCol>
+  
+            </MDBRow>
+            <div >
+              <MDBBtn className="pay_last_btn agency_save">Save</MDBBtn>
+              </div>  
+                      </MDBRow>
+                   
+              
+      </div>
+  
+            // <div>
+            //      <div className="row setting-14">
+            //     <div class="col-md-4 avatar  ">
 
-                <div className="col-md-8 ">
-                  <div class="form-group row form_gap">
-                    <label for="inputEmail3" class="col-sm-4 col-form-label">
-                      Email:
-                    </label>
-                    <div class="col-sm-8">
-                      <input
-                        type="email"
-                        class="form-control"
-                        id="inputEmail3"
-                        value={this.state.email}
-                        readOnly
-                      />
-                    </div>
-                  </div>
+            //     {this.state.loading_image ? (
+            //     <div style={{ textAlign: "center" }}>
+            //       <Loader
+            //         type="Oval"
+            //         color="#00BFFF"
+            //         height={30}
+            //         width={30}
+            //         // timeout={3000} //3 secs
+            //       />
+            //     </div>
+            //   ) : this.state.show_crop_function ? (
+            //     <Cropper uploadUserImage={this.uploadUserImage} />
+            //   ) : (
+            //     <div>
+            //         <img
+            //         src={
+            //           this.state.user_info && this.state.user_info.user_image
+            //             ? "https://digimonk.net/dashify-ci/assets/upload/images/profile-type-image/" +
+            //               this.state.user_info.user_image
+            //             : avtar_img
+            //         }
+            //         alt=""
+            //       />
+                  
+            //       <div className="get-image">
+            //         <img
+            //           src={edit}
+            //           alt=""
+            //           style={{ height: "20px", width: "20px" }}
+            //           onClick={this.show_crop_function}
+            //         />
+            //         {/* <input type="file" onChange={this.show_crop_function} /> */}
+            //       </div>
+            //     </div>
+            //   )}
+                  
+            //       {/* <img src={avtar_img} alt="" /> */}
+
+            //       <p>
+            //         {this.state.company_name} 
+            //       </p>
+            //     </div>
+
+            //     <div className="col-md-8 ">
+            //       <div class="form-group row form_gap">
+            //         <label for="inputEmail3" class="col-sm-4 col-form-label">
+            //           Email:
+            //         </label>
+            //         <div class="col-sm-8">
+            //           <input
+            //             type="email"
+            //             class="form-control"
+            //             id="inputEmail3"
+            //             value={this.state.email}
+            //             readOnly
+            //           />
+            //         </div>
+            //       </div>
 
                   
-                  <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-4 col-form-label">
-                      Support Email:
-                    </label>
-                    <div class="col-sm-8">
-                    <input
-                        type="email"
-                        class="form-control"
-                        id="inputEmail3"
-                        value={this.state.email}
-                        readOnly
-                      />
-                    </div>
-                  </div>
+            //       <div class="form-group row">
+            //         <label for="inputPassword3" class="col-sm-4 col-form-label">
+            //           Support Email:
+            //         </label>
+            //         <div class="col-sm-8">
+            //         <input
+            //             type="email"
+            //             class="form-control"
+            //             id="inputEmail3"
+            //             value={this.state.email}
+            //             readOnly
+            //           />
+            //         </div>
+            //       </div>
                  
-                  <div className="save_gap">
-                    <button type="submit" class="user_save0">
-                      Save
-                    </button>
-                  </div>
-                </div>
-              </div>
+            //       <div className="save_gap">
+            //         <button type="submit" class="user_save0">
+            //           Save
+            //         </button>
+            //       </div>
+            //     </div>
+            //   </div>
            
-            </div>
-        )
+            // </div>
+       
+       )
     }
 }
