@@ -10,6 +10,10 @@ import Datatable from './Datatable'
 
 export default class Profile_setting extends Component {
 
+  state={
+    AllPeople:[]
+  }
+
   componentDidMount(){
 
     const data ={
@@ -17,12 +21,33 @@ export default class Profile_setting extends Component {
     }
     Get_All_Invites_By_User(data).then(res=>{
       console.log(res)
+      this.setState({AllPeople:res.data.invite_user_list})
 
     }).catch(res=>{
 
     })
   }
   render() {
+    var { AllPeople } =this.state;
+var AllPeop=[];
+    if(AllPeople){
+
+   AllPeople.map(a=>
+    AllPeop.push(  
+      {
+        img:'',
+        name: a.first_name ,
+        email:a.email_id,
+        role:a.role,
+        status:'Active',
+        action:""
+      }
+      
+   ))
+    }
+
+
+
     return (
       <div>
         <MDBContainer>
@@ -68,7 +93,7 @@ export default class Profile_setting extends Component {
               <MDBRow>
                 <MDBCol>
                   <div className="profile_container">
-                    <Datatable/>
+                    <Datatable  AllPeople= {AllPeop} />
                   </div>
                 </MDBCol>
               </MDBRow>

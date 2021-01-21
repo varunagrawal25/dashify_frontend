@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MDBDataTableV5 } from 'mdbreact';
 // import Result from '../components/result';
 import arrow from './assets/arrow.png'
-export default function WithMultipleCheckboxes() {
-  const [datatable, setDatatable] = React.useState({
-    columns: [
+export default class WithMultipleCheckboxes extends React.Component  {
+  state={
+    Columns:  [
       {
         label: 'Name',
         field: 'img',
@@ -42,61 +42,71 @@ export default function WithMultipleCheckboxes() {
         width: 150,
       }
     ],
-    rows: [
-      {
-        img:<img src={arrow}/> ,
-        name: 'Dennis Brinn' ,
-        email:'info@oasismedia.com',
-        role:'Admin',
-        status:'Active',
-        action:''
-      },
-      
-    ],
-  });
-  const [checkbox1, setCheckbox1] = React.useState([]);
 
-  const showLogs2 = (e) => {
-    setCheckbox1(e);
-  };
+    Rows:  [  {
+      img:'',
+      name: "ji" ,
+      email:"a.email_id",
+      role:"a.role",
+      status:'Active',
+      action:""
+    }]
+  }
 
-  return (
-    <>
-      <MDBDataTableV5
+  // showLogs2 = (e) => {
+  //   setCheckbox1(e);
+  // };
+  componentDidMount(){
+    if(this.props.AllPeople) 
+    this.setState({Rows:this.props.AllPeople});
+    console.log("props c",this.props)
+  }
+  componentDidUpdate(){
+    console.log("props did",this.props)
+    if(this.state.Rows !== this.props.AllPeople)
+    this.setState({Rows:this.props.AllPeople})
+  }
+ 
+
+  render(){
+    console.log("state",this.state)
+    
+    
+   
+    // const [checkbox1, setCheckbox1] = React.useState([]);
+  
+    
+  
+
+    return ( 
+       <MDBDataTableV5
       style={{opacity:'1'}}
         hover 
-        data={datatable}
+        columns={this.state.Columns}
+        rows={this.state.Rows}
+        // data={datatable}
         searching={true}
         sortable={true}
         scrollY={true}
         paging={false}
         paginationLabel={false}
-        checkbox
-        headCheckboxID='id6'
-        bodyCheckboxID='checkboxes6'
-        getValueCheckBox={(e) => {
-          showLogs2(e);
-        }}
-        getValueAllCheckBoxes={(e) => {
-          showLogs2(e);
-        }}
-        multipleCheckboxes
+        disabled
+        // checkbox
+        // headCheckboxID='id6'
+        // bodyCheckboxID='checkboxes6'
+        // getValueCheckBox={(e) => {
+        //   showLogs2(e);
+        // }}
+        // getValueAllCheckBoxes={(e) => {
+        //   showLogs2(e);
+        // }}
+       // multipleCheckboxes
       />
+      )
+  
+ 
+ 
+ 
 
-      {/* <Result>
-        {' '}
-        {checkbox1 && (
-          <p>
-            {JSON.stringify(
-              checkbox1.map((e) => {
-                console.log(e);
-                delete e.checkbox;
-                return e;
-              }) && checkbox1
-            )}
-          </p>
-        )}
-      </Result> */}
-    </>
-  );
-}
+
+}}
