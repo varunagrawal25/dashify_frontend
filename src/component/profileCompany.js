@@ -9,6 +9,7 @@ import {secure_pin} from '../config'
 import { MDBCol, MDBRow ,MDBBtn} from 'mdbreact';
 import { AssessmentTwoTone } from '@material-ui/icons';
 import file_icon from './assets/file_icon.png'
+import edit_icon from './assets/edit_icon.png'
 export default class profileCompany extends Component {
     state = {
         user_info: {},
@@ -146,14 +147,14 @@ export default class profileCompany extends Component {
   <MDBCol md='8' className="profile3">
   Logo represens company’s branding on the Platform. Please upload your business logo here.
   </MDBCol>
-  <MDBCol md='2'></MDBCol>
+  <MDBCol md='2'><img style={{width:'50px',height:'50px'}}src={edit_icon}/></MDBCol>
 </MDBRow>
 <MDBRow>
   <MDBCol md='2' style={{textAlign:'center' ,marginTop:'10px'}}><img style={{width:'45px',height:'45px',}} src={file_icon}/> </MDBCol>
   <MDBCol md='8' className="profile3">
   Fav Icon denotes company’s branding on the Web. Please upload a 64x64px (.ico / .jpeg / .png) 
   </MDBCol>
-  <MDBCol md='2'></MDBCol>
+  <MDBCol md='2'><img style={{width:'50px',height:'50px'}}src={edit_icon}/></MDBCol>
 </MDBRow>
             
 <div className="agencycontant2">Workspace:</div>
