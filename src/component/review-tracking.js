@@ -1521,7 +1521,7 @@ console.log("upd",filter)
           // ThreeStar:response.data.rating_breakdown_array[0].three_star,
           // TwoStar:response.data.rating_breakdown_array[0].two_star,
           // OneStar:response.data.rating_breakdown_array[0].one_star,
-          // HelpfulReview:response.data.most_helpful_reviews[0]
+           HelpfulReview:response.data.most_helpful_reviews[0]
         })
 
       })
@@ -1548,7 +1548,7 @@ console.log("upd",filter)
           ThreeStar:response.data.rating_breakdown_array[0].three_star,
           TwoStar:response.data.rating_breakdown_array[0].two_star,
           OneStar:response.data.rating_breakdown_array[0].one_star,
-          // HelpfulReview:response.data.most_helpful_reviews[0]
+          HelpfulReview:response.data.most_helpful_reviews[0]
         })
 
       })
@@ -2836,8 +2836,12 @@ console.log("this.state.AllReviews" ,this.state.AllReviews)
   </MDBCol>
   <MDBCol md='5'>
 <select className="review_select_btn" onChange={this.Update_Overall_Breakdown("overall_rating")}>
-  <option value="last week">This Week</option>
-  <option value="last year">This Year</option>
+<option value="last week">Last Week</option>
+  <option value="last month">Last Month</option>
+  <option value="last 3 months">Last 3 Months</option>
+  <option value="last 6 months">Last 6 Months</option>
+  <option value="last year">Last Year</option>
+  <option value="all">Lifetime</option>
 </select>
   </MDBCol>
 </MDBRow>
@@ -2861,8 +2865,12 @@ console.log("this.state.AllReviews" ,this.state.AllReviews)
   </MDBCol>
   <MDBCol md='4'>
 <select className="review_select_btn" onChange={this.Update_Overall_Breakdown("rating_breakdown")}>
-  <option value="last week">This Week</option>
-  <option value="last year">This Year</option>
+<option value="last week">Last Week</option>
+  <option value="last month">Last Month</option>
+  <option value="last 3 months">Last 3 Months</option>
+  <option value="last 6 months">Last 6 Months</option>
+  <option value="last year">Last Year</option>
+  <option value="all">Lifetime</option>
 </select>
   </MDBCol>
 </MDBRow>

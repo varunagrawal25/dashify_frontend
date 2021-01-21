@@ -1,27 +1,33 @@
 import React, { Component } from "react";
 import Loader from "react-loader-spinner";
 import { Link, Redirect } from "react-router-dom";
-import Axios from "axios";
-import { add_social_account } from "./apis/social_platforms";
+
 import swal from "sweetalert";
 import {secure_pin} from "../config"
-import { Add_Invite_User } from "./apis/invite";
+import { Add_Invite_User, Edit_Invite, Update_Invite } from "./apis/invite";
+import { all_location } from "./apis/location";
+import SelectSearch from "react-select-search";
+// import { Add_Invite_User } from "./apis/invite";
 import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
 
 class InviteNewUser extends Component {
   state = {
-    url: "",
-    username: "",
-    password: "",
+   
     log: false,
-    isUrl: false,
-    username_error: "",
-    password_error: "",
-    url_error: "",
-    wrong: "",
-    loading: false
+   
+    
+    loading: false,
+    locationArray:[],
+    firstName:"",
+    lastName:'',
+    userEmail:'',
+    userType:'',
+    userRole:'',
+    locationArray:[],
+    update:false
   };
 
+  
   onSubmit = e => {
     e.preventDefault();
 
@@ -34,7 +40,7 @@ class InviteNewUser extends Component {
         "email_id":this.state.userEmail,
         "internal_agency_user":this.state.userType,
         "role":this.state.userRole,
-        "location_array":[{"id":"87"},{"id":"86"}],
+        "location_array":this.state.locationArray,
         "import_csv":false,"csv_file":"base64"
        
       
@@ -42,7 +48,7 @@ class InviteNewUser extends Component {
 
 
 
-console.log("instadata",data)
+console.log("invite ",data)
     
 
       Add_Invite_User(data)
@@ -58,6 +64,97 @@ console.log("instadata",data)
    
   };
 
+  componentDidMount(){
+    const data = {
+      user_id: localStorage.getItem("UserId"),
+    
+      secure_pin
+    };
+
+
+  
+    all_location(data)
+      .then(async res => {
+        console.log(res);
+        console.log("963",res.data.all_location);
+
+       await this.setState({ AllLocations: res.data.all_location });
+      })
+      .catch(res => {
+        console.log("error in LocationManager");
+      });
+
+      if(this.props.match.params.id){
+        this.setState({update:true})
+
+      var id = this.props.match.params.id;
+      console.log("rahul");
+      console.log(this.props);
+  
+      const data2 ={
+        secure_pin,
+        "user_id":id
+      }
+  
+  
+      Edit_Invite(data2).then(
+        res=>{
+          console.log("up ",res);
+          this.setState({
+            firstName:res.data.user_data[0].first_name,
+    lastName:res.data.user_data[0].last_name,
+    userEmail:res.data.user_data[0].email_id,
+    userType:res.data.user_data[0].internal_agency,
+    userRole:res.data.user_data[0].role,
+    locationArray:res.data.user_data[0].location_data,
+          })
+  
+        }
+      )
+      .catch(res=>{
+  
+      })
+
+    }
+  
+  }
+
+
+  Update=e=>{
+
+    var id = this.props.match.params.id;
+   
+    console.log(this.props);
+
+    const data ={
+      secure_pin,
+      "user_id":localStorage.getItem("UserId"),
+      "customer_id":id,
+      "first_name":this.state.firstName,
+      "last_name":this.state.lastName,
+      "email_id":this.state.userEmail,
+      "internal_agency_user":this.state.userType,
+      "role":this.state.userRole,
+      "location_array":this.state.locationArray,
+      "import_csv":false,"csv_file":"base64"
+    }
+
+
+    Update_Invite(data).then(
+      res=>{
+        console.log("upd ",res);
+       
+      }
+    )
+    .catch(res=>{
+
+    })
+
+  
+
+
+  }
+
   render() {
     if (this.state.isUrl) {
       return (
@@ -71,7 +168,26 @@ console.log("instadata",data)
       );
     }
 
+    var locations = [];
+    var {locationArray} =this.state;
+    if (this.state.AllLocations) {
+      this.state.AllLocations.map(loc => {
+       
+        locations.push({ name: loc.location_name, value: loc.id.toString() });
+      });
+    }
+
     console.log(this.state)
+    var LocationArrayPrint;
+
+    if(locationArray){
+      LocationArrayPrint= locationArray.map(m=>{
+
+        var h=this.state.AllLocations.filter(item=>item.id === m.location_id);
+        console.log("con",h[0])
+        return (<div key={h[0].id} >{h[0].location_name}</div>)
+      })
+    }
 
     return (
       <div>
@@ -152,6 +268,7 @@ console.log("instadata",data)
                 <input
                   type="text"
                  name="lastName"
+                 value={this.state.lastName}
                   onChange={e => this.setState({ lastName: e.target.value })}
                 />
                 <div class='err_msg'>{this.state.username_error}</div>
@@ -159,8 +276,9 @@ console.log("instadata",data)
               <p>
                 <label htmlFor="password">User Email</label>
                 <input
-                  type="password"
+                  type="email"
                   name="userEmail"
+                  value={this.state.userEmail}
                   onChange={e => this.setState({ userEmail: e.target.value })}
                 />
                 <div class='err_msg'>{this.state.password_error}</div>
@@ -217,18 +335,34 @@ console.log("instadata",data)
                     Client (Read only)
                 </option>
                     </select>
- 
- 
-  </div>
-  </MDBCol>
-  
-</MDBRow>
-<MDBRow  className='form-group'>
-  <MDBCol className="offset-md-10">
-  <MDBBtn type="submit" className="last_btn" style={{marginLeft:'40px'}}>Invite User</MDBBtn>
-  </MDBCol>
-</MDBRow>
-          
+                {/* <div class='err_msg'>{this.state.password_error}</div> */}
+              </div></MDBCol></MDBRow>
+
+              <SelectSearch
+               options={locations} 
+                search={true}
+                 value={locations.value}
+                  className="searcdd" 
+                  name="language"
+ onChange={e =>{
+  console.log(e)
+  this.setState({ locationArray: this.state.locationArray.concat({"location_id":e}) })
+}
+} 
+placeholder={ "Search"}  />
+
+<p>
+  {LocationArrayPrint}
+</p>
+
+
+              <p>
+               
+              {this.state.update ? <button onClick={this.Update}>Update User</button>: <button type="submit" className="last_btn" style={{marginLeft:'40px'}}>Invite User</button>}
+              </p>
+
+
+              
             </fieldset>
           </form>
         </div>

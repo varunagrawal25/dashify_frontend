@@ -13,4 +13,16 @@ export const Add_Invite_User = (data) => {
     return Axios.post(
       `${API}/admin/account_api/get_invite_userlist_by_uid`,data);
   };
+
+  export const Edit_Invite = (data) => {
+    return Axios.post(
+      `${API}/admin/account_api/invite_user_details`,data);
+  };
+  
+
+  export const Update_Invite = (data) => {
+    return Axios.post(
+      `${API}/admin/account_api/update_invite_user`,data);
+  };
+  
   

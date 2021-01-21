@@ -38,5 +38,8 @@ export const Review_Generation_Stats = data => {
   return Axios.post(`${API}/admin/socialmedia_api/get_generation_stats`, data);
 };
 
+export const Redirect_Url_Id = data => {
+  return Axios.post(`${API}/admin/socialmedia_api/count_campaign_social`, data);
+};
 
 

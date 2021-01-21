@@ -3,10 +3,51 @@ import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
 import ProfileSettingSidebar from "./setting-sidebar";
 import { Link } from "react-router-dom";
+import { Get_All_Invites_By_User } from "./apis/invite";
+// import Datatable from './Datatable'
+import { secure_pin } from "../config";
 import Datatable from './Datatable'
 
 export default class Profile_setting extends Component {
+
+  state={
+    AllPeople:[]
+  }
+
+  componentDidMount(){
+
+    const data ={
+      secure_pin,"user_id":localStorage.getItem("UserId") 
+    }
+    Get_All_Invites_By_User(data).then(res=>{
+      console.log(res)
+      this.setState({AllPeople:res.data.invite_user_list})
+
+    }).catch(res=>{
+
+    })
+  }
   render() {
+    var { AllPeople } =this.state;
+var AllPeop=[];
+    if(AllPeople){
+
+   AllPeople.map(a=>
+    AllPeop.push(  
+      {
+        img:'',
+        name: a.first_name ,
+        email:a.email_id,
+        role:a.role,
+        status:'Active',
+        action:""
+      }
+      
+   ))
+    }
+
+
+
     return (
       <div>
         <MDBContainer>
@@ -44,14 +85,15 @@ export default class Profile_setting extends Component {
                  </Link>
                 </MDBCol>
                 <MDBCol md="4">
-                  <MDBBtn id="profile_add_btn">Add Using CSV</MDBBtn>
+                <Link to="/setting-main/setting-people/bulk-user"> <MDBBtn id="profile_add_btn">Add Using CSV</MDBBtn>
+                </Link>
                 </MDBCol>
               </MDBRow>
 
               <MDBRow>
                 <MDBCol>
                   <div className="profile_container">
-                    <Datatable/>
+                    <Datatable  AllPeople= {AllPeop} />
                   </div>
                 </MDBCol>
               </MDBRow>

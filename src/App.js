@@ -32,6 +32,7 @@ import PageNotFound from "./component/page-not-found";
 
 // import EmailConfirmation from "./component/landingpage/email-confirmation";
 import PasswordReset from "./component/landingpage/password-reset";
+import RedirectCampaign from "./component/RedirectCampaign";
 
 class App extends Component {
   render() {
@@ -42,6 +43,7 @@ class App extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" component={Home} />
+          
             <Route
               exact
               path="/:param1/:param2"
@@ -66,6 +68,8 @@ class App extends Component {
               render={props => <PasswordReset {...props} />}
             />
 
+<Route exact path="/redirect/campaign/:id" component={RedirectCampaign} />
+
             <Route exact path="/Signup" component={Signup} />
             {/* <Route
               exact
@@ -83,6 +87,7 @@ class App extends Component {
             <Route exact path="/zillowlogin" component={ZillowLogin} />
             <Route exact path="/tomtomlogin" component={TomtomLogin} />
             <Route exact path="/zomatologin" component={ZomatoLogin} />
+           
             <Route
               path="/avvologin"
               render={props => <AvvoLogin {...props} />}

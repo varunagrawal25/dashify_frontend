@@ -43,11 +43,41 @@ import TomtomRelatedLocation from "./tomtom-related-location";
 import PageNotFound from "./page-not-found";
 import CommonLogin from "./CommonLogin";
 import InviteNewUser from "./InviteNewUser";
+import BulkAddUser from "./BulkAddUser";
+import { get_login_user_info } from "./apis/user";
+import { secure_pin } from "../config";
 import SettingAgency from "./setting-agency";
 
 export default class MainApp extends Component {
+
+  state={
+    role:''
+  }
+
+  componentDidMount(){
+    let data = { user_id: localStorage.getItem("UserId") ,secure_pin};
+    get_login_user_info(data)
+      .then(res => {
+        console.log("user info0", res.data);
+        console.log("user info img", res.data.users_login[0].profile_image);
+        if (res.data &&  res.data.users_login) {
+          this.setState({
+            users_login: res.data.users_login,
+          role: res.data.users_login[0].role
+            
+          });
+          console.log("statr value",this.state)
+        } else {
+          this.setState({ loading_info: false, loading_image: false });
+        }
+      })
+      .catch(err => {
+        console.log("user info err", err);
+        this.setState({ loading_info: false, loading_image: false });
+      });
+  }
   render() {
-    console.log(localStorage.getItem("locationId"));
+    console.log(this.state);
 
     return (
       <div>
@@ -263,6 +293,18 @@ export default class MainApp extends Component {
                   path="/setting-main/setting-people/invite-new-user"
                   render={props => <InviteNewUser {...props} />}
                 />
+
+                <Route
+                  exact
+                  path="/setting-main/setting-people/bulk-user"
+                  render={props => <BulkAddUser {...props} />}
+                />
+
+                <Route
+                  exact
+                  path="/setting-main/setting-people/user/edit/:id"
+                  render={props => <InviteNewUser {...props} />}
+                />
                 <Route
                   exact
                   path="/locations/:locationId/campaignpart2/:campaign_id"
@@ -301,7 +343,7 @@ export default class MainApp extends Component {
                 <Route
                   exact
                   path="/locations/:locationId/view-location"
-                  render={props => <ViewLocations {...props} />}
+                  render={props => <ViewLocations role={this.state.role} {...props}  />}
                 />
                 <Route
                   exact

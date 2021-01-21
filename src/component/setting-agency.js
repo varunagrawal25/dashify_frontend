@@ -3,8 +3,8 @@ import { NavLink ,Switch,Route} from "react-router-dom";
 import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import ProfileSettingSidebar from "./setting-sidebar";
 import swal from "sweetalert";
-import AgencyScanTool from "./AgencyScanTool";
-import AgencyDashboard from "./AgencyDashboard";
+import AgencyScanTool from "./agencyScanTool";
+import AgencyDashboard from "./agencyDashboard";
 
 export default class SettingAgency extends Component {
     render() {
