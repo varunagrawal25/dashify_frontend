@@ -46,7 +46,21 @@ class InviteNewUser extends Component {
       
       };
 
-
+      if(this.state.firstName==''){
+        this.setState({
+          first_name_err:'First name can not be empty'
+        })
+      }
+      // if(this.state.lastName==''){
+      //   this.setState({
+      //     last_name_err:'Last name can not be empty'
+      //   })
+      // }
+      if(this.state.userEmail==''){
+        this.setState({
+          email_err:'Email can not be empty'
+        })
+      }
 
 console.log("invite ",data)
     
@@ -108,7 +122,7 @@ console.log("invite ",data)
     userRole:res.data.user_data[0].role,
     locationArray:res.data.user_data[0].location_data,
           })
-  
+          
         }
       )
       .catch(res=>{
@@ -151,7 +165,21 @@ console.log("invite ",data)
     })
 
   
-
+    if(this.state.firstName==''){
+      this.setState({
+        first_name_err:'First name can not be empty'
+      })
+    }
+    if(this.state.lastName==''){
+      this.setState({
+        last_name_err:'Last name can not be empty'
+      })
+    }
+    if(this.state.userEmail==''){
+      this.setState({
+        email_err:'Email can not be empty'
+      })
+    }
 
   }
 
@@ -189,6 +217,7 @@ console.log("invite ",data)
       })
     }
 
+    
     return (
       <div>
        <div className="profile_container" style={{color:'#4f4f4f',marginTop:'60px'}}>
@@ -225,7 +254,7 @@ console.log("invite ",data)
                   className="form-control"
                   onChange={e => this.setState({ firstName: e.target.value })}
                 />
-                <div class='err_msg'>{this.state.url_error}</div>
+                <div class='err_msg'>{this.state.first_name_err}</div>
           </MDBCol>
 
           <MDBCol md='4' className='form-group invite_subHead'>
@@ -236,18 +265,18 @@ console.log("invite ",data)
                  className="form-control"
                   onChange={e => this.setState({ lastName: e.target.value })}
                 />
-                <div class='err_msg'>{this.state.username_error}</div>
+                <div class='err_msg'>{this.state.last_name_err}</div>
           </MDBCol>
 
           <MDBCol md='4' className='form-group invite_subHead'>
             <div>User Email <span className="red">*</span></div>
             <input
-                  type="password"
+                  type="email"
                   name="userEmail"
                   className="form-control"
                   onChange={e => this.setState({ userEmail: e.target.value })}
                 />
-                <div class='err_msg'>{this.state.password_error}</div>
+                <div class='err_msg'>{this.state.email_err}</div>
           </MDBCol>
         </MDBRow>
        

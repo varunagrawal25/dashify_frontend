@@ -252,7 +252,7 @@ changeHandler = event => {
 
 draftClicked = () => {
   
-  if(this.state.offer_title == ''){
+  if(this.state.offer_title == '' && this.state.type=="promotional"){
     this.setState({
       pshow_err:true,
       pt_err:"Title can not be empty",
@@ -264,7 +264,7 @@ draftClicked = () => {
     pt_err:""
    })
   }
-  if(this.state.promo_start_date  ==  '')
+  if(this.state.promo_start_date  ==  '' && this.state.type=="promotional")
   {
     this.setState({
       pshow_err:true,
@@ -277,7 +277,7 @@ draftClicked = () => {
      psd_err:""
     })
    }
-  if( this.state.promo_end_date ==  '')
+  if( this.state.promo_end_date ==  ''  && this.state.type=="promotional")
   {
     this.setState({
       pshow_err:true,
@@ -290,7 +290,7 @@ draftClicked = () => {
      ped_err:""
     })
    }
-  if( this.state.offer_details ==  '')
+  if( this.state.offer_details ==  ''  && this.state.type=="promotional")
   {
     this.setState({
       pshow_err:true,
@@ -304,7 +304,7 @@ draftClicked = () => {
     })
    }
 
-  if(this.state.event_title == ''){
+  if(this.state.event_title == ''  && this.state.type=="event"){
     this.setState({
       eshow_err:true,
       et_err:"Title can not be empty",
@@ -316,7 +316,7 @@ draftClicked = () => {
      et_err:""
     })
    }
-  if(this.state.event_start_date  ==  '')
+  if(this.state.event_start_date  ==  '' && this.state.type=="event")
   {
     this.setState({
       eshow_err:true,
@@ -329,7 +329,7 @@ draftClicked = () => {
      esd_err:""
     })
    }
-  if( this.state.event_end_date ==  '')
+  if( this.state.event_end_date ==  '' && this.state.type=="event")
   {
     this.setState({
       eshow_err:true,
@@ -342,7 +342,7 @@ draftClicked = () => {
      eed_err:""
     })
    }
-  if( this.state.event_details ==  '')
+  if( this.state.event_details ==  '' && this.state.type=="event")
   {
     this.setState({
       eshow_err:true,
@@ -430,7 +430,9 @@ this.setState({
   terms:'',
   event_title:'',
   event_details:'',
-  otherImages_promo:[]
+  otherImages_promo:[],
+  expiry_post:false,
+  add_cta:false,
 })
 
       All_Promotional_list(data)
@@ -507,6 +509,8 @@ this.setState({
         event_title:'',
         event_details:'',
         otherImages_event:[],
+        expiry_post:false,
+  add_cta:false,
       })
       
       All_Promotional_list(data)
@@ -543,7 +547,7 @@ confirmPost = () => {
     schDate_err:""
    })
   }
-  if(this.state.offer_title == ''){
+  if(this.state.offer_title == '' && this.state.type=="promotional"){
     this.setState({
       pshow_err:true,
       pt_err:"Title can not be empty",
@@ -555,7 +559,7 @@ confirmPost = () => {
     pt_err:""
    })
   }
-  if(this.state.promo_start_date  ==  '')
+  if(this.state.promo_start_date  ==  '' && this.state.type=="promotional")
   {
     this.setState({
       pshow_err:true,
@@ -568,7 +572,7 @@ confirmPost = () => {
      psd_err:""
     })
    }
-  if( this.state.promo_end_date ==  '')
+  if( this.state.promo_end_date ==  ''  && this.state.type=="promotional")
   {
     this.setState({
       pshow_err:true,
@@ -581,7 +585,7 @@ confirmPost = () => {
      ped_err:""
     })
    }
-  if( this.state.offer_details ==  '')
+  if( this.state.offer_details ==  ''  && this.state.type=="promotional")
   {
     this.setState({
       pshow_err:true,
@@ -595,7 +599,7 @@ confirmPost = () => {
     })
    }
 
-  if(this.state.event_title == ''){
+  if(this.state.event_title == ''  && this.state.type=="event"){
     this.setState({
       eshow_err:true,
       et_err:"Title can not be empty",
@@ -607,7 +611,7 @@ confirmPost = () => {
      et_err:""
     })
    }
-  if(this.state.event_start_date  ==  '')
+  if(this.state.event_start_date  ==  '' && this.state.type=="event")
   {
     this.setState({
       eshow_err:true,
@@ -620,7 +624,7 @@ confirmPost = () => {
      esd_err:""
     })
    }
-  if( this.state.event_end_date ==  '')
+  if( this.state.event_end_date ==  '' && this.state.type=="event")
   {
     this.setState({
       eshow_err:true,
@@ -633,7 +637,7 @@ confirmPost = () => {
      eed_err:""
     })
    }
-  if( this.state.event_details ==  '')
+  if( this.state.event_details ==  '' && this.state.type=="event")
   {
     this.setState({
       eshow_err:true,
@@ -713,6 +717,8 @@ confirmPost = () => {
         event_details:'',
         post_schedule_date:'',
         otherImages_promo:[],
+        expiry_post:false,
+  add_cta:false,
       })
       
       All_Promotional_list(data)
@@ -790,6 +796,8 @@ confirmPost = () => {
         event_details:'',
         post_schedule_date:'',
         otherImages_event:[],
+        expiry_post:false,
+  add_cta:false,
       })
       
       All_Promotional_list(data)
@@ -817,7 +825,7 @@ editDraftPost = () => {
       active_status:'draft'
     })
   
-  if(this.state.offer_title == ''){
+  if(this.state.offer_title == '' && this.state.type=="promotional"){
     this.setState({
       mpshow_err:true,
       mpt_err:"Title can not be empty",
@@ -829,7 +837,7 @@ editDraftPost = () => {
     mpt_err:""
    })
   }
-  if(this.state.promo_start_date  ==  '')
+  if(this.state.promo_start_date  ==  '' && this.state.type=="promotional")
   {
     this.setState({
       mpshow_err:true,
@@ -842,7 +850,7 @@ editDraftPost = () => {
      mpsd_err:""
     })
    }
-  if( this.state.promo_end_date ==  '')
+  if( this.state.promo_end_date ==  ''  && this.state.type=="promotional")
   {
     this.setState({
       mpshow_err:true,
@@ -855,7 +863,7 @@ editDraftPost = () => {
      mped_err:""
     })
    }
-  if( this.state.offer_details ==  '')
+  if( this.state.offer_details ==  ''  && this.state.type=="promotional")
   {
     this.setState({
       mpshow_err:true,
@@ -869,7 +877,7 @@ editDraftPost = () => {
     })
    }
 
-  if(this.state.event_title == ''){
+  if(this.state.event_title == ''  && this.state.type=="event"){
     this.setState({
       meshow_err:true,
       met_err:"Title can not be empty",
@@ -881,7 +889,7 @@ editDraftPost = () => {
      met_err:""
     })
    }
-  if(this.state.event_start_date  ==  '')
+  if(this.state.event_start_date  ==  '' && this.state.type=="event")
   {
     this.setState({
       meshow_err:true,
@@ -894,7 +902,7 @@ editDraftPost = () => {
      mesd_err:""
     })
    }
-  if( this.state.event_end_date ==  '')
+  if( this.state.event_end_date ==  '' && this.state.type=="event")
   {
     this.setState({
       meshow_err:true,
@@ -907,7 +915,7 @@ editDraftPost = () => {
      meed_err:""
     })
    }
-  if( this.state.event_details ==  '')
+  if( this.state.event_details ==  '' && this.state.type=="event")
   {
     this.setState({
       meshow_err:true,
@@ -1052,7 +1060,7 @@ editDraftPost = () => {
 
 editConfirmPost = () => {
 
-  if(this.state.offer_title == ''){
+  if(this.state.offer_title == '' && this.state.type=="promotional"){
     this.setState({
       mpshow_err:true,
       mpt_err:"Title can not be empty",
@@ -1064,7 +1072,7 @@ editConfirmPost = () => {
     mpt_err:""
    })
   }
-  if(this.state.promo_start_date  ==  '')
+  if(this.state.promo_start_date  ==  '' && this.state.type=="promotional")
   {
     this.setState({
       mpshow_err:true,
@@ -1077,7 +1085,7 @@ editConfirmPost = () => {
      mpsd_err:""
     })
    }
-  if( this.state.promo_end_date ==  '')
+  if( this.state.promo_end_date ==  ''  && this.state.type=="promotional")
   {
     this.setState({
       mpshow_err:true,
@@ -1090,7 +1098,7 @@ editConfirmPost = () => {
      mped_err:""
     })
    }
-  if( this.state.offer_details ==  '')
+  if( this.state.offer_details ==  ''  && this.state.type=="promotional")
   {
     this.setState({
       mpshow_err:true,
@@ -1104,7 +1112,7 @@ editConfirmPost = () => {
     })
    }
 
-  if(this.state.event_title == ''){
+  if(this.state.event_title == ''  && this.state.type=="event"){
     this.setState({
       meshow_err:true,
       met_err:"Title can not be empty",
@@ -1116,7 +1124,7 @@ editConfirmPost = () => {
      met_err:""
     })
    }
-  if(this.state.event_start_date  ==  '')
+  if(this.state.event_start_date  ==  '' && this.state.type=="event")
   {
     this.setState({
       meshow_err:true,
@@ -1129,7 +1137,7 @@ editConfirmPost = () => {
      mesd_err:""
     })
    }
-  if( this.state.event_end_date ==  '')
+  if( this.state.event_end_date ==  '' && this.state.type=="event")
   {
     this.setState({
       meshow_err:true,
@@ -1142,7 +1150,7 @@ editConfirmPost = () => {
      meed_err:""
     })
    }
-  if( this.state.event_details ==  '')
+  if( this.state.event_details ==  '' && this.state.type=="event")
   {
     this.setState({
       meshow_err:true,
@@ -2054,11 +2062,13 @@ N/A
           <div class="scrollbar" style={{height:'415px'}}>
     <div class="overflow">
   <div class="tab-content">
-  {this.state.CropperActive_promo ? <Cropper uploadUserImage={this.uploadUserImage_promo} />
-          :
+  
   <div id="promo_post" class="tab-pane fade  active" style={{opacity:'1',minHeight: '350px'}}>
   {this.state.loading?<Spinner/>:
-    <div >
+   <div>
+     {this.state.CropperActive_promo ? <Cropper uploadUserImage={this.uploadUserImage_promo} />
+          :
+   <div >
     {/* <MDBRow>
            <MDBCol md='8' className='ap_subhead1'>
            Write Your Post
@@ -2231,14 +2241,18 @@ N/A
         </MDBCol>
       </MDBRow>}
     </div>
+  }
+ </div>
    }
    </div>
  
-  }
- {this.state.CropperActive_event  ? <Cropper uploadUserImage={this.uploadUserImage_event} />
-          :
+  
+
  <div id="post_event" class="tab-pane fade" style={{opacity:'1',minHeight: '350px'}}>
    {this.state.loading?<Spinner/>:
+   <div>
+      {this.state.CropperActive_event  ? <Cropper uploadUserImage={this.uploadUserImage_event} />
+          :
     <div >
     {/* <MDBRow>
            <MDBCol md='8' className='ap_subhead1'>
@@ -2402,9 +2416,11 @@ N/A
           </MDBCol>
         </MDBRow>}
     </div>
-  }
+  
+   }
+   </div>}
    </div>
-  }
+  
   </div>
          
          {/* <MDBRow>
