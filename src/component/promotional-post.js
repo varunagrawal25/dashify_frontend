@@ -104,16 +104,24 @@ location_id: this.props.match.params.locationId,
 
   Promotional_Analytics(data2)
   .then(resp => {
-    console.log(resp)
-     this.setState({
-       ActivePost:resp.data.avtive_posts,
-       ExpirePost:resp.data.expire_posts,
-      PostClicks: resp.data.post_clicks,
-      PostViews: resp.data.post_views,
-      SchedulePosts: resp.data.schedule_posts,
-       
-      
-    }).
+    console.log(resp);
+    if(resp.data.message !== 'No data ')
+           this.setState({
+             ActivePost:resp.data.avtive_posts,
+             ExpirePost:resp.data.expire_posts,
+            PostClicks: resp.data.post_clicks,
+            PostViews: resp.data.post_views,
+            SchedulePosts: resp.data.schedule_posts,
+
+            ActivePostPer:resp.data.avtive_posts_per,
+            ExpirePostPer:resp.data.expire_posts_per,
+            PostClicksPer: resp.data.post_clicks_per,
+            PostViewsPer: resp.data.post_views_per,
+            SchedulePostsPer: resp.data.schedule_posts_per,
+
+             
+            
+          })
 console.log("ppk",this.state)
   }).catch(resp=>{
     console.log(resp)
@@ -133,7 +141,7 @@ componentDidMount = () =>{
     console.log("hh",resp)
      this.setState({
       promo_list: resp.data.promotional_details,
-    }).
+    })
 console.log("ppk",this.state.promo_list)
   }).catch(resp=>{
     console.log(resp)
@@ -163,7 +171,7 @@ console.log("ppk",this.state.promo_list)
 
              
             
-          }).
+          })
       console.log("ppk",this.state)
         }).catch(resp=>{
           console.log(resp)
@@ -1929,7 +1937,7 @@ Status
                 <MDBCol md="3" style={{padding:'0px'}}>
                   <img
                   // src={"https://digimonk.net/dashify-ci/assets/upload/images/promotional-image/" + d.promotional_gallery[0].image_name}
-                    src={es_img1}
+                    src={ d.promotional_gallery[0]?d.image_path+d.promotional_gallery[0].image_name:es_img1}
                     alt="es_img1"
                     className="pp_img"
                     

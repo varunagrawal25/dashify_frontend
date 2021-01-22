@@ -11,7 +11,7 @@ import rev_gen_img3 from "./assets/rev_gen_img3.png";
 import rev_gen_img4 from "./assets/rev_gen_img4.png";
 import { secure_pin } from "../config";
 import { Review_Generation_Stats } from "./apis/review";
-import DonutChart from "react-donut-chart/lib/dist/DonutChart";
+import DonutChart from "react-donut-chart";
  import PromotionalPostSorry from "./promotional-post-sorry";
 
 
@@ -868,6 +868,9 @@ export default class ReviewGenerationStats extends Component {
             })
           }
           console.log(pieGraphData)
+          var finalData={
+            datasets:pieGraphData
+          }
     // const dataMock = [
     //   { title: "Google", value: 55, color: "#ffb92d" },
     //   { title: "Facebook", value: 24, color: "#0460ea" },
@@ -949,16 +952,17 @@ export default class ReviewGenerationStats extends Component {
                             <div className="whitechart" style={{padding:'28px 45px'}}>
                             <DonutChart
                       legend={false}
+                     responsive={true}
                       height={200}
                       width={200}
                       loader={<div>Loading Chart</div>}
                       outerRadius={0.95}
                       innerRadius={0.6}
-                      // clickToggle={false}
+                      clickToggle={false}
                       formatValues={(values) =>
                         `${parseInt((values))}%`
                       }
-                      colors={["#8264C6", "#634A9B", "#EB05B8", "#3380cc","red","blue","green","orange"]}
+                     // colors={["#8264C6", "#634A9B", "#EB05B8", "#3380cc","red","blue","green","orange"]}
                       strokeColor={"false"}
                       data={pieGraphData}
                       rootProps={{ "data-testid": "1" }}
