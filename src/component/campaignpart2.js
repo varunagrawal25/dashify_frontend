@@ -1,15 +1,10 @@
 import React, { Component } from "react";
 import Loader from "react-loader-spinner";
-import Axios from "axios";
+
 import swal from "sweetalert";
 import { Add_Campaign } from "./apis/review";
 import {secure_pin} from "../config"
-// import { isEmail } from "react-multi-email";
-const DjangoConfig = {
-  headers: {
-    Authorization: "Token " + localStorage.getItem("UserToken")
-  }
-};
+
 
 export default class CampaignPart2 extends Component {
   state = {
@@ -82,32 +77,7 @@ export default class CampaignPart2 extends Component {
     this.setState({FinalCustomers:this.state.FinalCustomers.concat({})})
 
 
-    // this.setState(prevState => ({
-    //   sendto_fname: {
-    //     ...prevState.sendto_fname,
-    //     [this.state.add_customer]: ""
-    //   }
-    // }));
-    // this.setState(prevState => ({
-    //   sendto_lname: {
-    //     ...prevState.sendto_lname,
-    //     [this.state.add_customer]: ""
-    //   }
-    // }));
-    // this.setState(prevState => ({
-    //   sendto_contact: {
-    //     ...prevState.sendto_contact,
-    //     [this.state.add_customer]: ""
-    //   }
-    // }));
-    // this.setState(prevState => ({
-    //   sendto_email: {
-    //     ...prevState.sendto_email,
-    //     [this.state.add_customer]: ""
-    //   }
-    // }));
-
-    // this.setState({ add_customer: this.state.add_customer + 1 });
+   
   };
 
   removeCustomer =(i)=>e=>{
@@ -230,6 +200,7 @@ export default class CampaignPart2 extends Component {
 
     var l;
     l=FinalCustomers.map( (r,index)=>{
+     
 
       return  <div style={{background:'#fff' , marginBottom:'20px'}}>
         <div className="formbox"> 
@@ -246,6 +217,7 @@ export default class CampaignPart2 extends Component {
                             onChange={this.AddCustomer(index,"first")}
                           />
                           </div>
+                          {!r.fname ? <div>fname</div>:""}
                         </div>
                         <div className="col-md-6 camp_margin1">
                           <div >
@@ -269,6 +241,7 @@ export default class CampaignPart2 extends Component {
                             onChange={this.AddCustomer(index,"email")}
                           />
                           </div>
+                          {!r.email ? <div>Email</div>:""}
                         </div>
                         :""}
                         {isSms ?<div className="col-md-6 camp_margin2">
@@ -281,6 +254,7 @@ export default class CampaignPart2 extends Component {
                             onChange={this.AddCustomer(index,"phone")}
                           />
                           </div>
+                          {!r.phone ? <div>Number</div>:""}
                         </div>
                         :""}
                       

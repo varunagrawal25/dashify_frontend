@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Axios from "axios";
+
 import { all_connection_of_one_location } from "./apis/social_platforms";
 import {review_analytics_by_location} from "./apis/review"
 import Chart from "react-google-charts";

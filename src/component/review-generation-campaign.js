@@ -55,28 +55,9 @@ export default class ReviewGenerationCampaign extends Component {
   componentDidMount = () => {
     const data = {
       secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
-
-
-      // "campaign_type_email":"email","campaign_type_sms":"sms","sender_email":"sender@email.com",
-      // "reply_email":"reply_email@email.com","subject":"testing subject",
-      // "heading":"testing heading","email_content":"email content testing adkd ",
-      // "sms_content":"sms content testing",
-      // "recipient_array":[
-      //   {"name":"name 1","email":"respiemail@recipient.com","phone":"1231231231"},{"name":"name 2","email":"respiemail2@recipient.com","phone":"2233114433"}
-      // ],
-      //   "email_social_array":[{"name":"Foursquare","connect_url":"www.yelp.com"},{"name":"Google","connect_url":"www.yelp.com"}],
-      //   "sms_social_array":[{"name":"Foursquare","connect_url":"www.yelp.com"},{"name":"Google","connect_url":"www.yelp.com"}]
+    //   "sms_social_array":[{"name":"Foursquare","connect_url":"www.yelp.com"},{"name":"Google","connect_url":"www.yelp.com"}]
     };
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/locations/get-all-connection-of-one-location",
-    //   data,
-    //   DjangoConfig
-    // )
-    // all_connection_of_one_location(data, DjangoConfig).then(response => {
-    //   var googleToken, appleUrl;
-    //   this.setState({})
-      
-    // });
+  
 
     List_Connected_Url(data).then(resp => {
       console.log("list",resp)
@@ -86,12 +67,7 @@ export default class ReviewGenerationCampaign extends Component {
 
     })
 
-    Add_Campaign (data).then(resp => {
-      console.log(resp)
-
-    }).catch(resp => {
-
-    })
+   
   };
   step_2_1 =e=>{
     this.setState({
@@ -140,21 +116,7 @@ export default class ReviewGenerationCampaign extends Component {
 
     var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
 
-    // if (!campaign_name) {
-    //   this.setState({
-    //     campaign_name_error: "Enter your Campaign name",
-    //     wrong: "Above fields are empty or invalid"
-    //   });
-    //   isError = true;
-    // }
-
-    // if (!emailReg.test(email_from) || email_from == "") {
-    //   this.setState({
-    //     email_from_error: "Enter valid email",
-    //     wrong: "Above fields are empty or invalid"
-    //   });
-    //   isError = true;
-    // }
+ 
     
     if (this.state.FinalSmsSocial.length<1 && this.state.isSms) {
       this.setState({
@@ -218,109 +180,52 @@ export default class ReviewGenerationCampaign extends Component {
 if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
   isError = false
 }
+
     if(!isError){
-      this.setState({ Step: 2 });
+      // this.setState({  });
+      this.setState({FinalEmailSocial : this.state.FinalEmailSocial.concat({
+        name:this.state.hideName,
+        connect_url:this.state.hideUrl
+      
+      })
+    
+    ,Step: 2})
     }
 
-    if (!isError) {
-      var additional_link_image1 = "",
-        additional_link_image2 = "";
+    // if (!isError) {
+    //   var additional_link_image1 = "",
+    //     additional_link_image2 = "";
 
-      this.setState({ loading: true });
+    //   this.setState({ loading: true });
 
-      // Object.values(all_site_url).map((value, i) => {
-      //   if (i == 0) {
-      //     additional_link_image1 =
-      //       '<br /><img src="https://img.techpowerup.org/200624/t-logo.jpg" alt="Review" height=100 width=100 /><p>' +
-      //       all_site_name[i] +
-      //       "</p><br /><button><a href=" +
-      //       all_site_url[i] +
-      //       ">Review</a></button>";
-      //   }
-      //   if (i == 1) {
-      //     additional_link_image2 =
-      //       "<br /><h1>" +
-      //       all_site_name[i] +
-      //       "</h1><br /><button><a href=" +
-      //       all_site_url[i] +
-      //       ">Review</a></button>";
-      //   }
-      // });
-
-      // var message_content;
-
-      // const google_link =
-      //   "https://search.google.com/local/writereview?placeid=" + google_placeid;
-      // const apple_link =
-      //   "https://apps.apple.com/us/app/appname/id" +
-      //   appleId +
-      //   "?action=write-review";
-      // console.log("google_link", google_link);
-      // const google_link_image =
-      //   '<br /><img src="https://img.techpowerup.org/200617/googlemap.png" alt="Google Map" height=100 width=100 /><p>Google</p><br /><button><a href=' +
-      //   google_link +
-      //   ">Review</a></button>";
-
-      // const apple_link_image =
-      //   '<br /><img src="https://img.techpowerup.org/200623/apple.png" alt="Apple" height=100 width=100 /><p>Apple</p><br /><button><a href=' +
-      //   apple_link +
-      //   ">Review</a></button>";
-
-      // message_content =
-      //   '<div style="background-color: lightgrey;padding: 25px;margin: 20px;"><div style="background-color: white;padding: 25px;margin: 20px;"><p>Hi,</p><b>' +
-      //   email_heading +
-      //   "</b></div><br /><div background-color: white;padding: 25px;margin: 20px;><p>" +
-      //   email_content +
-      //   "</p>";
-
-      // if (review_by_google) {
-      //   message_content += google_link_image;
-      // }
-      // if (review_by_apple) {
-      //   message_content += apple_link_image;
-      // }
-      // message_content +=
-      //   additional_link_image1 + additional_link_image2 + "</div></div>";
-
-      // const campaign_data = {
-      //   Title: campaign_name,
-      //   Sent_from: email_from,
-      //   replay_to: email_replyto,
-      //   message: message_content,
-      //   sms_message: sms_content,
-      //   location_id: this.props.match.params.locationId,
-      //   Image: "",
-      //   Extera_data: "",
-      //   Head: email_heading,
-      //   Subject: email_subject
-      // };
-
-      // Axios.post(
-      //   "https://cors-anywhere.herokuapp.com/http://dashify.biz/api/campaign/add-campaign",
-      //   campaign_data,
-      //   DjangoConfig
-      // )
-      //   .then(resp => {
-      //     console.log("Campaign added", resp.data);
-      //     if (resp.data.message == "Campaign create successfully.") {
-      //       this.setState({ loading: false });
-      //       this.props.history.push({
-      //         pathname: `campaignpart2/${resp.data.campain_id}`
-      //       });
-      //     } else {
-      //       console.log("Campaign adding error", resp);
-      //       this.setState({ wrong: "Something went wrong", loading: false });
-      //     }
-      //   })
-      //   .catch(resp => {
-      //     console.log("Campaign adding error", resp);
-      //     this.setState({ wrong: "Server error", loading: false });
-      //   });
-    }
+   
+    // }
   };
 
   changeHandler = event => {
     this.setState({ [event.target.name]: event.target.value });
+  };
+
+  EmailchangeHandler =async event => {
+  
+   await this.setState({ [event.target.name]: event.target.value });
+    if(!this.state.hideUrl)
+    this.setState({
+      hideUrlVali:true
+    })
+    else
+    this.setState({
+      hideUrlVali:false
+    })
+    if(!this.state.hideName)
+    this.setState({
+      hideNameVali:true
+    })
+    else
+    this.setState({
+      hideNameVali:false
+    })
+
   };
 
   checkBoxHandler = event => {
@@ -587,29 +492,7 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
  </label>
  </div>
  </MDBCol>
-        
-  //          <MDBCol md='5' style={{marginLeft:'-15px'}}>
-  //     <div className='review_sites_container ' >
-  //                           <input
-  //                                 type="checkbox"
-                                  
-  //                                onClick ={this.addSocialEmail(l.name, l.connect_url,l.icon)}
-  //                                 value="true"
-  //                                 id={l.name}
-  //                                 style={{display:"none"}}
-  //                               /> 
-  //                               <label for={l.name}>
-  // <MDBRow > 
-  // <MDBCol md='4' className='no_right_padding'>
-  // <img src={l.icon} className='camp_icon' />
-  // </MDBCol>
-  // <MDBCol md='8' className='review_sites_contant'>
-  // {l.name}
-  // </MDBCol>
-  //  </MDBRow>
-  //  </label>
-  //  </div>
-  //  </MDBCol>
+   
   )
     
   })
@@ -863,11 +746,13 @@ Write A Review
  <MDBRow>
    
    <MDBCol md='6' style={{paddingLeft:'0px'}}>
-    <input type="text" name="hideName" className='form-control' placeholder="Enter Name" onChange={this.changeHandler}  /> 
+    <input type="text" name="hideName" className='form-control' placeholder="Enter Name" onChange={this.EmailchangeHandler}  /> 
   </MDBCol>
+ { this.state.hideNameVali? <div className="err_msg">Name is required</div>:""}
   <MDBCol md='6'>
-    <input type="url" name="hideUrl" className='form-control' placeholder="Enter Url" onChange={this.changeHandler} />
+    <input type="url" name="hideUrl" className='form-control' placeholder="Enter Url" onChange={this.EmailchangeHandler} />
   </MDBCol>
+  { this.state.hideUrlVali? <div className="err_msg">Url is required</div>:""}
  </MDBRow>
  </div>   
   :""}          

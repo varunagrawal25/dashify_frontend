@@ -10691,6 +10691,58 @@ ul.dropdown-menu.loginboxds li a:hover {
 /* surya css */
 
 /* varun css */
+.bulk_add_form {
+  background: #fff;
+  overflow: hidden;
+  width: 70%;
+  display: block;
+  padding: 20px;
+  margin: 50px auto;
+  border-radius: 10px;
+  font-family: Roboto;
+  font-style: normal;
+  color: #000;
+  line-height: 35px;
+}
+
+.bulk_add_contant1 {
+  font-weight: 400;
+  font-size: 16px;
+  color: rgb(79, 79, 79);
+  width: 42%;
+  opacity: 0.8;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+.bulk_add_ol {
+  font-weight: 400;
+  font-size: 17px;
+  margin-left: -22px;
+}
+
+.bulk_upload_csv{
+  font-weight: 400;
+    color: #4f4f4f;
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+#bulk_csv_file {
+  background: transparent;
+  border: 1px solid blueviolet;
+  width: 227px;
+  height: 38px;
+  cursor: pointer;
+}
+
+#bulk_input {
+  opacity: 0;
+  margin-top: -4px;
+  position: absolute;
+  margin-left: -165px;
+  cursor: pointer;
+  width: 227px;
+}
 .agency_dashboard1 {
   box-shadow: rgba(130, 100, 198, 0.5) 0px 20px 40px;
   border-radius: 10px;
@@ -10705,6 +10757,14 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-size: 22px;
 }
 
+.fixed_invite_btn{
+  display: table;
+  width: 100%;
+  position: fixed;
+  z-index: 1000;
+  padding: 50px 0px;
+  background: #fff;
+}
 .invite_subHead {
   font-family: Roboto;
   font-style: normal;
@@ -13022,9 +13082,9 @@ label img {
   color: #4f4f4f;
   mix-blend-mode: normal;
   padding: 10px;
-  margin:10px 0px
+  margin: 10px 0px;
 }
-.agency_save{
+.agency_save {
   margin-top: 120px;
   margin-right: -138px;
   align-self: center;

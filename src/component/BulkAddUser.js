@@ -6,6 +6,7 @@ import { add_social_account } from "./apis/social_platforms";
 import swal from "sweetalert";
 import {secure_pin} from "../config"
 import { Add_Invite_User } from "./apis/invite";
+import { MDBCol, MDBRow } from "mdbreact";
 
 class BulkAddUser extends Component {
   state = {
@@ -83,27 +84,38 @@ console.log("instadata",data)
       <div>
         
 
-        <div className="login_form">
-        Add Multiple User
-
+        <div className="bulk_add_form">
+        <div style={{fontWeight:'500',fontSize:'18px'}}>Add Multiple User</div>
+<div  className='bulk_add_contant1'>
+  
 Follow the steps below to perform a bulk
 upload of users to your dashboard:
+</div>
 
-1.
+<ol  className='bulk_add_ol'>
+  <li><a  style={{color:'blue'}}>Download our help manual</a> and <a style={{color:'blue'}}>Download the CSV template</a></li>
+  <li>Add user details as per the guideline provided</li>
+  <li>Upload the CSV file to proceed</li>
+</ol>
 
+
+<div style={{border: "1px solid blueviolet",padding: '20px 40px'}}>
+  <MDBRow>
+    <MDBCol md='7' className='bulk_upload_csv'>Upload CSV File</MDBCol>
+    <MDBCol md='5'>
+    <button id='bulk_csv_file'> 
+  Select CSV File
+  <input type="file"  onChange={this.onUploadCsv} id='bulk_input'  />
+  </button>
+    </MDBCol>
+  </MDBRow>
+</div>
+
+<div>
   
-Download our help manual
-  and  
+<button onClick={this.onSubmit}  className='gen_btn' style={{marginTop:'35px', width:'30%'}}>Continue</button>
+</div>
 
-Download the CSV template
-2. Add user details as per the guideline provided
-
-3. Upload the CSV file to proceed
-
-<input type="file"  onChange={this.onUploadCsv}/>
-
-<button onClick={this.onSubmit}
-> Submit</button>
         </div>
       </div>
     );
