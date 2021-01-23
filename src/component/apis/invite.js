@@ -25,4 +25,14 @@ export const Add_Invite_User = (data) => {
       `${API}/admin/account_api/update_invite_user`,data);
   };
   
+  export const Delete_Invite = (data) => {
+    return Axios.post(
+      `${API}/admin/account_api/delete_invite_user_`,data);
+  };
+  
+  export const Disable_Invite = (data) => {
+    return Axios.post(
+      `${API}/admin/account_api/disable_invite_user`,data);
+  };
+  
   
