@@ -79,8 +79,8 @@ console.log("data55",data)
               <div className="authordata ">
                 <img
                   src={
-                    loc.Business_Logo
-                      ? "https://dashify.biz" + loc.Business_Logo
+                    loc.bussiness_logo
+                      ? "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + loc.bussiness_logo
                       : require("../images/Logo2.png")
                   }
                   
