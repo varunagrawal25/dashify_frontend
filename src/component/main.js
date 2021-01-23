@@ -47,6 +47,7 @@ import BulkAddUser from "./BulkAddUser";
 import { get_login_user_info } from "./apis/user";
 import { secure_pin } from "../config";
 import SettingAgency from "./setting-agency";
+import Notification_setting from "./Notification_setting";
 
 export default class MainApp extends Component {
 
@@ -402,6 +403,12 @@ export default class MainApp extends Component {
                   exact
                   path="/setting-main/setting-agency"
                   component={SettingAgency}
+                />
+
+<Route
+                  exact
+                  path="/setting-main/setting-notification"
+                  component={Notification_setting}
                 />
                 
 <Route

@@ -14,7 +14,7 @@ export default class ProfileSettingSidebar extends Component {
               Account
             </NavLink>
 
-            <NavLink to="/b">Notification Setting</NavLink>
+            <NavLink to="/setting-main/setting-notification">Notification Setting</NavLink>
          
             <NavLink to="/setting-main/setting-email">Email Setting</NavLink>
             <NavLink to="/setting-main/setting-people">People</NavLink>

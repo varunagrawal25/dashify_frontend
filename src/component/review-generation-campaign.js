@@ -471,7 +471,7 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
       ListIcons=AllIcons.map(l=>{
 
       return(   
-        <MDBCol md='5' style={{margin:'10px 0px', marginLeft:'-15px',marginRight:'10px'}}>
+        <MDBCol md='6' style={{margin:'10px 0px', marginLeft:'-15px',marginRight:'10px'}}>
     <div className='review_sites_container ' >
                           <input
                                 type="checkbox"
@@ -723,12 +723,17 @@ Write A Review
                   <MDBCol md='12' className='camp_contant1'>
                   the vocabulary, and the questions
                   </MDBCol>
-                  <div class="scrollbar" style={{height:'90px',width:'100%',background:'none'}}>
-    <MDBRow class="overflow">
-                  {ListIcons?ListIcons:<div>NO Listing connected</div>}
+                  <div >
+    <MDBRow >
+      <MDBCol md='9' className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}}>
+        <MDBRow className="overflow" style={{marginLeft:'15px'}}>
+        {ListIcons?ListIcons:<div>NO Listing connected</div>}
+        </MDBRow >
+      </MDBCol>
+        <MDBCol md='1'/>        
                  
    {hidePlus?             
-  <MDBCol md='2' style={{margin:'11px 0px'}}>
+  <MDBCol  md='2' style={{margin:'11px 0px'}}>
     <MDBBtn className="camp_add_btn ">
                                 <i
                                   className="zmdi zmdi-plus"
