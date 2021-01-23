@@ -208,7 +208,7 @@ console.log("invite ",data)
     console.log(this.state)
     var LocationArrayPrint;
 
-    if(locationArray){
+    if(locationArray && this.state.AllLocations){
       LocationArrayPrint= locationArray.map(m=>{
 
         var h=this.state.AllLocations.filter(item=>item.id === m.location_id);

@@ -3,7 +3,7 @@ import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import { MDBTable, MDBTableBody, MDBTableHead } from "mdbreact";
 import ProfileSettingSidebar from "./setting-sidebar";
 import { Link } from "react-router-dom";
-import { Get_All_Invites_By_User } from "./apis/invite";
+import { Get_All_Invites_By_User, Delete_Invite, Disable_Invite } from "./apis/invite";
 // import Datatable from './Datatable'
 import { secure_pin } from "../config";
 import Datatable from './Datatable'
@@ -27,23 +27,97 @@ export default class Profile_setting extends Component {
 
     })
   }
+
+  editButton (id){
+    console.log(id)
+    this.props.history.push({
+      pathname: `/setting-main/setting-people/user/edit/${id}`
+    })
+   
+  }
+
+  deleteButton (id){
+    console.log("dele",id)
+    const data ={
+      secure_pin,
+      "customer_id":id}
+
+    Delete_Invite(data).then(res=>{
+      console.log(res)
+    }).catch(res=>{
+      console.log(res)
+    })
+    
+   
+  }
+  disableButton (id,active){
+    console.log("dis",id,active)
+    const data ={
+      secure_pin,
+      "customer_id":id,"status":active
+    }
+    Disable_Invite(data).then(res=>{
+      console.log(res)
+    }).catch(res=>{
+      console.log(res)
+    })
+    
+  }
+
+  
+
+  // a and b are javascript Date objects
+  dateDiffInDays(a, b) 
+  {
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    // Discard the time and time-zone information.
+    const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+    const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+  
+    return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  }
+
   render() {
     var { AllPeople } =this.state;
 var AllPeop=[];
+
     if(AllPeople){
 
-   AllPeople.map(a=>
+   AllPeople.map( a=>
+{ 
+  var  ab = new Date(a.cdate);
+   var  b = new window.Date();
+   var  difference =  this.dateDiffInDays(ab, b);
+
+    console.log(ab,b,this.dateDiffInDays(ab, b));
+ 
+
+  var active;
+   
+     if (a.admin_status === "0"){
+     
+    console.log(difference);
+    if(difference <3)
+    active= "Not Active"
+    else
+    active= "Invite expired"
+     }
+    else if (a.admin_status === "1")
+    active= "Active"
+
+
     AllPeop.push(  
       {
         img:'',
         name: a.first_name ,
         email:a.email_id,
         role:a.role,
-        status:'Active',
-        action:""
+        status:active,
+        action:<div><button onClick={ ()=>this.editButton(a.id)} >Edit</button> / <button  onClick={ ()=>this.deleteButton(a.id)}>Delete</button> / {a.admin_status === "1" ?<button onClick={ ()=>this.disableButton(a.id, "disable")} >Disable</button>:""} {a.admin_status === "0"  || a.status === "expire" ?<button onClick={ ()=>this.disableButton(a.id, "active")} >Enable</button>:""} </div>
       }
       
-   ))
+   )}
+   )
     }
 
 
