@@ -446,7 +446,7 @@ export default class ViewListing extends Component {
 
       location_by_id(data)
         .then(resp => {
-          this.setState({ state: "Loading....", category: "Loading...." });
+          this.setState({ state: "Loading...." });
           console.log("ll448",resp)
           const data1={secure_pin,countryid:resp.data.location_details[0].country}
           business_states(data1).then(resp1 => {
@@ -2520,8 +2520,7 @@ export default class ViewListing extends Component {
                       fileName="connected_listing_report.pdf"
                     >
                       {({ blob, url, loading, error }) =>
-                        this.state.loader ||
-                        this.state.category == "Loading...." ? (
+                        this.state.loader ? (
                           "Loading document..."
                         ) : (
                           <a className="download-report">Download Report</a>

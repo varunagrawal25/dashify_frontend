@@ -615,7 +615,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                 <div className="col-md-12 vl_c2">
                   <ul className="main-listfive">
                     <li>
-                      <div className="img-iconbox col-md-4 ">
+                      <div className="img-iconbox col-md-3 ">
                         <img
                           src={vl_img7}
                           alt="vl_img"
@@ -654,7 +654,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                     </li>
 
                     <li>
-                      <div className="img-iconbox col-md-4">
+                      <div className="img-iconbox col-md-3">
                         <img
                           src={vl_img8}
                           alt="vl_img"
@@ -685,7 +685,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                     </li>
 
                     <li>
-                      <div className="img-iconbox col-md-4">
+                      <div className="img-iconbox col-md-3">
                         <img
                           src={vl_img9}
                           alt="vl_img"
@@ -722,7 +722,7 @@ console.log("this.state.allFaq",this.state.allFaq)
 
 
                     {/* <li>
-                      <div className="img-iconbox col-md-4">
+                      <div className="img-iconbox col-md-3">
                         <img
                           src={vl_img10}
                           alt="vl_img"
@@ -736,7 +736,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                     </li> */}
 
                     <li>
-                      <div className="img-iconbox col-md-4">
+                      <div className="img-iconbox col-md-3">
                         <img
                           src={vl_img11}
                           alt="vl_img"
