@@ -76,7 +76,7 @@ export default class Profile_setting extends Component {
   
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
   }
-
+ 
   render() {
     var { AllPeople } =this.state;
 var AllPeop=[];
