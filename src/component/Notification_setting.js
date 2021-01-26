@@ -17,6 +17,43 @@ export default class Notification_setting extends Component {
 
     changeHandler = event => {
         this.setState({ [event.target.name]: event.target.value });
+        console.log("kk",event.target.name)
+if(event.target.value=='isReviewNotification'){
+
+  this.setState({
+    isReviewNotification:!this.state.isReviewNotification
+  })
+}
+
+if(event.target.value=='isRankingReport'){
+
+  this.setState({
+    isRankingReport:!this.state.isRankingReport
+  })
+}
+
+if(event.target.value=='isReviewResponse'){
+
+  this.setState({
+    isReviewResponse:!this.state.isReviewResponse
+  })
+}
+
+if(event.target.value=='isprofileCompletion'){
+
+  this.setState({
+    isprofileCompletion:!this.state.isprofileCompletion
+  })
+}
+
+if(event.target.value=='isInsightsReport'){
+
+  this.setState({
+    isInsightsReport:!this.state.isInsightsReport
+  })
+  console.log("fd0",this.state.isInsightsReport)
+}
+
     }
     addEmail = () =>{
         this.setState({
@@ -26,12 +63,11 @@ export default class Notification_setting extends Component {
 
     cancelEmail=()=>{
         this.setState({
-            isCancel:true,
-            isAddEmail:true
+            isAddEmail:false
         })
     }
     render() {
-       
+       console.log("fd",this.state.isInsightsReport)
         return (
             <div>
                <MDBContainer>
@@ -58,7 +94,7 @@ export default class Notification_setting extends Component {
                     <MDBRow>
                       <MDBCol md="2">
                         <div className="profile3">
-                            <Checkbox onChange={this.changeHandler} name="isReviewNotification" checked={this.state.isReviewNotification}/>
+                            <Checkbox onChange={this.changeHandler} name="isReviewNotification" />
                             </div>
                       </MDBCol>
                       <MDBCol md="10"  className='ns_title'>
@@ -68,7 +104,7 @@ export default class Notification_setting extends Component {
                     <MDBRow>
                       <MDBCol md="2">
                         <div className="profile3">
-                            <Checkbox onChange={this.changeHandler} name="isRankingReport" checked={this.state.isRankingReport}/>
+                            <Checkbox onChange={this.changeHandler} name="isRankingReport" />
                             </div>
                       </MDBCol>
                       <MDBCol md="10" className='ns_title'>
@@ -77,7 +113,7 @@ export default class Notification_setting extends Component {
                     </MDBRow>
                     <MDBRow>
                       <MDBCol md="2">
-                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isReviewResponse" checked={this.state.isReviewResponse}/></div>
+                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isReviewResponse" /></div>
                       </MDBCol>
                       <MDBCol md="10" className='ns_title'>
                       Review Response
@@ -86,7 +122,7 @@ export default class Notification_setting extends Component {
                     
                     <MDBRow>
                       <MDBCol md="2">
-                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isprofileCompletion" checked={this.state.isprofileCompletion}/></div>
+                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isprofileCompletion" /></div>
                       </MDBCol>
                       <MDBCol md="10" className='ns_title'>
                       Profile Completion
@@ -94,7 +130,7 @@ export default class Notification_setting extends Component {
                     </MDBRow>
                     <MDBRow>
                       <MDBCol md="2">
-                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isInsightsReport" checked={this.state.isInsightsReport}/></div>
+                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isInsightsReport" /></div>
                       </MDBCol>
                       <MDBCol md="10" className='ns_title'>
                       Insights Report
@@ -132,7 +168,7 @@ export default class Notification_setting extends Component {
                 </MDBRow>
                        :<MDBRow>
                            <MDBCol>
-                               <MDBBtn className='last_btn_white' onClick={this.addEmail}>Add Email</MDBBtn>
+                               <MDBBtn style={{marginTop:'15px',marginLeft:'5px'}} className='last_btn_white' onClick={this.addEmail}>Add Email</MDBBtn>
                            </MDBCol>
                         </MDBRow>}
                        </MDBCol>

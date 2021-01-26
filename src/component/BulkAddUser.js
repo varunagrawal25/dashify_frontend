@@ -101,10 +101,10 @@ upload of users to your dashboard:
 
 <div style={{border: "1px solid blueviolet",padding: '20px 40px'}}>
   <MDBRow>
-    <MDBCol md='7' className='bulk_upload_csv'>Upload CSV File</MDBCol>
-    <MDBCol md='5'>
+    <MDBCol md='10' className='bulk_upload_csv'>Upload CSV File</MDBCol>
+    <MDBCol md='2'>
     <button id='bulk_csv_file'> 
-  Select CSV File
+    <img src={require("./assets/csv.png")} alt="csv" />
   <input type="file"  onChange={this.onUploadCsv} id='bulk_input'  />
   </button>
     </MDBCol>
