@@ -7,6 +7,7 @@ import { Get_All_Invites_By_User, Delete_Invite, Disable_Invite } from "./apis/i
 // import Datatable from './Datatable'
 import { secure_pin } from "../config";
 import Datatable from './Datatable'
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 export default class Profile_setting extends Component {
 
@@ -76,7 +77,7 @@ export default class Profile_setting extends Component {
   
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
   }
-
+ 
   render() {
     var { AllPeople } =this.state;
 var AllPeop=[];
@@ -113,7 +114,43 @@ var AllPeop=[];
         email:a.email_id,
         role:a.role,
         status:active,
-        action:<div><button onClick={ ()=>this.editButton(a.id)} >Edit</button> / <button  onClick={ ()=>this.deleteButton(a.id)}>Delete</button> / {a.admin_status === "1" ?<button onClick={ ()=>this.disableButton(a.id, "disable")} >Disable</button>:""} {a.admin_status === "0"  || a.status === "expire" ?<button onClick={ ()=>this.disableButton(a.id, "active")} >Enable</button>:""} </div>
+        action:<div> 
+                        <a  className="rightdah  dropleft" data-toggle="dropdown"><MoreVertIcon/></a>
+                     
+                     <div class="dropdown-menu drop_contant0">
+                     <div className='drop_contant1'>
+                     <a onClick={ ()=>this.editButton(a.id)}>
+                        {/* <i className="fa fa-edit"></i>  */}
+                        Edit
+                     </a>
+                     </div>
+                     <div className='drop_contant1' >
+                      <a onClick={ ()=>this.deleteButton(a.id)}>
+                      {/* <i className="fa fa-trash"></i>  */}
+                       Delete
+                      </a>
+                    </div>
+                    {a.admin_status === "1" ?
+                    <div className='drop_contant1'>  
+            <a onClick={ ()=>this.disableButton(a.id, "disable")}>
+            Disable
+            </a>
+             </div>
+             :null}
+                      {a.admin_status === "0" || a.status === "expire" ?
+                    <div className='drop_contant1'>  
+           <a onClick={ ()=>this.disableButton(a.id, "active")}>
+             Enable
+            </a>
+             </div>
+             :null}
+                </div>
+          
+         
+          {/* <button onClick={ ()=>this.editButton(a.id)} >Edit</button> / <button  onClick={ ()=>this.deleteButton(a.id)}>Delete</button> 
+          / {a.admin_status === "1" ?<button onClick={ ()=>this.disableButton(a.id, "disable")} >Disable</button>:""} 
+          {a.admin_status === "0"  || a.status === "expire" ?<button onClick={ ()=>this.disableButton(a.id, "active")} >Enable</button>:""}  */}
+          </div>
       }
       
    )}

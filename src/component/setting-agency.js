@@ -7,6 +7,9 @@ import AgencyScanTool from "./agencyScanTool";
 import AgencyDashboard from "./agencyDashboard";
 
 export default class SettingAgency extends Component {
+  state={
+    type:"dashboard"
+  }
     render() {
         return (
           <>
@@ -22,39 +25,23 @@ export default class SettingAgency extends Component {
                 <ProfileSettingSidebar />
               </MDBCol>
               <div className="col-md-9  ">
-                <AgencyDashboard/>
-                {/* <AgencyScanTool/> */}
                 
                 <div className="breadcrumb-menu" style={{margin:'0px -15px'}}>
-                      <ul>
-                        <li>
-                          <NavLink
-                            to={
-                              "/setting-main/setting-agency/dashboard" 
-                            }
-                            className="underline-from-left"
-                          >
-                            Dashboard
-                          </NavLink>
-                        </li>
-  
-                        <li>
-                          <NavLink
-                            to={
-                              "/setting-main/setting-agency/scan-tool" 
-                            }
-                            className="underline-from-left"
-                          >
-                            Scan Tool
-                          </NavLink>
-                        </li>
-                        </ul>
-                  
+                <ul class="nav nav-tabs nav-justified">
+    <li className="underline-from-left" ><a data-toggle="tab" className='active' href="#dashboard" onClick={ () => {this.setState({type:"dashboard"})}}>  Dashboard</a></li>
+    <li className="underline-from-left" style={{marginLeft:'55px'}}><a data-toggle="tab" href="#scan_tool"  onClick={ () => {this.setState({type:"scan_tool"})}}>Scan Tool</a></li>
+  </ul>
+  <div  id="dashboard" className="active">
+    {this.state.type=="dashboard" ?  <AgencyDashboard/> : null}
+  </div>
+  <div id="scan_tool" >
+    {this.state.type="scan_tool"?
+  <AgencyScanTool/>:null}
+  </div>
+
                 </div>
-                <Switch>
-             <Route path="/setting-main/setting-agency/dashboard" component={AgencyDashboard} />
-             <Route path="/setting-main/setting-agency/scan-tool" component={AgencyScanTool} />
-            </Switch>
+
+            
              </div>
           
            </MDBRow>
