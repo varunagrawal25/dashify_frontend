@@ -46,7 +46,8 @@ export default class Topbarmenu extends Component {
       citysearchReviews: [],
       yelpReviews: [],
       view_notification_type1: false,
-      search: []
+      search: [],
+      role:""
     };
     this.change = this.change.bind(this);
   }
@@ -82,11 +83,13 @@ export default class Topbarmenu extends Component {
   };
 
   componentDidMount() {
+
+    this.setState({role:this.props.role});
   
 
-    const DjangoConfig1 = {
-      headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
-    };
+    // const DjangoConfig1 = {
+    //   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
+    // };
     const data = {
       user_id: localStorage.getItem("UserId"),
       // user_id:"11",
@@ -127,7 +130,10 @@ export default class Topbarmenu extends Component {
 
     
   }
-
+componentDidUpdate(){
+  if(this.state.role !== this.props.role)
+  this.setState({role:this.props.role});
+}
   onKeyDown(e) {
     var input = "";
     if (e.keyCode === 8) {
@@ -139,6 +145,8 @@ export default class Topbarmenu extends Component {
   }
 
   render() {
+
+    console.log("pro",this.props)
     let {
       first_name,
       last_name,
@@ -462,13 +470,13 @@ export default class Topbarmenu extends Component {
                         )}
                       </div>
             </MDBCol>
-            <MDBCol md='6' style={{marginTop:'4px'}}>
+         {this.state.role !== "clientRead" && this.state.role !== "clientWrite" ?   <MDBCol md='6' style={{marginTop:'4px'}}>
             <MDBBtn className="add_location "
-                        href="/dashboard#/add-location"
+                        href="/dashboard#/add-location" 
                       >
                         <i className="zmdi zmdi-plus"></i> Add Location
                       </MDBBtn>
-            </MDBCol>
+            </MDBCol>:""}
           </MDBRow>
         
         </MDBCol>

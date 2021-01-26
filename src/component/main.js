@@ -82,7 +82,7 @@ export default class MainApp extends Component {
 
     return (
       <div>
-        <Topbarmenu />
+        <Topbarmenu role={this.state.role} />
         <SideBar />
         <HashRouter>
           <div className="content-page">
@@ -389,10 +389,10 @@ export default class MainApp extends Component {
 
                 <Route exact path="/user-profile" component={User_profile} />
                 <Route exact path="/notification" component={Notification} />
-                <Route exact path="/setting-main" component={SettingMain} />
+                <Route exact path="/setting-main" render={props =><SettingMain  role={this.state.role} {...props} />} />
                 <Route
                   path="/setting-main/setting-accounts"
-                  component={SettingAccounts}
+                  render={props =><SettingAccounts role={this.state.role} {...props} />} 
                 />
                 <Route
                   exact

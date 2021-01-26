@@ -22,9 +22,12 @@ export default class SettingAccounts extends Component {
     first_name: "",
     last_name: "",
     user_image: "",
-    email: ""
+    email: "",
+    role:''
   };
-  componentDidMount = () => {
+  componentDidMount ()  {
+
+    this.setState({role:this.props.role})
     let data = { user_id: localStorage.getItem("UserId") };
     get_login_user_info(data, DjangoConfig)
       .then(res => {
@@ -48,6 +51,10 @@ export default class SettingAccounts extends Component {
         this.setState({ loading_info: false, loading_image: false });
       });
   };
+  componentDidUpdate(){
+    if(this.state.role !== this.props.role)
+    this.setState({role:this.props.role});
+  }
   changePassword = () => {
     let userEmail = localStorage.getItem("UserEmail");
     const data = {
@@ -72,6 +79,7 @@ export default class SettingAccounts extends Component {
   };
   render() {
     let userEmail = localStorage.getItem("UserEmail");
+    console.log("props acc",this.props)
     return (
       <>
         {/* <div className="left-side-menu"></div>
@@ -83,7 +91,7 @@ export default class SettingAccounts extends Component {
 
           <MDBRow>
             <MDBCol md="3">
-              <ProfileSettingSidebar />
+              <ProfileSettingSidebar role={this.state.role} />
             </MDBCol>
             <div className="col-md-9  ">
               <div className="breadcrumb-menu" style={{margin:'0px -15px'}}>

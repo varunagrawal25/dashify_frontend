@@ -1870,7 +1870,7 @@ const data={secure_pin}
                                 <div className="uploadphoto pt-15">
                                   <img
                                     src={
-                                      "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                      "https://dashify.biz/Api/admin/assets/upload/images/business-type-image/" +
                                       LocationDetails.bussiness_logo
                                     }
                                     alt=""
@@ -2082,7 +2082,7 @@ const data={secure_pin}
                               <img
                                 src={
                                   LocationDetails.bussiness_logo
-                                    ? "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                    ? "https://dashify.biz/Api/admin/assets/upload/images/business-type-image/" +
                                       LocationDetails.bussiness_logo
                                     : require("./assets/user_img.png")
                                 }
@@ -4279,7 +4279,7 @@ checked
                           <div className="coverimgupload">
                             <img
                               src={
-                                "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                "https://dashify.biz/Api/admin/assets/upload/images/business-type-image/" +
                                 LocationDetails.bussiness_cover_image
                               }
                               alt="Cover image"
@@ -4368,7 +4368,7 @@ checked
                             </MDBCol>
                             {this.state.otherImages.map((n, i) => (
                               <MDBCol md="2" className="plush_new">
-                                <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                                <img src={"https://dashify.biz/Api/assets/upload/images/business-type-image/" +
                                     n.image
                                   }
                                   alt=""

@@ -1,7 +1,7 @@
 // import { API } from "../../config";
 import Axios from "axios";
 // const API = "http://52.14.16.129:8000/api";
-const API = "https://digimonk.net/dashify-ci";
+const API = "https://dashify.biz/Api";
 
 
 export const all_listing_overview = (data, DjangoConfig) => {

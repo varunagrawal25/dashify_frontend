@@ -1,7 +1,7 @@
 
 
 import Axios from "axios";
-const API = "https://digimonk.net/dashify-ci";
+const API = "https://dashify.biz/Api";
 
 export const Add_Invite_User = (data) => {
     return Axios.post(

@@ -1,6 +1,6 @@
 // import { API } from "../../config";
 import Axios from "axios";
-const API = "https://digimonk.net/dashify-ci";
+const API = "https://dashify.biz/Api";
 //const API = "https://dashify.biz/api";
 
 // review tracking page
