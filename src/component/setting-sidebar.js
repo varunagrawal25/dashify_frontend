@@ -29,7 +29,7 @@ export default class ProfileSettingSidebar extends Component {
             {this.state.role === "admin" || this.state.role === "owner"?  <NavLink to="/setting-main/setting-notification">Notification Setting</NavLink>:""}
          
             {this.state.role === "admin" || this.state.role === "owner"?   <NavLink to="/setting-main/setting-email">Email Setting</NavLink>:""}
-         {this.state.role === "admin"?   <NavLink to="/setting-main/setting-people">People</NavLink> :""}
+         {this.state.role === "admin" || this.state.role === "owner"?   <NavLink to="/setting-main/setting-people">People</NavLink> :""}
          {( (this.state.role === "admin") ||  (this.state.role === "manager" ) || (this.state.role === "owner") ) ?   <NavLink  to="/setting-main/setting-billing">Billing </NavLink>:""}
             
             {/* <NavLink to="/c">Integrations</NavLink>

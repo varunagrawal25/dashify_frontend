@@ -34,6 +34,14 @@ export default class SettingBilling extends Component {
       
     })
   }
+  componentDidMount ()  {
+
+    this.setState({role:this.props.role})
+  }
+  componentDidUpdate(){
+    if(this.state.role !== this.props.role)
+    this.setState({role:this.props.role});
+  }
  
   render() {
     return (
@@ -45,7 +53,7 @@ export default class SettingBilling extends Component {
 
           <MDBRow>
             <MDBCol md="3">
-              <ProfileSettingSidebar />
+              <ProfileSettingSidebar  role={this.state.role} />
             </MDBCol>
             {this.state.updateCard?
           <MDBCol md="9">

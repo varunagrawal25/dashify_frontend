@@ -66,6 +66,15 @@ if(event.target.value=='isInsightsReport'){
             isAddEmail:false
         })
     }
+
+    componentDidMount ()  {
+
+      this.setState({role:this.props.role})
+    }
+    componentDidUpdate(){
+      if(this.state.role !== this.props.role)
+      this.setState({role:this.props.role});
+    }
     render() {
        console.log("fd",this.state.isInsightsReport)
         return (
@@ -77,7 +86,7 @@ if(event.target.value=='isInsightsReport'){
 
           <MDBRow>
             <MDBCol md="3">
-              <ProfileSettingSidebar />
+              <ProfileSettingSidebar role={this.state.role} />
             </MDBCol>
 
             <MDBCol md='9'  className="profile_container">

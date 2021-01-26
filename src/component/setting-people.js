@@ -17,6 +17,8 @@ export default class Profile_setting extends Component {
 
   componentDidMount(){
 
+    this.setState({role:this.props.role})
+
     const data ={
       secure_pin,"user_id":localStorage.getItem("UserId") 
     }
@@ -76,6 +78,12 @@ export default class Profile_setting extends Component {
     const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
   
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  }
+
+  
+  componentDidUpdate(){
+    if(this.state.role !== this.props.role)
+    this.setState({role:this.props.role});
   }
  
   render() {
@@ -167,7 +175,7 @@ var AllPeop=[];
           </div>
           <MDBRow>
             <MDBCol md="3">
-              <ProfileSettingSidebar />
+              <ProfileSettingSidebar role={this.state.role} />
 
               <MDBRow className="mt-3">
                 <MDBCol

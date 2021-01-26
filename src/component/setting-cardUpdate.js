@@ -3,6 +3,14 @@ import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import ProfileSettingSidebar from "./setting-sidebar";
 
 export default class SettingUpdateCard extends Component {
+  componentDidMount ()  {
+
+    this.setState({role:this.props.role})
+  }
+  componentDidUpdate(){
+    if(this.state.role !== this.props.role)
+    this.setState({role:this.props.role});
+  }
   render() {
     return (
       <div>
@@ -13,7 +21,7 @@ export default class SettingUpdateCard extends Component {
           <MDBRow>
             <MDBCol md="3">
               <MDBRow>
-                <ProfileSettingSidebar />
+                <ProfileSettingSidebar role={this.state.role} />
               </MDBRow>
 
               <MDBRow>

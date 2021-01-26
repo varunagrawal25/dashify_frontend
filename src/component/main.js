@@ -397,24 +397,24 @@ export default class MainApp extends Component {
                 <Route
                   exact
                   path="/setting-main/setting-people"
-                  component={SettingPeople}
+                  render={props =><SettingPeople  role={this.state.role} {...props} />}
                 />
                 <Route
                   exact
                   path="/setting-main/setting-agency"
-                  component={SettingAgency}
+                  render={props =><SettingAgency role={this.state.role} {...props} />}
                 />
 
-<Route
+                <Route
                   exact
                   path="/setting-main/setting-notification"
-                  component={Notification_setting}
+                  render={props =><Notification_setting role={this.state.role} {...props} />}
                 />
                 
 <Route
                   exact
                   path="/setting-main/setting-billing"
-                  component={SettingBilling}
+                  render={props =><SettingBilling role={this.state.role} {...props} />}
                 />
                 <Route
                   exact
@@ -425,7 +425,7 @@ export default class MainApp extends Component {
                 <Route
                   exact
                   path="/setting-main/setting-updateCard"
-                  component={SettingUpdateCard}
+                  render={props =><SettingUpdateCard  role={this.state.role} {...props} />}
                 />
 
                 <Route
