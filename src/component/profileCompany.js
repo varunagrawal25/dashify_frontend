@@ -16,6 +16,9 @@ export default class profileCompany extends Component {
         company_name :"",
         user_image: "",
         email: "",
+        support_email:'',
+        company_logo:null,
+        fav_icon:null,
         show_crop_function: false,
         loading_image: true,
       };
@@ -43,6 +46,29 @@ export default class profileCompany extends Component {
           });
        
       };
+      changeHandler = event => {
+        this.setState({ [event.target.name]: event.target.value });
+      
+      if(event.target.name=='support_email'){
+        this.setState({
+          support_email:event.target.value
+        })
+      }
+
+      if(event.target.name=='company_logo'){
+        this.setState({
+          company_logo:event.target.value
+        })
+      }
+
+      if(event.target.name=='fav_icon'){
+        this.setState({
+          fav_icon:event.target.value
+        })
+      }
+      }
+
+
       uploadUserImage = image => {
         let { users_login } = this.state;
     
@@ -97,6 +123,7 @@ export default class profileCompany extends Component {
         });
       };
       render() {
+        console.log("cl",this.state.company_logo)
         let userEmail = localStorage.getItem("UserEmail");
         return (
           <div >
@@ -115,10 +142,9 @@ export default class profileCompany extends Component {
                   type="email"
                     className="profile4"
                     placeholder="info@oasismedia.co"
-                    value={this.state.email}
+                    // value={this.state.email}
                     readOnly
-                    name="address"
-                    onChange={this.changeHandler}
+                    name="email"
                     style={{width:'100%'}}
                   />
                 </MDBCol>
@@ -135,7 +161,8 @@ export default class profileCompany extends Component {
                     className="profile4"
                     placeholder="info@oasismedia.co" 
                     style={{width:'100%'}}
-                      name="city"
+                      name="support_email"
+                      value={this.state.support_email}
                           onChange={this.changeHandler} />
                 </MDBCol>
               </MDBRow>
@@ -143,18 +170,27 @@ export default class profileCompany extends Component {
             <div className="agencycontant2">Company Assets:</div>
             
 <MDBRow >
-  <MDBCol md='2' ><img style={{width:'85px',height:'85px'}} src={file_icon}/> </MDBCol>
+  <MDBCol md='2' >
+    {this.state.company_logo?  <img style={{width:'85px',height:'85px'}} src={this.state.company_logo}/>:
+    <img style={{width:'85px',height:'85px'}} src={file_icon}/> }
+    </MDBCol>
   <MDBCol md='8' className="profile3">
   Logo represens company’s branding on the Platform. Please upload your business logo here.
   </MDBCol>
-  <MDBCol md='2'><img style={{width:'50px',height:'50px'}}src={edit_icon}/></MDBCol>
+  <MDBCol md='2'><img style={{width:'50px',height:'50px'}}src={edit_icon}/>
+  <input type='file' name='company_logo' className='com_edit_img' onChange={this.changeHandler}  />
+  </MDBCol>
 </MDBRow>
 <MDBRow>
   <MDBCol md='2' style={{textAlign:'center' ,marginTop:'10px'}}><img style={{width:'45px',height:'45px',}} src={file_icon}/> </MDBCol>
   <MDBCol md='8' className="profile3">
   Fav Icon denotes company’s branding on the Web. Please upload a 64x64px (.ico / .jpeg / .png) 
   </MDBCol>
-  <MDBCol md='2'><img style={{width:'50px',height:'50px'}}src={edit_icon}/></MDBCol>
+  <MDBCol md='2'>
+    {this.state.fav_icon? <img style={{width:'50px',height:'50px'}}src={this.state.fav_icon}/> : 
+    <img style={{width:'50px',height:'50px'}}src={edit_icon}/> }
+  <input type='file' name='fav_icon' className='com_edit_img'  onChange={this.changeHandler}/> 
+  </MDBCol>
 </MDBRow>
             
 <div className="agencycontant2">Workspace:</div>

@@ -4443,6 +4443,17 @@ footer .fa-linkedin-in:hover {
 .pro-siz {
   padding: 20px !important;
 }
+
+.com_edit_img {
+  height: 50px;
+  width: 50px;
+  margin-top: 2px;
+  position: absolute;
+  margin-left: -51px;
+  opacity: 0;
+  padding: -44px;
+  overflow: hidden;
+}
 /* ...............porfile................. */
 .userpro {
   text-align: center;
@@ -10705,7 +10716,7 @@ ul.dropdown-menu.loginboxds li a:hover {
 .bulk_add_form {
   background: #fff;
   overflow: hidden;
-  width: 70%;
+  width: 54%;
   display: block;
   padding: 20px;
   margin: 50px auto;
@@ -10720,7 +10731,7 @@ ul.dropdown-menu.loginboxds li a:hover {
   font-weight: 400;
   font-size: 16px;
   color: rgb(79, 79, 79);
-  width: 42%;
+  width: 70%;
   opacity: 0.8;
   line-height: 20px;
   margin-bottom: 15px;
@@ -10736,23 +10747,27 @@ ul.dropdown-menu.loginboxds li a:hover {
   color: #4f4f4f;
   font-size: 16px;
   opacity: 0.8;
+  margin-top: 10px;
 }
 
 #bulk_csv_file {
   background: transparent;
-  border: 1px solid blueviolet;
-  width: 227px;
-  height: 38px;
+  /* border: 1px solid blueviolet; */
+  border: none;
+  width: 60px;
+  height: 55px;
   cursor: pointer;
 }
 
 #bulk_input {
   opacity: 0;
-  margin-top: -4px;
+  margin-top: 4px;
   position: absolute;
-  margin-left: -165px;
-  cursor: pointer;
-  width: 227px;
+  margin-left: -50px;
+  /* cursor: pointer; */
+  width: 61px;
+  height: 60px;
+  overflow: hidden;
 }
 .agency_dashboard1 {
   box-shadow: rgba(130, 100, 198, 0.5) 0px 20px 40px;
@@ -13899,7 +13914,7 @@ ul.main-listfive li {
 }
 
 /* scanner page */
-.scanner_heading {
+/* .scanner_heading {
   font-family: Montserrat;
   font-style: normal;
   font-weight: 900;
@@ -14240,7 +14255,7 @@ ul.main-listfive li {
   line-height: 16px;
   color: #000000;
   margin-left: 10px;
-}
+} */
 /* listing_management */
 
 .lm_heading {
