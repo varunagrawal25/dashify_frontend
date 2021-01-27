@@ -1,7 +1,7 @@
 import Axios from "axios";
 // const API = "http://52.14.16.129:8000/api";
 // const API = "https://dashify.biz/api";
-const API = "https://digimonk.net/dashify-ci";
+const API = "https://dashify.biz/Api";
 
 export const add_location = (data) => {
   return Axios.post(

@@ -213,7 +213,7 @@ console.log("invite ",data)
 
         var h=this.state.AllLocations.filter(item=>item.id === m.location_id);
         console.log("con",h[0])
-        return (<div key={h[0].id} >{h[0].location_name}</div>)
+        return (<div key={h[0].id} > <img src={"dwd"} /> {h[0].location_name}  <button>x</button></div>)
       })
     }
 

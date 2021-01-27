@@ -10,6 +10,14 @@ export default class SettingAgency extends Component {
   state={
     type:"dashboard"
   }
+  componentDidMount ()  {
+
+    this.setState({role:this.props.role})
+  }
+  componentDidUpdate(){
+    if(this.state.role !== this.props.role)
+    this.setState({role:this.props.role});
+  }
     render() {
       console.log(this.state.type)
         return (
@@ -23,7 +31,7 @@ export default class SettingAgency extends Component {
   
             <MDBRow>
               <MDBCol md="3">
-                <ProfileSettingSidebar />
+                <ProfileSettingSidebar role={this.state.role}/>
               </MDBCol>
               <div className="col-md-9  ">
                 
