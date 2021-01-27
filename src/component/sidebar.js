@@ -66,16 +66,18 @@ export default class SideBar extends Component {
             </div>
             <div className="col-md-12 invite_text">
               <p>Invite your team and start collaborating</p>
-
+              <NavLink to="/setting-main/setting-people/invite-new-user">
               <div className="invite_box">
                 <div className="dash_fry ">
                   <img src={require("./assets/logo_4.png")} alt="" />
-
-                  <div className="invity ">
+                  
+                  <div className="invity">
                     <p>Invite to Dashify</p>
                   </div>
+                 
                 </div>
               </div>
+              </NavLink>
             </div>
           </div>
         </HashRouter>

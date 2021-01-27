@@ -11,6 +11,7 @@ export default class SettingAgency extends Component {
     type:"dashboard"
   }
     render() {
+      console.log(this.state.type)
         return (
           <>
           {/* <div className="left-side-menu"></div>
@@ -31,14 +32,18 @@ export default class SettingAgency extends Component {
     <li className="underline-from-left" ><a data-toggle="tab" className='active' href="#dashboard" onClick={ () => {this.setState({type:"dashboard"})}}>  Dashboard</a></li>
     <li className="underline-from-left" style={{marginLeft:'55px'}}><a data-toggle="tab" href="#scan_tool"  onClick={ () => {this.setState({type:"scan_tool"})}}>Scan Tool</a></li>
   </ul>
-  <div  id="dashboard" className="active">
-    {this.state.type=="dashboard" ?  <AgencyDashboard/> : null}
+  <div class="tab-content">
+  {this.state.type=="dashboard" ?
+  
+      <AgencyDashboard/> 
+ 
+  : null}
+  {this.state.type=="scan_tool"?
+ 
+    
+  <AgencyScanTool/>
+  :null}
   </div>
-  <div id="scan_tool" >
-    {this.state.type="scan_tool"?
-  <AgencyScanTool/>:null}
-  </div>
-
                 </div>
 
             

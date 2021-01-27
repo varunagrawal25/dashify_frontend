@@ -671,36 +671,34 @@ img {
 }
 
 .gen_btn {
-  width: 100%;
+  /* width: 50%; */
   font-size: 16px;
-  color: #fff;
+  color: #5d80e2;
   font-weight: 500;
   padding: 14px 25px;
   border-radius: 5px;
   border: 0px;
-  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
-  box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
-  border-radius: 5px;
-}
-
-.gen_btn:hover {
-  background: linear-gradient(90.17deg, #73b6e5 0.17%, #5d80e2 99.89%);
+  /* background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%); */
+  /* box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2); */
+  float: right;
+  background: none;
+  padding-right: 3px;
 }
 
 .lunch_btn {
   width: 100%;
   font-size: 16px;
-  color: #8264c6;
+  color: #fff;
   font-weight: 500;
   padding: 13px 25px;
   border-radius: 5px;
-  background: transparent;
-  border: 1px solid #8264c6;
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
+  box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
+  border: none;
 }
 
 .lunch_btn:hover {
-  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
-  color: #fff;
+  background: linear-gradient(90.17deg, #73b6e5 0.17%, #5d80e2 99.89%);
 }
 .main_content {
   padding-bottom: 70px;
@@ -10643,6 +10641,7 @@ input.searcdd {
   font-size: 12px;
   text-align: center;
   margin-top: 12px;
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {
@@ -12272,6 +12271,19 @@ label img {
   line-height: 15px;
   text-transform: capitalize;
 }
+
+.err_msg_agency {
+  color: red;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  text-transform: capitalize;
+  margin-left: -25px;
+  margin-top: 5px;
+}
+
 .err_msg_oh {
   color: red;
   font-family: Roboto;

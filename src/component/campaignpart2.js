@@ -4,6 +4,7 @@ import Loader from "react-loader-spinner";
 import swal from "sweetalert";
 import { Add_Campaign } from "./apis/review";
 import {secure_pin} from "../config"
+import { MDBCol, MDBRow } from "mdbreact";
 
 
 export default class CampaignPart2 extends Component {
@@ -207,7 +208,7 @@ export default class CampaignPart2 extends Component {
        <button onClick={this.removeCustomer(index)} className='campaignClose'> x</button>
                     <div className="row">
                    
-                        <div className="col-md-6 camp_margin1">
+                        <div className="col-md-12 camp_margin1">
                           <div >
                           <div className='camp_subhead1'>Customer First Name</div>
                           <input
@@ -217,9 +218,9 @@ export default class CampaignPart2 extends Component {
                             onChange={this.AddCustomer(index,"first")}
                           />
                           </div>
-                          {!r.fname ? <div>fname</div>:""}
+                          {!r.fname ? <div className='err_msg '>First name required</div>:""}
                         </div>
-                        <div className="col-md-6 camp_margin1">
+                        <div className="col-md-6 camp_margin2">
                           <div >
                           <div className='camp_subhead1'>Customer Last Name</div>
                           <input
@@ -241,7 +242,7 @@ export default class CampaignPart2 extends Component {
                             onChange={this.AddCustomer(index,"email")}
                           />
                           </div>
-                          {!r.email ? <div>Email</div>:""}
+                          {!r.email ? <div className='err_msg '>Email required</div>:""}
                         </div>
                         :""}
                         {isSms ?<div className="col-md-6 camp_margin2">
@@ -254,7 +255,7 @@ export default class CampaignPart2 extends Component {
                             onChange={this.AddCustomer(index,"phone")}
                           />
                           </div>
-                          {!r.phone ? <div>Number</div>:""}
+                          {!r.phone ? <div className='err_msg '>Mobile number required</div>:""}
                         </div>
                         :""}
                       
@@ -302,16 +303,16 @@ export default class CampaignPart2 extends Component {
 
 </div>
   </div>
-
-                    <div className="row" style={{marginTop:'40px'}}>
-                   
-                      <div className="col-md-6 ">
-                        <button className="gen_btn" >
-                          Create A New Review Generation
+<MDBRow style={{marginTop:'10px'}}>
+<MDBCol className='offset-md-6'>
+<button className="gen_btn" >
+                          Create New Review Generation Campaign
                         </button>
-                      </div>
-                      <div className="col-md-5" style={{ textAlign: "center" ,paddingRight:'8px'}}>
-                        {loading ? (
+</MDBCol>
+</MDBRow>
+<MDBRow style={{marginTop:'10px'}}>
+  <MDBCol className='offset-md-8'>
+  {loading ? (
                           <Loader
                             type="Oval"
                             color="#00BFFF"
@@ -325,8 +326,11 @@ export default class CampaignPart2 extends Component {
                         <button type="submit" className="lunch_btn">
                           Launch Campaign
                         </button>
-                      </div>
-                    </div>
+  </MDBCol>
+
+</MDBRow>
+                   
+                  
                   
               </div>
               <div className="col-md-4">
@@ -338,11 +342,11 @@ export default class CampaignPart2 extends Component {
                       <div className="camp_csv">
                         <img src={require("./assets/csv.png")} alt="csv" />
                       </div>
-                      <div >
-                      <a className="download_btn" href="/csv/emailsms.csv" target="_blank" rel="noopener noreferrer" download>
+                      <div className="uploadbox">
+                      <button className="download_btn" href="/csv/emailsms.csv" target="_blank" rel="noopener noreferrer" download>
                           Download Simple
                      
-                        </a>
+                        </button>
                       </div>
                       <div className="uploadbox">
                           <button className="upload_btn">Upload CSV</button>

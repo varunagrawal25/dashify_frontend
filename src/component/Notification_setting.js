@@ -3,6 +3,10 @@ import React, { Component } from 'react'
 import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import ProfileSettingSidebar from "./setting-sidebar";
 import { Checkbox } from '@material-ui/core';
+import {add_notification} from './apis/notification'
+import { data } from 'jquery';
+import { secure_pin } from "../config";
+import swal from "sweetalert";
 export default class Notification_setting extends Component {
     state={
         isReviewNotification:false,
@@ -10,7 +14,7 @@ export default class Notification_setting extends Component {
         isReviewResponse:false,
         isprofileCompletion:false,
         isInsightsReport:false,
-        sendToEmail:"",
+        sendToEmail:{},
         isAddEmail:false,
         isCancel:true
     }
@@ -18,6 +22,19 @@ export default class Notification_setting extends Component {
     changeHandler = event => {
         this.setState({ [event.target.name]: event.target.value });
         console.log("kk",event.target.name)
+        // if(event.target.value=='isReviewNotification' && this.state.isReviewNotification=="0"){
+
+        //   this.setState({
+        //     isReviewNotification:"1"
+        //   })
+        // }
+        
+        // if(event.target.value=='isReviewNotification' && this.state.isReviewNotification=="1"){
+        
+        //   this.setState({
+        //     isReviewNotification:"0"
+        //   })
+        // }
 if(event.target.value=='isReviewNotification'){
 
   this.setState({
@@ -65,6 +82,46 @@ if(event.target.value=='isInsightsReport'){
         this.setState({
             isAddEmail:false
         })
+    }
+    // {"secure_pin":"digimonk","user_id":"10","review_notification":"1","ranking_report":"1","review_response":"1",
+    // "profile_completion":"1","insights_report":"1","email_array":[{"email_id":"ram22@digmonk.in"},
+    // {"email_id":"ram221@digmonk.in"}]}
+
+
+    addEmailConfirm = () =>{
+      if(this.state.isInsightsReport){
+        this.setState({
+          isInsightsReport:"1"
+        })
+        console.log("insi",this.state.isInsightsReport)
+      }
+      console.log("insi",this.state.isInsightsReport)
+      const data={
+        
+        secure_pin,
+        user_id: localStorage.getItem("UserId"),
+        review_notification:this.state.isReviewNotification,
+        ranking_report:this.state.isRankingReport,
+        review_response:this.state.isReviewResponse,
+     profile_completion:this.state.isprofileCompletion,
+     insights_report:this.state.isInsightsReport,
+     email_array:[{email_id:this.state.sendToEmail}]
+
+      }
+      add_notification(data)
+      .then(resp =>{
+console.log("emailadded",resp)
+swal("Email Added Succcessfully")
+
+this.setState({
+  isReviewNotification:false,
+        isRankingReport:false,
+        isReviewResponse:false,
+        isprofileCompletion:false,
+        isInsightsReport:false,
+        sendToEmail:{},
+})
+      })
     }
     render() {
        console.log("fd",this.state.isInsightsReport)
@@ -158,7 +215,7 @@ if(event.target.value=='isInsightsReport'){
                     <MDBCol md='12'>
                         <MDBRow style={{marginTop:'15px'}}>
                             <MDBCol className='offset-md-5' md='4'>
-                                <MDBBtn className="last_btn" >Add</MDBBtn>
+                                <MDBBtn className="last_btn" onClick={this.addEmailConfirm} >Add</MDBBtn>
                             </MDBCol>
                             <MDBCol md='3' style={{paddingLeft:'5px' }}> 
                                 <MDBBtn className='last_btn_white' onClick={this.cancelEmail}>Cancel</MDBBtn>
