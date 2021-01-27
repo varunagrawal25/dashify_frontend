@@ -14,17 +14,16 @@ class InviteNewUser extends Component {
   state = {
    
     log: false,
-   
-    
     loading: false,
     locationArray:[],
     firstName:"",
     lastName:'',
     userEmail:'',
-    userType:'',
+    userType:'internal',
     userRole:'',
     locationArray:[],
-    update:false
+    update:false,
+    showSelect:true,
   };
 
   
@@ -213,7 +212,23 @@ console.log("invite ",data)
 
         var h=this.state.AllLocations.filter(item=>item.id === m.location_id);
         console.log("con",h[0])
-        return (<div key={h[0].id} > <img src={"dwd"} /> {h[0].location_name}  <button>x</button></div>)
+        return (<div key={h[0].id} > 
+       <MDBRow>
+         <MDBCol>
+         <MDBRow style={{marginTop:'7px',marginBottom:'7px'}}>
+          <MDBCol md='1' >
+          <img src={"dwd"} />
+          </MDBCol>
+          <MDBCol md='9' className="invite_drop">
+          {h[0].location_name} 
+          </MDBCol>
+          <MDBCol md='1' >
+          <button className='invite_cross'>x</button>
+          </MDBCol>
+        </MDBRow>
+         </MDBCol>
+       </MDBRow>
+          </div>)
       })
     }
 
@@ -261,6 +276,7 @@ console.log("invite ",data)
             <div>Last Name</div>
             <input
                   type="text"
+                  value={this.state.lastName}
                  name="lastName"
                  className="form-control"
                   onChange={e => this.setState({ lastName: e.target.value })}
@@ -272,6 +288,7 @@ console.log("invite ",data)
             <div>User Email <span className="red">*</span></div>
             <input
                   type="email"
+                  value={this.state.userEmail}
                   name="userEmail"
                   className="form-control"
                   onChange={e => this.setState({ userEmail: e.target.value })}
@@ -317,36 +334,50 @@ console.log("invite ",data)
           Internal User
           </MDBCol>
           <MDBCol md='2' className='form-group invite_subHead'>
+            {this.state.userType=='internal'?
           <input
+          checked
                   type="radio"
                   name="userType"
                   onChange={e => this.setState({ userType: "internal" })}
-                />
+                />:<input
+                        type="radio"
+                        name="userType"
+                        onChange={e => this.setState({ userType: "internal" })}
+                      />}
           </MDBCol>
           <MDBCol md='2' className='form-group invite_subHead'>
           Agency's Client
           </MDBCol>
           <MDBCol md='2' className='form-group invite_subHead'>
+        {this.state.userType=='agency' ?
           <input
+          checked
                   type="radio"
                   name="userType"
                   onChange={e => this.setState({ userType: "agency" })}
-                />
+                />:  <input
+                        type="radio"
+                        name="userType"
+                        onChange={e => this.setState({ userType: "agency" })}
+                      />}
           </MDBCol>
         </MDBRow>
-<MDBRow>
-  <MDBCol md='3' className='form-group invite_subHead'>
+<MDBRow style={{marginTop:'20px'}}>
+  <MDBCol md='4' className='form-group invite_subHead'>
   Select User Role Below <span className="red">*</span>
   <div>
-  <select
+  <select  value={this.state.userRole}
                 //   type="password"
                 //   name="userEmail"
                 className="review_select_btn"
-                  onChange={e => this.setState({ userRole: e.target.value })}
+                  onChange={e => this.setState({ userRole: e.target.value  })}
+                  onClick={() => this.setState({showSelect:false})}
                 >
-                     <option >
-                   Select
-                </option>
+                  {this.state.showSelect? <option  >
+                  Select
+               </option>:null}
+                    
 
                 <option value="clientWrite">
                     Client (Write)
@@ -365,9 +396,10 @@ console.log("invite ",data)
                 </option>
                     </select>
                 {/* <div class='err_msg'>{this.state.password_error}</div> */}
-              </div></MDBCol></MDBRow>
-
-              <SelectSearch
+              </div></MDBCol>
+              
+<MDBCol md='4'>
+<SelectSearch
                options={locations} 
                 search={true}
                  value={locations.value}
@@ -380,14 +412,20 @@ console.log("invite ",data)
 } 
 placeholder={ "Search"}  />
 
-<p>
+<p className="scrollbar" style={{height:'150px',width:'100%',background:'none'}}>
   {LocationArrayPrint}
 </p>
+</MDBCol>
+
+              </MDBRow>
+
+
 
 
               <p>
                
-              {this.state.update ? <button onClick={this.Update}>Update User</button>: <button type="submit" className="last_btn" style={{marginLeft:'40px'}}>Invite User</button>}
+              {this.state.update ? <button className="last_btn" onClick={this.Update}>Update User</button>:
+               <button type="submit" className="last_btn" >Invite User</button>}
               </p>
 
 

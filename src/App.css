@@ -684,6 +684,19 @@ img {
   background: none;
   padding-right: 3px;
 }
+.gen_btn1 {
+  /* width: 50%; */
+  font-size: 16px;
+  color: #fff;
+  font-weight: 500;
+  padding: 8px 0px;
+  border-radius: 5px;
+  background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
+  box-shadow: 0px 20px 40px rgba(130, 100, 198, 0.2);
+  float: right;
+  border: none;
+  padding-right: 3px;
+}
 
 .lunch_btn {
   width: 100%;
@@ -2015,6 +2028,13 @@ img {
   color: #fff;
 }
 
+.invite_drop {
+  font-size: 16px;
+  color: #4f4f4f;
+  font-weight: 400;
+  font-family: "Roboto";
+  font-style: normal;
+}
 /*.invite img {
   position: absolute;
   left: 0;
@@ -6431,8 +6451,9 @@ p.basicExample {
 .select-search {
   width: 300px;
   position: relative;
-  margin-bottom: 20px;
-  font-family: "Nunito Sans", sans-serif;
+  margin-bottom: 10px;
+  font-family: Roboto;
+  font-style: normal;
   box-sizing: border-box;
 }
 
@@ -6469,7 +6490,7 @@ p.basicExample {
   height: 36px;
   width: 100%;
   padding: 0 16px;
-  background: #fff;
+  background: #f7f9fc;
   border: none;
   box-shadow: 0 0.0625rem 0.125rem rgba(0, 0, 0, 0.15);
   border-radius: 3px;
@@ -6671,6 +6692,8 @@ tbody.cons td:first-child {
 }
 
 .form-control {
+  font-family: Roboto;
+  font-style: normal;
   font-weight: 400 !important;
   font-size: 14px !important;
   padding: 6px;
@@ -14582,7 +14605,14 @@ ul.main-listfive li {
   border-radius: 50%;
   padding: 6px;
 }
-
+.invite_cross {
+  height: 30px;
+  width: 25px;
+  background: none;
+  border: none;
+  color: blue;
+  outline: none;
+}
 .pricing_container1 {
   background: #ffffff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);

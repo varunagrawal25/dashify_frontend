@@ -113,7 +113,7 @@ upload of users to your dashboard:
 
 <div>
   
-<button onClick={this.onSubmit}  className='gen_btn' style={{marginTop:'35px', width:'30%'}}>Continue</button>
+<button onClick={this.onSubmit}  className='gen_btn1' style={{marginTop:'35px', width:'30%'}}>Continue</button>
 </div>
 
         </div>
