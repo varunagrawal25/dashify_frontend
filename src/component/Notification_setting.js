@@ -3,10 +3,11 @@ import React, { Component } from 'react'
 import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import ProfileSettingSidebar from "./setting-sidebar";
 import { Checkbox } from '@material-ui/core';
-import {add_notification} from './apis/notification'
+import {add_notification,delete_email,get_notification} from './apis/notification'
 import { data } from 'jquery';
 import { secure_pin } from "../config";
 import swal from "sweetalert";
+import {email_regex} from "./utils/regularexpressions";
 export default class Notification_setting extends Component {
     state={
         isReviewNotification:false,
@@ -14,11 +15,44 @@ export default class Notification_setting extends Component {
         isReviewResponse:false,
         isprofileCompletion:false,
         isInsightsReport:false,
-        sendToEmail:{},
+        sendToEmail:null,
         isAddEmail:false,
-        isCancel:true
+        isCancel:true,
+        getEmail:[],
+        email:'',
+        anyError:false,
+        email_error:''
     }
 
+    deleteEmail = (id) =>{
+      console.log("id1",id)
+      const data={
+        secure_pin,
+          user_id: localStorage.getItem("UserId"),
+          id:id }
+      
+          delete_email(data)
+          .then(resp =>{
+            swal("Successfully Deleted")
+            const data={
+        
+              secure_pin,
+              user_id: localStorage.getItem("UserId"),
+      
+            }
+            get_notification(data)
+            .then(resp =>{
+      console.log("emaildel",resp)
+      
+      this.setState({
+      
+              getEmail:resp.data.email_array
+      })
+            })
+          })
+
+
+    }
     changeHandler = event => {
         this.setState({ [event.target.name]: event.target.value });
         console.log("kk",event.target.name)
@@ -35,35 +69,35 @@ export default class Notification_setting extends Component {
         //     isReviewNotification:"0"
         //   })
         // }
-if(event.target.value=='isReviewNotification'){
+if(event.target.name=='isReviewNotification'){
 
   this.setState({
     isReviewNotification:!this.state.isReviewNotification
   })
 }
 
-if(event.target.value=='isRankingReport'){
+if(event.target.name=='isRankingReport'){
 
   this.setState({
     isRankingReport:!this.state.isRankingReport
   })
 }
 
-if(event.target.value=='isReviewResponse'){
+if(event.target.name=='isReviewResponse'){
 
   this.setState({
     isReviewResponse:!this.state.isReviewResponse
   })
 }
 
-if(event.target.value=='isprofileCompletion'){
+if(event.target.name=='isprofileCompletion'){
 
   this.setState({
     isprofileCompletion:!this.state.isprofileCompletion
   })
 }
 
-if(event.target.value=='isInsightsReport'){
+if(event.target.name=='isInsightsReport'){
 
   this.setState({
     isInsightsReport:!this.state.isInsightsReport
@@ -87,52 +121,85 @@ if(event.target.value=='isInsightsReport'){
     // "profile_completion":"1","insights_report":"1","email_array":[{"email_id":"ram22@digmonk.in"},
     // {"email_id":"ram221@digmonk.in"}]}
 
-
-    addEmailConfirm = () =>{
-      if(this.state.isInsightsReport){
-        this.setState({
-          isInsightsReport:"1"
-        })
+     addEmailConfirm = () =>{
+      // if(this.state.isInsightsReport){
+      //   this.setState({
+      //     isInsightsReport:"1"
+      //   })
+      //   console.log("insi",this.state.isInsightsReport)
+      // }
+      let result = email_regex(this.state.sendToEmail);
+    if (result === false) {
+      this.setState({
+        email_error: "Not a valid email",
+        anyError:true
+      });}   
+      else{
         console.log("insi",this.state.isInsightsReport)
+        const data={
+          
+          secure_pin,
+          user_id: localStorage.getItem("UserId"),
+          review_notification:this.state.isReviewNotification,
+          ranking_report:this.state.isRankingReport,
+          review_response:this.state.isReviewResponse,
+       profile_completion:this.state.isprofileCompletion,
+       insights_report:this.state.isInsightsReport,
+       email_array:[{email_id:this.state.sendToEmail}],
+       email_error:''
+        }
+        console.log("data",data)
+        add_notification(data)
+        .then(resp =>{
+  console.log("emailadded",resp)
+  swal("Email Added Succcessfully")
+  
+  this.setState({
+    isReviewNotification:resp.data.review_notification,
+          isRankingReport:resp.data.ranking_report,
+          isReviewResponse:resp.data.review_response,
+          isprofileCompletion:resp.data.profile_completion,
+          isInsightsReport:resp.data.insights_report,
+          sendToEmail:'',
+          getEmail:resp.data.email_array
+  })
+        })
       }
-      console.log("insi",this.state.isInsightsReport)
+     
+    }
+    componentDidMount = () =>{
+
+      this.setState({role:this.props.role})
       const data={
         
         secure_pin,
         user_id: localStorage.getItem("UserId"),
-        review_notification:this.state.isReviewNotification,
-        ranking_report:this.state.isRankingReport,
-        review_response:this.state.isReviewResponse,
-     profile_completion:this.state.isprofileCompletion,
-     insights_report:this.state.isInsightsReport,
-     email_array:[{email_id:this.state.sendToEmail}]
 
       }
-      add_notification(data)
+      console.log("data",data)
+      get_notification(data)
       .then(resp =>{
-console.log("emailadded",resp)
-swal("Email Added Succcessfully")
+console.log("get notification",resp)
 
 this.setState({
-  isReviewNotification:false,
-        isRankingReport:false,
-        isReviewResponse:false,
-        isprofileCompletion:false,
-        isInsightsReport:false,
-        sendToEmail:{},
+  isReviewNotification:resp.data.review_notification,
+        isRankingReport:resp.data.ranking_report,
+        isReviewResponse:resp.data.review_response,
+        isprofileCompletion:resp.data.profile_completion,
+        isInsightsReport:resp.data.insights_report,
+        sendToEmail:null,
+        getEmail:resp.data.email_array
 })
-      })
-    }
-    componentDidMount ()  {
 
-      this.setState({role:this.props.role})
+console.log("this.state.getEmail",this.state.getEmail)
+      })
     }
     componentDidUpdate(){
       if(this.state.role !== this.props.role)
       this.setState({role:this.props.role});
     }
     render() {
-       console.log("fd",this.state.isInsightsReport)
+       console.log("state",this.state)
         return (
             <div>
                <MDBContainer>
@@ -159,7 +226,7 @@ this.setState({
                     <MDBRow>
                       <MDBCol md="2">
                         <div className="profile3">
-                            <Checkbox onChange={this.changeHandler} name="isReviewNotification" />
+                            <Checkbox onChange={this.changeHandler} name="isReviewNotification" checked={this.state.isReviewNotification} />
                             </div>
                       </MDBCol>
                       <MDBCol md="10"  className='ns_title'>
@@ -169,7 +236,7 @@ this.setState({
                     <MDBRow>
                       <MDBCol md="2">
                         <div className="profile3">
-                            <Checkbox onChange={this.changeHandler} name="isRankingReport" />
+                            <Checkbox onChange={this.changeHandler} name="isRankingReport" checked={this.state.isRankingReport} />
                             </div>
                       </MDBCol>
                       <MDBCol md="10" className='ns_title'>
@@ -178,7 +245,8 @@ this.setState({
                     </MDBRow>
                     <MDBRow>
                       <MDBCol md="2">
-                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isReviewResponse" /></div>
+                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isReviewResponse"
+                         checked={this.state.isReviewResponse} /></div>
                       </MDBCol>
                       <MDBCol md="10" className='ns_title'>
                       Review Response
@@ -187,7 +255,8 @@ this.setState({
                     
                     <MDBRow>
                       <MDBCol md="2">
-                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isprofileCompletion" /></div>
+                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isprofileCompletion"
+                        checked={this.state.isprofileCompletion} /></div>
                       </MDBCol>
                       <MDBCol md="10" className='ns_title'>
                       Profile Completion
@@ -195,7 +264,8 @@ this.setState({
                     </MDBRow>
                     <MDBRow>
                       <MDBCol md="2">
-                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isInsightsReport" /></div>
+                        <div className="profile3"><Checkbox onChange={this.changeHandler} name="isInsightsReport"
+                        checked={this.state.isInsightsReport} /></div>
                       </MDBCol>
                       <MDBCol md="10" className='ns_title'>
                       Insights Report
@@ -208,6 +278,20 @@ this.setState({
                             <div className='profile1'>
                             Send Email Notification To
                             </div>
+                            {this.state.getEmail?
+                            <div className="scrollbar" style={{height:'200px',width:'100%',background:'none'}}>
+{this.state.getEmail.map(emails =>{
+  return (
+  <MDBRow>
+    <MDBCol md='10' className='ns_title' >
+      {emails.email_id}
+    </MDBCol>
+    <MDBCol md='2'>
+      <MDBBtn onClick={ () =>this.deleteEmail(emails.id)} className='ns_title' style={{color:'blue',marginTop:'15px'}}>X</MDBBtn>
+    </MDBCol>
+  </MDBRow>)
+})}
+</div>:null}
                     {this.state.isAddEmail?
                 <MDBRow>
                     <MDBCol md='12'>
@@ -216,8 +300,10 @@ this.setState({
                           className="profile4"
                           placeholder="Email Address"
                           name="sendToEmail"
+                          value={this.state.sendToEmail}
                           onChange={this.changeHandler}
                         />
+                        <div className='err_msg_agency' style={{marginLeft:'0px'}}>{this.state.email_error}</div>
                     </MDBCol>
 
                     <MDBCol md='12'>

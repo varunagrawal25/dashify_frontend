@@ -29,7 +29,7 @@ import ZomatoLogin from "./component/zomatologin";
 import AvvoLogin from "./component/avvologin";
 import { LinkedInPopUp } from "react-linkedin-login-oauth2";
 import PageNotFound from "./component/page-not-found";
-
+import Scanner from './component/landingpage/Scanner'
 // import EmailConfirmation from "./component/landingpage/email-confirmation";
 import PasswordReset from "./component/landingpage/password-reset";
 import RedirectCampaign from "./component/RedirectCampaign";
@@ -55,6 +55,7 @@ class App extends Component {
             <Route exact path="/support" component={Support} />
             <Route exact path="/pricing" component={Pricing} />
             <Route exact path="/how-we-work" component={How_we_work} />
+            <Route exact path="/scanner" component={Scanner} />
             <Route
               exact
               path="/review-management"

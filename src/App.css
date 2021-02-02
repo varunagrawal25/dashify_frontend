@@ -6834,7 +6834,7 @@ ul.socialicon-new li {
 .pay_last_btn {
   background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
   color: #fff;
-  padding: 6px 15px;
+  padding: 6px 25px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
@@ -12509,8 +12509,7 @@ label img {
 }
 
 #vl_btn_edit {
-  width: 83.18px;
-  height: 30.45px;
+  padding: 6px 25px;
   background: linear-gradient(90.17deg, #5d80e2 0.17%, #73b6e5 99.89%);
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
   border-radius: 5px;
@@ -13949,7 +13948,7 @@ ul.main-listfive li {
 }
 
 /* scanner page */
-/* .scanner_heading {
+.scanner_heading {
   font-family: Montserrat;
   font-style: normal;
   font-weight: 900;
@@ -14290,7 +14289,7 @@ ul.main-listfive li {
   line-height: 16px;
   color: #000000;
   margin-left: 10px;
-} */
+}
 /* listing_management */
 
 .lm_heading {

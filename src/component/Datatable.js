@@ -4,53 +4,80 @@ import { MDBDataTableV5 } from 'mdbreact';
 import arrow from './assets/arrow.png'
 export default class WithMultipleCheckboxes extends React.Component  {
   state={
-    Columns:  [
-      {
-        label: 'Name',
-        field: 'img',
-        width: 50,
-      },
-      {
-        label: '',
-        field: 'name',
-        width: 250,
-        attributes: {
-          'aria-controls': 'DataTable',
-          'aria-label': 'Name',
-        },
-      },
-      {
-        label: 'Email',
-        field: 'email',
-        width: 400,
-      },
-      {
-        label: 'Role',
-        field: 'role',
-        width: 200,
-      },
-      {
-        label: 'Status',
-        field: 'status',
-        sort: 'asc',
-        width: 150,
-      },
-      {
-        label: 'Action',
-        field: 'action',
-        sort: 'disabled',
-        width: 150,
-      }
+    columns:  [
+     
+      // {
+      //   label: 'Name',
+      //   field: 'name',
+      //   width: 250,
+      //   attributes: {
+      //     'aria-controls': 'DataTable',
+      //     'aria-label': 'Name',
+      //   },
+      // },
+      // {
+      //   label: 'Email',
+      //   field: 'email',
+      //   width: 400,
+      // },
+      // {
+      //   label: 'Role',
+      //   field: 'role',
+      //   width: 200,
+      // },
+      // {
+      //   label: 'Status',
+      //   field: 'status',
+      //   width: 150,
+      // },
+      // {
+      //   label: 'Action',
+      //   field: 'action',
+      //   sort: 'disabled',
+      //   width: 150,
+      // }
+
+
+              {
+                        label: '',
+                        field: 'img',
+                        width: 50,
+                        sort: 'disabled',
+                      },
+                      {
+                        label: 'Name',
+                        field: 'name',
+                        width: 250,
+                        attributes: {
+                          'aria-controls': 'DataTable',
+                          'aria-label': 'Name',
+                        },
+                      },
+                      {
+                        label: 'Email',
+                        field: 'email',
+                        width: 400,
+                      },
+                      {
+                        label: 'Role',
+                        field: 'role',
+                        width: 200,
+                      },
+                      {
+                        label: 'Status',
+                        field: 'status',
+                        width: 150,
+                      },
+                      {
+                        label: 'Action',
+                        field: 'action',
+                        sort: 'disabled',
+                        width: 150,
+                      }
+        
     ],
 
-    Rows:  [  {
-      img:'',
-      name: "ji" ,
-      email:"a.email_id",
-      role:"a.role",
-      status:'Active',
-      action:""
-    }]
+    rows:  this.props.AllPeople
   }
 
   // showLogs2 = (e) => {
@@ -58,13 +85,13 @@ export default class WithMultipleCheckboxes extends React.Component  {
   // };
   componentDidMount(){
     if(this.props.AllPeople) 
-    this.setState({Rows:this.props.AllPeople});
+    this.setState({rows:this.props.AllPeople});
     console.log("props c",this.props)
   }
   componentDidUpdate(){
     console.log("props did",this.props)
-    if(this.state.Rows !== this.props.AllPeople)
-    this.setState({Rows:this.props.AllPeople})
+    if(this.state.rows !== this.props.AllPeople)
+    this.setState({rows:this.props.AllPeople})
   }
  
 
@@ -75,22 +102,23 @@ export default class WithMultipleCheckboxes extends React.Component  {
    
     // const [checkbox1, setCheckbox1] = React.useState([]);
   
-    
+    // var datatable={
+    //   columns={this.state.Columns},
+    //     rows={this.props.AllPeople}
+    // }
   
 
     return ( 
        <MDBDataTableV5
-      style={{opacity:'1'}}
-        hover 
-        columns={this.state.Columns}
-        rows={this.state.Rows}
-        // data={datatable}
+        
+        data={this.state}
         searching={true}
         sortable={true}
+        
         scrollY={true}
         paging={false}
         paginationLabel={false}
-        disabled
+       
         // checkbox
         // headCheckboxID='id6'
         // bodyCheckboxID='checkboxes6'
@@ -110,3 +138,79 @@ export default class WithMultipleCheckboxes extends React.Component  {
 
 
 }}
+// import React from 'react';
+// import { MDBDataTableV5 } from 'mdbreact';
+
+// function Datatable(props) {
+//   console.log(props)
+//   console.log(props.AllPeople)
+//   const [datatable, setDatatable] = React.useState({
+//     columns: [
+
+//       {
+//                 label: '',
+//                 field: 'img',
+//                 width: 50,
+//                 sort: 'disabled',
+//               },
+//               {
+//                 label: 'Name',
+//                 field: 'name',
+//                 width: 250,
+//                 attributes: {
+//                   'aria-controls': 'DataTable',
+//                   'aria-label': 'Name',
+//                 },
+//               },
+//               {
+//                 label: 'Email',
+//                 field: 'email',
+//                 width: 400,
+//               },
+//               {
+//                 label: 'Role',
+//                 field: 'role',
+//                 width: 200,
+//               },
+//               {
+//                 label: 'Status',
+//                 field: 'status',
+//                 width: 150,
+//               },
+//               {
+//                 label: 'Action',
+//                 field: 'action',
+//                 sort: 'disabled',
+//                 width: 150,
+//               }
+
+//     ],
+//     rows:[ {
+//             img:'',
+//             name: "ji" ,
+//             email:"a.email_id",
+//             role:"a.role",
+//             status:'Active',
+//             action:""
+//           },
+//           {
+//             img:'',
+//             name: "fgcvhi" ,
+//             email:"a.email_id",
+//             role:"a.role",
+//             status:'Active',
+//             action:""
+//           },
+//           {
+//             img:'',
+//             name: "hji" ,
+//             email:"a.email_id",
+//             role:"a.role",
+//             status:'Active',
+//             action:""
+//           }]
+//   });
+
+//   return <MDBDataTableV5 hover data={datatable} />;
+// }
+// export default Datatable;

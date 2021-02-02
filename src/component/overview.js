@@ -1292,7 +1292,7 @@ if(e){
                     <h3>Social Overview</h3>
 
                     <div className="camgianbox">
-                    <select  className="review_select_btn"  onChange={this.social_media_overview_function}>
+                    <select className="review_select_btn"  onChange={this.social_media_overview_function}>
                               <option selected
                                 value= "last week"
                               >

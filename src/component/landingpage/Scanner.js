@@ -15,7 +15,7 @@ import check_img from '../assets/check_img.png'
 import cross_img from '../assets/cross_img.png'
 import Footer from "./footer";
 import Navbar from "./navbar";
-//import Radial_chart from '../utils/Radial_chart';
+import Radial_chart from '../utils/Radial_chart';
 export default class Scanner extends Component {
   componentDidMount() {
     window.scrollTo(0, 0)

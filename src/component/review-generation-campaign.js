@@ -500,7 +500,7 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
     ListRadio=AllIcons.map(l=>{
 
       return(  
-        <MDBCol md='5' style={{margin:'10px 0px', marginLeft:'-15px',marginRight:'10px'}}>
+        <MDBCol md='6' style={{margin:'10px 0px', marginLeft:'-15px',marginRight:'10px'}}>
         <div className='review_sites_container ' >
                               <input
                                     type="radio"
@@ -717,23 +717,17 @@ Write A Review
 
                 <MDBRow className='blue_container'>
                 
-                  <MDBCol md='12' className='camp_heading'>
-                  Choose Review Sites
+                  <MDBCol md='10' >
+                 <div className='camp_heading'>
+                 Choose Review Sites
+                 </div>
+
+                 <div className='camp_contant1'>
+                 the vocabulary, and the questions
+                 </div>
                   </MDBCol>
-                  <MDBCol md='12' className='camp_contant1'>
-                  the vocabulary, and the questions
-                  </MDBCol>
-                  <div >
-    <MDBRow >
-      <MDBCol md='9' className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}}>
-        <MDBRow className="overflow" style={{marginLeft:'15px'}}>
-        {ListIcons?ListIcons:<div>NO Listing connected</div>}
-        </MDBRow >
-      </MDBCol>
-        <MDBCol md='1'/>        
-                 
-   {hidePlus?             
-  <MDBCol  md='2' style={{margin:'11px 0px'}}>
+                  {hidePlus?             
+  <MDBCol  md='2' style={{marginBottom:'10px'}}>
     <MDBBtn className="camp_add_btn ">
                                 <i
                                   className="zmdi zmdi-plus"
@@ -741,6 +735,13 @@ Write A Review
                                 ></i>
                              </MDBBtn>
   </MDBCol>:""}
+                  <div >
+    <MDBRow >
+      <MDBCol md='12' className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}}>
+        <MDBRow className="overflow" style={{marginLeft:'15px'}}>
+        {ListIcons?ListIcons:<div>NO Listing connected</div>}
+        </MDBRow >
+      </MDBCol>
 </MDBRow>
 </div>
 <div className="err_msg">{email_review_sites_error}</div>
@@ -907,11 +908,16 @@ Google Map
                   <MDBCol md='12' className='camp_contant1'>
                   the vocabulary, and the questions
                   </MDBCol>
-                  <div class="scrollbar" style={{height:'90px',width:'100%',background:'none'}}>
-    <MDBRow class="overflow">
-                 {ListRadio}
-                 </MDBRow>
-                 </div>
+                  <div >
+    <MDBRow >
+      <MDBCol md='12' className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}}>
+        <MDBRow className="overflow" >
+        {ListRadio?ListRadio:<div>NO Listing connected</div>}
+        </MDBRow >
+      </MDBCol>
+</MDBRow>
+</div>
+                  
                  <div className="err_msg">{sms_review_sites_error}</div>
                  </MDBRow>
 

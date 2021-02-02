@@ -47,6 +47,16 @@ export default class Profile_setting extends Component {
 
     Delete_Invite(data).then(res=>{
       console.log(res)
+      const data ={
+        secure_pin,"user_id":localStorage.getItem("UserId") 
+      }
+      Get_All_Invites_By_User(data).then(res=>{
+        console.log(res)
+        this.setState({AllPeople:res.data.invite_user_list})
+  
+      }).catch(res=>{
+  
+      })
     }).catch(res=>{
       console.log(res)
     })
@@ -61,6 +71,16 @@ export default class Profile_setting extends Component {
     }
     Disable_Invite(data).then(res=>{
       console.log(res)
+      const data ={
+        secure_pin,"user_id":localStorage.getItem("UserId") 
+      }
+      Get_All_Invites_By_User(data).then(res=>{
+        console.log(res)
+        this.setState({AllPeople:res.data.invite_user_list})
+  
+      }).catch(res=>{
+  
+      })
     }).catch(res=>{
       console.log(res)
     })

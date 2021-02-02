@@ -2069,7 +2069,7 @@ const data={secure_pin}
                               <MDBCol md="9" className="vl_box_head">
                                 {this.state.name}
                               </MDBCol>
-                              <MDBCol md="3">
+                              <MDBCol md="3" style={{paddingLeft:'0px'}}>
                                {role !=='clientRead'? <button
                                   className="last_btn"
                                   onClick={this.editDetailsButton2}
@@ -2542,7 +2542,7 @@ const data={secure_pin}
                             <MDBCol md="9" className="vl_box_head">
                               {this.state.name}
                             </MDBCol>
-                            <MDBCol md="3">
+                            <MDBCol md="3" style={{paddingLeft:'0px'}}>
                             {role !=='clientRead'?   <button
                                 className="last_btn"
                                 onClick={this.editDetailsButton}
@@ -3495,7 +3495,7 @@ const data={secure_pin}
                             <MDBCol md="9" className="vl_box_head">
                               Operations Hours
                             </MDBCol>
-                            <MDBCol md="3">
+                            <MDBCol md="3" style={{paddingLeft:'0px'}}>
                              {role !== 'clientRead' ?  <button
                                 className="last_btn"
                                 onClick={this.editHourButton}
@@ -3689,7 +3689,7 @@ const data={secure_pin}
                       Payment Method
                     </MDBCol>
                     {this.state.paymentEdit ? null : 
-                    <MDBCol md="2">
+                    <MDBCol md="2" style={{paddingLeft:'0px'}}>
                       {role !=='clientRead'?  <button
                         className="pay_last_btn"
                         onClick={this.editPaymentButton}

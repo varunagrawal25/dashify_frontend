@@ -75,7 +75,7 @@ export default class profileUser extends Component {
         return (
             <div>
                  <div className="row setting-14">
-                <div class="col-md-4 avatar  ">
+                <div className="col-md-4 avatar  ">
                   <img
                     src={
                       this.state.user_info && this.state.user_image
@@ -92,43 +92,40 @@ export default class profileUser extends Component {
                 </div>
 
                 <div className="col-md-8 ">
-                  <div class="form-group row form_gap">
-                    <label for="inputEmail3" class="col-sm-4 col-form-label">
+                  <div className="form-group row form_gap">
+                    <label for="inputEmail3" className="col-sm-4 col-form-label">
                       Email:
                     </label>
-                    <div class="col-sm-8">
+                    <div className="col-sm-8">
                       <input
                         type="email"
-                        class="form-control"
+                        className="form-control"
                         id="inputEmail3"
                         value={this.state.email}
                         readOnly
                       />
                     </div>
                   </div>
-                  <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-4 col-form-label">
+                  <div className="form-group row">
+                    <label for="inputPassword3" className="col-sm-4 col-form-label">
                       Password:
                     </label>
-                    <div class="col-sm-8">
+                    <div className="col-sm-8">
                       <div className="changes-style">
                         <a onClick={this.changePassword}>Change</a>
                       </div>
                     </div>
                   </div>
-                  <div class="form-group row">
-                    <label for="inputPassword3" class="col-sm-4 col-form-label">
+                  <div className="form-group row">
+                    <label for="inputPassword3" className="col-sm-4 col-form-label">
                       Role:
                     </label>
-                    <div class="col-sm-8">
-                      <select>
-                          <option>Admin</option>
-                          <option>User</option>
-                      </select>
+                    <div className="col-sm-8">
+                        Admin
                     </div>
                   </div>
                   <div className="save_gap">
-                    <button type="submit" class="user_save0">
+                    <button type="submit" className="user_save0">
                       Save
                     </button>
                   </div>
