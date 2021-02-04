@@ -111,7 +111,7 @@ export default class profileUser extends Component {
                       Password:
                     </label>
                     <div className="col-sm-8">
-                      <div className="changes-style">
+                      <div className="changes-style mypro_content">
                         <a onClick={this.changePassword}>Change</a>
                       </div>
                     </div>
@@ -120,7 +120,7 @@ export default class profileUser extends Component {
                     <label for="inputPassword3" className="col-sm-4 col-form-label">
                       Role:
                     </label>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 changes-style mypro_content">
                         Admin
                     </div>
                   </div>

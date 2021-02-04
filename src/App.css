@@ -15068,6 +15068,14 @@ ul.outped li span {
   padding-top: 3px;
 }
 
+.mypro_content{
+  font-size: 15px;
+  font-weight: 400;
+  color: #4f4f4f;
+  font-family: 'Roboto';
+  font-style: normal;
+}
+
 .conentyour.ana-10 {
   width: 48%;
   float: left;

@@ -56,7 +56,7 @@ export default class WithMultipleCheckboxes extends React.Component  {
                       {
                         label: 'Email',
                         field: 'email',
-                        width: 400,
+                        width: 500,
                       },
                       {
                         label: 'Role',
@@ -72,7 +72,7 @@ export default class WithMultipleCheckboxes extends React.Component  {
                         label: 'Action',
                         field: 'action',
                         sort: 'disabled',
-                        width: 150,
+                        width: 100,
                       }
         
     ],

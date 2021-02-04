@@ -221,8 +221,8 @@ export default class ProfileAnalytics extends Component {
 
   filterAnalytics (data){
 
-    Axios.post(
-      "https://digimonk.net/dashify-ci/admin/socialmedia_api/get_profile_analytics_by_filter",
+    Axios.post( 
+      "https://dashify.biz/Api/admin/socialmedia_api/get_profile_analytics_by_filter",
       data
     ).then(resp => {
       console.log("digi",resp);
