@@ -1605,15 +1605,20 @@ Promotional_by_id(data)
       console.log(data,"data")
       const lowercasedFilter = fil.toLowerCase();
       Axios.post(
-        'https://digimonk.net/dashify-ci/admin/promotion_api/get_search_by_name', data).then(resp =>{
+        'https://dashify.biz/Api/admin/promotion_api/get_search_by_name', data).
+        then(resp =>{
           console.log("sr",resp)
      if(resp.data.status=="1"){
           this.setState({
             promo_list:resp.data.all_promotional
           })}
+          else
+          this.setState({
+            promo_list:[]
+          })
         }).catch(resp=>{
           this.setState({
-            promo_list:0
+            promo_list:[]
           })
               });
     // const filteredData = data.filter(item => {
@@ -1937,7 +1942,7 @@ Status
                 <MDBCol md="3" style={{padding:'0px'}}>
                   <img
                   // src={"https://digimonk.net/dashify-ci/assets/upload/images/promotional-image/" + d.promotional_gallery[0].image_name}
-                    src={ d.promotional_gallery[0]?d.image_path+d.promotional_gallery[0].image_name:es_img1}
+                    src={ d.promotional_gallery?d.image_path+d.promotional_gallery[0].image_name:es_img1}
                     alt="es_img1"
                     className="pp_img"
                     

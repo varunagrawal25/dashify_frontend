@@ -304,7 +304,7 @@ console.log("imgdata",data)
                   <img
                     src={
                       user_image
-                        ? "https://digimonk.net/dashify-ci/assets/upload/images/profile-type-image/" + user_image
+                        ? "https://dashify.biz/Api/assets/upload/images/profile-type-image/" + user_image
                         : user_img_def
                     }
                     alt="user"

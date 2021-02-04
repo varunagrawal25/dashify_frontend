@@ -439,7 +439,7 @@ console.log("location44",data)
   render() {
     if (this.state.otherImage) {
       var otherIma = this.state.otherImage.map((img, i) => (
-        <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+        <img src={"https://dashify.biz/Api/assets/upload/images/business-type-image/" +
         img.image
       } className="vl_img" />
       ));
@@ -563,7 +563,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                         // alt="vl_img1"
                         src={
                           this.state.logo
-                            ? "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + this.state.logo
+                            ? "https://dashify.biz/Api/assets/upload/images/business-type-image/" + this.state.logo
                             : require("../../images/Logo2.png")
                         }
                         className="responsive"
@@ -601,7 +601,7 @@ console.log("this.state.allFaq",this.state.allFaq)
                   <MDBRow>
                     {this.state.otherImage
                       ? this.state.otherImage.map((img, i) => (
-                        <img src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" +
+                        <img src={"https://dashify.biz/Api/assets/upload/images/business-type-image/" +
                         img.image
                       } className="vl_img" />
                         ))
