@@ -2514,7 +2514,7 @@ export default class ViewListing extends Component {
                   </div>
 
                   <div className="listing-lastupdate">
-                    <p>Last Update On {LastSyncDate} At {LastSyncTime}</p>
+                    <p>Last Update On {LastSyncDate ?LastSyncDate:"-"} At {LastSyncTime?LastSyncTime:"-"}</p>
                     <PDFDownloadLink
                       document={this.Quixote(pdf_data)}
                       fileName="connected_listing_report.pdf"

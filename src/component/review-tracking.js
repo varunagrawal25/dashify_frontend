@@ -2251,10 +2251,10 @@ console.log("this.state.AllReviews" ,this.state.AllReviews)
           <MDBRow>
             <MDBCol  md='3' className='review_container'>
 <MDBRow>
-  <MDBCol md='7' className='review_heading1'>
+  <MDBCol md='7' className='review_heading1' style={{paddingRight:'10px'}}>
   Overall Rating
   </MDBCol>
-  <MDBCol md='5'>
+  <MDBCol md='5' style={{padding:'0px',marginLeft:'-5px'}}>
 <select className="review_select_btn" onChange={this.Update_Overall_Breakdown("overall_rating")}>
 <option value="last week">Last Week</option>
   <option value="last month">Last Month</option>
