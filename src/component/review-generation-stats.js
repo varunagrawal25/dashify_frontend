@@ -45,7 +45,8 @@ export default class ReviewGenerationStats extends Component {
     monthlyClicked: true,
     yearlyClicked: false,
     campaign_count: "-",
-    AtleastOne:true
+    AtleastOne:true,
+    TotalCampaign:0
   };
 
   componentDidMount = () => {
@@ -703,6 +704,7 @@ export default class ReviewGenerationStats extends Component {
 
     Review_Generation_Stats(data2).then(resp=>{
       console.log("lo",resp);
+      if(resp.data.status === "1")
       this.setState({loader:false, 
         TotalCampaign:resp.data.campaign_list[0].total_campaign,
         OverallRating:resp.data.campaign_list[0].Overall_rating,
@@ -715,6 +717,11 @@ export default class ReviewGenerationStats extends Component {
 
       
       })
+      else
+      this.setState({loader:false, 
+        TotalCampaign:0,
+      })
+
 
 
       })
@@ -925,7 +932,7 @@ export default class ReviewGenerationStats extends Component {
           </div>
         ) : (
           
-            (TotalCampaign === 0)?
+            ( parseInt( TotalCampaign) === 0)?
           <PromotionalPostSorry />
           :<div>
             <MDBRow>

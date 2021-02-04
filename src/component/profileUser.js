@@ -79,7 +79,7 @@ export default class profileUser extends Component {
                   <img
                     src={
                       this.state.user_info && this.state.user_image
-                        ?"https://digimonk.net/dashify-ci/assets/upload/images/profile-type-image/" + this.state.user_image
+                        ?"https://dashify.biz/Api/assets/upload/images/profile-type-image/" + this.state.user_image
                         : avtar_img
                     }
                     alt=""
