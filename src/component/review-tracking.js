@@ -437,7 +437,7 @@ IconsAllLess=e=>{
         console.log(data2,"data2")
 
         Axios.post(
-          "https://digimonk.net/dashify-ci/admin/socialmedia_api/get_all_reviews_by_locationid",
+          "https://dashify.biz/Api/admin/socialmedia_api/get_all_reviews_by_locationid",
           data2
         ).then(resp => {
           console.log("digi",resp);
@@ -988,7 +988,7 @@ console.log("upd",filter)
     console.log(data2,"data2 reviews")
 
     Axios.post(
-      "https://digimonk.net/dashify-ci/admin/socialmedia_api/get_all_reviews_by_locationid",
+      "https://dashify.biz/Api/admin/socialmedia_api/get_all_reviews_by_locationid",
       data2
     ).then(resp => {
       console.log("digi",resp);

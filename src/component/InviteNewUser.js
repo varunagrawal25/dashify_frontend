@@ -217,7 +217,7 @@ console.log("invite ",data)
          <MDBCol>
          <MDBRow style={{marginTop:'7px',marginBottom:'7px'}}>
           <MDBCol md='1' >
-          <img src={"dwd"} />
+          <i class="fa fa-map-marker" aria-hidden="true"></i>
           </MDBCol>
           <MDBCol md='9' className="invite_drop">
           {h[0].location_name} 
