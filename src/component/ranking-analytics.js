@@ -243,7 +243,7 @@ export default class RankingAnalytics extends Component {
                 <MDBCol md="6">
                   <div className="review_container">
                     <div className="ranking_analytics_contant1">Ranking</div>
-                    <div className="ranking_analytics_contant2">05</div>
+                    <div className="ranking_analytics_contant2"> - </div>
                     <div className="ranking_analytics_contant3">
                       <span>
                         <img src={left_arrow} alt="" />{" "}
@@ -262,7 +262,7 @@ export default class RankingAnalytics extends Component {
                 <MDBCol md="6">
                   <div className="review_container">
                     <div className="ranking_analytics_contant1">Ranking</div>
-                    <div className="ranking_analytics_contant2">08</div>
+                    <div className="ranking_analytics_contant2"> - </div>
                     <div className="ranking_analytics_contant3">
                       <span className="ranking_icon">00</span>
                       <span>
@@ -279,7 +279,7 @@ export default class RankingAnalytics extends Component {
                 <MDBCol md="6">
                   <div className="review_container">
                     <div className="ranking_analytics_contant1">Ranking</div>
-                    <div className="ranking_analytics_contant2">12</div>
+                    <div className="ranking_analytics_contant2"> - </div>
                     <div className="ranking_analytics_contant3">
                       <span className="ranking_icon">00</span>
                       <span>
@@ -294,7 +294,7 @@ export default class RankingAnalytics extends Component {
                 <MDBCol md="6">
                   <div className="review_container">
                     <div className="ranking_analytics_contant1">Ranking</div>
-                    <div className="ranking_analytics_contant2">05</div>
+                    <div className="ranking_analytics_contant2"> - </div>
                     <div className="ranking_analytics_contant3">
                       <span>
                         <img src={left_arrow} alt="" />{" "}

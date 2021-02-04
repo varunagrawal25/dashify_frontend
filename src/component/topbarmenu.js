@@ -500,7 +500,7 @@ componentDidUpdate(){
                           <MDBCol md='3' style={{marginTop:'8px'}}>
 {user_image ? (
                             <img
-                              src={"https://digimonk.net/dashify-ci/assets/upload/images/profile-type-image/" + user_image}
+                              src={"https://dashify.biz/Api/assets/upload/images/profile-type-image/" + user_image}
                               alt="user"
                               className='navbar_pic'
                               

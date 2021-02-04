@@ -1441,7 +1441,7 @@ export default class ViewListing extends Component {
                           <img
                             src={
                               this.state.logo
-                                ? "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + this.state.logo
+                                ? "https://dashify.biz/Api/assets/upload/images/business-type-image/" + this.state.logo
                                 : require("../images/Logo2.png")
                             }
                             height="150"
@@ -1464,7 +1464,7 @@ export default class ViewListing extends Component {
                           {this.state.otherImage.map((img, i) => (
                             <li>
                               <img
-                                src={"https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + img.image}
+                                src={"https://dashify.biz/Api/assets/upload/images/business-type-image/" + img.image}
                                 height="115"
                                 width="115"
                               />
