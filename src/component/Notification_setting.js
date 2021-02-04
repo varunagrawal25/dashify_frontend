@@ -155,12 +155,13 @@ if(event.target.name=='isInsightsReport'){
   swal("Email Added Succcessfully")
   
   this.setState({
-    isReviewNotification:resp.data.review_notification,
-          isRankingReport:resp.data.ranking_report,
-          isReviewResponse:resp.data.review_response,
-          isprofileCompletion:resp.data.profile_completion,
-          isInsightsReport:resp.data.insights_report,
+    isReviewNotification:parseInt(resp.data.review_notification),
+        isRankingReport:parseInt(resp.data.ranking_report),
+        isReviewResponse:parseInt(resp.data.review_response),
+        isprofileCompletion:parseInt(resp.data.profile_completion),
+        isInsightsReport:parseInt(resp.data.insights_report),
           sendToEmail:'',
+          anyError:false,
           getEmail:resp.data.email_array
   })
         })
@@ -182,12 +183,13 @@ if(event.target.name=='isInsightsReport'){
 console.log("get notification",resp)
 
 this.setState({
-  isReviewNotification:resp.data.review_notification,
-        isRankingReport:resp.data.ranking_report,
-        isReviewResponse:resp.data.review_response,
-        isprofileCompletion:resp.data.profile_completion,
-        isInsightsReport:resp.data.insights_report,
-        sendToEmail:null,
+  isReviewNotification:parseInt(resp.data.review_notification),
+        isRankingReport:parseInt(resp.data.ranking_report),
+        isReviewResponse:parseInt(resp.data.review_response),
+        isprofileCompletion:parseInt(resp.data.profile_completion),
+        isInsightsReport:parseInt(resp.data.insights_report),
+        sendToEmail:'',
+        anyError:false,
         getEmail:resp.data.email_array
 })
 

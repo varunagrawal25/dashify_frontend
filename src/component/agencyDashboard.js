@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import { secure_pin } from "../config";
 import swal from "sweetalert";
+import Spinner from "./common/Spinner";
 import {add_agency_dashboard,get_agency} from './apis/agency'
 export default class AgencyDashboard extends Component {
   state={
@@ -10,10 +11,14 @@ export default class AgencyDashboard extends Component {
     accessSwitch:false,
     customDomainError:'',
     containerIdError:'',
-    isError:false
+    isError:false,
+    isLoading:false
   }
 
   componentDidMount =() =>{
+    this.setState({
+      isLoading:true
+    })
     const data={
       secure_pin,
       user_id:localStorage.getItem("UserId")
@@ -26,6 +31,7 @@ this.setState({
   customDomain:resp.data.agency_data[0].dash_custom_domain,
   containerId:resp.data.agency_data[0].dash_google_tag_id,
   accessSwitch:resp.data.agency_data[0].dash_access_client,
+  isLoading:false
 })
     })
   
@@ -71,6 +77,9 @@ this.setState({
    // {"secure_pin":"digimonk","user_id":"10","custom_domain":"digimonk.in","google_tag_id":"SFSSFS-234sd"}
     if(!this.state.isError){
       if(!this.state.isError){
+        this.setState({
+          isLoading:true
+        })
         const data={
           secure_pin,
           user_id:localStorage.getItem("UserId"),
@@ -95,6 +104,7 @@ this.setState({
 customDomain:resp.data.agency_data[0].dash_custom_domain,
 containerId:resp.data.agency_data[0].dash_google_tag_id,
 accessSwitch:resp.data.agency_data[0].dash_access_client,
+isLoading:false
 })
   })
 
@@ -110,8 +120,9 @@ accessSwitch:resp.data.agency_data[0].dash_access_client,
     render() {
       console.log(this.state)
         return (
-            <div >
-            <MDBRow style={{padding:'3% 6%'}}>
+            <div  style={{padding:'3% 6%'}}>
+              {this.state.isLoading?<Spinner/>:
+            <MDBRow>
               <MDBCol md="12" className="profileSpacing">
                 <MDBRow>
                   <MDBCol md="6">
@@ -173,7 +184,7 @@ accessSwitch:resp.data.agency_data[0].dash_access_client,
                   <div style={{margin:'auto',marginTop:'30px'}}>
                     <MDBBtn className="pay_last_btn" onClick={this.onSave}>Save</MDBBtn></div>
                         </MDBRow>
-           
+    }
         </div>
     
         )

@@ -714,8 +714,8 @@ Write A Review
                   </div>
                   </div>
                 </div>
-
-                <MDBRow className='blue_container'>
+<div className='blue_container'>
+                <MDBRow >
                 
                   <MDBCol md='10' >
                  <div className='camp_heading'>
@@ -735,17 +735,18 @@ Write A Review
                                 ></i>
                              </MDBBtn>
   </MDBCol>:""}
-                  <div >
-    <MDBRow >
-      <MDBCol md='12' className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}}>
+           
+
+</MDBRow>
+<MDBRow  className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}} >
+      
         <MDBRow className="overflow" style={{marginLeft:'15px'}}>
         {ListIcons?ListIcons:<div>NO Listing connected</div>}
         </MDBRow >
-      </MDBCol>
+    
 </MDBRow>
-</div>
 <div className="err_msg">{email_review_sites_error}</div>
-</MDBRow>
+</div>
 {!hidePlus?     
      <div className='hidePlus_box'>
        <button onClick={this.addSocialFunc} className='campaignClose' style={{marginTop:'-25px'}}>x</button>
@@ -901,25 +902,25 @@ Google Map
                    ></textarea>
                    <div className="err_msg">{sms_content_error}</div>
                  </div>
-                 <MDBRow className='blue_container'>
+                 <div className='blue_container'>
+                 <MDBRow >
                   <MDBCol md='12' className='camp_heading'>
                   Choose Any One Review Site
                   </MDBCol>
                   <MDBCol md='12' className='camp_contant1'>
                   the vocabulary, and the questions
                   </MDBCol>
-                  <div >
-    <MDBRow >
-      <MDBCol md='12' className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}}>
-        <MDBRow className="overflow" >
-        {ListRadio?ListRadio:<div>NO Listing connected</div>}
-        </MDBRow >
-      </MDBCol>
-</MDBRow>
-</div>
-                  
-                 <div className="err_msg">{sms_review_sites_error}</div>
+     
                  </MDBRow>
+                 <MDBRow  className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}} >
+      
+      <MDBRow className="overflow" style={{marginLeft:'15px'}}>
+      {ListRadio?ListRadio:<div>NO Listing connected</div>}
+      </MDBRow >
+  
+</MDBRow>
+<div className="err_msg">{sms_review_sites_error}</div>
+                 </div>
 
              </div>
              
@@ -977,7 +978,7 @@ Google Map
                </div>
             
      </div>
-   <div className="col-md-4">
+{false?   <div className="col-md-4">
    <div className="step2" style={{marginTop:'20px'}}>
                  {/*<div className="ratingemail">
                    <h2>Rating Email And SMS Template</h2>
@@ -1074,7 +1075,7 @@ Google Map
                 
                </div>
   
-   </div>
+   </div>:null}
   
  </div>
             {/* For email and phone no */}
