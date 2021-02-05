@@ -562,6 +562,8 @@ img {
   box-shadow: 0px 10px 40px rgba(130, 100, 198, 0.2);
 }
 
+
+
 .add_btn img {
   width: 16px;
   margin-right: 10px;
@@ -13355,7 +13357,45 @@ label img {
   width: 30px;
   cursor: pointer;
 }
+.chooseFile_hidden {
+  position: absolute;
+  top: 97px;
+  width: 100px;
+  opacity: 0;
+  overflow: hidden;
+}
+.chooseFile_hidden1 {
+  position: absolute;
+  top: -5px;
+  width: 40px;
+  opacity: 0;
+  overflow: hidden;
+}
 
+.crop_btn {
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 27px;
+  padding: 7px 20px;
+  background: #fff;
+  border-radius: 5px;
+  color: #8264c6;
+  outline: none;
+  box-shadow: 0px 10px 40px rgb(130 100 198 / 20%);
+  border-color: #8264c6;
+}
+.crop_btn1 {
+  font-family: Roboto;
+  font-style: normal;
+  font-size: 20px;
+  padding: 7px 15px;
+  background: #fff;
+  border-radius: 5px;
+  color: #8264c6;
+  outline: none;
+  box-shadow: 0px 10px 40px rgb(130 100 198 / 20%);
+  border-color: #8264c6;
+}
 .get-image input[type="file"] {
   position: absolute;
   left: 0;
@@ -15068,11 +15108,11 @@ ul.outped li span {
   padding-top: 3px;
 }
 
-.mypro_content{
+.mypro_content {
   font-size: 15px;
   font-weight: 400;
   color: #4f4f4f;
-  font-family: 'Roboto';
+  font-family: "Roboto";
   font-style: normal;
 }
 

@@ -16,7 +16,7 @@ import paypal from "./assets/paypal.png";
 import mastercard from "./assets/mastercard.png";
 import edit from "./assets/edit.png";
 import Map from "./Map";
-import Cropper from "./utils/cropper";
+import Cropper from "./utils/cropper1";
 import { url_regex, phone_regex } from "./utils/regularexpressions";
 import { secure_pin } from "../config";
 import swal from "sweetalert";
@@ -298,7 +298,9 @@ console.log("imgdata",data)
                   />
                 </div>
               ) : this.state.show_crop_function ? (
+                <i class="fas fa-upload" style={{fontSize:'30px',color: '#4f4f4f'}}>
                 <Cropper uploadUserImage={this.uploadUserImage} />
+                </i>
               ) : (
                 <div>
                   <img

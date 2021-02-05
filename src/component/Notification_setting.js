@@ -164,8 +164,12 @@ if(event.target.name=='isInsightsReport'){
           anyError:false,
           getEmail:resp.data.email_array
   })
+  console.log("this.state",this.state)
+
         })
       }
+
+      
      
     }
     componentDidMount = () =>{

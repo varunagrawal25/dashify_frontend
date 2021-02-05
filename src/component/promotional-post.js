@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import es_img1 from "./assets/es_img1.png";
 import edit from "./assets/edit.png";
 import delete_icon from "./assets/delete_icon.png";
+import upload_icon from "./assets/upload_icon.png";
 import { Checkbox } from '@material-ui/core';
 import {Add_Promotional ,All_Promotional_list, Delete_Promotional_by_id, Promotional_Analytics, Promotional_by_id
 ,Update_Promotional_by_id} from "./apis/location";
@@ -2079,7 +2080,9 @@ N/A
   <div id="promo_post" class="tab-pane fade  active" style={{opacity:'1',minHeight: '350px'}}>
   {this.state.loading?<Spinner/>:
    <div>
-     {this.state.CropperActive_promo ? <Cropper uploadUserImage={this.uploadUserImage_promo} />
+     {this.state.CropperActive_promo ?<i class="fas fa-upload" style={{fontSize:'80px',color: '#4f4f4f'}}>
+        <Cropper uploadUserImage={this.uploadUserImage_promo}  />
+        </i>
           :
    <div >
     {/* <MDBRow>
@@ -2264,7 +2267,9 @@ N/A
  <div id="post_event" class="tab-pane fade" style={{opacity:'1',minHeight: '350px'}}>
    {this.state.loading?<Spinner/>:
    <div>
-      {this.state.CropperActive_event  ? <Cropper uploadUserImage={this.uploadUserImage_event} />
+      {this.state.CropperActive_event  ? <i class="fas fa-upload" style={{fontSize:'80px',color: '#4f4f4f'}}>
+        <Cropper uploadUserImage={this.uploadUserImage_event} />
+        </i>
           :
     <div >
     {/* <MDBRow>
@@ -2479,7 +2484,9 @@ N/A
     </div>
     <div class="scrollbar" style={{height:'415px'}}>
       <div class="overflow">
-      {this.state.CropperActive_promo_get  ? <Cropper uploadUserImage={this.uploadUserImage_promo_get} />
+      {this.state.CropperActive_promo_get  ? <i class="fas fa-upload" style={{fontSize:'80px',color: '#4f4f4f'}}>
+        <Cropper uploadUserImage={this.uploadUserImage_promo_get} />
+        </i>
           :
     <div >
     
@@ -2670,7 +2677,9 @@ Post An Event
    
     <div class="scrollbar" style={{height:'415px'}}>
       <div class="overflow">
-    {this.state.CropperActive_event_get  ? <Cropper uploadUserImage={this.uploadUserImage_event_get} />
+    {this.state.CropperActive_event_get  ? <i class="fas fa-upload" style={{fontSize:'80px',color: '#4f4f4f'}}>
+      <Cropper uploadUserImage={this.uploadUserImage_event_get} />
+      </i>
           :
     <div >
     <div >

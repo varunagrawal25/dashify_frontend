@@ -1876,7 +1876,7 @@ const data={secure_pin}
                                     alt=""
                                   />
                                   {/* <br /> */}
-                                  <div className="get-image">
+                                  <div className="get-image" style={{marginRight:'-35px', marginTop:'-3px'}}>
                                     <img
                                       src={edit}
                                       alt=""
@@ -2036,21 +2036,21 @@ const data={secure_pin}
                                     </MDBRow>
 
                                     <MDBRow style={{ marginTop: "20px" }}>
-                                      <MDBCol md="3" className="offset-md-5">
+                                      <MDBCol md="4" className="offset-md-3">
                                         <button
                                           type="submit"
                                           className="last_btn"
-                                          style={{ marginLeft: "-5px" }}
+                                          
                                           // onClick={this.updateDetailsButton2}
                                         >
                                           Update
                                         </button>
                                       </MDBCol>
-                                      <MDBCol md="3">
+                                      <MDBCol md="4">
                                         <button
                                           className="last_btn"
                                           onClick={this.editDetailsButton2}
-                                          style={{ marginLeft: "5px" }}
+                                          style={{ marginLeft: "10px" }}
                                         >
                                           Cancel
                                         </button>
@@ -2385,21 +2385,21 @@ const data={secure_pin}
                                   </MDBRow>
 
                                   <MDBRow style={{ marginTop: "20px" }}>
-                                    <MDBCol md="3" className="offset-md-5">
+                                    <MDBCol md="4" className="offset-md-3">
                                       <button
                                         type="submit"
                                         className="last_btn"
-                                        style={{ marginLeft: "-5px" }}
+                                        
                                         // onClick={this.updateDetailsButton2}
                                       >
                                         Update
                                       </button>
                                     </MDBCol>
-                                    <MDBCol md="3">
+                                    <MDBCol md="4">
                                       <button
                                         className="last_btn"
                                         onClick={this.editDetailsButton}
-                                        style={{ marginLeft: "5px" }}
+                                        style={{ marginLeft: "10px" }}
                                       >
                                         Cancel
                                       </button>
@@ -3468,21 +3468,20 @@ const data={secure_pin}
                           </div>
 
                           <MDBRow style={{ marginTop: "20px" }}>
-                            <MDBCol md="3" className="offset-md-5">
+                            <MDBCol md="4" className="offset-md-3">
                               <button
                                 type="submit"
                                 className="last_btn"
-                                style={{ marginLeft: "-5px" }}
                                 onClick={this.updateHourButton}
                               >
                                 Update
                               </button>
                             </MDBCol>
-                            <MDBCol md="3">
+                            <MDBCol md="4">
                               <button
                                 className="last_btn"
                                 onClick={this.editHourButton}
-                                style={{ marginLeft: "5px" }}
+                                style={{ marginLeft: "10px" }}
                               >
                                 Cancel
                               </button>
@@ -3623,21 +3622,20 @@ const data={secure_pin}
                                    
                               </div>
                               <MDBRow style={{ marginTop: "20px" }}>
-                            <MDBCol md="3" className="offset-md-5">
+                            <MDBCol md="4" className="offset-md-3">
                               <button
                                 type="submit"
                                 className="last_btn"
-                                style={{ marginLeft: "-5px" }}
                                 onClick={this.addSpecialHourButton}
                               >
                                 Update
                               </button>
                             </MDBCol>
-                            <MDBCol md="3">
+                            <MDBCol md="4">
                               <button
                                 className="last_btn"
                                 onClick={() => this.editSpecialHourButton()}
-                                style={{ marginLeft: "5px" }}
+                                style={{ marginLeft: "10px" }}
                               >
                                 Cancel
                               </button>
