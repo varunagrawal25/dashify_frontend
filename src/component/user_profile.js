@@ -550,7 +550,7 @@ console.log("imgdata",data)
           </MDBRow>
 
           <MDBRow>
-            <MDBCol md="3" className="user_container1">
+            {/* <MDBCol md="3" className="user_container1">
               <MDBRow>
                 <MDBCol className="user2" md="7">
                   Social Network
@@ -600,9 +600,9 @@ console.log("imgdata",data)
                 By clicking any on this social icon you will directly redirect
                 to his/her social Profile
               </div>
-            </MDBCol>
+            </MDBCol> */}
 
-            <MDBCol md="9">
+            <MDBCol md="12" style={{paddingLeft:'0px'}}>
               <div
                 className="user_container1 "
                 style={{ marginRight: "-10px" }}

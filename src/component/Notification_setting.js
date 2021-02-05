@@ -53,7 +53,10 @@ export default class Notification_setting extends Component {
 
 
     }
+
+  
     changeHandler = event => {
+  
         this.setState({ [event.target.name]: event.target.value });
         console.log("kk",event.target.name)
         // if(event.target.value=='isReviewNotification' && this.state.isReviewNotification=="0"){
@@ -105,6 +108,25 @@ if(event.target.name=='isInsightsReport'){
   console.log("fd0",this.state.isInsightsReport)
 }
 
+   
+
+if(event.target.name=='sendToEmail'  ){
+
+  let result = email_regex(event.target.value);
+  if (result === false) {
+    this.setState({
+      email_error: "Not a valid email",
+      anyError:true
+    });}
+    else{
+      this.setState({
+        email_error: "",
+        anyError:false
+      });
+    }
+ 
+}
+
     }
     addEmail = () =>{
         this.setState({
@@ -128,13 +150,9 @@ if(event.target.name=='isInsightsReport'){
       //   })
       //   console.log("insi",this.state.isInsightsReport)
       // }
-      let result = email_regex(this.state.sendToEmail);
-    if (result === false) {
-      this.setState({
-        email_error: "Not a valid email",
-        anyError:true
-      });}   
-      else{
+   
+     
+    if(!this.state.anyError){
         console.log("insi",this.state.isInsightsReport)
         const data={
           
@@ -162,6 +180,7 @@ if(event.target.name=='isInsightsReport'){
         isInsightsReport:parseInt(resp.data.insights_report),
           sendToEmail:'',
           anyError:false,
+          isAddEmail:false,
           getEmail:resp.data.email_array
   })
   console.log("this.state",this.state)

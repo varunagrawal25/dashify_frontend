@@ -197,10 +197,10 @@ var AllPeop=[];
             <MDBCol md="3">
               <ProfileSettingSidebar role={this.state.role} />
 
-              <MDBRow className="mt-3">
+              <MDBRow className="mt-3" style={{padding:'12px'}}>
                 <MDBCol
                   className="profile_container"
-                  style={{ textAlign: "center" }}
+                  style={{ textAlign: "center" ,paddingLeft:'0px',paddingRight:'0px' }}
                 >
                   <div className="exclamation">!</div>
                   <div className="profile1">People</div>

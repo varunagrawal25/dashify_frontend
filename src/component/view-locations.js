@@ -24,6 +24,7 @@ import {
   zipcode_regex
 } from "./utils/regularexpressions";
 import { secure_pin } from "../config";
+import SettingEmail from "./setting-email";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -1827,6 +1828,7 @@ const data={secure_pin}
               <Spinner />
             </div>
           ) : (
+            <div>
             <div>
               <div className="mt-30">
                 <div className="">
@@ -4463,7 +4465,10 @@ checked
                 </div>
               </div>
             </div>
-          )
+         <SettingEmail/>
+         </div>
+         
+         )
         ) : (
           
             <div >
