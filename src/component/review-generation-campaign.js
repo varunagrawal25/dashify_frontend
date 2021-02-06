@@ -49,7 +49,9 @@ export default class ReviewGenerationCampaign extends Component {
     isSms:false,
     FinalEmailSocial:[],
     FinalSmsSocial:[],
-    hidePlus:true
+    hidePlus:true,
+    hideName:'',
+    hideUrl:''
   };
 
   componentDidMount = () => {
@@ -183,13 +185,16 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
 
     if(!isError){
       // this.setState({  });
+      if(this.state.hideName && this.state.hideUrl)
       this.setState({FinalEmailSocial : this.state.FinalEmailSocial.concat({
         name:this.state.hideName,
         connect_url:this.state.hideUrl
       
       })
     
-    ,Step: 2})
+    })
+    
+    this.setState({Step: 2})
     }
 
     // if (!isError) {

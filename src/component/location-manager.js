@@ -80,7 +80,7 @@ console.log("data55",data)
                 <img
                   src={
                     loc.bussiness_logo
-                      ? "https://digimonk.net/dashify-ci/assets/upload/images/business-type-image/" + loc.bussiness_logo
+                      ? "https://dashify.biz/Api/assets/upload/images/business-type-image/" + loc.bussiness_logo
                       : require("../images/Logo2.png")
                   }
                   
