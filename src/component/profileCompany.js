@@ -23,6 +23,7 @@ export default class profileCompany extends Component {
         loading_image: true,
       };
       componentDidMount = () => {
+        try{
         let data = {secure_pin, user_id: localStorage.getItem("UserId") };
         get_login_user_info(data)
           .then(res => {
@@ -45,8 +46,9 @@ export default class profileCompany extends Component {
             this.setState({ loading_info: false, loading_image: false });
           });
        
-      };
+        }catch(e){}};
       changeHandler = event => {
+        try{
         this.setState({ [event.target.name]: event.target.value });
       
       if(event.target.name=='support_email'){
@@ -66,10 +68,11 @@ export default class profileCompany extends Component {
           fav_icon:event.target.value
         })
       }
-      }
+    }catch(e){} }
 
 
       uploadUserImage = image => {
+        try{
         let { users_login } = this.state;
     
         console.log("image", image);
@@ -115,13 +118,14 @@ export default class profileCompany extends Component {
             this.setState({ loading_image: false, show_crop_function: false });
             swal("try again2");
           });
-      };
+        }catch(e){} };
     
       show_crop_function = () => {
+        try{
         this.setState({
           show_crop_function: true
         });
-      };
+      }catch(e){} };
       render() {
         console.log("cl",this.state.company_logo)
         let userEmail = localStorage.getItem("UserEmail");

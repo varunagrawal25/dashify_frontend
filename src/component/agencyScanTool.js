@@ -27,6 +27,7 @@ export default class AgencyScanTool extends Component {
   }
  // {"secure_pin":"digimonk","user_id":"10","agency_id":"1"}
   componentDidMount = () =>{
+    try{
     this.setState({
       isLoading:true
     })
@@ -51,9 +52,10 @@ export default class AgencyScanTool extends Component {
       isLoading:false
      })
     })
-  }
+  }catch(e){}}
 
   changeHandler = event => {
+    try{
     this.setState({
       [event.target.name] :event.target.value
     });
@@ -63,9 +65,10 @@ export default class AgencyScanTool extends Component {
         showError:!this.state.showError
       })
     }
-  }
+  }catch(e){}}
 
   onSave = async e =>{
+    try{
     if(this.state.name==""){
      await this.setState({
         nameError:'Name Required',
@@ -190,7 +193,7 @@ this.setState({
       })
     }
     return this.state.isError
-  }
+  }catch(e){}}
     render() {
       console.log(this.state)
         return (

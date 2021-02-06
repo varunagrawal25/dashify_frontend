@@ -25,6 +25,7 @@ export default class Notification_setting extends Component {
     }
 
     deleteEmail = (id) =>{
+      try{
       console.log("id1",id)
       const data={
         secure_pin,
@@ -52,10 +53,11 @@ export default class Notification_setting extends Component {
           })
 
 
-    }
+        }catch(e){}}
 
   
     changeHandler = event => {
+      try{
   
         this.setState({ [event.target.name]: event.target.value });
         console.log("kk",event.target.name)
@@ -127,23 +129,28 @@ if(event.target.name=='sendToEmail'  ){
  
 }
 
-    }
+}catch(e){}}
     addEmail = () =>{
+      try{
         this.setState({
             isAddEmail:true
         })
+      }catch(e){}
     }
 
     cancelEmail=()=>{
+      try{
         this.setState({
             isAddEmail:false
         })
+      }catch(e){}
     }
     // {"secure_pin":"digimonk","user_id":"10","review_notification":"1","ranking_report":"1","review_response":"1",
     // "profile_completion":"1","insights_report":"1","email_array":[{"email_id":"ram22@digmonk.in"},
     // {"email_id":"ram221@digmonk.in"}]}
 
      addEmailConfirm = () =>{
+       try{
       // if(this.state.isInsightsReport){
       //   this.setState({
       //     isInsightsReport:"1"
@@ -190,8 +197,9 @@ if(event.target.name=='sendToEmail'  ){
 
       
      
-    }
+    }catch(e){} }
     componentDidMount = () =>{
+      try{
 
       this.setState({role:this.props.role})
       const data={
@@ -218,10 +226,12 @@ this.setState({
 
 console.log("this.state.getEmail",this.state.getEmail)
       })
-    }
+    }catch(e){}}
     componentDidUpdate(){
+      try{
       if(this.state.role !== this.props.role)
       this.setState({role:this.props.role});
+    }catch(e){}
     }
     render() {
        console.log("state",this.state)

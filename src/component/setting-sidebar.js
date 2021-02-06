@@ -6,13 +6,16 @@ export default class ProfileSettingSidebar extends Component {
   state={role:''}
 
   componentDidMount = () => {
-
+try{
     this.setState({role:this.props.role})
+  }catch(e){}
   }
 
   componentDidUpdate(){
+    try{
     if(this.state.role !== this.props.role)
     this.setState({role:this.props.role});
+  }catch(e){}
   }
   
   render() {

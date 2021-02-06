@@ -42,6 +42,7 @@ export default class RankingAnalytics extends Component {
   }
 
   submit=e=>{
+    try{
     console.log("sub", this.state.tags);
 
     if(this.state.tags){
@@ -89,9 +90,10 @@ export default class RankingAnalytics extends Component {
     })
 
   }
-  }
+}catch(e){}}
 
   componentDidMount(){
+    try{
     const data=
     {
       secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
@@ -105,9 +107,10 @@ export default class RankingAnalytics extends Component {
     .catch(resp=>{
 
     })
-  }
+  }catch(e){} }
 
   onUploadCsv=event=>{
+    try{
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
@@ -116,7 +119,7 @@ export default class RankingAnalytics extends Component {
 
       console.log((e.target.result))
     };
-  }
+  }catch(e){}}
    
   render() {
     console.log(this.state)

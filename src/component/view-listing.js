@@ -178,6 +178,7 @@ export default class ViewListing extends Component {
   };
 
   async componentDidMount() {
+    try{
     if (this.props.match.params.locationId != "null") {
 
 
@@ -499,12 +500,13 @@ export default class ViewListing extends Component {
     } else {
       this.setState({ loader: false });
     }
-  }
+  }catch(e){}}
 
   componentClicked = e => {
+    try{
     console.log("clicked");
     // e.preventDefault();
-  };
+  }catch(e){}};
 
   responseFacebook = async response => {
 
@@ -551,6 +553,7 @@ export default class ViewListing extends Component {
   };
 
   responseGoogle = async response => {
+    try{
     console.log("google response", response, response.code);
 
     let state = {
@@ -584,9 +587,10 @@ export default class ViewListing extends Component {
     //       }).catch(res => {
     //         console.log("google offline error",res);
     // })
-  };
+  }catch(e){}};
 
   linkedin_handleSuccess = data => {
+    try{
     console.log("linkedin login data", data);
     this.setState({
       linkedin_code: data.code
@@ -681,17 +685,19 @@ export default class ViewListing extends Component {
         console.log(resp);
         this.setState({ loading: false });
       });
-  };
+    }catch(e){}};
 
   linkedin_handleFailure = error => {
+    try{
     this.setState({
       linkedin_code: ""
       // linkedin_errorMessage: error.errorMessage
     });
     swal("Linkedin : ", error.errorMessage);
-  };
+  }catch(e){} };
 
   disconnectAccount = namefrom=> e => {
+    try{
     console.log(e.target.name);
     var name = e.target.name;
     const data = { 
@@ -714,9 +720,10 @@ export default class ViewListing extends Component {
       .catch(resp => {
         console.log(resp);
       });
-  };
+    }catch(e){}};
 
   googleLocationDetailFunction = googleLocationDetail => {
+    try{
     let googleScore = 1;
     let maxScore = 9;
     let { googleReviewsPresent } = this.state;
@@ -871,9 +878,10 @@ export default class ViewListing extends Component {
         </div>
       </div>
     );
-  };
+  }catch(e){}};
 
   citysearchDetailsFunction = data => {
+    try{
     let citysearchScore = 0;
     let maxScore = 9;
 
@@ -1029,9 +1037,10 @@ export default class ViewListing extends Component {
         </div>
       </div>
     );
-  };
+  }catch(e){} };
 
   yelpDetailsFunction = data => {
+    try{
     let yelpScore = 0;
     let maxScore = 9;
 
@@ -1176,7 +1185,7 @@ export default class ViewListing extends Component {
         </div>
       </div>
     );
-  };
+  }catch(e){} };
 
   Quixote = pdf_data => (
     <Document>

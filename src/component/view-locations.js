@@ -215,11 +215,14 @@ export default class LocationManager extends Component {
   };
 
   componentDidMount = async () => {
+    try{
     await this.loading_location_details();
     await this._loadBusinessCategories();
+  }catch(e){}
   };
 
   loading_location_details = () => {
+    try{
     var locationId = this.props.match.params.locationId;
     const data = {
       secure_pin,
@@ -392,32 +395,38 @@ console.log("name88",resp.data.location_details[0].location_name)
       this.setState({loader:false})
     })
     
-  };
+  }catch(e){}};
 
   editDetailsButton = event => {
+    try{
     console.log("bu");
     this.setState({
       detailEdit: this.state.detailEdit == false ? true : false
     });
-  };
+  }catch(e){}};
 
   editDetailsButton2 = event => {
+    try{
     console.log("bu");
     this.setState({
       detailEdit2: this.state.detailEdit2 == false ? true : false
     });
-  };
+  }catch(e){}};
 
   editPaymentButton = event => {
+    try{
     console.log("pa");
     this.setState({ paymentEdit: !this.state.paymentEdit });
-  };
+  }catch(e){}};
 
   editHourButton = event => {
+    try{
     this.setState({ hourEdit: this.state.hourEdit == false ? true : false });
+  }catch(e){}
   };
 
   updateDetailsButton = name => event => {
+    try{
     event.preventDefault();
     var locationId = this.props.match.params.locationId;
     this.setState({
@@ -518,9 +527,10 @@ console.log("name88",resp.data.location_details[0].location_name)
         this.updateDetails(data);
       }
     }
-  };
+  }catch(e){}};
 
   updateDetails = (data) => {
+    try{
     let {
       storeCode_edit,
       address_edit,
@@ -567,9 +577,10 @@ console.log("tt25",data)
         });
         swal("couldn't update details");
       });
-  };
+    }catch(e){}};
 
   updatePaymentButton = event => {
+    try{
     event.preventDefault();
     var locationId = this.props.match.params.locationId;
     console.log("p_visa1",this.state.p_visa)
@@ -711,9 +722,10 @@ console.log("tt25",data)
       .catch(resp => {
         console.log(resp);
       });
-  };
+    }catch(e){}};
 
   allChanger = event => {
+    try{
     let {
       monday,
       mondayStart1,
@@ -823,9 +835,10 @@ console.log("timecheck2",isValid)
         sundayEnd2: ""
       });
     }
-  };
+  }catch(e){} };
 
   checkUpdateHourDetaisls = () => {
+    try{
     let {
       monday,
       mondayStart1,
@@ -1104,9 +1117,10 @@ console.log("timecheck2",isValid)
       }
     }
     return isError;
-  };
+  }catch(e){} };
 
   updateHourButton = async event => {
+    try{
     event.preventDefault();
 
     let isError = await this.checkUpdateHourDetaisls();
@@ -1210,14 +1224,16 @@ console.log("timecheck2",isValid)
           });
         });
     }
-  };
+  }catch(e){}};
 
   editSpecialHourButton = event => {
+    try{
     console.log("hr");
     this.setState({ add_special_hour: !this.state.add_special_hour });
-  };
+  }catch(e){}};
 
   specialHourError = () => {
+    try{
     let {
       monday_s,
       monday_day_s,
@@ -1267,7 +1283,7 @@ console.log("timecheck2",isValid)
       }
     }
     return isError;
-  };
+  }catch(e){}};
 
   // addSpecialHourButton = async event => {
   //   event.preventDefault();
@@ -1303,6 +1319,7 @@ console.log("timecheck2",isValid)
   // };
 
   addSpecialHourButton = () => {
+    try{
     // event.preventDefault();
     console.log("special");
     var locationId = this.props.match.params.locationId;
@@ -1350,27 +1367,32 @@ console.log("happyh",data)
         this.setState({ specialTimeLoading: false });
         swal("couldn't add special hour");
       });
-  };
+    }catch(e){} };
 
   clear_day_state = date => {
+    try{
     this.setState({ [date]: "" });
-  };
+  }catch(e){}};
 
   changeHandler = event => {
+    try{
     console.log("changeHandler", event.target.value);
     this.setState({ [event.target.name]: event.target.value });
+  }catch(e){}
   };
 
   checkBoxHandler = event => {
+    try{
     console.log(event.target.checked);
     if (event.target.checked) {
       this.setState({ [event.target.name]: true });
     } else {
       this.setState({ [event.target.name]: false });
     }
-  };
+  }catch(e){}};
 
   onUploadLogo = name => event => {
+    try{
     if (name == "bussiness_logo") {
       
       this.setState({ logoLoading: true ,img_type:'logo'});
@@ -1426,9 +1448,10 @@ console.log("happyh",data)
           this.setState({ logoLoading: false, coverImageLoading: false });
         });
     };
-  };
+  }catch(e){}};
 
   onUploadOtherImage = event => {
+    try{
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
@@ -1474,9 +1497,10 @@ console.log("kkl",data)
           this.setState({ otherImagesLoading: false });
         });
     };
-  };
+  }catch(e){} };
 
   delete_other_image = image_id => {
+    try{
     var locationId = this.props.match.params.locationId;
     const data = {
       secure_pin,
@@ -1509,9 +1533,10 @@ console.log("kkl",data)
         this.setState({ otherImagesLoading: false });
         console.log(res);
       });
-  };
+    }catch(e){}};
 
   _loadBusinessCategories = () => {
+    try{
     this.setState({ loadBusinessCategories: true });
 const data={secure_pin}
     business_categories(data)
@@ -1524,7 +1549,7 @@ const data={secure_pin}
       .catch(res => {
         console.log("error in loading business categories");
       });
-  };
+    }catch(e){}};
 
   render() {
     console.log("kk",this.state.hours);

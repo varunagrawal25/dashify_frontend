@@ -16,6 +16,7 @@ export default class AgencyDashboard extends Component {
   }
 
   componentDidMount =() =>{
+    try{
     this.setState({
       isLoading:true
     })
@@ -36,8 +37,9 @@ this.setState({
     })
   
   
-  }
+  }catch(e){}}
   changeHandler = event => {
+    try{
     this.setState({
       [event.target.name] :event.target.value
     });
@@ -47,9 +49,10 @@ this.setState({
         accessSwitch:!this.state.accessSwitch
       })
     }
-  }
+  }catch(e){}}
 
   onSave = async e =>{
+    try{
     if(this.state.customDomain==''){
      await this.setState({
         customDomainError:'Domain Required',
@@ -116,7 +119,7 @@ isLoading:false
 
 
    
-  }
+  }catch(e){}}
     render() {
       console.log(this.state)
         return (
