@@ -26,7 +26,7 @@ export default class SettingAccounts extends Component {
     role:''
   };
   componentDidMount ()  {
-
+try{
     this.setState({role:this.props.role})
     let data = { user_id: localStorage.getItem("UserId") };
     get_login_user_info(data, DjangoConfig)
@@ -50,12 +50,14 @@ export default class SettingAccounts extends Component {
         console.log("user info err", err);
         this.setState({ loading_info: false, loading_image: false });
       });
-  };
+    }catch(e){}};
   componentDidUpdate(){
+    try{
     if(this.state.role !== this.props.role)
     this.setState({role:this.props.role});
-  }
+  }catch(e){}}
   changePassword = () => {
+    try{
     let userEmail = localStorage.getItem("UserEmail");
     const data = {
       email_id: userEmail
@@ -76,7 +78,7 @@ export default class SettingAccounts extends Component {
           swal("something went wront");
         });
     }
-  };
+  }catch(e){}};
   render() {
     let userEmail = localStorage.getItem("UserEmail");
     console.log("props acc",this.props)

@@ -61,7 +61,7 @@ export default class WithMultipleCheckboxes extends React.Component  {
                       {
                         label: 'Role',
                         field: 'role',
-                        width: 200,
+                        width: 150,
                       },
                       {
                         label: 'Status',

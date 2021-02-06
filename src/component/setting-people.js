@@ -16,7 +16,7 @@ export default class Profile_setting extends Component {
   }
 
   componentDidMount(){
-
+try{
     this.setState({role:this.props.role})
 
     const data ={
@@ -29,17 +29,19 @@ export default class Profile_setting extends Component {
     }).catch(res=>{
 
     })
-  }
+  }catch(e){}}
 
   editButton (id){
+    try{
     console.log(id)
     this.props.history.push({
       pathname: `/setting-main/setting-people/user/edit/${id}`
     })
    
-  }
+  }catch(e){} }
 
   deleteButton (id){
+    try{
     console.log("dele",id)
     const data ={
       secure_pin,
@@ -62,8 +64,9 @@ export default class Profile_setting extends Component {
     })
     
    
-  }
+  }catch(e){} }
   disableButton (id,active){
+    try{
     console.log("dis",id,active)
     const data ={
       secure_pin,
@@ -85,25 +88,29 @@ export default class Profile_setting extends Component {
       console.log(res)
     })
     
-  }
+  }catch(e){} }
 
   
 
   // a and b are javascript Date objects
   dateDiffInDays(a, b) 
   {
+    try{
     const _MS_PER_DAY = 1000 * 60 * 60 * 24;
     // Discard the time and time-zone information.
     const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
     const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
   
     return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+  }catch(e){}
   }
 
   
   componentDidUpdate(){
+    try{
     if(this.state.role !== this.props.role)
     this.setState({role:this.props.role});
+  }catch(e){}
   }
  
   render() {
@@ -197,10 +204,10 @@ var AllPeop=[];
             <MDBCol md="3">
               <ProfileSettingSidebar role={this.state.role} />
 
-              <MDBRow className="mt-3">
+              <MDBRow className="mt-3" style={{padding:'12px'}}>
                 <MDBCol
                   className="profile_container"
-                  style={{ textAlign: "center" }}
+                  style={{ textAlign: "center" ,paddingLeft:'0px',paddingRight:'0px' }}
                 >
                   <div className="exclamation">!</div>
                   <div className="profile1">People</div>

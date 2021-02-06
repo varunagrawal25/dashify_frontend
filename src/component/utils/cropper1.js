@@ -18,7 +18,7 @@ export default class User_profile extends Component {
     let data = (
       <div className="App">
         <div>
-          <input className='chooseFile_hidden' type="file" accept="image/*" onChange={this.onSelectFile} />
+          <input className='chooseFile_hidden1'  type="file" accept="image/*" onChange={this.onSelectFile} />
         </div>
         {src && (
           <ReactCrop
@@ -30,7 +30,6 @@ export default class User_profile extends Component {
             onImageLoaded={this.onImageLoaded}
             onComplete={this.onCropComplete}
             onChange={this.onCropChange}
-            style={{marginBottom:'-30px',marginTop:'10px'}}
           />
         )}
         {croppedbase64Image && (
@@ -40,7 +39,7 @@ export default class User_profile extends Component {
                   style={{ maxWidth: "100%" }}
                   src={croppedbase64Image}
                 /> */}
-            <button className='crop_btn'
+            <button className='crop_btn1'
               onClick={() => this.props.uploadUserImage(croppedbase64Image)}
             >
               Crop

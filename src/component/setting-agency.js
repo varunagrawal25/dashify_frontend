@@ -11,12 +11,15 @@ export default class SettingAgency extends Component {
     type:"dashboard"
   }
   componentDidMount ()  {
-
+try{
     this.setState({role:this.props.role})
+  }catch(e){}
   }
   componentDidUpdate(){
+    try{
     if(this.state.role !== this.props.role)
     this.setState({role:this.props.role});
+  }catch(e){}
   }
     render() {
       console.log(this.state.type)

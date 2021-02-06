@@ -5,13 +5,13 @@ import review_img2 from './assets/review_img2.png'
 import clock from './assets/clock.png'
 
  
-export default class Notification extends Component {
+export default class Activity extends Component {
     render() {
         return ( 
             <div>          
                 <MDBContainer>
                 <div className='setting-10'>
-                            <h3>Notification</h3>
+                            <h3>Activity</h3>
                             </div>
                         
                     <MDBRow  className='review_container'>

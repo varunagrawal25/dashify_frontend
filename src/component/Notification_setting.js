@@ -25,6 +25,7 @@ export default class Notification_setting extends Component {
     }
 
     deleteEmail = (id) =>{
+      try{
       console.log("id1",id)
       const data={
         secure_pin,
@@ -52,8 +53,12 @@ export default class Notification_setting extends Component {
           })
 
 
-    }
+        }catch(e){}}
+
+  
     changeHandler = event => {
+      try{
+  
         this.setState({ [event.target.name]: event.target.value });
         console.log("kk",event.target.name)
         // if(event.target.value=='isReviewNotification' && this.state.isReviewNotification=="0"){
@@ -105,36 +110,56 @@ if(event.target.name=='isInsightsReport'){
   console.log("fd0",this.state.isInsightsReport)
 }
 
+   
+
+if(event.target.name=='sendToEmail'  ){
+
+  let result = email_regex(event.target.value);
+  if (result === false) {
+    this.setState({
+      email_error: "Not a valid email",
+      anyError:true
+    });}
+    else{
+      this.setState({
+        email_error: "",
+        anyError:false
+      });
     }
+ 
+}
+
+}catch(e){}}
     addEmail = () =>{
+      try{
         this.setState({
             isAddEmail:true
         })
+      }catch(e){}
     }
 
     cancelEmail=()=>{
+      try{
         this.setState({
             isAddEmail:false
         })
+      }catch(e){}
     }
     // {"secure_pin":"digimonk","user_id":"10","review_notification":"1","ranking_report":"1","review_response":"1",
     // "profile_completion":"1","insights_report":"1","email_array":[{"email_id":"ram22@digmonk.in"},
     // {"email_id":"ram221@digmonk.in"}]}
 
      addEmailConfirm = () =>{
+       try{
       // if(this.state.isInsightsReport){
       //   this.setState({
       //     isInsightsReport:"1"
       //   })
       //   console.log("insi",this.state.isInsightsReport)
       // }
-      let result = email_regex(this.state.sendToEmail);
-    if (result === false) {
-      this.setState({
-        email_error: "Not a valid email",
-        anyError:true
-      });}   
-      else{
+   
+     
+    if(!this.state.anyError){
         console.log("insi",this.state.isInsightsReport)
         const data={
           
@@ -155,19 +180,26 @@ if(event.target.name=='isInsightsReport'){
   swal("Email Added Succcessfully")
   
   this.setState({
-    isReviewNotification:resp.data.review_notification,
-          isRankingReport:resp.data.ranking_report,
-          isReviewResponse:resp.data.review_response,
-          isprofileCompletion:resp.data.profile_completion,
-          isInsightsReport:resp.data.insights_report,
+    isReviewNotification:parseInt(resp.data.review_notification),
+        isRankingReport:parseInt(resp.data.ranking_report),
+        isReviewResponse:parseInt(resp.data.review_response),
+        isprofileCompletion:parseInt(resp.data.profile_completion),
+        isInsightsReport:parseInt(resp.data.insights_report),
           sendToEmail:'',
+          anyError:false,
+          isAddEmail:false,
           getEmail:resp.data.email_array
   })
+  console.log("this.state",this.state)
+
         })
       }
+
+      
      
-    }
+    }catch(e){} }
     componentDidMount = () =>{
+      try{
 
       this.setState({role:this.props.role})
       const data={
@@ -182,21 +214,24 @@ if(event.target.name=='isInsightsReport'){
 console.log("get notification",resp)
 
 this.setState({
-  isReviewNotification:resp.data.review_notification,
-        isRankingReport:resp.data.ranking_report,
-        isReviewResponse:resp.data.review_response,
-        isprofileCompletion:resp.data.profile_completion,
-        isInsightsReport:resp.data.insights_report,
-        sendToEmail:null,
+  isReviewNotification:parseInt(resp.data.review_notification),
+        isRankingReport:parseInt(resp.data.ranking_report),
+        isReviewResponse:parseInt(resp.data.review_response),
+        isprofileCompletion:parseInt(resp.data.profile_completion),
+        isInsightsReport:parseInt(resp.data.insights_report),
+        sendToEmail:'',
+        anyError:false,
         getEmail:resp.data.email_array
 })
 
 console.log("this.state.getEmail",this.state.getEmail)
       })
-    }
+    }catch(e){}}
     componentDidUpdate(){
+      try{
       if(this.state.role !== this.props.role)
       this.setState({role:this.props.role});
+    }catch(e){}
     }
     render() {
        console.log("state",this.state)

@@ -16,7 +16,7 @@ import paypal from "./assets/paypal.png";
 import mastercard from "./assets/mastercard.png";
 import edit from "./assets/edit.png";
 import Map from "./Map";
-import Cropper from "./utils/cropper";
+import Cropper from "./utils/cropper1";
 import { url_regex, phone_regex } from "./utils/regularexpressions";
 import { secure_pin } from "../config";
 import swal from "sweetalert";
@@ -59,6 +59,7 @@ export default class User_profile extends Component {
   };
 
   componentDidMount = () => {
+    try{
     let data = { user_id: localStorage.getItem("UserId") ,secure_pin};
     get_login_user_info(data)
       .then(res => {
@@ -87,14 +88,16 @@ export default class User_profile extends Component {
         console.log("user info err", err);
         this.setState({ loading_info: false, loading_image: false });
       });
-  };
+    }catch(e){}};
 
   changeHandler = event => {
+    try{
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
-  };
+  }catch(e){} };
 
   submitUserDetails = async event => {
+    try{
     console.log("this.state", this.state);
     event.preventDefault();
 
@@ -156,9 +159,10 @@ console.log("data888",data)
           swal("try again");
         });
     }
-  };
+  }catch(e){}};
 
   errorValue = data => {
+    try{
     this.setState({
       first_name_error: "",
       Company_name_error: "",
@@ -200,9 +204,10 @@ console.log("data888",data)
       }
     }
     return error_present;
-  };
+  }catch(e){}};
 
   uploadUserImage = image => {
+    try{
     let { users_login } = this.state;
 
     console.log("image", image);
@@ -248,12 +253,14 @@ console.log("imgdata",data)
         this.setState({ loading_image: false, show_crop_function: false });
         swal("try again2");
       });
-  };
+    }catch(e){}};
 
   show_crop_function = () => {
+    try{
     this.setState({
       show_crop_function: true
     });
+  }catch(e){}
   };
 
   render() {
@@ -298,7 +305,9 @@ console.log("imgdata",data)
                   />
                 </div>
               ) : this.state.show_crop_function ? (
+                <i class="fas fa-upload" style={{fontSize:'30px',color: '#4f4f4f'}}>
                 <Cropper uploadUserImage={this.uploadUserImage} />
+                </i>
               ) : (
                 <div>
                   <img
@@ -548,7 +557,7 @@ console.log("imgdata",data)
           </MDBRow>
 
           <MDBRow>
-            <MDBCol md="3" className="user_container1">
+            {/* <MDBCol md="3" className="user_container1">
               <MDBRow>
                 <MDBCol className="user2" md="7">
                   Social Network
@@ -598,9 +607,9 @@ console.log("imgdata",data)
                 By clicking any on this social icon you will directly redirect
                 to his/her social Profile
               </div>
-            </MDBCol>
+            </MDBCol> */}
 
-            <MDBCol md="9">
+            <MDBCol md="12" style={{paddingLeft:'0px'}}>
               <div
                 className="user_container1 "
                 style={{ marginRight: "-10px" }}

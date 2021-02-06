@@ -6,13 +6,16 @@ export default class ProfileSettingSidebar extends Component {
   state={role:''}
 
   componentDidMount = () => {
-
+try{
     this.setState({role:this.props.role})
+  }catch(e){}
   }
 
   componentDidUpdate(){
+    try{
     if(this.state.role !== this.props.role)
     this.setState({role:this.props.role});
+  }catch(e){}
   }
   
   render() {
@@ -28,7 +31,7 @@ export default class ProfileSettingSidebar extends Component {
 
             {this.state.role === "admin" || this.state.role === "owner"?  <NavLink to="/setting-main/setting-notification">Notification Setting</NavLink>:""}
          
-            {this.state.role === "admin" || this.state.role === "owner"?   <NavLink to="/setting-main/setting-email">Email Setting</NavLink>:""}
+            {/* {this.state.role === "admin" || this.state.role === "owner"?   <NavLink to="/setting-main/setting-email">Email Setting</NavLink>:""} */}
          {this.state.role === "admin" || this.state.role === "owner"?   <NavLink to="/setting-main/setting-people">People</NavLink> :""}
          {( (this.state.role === "admin") ||  (this.state.role === "manager" ) || (this.state.role === "owner") ) ?   <NavLink  to="/setting-main/setting-billing">Billing </NavLink>:""}
             

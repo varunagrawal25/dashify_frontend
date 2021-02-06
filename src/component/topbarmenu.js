@@ -53,6 +53,7 @@ export default class Topbarmenu extends Component {
   }
 
   change = (id, name) => e => {
+    try{
     // console.log("event target value", e.target.value);
    
 
@@ -67,9 +68,10 @@ export default class Topbarmenu extends Component {
 
     window.location.assign("dashboard#/locations/" + id + "/overview");
     window.location.reload(false);
-  };
+  }catch(e){}};
 
   logout = () => {
+    try{
     localStorage.clear();
 
     logout()
@@ -80,10 +82,10 @@ export default class Topbarmenu extends Component {
       .catch(res => {
         console.log("error in Logout");
       });
-  };
+    }catch(e){}};
 
   componentDidMount() {
-
+try{
     this.setState({role:this.props.role});
   
 
@@ -129,12 +131,14 @@ export default class Topbarmenu extends Component {
       });
 
     
-  }
+    }catch(e){} }
 componentDidUpdate(){
+  try{
   if(this.state.role !== this.props.role)
   this.setState({role:this.props.role});
-}
+}catch(e){}}
   onKeyDown(e) {
+    try{
     var input = "";
     if (e.keyCode === 8) {
       // backspace/delete has been hit
@@ -142,6 +146,7 @@ componentDidUpdate(){
     } else {
       input = e.target.value + String.fromCharCode(e.keyCode);
     }
+  }catch(e){}
   }
 
   render() {

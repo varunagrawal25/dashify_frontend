@@ -55,6 +55,7 @@ export default class ReviewGenerationCampaign extends Component {
   };
 
   componentDidMount = () => {
+    try{
     const data = {
       secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId"),
     //   "sms_social_array":[{"name":"Foursquare","connect_url":"www.yelp.com"},{"name":"Google","connect_url":"www.yelp.com"}]
@@ -70,14 +71,17 @@ export default class ReviewGenerationCampaign extends Component {
     })
 
    
-  };
+  }catch(e){}};
   step_2_1 =e=>{
+    try{
     this.setState({
       Step: 1
     })
+  }catch(e){}
   }
 
   submitHandler = event => {
+    try{
     event.preventDefault();
     
 
@@ -205,15 +209,18 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
 
    
     // }
-  };
+  }catch(e){}};
 
   changeHandler = event => {
+    try{
     this.setState({ [event.target.name]: event.target.value });
+  }catch(e){}
   };
 
   EmailchangeHandler =async event => {
   
-   await this.setState({ [event.target.name]: event.target.value });
+  try{
+     await this.setState({ [event.target.name]: event.target.value });
     if(!this.state.hideUrl)
     this.setState({
       hideUrlVali:true
@@ -231,9 +238,10 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
       hideNameVali:false
     })
 
-  };
+  }catch(e){}};
 
   checkBoxHandler = event => {
+    try{
     // console.log("checkbox event", event.target.checked);
     if (event.target.checked) {
       this.setState({ [event.target.name]: true });
@@ -246,9 +254,10 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
         active_social_platform: this.state.active_social_platform - 1
       });
     }
-  };
+  }catch(e){}};
 
   changeSiteName_function = event => {
+    try{
     event.persist();
     this.setState(prevState => ({
       all_site_name: {
@@ -256,9 +265,10 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
         [event.target.name]: event.target.value
       }
     }));
-  };
+  }catch(e){}};
 
   changeSiteUrl_function = event => {
+    try{
     event.persist();
     this.setState(prevState => ({
       all_site_url: {
@@ -266,9 +276,10 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
         [event.target.name]: event.target.value
       }
     }));
-  };
+  }catch(e){}};
 
   customer_email_function = event => {
+    try{
     event.persist();
     this.setState(prevState => ({
       email_sendto_email: {
@@ -277,9 +288,10 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
       }
     }));
     console.log("state", this.state);
-  };
+  }catch(e){}};
 
   add_customWebsiteName = () => {
+    try{
     var webName = [];
     for (let i = 0; i < this.state.add_customWebsite; i++) {
       webName.push(
@@ -296,9 +308,10 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
     }
     console.log(webName);
     return webName;
-  };
+  }catch(e){}};
 
   add_customWebsiteUrl = () => {
+    try{
     var webUrl = [];
     for (let i = 0; i < this.state.add_customWebsite; i++) {
       webUrl.push(
@@ -315,9 +328,10 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
     }
     console.log(webUrl);
     return webUrl;
-  };
+  }catch(e){}};
 
   add_name = () => {
+    try{
     var name = [];
     for (let i = 0; i < this.state.add_customer; i++) {
       name.push(
@@ -330,9 +344,10 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
     }
     console.log(name);
     return name;
-  };
+  }catch(e){}};
 
   add_phone = () => {
+    try{
     var phone = [];
     for (let i = 0; i < this.state.add_customer; i++) {
       phone.push(
@@ -347,9 +362,10 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
 
     console.log(phone);
     return phone;
-  };
+  }catch(e){}};
 
   add_customWebsite_function = event => {
+    try{
     event.preventDefault();
     console.log("add custom website button clicked");
     if (this.state.active_social_platform < 2) {
@@ -357,16 +373,18 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
         add_customWebsite: this.state.add_customWebsite + 1
       });
     }
-  };
+  }catch(e){}};
 
   closePopUP=e=>{
+    try{
     this.props.history.push({
       pathname: `/locations/`+localStorage.getItem('locationId')+`/review-generation-stats`
     });
+  }catch(e){}
   }
 
   addSocialEmail =(name, url,icon)=>e=>{
-
+try{
     if(e.target.checked){
 
     var obj= {
@@ -392,13 +410,13 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
   console.log(this.state.FinalEmailSocial)
   }
 
-  }
+}catch(e){}}
 
 
 
 
   addSocialSms =(name, url)=>e=>{
-
+try{
   
 
     var obj= {
@@ -415,10 +433,12 @@ if(emailReg.test(ReplyTo) && EmailSubject && email_heading && email_content){
   
  
 
-  }
+  }catch(e){}}
 
   addSocialFunc=e=>{
+    try{
     this.setState({hidePlus:!this.state.hidePlus});
+  }catch(e){}
   }
 
   render() {
@@ -719,8 +739,8 @@ Write A Review
                   </div>
                   </div>
                 </div>
-
-                <MDBRow className='blue_container'>
+<div className='blue_container'>
+                <MDBRow >
                 
                   <MDBCol md='10' >
                  <div className='camp_heading'>
@@ -740,17 +760,18 @@ Write A Review
                                 ></i>
                              </MDBBtn>
   </MDBCol>:""}
-                  <div >
-    <MDBRow >
-      <MDBCol md='12' className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}}>
+           
+
+</MDBRow>
+<MDBRow  className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}} >
+      
         <MDBRow className="overflow" style={{marginLeft:'15px'}}>
         {ListIcons?ListIcons:<div>NO Listing connected</div>}
         </MDBRow >
-      </MDBCol>
+    
 </MDBRow>
-</div>
 <div className="err_msg">{email_review_sites_error}</div>
-</MDBRow>
+</div>
 {!hidePlus?     
      <div className='hidePlus_box'>
        <button onClick={this.addSocialFunc} className='campaignClose' style={{marginTop:'-25px'}}>x</button>
@@ -906,25 +927,25 @@ Google Map
                    ></textarea>
                    <div className="err_msg">{sms_content_error}</div>
                  </div>
-                 <MDBRow className='blue_container'>
+                 <div className='blue_container'>
+                 <MDBRow >
                   <MDBCol md='12' className='camp_heading'>
                   Choose Any One Review Site
                   </MDBCol>
                   <MDBCol md='12' className='camp_contant1'>
                   the vocabulary, and the questions
                   </MDBCol>
-                  <div >
-    <MDBRow >
-      <MDBCol md='12' className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}}>
-        <MDBRow className="overflow" >
-        {ListRadio?ListRadio:<div>NO Listing connected</div>}
-        </MDBRow >
-      </MDBCol>
-</MDBRow>
-</div>
-                  
-                 <div className="err_msg">{sms_review_sites_error}</div>
+     
                  </MDBRow>
+                 <MDBRow  className="scrollbar"  style={{height:'90px',width:'100%',background:'none'}} >
+      
+      <MDBRow className="overflow" style={{marginLeft:'15px'}}>
+      {ListRadio?ListRadio:<div>NO Listing connected</div>}
+      </MDBRow >
+  
+</MDBRow>
+<div className="err_msg">{sms_review_sites_error}</div>
+                 </div>
 
              </div>
              
@@ -982,7 +1003,7 @@ Google Map
                </div>
             
      </div>
-   <div className="col-md-4">
+{false?   <div className="col-md-4">
    <div className="step2" style={{marginTop:'20px'}}>
                  {/*<div className="ratingemail">
                    <h2>Rating Email And SMS Template</h2>
@@ -1079,7 +1100,7 @@ Google Map
                 
                </div>
   
-   </div>
+   </div>:null}
   
  </div>
             {/* For email and phone no */}

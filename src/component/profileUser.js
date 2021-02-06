@@ -15,9 +15,11 @@ export default class profileUser extends Component {
         first_name: "",
         last_name: "",
         user_image: "",
-        email: ""
+        email: "",
+        role:''
       };
       componentDidMount = () => {
+        try{
          
         let data = {  secure_pin, user_id: localStorage.getItem("UserId") };
         get_login_user_info(data)
@@ -33,6 +35,7 @@ export default class profileUser extends Component {
                 last_name: res.data.users_login[0].last_name,
                 email: res.data.users_login[0].email_id,
                 user_image: res.data.users_login[0].profile_image,
+                role:res.data.users_login[0].role,
                 loading_info: false,
                 loading_image: false
               });
@@ -46,8 +49,9 @@ export default class profileUser extends Component {
             console.log("user info err", err);
             this.setState({ loading_info: false, loading_image: false });
           });
-      };
+        }catch(e){}};
       changePassword = () => {
+        try{
         let userEmail = localStorage.getItem("UserEmail");
         const data = {
             secure_pin,
@@ -69,7 +73,7 @@ export default class profileUser extends Component {
               swal("something went wront");
             });
         }
-      };
+      }catch(e){} };
       render() {
         let userEmail = localStorage.getItem("UserEmail");
         return (
@@ -121,14 +125,14 @@ export default class profileUser extends Component {
                       Role:
                     </label>
                     <div className="col-sm-8 changes-style mypro_content">
-                        Admin
+                        {this.state.role}
                     </div>
                   </div>
-                  <div className="save_gap">
+                  {/* <div className="save_gap">
                     <button type="submit" className="user_save0">
                       Save
                     </button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
            

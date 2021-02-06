@@ -172,6 +172,7 @@ export default class ProfileAnalytics extends Component {
   };
 
   responseFacebook = async response => {
+    try{
     console.log("facebook response", response);
 
     if(response.accessToken){
@@ -189,15 +190,17 @@ export default class ProfileAnalytics extends Component {
       swal("Facebook connection failed!");
     }
 
-};
+}catch(e){}};
 
   responseErrorGoogle = response => {
+    try{
     console.log(response);
     // swal("try again");
     swal("Google connection failed!");
-  };
+  }catch(e){}};
 
   responseGoogle = response => {
+    try{
     console.log("google response", response);
     
   
@@ -216,11 +219,11 @@ export default class ProfileAnalytics extends Component {
         JSON.stringify(state)
       )}`
     });
-  };
+  }catch(e){}};
 
 
   filterAnalytics (data){
-
+try{
     Axios.post( 
       "https://dashify.biz/Api/admin/socialmedia_api/get_profile_analytics_by_filter",
       data
@@ -249,9 +252,10 @@ loader:false
     });
 
 
-  }
+  }catch(e){}}
 
   fliterUpdate=e=>{
+    try{
     console.log(e.target.value)
     const data2={
       secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
@@ -260,9 +264,10 @@ loader:false
     }
     console.log(data2,"data2")
     this.filterAnalytics(data2);
-  }
+  }catch(e){}}
 
   componentDidMount() {
+    try{
     var yelpUrl, fourUrl, fbtoken, fbPageId, googleToken;
 
     const data2={
@@ -493,7 +498,7 @@ secure_pin,
     }).catch(err => {
       this.setState({loader:false})
     })
-  }
+  }catch(e){} }
 
   Quixote = pdf_data => (
     <Document>

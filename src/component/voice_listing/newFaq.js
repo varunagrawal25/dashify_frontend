@@ -1,24 +1,8 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import Axios from "axios";
-import { all_connection_of_one_location } from "../apis/social_platforms";
-import {
-  location_by_id,
-  business_categories,
-  business_states
-} from "../apis/location";
 
-import {
-  faqs_by_id,
-  edit_faq,
-  all_faq_by_location_id,
-  delete_faq,
-  all_faq,
-  add_faq
-} from "../apis/voice";
-import GoogleLogin from "react-google-login";
+import { add_faq} from "../apis/voice";
 import Spinner from "../common/Spinner";
-import { MDBRow, MDBCol, MDBBtn, MDBCard, MDBContainer } from "mdbreact";
+import { MDBRow, MDBCol,  MDBContainer } from "mdbreact";
 import Loader from "react-loader-spinner";
 import { secure_pin } from "../../config";
 const DjangoConfig = {
@@ -37,11 +21,14 @@ export default class NewFaq extends Component {
   }
 
   handler = event => {
+    try{
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
+  }catch(e){}
   };
 
   submitFaq = (que, ans) => event => {
+    try{
     event.preventDefault();
 
     this.setState({ loader_new: true, show_err_newfaq: "" });
@@ -64,7 +51,7 @@ export default class NewFaq extends Component {
           show_err_newfaq: "New Faq couldn't added"
         });
       });
-  };
+    }catch(e){}};
 
   render() {
     let { show_err_newfaq, loader_new } = this.state;

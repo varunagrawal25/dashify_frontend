@@ -160,6 +160,7 @@ export default class AddLocation extends Component {
     };
   }
   submitHandler = async event => {
+    try{
     event.preventDefault();
 
     let {
@@ -361,9 +362,10 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
     } else {
       this.setState({ show_message: "Fill above fields" });
     }
-  };
+  }catch(e){}};
 
   errorValue = data => {
+    try{
     let {
       location_name_error,
       storeCode_error,
@@ -560,35 +562,39 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
   
    
     return error_present;
-  };
+  }catch(e){} };
 
   onUploadLogo = event => {
+    try{
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = e => {
       this.setState({ BusinessLogo: e.target.result });
     };
-  };
+  }catch(e){}};
   onUploadCover = event => {
+    try{
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = e => {
       this.setState({ BusinessCoverImage: e.target.result });
     };
-  };
+  }catch(e){}};
 
   onUploadOther = name => event => {
+    try{
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     reader.onload = e => {
       this.setState({ [name]: e.target.result });
     };
-  };
+  }catch(e){}};
 
   Other_images = async () => {
+    try{
 
     let otherImage=[];
     if(this.state.other_image0){
@@ -611,34 +617,39 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
     console.log("func other ",otherImage)
    // let otherImage = [{bussiness_image : this.state.other_image0},{bussiness_image : this.state.other_image1},{bussiness_image : this.state.other_image2}];
     await this.setState({ otherImage: otherImage });
-  };
+  }catch(e){}};
 
   changeHandler = event => {
+    try{
     this.setState({ [event.target.name]: event.target.value });
-  };
+  }catch(e){}};
 
   changeHandler1 = event => {
+    try{
     this.setState({ [event.target.name]: event.target.value ,
     country_selected_id:event.target.value},()=>{
       this._loadStateCategories();
     });
-  };
+  }catch(e){}};
   changeHandler2 = event => {
+    try{
     this.setState({ [event.target.name]: event.target.value ,
     state_selected_id:event.target.value},()=>{
       this._loadCityCategories();
     });
-  };
+  }catch(e){} };
 
   checkBoxHandler = event => {
+    try{
     if (event.target.checked) {
       this.setState({ [event.target.name]: true });
     } else {
       this.setState({ [event.target.name]: false });
     }
-  };
+  }catch(e){}};
 
   allChanger = event => {
+    try{
     let {
       monday,
       mondayStart1,
@@ -747,9 +758,10 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
         sundayEnd2: ""
       });
     }
-  };
+  }catch(e){}};
 
   _loadBusinessCategories = () => {
+    try{
     this.setState({ loadBusinessCategories: true });
     // Axios.get(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/business-categoryes",
@@ -774,9 +786,10 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
         console.log("error in loading business categories");
       });
       console.log(this.state)
-  };
+    }catch(e){}};
 
   _loadCountryCategories = () => {
+    try{
     this.setState({ loadCountryCategories: true });
     // Axios.get(
     //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/dropdown-values/counrty",
@@ -795,9 +808,10 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
       .catch(e => {
         console.log(e);
       });
-  };
+    }catch(e){}};
   
   _loadStateCategories = () => {
+    try{
     this.setState({ loadStateCategories: true });
   
     
@@ -814,9 +828,10 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
       .catch(res => {
         console.log("error in loading state categories");
       });
-  };
+    }catch(e){} };
 
   _loadCityCategories = () => {
+    try{
     this.setState({ loadCityCategories: true });
   
     
@@ -833,12 +848,13 @@ bussiness_cate : this.state.category, location_name:this.state.location_name , a
       .catch(res => {
         console.log("error in loading state categories");
       });
-  };
+    }catch(e){}};
   componentDidMount() {
+    try{
     this._loadBusinessCategories();
     this._loadCountryCategories();
     // this._loadStateCategories();
-  }
+  }catch(e){}}
 
   render() {
     if (this.state.isSuccess) {

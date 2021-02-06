@@ -19,13 +19,16 @@ export default class SettingBilling extends Component {
     zipcode:''
   }
   changeHandler = event => {
+    try{
     this.setState({ [event.target.name]: event.target.value });
-  };
+  }catch(e){}};
   cardUpdate = () => {
+    try{
     console.log("states", this.state);
     this.setState({ updateCard:true });
-  };
+  }catch(e){} };
   updateCardBtn = () =>{
+    try{
     const data={secure_pin,user_id: localStorage.getItem("UserId"),card_number:this.state.cardnum, name_of_card:this.state.name,
       ex_date:this.state.expiry,code:this.state.cvv,address:this.state.address,city:this.state.city,
     state:'mp',country:this.state.country,zipcode:this.state.zipcode}
@@ -33,15 +36,17 @@ export default class SettingBilling extends Component {
     .then(resp => {
       
     })
-  }
+  }catch(e){}}
   componentDidMount ()  {
+    try{
 
     this.setState({role:this.props.role})
-  }
+  }catch(e){}}
   componentDidUpdate(){
+    try{
     if(this.state.role !== this.props.role)
     this.setState({role:this.props.role});
-  }
+  }catch(e){} }
  
   render() {
     return (

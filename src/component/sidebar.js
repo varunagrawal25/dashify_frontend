@@ -37,12 +37,12 @@ export default class SideBar extends Component {
                   </NavLink>
                 </li>
 
-                <li>
+                {/* <li>
                   <NavLink to="/report">
                     <img src={require("./assets/filefind.png")} alt="" />
                     <span>Report</span>
                   </NavLink>
-                </li>
+                </li> */}
 
                 <li>
                   <NavLink to="/support">
@@ -50,12 +50,12 @@ export default class SideBar extends Component {
                     <span>Support</span>
                   </NavLink>
                 </li>
-                <li>
+                {/* <li>
                   <NavLink to="/notification">
                     <img src={require("./assets/uservoice.png")} alt="" />
                     <span>Notification</span>
                   </NavLink>
-                </li>
+                </li> */}
                 <li>
                   <NavLink to="/setting-main/setting-accounts/my-profile">
                     <img src={require("./assets/settingsfuture.png")} alt="" />

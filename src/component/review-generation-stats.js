@@ -79,6 +79,7 @@ export default class ReviewGenerationStats extends Component {
     //       });
     //     }
     //   })
+    try{
     const data2={
       secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
 
@@ -535,9 +536,10 @@ export default class ReviewGenerationStats extends Component {
     //   });
     //   this.setState({ campaign_count });
     // });
-  };
+  }catch(e){}};
 
   dailyLineGraph = () => {
+    try{
     console.log("clicked dailyLineGraph");
     let {
       fb_reviews,
@@ -593,9 +595,10 @@ export default class ReviewGenerationStats extends Component {
       google_fb_dataPoints,
       dailyClicked: true
     });
-  };
+  }catch(e){}};
 
   monthlyLineGraph = () => {
+    try{
     console.log("clicked monthlyLineGraph");
     let {
       fb_reviews,
@@ -647,9 +650,10 @@ export default class ReviewGenerationStats extends Component {
       google_fb_dataPoints,
       monthlyClicked: true
     });
-  };
+  }catch(e){}};
 
   yearlyLineGraph = () => {
+    try{
     console.log("clicked yearlyLineGraph");
     let {
       fb_reviews,
@@ -692,9 +696,10 @@ export default class ReviewGenerationStats extends Component {
       google_fb_dataPoints,
       yearlyClicked: true
     });
-  };
+  }catch(e){}};
 
   filterUpdate=e=>{
+    try{
     this.setState({loader:true})
     const data2={
       secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
@@ -731,7 +736,7 @@ export default class ReviewGenerationStats extends Component {
     })
 
 
-  }
+  }catch(e){}}
 
   
   render() {

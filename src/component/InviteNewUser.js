@@ -28,6 +28,7 @@ class InviteNewUser extends Component {
 
   
   onSubmit = e => {
+    try{
     e.preventDefault();
 
   
@@ -75,9 +76,10 @@ console.log("invite ",data)
       });
    
    
-  };
+    }catch(e){} };
 
   componentDidMount(){
+    try{
     const data = {
       user_id: localStorage.getItem("UserId"),
     
@@ -130,10 +132,11 @@ console.log("invite ",data)
 
     }
   
-  }
+  }catch(e){}}
 
 
   Update=e=>{
+    try{
 
     var id = this.props.match.params.id;
    
@@ -180,7 +183,7 @@ console.log("invite ",data)
       })
     }
 
-  }
+  }catch(e){}}
 
   render() {
     if (this.state.isUrl) {

@@ -18,6 +18,7 @@ export default class ViewLocations extends Component {
   };
 
   componentDidMount() {
+    try{
     const DjangoConfig1 = {
       headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
     };
@@ -37,23 +38,26 @@ console.log("data55",data)
         console.log("error in LocationManager", res);
         this.setState({ loader: false });
       });
-  }
+    }catch(e){} }
 
   handleClick = event => {
+    try{
     console.log("handleClick", event.target.id, event);
     this.setState({
       currentPage: Number(event.target.id)
     });
-  };
+  }catch(e){}};
 
   changeItemsPerPage = event => {
+    try{
     console.log("items", event.target.value);
-  };
+  }catch(e){}};
   itemsPerPage=(e)=>{
+    try{
     this.setState({
       LocationsPerPage:e.target.value
     })
-  }
+  }catch(e){}}
   pagebottom=()=>{
     window.scrollTo(0,500)
   }

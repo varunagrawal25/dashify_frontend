@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import es_img1 from "./assets/es_img1.png";
 import edit from "./assets/edit.png";
 import delete_icon from "./assets/delete_icon.png";
+import upload_icon from "./assets/upload_icon.png";
 import { Checkbox } from '@material-ui/core';
 import {Add_Promotional ,All_Promotional_list, Delete_Promotional_by_id, Promotional_Analytics, Promotional_by_id
 ,Update_Promotional_by_id} from "./apis/location";
@@ -94,13 +95,13 @@ save_status:null,
 
 UpdateFilter =e=>{
   console.log(e.target.value);
+  try{
   var filter=e.target.value;
 
   const data2={ secure_pin,
     user_id: localStorage.getItem("UserId"),
 location_id: this.props.match.params.locationId,
 "filter_type":filter}
-
 
   Promotional_Analytics(data2)
   .then(resp => {
@@ -127,6 +128,9 @@ console.log("ppk",this.state)
     console.log(resp)
     
         })
+      }catch(e){
+        
+      }
 }
 
 componentDidMount = () =>{
@@ -178,6 +182,7 @@ console.log("ppk",this.state.promo_list)
               })
 }
 changeHandler = event => {
+  try{
   this.setState({ [event.target.name]: event.target.value });
   console.log(event.target.name)
   console.log(event.target.value)
@@ -255,11 +260,11 @@ changeHandler = event => {
     this.setState({
       terms:event.target.value
     })
-  }
+  }}catch(e){}
 };
 
 draftClicked = () => {
-  
+  try{
   if(this.state.offer_title == '' && this.state.type=="promotional"){
     this.setState({
       pshow_err:true,
@@ -403,18 +408,12 @@ draftClicked = () => {
       loading:true
     })
     Add_Promotional(data)
-   
     .then(resp => {
       console.log(resp)
       this.setState({
         loading:false
       })
-
-      const data = {
-        secure_pin,
-        user_id: localStorage.getItem("UserId"),
-        location_id: this.props.match.params.locationId
-      }
+     
       swal({
         title: "Post Added Successfully",
         // text: "Post added ",
@@ -442,7 +441,11 @@ this.setState({
   expiry_post:false,
   add_cta:false,
 })
-
+const data = {
+  secure_pin,
+  user_id: localStorage.getItem("UserId"),
+  location_id: this.props.match.params.locationId
+}
       All_Promotional_list(data)
       .then(resp => {
         console.log(resp)
@@ -538,10 +541,11 @@ this.setState({
       console.log(data)
   }}
   
+}catch(e){}
 }
 
 confirmPost = () => {
-  
+  try{
   if(this.state.post_schedule_drop=="Schedule Post" && this.state.post_schedule_date == ''){
     
     this.setState({
@@ -825,10 +829,10 @@ confirmPost = () => {
       console.log(data)
   }}
  
-}
+}catch(e){}}
 
 editDraftPost = () => {
-  
+  try{
     this.setState({
       active_status:'draft'
     })
@@ -1064,10 +1068,10 @@ editDraftPost = () => {
       console.log(data)
   }}
  
-}
+}catch(e){}}
 
 editConfirmPost = () => {
-
+try{
   if(this.state.offer_title == '' && this.state.type=="promotional"){
     this.setState({
       mpshow_err:true,
@@ -1299,7 +1303,7 @@ editConfirmPost = () => {
       console.log(data)
   }}
  
-}
+}catch(e){}}
 
 
 //   onUploadOtherImage_promo = event => {
@@ -1350,7 +1354,7 @@ editConfirmPost = () => {
 //   };
 
   delete_other_images= image_id => {
-
+try{
 console.log(image_id);
 
 if(image_id){
@@ -1362,7 +1366,7 @@ if(image_id){
 //          this.setState({otherImages:a});
 
 }
-  }
+}catch(e){}}
 
   // delete_other_image = image_id => {
   //   var locationId = this.props.match.params.locationId;
@@ -1399,6 +1403,7 @@ if(image_id){
   //     });
   // };
   EditPost = (id)=>e=>{
+    try{
 console.log(id);
 const data={
   secure_pin,
@@ -1523,9 +1528,10 @@ Promotional_by_id(data)
 .catch(resp=>{
   console.log(resp)
       })
-  }
+    }catch(e){}}
 
   DeletePost= (id)=>e=>{
+    try{
     console.log(id);
 
     swal({
@@ -1596,9 +1602,10 @@ Promotional_by_id(data)
     //   buttons: true,
     // });
    
-    }
+  }catch(e){}}
 
     filterSearch=e=>{
+      try{
       console.log(e.target.value)
       var fil =e.target.value;
       var data = {secure_pin,search_content:fil,location_id: this.props.match.params.locationId};
@@ -1628,8 +1635,9 @@ Promotional_by_id(data)
     //   )})
       // console.log(filteredData)
 
-    }
+    }catch(e){}}
     uploadUserImage_event=image=>{
+      try{
       console.log("image", image);
       
       var ob={"promotional_image":image}
@@ -1641,9 +1649,10 @@ Promotional_by_id(data)
   
     this.setState({ otherImagesLoading: true, CropperActive_event:false , CropperActive_promo:false});
 
-    }
+  }catch(e){}}
 
     uploadUserImage_promo=image=>{
+      try{
       console.log("image", image);
       
       var ob={"promotional_image":image}
@@ -1655,9 +1664,10 @@ Promotional_by_id(data)
   
     this.setState({ otherImagesLoading: true, CropperActive_event:false , CropperActive_promo:false});
 
-    }
+  }catch(e){}}
 
     uploadUserImage_event_get=image=>{
+      try{
       console.log("image", image);
       
       var ob={"promotional_image":image}
@@ -1670,9 +1680,10 @@ Promotional_by_id(data)
   
     this.setState({ otherImagesLoading: true, CropperActive_event_get:false , CropperActive_promo_get:false});
 
-    }
+  }catch(e){}}
 
     uploadUserImage_promo_get=image=>{
+      try{
       console.log("image", image);
       
       var ob={"promotional_image":image}
@@ -1682,15 +1693,21 @@ Promotional_by_id(data)
   
     this.setState({ otherImagesLoading: true, CropperActive_event_get:false , CropperActive_promo_get:false});
 
-    }
+  }catch(e){} }
 
-    OnImgClick_promo=e=>{this.setState({CropperActive_promo:true})}
+    OnImgClick_promo=e=>{
+      try{
+      this.setState({CropperActive_promo:true})
+    }catch(e){}}
 
-    OnImgClick_event=e=>{this.setState({CropperActive_event:true})}
+    OnImgClick_event=e=>{
+      try{
+        this.setState({CropperActive_event:true})
+      }catch(e){}}
 
-    OnImgClick_promo_get=e=>{this.setState({CropperActive_promo_get:true})}
+    OnImgClick_promo_get=e=>{try{this.setState({CropperActive_promo_get:true})}catch(e){}}
 
-    OnImgClick_event_get=e=>{this.setState({CropperActive_event_get:true})}
+    OnImgClick_event_get=e=>{try{this.setState({CropperActive_event_get:true})}catch(e){}}
 
   render() {
    
@@ -2079,7 +2096,9 @@ N/A
   <div id="promo_post" class="tab-pane fade  active" style={{opacity:'1',minHeight: '350px'}}>
   {this.state.loading?<Spinner/>:
    <div>
-     {this.state.CropperActive_promo ? <Cropper uploadUserImage={this.uploadUserImage_promo} />
+     {this.state.CropperActive_promo ?<i class="fas fa-upload" style={{fontSize:'80px',color: '#4f4f4f'}}>
+        <Cropper uploadUserImage={this.uploadUserImage_promo}  />
+        </i>
           :
    <div >
     {/* <MDBRow>
@@ -2264,7 +2283,9 @@ N/A
  <div id="post_event" class="tab-pane fade" style={{opacity:'1',minHeight: '350px'}}>
    {this.state.loading?<Spinner/>:
    <div>
-      {this.state.CropperActive_event  ? <Cropper uploadUserImage={this.uploadUserImage_event} />
+      {this.state.CropperActive_event  ? <i class="fas fa-upload" style={{fontSize:'80px',color: '#4f4f4f'}}>
+        <Cropper uploadUserImage={this.uploadUserImage_event} />
+        </i>
           :
     <div >
     {/* <MDBRow>
@@ -2479,7 +2500,9 @@ N/A
     </div>
     <div class="scrollbar" style={{height:'415px'}}>
       <div class="overflow">
-      {this.state.CropperActive_promo_get  ? <Cropper uploadUserImage={this.uploadUserImage_promo_get} />
+      {this.state.CropperActive_promo_get  ? <i class="fas fa-upload" style={{fontSize:'80px',color: '#4f4f4f'}}>
+        <Cropper uploadUserImage={this.uploadUserImage_promo_get} />
+        </i>
           :
     <div >
     
@@ -2670,7 +2693,9 @@ Post An Event
    
     <div class="scrollbar" style={{height:'415px'}}>
       <div class="overflow">
-    {this.state.CropperActive_event_get  ? <Cropper uploadUserImage={this.uploadUserImage_event_get} />
+    {this.state.CropperActive_event_get  ? <i class="fas fa-upload" style={{fontSize:'80px',color: '#4f4f4f'}}>
+      <Cropper uploadUserImage={this.uploadUserImage_event_get} />
+      </i>
           :
     <div >
     <div >

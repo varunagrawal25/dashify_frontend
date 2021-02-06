@@ -260,6 +260,7 @@ export default class ReviewTracking extends Component {
 
   
  get_all_icons_function =e=>{
+   try{
 
   const data={
   secure_pin,
@@ -283,9 +284,10 @@ export default class ReviewTracking extends Component {
   }).catch=(res)=>{
 
   }
-}
+}catch(e){}}
 
 IconsAllLess=e=>{
+  try{
   var type=e.target.value;
   console.log("ooo",type)
   if(type==="All")
@@ -293,10 +295,10 @@ IconsAllLess=e=>{
   else if(type === "Less")
   this.setState({AllConnectedIcons:this.state.AllConnectedIcons.slice(0, ( this.state.TempAllIcons.length>3? this.state.TempAllIcons.length /2 :3 ) )})
  
-}
+}catch(e){}}
 
   componentDidMount = () => {
-
+try{
     this.get_all_icons_function()
     var yelpUrl,
       instaUrl,
@@ -539,9 +541,10 @@ IconsAllLess=e=>{
     .catch(res=>{
 
     });
-  };
+  }catch(e){}};
 
   google_star_counting = data => {
+    try{
     data.reviews &&
       data.reviews.map(res =>
         res.starRating == "FIVE"
@@ -556,9 +559,10 @@ IconsAllLess=e=>{
           ? this.setState({ star_1: this.state.star_1 + 1 })
           : ""
       );
-  };
+    }catch(e){}};
 
   yelp_star_counting = data => {
+    try{
     data.map(res =>
       res.rating == 5
         ? this.setState({ star_5: this.state.star_5 + 1 })
@@ -572,9 +576,10 @@ IconsAllLess=e=>{
         ? this.setState({ star_1: this.state.star_1 + 1 })
         : ""
     );
-  };
+  }catch(e){}};
 
   apple_star_counting = data => {
+    try{
     data.map(res =>
       res["im:rating"].label == "5"
         ? this.setState({ star_5: this.state.star_5 + 1 })
@@ -608,7 +613,7 @@ IconsAllLess=e=>{
         ]
       });
     }
-  };
+  }catch(e){}};
 
   citysearch_star_counting = data => {
     var rating;

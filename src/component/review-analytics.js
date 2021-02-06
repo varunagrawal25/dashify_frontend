@@ -77,6 +77,7 @@ export default class ReviewAnalytics extends Component {
 
 
   fliterUpdate=e=>{
+    try{
     const data2={
       secure_pin,"user_id":localStorage.getItem("UserId") ,
       "location_id":localStorage.getItem("locationId"),
@@ -99,8 +100,9 @@ export default class ReviewAnalytics extends Component {
       })
     })
     .catch((error)=>console.log(error))
-  }
+  }catch(e){}}
   componentDidMount() {
+    try{
     var today = new Date();
     this.setState({ today });
     var yelpUrl,
@@ -648,7 +650,7 @@ export default class ReviewAnalytics extends Component {
   //         loader: false,
   //       });
       });
-  }
+    }catch(e){} }
 
   render() {
     console.log("states", this.state);

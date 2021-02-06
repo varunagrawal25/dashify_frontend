@@ -170,7 +170,7 @@ export default class Overview extends Component {
   };
   componentDidMount() {
 
-
+try{
     this.get_all_icons_function()
     var today = new Date();
     var date =
@@ -361,11 +361,11 @@ export default class Overview extends Component {
 }
       
     })
-  }
+}catch(e){}}
 
 
  get_all_icons_function =e=>{
-
+try{
     const data={
     secure_pin,
 
@@ -386,11 +386,11 @@ export default class Overview extends Component {
     }).catch=(res)=>{
 
     }
-  }
+  }catch(e){}}
 
   graph_google_customer_actions_function = e => 
   {
-
+    try{
     var filter='';
     if(e){
       filter=e.target.value;
@@ -436,8 +436,9 @@ export default class Overview extends Component {
           loading: false
         });
       });
-  };
+    }catch(e){}};
   all_connection_of_one_location_function = response => {
+    try{
     if (response.overviews_analytics_data) {
       this.setState({
         all_listing: response.overviews_analytics_data[0].All_listing,
@@ -451,9 +452,10 @@ export default class Overview extends Component {
   
 
     this.setState({ loader: false });
-  };
+  }catch(e){}};
 
   business_report_insight = () => {
+    try{
     this.setState({ loading: true });
     const GoogleConfig = {
       headers: { Authorization: "Bearer " + this.state.google_token }
@@ -507,9 +509,10 @@ export default class Overview extends Component {
         });
       });
     // });
-  };
+  }catch(e){}};
 
   google_reply_submit = () => {
+    try{
     let { google_reply_to_id, google_reply, google_token } = this.state;
 
     const GoogleConfig = {
@@ -536,7 +539,7 @@ export default class Overview extends Component {
       .catch(respo => {
         console.log("google reply response", respo.data);
       });
-  };
+    }catch(e){}};
 
   dataDoughnut = (
     all_listing,
@@ -545,6 +548,7 @@ export default class Overview extends Component {
     unavailable,
     opted_out
   ) => {
+    try{
     let data;
     if (all_listing != "-") {
       data = [
@@ -558,9 +562,10 @@ export default class Overview extends Component {
       data = [{ value: total_listing, label: "All listing" }];
     }
     return data;
-  };
+  }catch(e){} };
 
   dataBar = (date, phone, direction, website) => {
+    try{
     return {
       labels: date,
       datasets: [
@@ -584,7 +589,7 @@ export default class Overview extends Component {
         }
       ]
     };
-  };
+  }catch(e){}};
 
   barChartOptions = (phone, direction, website) => {
     try{
@@ -639,6 +644,7 @@ export default class Overview extends Component {
   };
 
   change_states = (name, db_range, range) => async e => {
+    try{
     if (name == "Google customer Actions") {
       await this.setState({ db_google_range: db_range, google_range: range });
       // this.business_report_insight();
@@ -650,9 +656,10 @@ export default class Overview extends Component {
       });
       this.social_media_overview_function();
     }
-  };
+  }catch(e){}};
 
   social_media_overview_function = e => {
+    try{
     this.setState({ social_media_overview_loader: true });
     var filter='';
 if(e){
@@ -687,20 +694,23 @@ if(e){
           social_media_overview_loader: false
         });
       });
-  };
+    }catch(e){}};
 
   changeHandler = event => {
+    try{
     console.log("states", this.state);
     this.setState({ [event.target.name]: event.target.value });
+  }catch(e){}
   };
 
   IconsAllLess=type=>e=>{
+    try{
     console.log("ooo",type)
     if(type==="All")
     this.setState({AllConnectedIcons:this.state.TempAllIcons})
     else if(type === "Less")
     this.setState({AllConnectedIcons:this.state.AllConnectedIcons.slice(0, ( this.state.TempAllIcons.length>3? this.state.TempAllIcons.length /2 :3 ) )})
-  }
+  }catch(e){}}
   render() {
     let {
       today_date,

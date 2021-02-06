@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import Axios from "axios";
 import { all_connection_of_one_location } from "../apis/social_platforms";
 import {optimization_score} from '../apis/social_media'
 import {
@@ -9,27 +7,14 @@ import {
   business_states
 } from "../apis/location";
 
-import {
-  faqs_by_id,
-  edit_faq,
-  all_faq_by_location_id,
-  delete_faq,
-  all_faq,
-  add_faq
-} from "../apis/voice";
+import {all_faq_by_location_id,delete_faq,} from "../apis/voice";
 import GoogleLogin from "react-google-login";
 import Spinner from "../common/Spinner";
 import { MDBRow, MDBCol, MDBBtn, MDBCard, MDBContainer } from "mdbreact";
-import vl_img1 from "../assets/vl_img1.png";
-import vl_img2 from "../assets/vl_img2.png";
-import vl_img3 from "../assets/vl_img3.png";
-import vl_img4 from "../assets/vl_img4.png";
-import vl_img5 from "../assets/vl_img5.png";
-import vl_img6 from "../assets/vl_img6.png";
+
 import vl_img7 from "../assets/vl_img7.png";
 import vl_img8 from "../assets/vl_img8.png";
 import vl_img9 from "../assets/vl_img9.png";
-import vl_img10 from "../assets/vl_img10.png";
 import vl_img11 from "../assets/vl_img11.png";
 import attachment from "../assets/attachment.png";
 import swal from "sweetalert";
@@ -73,60 +58,62 @@ export default class VoiceListing extends Component {
   };
 
   editFaq = id => {
+    try{
     this.setState({ faqid: id, update: true });
+  }catch(e){}
   };
 
   deleteFaq = nameid => {
-    swal("You are going to delete this FAQ");
-
-    console.log(" delete");
-
+    try{
+    swal({
+      title: "Are You Sure TO Delete This FAQ?",
+      text: "",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
     var data = {
       secure_pin,
       user_id: localStorage.getItem("UserId"),
       faqid: nameid
     };
 
-    // Axios.post(
-    //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/voice-faq/delete-faq",
-    //   data,
-    //   DjangoConfig
-    // )
+   
     delete_faq(data).then(resp => {
-      console.log(resp);
-      // Axios.get(
-      //   "https://cors-anywhere.herokuapp.com/https://dashify.biz/voice-faq/get-all-faqs",
-      //   DjangoConfig
-      // )
-      // all_faq(DjangoConfig).then(resp => {
-      //   console.log(resp);
-      //   this.setState({ allFaq: resp.data.all_faqs });
-      // });
-    });
-    var datal = {
-      secure_pin,
-      user_id: localStorage.getItem("UserId"),
-      location_id: this.props.match.params.locationId
-    };
-
-    all_faq_by_location_id(datal)
-      .then(resp => {
-        console.log("all faq0", resp);
-        console.log("all faq1", resp.data);
-        this.setState({ allFaq: resp.data.faq_list });
-      })
-      .catch(err => {
-        console.log("err in getallFaq", err);
-      });
-  };
+      var datal = {
+        secure_pin,
+        user_id: localStorage.getItem("UserId"),
+        location_id: this.props.match.params.locationId
+      };
+  
+      all_faq_by_location_id(datal)
+        .then(resp => {
+          console.log("all faq0", resp);
+          console.log("all faq1", resp.data);
+          this.setState({ allFaq: resp.data.faq_list });
+        })
+        .catch(err => {
+          console.log("err in getallFaq", err);
+        });
+    });}
+  })
+    
+    }catch(e){}};
 
   submitCancel = e => {
+    try{
     this.setState({ new: false });
+  }catch(e){}
   };
   updateCancel = e => {
+    try{
     this.setState({ update: false });
+  }catch(e){}
   };
   getNewAllFaq = () => {
+    try{
     // all_faq(DjangoConfig)
     //   .then(resp => {
     //     console.log("AllFaq", resp.data.all_faqs);
@@ -153,13 +140,15 @@ export default class VoiceListing extends Component {
       .catch(err => {
         console.log("err in getallFaq", err);
       });
-  };
+    }catch(e){}};
 
   addFaq = e => {
+    try{
     this.setState({ new: true });
     console.log("add");
-  };
+  }catch(e){}};
   installWedget = e => {
+    try{
     var dynadiv = "";
     var dynaJs = "";
     if (this.state.allFaq.length > 0) {
@@ -189,9 +178,10 @@ export default class VoiceListing extends Component {
           "]]}</script>"
       });
     }
-  };
+  }catch(e){} };
 
   componentDidMount() {
+    try{
     const data = {
       secure_pin,
       location_id: this.props.match.params.locationId
@@ -400,26 +390,31 @@ console.log("location44",data)
 
 
 
-    }
+    }catch(e){} }
 
   htmlcopy = e => {
+    try{
     e.preventDefault();
     document.querySelector("#htmlcode").select();
     document.execCommand("copy");
-  };
+  }catch(e){} };
 
   javacopy = e => {
+    try{
     e.preventDefault();
     document.querySelector("#javascriptcode").select();
     document.execCommand("copy");
-  };
+  }catch(e){}};
 
   responseErrorGoogle = response => {
+    try{
     console.log(response);
     swal("try again");
+  }catch(e){}
   };
 
   responseGoogle = async response => {
+    try{
     console.log("google response", response);
 
     let state = {
@@ -434,7 +429,7 @@ console.log("location44",data)
         JSON.stringify(state)
       )}`
     });
-  };
+  }catch(e){}};
 
   render() {
     if (this.state.otherImage) {

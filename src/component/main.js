@@ -18,7 +18,7 @@ import RankingAnalytics from "./ranking-analytics";
 import Topbarmenu from "./topbarmenu";
 
 import User_profile from "./user_profile";
-import Notification from "./notification";
+import Activity from "./Activity";
 import SettingMain from "./setting-main";
 import SettingAccounts from "./setting-accounts";
 import SettingPeople from "./setting-people";
@@ -388,7 +388,7 @@ export default class MainApp extends Component {
                 <Route exact path="/add-location" component={AddLocation} />
 
                 <Route exact path="/user-profile" component={User_profile} />
-                <Route exact path="/notification" component={Notification} />
+                <Route exact path="/activity" component={Activity} />
                 <Route exact path="/setting-main" render={props =><SettingMain  role={this.state.role} {...props} />} />
                 <Route
                   path="/setting-main/setting-accounts"
@@ -416,11 +416,11 @@ export default class MainApp extends Component {
                   path="/setting-main/setting-billing"
                   render={props =><SettingBilling role={this.state.role} {...props} />}
                 />
-                <Route
+                {/* <Route
                   exact
                   path="/setting-main/setting-email"
                   component={SettingEmail}
-                />
+                /> */}
 
                 <Route
                   exact

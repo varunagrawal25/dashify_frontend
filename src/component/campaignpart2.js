@@ -34,6 +34,7 @@ export default class CampaignPart2 extends Component {
   };
 
   submitHandler = event => {
+    try{
     event.preventDefault();
     var { isEmail, isSms, FinalEmailSocial,FinalSmsSocial,ReplyTo,
       EmailSubject,
@@ -70,26 +71,28 @@ export default class CampaignPart2 extends Component {
       
     })
 
-  }
+  }catch(e){}}
 
   add_customer_function = event => {
+    try{
     event.preventDefault();
     console.log("add customer button clicked");
     this.setState({FinalCustomers:this.state.FinalCustomers.concat({})})
 
-
-   
+  }catch(e){}
   };
 
   removeCustomer =(i)=>e=>{
+    try{
     console.log(i);
     var a= this.state.FinalCustomers;
     delete a[i]
     this.setState({FinalCustomers:a})
-
+  }catch(e){}
   }
 
   AddCustomer =(index,type)=>e=>{
+    try{
     console.log(index, e.target.value);
 
     var old = this.state.FinalCustomers;
@@ -163,9 +166,10 @@ export default class CampaignPart2 extends Component {
 
    
 
-  }
+}catch(e){}}
   
   onUploadCsv=event=>{
+    try{
     let files = event.target.files;
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
@@ -174,7 +178,7 @@ export default class CampaignPart2 extends Component {
 
       console.log(e.target.result)
     };
-  }
+  }catch(e){}}
   
 
   render() {

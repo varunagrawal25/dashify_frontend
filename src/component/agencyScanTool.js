@@ -3,6 +3,7 @@ import { MDBRow, MDBCol, MDBContainer, MDBBtn } from "mdbreact";
 import { Checkbox } from '@material-ui/core';
 import { secure_pin } from "../config";
 import swal from "sweetalert";
+import Spinner from "./common/Spinner";
 import {add_agency_scantool, get_agency,update_agency_scantool} from './apis/agency'
 export default class AgencyScanTool extends Component {
   state={
@@ -21,10 +22,15 @@ export default class AgencyScanTool extends Component {
     pageDescriptionError:"",
     containerIdError:"",
     showError:false,
-    isError:false
+    isError:false,
+    isLoading:false
   }
  // {"secure_pin":"digimonk","user_id":"10","agency_id":"1"}
   componentDidMount = () =>{
+    try{
+    this.setState({
+      isLoading:true
+    })
     const data={
       secure_pin,
       user_id:localStorage.getItem("UserId"),
@@ -43,11 +49,13 @@ export default class AgencyScanTool extends Component {
       pageDescription:resp.data.agency_data[0].page_description,
       containerId:resp.data.agency_data[0].google_tab_id,
       showError:resp.data.agency_data[0].show_error,
+      isLoading:false
      })
     })
-  }
+  }catch(e){}}
 
   changeHandler = event => {
+    try{
     this.setState({
       [event.target.name] :event.target.value
     });
@@ -57,9 +65,10 @@ export default class AgencyScanTool extends Component {
         showError:!this.state.showError
       })
     }
-  }
+  }catch(e){}}
 
   onSave = async e =>{
+    try{
     if(this.state.name==""){
      await this.setState({
         nameError:'Name Required',
@@ -156,6 +165,9 @@ export default class AgencyScanTool extends Component {
     console.log(this.state.isError)
     console.log(this.state)
     if(!this.state.isError){
+      this.setState({
+        isLoading:true
+      })
       const data={
         secure_pin,
 user_id:localStorage.getItem("UserId"),
@@ -174,15 +186,20 @@ upload_css:""
       .then(resp=>{
 swal("Added Successfully")
 console.log(resp)
+this.setState({
+
+  isLoading:false
+ })
       })
     }
     return this.state.isError
-  }
+  }catch(e){}}
     render() {
       console.log(this.state)
         return (
-            <div>
-                <MDBRow style={{padding:'3% 6%'}}>
+            <div style={{padding:'3% 6%'}}>
+                 {this.state.isLoading?<Spinner/>:
+                <MDBRow >
                   <MDBCol md="12" className="profileSpacing">
                     <MDBRow>
                       <MDBCol md="6">
@@ -310,7 +327,7 @@ console.log(resp)
                       </div>
                   
                 </MDBRow>
-               
+    }
             </div>
         )
     }
