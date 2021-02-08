@@ -69,6 +69,9 @@ export default class RankingAnalytics extends Component {
     }
     console.log("data",data)
     Add_Keyword(data).then(resp=>{
+      this.setState({
+        
+      })
       console.log( resp);
       const data=
       {
@@ -210,25 +213,25 @@ export default class RankingAnalytics extends Component {
 
 <div  className='ra_db'>
   <MDBRow >
-    <MDBCol md='8' className='raModal_contant'>
+    <MDBCol md='9' className='raModal_contant'>
       Or, upload csv containing keywords.<br/>
     <span style={{color:'#5d80e2'}}> <a href="/csv/keyword.csv" target="_blank" rel="noopener noreferrer" download> Check Sample</a></span>
     </MDBCol>
-    <MDBCol md='4'>
-      <MDBBtn>
-        <input type='file' title='Upload file' onChange={this.onUploadCsv}/>
-      </MDBBtn>
+    <MDBCol md='3'>
+      <i class="fas fa-upload" style={{fontSize:'80px',color: '#4f4f4f'}}>
+        <input type='file' className='chooseFile_hidden' style={{top:'0px',left:'2px'}} onChange={this.onUploadCsv}/>
+        </i>
     </MDBCol>
   </MDBRow>
 </div>
 <MDBRow>
   <MDBCol md='3'>
-  <MDBBtn className="cp_btn"  onClick={this.submit}> 
+  <MDBBtn className="cp_btn"  onClick={this.submit}  data-dismiss="modal" > 
            Submit Keywords
             </MDBBtn>
   </MDBCol>
   <MDBCol md='3'>
-  <MDBBtn style={{margin:'15px 0px',border:'none'}} > 
+  <MDBBtn style={{margin:'15px 0px',border:'none'}}  data-dismiss="modal" > 
            Cancel
             </MDBBtn>
   </MDBCol>

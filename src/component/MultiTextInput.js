@@ -8,11 +8,6 @@ export class InputTag extends React.Component {
           
         ]
       };
-
-    
-    
-       
- 
     
     }
     
