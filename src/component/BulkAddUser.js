@@ -14,7 +14,9 @@ class BulkAddUser extends Component {
     log: false,
     isUrl: false,
    CsvFile:'',
-    loading: false
+    loading: false,
+    csverror:false,
+    isSuc:false
   };
 
   onUploadCsv=event=>{
@@ -30,6 +32,8 @@ class BulkAddUser extends Component {
 
   onSubmit = async event => {
     event.preventDefault();
+
+    if(this.state.isCsv){
  
   
       const data = {
@@ -55,24 +59,24 @@ console.log("instadata",data)
       Add_Invite_User(data)
       .then(resp => {
         console.log(resp);
-        //this.setState({ isUrl: true, loading: false });
+        this.setState({ isSuc: true });
       })
       .catch(resp => {
         console.log(resp);
        
       });
-   
-   
+    }
+   else{
+     this.setState({csverror:true})
+   }
   };
 
   render() {
-    if (this.state.isUrl) {
+    if (this.state.isSuc) {
       return (
         <Redirect
         to={
-          "/locations/" +
-          localStorage.getItem("locationId") +
-          "/view-listing"
+          "/setting-main/setting-people/"
         }
       />
       );
@@ -86,6 +90,7 @@ console.log("instadata",data)
 
         <div className="bulk_add_form">
         <div style={{fontWeight:'500',fontSize:'18px'}}>Add Multiple User</div>
+        <Link to="/setting-main/setting-people/" style={{paddingLeft:'52px',textDecoration:'none'}}>x</Link>
 <div  className='bulk_add_contant1'>
   
 Follow the steps below to perform a bulk
@@ -93,7 +98,9 @@ upload of users to your dashboard:
 </div>
 
 <ol  className='bulk_add_ol'>
-  <li><a  style={{color:'blue'}}>Download our help manual</a> and <a style={{color:'blue'}}>Download the CSV template</a></li>
+  <li>
+    {/* <a  style={{color:'blue'}}>Download our help manual</a> and  */}
+    <a href="/csv/keyword.csv" target="_blank" rel="noopener noreferrer" style={{color:'blue'}} download> Download the CSV template</a> </li>
   <li>Add user details as per the guideline provided</li>
   <li>Upload the CSV file to proceed</li>
 </ol>
@@ -110,6 +117,7 @@ upload of users to your dashboard:
     </MDBCol>
   </MDBRow>
 </div>
+{this.state.csverror ? <div class='err_msg'>Csv file is required</div>:""}
 
 <div>
   

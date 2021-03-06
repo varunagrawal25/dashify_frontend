@@ -44,12 +44,12 @@ export default class SideBar extends Component {
                   </NavLink>
                 </li> */}
 
-                <li>
+                {/* <li>
                   <NavLink to="/support">
                     <img src={require("./assets/uservoice.png")} alt="" />
                     <span>Support</span>
                   </NavLink>
-                </li>
+                </li> */}
                 {/* <li>
                   <NavLink to="/notification">
                     <img src={require("./assets/uservoice.png")} alt="" />

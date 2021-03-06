@@ -8,7 +8,7 @@ import { Get_All_Invites_By_User, Delete_Invite, Disable_Invite } from "./apis/i
 import { secure_pin } from "../config";
 import Datatable from './Datatable'
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 export default class Profile_setting extends Component {
 
   state={
@@ -144,8 +144,8 @@ var AllPeop=[];
 
     AllPeop.push(  
       {
-        img:'',
-        name: a.first_name ,
+        // img:'',
+        name: <div> {a.profile_image?<img src={a.profile_image}/>:<AccountCircleIcon fontSize="large" style={{marginTop:'9px'}}/>}  {a.first_name}</div> ,
         email:a.email_id,
         role:a.role,
         status:active,

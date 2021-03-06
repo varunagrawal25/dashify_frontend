@@ -32,3 +32,10 @@ export const remove_social_account = (data, DjangoConfig) => {
     DjangoConfig
   );
 };
+
+
+export const listingPdf = (data) => {
+  return Axios.get(
+    `${API}/admin/pdf-api/pdf_report/91`
+  );
+};

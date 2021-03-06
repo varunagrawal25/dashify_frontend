@@ -72,6 +72,7 @@
     "reactstrap": "^8.5.1",
     "styled-components": "^5.1.1",
     "sweetalert": "^2.1.2",
+    "sweetalert-react": "^0.4.11",
     "tabs": "^0.2.0",
     "xml2js": "^0.4.23",
     "yasabe-api": "0.0.5"

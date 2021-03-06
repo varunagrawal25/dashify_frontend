@@ -55,7 +55,7 @@ class App extends Component {
             <Route exact path="/support" component={Support} />
             <Route exact path="/pricing" component={Pricing} />
             <Route exact path="/how-we-work" component={How_we_work} />
-            <Route exact path="/scanner" component={Scanner} />
+            <Route exact path="/scanner/result/:id" component={Scanner} />
             <Route
               exact
               path="/review-management"

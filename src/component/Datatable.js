@@ -38,12 +38,12 @@ export default class WithMultipleCheckboxes extends React.Component  {
       // }
 
 
-              {
-                        label: '',
-                        field: 'img',
-                        width: 50,
-                        sort: 'disabled',
-                      },
+              // {
+              //           label: '',
+              //           field: 'img',
+              //           width: 50,
+              //           sort: 'disabled',
+              //         },
                       {
                         label: 'Name',
                         field: 'name',

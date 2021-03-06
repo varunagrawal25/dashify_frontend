@@ -269,7 +269,7 @@ loader:false
   componentDidMount() {
     try{
     var yelpUrl, fourUrl, fbtoken, fbPageId, googleToken;
-
+    this.setState({locId:this.props.match.params.locationId})
     const data2={
       secure_pin,"user_id":localStorage.getItem("UserId") ,"location_id":localStorage.getItem("locationId")
 
@@ -1031,7 +1031,7 @@ g_website_visit
                           </div>
 
                           <div className="col-md-7">
-                            <PDFDownloadLink
+                            {/* <PDFDownloadLink
                               document={this.Quixote(pdf_data)}
                               fileName="profile_analytics_report.pdf"
                             >
@@ -1046,7 +1046,17 @@ g_website_visit
                                   </a>
                                 )
                               }
-                            </PDFDownloadLink>
+                            </PDFDownloadLink> */}
+
+                            <a className="btn btn-analytic-13"  href={`https://dashify.biz/Api/admin/pdf-api/pdf_analytic/`+this.state.locId} target="_blank" rel="noopener noreferrer"  download>
+                                    Download Report
+                                  </a>
+                            {/* { this.state.loader ? (
+                          "Loading document..."
+                        ) : (
+                          <a className="download-report" href={`https://dashify.biz/Api/admin/pdf-api/pdf_report/`+this.state.locId} target="_blank" rel="noopener noreferrer"  download >Download Report</a>
+                        )
+  } */}
                           </div>
                         </div>
                         <div className="row total_top ">

@@ -7,7 +7,8 @@ import Axios from "axios";
 import {
   all_connection_of_one_location,
   add_social_account,
-  remove_social_account
+  remove_social_account,
+  listingPdf
 } from "./apis/social_platforms";
 import {optimization_score} from './apis/social_media';
 import {
@@ -35,6 +36,8 @@ import { google_listing_detail } from "./apis/social_media";
 import { secure_pin } from "../config";
 import swal from "sweetalert";
 
+var ClientID="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com";
+var ClientSecret="uhXFruVoWQNiUgxm3eZEL6bN";
 const DjangoConfig = {
   headers: { Authorization: "Token " + localStorage.getItem("UserToken") }
 };
@@ -180,6 +183,7 @@ export default class ViewListing extends Component {
   async componentDidMount() {
     try{
     if (this.props.match.params.locationId != "null") {
+      this.setState({locId:this.props.match.params.locationId})
 
 
       const dataOpt={
@@ -555,22 +559,61 @@ export default class ViewListing extends Component {
   responseGoogle = async response => {
     try{
     console.log("google response", response, response.code);
+    if(response.code)
+    {
+      var refresh;
 
-    let state = {
-      Token: response.accessToken,
-      Username: response.profileObj.name,
-      Email: response.profileObj.email,
-      location_id: this.props.match.params.locationId,
-      googleImgUrl:response.profileObj.imageUrl?response.profileObj.imageUrl:"",
-      googleIdf:response.profileObj.googleId,
-      redirect_to: "/view-listing"
-    };
+     await  Axios.post('https://www.googleapis.com/oauth2/v4/token',
+          { //the headers passed in the request
+            'code' : response.code,
+            'client_id' : ClientID,
+            'client_secret' : ClientSecret,
+            'redirect_uri' : 'https://dashify.biz',
+            'grant_type' : 'authorization_code',
+            'prompt' : "consent"
+          }).then(res => {
+            var respons=res.data;
+            refresh=res.data.refresh_token;
+            console.log("google offline response data",res.data);
 
-    this.props.history.push({
-      pathname: `/google-connectedaccounts/${encodeURIComponent(
-        JSON.stringify(state)
-      )}`
-    });
+            console.log("google offline response",res);
+            let state = {
+              Token: respons.access_token,
+              Refresh:refresh,
+              //Username: respons.profileObj.name,
+              //Email: respons.profileObj.email,
+              location_id: this.props.match.params.locationId,
+            //  googleImgUrl:response.profileObj.imageUrl?response.profileObj.imageUrl:"",
+             // googleIdf:response.profileObj.googleId,
+              redirect_to: "/view-listing"
+            };
+        
+            this.props.history.push({
+              pathname: `/google-connectedaccounts/${encodeURIComponent(
+                JSON.stringify(state)
+              )}`
+            });
+          }).catch(res => {
+            console.log("google offline error",res);
+    })
+
+    // await  Axios.post('https://www.googleapis.com/oauth2/v4/token',
+    // { //the headers passed in the request
+      
+    //   'client_id' : '759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com',
+    //   'client_secret' : 'zHMBPdDuAx_JMq7bOIo4fqXD',
+      
+    //   'grant_type' : 'refresh_token',
+    //   'refresh_token' : refresh
+    // }).then(res0 => {
+      
+
+    //   console.log("google refres response",res0);
+    // })
+
+    }
+
+    
 
     //refresh token
 
@@ -1242,7 +1285,13 @@ export default class ViewListing extends Component {
       </Page>
     </Document>
   );
-
+  fetchPdf=e=>{
+    listingPdf("data")
+    .then(resp => {
+      console.log(resp)
+      this.setState({pdf:resp.data})
+    })
+  }
   render() {
     console.log(this.state);
 
@@ -1686,9 +1735,9 @@ export default class ViewListing extends Component {
                           <div className="google_btnb">
                             <GoogleLogin
                               //for localhost
-                             // clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
+                             //clientId="759599444436-po5k7rhkaqdu55toirpt5c8osaqln6ul.apps.googleusercontent.com"
                              // for server
-                             clientId="759599444436-5litbq8gav4ku8sj01o00uh6lsk8ebr0.apps.googleusercontent.com"
+                             clientId={ClientID}
                               buttonText="Connect A Account"
                               class="connect_btn"
                               scope="https://www.googleapis.com/auth/business.manage"
@@ -1696,11 +1745,12 @@ export default class ViewListing extends Component {
                               onFailure={this.responseErrorGoogle}
                               cookiePolicy={"single_host_origin"}
                               icon={false}
+                              fetchBasicProfile={true}
 
                               //for refresh token
-                              // accessType="offline"
-                              // responseType="code"
-                              // pompt="consent"
+                              accessType="offline"
+                              responseType="code"
+                             prompt="consent"
                             /> 
                           </div>
                         )}
@@ -1710,7 +1760,7 @@ export default class ViewListing extends Component {
                         {this.state.googleIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -1782,7 +1832,7 @@ export default class ViewListing extends Component {
                         {this.state.fbIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -1841,7 +1891,7 @@ export default class ViewListing extends Component {
                         {this.state.yelpIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -1900,7 +1950,7 @@ export default class ViewListing extends Component {
                         {this.state.foursquareIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -1960,7 +2010,7 @@ export default class ViewListing extends Component {
                         {this.state.instaIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2034,7 +2084,7 @@ export default class ViewListing extends Component {
                         {this.state.linkedinIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2099,7 +2149,7 @@ export default class ViewListing extends Component {
                         {this.state.avvoIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2158,7 +2208,7 @@ export default class ViewListing extends Component {
                         {this.state.dnbIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2218,7 +2268,7 @@ export default class ViewListing extends Component {
                         {this.state.appleIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2276,7 +2326,7 @@ export default class ViewListing extends Component {
                         {this.state.citysearchIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2334,7 +2384,7 @@ export default class ViewListing extends Component {
                         {this.state.zillowIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2392,7 +2442,7 @@ export default class ViewListing extends Component {
                         {this.state.tomtomIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2450,7 +2500,7 @@ export default class ViewListing extends Component {
                         {this.state.zomatoIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2508,7 +2558,7 @@ export default class ViewListing extends Component {
                         {this.state.hereIsLoggedIn ? (
                           <div className="refres_box enble_refresh">
                             <i className="fa fa-link"></i>
-                            <span>Syncing</span>
+                            <span>Synced</span>
                           </div>
                         ) : (
                           <div className="refres_box disble_refresh">
@@ -2524,18 +2574,20 @@ export default class ViewListing extends Component {
 
                   <div className="listing-lastupdate">
                     <p>Last Update On {LastSyncDate ?LastSyncDate:"-"} At {LastSyncTime?LastSyncTime:"-"}</p>
-                    <PDFDownloadLink
+                    {/* <button
                       document={this.Quixote(pdf_data)}
                       fileName="connected_listing_report.pdf"
                     >
                       {({ blob, url, loading, error }) =>
-                        this.state.loader ? (
+                        
+                      }
+                    </button> */}
+                   { this.state.loader ? (
                           "Loading document..."
                         ) : (
-                          <a className="download-report">Download Report</a>
+                          <a className="download-report" href={`https://dashify.biz/Api/admin/pdf-api/pdf_report/`+this.state.locId} target="_blank" rel="noopener noreferrer"  download >Download Report</a>
                         )
-                      }
-                    </PDFDownloadLink>
+  }
                   </div>
                 </div>
               </div>

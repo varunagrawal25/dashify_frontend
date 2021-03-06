@@ -9,7 +9,12 @@ import { all_location } from "./apis/location";
 import SelectSearch from "react-select-search";
 // import { Add_Invite_User } from "./apis/invite";
 import { MDBBtn, MDBCol, MDBRow } from "mdbreact";
-
+import {
+  email_regex,
+  url_regex,
+  phone_regex,
+  zipcode_regex
+} from "./utils/regularexpressions";
 class InviteNewUser extends Component {
   state = {
    
@@ -24,10 +29,12 @@ class InviteNewUser extends Component {
     locationArray:[],
     update:false,
     showSelect:true,
+    isSuc:false
   };
 
   
   onSubmit = e => {
+    
     try{
     e.preventDefault();
 
@@ -51,6 +58,12 @@ class InviteNewUser extends Component {
           first_name_err:'First name can not be empty'
         })
       }
+      else{
+        this.setState({
+          first_name_err:''
+        })
+
+      }
       // if(this.state.lastName==''){
       //   this.setState({
       //     last_name_err:'Last name can not be empty'
@@ -61,13 +74,28 @@ class InviteNewUser extends Component {
           email_err:'Email can not be empty'
         })
       }
+      else{
+        if(!email_regex(this.state.userEmail)){
+          this.setState({
+            email_err:'Email is Not Valid'
+          })
+        }
+        else{
+          this.setState({
+            email_err:''
+          })
+  
+        }
+
+      }
 
 console.log("invite ",data)
     
-
+      if(this.state.userEmail && this.state.firstName && this.state.userRole && email_regex(this.state.userEmail))
       Add_Invite_User(data)
       .then(resp => {
         console.log(resp);
+        this.setState({isSuc:true})
         //this.setState({ isUrl: true, loading: false });
       })
       .catch(resp => {
@@ -159,6 +187,7 @@ console.log("invite ",data)
     Update_Invite(data).then(
       res=>{
         console.log("upd ",res);
+        this.setState({isSuc:true})
        
       }
     )
@@ -185,14 +214,18 @@ console.log("invite ",data)
 
   }catch(e){}}
 
+  removeLocation=(id)=>e=>{
+console.log("id",id)
+this.setState({ locationArray: this.state.locationArray.filter(item=>item.location_id !== id) })
+console.log("id2",this.state.locationArray)
+  }
+
   render() {
-    if (this.state.isUrl) {
+    if (this.state.isSuc) {
       return (
         <Redirect
         to={
-          "/locations/" +
-          localStorage.getItem("locationId") +
-          "/view-listing"
+          "/setting-main/setting-people/"
         }
       />
       );
@@ -226,7 +259,7 @@ console.log("invite ",data)
           {h[0].location_name} 
           </MDBCol>
           <MDBCol md='1' >
-          <button className='invite_cross'>x</button>
+          <button className='invite_cross' onClick={this.removeLocation(h[0].id)}>x</button>
           </MDBCol>
         </MDBRow>
          </MDBCol>
@@ -240,7 +273,7 @@ console.log("invite ",data)
       <div>
        <div className="profile_container" style={{color:'#4f4f4f',marginTop:'60px'}}>
         
-          <form onSubmit={this.onSubmit}>
+         
             <fieldset className="login_fieldset">
             <MDBRow>
           <MDBCol md='11'  className='form-group invite_head'>
@@ -268,7 +301,7 @@ console.log("invite ",data)
             <input
                   type="text"
                   value={this.state.firstName}
-                  placeholder="teamdigimonk"
+                  placeholder="Enter FirstName"
                   className="form-control"
                   onChange={e => this.setState({ firstName: e.target.value })}
                 />
@@ -281,6 +314,7 @@ console.log("invite ",data)
                   type="text"
                   value={this.state.lastName}
                  name="lastName"
+                 placeholder="Enter LastName"
                  className="form-control"
                   onChange={e => this.setState({ lastName: e.target.value })}
                 />
@@ -293,6 +327,7 @@ console.log("invite ",data)
                   type="email"
                   value={this.state.userEmail}
                   name="userEmail"
+                  placeholder="Enter Email"
                   className="form-control"
                   onChange={e => this.setState({ userEmail: e.target.value })}
                 />
@@ -301,37 +336,7 @@ console.log("invite ",data)
         </MDBRow>
        
              
-              {/* <p>
-                <label htmlFor="url">First Name</label>
-                <input
-                  type="text"
-                  value={this.state.firstName}
-                  placeholder="teamdigimonk"
-                  onChange={e => this.setState({ firstName: e.target.value })}
-                />
-                <div class='err_msg'>{this.state.url_error}</div>
-              </p>
-
-              <p>
-                <label htmlFor="username">Last Name</label>
-                <input
-                  type="text"
-                 name="lastName"
-                 value={this.state.lastName}
-                  onChange={e => this.setState({ lastName: e.target.value })}
-                />
-                <div class='err_msg'>{this.state.username_error}</div>
-              </p>
-              <p>
-                <label htmlFor="password">User Email</label>
-                <input
-                  type="email"
-                  name="userEmail"
-                  value={this.state.userEmail}
-                  onChange={e => this.setState({ userEmail: e.target.value })}
-                />
-                <div class='err_msg'>{this.state.password_error}</div>
-              </p> */}
+            
 <MDBRow>
           <MDBCol md='2' className='form-group invite_subHead'>
           Internal User
@@ -428,13 +433,13 @@ placeholder={ "Search"}  />
               <p>
                
               {this.state.update ? <button className="last_btn" onClick={this.Update}>Update User</button>:
-               <button type="submit" className="last_btn" >Invite User</button>}
+               <button className="last_btn" onClick={this.onSubmit} >Invite User</button>}
               </p>
 
 
               
             </fieldset>
-          </form>
+        
         </div>
      
       </div>

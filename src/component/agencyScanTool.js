@@ -322,7 +322,7 @@ this.setState({
                   </MDBCol>
                   <div style={{margin:'auto',marginTop:'30px'}}>
                   <MDBBtn className="pay_last_btn" style={{margin:'0px 5px'}} onClick={this.onSave} >Save</MDBBtn>
-                  <MDBBtn className="pay_last_btn" style={{margin:'0px 5px',background:'#00C27A'}}>Upload Custom CSS</MDBBtn>
+                  {/* <MDBBtn className="pay_last_btn" style={{margin:'0px 5px',background:'#00C27A'}}>Upload Custom CSS</MDBBtn> */}
                       
                       </div>
                   

@@ -16,87 +16,293 @@ import cross_img from '../assets/cross_img.png'
 import Footer from "./footer";
 import Navbar from "./navbar";
 import Radial_chart from '../utils/Radial_chart';
+import { ScanBusiness } from "../apis/scanTool";
+import { secure_pin } from "../../config";
 export default class Scanner extends Component {
+
+  state={
+    AllList:[]
+  }
   componentDidMount() {
-    window.scrollTo(0, 0)
+    window.scrollTo(0, 0);
+
+    var id=this.props.match.params.id;
+
+    const data={
+      secure_pin,
+      "search_id":id
+
+    }
+
+    ScanBusiness(data).
+    then(res => {
+      console.log("res", res);
+      this.setState({
+      AllList:res.data.search_data, dat:true,
+      basic:res.data.scantool_data,
+      voice:res.data.voice_data
+      })
+      
+    })
+    .catch(res => console.log("not active"));
+  
+
+
+
+   
 }
+
+
     render() {
-        const datatable = {
+
+      let basic= this.state.basic;
+var name,cate,country,phone,zipcode=""
+
+if (basic){
+  basic=basic[0];
+
+  name=basic.business_name;
+  cate=basic.business_type;
+  country=basic.country;
+  phone=basic.mobile_no;
+  zipcode=basic.zipcode
+}
+
+
+      console.log(this.state)
+        // const datatable = {
             
-          columns: [
-            {
-              label: '',
-              field: 'name',
-              width: 150,
-              attributes: {
-                'aria-controls': 'DataTable',
-                'aria-label': 'Name',
-              },
-            },
-            {
-              label: '',
-              field: 'position',
-              width: 270,
-            },
-            {
-              label: 'Office',
-              field: 'office',
-              width: 200,
-            },
-            {
-              label: 'Age',
-              field: 'age',
-              sort: 'asc',
-              width: 100,
-            },
-            {
-              label: 'Start date',
-              field: 'date',
-              sort: 'disabled',
-              width: 150,
-            },
-            {
-              label: 'Salary',
-              field: 'salary',
-              sort: 'disabled',
-              width: 100,
-            },
-          ],
-          rows: [
-            {
-              name: 'Garrett Winters',
-              position: 'Accountant',
-              office: 'Tokyo',
-              age: '63',
-              date: '2011/07/25',
-              salary: '$170',
-            },
-            {
-              name: 'Ashton Cox',
-              position: 'Junior Technical Author',
-              office: 'San Francisco',
-              age: '66',
-              date: '2009/01/12',
-              salary: '$86',
-            },
-            {
-              name: 'Cedric Kelly',
-              position: 'Senior Javascript Developer',
-              office: 'Edinburgh',
-              age: '22',
-              date: '2012/03/29',
-              salary: '$433',
-            },
-            {
-              name: 'Airi Satou',
-              position: 'Accountant',
-              office: 'Tokyo',
-              age: '33',
-              date: '2008/11/28',
-              salary: '$162',
-            },
-          ]
-          }
+        //   columns: [
+        //     {
+        //       label: '',
+        //       field: 'name',
+        //       width: 150,
+        //       attributes: {
+        //         'aria-controls': 'DataTable',
+        //         'aria-label': 'Name',
+        //       },
+        //     },
+        //     {
+        //       label: '',
+        //       field: 'position',
+        //       width: 270,
+        //     },
+        //     {
+        //       label: 'Office',
+        //       field: 'office',
+        //       width: 200,
+        //     },
+        //     {
+        //       label: 'Age',
+        //       field: 'age',
+        //       sort: 'asc',
+        //       width: 100,
+        //     },
+        //     {
+        //       label: 'Start date',
+        //       field: 'date',
+        //       sort: 'disabled',
+        //       width: 150,
+        //     },
+        //     {
+        //       label: 'Salary',
+        //       field: 'salary',
+        //       sort: 'disabled',
+        //       width: 100,
+        //     },
+        //   ],
+        //   rows: [
+        //     {
+        //       name: 'Garrett Winters',
+        //       position: 'Accountant',
+        //       office: 'Tokyo',
+        //       age: '63',
+        //       date: '2011/07/25',
+        //       salary: '$170',
+        //     },
+        //     {
+        //       name: 'Ashton Cox',
+        //       position: 'Junior Technical Author',
+        //       office: 'San Francisco',
+        //       age: '66',
+        //       date: '2009/01/12',
+        //       salary: '$86',
+        //     },
+        //     {
+        //       name: 'Cedric Kelly',
+        //       position: 'Senior Javascript Developer',
+        //       office: 'Edinburgh',
+        //       age: '22',
+        //       date: '2012/03/29',
+        //       salary: '$433',
+        //     },
+        //     {
+        //       name: 'Airi Satou',
+        //       position: 'Accountant',
+        //       office: 'Tokyo',
+        //       age: '33',
+        //       date: '2008/11/28',
+        //       salary: '$162',
+        //     },
+        //   ]
+        //   }
+let {AllList ,voice}=this.state;
+let BigDiv,AllListingDiv;
+        if(AllList){
+          BigDiv= AllList.map(r=>{
+
+
+            return(  <MDBCol md='4'>
+            <div className='scanner_box'>
+            <MDBRow>
+                <MDBCol md='8' >
+                  <img src={r.icon}  className='scanner_google_img'  />
+                </MDBCol>
+                <MDBCol md='4' >
+                <CircularProgressbarWithChildren value={50}  
+                styles={buildStyles({
+                  // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                  strokeLinecap: 'butt',
+                  pathColor: `#8264C6 `,
+                  trailColor: '#ffffff',
+                })}>
+                  <div className='scanner_contant6'>20%</div>
+                  <div className='scanner_contant7'>Score</div>
+                  </CircularProgressbarWithChildren>;
+                </MDBCol>
+              </MDBRow>
+            
+              {/* <MDBRow>
+                <MDBCol md='3'>
+                <div className='scanner_contant1'>Link</div>
+                </MDBCol>
+                <MDBCol md='9'>
+                <div><Checkbox/></div>
+                </MDBCol>
+              </MDBRow> */}
+
+              <MDBRow>
+                <MDBCol md='3'>
+                <div className='scanner_contant1'>Name:</div>
+                </MDBCol>
+                <MDBCol md='9'>
+                <div className='scanner_contant2'> {r.business_name} </div>
+                </MDBCol>
+              </MDBRow>
+
+               <MDBRow>
+                <MDBCol md='3'>
+                <div className='scanner_contant1'>Adress:</div>
+                </MDBCol>
+                <MDBCol md='9'>
+                <div className='scanner_contant2'> {r.address} </div>
+                </MDBCol>
+              </MDBRow>
+
+              <MDBRow>
+                <MDBCol md='3'>
+                <div className='scanner_contant1'>Phone:</div>
+                </MDBCol>
+                <MDBCol md='9'>
+                <div className='scanner_contant2'>{r.display_phone}</div>
+                </MDBCol>
+              </MDBRow>
+             
+          <div className='scanner_contant3'>Detailed breakdown</div>
+
+          <MDBRow>
+            <MDBCol md='9'>
+            <div className='scanner_contant2'>Categories</div>
+            </MDBCol>
+            
+            <MDBCol md='3'>
+              <MDBBtn className={r.categories ==="Yes"?'scanner_yes_btn':'scanner_no_btn'}>{r.categories}</MDBBtn>
+            </MDBCol>
+            
+          </MDBRow>
+
+          <MDBRow>
+            <MDBCol md='9'>
+            <div className='scanner_contant2'>Website URL Present</div>
+            </MDBCol>
+            
+            <MDBCol md='3'>
+              <MDBBtn className={r.websiteurl ==="Yes"?'scanner_yes_btn':'scanner_no_btn'}>{r.websiteurl}</MDBBtn>
+            </MDBCol>
+          </MDBRow>
+
+          <MDBRow>
+            <MDBCol md='9'>
+            <div className='scanner_contant2'>Hours of operation</div>
+            </MDBCol>
+            
+            <MDBCol md='3'>
+              <MDBBtn className={r.hourslisting ==="Yes"?'scanner_yes_btn':'scanner_no_btn'}>{r.hourslisting}</MDBBtn>
+            </MDBCol>
+          </MDBRow>
+
+          <MDBRow>
+            <MDBCol md='9'>
+            <div className='scanner_contant2'>Photos present</div>
+            </MDBCol>
+            
+            <MDBCol md='3'>
+              <MDBBtn className={r.photoes ==="Yes"?'scanner_yes_btn':'scanner_no_btn'}>{r.photoes}</MDBBtn>
+            </MDBCol>
+          </MDBRow>
+
+          <MDBRow>
+            <MDBCol md='9'>
+            <div className='scanner_contant2'>Reviews</div>
+            </MDBCol>
+            
+            <MDBCol md='3'>
+              <MDBBtn className={r.reviews ==="Yes"?'scanner_yes_btn':'scanner_no_btn'}>{r.reviews}</MDBBtn>
+            </MDBCol>
+          </MDBRow>
+         </div>
+          </MDBCol>
+)
+          });
+
+
+          AllListingDiv=AllList.map(r=>{
+
+            return(   
+            <MDBRow className='scanner_hr'>
+            <MDBCol md='1'>
+            <img src={r.icon} alt="" className='scanner_table_img'/>
+            </MDBCol>
+            <MDBCol md='3' className='scanner_margin_table2'>
+              <div className='scanner_table_contant1'>{r.Type}</div>
+            
+            </MDBCol>
+            <MDBCol md='2' className='scanner_margin_table'>
+              <div className='scanner_table_contant3'> {r.business_name} </div>
+            </MDBCol>
+
+            <MDBCol md='2' className='scanner_margin_table'>
+              <div className='scanner_table_contant3'> {r.address} </div>
+            </MDBCol>
+
+            <MDBCol md='2' className='scanner_margin_table'>
+              <div className='scanner_table_contant3'>{r.display_phone}</div>
+            </MDBCol>
+
+             <MDBCol md='2' className='scanner_nopadding scanner_margin_table'>
+              <div>
+              <MDBBtn className='scanner_table_exclam_btn'>!</MDBBtn>
+                <span className='scanner_table_contant3'>Incorrect information</span>
+              </div>
+            </MDBCol>
+          </MDBRow>)
+
+
+          })
+        }
+
+
+    
         return (
             <div>
               <Navbar/>
@@ -109,10 +315,10 @@ export default class Scanner extends Component {
                     {/* <img src={scanner_img1} alt='scanner_img1' id='scanner_img1'/> */}
                     </MDBCol>
                     <MDBCol md='4'>
-                        <div className='scanner_contant1'>Steves Plumbing</div>
-                        <div className='scanner_contant2'>Kandl Water Condition Inc.</div>
-                        <div className='scanner_contant2'>264 Manitoba St. Spicar, 56288, USA</div>
-                        <div className='scanner_contant2'>(320)706-50-20</div>
+                        <div className='scanner_contant1'> {name}</div>
+                        <div className='scanner_contant2'> {cate} </div>
+                        <div className='scanner_contant2'> {country} {zipcode} </div>
+                        <div className='scanner_contant2'> {phone} </div>
                         <div>
                             <span className='scanner_contant2'>This isn’t my business information</span>
                             <span><Checkbox/></span>
@@ -127,6 +333,9 @@ export default class Scanner extends Component {
                 </MDBRow>
                 <div className='scanner_heading'>Directories</div>
                 <MDBRow>
+                  {BigDiv }
+{/* 
+
                   <MDBCol md='4'>
                     <div className='scanner_box'>
                     <MDBRow>
@@ -456,9 +665,11 @@ export default class Scanner extends Component {
                   </MDBRow>
                  </div>
                   </MDBCol>
+                */}
+               
                 </MDBRow>
 
-                <div className="blog-pagination">
+                {/* <div className="blog-pagination">
               <ul>
                 <li>
                   <img src={require("../assets/arrow-left.png")} />
@@ -476,7 +687,7 @@ export default class Scanner extends Component {
                   <img src={require("../assets/arrow-right.png")} />
                 </li>
               </ul>
-            </div>
+            </div> */}
 
             <MDBRow className='scanner_box scanner_margin1' >
               <MDBCol md='2' className='scanner_margin3'>
@@ -550,6 +761,8 @@ export default class Scanner extends Component {
                     <div className='scanner_table_heading_contant' >Status</div>
                   </MDBCol>
                 </MDBRow>
+
+                {AllListingDiv}
 
                 <MDBRow className='scanner_hr'>
                   <MDBCol md='1'>
@@ -823,7 +1036,7 @@ export default class Scanner extends Component {
               <MDBCol md='6' className='scanner_margin2'>
                 <MDBRow>
                   <MDBCol md='8'>
-                  <img src={scanner_img2}/>
+                  <img src={scanner_img2}/> hii
                   </MDBCol>
                   <MDBCol md='4'>
                     <MDBBtn className='scanner_check_btn'><img src={check_img} className='check_img'/></MDBBtn>
@@ -834,7 +1047,7 @@ export default class Scanner extends Component {
               <MDBCol md='6' className='scanner_margin2'>
                 <MDBRow>
                   <MDBCol md='8'>
-                  <img src={scanner_img3}/>
+                  <img src={scanner_img3}/> 
                   </MDBCol>
                   <MDBCol md='4'>
                     <MDBBtn className='scanner_check_btn'><img src={check_img} className='check_img'/></MDBBtn>

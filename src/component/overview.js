@@ -164,7 +164,7 @@ export default class Overview extends Component {
     live_listing: "-",
     processing: "-",
     unavailable: "-",
-    opted_out: "-",
+   // opted_out: "-",
     social_media_overview_loader: false,
     duration:"last month"
   };
@@ -445,7 +445,7 @@ try{
         live_listing: response.overviews_analytics_data[0].Live_listing,
         processing: response.overviews_analytics_data[0].Processing,
         unavailable: response.overviews_analytics_data[0].Unavilable,
-        opted_out: response.overviews_analytics_data[0].Opted_out
+      //  opted_out: response.overviews_analytics_data[0].Opted_out
       });
     }
 
@@ -546,7 +546,7 @@ try{
     live_listing,
     processing,
     unavailable,
-    opted_out
+   // opted_out
   ) => {
     try{
     let data;
@@ -556,7 +556,7 @@ try{
         { value: parseInt(live_listing), label: "Live Listing" },
         { value: parseInt(processing), label: "Processing" },
         { value: parseInt(unavailable), label: "Unavailable" },
-        { value: parseInt(opted_out), label: "Opted out" },
+      //  { value: parseInt(opted_out), label: "Opted out" },
       ];
     } else {
       data = [{ value: total_listing, label: "All listing" }];
@@ -806,7 +806,7 @@ if(e){
       live_listing,
       processing,
       unavailable,
-      opted_out,
+    //  opted_out,
       social_media_overview_loader,
       AllConnectedIcons
     } = this.state;
@@ -1394,13 +1394,13 @@ if(e){
                           <span>Unavailable</span>
                         </div>
                       </li>
-                      <li>
+                      {/* <li>
                         <img src={require("../images/n.png")} alt="" />
                         <div className="socialdiv">
                           <h3>{opted_out}</h3>
                           <span>Opted Out</span>
                         </div>
-                      </li>
+                      </li> */}
                     </ul>
                   </div>
                 </div>
@@ -1486,7 +1486,7 @@ if(e){
                         live_listing,
                         processing,
                         unavailable,
-                        opted_out
+                      //  opted_out
                       )}
                     />
                   </div>

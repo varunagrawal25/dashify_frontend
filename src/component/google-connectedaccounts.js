@@ -85,7 +85,8 @@ class GoogleConnectedAccounts extends Component {
       "email_id":g_data.Email,
       "image_url":g_data.googleImgUrl ?g_data.googleImgUrl:"" ,
       "connect_type":"Google",
-      "path_name":this.state.all_pages[index].name
+      "path_name":this.state.all_pages[index].name,
+      "refresh_token":g_data.Refresh
     };
     console.log("googleRa",data)
 

@@ -94,7 +94,7 @@ save_status:null,
 }
 
 UpdateFilter =e=>{
-  console.log(e.target.value);
+  
   try{
   var filter=e.target.value;
 
@@ -123,7 +123,7 @@ location_id: this.props.match.params.locationId,
              
             
           })
-console.log("ppk",this.state)
+
   }).catch(resp=>{
     console.log(resp)
     
@@ -142,7 +142,8 @@ componentDidMount = () =>{
   }
   All_Promotional_list(data)
   .then(resp => {
-    console.log("hh",resp)
+    console.log("hh",resp);
+    if(resp.data.message !== 'No data ')
      this.setState({
       promo_list: resp.data.promotional_details,
     })
@@ -176,24 +177,30 @@ console.log("ppk",this.state.promo_list)
              
             
           })
-      console.log("ppk",this.state)
+    
         }).catch(resp=>{
           console.log(resp)
               })
 }
+
+ctaHandler = event => {
+  console.log(event.target.value)
+  try{
+  this.setState({ [event.target.name]: event.target.value.toUpperCase() });
+
+}
+  catch(e){}}
 changeHandler = event => {
   try{
   this.setState({ [event.target.name]: event.target.value });
-  console.log(event.target.name)
-  console.log(event.target.value)
+ 
   if (event.target.name == "post_schedule_drop") {
     this.setState({
       post_schedule_drop:event.target.value
     })
    
   }
-  console.log("bhai",this.state.post_schedule_drop)
-  console.log("bhai1",this.state.active_status)
+ 
   if(event.target.value == "Schedule Post"){
     this.setState({
       active_status:'schedule'
@@ -214,7 +221,7 @@ changeHandler = event => {
       add_cta:!this.state.add_cta
     })
   }
-  if (event.target.name == "get_expiry_post") {
+  if (event.target.name == "get_expiry_post") {   
     this.setState({
       get_expiry_post:!this.state.get_expiry_post
     })
@@ -376,15 +383,14 @@ draftClicked = () => {
     //   promo_start_date: Moment(this.state.promo_start_date).format('DD-MM-YYYY'),
       
     // })
-    console.log("332244",this.state.promo_start_time)
+ 
     if(!this.state.promo_start_time){
       this.setState({
         promo_start_time :"00:00"
       })
-      console.log("hi5")
+     
     }
-    console.log("332244",this.state.promo_start_time)
-    console.log("kkoo",this.state.promo_start_date)
+  
     const data = {
       secure_pin,
       user_id: localStorage.getItem("UserId"),
@@ -404,6 +410,7 @@ draftClicked = () => {
       report_expire:this.state.expiry_post,
       cta:this.state.add_cta,
     }
+    console.log("body", data);
     this.setState({
       loading:true
     })
@@ -482,7 +489,8 @@ const data = {
       link:this.state.cta_url,
       report_expire:this.state.expiry_post,
       cta:this.state.add_cta,
-    }
+    } 
+    console.log("body", data);
     this.setState({
       loading:true
     })
@@ -529,8 +537,8 @@ const data = {
         console.log(resp)
          this.setState({
           promo_list: resp.data.promotional_details,
-        }).
-    console.log("ppk",this.state.promo_list)
+        })
+
       }).catch(resp=>{
         console.log(resp)
             })
@@ -663,7 +671,7 @@ confirmPost = () => {
      ed_err:""
     })
    }
-   console.log("this.state.otherImages_promo",this.state.otherImages_promo)
+   
    if(!this.state.pshow_err && !(this.state.offer_title == "" || this.state.offer_details == "" || this.state.promo_end_date == ""
   || this.state.promo_start_date == "")){
   if(this.state.type=="promotional"){
@@ -687,12 +695,11 @@ confirmPost = () => {
       cta:this.state.add_cta,
       schedule_date:this.state.post_schedule_date
     }
-    console.log("laa7",this.state.add_cta)
-    console.log("laa8",this.state.expiry_post)
+    console.log("body", data);
     this.setState({
       loading:true
     })
-    console.log("datap1",data)
+   
     Add_Promotional(data)
     .then(resp => {
       console.log("redt",resp)
@@ -770,6 +777,7 @@ confirmPost = () => {
       schedule_date:this.state.post_schedule_date
       
     }
+    console.log("body", data);
     this.setState({
       loading:true
     })
@@ -970,8 +978,7 @@ editDraftPost = () => {
       cta:this.state.get_add_cta,
       schedule_date:this.state.post_schedule_date
     }
-    console.log("laa78",this.state.add_cta)
-    console.log("laa87",this.state.expiry_post)
+    console.log("update body", data);
     this.setState({
       loading:true
     })
@@ -1030,6 +1037,7 @@ editDraftPost = () => {
       schedule_date:this.state.post_schedule_date
       
     }
+    console.log("update body", data);
     this.setState({
       loading:true
     })
@@ -1205,8 +1213,7 @@ try{
       cta:this.state.get_add_cta,
       schedule_date:this.state.post_schedule_date
     }
-    console.log("laa78",this.state.add_cta)
-    console.log("laa87",this.state.expiry_post)
+    console.log("update body", data);
     this.setState({
       loading:true
     })
@@ -1265,6 +1272,7 @@ try{
       schedule_date:this.state.post_schedule_date
       
     }
+    console.log("update body", data);
     this.setState({
       loading:true
     })
@@ -1842,7 +1850,7 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-     {ActivePostPer >=0? <div className='pp_contant_green'>+ {ActivePostPer} %</div>:
+     {ActivePostPer >0? <div className='pp_contant_green'>+ {ActivePostPer} %</div>:ActivePostPer===0?<div>-</div>:
      <div className='pp_contant_red'>- {ActivePostPer} %</div>
      }
 
@@ -1860,7 +1868,7 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-  {PostViewsPer >=0? <div className='pp_contant_green'>+ {PostViewsPer} %</div>:
+  {PostViewsPer >0? <div className='pp_contant_green'>+ {PostViewsPer} %</div>:PostViewsPer===0?<div>-</div>:
      <div className='pp_contant_red'>- {PostViewsPer} %</div>
      }
 
@@ -1878,7 +1886,7 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-  {PostClicksPer >=0? <div className='pp_contant_green'>+ {PostClicksPer} %</div>:
+  {PostClicksPer >0? <div className='pp_contant_green'>+ {PostClicksPer} %</div>:PostClicksPer===0?<div>-</div>:
      <div className='pp_contant_red'>- {PostClicksPer} %</div>
      }
   </MDBCol>
@@ -1895,7 +1903,7 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-  {SchedulePostsPer >=0? <div className='pp_contant_green'>+ {SchedulePostsPer} %</div>:
+  {SchedulePostsPer >0? <div className='pp_contant_green'>+ {SchedulePostsPer} %</div>:SchedulePostsPer===0?<div>-</div>:
      <div className='pp_contant_red'>- {SchedulePostsPer} %</div>
      }
   </MDBCol>
@@ -1912,7 +1920,7 @@ Promotional_by_id(data)
   </MDBCol>
 
   <MDBCol md='3'>
-  {ExpirePostPer >=0? <div className='pp_contant_green'>+ {ExpirePostPer} %</div>:
+  {ExpirePostPer >0? <div className='pp_contant_green'>+ {ExpirePostPer} %</div>:ExpirePostPer===0?<div>-</div>:
      <div className='pp_contant_red'>- {ExpirePostPer} %</div>
      }
   </MDBCol>
@@ -1950,17 +1958,18 @@ Status
 <hr/>
 {this.state.promo_list[0]?
 <div class="scrollbar">
-  {this.state.promo_list.map(d =>(
+  {this.state.promo_list.map(d =>{
+    var im= d.promotional_gallery[0]?d.promotional_gallery[0].image_name?d.image_path+d.promotional_gallery[0].image_name:"":es_img1;
     
-    <div>
+    return (<div>
     <MDBRow>
   <MDBCol md='7'>
   <MDBRow>
                 <MDBCol md="3" style={{padding:'0px'}}>
                   <img
                   // src={"https://digimonk.net/dashify-ci/assets/upload/images/promotional-image/" + d.promotional_gallery[0].image_name}
-                    src={ d.promotional_gallery?d.image_path+d.promotional_gallery[0].image_name:es_img1}
-                    alt="es_img1"
+                    src={im}
+                    alt="es_img1" 
                     className="pp_img"
                     
                   />
@@ -1998,8 +2007,8 @@ Status
 
 </MDBRow>
  <hr/>
- </div>
-  ))}
+ </div>)
+  })}
 
 {/* <hr/>
 <MDBRow>
@@ -2208,14 +2217,14 @@ N/A
          {this.state.add_cta?
          <MDBRow>
          <MDBCol md='5'>
-         <select className="promo_input"  name="cta_drop"  onChange={this.changeHandler}>
-          <option>Choose CTA</option>
-          <option>Book</option>
-          <option>Order</option>
-          <option>Shop</option>
-          <option>Learn More</option>
-          <option>Sign Up</option>
-          <option>Get Offer</option>
+         <select className="promo_input"  name="cta_drop"  onChange={this.ctaHandler}>
+          <option >Choose CTA</option>
+          <option value="BOOK">Book</option>
+          <option value="ORDER">Order</option>
+          <option value="SHOP">Shop</option>
+          <option value="LEARN_MORE">Learn More</option>
+          <option value="SIGN_UP">Sign Up</option>
+         
         </select>
          </MDBCol>
          <MDBCol md='7'>
@@ -2386,14 +2395,14 @@ N/A
          {this.state.add_cta?
          <MDBRow>
          <MDBCol md='5'>
-         <select className="promo_input"  name="cta_drop"  onChange={this.changeHandler}>
+         <select className="promo_input"  name="cta_drop"  onChange={this.ctaHandler}>
           <option>Choose CTA</option>
-          <option>Book</option>
-          <option>Order</option>
-          <option>Shop</option>
-          <option>Learn More</option>
-          <option>Sign Up</option>
-          <option>Get Offer</option>
+          <option value="BOOK">Book</option>
+          <option value="ORDER">Order</option>
+          <option value="SHOP">Shop</option>
+          <option value="LEARN_MORE">Learn More</option>
+          <option value="SIGN_UP">Sign Up</option>
+          
         </select>
          </MDBCol>
          <MDBCol md='7'>
@@ -2604,14 +2613,14 @@ N/A
          {this.state.get_add_cta?
          <MDBRow>
          <MDBCol md='5'>
-         <select className="promo_input" value={this.state.cta_drop}  name="cta_drop"  onChange={this.changeHandler}>
+         <select className="promo_input" value={this.state.cta_drop}  name="cta_drop"  onChange={this.ctaHandler}>
           <option>Choose CTA</option>
-          <option>Book</option>
-          <option>Order</option>
-          <option>Shop</option>
-          <option>Learn More</option>
-          <option>Sign Up</option>
-          <option>Get Offer</option>
+          <option value="BOOK">Book</option>
+          <option value="ORDER">Order</option>
+          <option value="SHOP">Shop</option>
+          <option value="LEARN_MORE">Learn More</option>
+          <option value="SIGN_UP">Sign Up</option>
+          
         </select>
          </MDBCol>
          <MDBCol md='7'>
@@ -2787,14 +2796,14 @@ Post An Event
          {this.state.get_add_cta?
          <MDBRow>
          <MDBCol md='5'>
-         <select className="promo_input" value={this.state.cta_drop}  name="cta_drop"  onChange={this.changeHandler}>
+         <select className="promo_input" value={this.state.cta_drop}  name="cta_drop"  onChange={this.ctaHandler}>
           <option>Choose CTA</option>
-          <option>Book</option>
-          <option>Order</option>
-          <option>Shop</option>
-          <option>Learn More</option>
-          <option>Sign Up</option>
-          <option>Get Offer</option>
+          <option value="BOOK">Book</option>
+          <option value="ORDER">Order</option>
+          <option value="SHOP">Shop</option>
+          <option value="LEARN_MORE">Learn More</option>
+          <option value="SIGN_UP">Sign Up</option>
+         
         </select>
          </MDBCol>
          <MDBCol md='7'>
